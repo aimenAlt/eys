@@ -6,6 +6,7 @@ source: "google"
 date: 2026-01-01
 location: "[PLACEHOLDER: city]"
 featured: false
+published: false
 ---
 
 [PLACEHOLDER: optional extended review context. Do not publish until verified.]

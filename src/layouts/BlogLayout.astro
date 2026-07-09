@@ -1,0 +1,79 @@
+---
+import ContentLayout from './ContentLayout.astro';
+import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
+import { absoluteUrl } from '../data/business';
+import { breadcrumbList, webPage } from '../data/schema';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'blog'>;
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const pageUrl = absoluteUrl(`/blog/${data.slug}/`);
+const title = data.seoTitle ?? `${data.title} | Elevate Your Space Handyman`;
+const description =
+  data.metaDescription ?? data.summary ?? `Homeowner tips and guides from Elevate Your Space Handyman.`;
+
+const publishedDate = data.publishedAt.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const schemaGraph = [
+  webPage(data.title, pageUrl, description),
+  breadcrumbList([
+    { name: 'Home', url: absoluteUrl('/') },
+    { name: 'Blog', url: absoluteUrl('/blog/') },
+    { name: data.title, url: pageUrl },
+  ]),
+];
+---
+
+<ContentLayout
+  seo={{ title, description, canonical: pageUrl, ogType: 'article' }}
+  schemaGraph={schemaGraph}
+>
+  <article class="pb-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <BreadcrumbNav
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Blog', url: '/blog/' },
+          { name: data.title, url: `/blog/${data.slug}/` },
+        ]}
+      />
+    </div>
+
+    <header class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <time datetime={data.publishedAt.toISOString()} class="text-sm text-brand-red font-bold uppercase tracking-wider">
+        {publishedDate}
+      </time>
+      <h1 class="text-4xl md:text-5xl font-extrabold text-brand-black mt-3 mb-4">{data.title}</h1>
+      {
+        data.summary && (
+          <p class="text-lg text-gray-600 leading-relaxed">{data.summary}</p>
+        )
+      }
+      {
+        data.tags && data.tags.length > 0 && (
+          <ul class="flex flex-wrap gap-2 mt-6">
+            {data.tags.map((tag) => (
+              <li class="text-xs font-medium bg-brand-lightbg text-gray-700 px-3 py-1 rounded-full border border-gray-200">
+                {tag}
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </header>
+
+    <section class="bg-white border-t border-gray-100">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 prose prose-gray">
+        <slot />
+      </div>
+    </section>
+  </article>
+</ContentLayout>

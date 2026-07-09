@@ -1,0 +1,142 @@
+---
+import { getCollection } from 'astro:content';
+import ContentLayout from '../layouts/ContentLayout.astro';
+import PageHero from '../components/common/PageHero.astro';
+import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
+import CTASection from '../components/home/CTASection.astro';
+import { absoluteUrl, site } from '../data/business';
+import { breadcrumbList, faqPage, webPage } from '../data/schema';
+
+const services = await getCollection('services', ({ data }) => data.published === true);
+
+const title = `Pricing & Estimates | ${site.name}`;
+const description =
+  'Learn how Elevate Your Space Handyman prices handyman services in Katy and West Houston. Fair estimates based on scope, materials, and access.';
+const canonical = absoluteUrl('/pricing/');
+
+const pricingFaqs = [
+  {
+    question: 'Do you offer free estimates?',
+    answer:
+      'Yes. Contact us with your project details and we will explain the next steps for an estimate or assessment.',
+  },
+  {
+    question: 'Why do prices vary between projects?',
+    answer:
+      'Scope, materials, wall or surface type, access, and finish level all affect the total. We review these factors before quoting.',
+  },
+  {
+    question: 'Can I get a price over the phone?',
+    answer:
+      'Simple, well-defined jobs may get a rough range by phone. Most projects benefit from photos or an on-site look for an accurate quote.',
+  },
+];
+
+const schemaGraph = [
+  webPage('Pricing & Estimates', canonical, description),
+  breadcrumbList([
+    { name: 'Home', url: absoluteUrl('/') },
+    { name: 'Pricing', url: canonical },
+  ]),
+  faqPage(pricingFaqs),
+];
+---
+
+<ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
+  <article>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <BreadcrumbNav
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Pricing', url: '/pricing/' },
+        ]}
+      />
+    </div>
+
+    <PageHero
+      eyebrow="Fair & Transparent"
+      title="Pricing & Estimates"
+      description="Every project is different. We provide clear estimates based on scope, materials, and the level of finish you need — without surprise fees."
+    />
+
+    <section class="py-16 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+          <div>
+            <h2 class="text-2xl font-bold text-brand-black mb-4">How pricing works</h2>
+            <p class="text-gray-600 leading-relaxed mb-4">
+              We price based on the work required — not a one-size-fits-all menu. After you describe the project (and share photos when helpful), we outline what is included, what may affect the total, and the recommended next step.
+            </p>
+            <p class="text-gray-600 leading-relaxed">
+              Online booking and direct scheduling for specific services will be added later. For now, call or email to discuss your project and receive an estimate.
+            </p>
+          </div>
+          <div class="bg-brand-lightbg p-8 rounded-xl border border-gray-200">
+            <h3 class="font-bold text-brand-black mb-4">Common price factors</h3>
+            <ul class="space-y-3 text-sm text-gray-700">
+              <li class="flex items-start">
+                <span class="text-brand-red mr-2">•</span>
+                Scope of work and number of items
+              </li>
+              <li class="flex items-start">
+                <span class="text-brand-red mr-2">•</span>
+                Materials and hardware supplied by homeowner vs. pro
+              </li>
+              <li class="flex items-start">
+                <span class="text-brand-red mr-2">•</span>
+                Wall type, ceiling height, and access difficulty
+              </li>
+              <li class="flex items-start">
+                <span class="text-brand-red mr-2">•</span>
+                Finish level (patch vs. full repaint, basic vs. detailed trim)
+              </li>
+              <li class="flex items-start">
+                <span class="text-brand-red mr-2">•</span>
+                Travel within Katy and West Houston service areas
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {
+          services.length > 0 && (
+            <div class="mb-16">
+              <h2 class="text-2xl font-bold text-brand-black mb-6">Service-specific details</h2>
+              <p class="text-gray-600 mb-6 max-w-3xl">
+                Each service page lists what is typically included and which factors most affect pricing for that type of work.
+              </p>
+              <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {services.map((entry) => (
+                  <li>
+                    <a
+                      href={`/services/${entry.data.slug}/`}
+                      class="block p-4 rounded-lg border border-gray-200 hover:border-brand-red/30 hover:shadow-sm transition-all"
+                    >
+                      <span class="font-bold text-brand-black">{entry.data.title}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        <div class="max-w-3xl">
+          <h2 class="text-2xl font-bold text-brand-black mb-6">Pricing FAQs</h2>
+          <dl class="space-y-6">
+            {
+              pricingFaqs.map((faq) => (
+                <div class="border-b border-gray-100 pb-6">
+                  <dt class="font-bold text-brand-black mb-2">{faq.question}</dt>
+                  <dd class="text-gray-600 text-sm leading-relaxed">{faq.answer}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <CTASection />
+  </article>
+</ContentLayout>

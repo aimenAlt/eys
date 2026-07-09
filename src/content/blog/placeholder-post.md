@@ -5,6 +5,7 @@ seoTitle: "[PLACEHOLDER: SEO title]"
 metaDescription: "[PLACEHOLDER: meta description]"
 summary: "[PLACEHOLDER: post summary]"
 publishedAt: 2026-01-01
+published: false
 tags:
   - "placeholder"
 ---

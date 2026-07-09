@@ -1,0 +1,164 @@
+---
+import ContentLayout from '../layouts/ContentLayout.astro';
+import PageHero from '../components/common/PageHero.astro';
+import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
+import { absoluteUrl, business, site } from '../data/business';
+import { breadcrumbList, localBusinessForArea, webPage } from '../data/schema';
+
+const title = `Contact Us | ${site.name}`;
+const description =
+  'Contact Elevate Your Space Handyman for handyman services in Katy and West Houston. Call, email, or request next steps for your project.';
+const canonical = absoluteUrl('/contact/');
+
+const schemaGraph = [
+  webPage('Contact Elevate Your Space Handyman', canonical, description),
+  localBusinessForArea(business.address.city, canonical),
+  breadcrumbList([
+    { name: 'Home', url: absoluteUrl('/') },
+    { name: 'Contact', url: canonical },
+  ]),
+];
+---
+
+<ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
+  <article>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <BreadcrumbNav
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Contact', url: '/contact/' },
+        ]}
+      />
+    </div>
+
+    <PageHero
+      eyebrow="Get In Touch"
+      title="Contact Elevate Your Space Handyman"
+      description="Tell us about your project and we will help you figure out the best next step — repair, installation, quote request, or assessment."
+    />
+
+    <section class="py-16 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div>
+            <h2 class="text-2xl font-bold text-brand-black mb-6">Reach us directly</h2>
+            <ul class="space-y-6">
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-brand-red mr-4 mt-0.5 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                  />
+                </svg>
+                <div>
+                  <p class="font-bold text-brand-black">Phone</p>
+                  <a
+                    href={`tel:${site.phoneTel}`}
+                    class="text-gray-600 hover:text-brand-red transition-colors"
+                  >
+                    {site.phone}
+                  </a>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-brand-red mr-4 mt-0.5 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
+                <div>
+                  <p class="font-bold text-brand-black">Email</p>
+                  <a
+                    href={`mailto:${site.email}`}
+                    class="text-gray-600 hover:text-brand-red transition-colors"
+                  >
+                    {site.email}
+                  </a>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-brand-red mr-4 mt-0.5 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+                <div>
+                  <p class="font-bold text-brand-black">Address</p>
+                  <p class="text-gray-600">{business.address.formatted}</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-brand-lightbg p-8 rounded-xl border border-gray-200">
+            <h2 class="text-2xl font-bold text-brand-black mb-4">What to include</h2>
+            <p class="text-gray-600 text-sm mb-6 leading-relaxed">
+              When you reach out, it helps to share your city, a brief description of the work, photos if available, and your preferred contact method. We will follow up with next steps — no online booking required at this stage.
+            </p>
+            <ul class="space-y-3 text-sm text-gray-700 mb-8">
+              <li class="flex items-start">
+                <span class="text-brand-red mr-2">•</span>
+                Project type (repair, install, remodel, etc.)
+              </li>
+              <li class="flex items-start">
+                <span class="text-brand-red mr-2">•</span>
+                Location and access details
+              </li>
+              <li class="flex items-start">
+                <span class="text-brand-red mr-2">•</span>
+                Photos of the area or issue
+              </li>
+              <li class="flex items-start">
+                <span class="text-brand-red mr-2">•</span>
+                Timeline or urgency, if applicable
+              </li>
+            </ul>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <a
+                href={`tel:${site.phoneTel}`}
+                class="inline-block text-center bg-brand-red text-white font-bold py-3 px-6 rounded hover:bg-brand-redhover transition-colors"
+              >
+                Call {site.phone}
+              </a>
+              <a
+                href={`mailto:${site.email}`}
+                class="inline-block text-center border border-brand-red text-brand-red font-bold py-3 px-6 rounded hover:bg-brand-red hover:text-white transition-colors"
+              >
+                Send Email
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+</ContentLayout>
