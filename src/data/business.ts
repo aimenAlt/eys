@@ -19,7 +19,7 @@ export const business = {
     country: 'US',
     formatted: '1308 Ventura Crk Dr, Katy, TX 77493, United States',
   },
-  areaServed: ['Katy', 'Cinco Ranch', 'Fulshear'],
+  areaServed: ['Katy', 'Cinco Ranch', 'Fulshear', 'Cypress', 'Richmond', 'West Houston'],
 };
 
 export function absoluteUrl(path: string): string {
