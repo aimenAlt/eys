@@ -1,6 +1,7 @@
 ---
 title: "TV Mounting"
 slug: "tv-mounting"
+published: true
 seoTitle: "TV Mounting in Katy, TX | Elevate Your Space Handyman"
 metaDescription: "Professional TV mounting in Katy and West Houston. Wall mounting, bracket installation, wire concealment, and clean setup."
 heroTitle: "Professional TV Mounting in Katy & West Houston"

@@ -6,9 +6,20 @@ import TrustBar from '../components/home/TrustBar.astro';
 import ServiceGrid from '../components/home/ServiceGrid.astro';
 import CTASection from '../components/home/CTASection.astro';
 import Footer from '../components/layout/Footer.astro';
+import { absoluteUrl } from '../data/business';
+import { homePageSchema } from '../data/schema';
+
+const seo = {
+  title: 'Handyman Services in Katy, TX | Elevate Your Space Handyman',
+  description:
+    'Veteran-owned handyman services in Katy, Texas. Elevate Your Space Handyman provides repairs, installations, remodeling, painting, drywall, cabinets, flooring, and more. Call today for reliable local service.',
+  canonical: absoluteUrl('/'),
+};
+
+const schemaGraph = homePageSchema();
 ---
 
-<BaseLayout>
+<BaseLayout seo={seo} schemaGraph={schemaGraph}>
     <Header />
     <HomeHero />
     <TrustBar />

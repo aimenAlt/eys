@@ -1,0 +1,27 @@
+---
+interface Props {
+  items?: string[];
+}
+
+const { items } = Astro.props;
+---
+
+{
+  items && items.length > 0 && (
+    <section class="py-16 bg-white" aria-labelledby="price-factors">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 id="price-factors" class="text-3xl font-bold text-brand-black mb-8">
+          What Affects Price
+        </h2>
+        <ul class="space-y-3 max-w-3xl">
+          {items.map((item) => (
+            <li class="flex items-start text-gray-600">
+              <span class="w-2 h-2 bg-brand-red rounded-full mr-3 mt-2 flex-shrink-0" />
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}

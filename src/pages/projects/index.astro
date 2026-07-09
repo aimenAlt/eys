@@ -1,0 +1,43 @@
+---
+import { getCollection } from 'astro:content';
+import ContentLayout from '../../layouts/ContentLayout.astro';
+import { absoluteUrl, site } from '../../data/business';
+
+const projects = await getCollection('projects', ({ data }) => data.published === true);
+
+const title = `Project Gallery | ${site.name}`;
+const description = 'Recent handyman and home improvement projects completed in Katy and West Houston.';
+const canonical = absoluteUrl('/projects/');
+---
+
+<ContentLayout seo={{ title, description, canonical }}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <h1 class="text-4xl md:text-5xl font-extrabold text-brand-black mb-6">Recent Projects</h1>
+    <p class="text-lg text-gray-600 mb-12 max-w-3xl">
+      See examples of repair, installation, and remodeling work completed for local homeowners.
+    </p>
+    {
+      projects.length > 0 ? (
+        <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map((entry) => (
+            <li>
+              <a
+                href={`/projects/${entry.data.slug}/`}
+                class="block h-full p-6 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-brand-red/30 transition-all"
+              >
+                <h2 class="text-xl font-bold text-brand-black mb-2">{entry.data.title}</h2>
+                {entry.data.summary && (
+                  <p class="text-sm text-gray-600">{entry.data.summary}</p>
+                )}
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="text-gray-600">
+          Project pages will be listed here as job photos and details are added.
+        </p>
+      )
+    }
+  </div>
+</ContentLayout>
