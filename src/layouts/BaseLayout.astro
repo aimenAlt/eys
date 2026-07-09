@@ -1,0 +1,121 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Handyman Services in Katy, TX | Elevate Your Space Handyman',
+  description = 'Veteran-owned handyman services in Katy, Texas. Elevate Your Space Handyman provides repairs, installations, remodeling, painting, drywall, cabinets, flooring, and more. Call today for reliable local service.',
+} = Astro.props;
+
+const schemaJson = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'HomeAndConstructionBusiness',
+      name: 'Elevate Your Space Handyman',
+      image:
+        'https://images.unsplash.com/photo-1581141849291-1125c7b692b5?auto=format&fit=crop&q=80&w=1200',
+      '@id': 'https://www.elevateyourspacehandyman.com',
+      url: 'https://www.elevateyourspacehandyman.com',
+      telephone: '(718) 986-1177',
+      email: 'eyad3396@gmail.com',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '1308 Ventura Crk Dr',
+        addressLocality: 'Katy',
+        addressRegion: 'TX',
+        postalCode: '77493',
+        addressCountry: 'US',
+      },
+      areaServed: [
+        { '@type': 'City', name: 'Katy' },
+        { '@type': 'City', name: 'Cinco Ranch' },
+        { '@type': 'City', name: 'Fulshear' },
+      ],
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '4.9',
+        reviewCount: '152',
+      },
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'What areas do you serve?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'We proudly serve in Katy, Texas and surrounding regions.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Do you offer free estimates?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Yes. Contact us with your project details and we will provide the next steps for an estimate.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What types of materials do you use?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'We use materials appropriate to the project, budget, and desired finish. During consultation, we can discuss available options and recommendations.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'How long does a typical project take?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Project timelines vary depending on the scope of work, materials, and scheduling. Small repairs may be completed quickly, while remodeling and installation projects may require additional planning.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Are your services insured and guaranteed?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Contact Elevate Your Space Handyman directly for current insurance, warranty, and service guarantee details before beginning your project.',
+          },
+        },
+      ],
+    },
+  ],
+});
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta
+      name="keywords"
+      content="handyman services, Katy TX, home repair, drywall repair, remodeling, door installation, custom cabinets, painter, electrician"
+    />
+    <meta name="author" content="Elevate Your Space Handyman" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script type="application/ld+json" set:html={schemaJson}></script>
+  </head>
+  <body
+    class="font-sans text-brand-charcoal bg-brand-lightbg antialiased selection:bg-brand-red selection:text-white"
+  >
+    <slot />
+  </body>
+</html>

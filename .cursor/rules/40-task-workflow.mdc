@@ -1,0 +1,19 @@
+---
+description: Workflow rules for AI-assisted development.
+alwaysApply: true
+---
+
+# Workflow Rules
+
+Work in phases.
+
+For every task:
+1. Explain what files will change.
+2. Make the smallest useful change.
+3. Do not broad-refactor unrelated code.
+4. Preserve working behavior.
+5. Run `npm run build` when feasible.
+6. Summarize changed files and remaining work.
+
+If an instruction conflicts with existing docs, stop and ask.
+If business copy requires legal/licensing claims, use cautious wording and ask.

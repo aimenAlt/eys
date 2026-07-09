@@ -1,0 +1,40 @@
+---
+description: Content collection and Pages CMS rules.
+globs:
+  - "src/content/**/*"
+  - "src/pages/**/*.astro"
+  - ".pages.yml"
+  - "src/content.config.*"
+alwaysApply: true
+---
+
+# Content / CMS Rules
+
+Pages CMS edits Git-backed content files.
+Cloudflare stores heavy job/project photos.
+Content stores image URLs and metadata.
+
+Every image object should include:
+- src
+- alt
+- caption when useful
+- type: before | after | detail | process
+- service
+- location
+- featured boolean when needed
+
+Services need:
+- title
+- slug
+- seoTitle
+- metaDescription
+- heroTitle
+- summary
+- includedServices
+- priceFactors
+- process
+- faqs
+- bookingType: direct-book | quote-request | assessment | call-only
+
+Service-area pages must be unique and locally useful.
+Do not generate thin city doorway pages.

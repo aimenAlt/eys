@@ -1,0 +1,27 @@
+---
+description: Astro, performance, and SEO rules.
+globs:
+  - "src/**/*"
+  - "astro.config.*"
+  - "package.json"
+alwaysApply: true
+---
+
+# Astro / Performance / SEO Rules
+
+- Core SEO content must render as static HTML.
+- Do not depend on client-side JS for H1, service copy, city copy, internal links, reviews, FAQs, or CTAs.
+- Use `.astro` components by default.
+- Use JS only for progressive enhancement.
+- Avoid React unless specifically approved.
+- Avoid heavy npm packages.
+- Every generated page should support:
+  - SEO title
+  - meta description
+  - canonical URL
+  - Open Graph image
+  - H1
+  - internal links
+  - relevant CTA
+- Use semantic HTML.
+- Optimize images and include alt text.

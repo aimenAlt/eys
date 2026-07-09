@@ -1,0 +1,32 @@
+---
+description: EYS design system rules.
+globs:
+  - "src/components/**/*"
+  - "src/layouts/**/*"
+  - "src/pages/**/*"
+  - "src/styles/**/*"
+alwaysApply: true
+---
+
+# EYS Design Rules
+
+Visual direction:
+- dark hero
+- light content sections
+- red CTAs
+- black / charcoal / silver / white palette
+- premium local contractor
+- structured, angular, disciplined layouts
+
+Avoid:
+- cheap flyer look
+- cartoon icons
+- unrestrained gradients
+- excessive animation
+- crowded cards
+- tiny mobile tap targets
+
+Mobile:
+- phone CTA must be easy to reach.
+- tap targets at least 44px high.
+- content must stack cleanly.

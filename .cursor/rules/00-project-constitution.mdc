@@ -1,0 +1,36 @@
+---
+description: Core EYS project rules. Always apply.
+alwaysApply: true
+---
+
+# EYS Project Constitution
+
+Use the current public brand **Elevate Your Space Handyman** and shorthand **EYS** unless explicitly told to rebrand.
+
+This is a static-first Astro website for a local service business.
+
+Follow:
+- Astro
+- Tailwind
+- Content Collections
+- Pages CMS
+- Cloudflare
+- minimal JavaScript
+
+Never build a client-side React SPA for core pages.
+
+Do not fake:
+- locations
+- reviews
+- credentials
+- license claims
+- address claims
+- before/after photos
+
+Before coding:
+1. Read `CLAUDE.md`.
+2. Read `/docs`.
+3. Inspect current files.
+4. Propose a focused plan.
+5. Make small reviewable changes.
+6. Run build/check when possible.
