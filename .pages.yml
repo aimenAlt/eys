@@ -8,6 +8,13 @@ content:
     type: collection
     path: src/content/services
     format: yaml-frontmatter
+    view:
+      fields: [title, published]
+      primary: title
+      sort: [title]
+      default:
+        sort: title
+        order: asc
     fields:
       - name: title
         label: Title
@@ -17,12 +24,19 @@ content:
         label: Slug
         type: string
         required: true
+      - name: published
+        label: Published
+        type: boolean
+        description: Only published services appear on the live site.
       - name: seoTitle
         label: SEO Title
         type: string
       - name: metaDescription
         label: Meta Description
         type: text
+      - name: heroTitle
+        label: Hero Title
+        type: string
       - name: summary
         label: Summary
         type: text
@@ -31,12 +45,123 @@ content:
         type: select
         options:
           values: [direct-book, quote-request, assessment, call-only]
+      - name: primaryCTA
+        label: Primary CTA Label
+        type: string
+      - name: secondaryCTA
+        label: Secondary CTA Label
+        type: string
       - name: heroImage
         label: Hero Image URL
         type: string
       - name: heroImageAlt
         label: Hero Image Alt
         type: string
+      - name: includedServices
+        label: Included Services
+        type: string
+        list: true
+      - name: priceFactors
+        label: Price Factors
+        type: string
+        list: true
+      - name: process
+        label: Process Steps
+        type: string
+        list: true
+      - name: faqs
+        label: FAQs
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{question}"
+        fields:
+          - name: question
+            label: Question
+            type: string
+          - name: answer
+            label: Answer
+            type: text
+      - name: body
+        label: Body
+        type: rich-text
+
+  - name: serviceAreas
+    label: Service Areas
+    type: collection
+    path: src/content/service-areas
+    format: yaml-frontmatter
+    view:
+      fields: [title, published]
+      primary: title
+      sort: [title]
+      default:
+        sort: title
+        order: asc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: slug
+        label: Slug
+        type: string
+        required: true
+      - name: published
+        label: Published
+        type: boolean
+        description: Keep false until verified local content is ready.
+      - name: seoTitle
+        label: SEO Title
+        type: string
+      - name: metaDescription
+        label: Meta Description
+        type: text
+      - name: heroTitle
+        label: Hero Title
+        type: string
+      - name: summary
+        label: Summary
+        type: text
+      - name: localIntro
+        label: Local Intro
+        type: text
+      - name: neighborhoods
+        label: Neighborhoods
+        type: string
+        list: true
+      - name: servicesAvailable
+        label: Services Available (slugs)
+        type: string
+        list: true
+      - name: relatedProjectSlugs
+        label: Related Project Slugs
+        type: string
+        list: true
+      - name: relatedProjectsPlaceholder
+        label: Related Projects Placeholder
+        type: string
+      - name: heroImage
+        label: Hero Image URL
+        type: string
+      - name: heroImageAlt
+        label: Hero Image Alt
+        type: string
+      - name: faqs
+        label: FAQs
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{question}"
+        fields:
+          - name: question
+            label: Question
+            type: string
+          - name: answer
+            label: Answer
+            type: text
       - name: body
         label: Body
         type: rich-text
@@ -46,6 +171,13 @@ content:
     type: collection
     path: src/content/projects
     format: yaml-frontmatter
+    view:
+      fields: [title, published]
+      primary: title
+      sort: [title]
+      default:
+        sort: title
+        order: asc
     fields:
       - name: title
         label: Title
@@ -55,6 +187,10 @@ content:
         label: Slug
         type: string
         required: true
+      - name: published
+        label: Published
+        type: boolean
+        description: Only published projects appear in the gallery.
       - name: service
         label: Service
         type: string
@@ -67,10 +203,13 @@ content:
       - name: gallery
         label: Gallery
         type: object
-        list: true
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{alt}"
         fields:
           - name: src
-            label: Cloudflare Image URL
+            label: Image URL
             type: string
             required: true
           - name: alt
@@ -88,6 +227,97 @@ content:
           - name: featured
             label: Featured
             type: boolean
+      - name: body
+        label: Body
+        type: rich-text
+
+  - name: blog
+    label: Blog
+    type: collection
+    path: src/content/blog
+    format: yaml-frontmatter
+    view:
+      fields: [title, publishedAt, published]
+      primary: title
+      sort: [publishedAt]
+      default:
+        sort: publishedAt
+        order: desc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: slug
+        label: Slug
+        type: string
+        required: true
+      - name: published
+        label: Published
+        type: boolean
+      - name: seoTitle
+        label: SEO Title
+        type: string
+      - name: metaDescription
+        label: Meta Description
+        type: text
+      - name: summary
+        label: Summary
+        type: text
+      - name: publishedAt
+        label: Published Date
+        type: date
+        required: true
+      - name: tags
+        label: Tags
+        type: string
+        list: true
+      - name: body
+        label: Body
+        type: rich-text
+
+  - name: reviews
+    label: Reviews
+    type: collection
+    path: src/content/reviews
+    format: yaml-frontmatter
+    view:
+      fields: [author, rating, date, published]
+      primary: author
+      sort: [date]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: author
+        label: Author
+        type: string
+        required: true
+      - name: published
+        label: Published
+        type: boolean
+      - name: rating
+        label: Rating (1–5)
+        type: number
+        required: true
+      - name: text
+        label: Review Text
+        type: text
+        required: true
+      - name: source
+        label: Source
+        type: string
+        required: true
+      - name: date
+        label: Date
+        type: date
+        required: true
+      - name: location
+        label: Location
+        type: string
+      - name: featured
+        label: Featured
+        type: boolean
       - name: body
         label: Body
         type: rich-text
