@@ -1,0 +1,31 @@
+---
+import { isNavActive } from '../../data/navigation';
+
+interface Props {
+  href: string;
+  label: string;
+  class?: string;
+  activeClass?: string;
+  closeMobileMenu?: boolean;
+}
+
+const {
+  href,
+  label,
+  class: className = '',
+  activeClass = 'text-brand-red',
+  closeMobileMenu = false,
+} = Astro.props;
+
+const pathname = Astro.url.pathname;
+const active = isNavActive(href, pathname);
+const classes = [className, active ? activeClass : ''].filter(Boolean).join(' ');
+---
+
+<a
+  href={href}
+  class={classes}
+  {...(closeMobileMenu && {
+    onclick: "document.getElementById('mobile-menu').classList.add('hidden')",
+  })}
+>{label}</a>

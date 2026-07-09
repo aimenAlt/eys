@@ -1,10 +1,14 @@
+---
+import { footerNav } from '../../data/navigation';
+---
+
     <footer id="contact" class="bg-brand-black text-white pt-16 pb-8 border-t-4 border-brand-red">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
                 
                 <!-- Col 1 -->
                 <div>
-                    <a href="#" class="text-2xl font-bold tracking-tight block mb-4">
+                    <a href="/" class="text-2xl font-bold tracking-tight block mb-4">
                         Elevate Your Space<span class="text-brand-red">.</span>
                     </a>
                     <p class="text-gray-400 text-sm leading-relaxed mb-6">
@@ -35,11 +39,11 @@
                 <div>
                     <h3 class="text-lg font-bold mb-4 border-b border-gray-800 pb-2 inline-block">Quick Links</h3>
                     <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-brand-red transition-colors">Home</a></li>
-                        <li><a href="#about" class="hover:text-brand-red transition-colors">About Us</a></li>
-                        <li><a href="#services" class="hover:text-brand-red transition-colors">Services</a></li>
-                        <li><a href="#gallery" class="hover:text-brand-red transition-colors">Gallery</a></li>
-                        <li><a href="#contact" class="hover:text-brand-red transition-colors">Contact Us</a></li>
+                        {footerNav.map((item) => (
+                            <li>
+                                <a href={item.href} class="hover:text-brand-red transition-colors">{item.label}</a>
+                            </li>
+                        ))}
                     </ul>
                 </div>
 

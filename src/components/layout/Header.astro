@@ -1,21 +1,32 @@
+---
+import NavLink from './NavLink.astro';
+import { mainNav } from '../../data/navigation';
+
+const desktopLinkClass =
+  'text-sm font-medium hover:text-brand-red transition-colors';
+const mobileLinkClass =
+  'block px-3 py-2 rounded-md text-base font-medium hover:bg-brand-red';
+---
+
     <header class="bg-brand-black text-white sticky top-0 z-50 shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="#" class="text-2xl font-bold tracking-tight">
+                    <a href="/" class="text-2xl font-bold tracking-tight">
                         Elevate Your Space<span class="text-brand-red">.</span>
                     </a>
                 </div>
                 
                 <!-- Desktop Nav -->
                 <nav class="hidden md:flex space-x-8 items-center">
-                    <a href="#" class="text-sm font-medium hover:text-brand-red transition-colors">Home</a>
-                    <a href="#about" class="text-sm font-medium hover:text-brand-red transition-colors">About Us</a>
-                    <a href="#services" class="text-sm font-medium hover:text-brand-red transition-colors">Services</a>
-                    <a href="#gallery" class="text-sm font-medium hover:text-brand-red transition-colors">Gallery</a>
-                    <a href="#area" class="text-sm font-medium hover:text-brand-red transition-colors">Service Area</a>
-                    <a href="#contact" class="text-sm font-medium hover:text-brand-red transition-colors">Contact Us</a>
+                    {mainNav.map((item) => (
+                        <NavLink
+                            href={item.href}
+                            label={item.label}
+                            class={desktopLinkClass}
+                        />
+                    ))}
                 </nav>
 
                 <!-- CTA Button -->
@@ -28,7 +39,7 @@
 
                 <!-- Mobile menu button -->
                 <div class="flex items-center md:hidden">
-                    <button type="button" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="text-gray-300 hover:text-white focus:outline-none p-2">
+                    <button type="button" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="text-gray-300 hover:text-white focus:outline-none p-2" aria-label="Toggle menu">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
@@ -40,12 +51,14 @@
         <!-- Mobile Nav -->
         <div id="mobile-menu" class="hidden md:hidden bg-brand-charcoal border-t border-gray-800">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-brand-red">Home</a>
-                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-brand-red">About Us</a>
-                <a href="#services" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-brand-red">Services</a>
-                <a href="#gallery" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-brand-red">Gallery</a>
-                <a href="#area" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-brand-red">Service Area</a>
-                <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-brand-red">Contact Us</a>
+                {mainNav.map((item) => (
+                    <NavLink
+                        href={item.href}
+                        label={item.label}
+                        class={mobileLinkClass}
+                        closeMobileMenu
+                    />
+                ))}
                 <a href="tel:7189861177" class="block px-3 py-3 mt-4 bg-brand-red text-white text-center rounded-md font-bold text-lg">Call: (718) 986-1177</a>
             </div>
         </div>
