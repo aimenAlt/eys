@@ -1,0 +1,38 @@
+---
+import type { FaqItem } from '../../data/schema';
+
+interface Props {
+  faqs?: FaqItem[];
+}
+
+const { faqs } = Astro.props;
+---
+
+{
+  faqs && faqs.length > 0 && (
+    <section class="py-20 bg-white" aria-labelledby="area-faq">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 id="area-faq" class="text-3xl font-bold text-brand-black mb-12 text-center">
+          Local FAQs
+        </h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <details class="bg-brand-lightbg rounded-lg shadow-sm border border-gray-200 group">
+              <summary class="flex justify-between items-center font-bold p-6 focus:outline-none text-brand-black cursor-pointer list-none">
+                {faq.question}
+                <span class="transition group-open:rotate-180 text-brand-red ml-4 flex-shrink-0">
+                  <svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="24">
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </span>
+              </summary>
+              <div class="px-6 pb-6 text-gray-600 text-sm">
+                <p>{faq.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

@@ -1,0 +1,6 @@
+---
+const { data } = Astro.props;
+const schemaJson = JSON.stringify(data);
+---
+
+<script type="application/ld+json" set:html={schemaJson}></script>

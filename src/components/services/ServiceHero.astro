@@ -1,0 +1,49 @@
+---
+import { site } from '../../data/business';
+
+interface ServiceData {
+  heroTitle?: string;
+  title: string;
+  summary?: string;
+  primaryCTA?: string;
+  secondaryCTA?: string;
+  bookingType?: string;
+  slug: string;
+}
+
+interface Props {
+  service: ServiceData;
+}
+
+const { service } = Astro.props;
+const heading = service.heroTitle ?? service.title;
+const primaryHref =
+  service.bookingType === 'direct-book' ? '/book/' : '/#contact';
+---
+
+<section class="py-16 bg-white" aria-labelledby="service-hero">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h1 id="service-hero" class="text-4xl md:text-5xl font-extrabold text-brand-black mb-6">
+      {heading}
+    </h1>
+    {
+      service.summary && (
+        <p class="text-lg text-gray-600 mb-8 max-w-3xl leading-relaxed">{service.summary}</p>
+      )
+    }
+    <div class="flex flex-col sm:flex-row gap-4">
+      <a
+        href={primaryHref}
+        class="gradient-btn text-white px-8 py-4 rounded-md font-bold text-center transition-all shadow-lg hover:shadow-xl"
+      >
+        {service.primaryCTA ?? 'Request a Quote'}
+      </a>
+      <a
+        href={`tel:${site.phoneTel}`}
+        class="bg-white text-brand-black border-2 border-brand-black px-8 py-4 rounded-md font-bold text-center hover:bg-brand-black hover:text-white transition-all"
+      >
+        {service.secondaryCTA ?? `Call ${site.phone}`}
+      </a>
+    </div>
+  </div>
+</section>

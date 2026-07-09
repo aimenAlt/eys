@@ -22,6 +22,8 @@ const bookingTypeSchema = z.enum([
   'call-only',
 ]);
 
+const publishedSchema = z.boolean().default(false);
+
 const services = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/services' }),
   schema: z.object({
@@ -40,6 +42,7 @@ const services = defineCollection({
     heroImageAlt: z.string().optional(),
     primaryCTA: z.string().optional(),
     secondaryCTA: z.string().optional(),
+    published: publishedSchema,
   }),
 });
 
@@ -52,10 +55,15 @@ const serviceAreas = defineCollection({
     metaDescription: z.string().optional(),
     heroTitle: z.string().optional(),
     summary: z.string().optional(),
+    localIntro: z.string().optional(),
     neighborhoods: z.array(z.string()).optional(),
     servicesAvailable: z.array(z.string()).optional(),
     faqs: z.array(faqSchema).optional(),
     relatedProjectsPlaceholder: z.string().optional(),
+    relatedProjectSlugs: z.array(z.string()).optional(),
+    heroImage: z.string().url().optional(),
+    heroImageAlt: z.string().optional(),
+    published: publishedSchema,
   }),
 });
 
@@ -68,6 +76,7 @@ const projects = defineCollection({
     location: z.string().optional(),
     summary: z.string().optional(),
     gallery: z.array(imageSchema).optional(),
+    published: publishedSchema,
   }),
 });
 
@@ -81,6 +90,7 @@ const blog = defineCollection({
     summary: z.string().optional(),
     publishedAt: z.coerce.date(),
     tags: z.array(z.string()).optional(),
+    published: publishedSchema,
   }),
 });
 
@@ -94,6 +104,7 @@ const reviews = defineCollection({
     date: z.coerce.date(),
     location: z.string().optional(),
     featured: z.boolean().optional(),
+    published: publishedSchema,
   }),
 });
 

@@ -1,0 +1,27 @@
+---
+interface AreaData {
+  heroTitle?: string;
+  title: string;
+  summary?: string;
+}
+
+interface Props {
+  area: AreaData;
+}
+
+const { area } = Astro.props;
+const heading = area.heroTitle ?? `Handyman Services in ${area.title}`;
+---
+
+<section class="py-16 bg-white" aria-labelledby="area-hero">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h1 id="area-hero" class="text-4xl md:text-5xl font-extrabold text-brand-black mb-6">
+      {heading}
+    </h1>
+    {
+      area.summary && (
+        <p class="text-lg text-gray-600 max-w-3xl leading-relaxed">{area.summary}</p>
+      )
+    }
+  </div>
+</section>

@@ -1,0 +1,39 @@
+---
+interface Props {
+  serviceSlugs?: string[];
+  cityName: string;
+}
+
+const { serviceSlugs, cityName } = Astro.props;
+
+function formatServiceName(slug: string): string {
+  return slug
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+---
+
+{
+  serviceSlugs && serviceSlugs.length > 0 && (
+    <section class="py-16 bg-white" aria-labelledby="area-services">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 id="area-services" class="text-3xl font-bold text-brand-black mb-8">
+          Services Available in {cityName}
+        </h2>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {serviceSlugs.map((slug) => (
+            <li>
+              <a
+                href={`/services/${slug}/`}
+                class="block p-4 rounded-lg border border-gray-200 hover:border-brand-red hover:shadow-md transition-all font-medium text-brand-black"
+              >
+                {formatServiceName(slug)}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}

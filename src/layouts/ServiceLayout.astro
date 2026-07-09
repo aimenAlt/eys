@@ -1,0 +1,70 @@
+---
+import ContentLayout from './ContentLayout.astro';
+import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
+import ServiceHero from '../components/services/ServiceHero.astro';
+import ServiceIncluded from '../components/services/ServiceIncluded.astro';
+import ServicePriceFactors from '../components/services/ServicePriceFactors.astro';
+import ServiceProcess from '../components/services/ServiceProcess.astro';
+import ServiceFAQ from '../components/services/ServiceFAQ.astro';
+import CTASection from '../components/home/CTASection.astro';
+import { absoluteUrl } from '../data/business';
+import {
+  breadcrumbList,
+  faqPage,
+  serviceSchema,
+  webPage,
+} from '../data/schema';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'services'>;
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const pageUrl = absoluteUrl(`/services/${data.slug}/`);
+const title = data.seoTitle ?? `${data.title} | Elevate Your Space Handyman`;
+const description =
+  data.metaDescription ?? data.summary ?? `Professional ${data.title} in Katy and West Houston.`;
+
+const breadcrumbs = breadcrumbList([
+  { name: 'Home', url: absoluteUrl('/') },
+  { name: 'Services', url: absoluteUrl('/services/') },
+  { name: data.title, url: pageUrl },
+]);
+
+const schemaGraph = [
+  webPage(data.heroTitle ?? data.title, pageUrl, description),
+  breadcrumbs,
+  serviceSchema(data.title, description, pageUrl),
+  data.faqs?.length ? faqPage(data.faqs) : null,
+].filter(Boolean);
+---
+
+<ContentLayout
+  seo={{ title, description, canonical: pageUrl, ogType: 'website' }}
+  schemaGraph={schemaGraph}
+>
+  <article class="pb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <BreadcrumbNav
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Services', url: '/services/' },
+          { name: data.title, url: `/services/${data.slug}/` },
+        ]}
+      />
+    </div>
+    <ServiceHero service={data} />
+    <ServiceIncluded items={data.includedServices} />
+    <ServicePriceFactors items={data.priceFactors} />
+    <ServiceProcess steps={data.process} />
+    <section class="py-12 bg-white">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 prose prose-gray max-w-none">
+        <slot />
+      </div>
+    </section>
+    <ServiceFAQ faqs={data.faqs} />
+    <CTASection />
+  </article>
+</ContentLayout>

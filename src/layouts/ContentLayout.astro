@@ -1,0 +1,21 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import type { SeoProps } from '../components/seo/SEOHead.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+
+interface Props {
+  seo: SeoProps;
+  schemaGraph?: unknown[];
+}
+
+const { seo, schemaGraph = [] } = Astro.props;
+---
+
+<BaseLayout seo={seo} schemaGraph={schemaGraph}>
+  <Header />
+  <main id="main-content">
+    <slot />
+  </main>
+  <Footer />
+</BaseLayout>
