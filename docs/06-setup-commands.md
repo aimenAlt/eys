@@ -95,3 +95,19 @@ npm run dev
 npm run build
 npm run preview
 ```
+
+## Cloudflare Pages deploy
+
+1. Sign in to [Cloudflare Dashboard](https://dash.cloudflare.com) → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**
+2. Select GitHub repo `aimenAlt/eys`, branch `main`
+3. Build settings:
+   - **Framework preset:** Astro (or None)
+   - **Build command:** `npm run build`
+   - **Build output directory:** `dist`
+   - **Node.js version:** `22` (matches [`.nvmrc`](../.nvmrc))
+4. Save and deploy. First build should produce 10 static pages + `sitemap-index.xml` + `robots.txt`
+5. Optional: add custom domain `www.elevateyourspacehandyman.com` under **Custom domains**
+6. After deploy: run Lighthouse on `/`, `/services/tv-mounting/`, and `/contact/`
+
+Preview URL pattern: `https://<project-name>.pages.dev`
+

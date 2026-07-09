@@ -4,10 +4,14 @@ import Header from '../components/layout/Header.astro';
 import HomeHero from '../components/home/HomeHero.astro';
 import TrustBar from '../components/home/TrustBar.astro';
 import ServiceGrid from '../components/home/ServiceGrid.astro';
+import HomeReviewsSection from '../components/home/HomeReviewsSection.astro';
 import CTASection from '../components/home/CTASection.astro';
 import Footer from '../components/layout/Footer.astro';
+import { getCollection } from 'astro:content';
 import { absoluteUrl } from '../data/business';
 import { homePageSchema } from '../data/schema';
+
+const publishedReviews = await getCollection('reviews', ({ data }) => data.published === true);
 
 const seo = {
   title: 'Handyman Services in Katy, TX | Elevate Your Space Handyman',
@@ -16,7 +20,7 @@ const seo = {
   canonical: absoluteUrl('/'),
 };
 
-const schemaGraph = homePageSchema();
+const schemaGraph = homePageSchema(undefined, publishedReviews.map((r) => r.data));
 ---
 
 <BaseLayout seo={seo} schemaGraph={schemaGraph}>
@@ -270,66 +274,7 @@ const schemaGraph = homePageSchema();
     </section>
 
     <!-- 11. Reviews Section -->
-    <section class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h4 class="text-brand-red font-bold text-sm tracking-widest uppercase mb-2">Testimonials</h4>
-                <h2 class="text-3xl md:text-4xl font-bold text-brand-black mb-4">Our Customers Reviews</h2>
-                <div class="inline-flex items-center bg-gray-50 rounded-full px-4 py-2 border border-gray-200">
-                    <span class="font-bold text-brand-black mr-2">Elevate Your Space Handyman</span>
-                    <div class="flex text-yellow-400 mr-2">
-                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                    </div>
-                    <span class="text-sm text-gray-500">5.0 stars based on 152 reviews</span>
-                </div>
-            </div>
-
-            <!-- Review Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Card 1 -->
-                <div class="bg-brand-lightbg p-6 rounded-xl border border-gray-100 shadow-sm">
-                    <div class="flex items-center mb-4">
-                        <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 font-bold">M</div>
-                        <div class="ml-3">
-                            <p class="font-bold text-sm">Michael R.</p>
-                            <div class="flex text-yellow-400 text-xs">★★★★★</div>
-                        </div>
-                    </div>
-                    <p class="text-gray-600 text-sm">"Elevate Your Space handled my drywall repair and painted the living room perfectly. They arrived on time, were professional, and left the place spotless. Highly recommend!"</p>
-                </div>
-                <!-- Card 2 -->
-                <div class="bg-brand-lightbg p-6 rounded-xl border border-gray-100 shadow-sm hidden md:block">
-                    <div class="flex items-center mb-4">
-                        <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 font-bold">S</div>
-                        <div class="ml-3">
-                            <p class="font-bold text-sm">Sarah T.</p>
-                            <div class="flex text-yellow-400 text-xs">★★★★★</div>
-                        </div>
-                    </div>
-                    <p class="text-gray-600 text-sm">"We had several doors installed and some cabinet work done. The craftsmanship is excellent. It's refreshing to find an honest, veteran-owned business in Katy."</p>
-                </div>
-                <!-- Card 3 -->
-                <div class="bg-brand-lightbg p-6 rounded-xl border border-gray-100 shadow-sm hidden md:block">
-                    <div class="flex items-center mb-4">
-                        <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 font-bold">D</div>
-                        <div class="ml-3">
-                            <p class="font-bold text-sm">David P.</p>
-                            <div class="flex text-yellow-400 text-xs">★★★★★</div>
-                        </div>
-                    </div>
-                    <p class="text-gray-600 text-sm">"I needed a reliable handyman for various fixes around the house before selling. They knocked out the list quickly and the pricing was very fair. Great experience."</p>
-                </div>
-            </div>
-
-            <div class="mt-10 text-center">
-                <a href="/contact/" class="inline-block gradient-btn text-white px-8 py-3 rounded-md font-bold transition-all shadow-md">Book With A 5-Star Rated Handyman</a>
-            </div>
-        </div>
-    </section>
+    <HomeReviewsSection reviews={publishedReviews} />
 
     <!-- 12. Veteran-Owned Trust Section -->
     <section class="bg-brand-red py-10">
