@@ -5,19 +5,23 @@ export type NavItem = {
 
 export const mainNav: NavItem[] = [
   { label: 'Home', href: '/' },
+  { label: 'About', href: '/about/' },
   { label: 'Services', href: '/services/' },
   { label: 'Service Areas', href: '/service-areas/' },
   { label: 'Projects', href: '/projects/' },
-  { label: 'Contact', href: '/#contact' },
+  { label: 'Contact', href: '/contact/' },
 ];
 
 export const footerNav: NavItem[] = [
   { label: 'Home', href: '/' },
-  { label: 'About Us', href: '/#about' },
+  { label: 'About Us', href: '/about/' },
   { label: 'Services', href: '/services/' },
   { label: 'Service Areas', href: '/service-areas/' },
   { label: 'Projects', href: '/projects/' },
-  { label: 'Contact Us', href: '/#contact' },
+  { label: 'Pricing', href: '/pricing/' },
+  { label: 'Reviews', href: '/reviews/' },
+  { label: 'Blog', href: '/blog/' },
+  { label: 'Contact Us', href: '/contact/' },
 ];
 
 export const homeSectionNav: NavItem[] = [
