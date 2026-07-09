@@ -106,7 +106,7 @@ npm run preview
    - **Build output directory:** `dist`
    - **Node.js version:** `22` (matches [`.nvmrc`](../.nvmrc))
 4. Save and deploy. First build should produce 10 static pages + `sitemap-index.xml` + `robots.txt`
-5. Optional: add custom domain `www.elevateyourspacehandyman.com` under **Custom domains**
+5. Optional: add custom domain `www.eyshandyman.com` under **Custom domains**
 6. After deploy: run Lighthouse on `/`, `/services/tv-mounting/`, and `/contact/`
 
 Preview URL pattern: `https://<project-name>.pages.dev`

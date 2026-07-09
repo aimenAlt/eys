@@ -1,10 +1,10 @@
 export const site = {
   name: 'Elevate Your Space Handyman',
   shortName: 'EYS',
-  url: 'https://www.elevateyourspacehandyman.com',
+  url: 'https://www.eyshandyman.com',
   phone: '(718) 986-1177',
   phoneTel: '7189861177',
-  email: 'eyad3396@gmail.com',
+  email: 'contact@eyshandyman.com',
   defaultOgImage:
     'https://images.unsplash.com/photo-1581141849291-1125c7b692b5?auto=format&fit=crop&q=80&w=1200',
 };
