@@ -1,6 +1,7 @@
 ---
 title: "Katy, TX"
 slug: "katy-tx"
+published: false
 seoTitle: "Handyman Services in Katy, TX | Elevate Your Space Handyman"
 metaDescription: "[PLACEHOLDER: Katy service-area meta description]"
 heroTitle: "Handyman Services in Katy, TX"

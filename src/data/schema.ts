@@ -118,36 +118,49 @@ export const homeFaqs: FaqItem[] = [
   },
 ];
 
-export function homePageSchema(faqs: FaqItem[] = homeFaqs) {
-  const graph = [
-    {
-      '@type': 'HomeAndConstructionBusiness',
-      name: site.name,
-      image: site.defaultOgImage,
-      '@id': site.url,
-      url: site.url,
-      telephone: site.phone,
-      email: site.email,
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: business.address.street,
-        addressLocality: business.address.city,
-        addressRegion: business.address.state,
-        postalCode: business.address.zip,
-        addressCountry: business.address.country,
-      },
-      areaServed: business.areaServed.map((city) => ({
-        '@type': 'City',
-        name: city,
-      })),
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: '4.9',
-        reviewCount: '152',
-      },
+export function aggregateRatingFromReviews(
+  reviews: { rating: number }[],
+): { '@type': 'AggregateRating'; ratingValue: string; reviewCount: string } | null {
+  if (reviews.length === 0) return null;
+  const total = reviews.reduce((sum, r) => sum + r.rating, 0);
+  const avg = (total / reviews.length).toFixed(1);
+  return {
+    '@type': 'AggregateRating',
+    ratingValue: avg,
+    reviewCount: String(reviews.length),
+  };
+}
+
+export function homePageSchema(
+  faqs: FaqItem[] = homeFaqs,
+  reviews: { rating: number }[] = [],
+) {
+  const businessNode: Record<string, unknown> = {
+    '@type': 'HomeAndConstructionBusiness',
+    name: site.name,
+    image: site.defaultOgImage,
+    '@id': site.url,
+    url: site.url,
+    telephone: site.phone,
+    email: site.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: business.address.street,
+      addressLocality: business.address.city,
+      addressRegion: business.address.state,
+      postalCode: business.address.zip,
+      addressCountry: business.address.country,
     },
-    faqPage(faqs),
-  ].filter(Boolean);
+    areaServed: business.areaServed.map((city) => ({
+      '@type': 'City',
+      name: city,
+    })),
+  };
+
+  const rating = aggregateRatingFromReviews(reviews);
+  if (rating) businessNode.aggregateRating = rating;
+
+  const graph = [businessNode, faqPage(faqs)].filter(Boolean);
 
   return graph;
 }

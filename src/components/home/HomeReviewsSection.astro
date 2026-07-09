@@ -1,0 +1,74 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  reviews: CollectionEntry<'reviews'>[];
+}
+
+const { reviews } = Astro.props;
+
+function renderStars(rating: number) {
+  return '★'.repeat(rating) + '☆'.repeat(5 - rating);
+}
+
+const featured = reviews.filter((r) => r.data.featured).slice(0, 3);
+const display = featured.length > 0 ? featured : reviews.slice(0, 3);
+---
+
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h4 class="text-brand-red font-bold text-sm tracking-widest uppercase mb-2">Testimonials</h4>
+      <h2 class="text-3xl md:text-4xl font-bold text-brand-black mb-4">Customer Reviews</h2>
+      {
+        display.length > 0 ? (
+          <p class="text-gray-600 max-w-2xl mx-auto">
+            Verified feedback from homeowners we have worked with in Katy and West Houston.
+          </p>
+        ) : (
+          <p class="text-gray-600 max-w-2xl mx-auto">
+            Google reviews will be added here soon. In the meantime, contact us to ask about recent work in your area.
+          </p>
+        )
+      }
+    </div>
+
+    {
+      display.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {display.map((entry) => (
+            <div class="bg-brand-lightbg p-6 rounded-xl border border-gray-100 shadow-sm">
+              <div class="flex items-center mb-4">
+                <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 font-bold">
+                  {entry.data.author.charAt(0)}
+                </div>
+                <div class="ml-3">
+                  <p class="font-bold text-sm">{entry.data.author}</p>
+                  <div class="text-yellow-400 text-xs" aria-label={`${entry.data.rating} out of 5 stars`}>
+                    {renderStars(entry.data.rating)}
+                  </div>
+                </div>
+              </div>
+              <p class="text-gray-600 text-sm">{entry.data.text}</p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="text-center">
+          <a href="/reviews/" class="inline-block text-brand-red font-bold hover:underline">
+            View reviews page
+          </a>
+        </div>
+      )
+    }
+
+    <div class="mt-10 text-center">
+      <a
+        href="/contact/"
+        class="inline-block gradient-btn text-white px-8 py-3 rounded-md font-bold transition-all shadow-md"
+      >
+        Contact Us About Your Project
+      </a>
+    </div>
+  </div>
+</section>
