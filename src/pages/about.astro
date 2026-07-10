@@ -2,13 +2,24 @@
 import ContentLayout from '../layouts/ContentLayout.astro';
 import PageHero from '../components/common/PageHero.astro';
 import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
-import CTASection from '../components/home/CTASection.astro';
-import { absoluteUrl, business, site } from '../data/business';
+import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
+import BalancedGrid from '../components/ui/BalancedGrid.astro';
+import { getCollection } from 'astro:content';
+import { absoluteUrl, site } from '../data/business';
 import { breadcrumbList, webPage } from '../data/schema';
+
+const serviceAreas = await getCollection('serviceAreas', ({ data }) => data.published === true);
+serviceAreas.sort((a, b) => a.data.title.localeCompare(b.data.title));
+
+const areaCards = serviceAreas.map((area) => ({
+  title: area.data.title,
+  description: area.data.summary,
+  href: `/service-areas/${area.data.slug}/`,
+}));
 
 const title = `About Us | ${site.name}`;
 const description =
-  'Learn about Elevate Your Space Handyman — dependable repair, installation, and remodeling services for Katy and West Houston homeowners.';
+  'Veteran-owned handyman company in Katy, TX. Learn how Elevate Your Space delivers premium repairs, installations, and home upgrades across West Houston.';
 const canonical = absoluteUrl('/about/');
 
 const schemaGraph = [
@@ -22,7 +33,7 @@ const schemaGraph = [
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
   <article>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
       <BreadcrumbNav
         items={[
           { name: 'Home', url: '/' },
@@ -32,119 +43,107 @@ const schemaGraph = [
     </div>
 
     <PageHero
-      eyebrow="Who We Are"
-      title="Elevate Your Space Handyman"
-      description="Dependable handyman service for Katy and West Houston — focused on honest communication, clean workmanship, and results you can trust."
+      eyebrow="Our Story"
+      title="Veteran-Owned. Katy-Based. Built on Trust."
+      description="Elevate Your Space Handyman was founded to give West Houston homeowners a handyman they can actually rely on — on time, on budget, and with a home left cleaner than we found it."
     />
 
-    <section class="py-20 bg-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
-          <div class="mb-12 lg:mb-0">
-            <h2 class="text-3xl md:text-4xl font-bold text-brand-black mb-6">
-              Professional Home Services in Katy, TX
-            </h2>
-            <p class="text-gray-600 mb-8 leading-relaxed">
-              Elevate Your Space Handyman helps homeowners complete repairs, improvements, installations, and small remodeling projects with confidence. Whether the job is a drywall patch, door installation, bathroom update, cabinet improvement, painting project, or general home repair, our team focuses on getting the work done right.
+    <section class="py-16 bg-white">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-start">
+          <div>
+            <h2 class="text-3xl font-bold text-brand-black mb-6">Why we started EYS</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+              Too many homeowners in Katy and West Houston have been burned by no-shows, vague estimates, and contractors who treat a home like a job site instead of someone's most important investment. We built Elevate Your Space to be the opposite.
+            </p>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+              As a veteran-owned company, we bring discipline, accountability, and respect for the work into every project — whether it is mounting a TV, replacing trim in a 1990s Cinco Ranch home, or knocking out a move-in punch list in a brand-new Sunterra build.
             </p>
             <p class="text-gray-600 leading-relaxed">
-              We serve homeowners throughout Katy and surrounding West Houston communities. From quick fixes to larger upgrades, our goal is to make your space safer, cleaner, more functional, and more comfortable.
+              We are not a franchise or a call center. When you hire EYS, you get clear communication, honest scoping, and craftsmanship you can see the moment we pack up and leave.
             </p>
           </div>
-
-          <div class="relative h-80 sm:h-96 lg:h-[500px]">
-            <img
-              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=600"
-              loading="lazy"
-              class="absolute top-0 right-0 w-4/5 h-[75%] object-cover rounded-xl shadow-xl z-10 border-4 border-white"
-              alt="Home improvement project in Katy, Texas"
-            />
-            <img
-              src="https://images.unsplash.com/photo-1556910103-1c02745a872e?auto=format&fit=crop&q=80&w=600"
-              loading="lazy"
-              class="absolute bottom-0 left-0 w-3/4 h-[70%] object-cover rounded-xl shadow-2xl z-20 border-4 border-white"
-              alt="Kitchen remodeling work in Texas"
-            />
+          <div class="mt-10 lg:mt-0 bg-brand-lightbg rounded-xl p-8 border border-gray-200">
+            <h3 class="text-xl font-bold text-brand-black mb-6">What sets us apart</h3>
+            <ul class="space-y-5">
+              <li class="flex gap-4">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-red text-white flex items-center justify-center text-sm font-bold">1</span>
+                <div>
+                  <p class="font-bold text-brand-black">White-glove execution</p>
+                  <p class="text-sm text-gray-600 mt-1">Shoe covers, drop cloths, dust extraction, and a full cleanup before we consider any job done.</p>
+                </div>
+              </li>
+              <li class="flex gap-4">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-red text-white flex items-center justify-center text-sm font-bold">2</span>
+                <div>
+                  <p class="font-bold text-brand-black">Transparent estimates</p>
+                  <p class="text-sm text-gray-600 mt-1">Send photos and your punch list — we scope the work and return a clear, itemized quote. No surprises.</p>
+                </div>
+              </li>
+              <li class="flex gap-4">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-red text-white flex items-center justify-center text-sm font-bold">3</span>
+                <div>
+                  <p class="font-bold text-brand-black">Community partner pricing</p>
+                  <p class="text-sm text-gray-600 mt-1">Preferred rates for homeowners in the master-planned communities where we have built lasting relationships.</p>
+                </div>
+              </li>
+              <li class="flex gap-4">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-red text-white flex items-center justify-center text-sm font-bold">4</span>
+                <div>
+                  <p class="font-bold text-brand-black">Local expertise</p>
+                  <p class="text-sm text-gray-600 mt-1">We know the homes, HOAs, and neighborhoods across Katy, Cypress, Fulshear, Richmond, and West Houston.</p>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="py-16 bg-brand-lightbg border-y border-gray-200">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-10">
-          <h2 class="text-3xl font-bold text-brand-black">What We Stand For</h2>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
-            <h3 class="text-xl font-bold text-brand-black mb-3">Building Trust</h3>
-            <p class="text-gray-600 text-sm leading-relaxed">
-              Honesty, professionalism, and quality on every project — with clear communication from start to finish.
-            </p>
-          </div>
-          <div class="bg-brand-black p-8 rounded-xl shadow-sm text-white">
-            <h3 class="text-xl font-bold mb-3">Experienced Professionals</h3>
-            <p class="text-gray-300 text-sm leading-relaxed">
-              Skilled handyman, repair, and home improvement work with a strong focus on safety and customer satisfaction.
-            </p>
-          </div>
-          <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
-            <h3 class="text-xl font-bold text-brand-black mb-3">Ensuring Quality</h3>
-            <p class="text-gray-600 text-sm leading-relaxed">
-              Detail-focused repair, installation, and remodeling solutions built to last and look finished.
-            </p>
-          </div>
-        </div>
+    <section class="py-16 bg-brand-lightbg">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-brand-black mb-4 text-center">How we work</h2>
+        <p class="text-gray-600 text-center mb-10 max-w-2xl mx-auto">
+          Every project follows the same straightforward process — designed to respect your time and your home.
+        </p>
+        <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <li class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+            <span class="text-brand-red font-bold text-2xl mb-3 block">01</span>
+            <h3 class="font-bold text-brand-black mb-2">Tell us what you need</h3>
+            <p class="text-sm text-gray-600">Share your project list or photos through our contact form.</p>
+          </li>
+          <li class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+            <span class="text-brand-red font-bold text-2xl mb-3 block">02</span>
+            <h3 class="font-bold text-brand-black mb-2">Get a clear estimate</h3>
+            <p class="text-sm text-gray-600">We scope the work and return a transparent, itemized quote.</p>
+          </li>
+          <li class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+            <span class="text-brand-red font-bold text-2xl mb-3 block">03</span>
+            <h3 class="font-bold text-brand-black mb-2">We show up on time</h3>
+            <p class="text-sm text-gray-600">Prepared, professional, and ready to work when scheduled.</p>
+          </li>
+          <li class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+            <span class="text-brand-red font-bold text-2xl mb-3 block">04</span>
+            <h3 class="font-bold text-brand-black mb-2">Done — spotless cleanup</h3>
+            <p class="text-sm text-gray-600">We finish the job and leave your home cleaner than we found it.</p>
+          </li>
+        </ol>
       </div>
     </section>
 
     <section class="py-16 bg-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          <div class="lg:col-span-8">
-            <h2 class="text-3xl font-bold text-brand-black mb-6">Areas We Serve</h2>
-            <p class="text-gray-600 mb-6 leading-relaxed">
-              Based in Katy, Texas, we work with homeowners across the West Houston area. Service-area pages highlight local neighborhoods and available services as they are added.
-            </p>
-            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-700">
-              {
-                business.areaServed.map((city) => (
-                  <li class="flex items-center">
-                    <svg
-                      class="w-5 h-5 text-brand-red mr-2 flex-shrink-0"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    {city}
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
-          <div class="lg:col-span-4 bg-brand-lightbg p-6 rounded-xl border border-gray-200">
-            <h3 class="font-bold text-brand-black mb-4">Ready to get started?</h3>
-            <p class="text-sm text-gray-600 mb-6">
-              Call or email to discuss your project. We will walk you through next steps and scheduling options.
-            </p>
-            <a
-              href="/contact/"
-              class="inline-block w-full text-center bg-brand-red text-white font-bold py-3 px-4 rounded hover:bg-brand-redhover transition-colors"
-            >
-              Contact Us
-            </a>
-          </div>
-        </div>
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-brand-black mb-4">Where we work</h2>
+        <p class="text-gray-600 mb-8 max-w-2xl">
+          We are based in Katy and serve homeowners across West Houston — including 12 master-planned communities with dedicated local pages and preferred community pricing.
+        </p>
+        <BalancedGrid variant="card" items={areaCards} cols={3} gapClass="gap-4" />
+        <a href="/service-areas/" class="inline-block mt-6 text-brand-red font-bold hover:underline">View all service areas &rarr;</a>
       </div>
     </section>
 
-    <CTASection />
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+      <LocalAreaCTA locationName="Katy & West Houston" />
+    </div>
   </article>
 </ContentLayout>

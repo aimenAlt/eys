@@ -4,19 +4,45 @@ import Header from '../components/layout/Header.astro';
 import HomeHero from '../components/home/HomeHero.astro';
 import TrustBar from '../components/home/TrustBar.astro';
 import ServiceGrid from '../components/home/ServiceGrid.astro';
+import HomeServiceLinks from '../components/home/HomeServiceLinks.astro';
 import HomeReviewsSection from '../components/home/HomeReviewsSection.astro';
+import HomeProjectsPreview from '../components/home/HomeProjectsPreview.astro';
+import HomeServiceAreas from '../components/home/HomeServiceAreas.astro';
 import CTASection from '../components/home/CTASection.astro';
 import Footer from '../components/layout/Footer.astro';
 import { getCollection } from 'astro:content';
 import { absoluteUrl } from '../data/business';
 import { homePageSchema } from '../data/schema';
+import { buildNavMenus } from '../data/navMenus';
 
-const publishedReviews = await getCollection('reviews', ({ data }) => data.published === true);
+const [publishedReviews, publishedProjects, allServices, serviceAreas, communities] = await Promise.all([
+  getCollection('reviews', ({ data }) => data.published === true),
+  getCollection('projects', ({ data }) => data.published === true),
+  getCollection('services'),
+  getCollection('serviceAreas', ({ data }) => data.published === true),
+  getCollection('communities', ({ data }) => data.published === true),
+]);
+
+const navMenus = buildNavMenus(allServices, serviceAreas, communities);
+
+const serviceLinks = allServices.map((s) => ({
+  title: s.data.title,
+  slug: s.data.slug,
+  summary: s.data.summary,
+  published: s.data.published,
+}));
+
+const cityLinks = serviceAreas.map((a) => ({ title: a.data.title, slug: a.data.slug }));
+const communityLinks = communities.map((c) => ({
+  title: c.data.title,
+  citySlug: c.data.citySlug,
+  slug: c.data.slug,
+}));
 
 const seo = {
   title: 'Handyman Services in Katy, TX | Elevate Your Space Handyman',
   description:
-    'Veteran-owned handyman services in Katy, Texas. Elevate Your Space Handyman provides repairs, installations, remodeling, painting, drywall, cabinets, flooring, and more. Call today for reliable local service.',
+    'Veteran-owned handyman services in Katy, Texas. TV mounting, ceiling fans, punch-list repairs, and home upgrades throughout Katy and West Houston.',
   canonical: absoluteUrl('/'),
 };
 
@@ -24,9 +50,10 @@ const schemaGraph = homePageSchema(undefined, publishedReviews.map((r) => r.data
 ---
 
 <BaseLayout seo={seo} schemaGraph={schemaGraph}>
-    <Header />
+    <Header navMenus={navMenus} />
+    <main id="main-content">
     <HomeHero />
-    <TrustBar />
+    <TrustBar projectCount={communities.length} />
     <!-- 4. "Who We Are" Section -->
     <section id="about" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -35,7 +62,7 @@ const schemaGraph = homePageSchema(undefined, publishedReviews.map((r) => r.data
                 <!-- Left: Content -->
                 <div class="mb-12 lg:mb-0">
                     <h4 class="text-brand-red font-bold text-sm tracking-widest uppercase mb-2">Who We Are</h4>
-                    <h2 class="text-3xl md:text-4xl font-bold text-brand-black mb-6">NO.1 Handyman Service In Katy</h2>
+                    <h2 class="text-3xl md:text-4xl font-bold text-brand-black mb-6">Trusted Handyman Service in Katy</h2>
                     <p class="text-gray-600 mb-8 leading-relaxed">
                         Some names just stay in your mind. When something needs to be done right, you do not think twice. There is a reason people keep coming back, a reason the name carries weight. It is not about words or promises, it is about how it feels when the job is done and the space finally makes sense. In Katy, one service keeps that feeling alive, every single time.
                     </p>
@@ -99,10 +126,12 @@ const schemaGraph = homePageSchema(undefined, publishedReviews.map((r) => r.data
                 <!-- Card 2 -->
                 <div class="bg-brand-black p-8 rounded-xl shadow-sm text-white hover:shadow-md transition-shadow">
                     <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mb-6 text-white">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Discounted Prices</h3>
-                    <p class="text-gray-300 text-sm leading-relaxed">Fair pricing that respects your budget gets the help you need without the stress of high costs or surprise fees.</p>
+                    <h3 class="text-xl font-bold mb-3">Community Partner Pricing</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Preferred rates for neighborhoods where we have built lasting relationships — premium work without the premium markup. See if your community is listed on our service areas page <a href="/service-areas/" class="text-brand-red font-semibold hover:underline">here</a>.
+                    </p>
                 </div>
                 <!-- Card 3 -->
                 <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
@@ -150,6 +179,7 @@ const schemaGraph = homePageSchema(undefined, publishedReviews.map((r) => r.data
         </div>
     </section>
     <ServiceGrid />
+    <HomeServiceLinks services={serviceLinks} />
     <!-- 8. Why Choose Us? Section -->
     <section class="relative py-24 bg-brand-black">
         <div class="absolute inset-0 overflow-hidden">
@@ -190,43 +220,7 @@ const schemaGraph = homePageSchema(undefined, publishedReviews.map((r) => r.data
         </div>
     </section>
 
-    <!-- 9. Recent Projects / Gallery Preview -->
-    <section id="gallery" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
-                <div class="max-w-2xl">
-                    <h2 class="text-3xl font-bold text-brand-black mb-4">Recent Projects</h2>
-                    <p class="text-gray-600">See examples of repair, installation, and remodeling work completed for local homeowners.</p>
-                </div>
-                <a href="/projects/" class="hidden md:inline-block mt-4 md:mt-0 text-brand-red font-bold hover:underline">View Gallery &rarr;</a>
-            </div>
-
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <div class="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg bg-gray-100">
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=400" loading="lazy" class="object-cover w-full h-full hover:scale-105 transition-transform duration-300" alt="TV Fireplace Wall">
-                </div>
-                <div class="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg bg-gray-100">
-                    <img src="https://images.unsplash.com/photo-1556910103-1c02745a872e?auto=format&fit=crop&q=80&w=400" loading="lazy" class="object-cover w-full h-full hover:scale-105 transition-transform duration-300" alt="Kitchen Remodel">
-                </div>
-                <div class="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg bg-gray-100">
-                    <img src="https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&q=80&w=400" loading="lazy" class="object-cover w-full h-full hover:scale-105 transition-transform duration-300" alt="Bathroom Upgrade">
-                </div>
-                <div class="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg bg-gray-100">
-                    <img src="https://images.unsplash.com/photo-1581858326451-b8be354be432?auto=format&fit=crop&q=80&w=400" loading="lazy" class="object-cover w-full h-full hover:scale-105 transition-transform duration-300" alt="Flooring Work">
-                </div>
-                <div class="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg bg-gray-100">
-                    <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=400" loading="lazy" class="object-cover w-full h-full hover:scale-105 transition-transform duration-300" alt="Door and Trim Installation">
-                </div>
-                <div class="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg bg-gray-100">
-                    <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=80&w=400" loading="lazy" class="object-cover w-full h-full hover:scale-105 transition-transform duration-300" alt="House Painting">
-                </div>
-            </div>
-            
-            <div class="mt-8 text-center md:hidden">
-                <a href="/projects/" class="inline-block py-3 px-6 border border-brand-red text-brand-red font-bold rounded hover:bg-brand-red hover:text-white transition-colors">View Gallery</a>
-            </div>
-        </div>
-    </section>
+    <HomeProjectsPreview projects={publishedProjects} />
 
     <!-- 10. Process Section (How It Works) -->
     <section class="py-20 bg-brand-lightbg">
@@ -357,39 +351,9 @@ const schemaGraph = homePageSchema(undefined, publishedReviews.map((r) => r.data
         </div>
     </section>
 
-    <!-- 14. Service Area + Map Section -->
-    <section id="area" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-start">
-                <div class="mb-10 lg:mb-0">
-                    <h2 class="text-3xl font-bold text-brand-black mb-4">Proudly Serving Katy, Texas And Surrounding Areas</h2>
-                    <p class="text-gray-600 mb-6">
-                        Elevate Your Space Handyman provides handyman, repair, installation, and remodeling services throughout Katy and nearby communities. If you are in or around Katy, contact us to confirm availability for your project.
-                    </p>
-                    <div class="bg-brand-lightbg p-6 rounded-lg border border-gray-100">
-                        <ul class="grid grid-cols-2 gap-y-3 gap-x-4 text-sm font-medium text-brand-black">
-                            <li class="flex items-center"><span class="w-2 h-2 bg-brand-red rounded-full mr-2"></span>Katy</li>
-                            <li class="flex items-center"><span class="w-2 h-2 bg-brand-red rounded-full mr-2"></span>Cinco Ranch</li>
-                            <li class="flex items-center"><span class="w-2 h-2 bg-brand-red rounded-full mr-2"></span>Fulshear</li>
-                            <li class="flex items-center"><span class="w-2 h-2 bg-brand-red rounded-full mr-2"></span>Richmond</li>
-                            <li class="flex items-center"><span class="w-2 h-2 bg-brand-red rounded-full mr-2"></span>Cypress</li>
-                            <li class="flex items-center"><span class="w-2 h-2 bg-brand-red rounded-full mr-2"></span>Sugar Land</li>
-                            <li class="flex items-center"><span class="w-2 h-2 bg-brand-red rounded-full mr-2"></span>Brookshire</li>
-                            <li class="flex items-center"><span class="w-2 h-2 bg-brand-red rounded-full mr-2"></span>West Houston</li>
-                            <li class="flex items-center"><span class="w-2 h-2 bg-brand-red rounded-full mr-2"></span>Mission Bend</li>
-                            <li class="flex items-center"><span class="w-2 h-2 bg-brand-red rounded-full mr-2"></span>Jersey Village</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="w-full h-80 lg:h-full min-h-[350px] bg-gray-200 rounded-xl overflow-hidden shadow-inner relative">
-                    <!-- Lazy loaded google map iframe -->
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d110825.2662057922!2d-95.89518040445695!3d29.771960205256434!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8640d00f8da75c01%3A0xcad46f5de0fde2c9!2sKaty%2C%20TX!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus" width="100%" height="100%" style="border:0; position:absolute; top:0; left:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
-            </div>
-        </div>
-    </section>
+    <HomeServiceAreas cities={cityLinks} communities={communityLinks} />
 
     <CTASection />
+    </main>
     <Footer />
 </BaseLayout>

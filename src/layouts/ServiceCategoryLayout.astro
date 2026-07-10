@@ -1,0 +1,107 @@
+---
+import ContentLayout from './ContentLayout.astro';
+import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
+import LocalHero from '../components/areas/local/LocalHero.astro';
+import LocalLandingShell from '../components/areas/local/LocalLandingShell.astro';
+import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
+import BalancedGrid from '../components/ui/BalancedGrid.astro';
+import { absoluteUrl } from '../data/business';
+import { breadcrumbList, itemListSchema, webPage } from '../data/schema';
+import type { ServiceCategory } from '../data/serviceCategories';
+import { serviceCategories } from '../data/serviceCategories';
+
+interface Props {
+  category: ServiceCategory;
+  publishedServiceSlugs: Set<string>;
+}
+
+const { category, publishedServiceSlugs } = Astro.props;
+const pageUrl = absoluteUrl(`/services/${category.slug}/`);
+const title = category.seoTitle;
+const description = category.metaDescription;
+
+const categoryItems = category.items.map((item) => {
+  const hasPage = item.serviceSlug && publishedServiceSlugs.has(item.serviceSlug);
+  return {
+    title: item.title,
+    description: item.description,
+    href: hasPage
+      ? `/services/${item.serviceSlug}/`
+      : `/contact/?category=${category.slug}&service=${encodeURIComponent(item.title)}`,
+    footerText: hasPage ? 'View service details →' : 'Request a quote →',
+  };
+});
+
+const listItems = category.items
+  .filter((item) => item.serviceSlug && publishedServiceSlugs.has(item.serviceSlug))
+  .map((item) => ({
+    name: item.title,
+    url: absoluteUrl(`/services/${item.serviceSlug}/`),
+  }));
+const schemaGraph = [
+  webPage(category.title, pageUrl, description),
+  breadcrumbList([
+    { name: 'Home', url: absoluteUrl('/') },
+    { name: 'Services', url: absoluteUrl('/services/') },
+    { name: category.title, url: pageUrl },
+  ]),
+  listItems.length > 0 ? itemListSchema(category.title, listItems) : null,
+].filter(Boolean);
+---
+
+<ContentLayout
+  seo={{ title, description, canonical: pageUrl, ogType: 'website' }}
+  schemaGraph={schemaGraph}
+>
+  <article>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <BreadcrumbNav
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Services', url: '/services/' },
+          { name: category.title, url: `/services/${category.slug}/` },
+        ]}
+      />
+    </div>
+
+    <LocalHero
+      heading={category.title}
+      summary={category.summary}
+      locationLabel="Katy & West Houston"
+      heroImage={category.heroImage}
+      heroImageAlt={category.heroImageAlt}
+    />
+
+    <LocalLandingShell>
+      <section aria-labelledby="category-services">
+        <p class="text-xs font-bold uppercase tracking-widest text-brand-red mb-2">Services</p>
+        <h2 id="category-services" class="text-2xl md:text-3xl font-bold text-brand-black mb-6">
+          What we offer in {category.title.toLowerCase()}
+        </h2>
+        <BalancedGrid variant="feature-card" items={categoryItems} cols={2} gapClass="gap-4" />
+      </section>
+
+      <section class="bg-white rounded-xl border border-gray-200 p-6">
+        <h2 class="text-lg font-bold text-brand-black mb-2">Explore other service categories</h2>
+        <p class="text-sm text-gray-600 mb-4">Browse our full range of handyman services for Katy and West Houston.</p>
+        <div class="flex flex-wrap gap-3">
+          {
+            serviceCategories
+              .filter((c) => c.slug !== category.slug)
+              .map((c) => (
+                <a
+                  href={`/services/${c.slug}/`}
+                  class="text-sm font-medium text-brand-black hover:text-brand-red border border-gray-200 rounded-lg px-4 py-2 hover:border-brand-red/30 transition-colors"
+                >
+                  {c.title}
+                </a>
+              ))
+          }
+          <a href="/services/" class="text-sm font-bold text-brand-red hover:underline">All services →</a>
+        </div>
+      </section>
+
+      <LocalAreaCTA locationName="Katy & West Houston" />
+    </LocalLandingShell>
+  </article>
+</ContentLayout>

@@ -1,0 +1,192 @@
+---
+import {
+  chunkBalanced,
+  gridBreakpointForCols,
+  uniformGridContainerClass,
+  uniformGridStyle,
+  uniformRowClass,
+  uniformTileClass,
+} from '../../utils/balancedGrid';
+
+export type BalancedCardItem = {
+  title: string;
+  description?: string;
+  href: string;
+  footerText?: string;
+  headingLevel?: 2 | 3;
+  eyebrow?: string;
+  eyebrowDatetime?: string;
+};
+
+export type BalancedLinkItem = {
+  title: string;
+  href: string;
+};
+
+export type BalancedValueItem = {
+  title: string;
+  body: string;
+};
+
+export type BalancedFeatureCardItem = {
+  title: string;
+  description: string;
+  href: string;
+  footerText: string;
+};
+
+export type BalancedProjectItem = {
+  title: string;
+  body: string;
+  accentBar?: boolean;
+  tone?: 'light' | 'white';
+};
+
+export type BalancedReviewItem = {
+  author: string;
+  rating: number;
+  text: string;
+  source: string;
+  date: Date;
+  location?: string;
+};
+
+type VariantProps =
+  | { variant: 'card'; items: BalancedCardItem[] }
+  | { variant: 'link'; items: BalancedLinkItem[] }
+  | { variant: 'value'; items: BalancedValueItem[] }
+  | { variant: 'feature-card'; items: BalancedFeatureCardItem[] }
+  | { variant: 'project'; items: BalancedProjectItem[] }
+  | { variant: 'review'; items: BalancedReviewItem[] };
+
+function renderStars(rating: number): string {
+  return '★'.repeat(rating) + '☆'.repeat(5 - rating);
+}
+
+interface Props extends VariantProps {
+  cols?: number;
+  gapClass?: string;
+  class?: string;
+  listClass?: string;
+  align?: 'left' | 'center';
+}
+
+const { variant, items, cols = 3, gapClass = 'gap-4', class: className, listClass, align } = Astro.props;
+const rowChunks = chunkBalanced(items, cols);
+const breakpoint = gridBreakpointForCols(cols);
+const tileClass = uniformTileClass(breakpoint);
+const rowClass = uniformRowClass(gapClass);
+const gridStyle = uniformGridStyle(cols, gapClass);
+const textAlign = align ?? (variant === 'link' ? 'center' : 'left');
+const linkAlignClass = textAlign === 'center' ? 'text-center' : 'text-left';
+---
+
+<div class:list={[uniformGridContainerClass(), className]} style={gridStyle}>
+  {
+    rowChunks.map((row) => (
+      <ul class:list={[rowClass, listClass]} role="list">
+        {
+          row.map((item) => (
+            <li class={tileClass}>
+              {variant === 'link' && (
+                <a
+                  href={(item as BalancedLinkItem).href}
+                  class:list={[
+                    'flex h-full min-h-[2.5rem] items-center justify-center rounded-lg border border-gray-200 bg-white py-2 px-2.5 font-medium text-brand-black hover:border-brand-red hover:shadow-md transition-all text-sm leading-snug',
+                    linkAlignClass,
+                  ]}
+                >
+                  {(item as BalancedLinkItem).title}
+                </a>
+              )}
+              {variant === 'card' && (() => {
+                const card = item as BalancedCardItem;
+                const HeadingTag = card.headingLevel === 3 ? 'h3' : 'h2';
+                return (
+                  <a
+                    href={card.href}
+                    class="block h-full p-6 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-brand-red/30 transition-all text-left"
+                  >
+                    {card.eyebrow && (
+                      <time
+                        datetime={card.eyebrowDatetime}
+                        class="text-xs text-brand-red font-bold uppercase tracking-wider"
+                      >
+                        {card.eyebrow}
+                      </time>
+                    )}
+                    <HeadingTag class:list={['text-xl font-bold text-brand-black mb-2', card.eyebrow && 'mt-2']}>{card.title}</HeadingTag>
+                    {card.description && (
+                      <p class="text-sm text-gray-600">{card.description}</p>
+                    )}
+                    {card.footerText && (
+                      <span class="inline-block mt-4 text-sm font-bold text-brand-red">{card.footerText}</span>
+                    )}
+                  </a>
+                );
+              })()}
+              {variant === 'value' && (
+                <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm h-full text-left">
+                  <h3 class="font-bold text-brand-black mb-3">{(item as BalancedValueItem).title}</h3>
+                  <p class="text-sm text-gray-600 leading-relaxed">{(item as BalancedValueItem).body}</p>
+                </div>
+              )}
+              {variant === 'feature-card' && (
+                <a
+                  href={(item as BalancedFeatureCardItem).href}
+                  class="block h-full bg-white rounded-xl border border-gray-200 p-6 shadow-sm hover:border-brand-red/30 hover:shadow-md transition-all group text-left"
+                >
+                  <div class="w-1 h-8 bg-brand-red rounded-full mb-3 group-hover:h-10 transition-all" aria-hidden="true" />
+                  <h3 class="font-bold text-brand-black mb-2 text-lg">{(item as BalancedFeatureCardItem).title}</h3>
+                  <p class="text-sm text-gray-600 leading-relaxed mb-4">{(item as BalancedFeatureCardItem).description}</p>
+                  <span class="text-sm font-bold text-brand-red">{(item as BalancedFeatureCardItem).footerText}</span>
+                </a>
+              )}
+              {variant === 'project' && (() => {
+                const project = item as BalancedProjectItem;
+                const panelClass =
+                  project.tone === 'light'
+                    ? 'bg-brand-lightbg border-gray-100'
+                    : 'bg-white border-gray-200 shadow-sm hover:border-brand-red/30 hover:shadow-md transition-all';
+                return (
+                  <div class:list={['h-full rounded-xl border p-5', panelClass]}>
+                    {project.accentBar && (
+                      <div class="w-1 h-8 bg-brand-red rounded-full mb-3" aria-hidden="true" />
+                    )}
+                    <h3 class="font-bold text-brand-black mb-2">{project.title}</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">{project.body}</p>
+                  </div>
+                );
+              })()}
+              {variant === 'review' && (() => {
+                const review = item as BalancedReviewItem;
+                return (
+                  <div class="h-full p-6 bg-brand-lightbg rounded-xl border border-gray-200">
+                    <div class="flex items-center justify-between mb-3">
+                      <p class="font-bold text-brand-black">{review.author}</p>
+                      <span class="text-brand-red text-sm" aria-label={`${review.rating} out of 5 stars`}>
+                        {renderStars(review.rating)}
+                      </span>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4">{review.text}</p>
+                    <div class="text-xs text-gray-500 flex flex-wrap gap-x-3 gap-y-1">
+                      <span>{review.source}</span>
+                      <time datetime={review.date.toISOString()}>
+                        {review.date.toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                        })}
+                      </time>
+                      {review.location && <span>{review.location}</span>}
+                    </div>
+                  </div>
+                );
+              })()}
+            </li>
+          ))
+        }
+      </ul>
+    ))
+  }
+</div>

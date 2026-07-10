@@ -1,0 +1,84 @@
+---
+import { site } from '../../../data/business';
+
+interface Props {
+  heading: string;
+  summary?: string;
+  locationLabel?: string;
+  promoCode?: string;
+  promoOffer?: string;
+  heroImage?: string;
+  heroImageAlt?: string;
+}
+
+const {
+  heading,
+  summary,
+  locationLabel,
+  promoCode,
+  promoOffer,
+  heroImage,
+  heroImageAlt = 'Handyman services',
+} = Astro.props;
+
+const fallbackImage =
+  'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=800';
+const imageSrc = heroImage ?? fallbackImage;
+---
+
+<section class="bg-white border-b border-gray-200" aria-labelledby="local-hero">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+      <div>
+        {
+          locationLabel && (
+            <p class="text-xs font-bold uppercase tracking-widest text-brand-red mb-3">
+              {locationLabel}
+            </p>
+          )
+        }
+        <h1 id="local-hero" class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-brand-black mb-4 leading-tight">
+          {heading}
+        </h1>
+        {
+          summary && (
+            <p class="text-lg text-gray-600 leading-relaxed mb-6">{summary}</p>
+          )
+        }
+        {
+          promoCode && promoOffer && (
+            <p class="inline-flex items-center gap-2 text-sm bg-brand-lightbg border border-brand-red/20 text-brand-black px-4 py-2 rounded-full mb-6">
+              <span class="font-bold text-brand-red">{promoCode}</span>
+              <span class="text-gray-600">— {promoOffer}</span>
+            </p>
+          )
+        }
+        <div class="flex flex-col sm:flex-row gap-3">
+          <a
+            href="/contact/"
+            class="inline-flex justify-center items-center bg-brand-red text-white px-6 py-3 rounded-md font-bold hover:bg-brand-redhover transition-colors"
+          >
+            Request an Estimate
+          </a>
+          <a
+            href={`tel:${site.phoneTel}`}
+            class="inline-flex justify-center items-center border-2 border-brand-black text-brand-black px-6 py-3 rounded-md font-bold hover:bg-brand-black hover:text-white transition-colors"
+          >
+            Call {site.phone}
+          </a>
+        </div>
+      </div>
+      <div class="relative rounded-xl overflow-hidden shadow-lg aspect-[4/3] bg-gray-200">
+        <img
+          src={imageSrc}
+          alt={heroImageAlt}
+          class="w-full h-full object-cover"
+          loading="eager"
+          fetchpriority="high"
+          width="800"
+          height="600"
+        />
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,23 +1,37 @@
 ---
 title: "Furniture Assembly"
 slug: "furniture-assembly"
-published: false
-seoTitle: "[PLACEHOLDER: SEO title]"
-metaDescription: "[PLACEHOLDER: meta description]"
-heroTitle: "[PLACEHOLDER: hero title]"
-summary: "[PLACEHOLDER: service summary]"
+published: true
+seoTitle: "Furniture Assembly in Katy, TX | Elevate Your Space"
+metaDescription: "Professional furniture assembly in Katy and West Houston. Beds, desks, patio sets, and IKEA-style furniture assembled correctly."
+heroTitle: "Professional Furniture Assembly"
+summary: "Expert assembly of bedroom sets, office furniture, patio sets, and flat-pack furniture — structurally sound and done right."
 bookingType: "quote-request"
-primaryCTA: "Request a Quote"
+primaryCTA: "Request Assembly Quote"
 secondaryCTA: "Call Us"
 includedServices:
-  - "[PLACEHOLDER: included service item]"
+  - "Bedroom and dining set assembly"
+  - "Office desk and shelving assembly"
+  - "Outdoor patio furniture setup"
+  - "Wall anchoring for tall units when needed"
+  - "Packaging removal and area cleanup"
 priceFactors:
-  - "[PLACEHOLDER: price factor]"
+  - "Number of pieces"
+  - "Complexity of assembly"
+  - "Brand and item type"
+  - "Same-day scheduling"
 process:
-  - "[PLACEHOLDER: process step]"
+  - "Tell us what needs assembling"
+  - "Get a clear estimate"
+  - "Schedule assembly time"
+  - "Assemble, secure, and clean up"
 faqs:
-  - question: "[PLACEHOLDER: FAQ question]"
-    answer: "[PLACEHOLDER: FAQ answer]"
+  - question: "Do you assemble IKEA and flat-pack furniture?"
+    answer: "Yes. We assemble flat-pack and RTA furniture from all major retailers."
+  - question: "Can you assemble patio furniture?"
+    answer: "Absolutely. Outdoor dining sets, sectionals, and rocking chairs are common requests."
+  - question: "Will you haul away boxes?"
+    answer: "We break down packaging and leave your space tidy. Haul-away can be discussed on request."
 ---
 
-[PLACEHOLDER: furniture assembly body copy — add verified service details before publish.]
+Skip the frustration of confusing instructions and missing hardware. EYS assembles furniture quickly so you can enjoy your new home — especially popular for move-in weekends in master-planned communities.

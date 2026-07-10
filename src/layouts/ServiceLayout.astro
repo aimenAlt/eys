@@ -6,8 +6,10 @@ import ServiceIncluded from '../components/services/ServiceIncluded.astro';
 import ServicePriceFactors from '../components/services/ServicePriceFactors.astro';
 import ServiceProcess from '../components/services/ServiceProcess.astro';
 import ServiceFAQ from '../components/services/ServiceFAQ.astro';
-import CTASection from '../components/home/CTASection.astro';
+import ServiceAreaCrossLinks from '../components/services/ServiceAreaCrossLinks.astro';
+import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
 import { absoluteUrl } from '../data/business';
+import { getCategoryForServiceSlug } from '../data/serviceCategories';
 import {
   breadcrumbList,
   faqPage,
@@ -15,27 +17,50 @@ import {
   webPage,
 } from '../data/schema';
 import type { CollectionEntry } from 'astro:content';
+import type { BreadcrumbItem } from '../data/schema';
 
 interface Props {
   entry: CollectionEntry<'services'>;
+  featuredCommunities: CollectionEntry<'communities'>[];
 }
 
-const { entry } = Astro.props;
+const { entry, featuredCommunities } = Astro.props;
 const { data } = entry;
 const pageUrl = absoluteUrl(`/services/${data.slug}/`);
+const parentCategory = getCategoryForServiceSlug(data.slug);
 const title = data.seoTitle ?? `${data.title} | Elevate Your Space Handyman`;
 const description =
   data.metaDescription ?? data.summary ?? `Professional ${data.title} in Katy and West Houston.`;
 
-const breadcrumbs = breadcrumbList([
+const communityLinks = featuredCommunities.map((c) => ({
+  title: c.data.title,
+  href: `/service-areas/${c.data.citySlug}/${c.data.slug}/`,
+}));
+
+const breadcrumbItems: BreadcrumbItem[] = [
   { name: 'Home', url: absoluteUrl('/') },
   { name: 'Services', url: absoluteUrl('/services/') },
-  { name: data.title, url: pageUrl },
-]);
+];
+if (parentCategory) {
+  breadcrumbItems.push({
+    name: parentCategory.title,
+    url: absoluteUrl(`/services/${parentCategory.slug}/`),
+  });
+}
+breadcrumbItems.push({ name: data.title, url: pageUrl });
+
+const navBreadcrumbItems = [
+  { name: 'Home', url: '/' },
+  { name: 'Services', url: '/services/' },
+  ...(parentCategory
+    ? [{ name: parentCategory.title, url: `/services/${parentCategory.slug}/` }]
+    : []),
+  { name: data.title, url: `/services/${data.slug}/` },
+];
 
 const schemaGraph = [
   webPage(data.heroTitle ?? data.title, pageUrl, description),
-  breadcrumbs,
+  breadcrumbList(breadcrumbItems),
   serviceSchema(data.title, description, pageUrl),
   data.faqs?.length ? faqPage(data.faqs) : null,
 ].filter(Boolean);
@@ -47,13 +72,7 @@ const schemaGraph = [
 >
   <article class="pb-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-      <BreadcrumbNav
-        items={[
-          { name: 'Home', url: '/' },
-          { name: 'Services', url: '/services/' },
-          { name: data.title, url: `/services/${data.slug}/` },
-        ]}
-      />
+      <BreadcrumbNav items={navBreadcrumbItems} />
     </div>
     <ServiceHero service={data} />
     <ServiceIncluded items={data.includedServices} />
@@ -64,7 +83,10 @@ const schemaGraph = [
         <slot />
       </div>
     </section>
+    <ServiceAreaCrossLinks communities={communityLinks} />
     <ServiceFAQ faqs={data.faqs} />
-    <CTASection />
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <LocalAreaCTA locationName="Katy & West Houston" />
+    </div>
   </article>
 </ContentLayout>

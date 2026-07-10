@@ -1,19 +1,26 @@
 ---
 title: "Fulshear, TX"
-slug: "fulshear-tx"
+slug: "fulshear"
 published: true
 seoTitle: "Fulshear TX Handyman | New Home Upgrades"
 metaDescription: "Handyman services in Fulshear, TX for new construction and move-in upgrades — TV mounting, garage storage, ceiling fans, and finishing work in Cross Creek Ranch and Fulbrook."
 heroTitle: "Handyman Services in Fulshear, TX"
 summary: "Elevate Your Space Handyman helps Fulshear homeowners with move-in upgrades and new-home finishing — from TV mounting and ceiling fans to custom storage and detail carpentry in fast-growing master-planned communities."
-localIntro: "Fulshear has transformed from its historic agricultural roots into one of the fastest-growing cities in the country, with high-end master-planned communities drawing new homeowners who want their brand-new house to feel complete from day one. Much of our Fulshear work focuses on move-in upgrades — the finishing touches builders leave to the homeowner."
-neighborhoods:
-  - "Cross Creek Ranch"
-  - "Fulbrook on Fulshear Creek"
-  - "Fulshear Lakes"
-  - "Del Webb Sweetgrass"
+localIntro: "Fulshear has transformed into one of the fastest-growing cities in the region, with high-end master-planned communities drawing new homeowners who want move-in upgrades and finishing work done right. Select your community below."
 servicesAvailable:
   - "tv-mounting"
+  - "ceiling-fan-installation"
+  - "general-handyman-services"
+  - "furniture-assembly"
+  - "drywall-repair"
+  - "painting"
+  - "door-repair-installation"
+  - "electrical-services"
+  - "cabinet-installation"
+  - "bathroom-remodeling"
+  - "kitchen-remodeling"
+  - "flooring-and-decor"
+  - "custom-carpentry"
 faqs:
   - question: "Do you specialize in new-home upgrades in Fulshear?"
     answer: "Yes. A large share of our Fulshear projects are move-in related — TV mounting on fresh drywall, ceiling fan installation, garage storage organization, shelving, and other finishing work for newly closed homes."

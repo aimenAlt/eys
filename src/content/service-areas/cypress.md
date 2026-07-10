@@ -1,19 +1,26 @@
 ---
 title: "Cypress, TX"
-slug: "cypress-tx"
+slug: "cypress"
 published: true
 seoTitle: "Cypress TX Handyman | Home Improvement & Repairs"
 metaDescription: "Handyman and home improvement in Cypress, TX — from mature-home maintenance in Lakewood Forest and Ravensway to premium upgrades in Bridgeland and Towne Lake."
 heroTitle: "Handyman Services in Cypress, TX"
 summary: "Elevate Your Space Handyman serves Cypress homeowners across established neighborhoods and modern master-planned communities — with repair, renovation, and finishing work matched to your home's age and style."
-localIntro: "Cypress sits at an interesting crossroads for home services. With a median construction year around 2007 and roughly 85% detached single-family housing, the market splits between mature 1970s–1980s neighborhoods with large lots and tree canopy, and newer amenity-rich communities built for outdoor living and modern finishes. We tailor our approach to both — maintenance and thoughtful updates for older properties, and premium aesthetic upgrades for newer builds."
-neighborhoods:
-  - "Lakewood Forest"
-  - "Ravensway"
-  - "Bridgeland"
-  - "Towne Lake"
+localIntro: "Cypress sits at an interesting crossroads for home services — mature neighborhoods and modern master-planned communities side by side. Select your community below for localized handyman services and preferred community pricing."
 servicesAvailable:
   - "tv-mounting"
+  - "ceiling-fan-installation"
+  - "general-handyman-services"
+  - "furniture-assembly"
+  - "drywall-repair"
+  - "painting"
+  - "door-repair-installation"
+  - "electrical-services"
+  - "cabinet-installation"
+  - "bathroom-remodeling"
+  - "kitchen-remodeling"
+  - "flooring-and-decor"
+  - "custom-carpentry"
 faqs:
   - question: "Do you work in both older Cypress neighborhoods and newer master-planned communities?"
     answer: "Yes. We regularly serve established areas like Lakewood Forest and Ravensway as well as Bridgeland, Towne Lake, and similar communities. Scope and materials are adjusted based on the home's age, structure, and finish level."

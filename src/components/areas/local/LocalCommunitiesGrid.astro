@@ -1,0 +1,40 @@
+---
+import BalancedGrid from '../../ui/BalancedGrid.astro';
+
+interface CommunityLink {
+  title: string;
+  slug: string;
+  summary?: string;
+}
+
+interface Props {
+  communities: CommunityLink[];
+  citySlug: string;
+  cityName: string;
+}
+
+const { communities, citySlug, cityName } = Astro.props;
+
+const communityCards = communities.map((community) => ({
+  title: community.title,
+  description: community.summary,
+  href: `/service-areas/${citySlug}/${community.slug}/`,
+  footerText: 'View community page →',
+  headingLevel: 3 as const,
+}));
+---
+
+{
+  communities.length > 0 && (
+    <section aria-labelledby="local-communities">
+      <p class="text-xs font-bold uppercase tracking-widest text-brand-red mb-2">Communities</p>
+      <h2 id="local-communities" class="text-2xl md:text-3xl font-bold text-brand-black mb-3">
+        Neighborhoods we serve in {cityName}
+      </h2>
+      <p class="text-gray-600 mb-6">
+        Select your master-planned community for localized services, preferred community pricing, and area-specific guidance.
+      </p>
+      <BalancedGrid variant="card" items={communityCards} cols={3} gapClass="gap-4" />
+    </section>
+  )
+}

@@ -1,0 +1,44 @@
+---
+import BalancedGrid from '../../ui/BalancedGrid.astro';
+
+interface ValueItem {
+  title: string;
+  body: string;
+}
+
+interface Props {
+  locationName: string;
+  whyChoose?: string;
+  goodFit?: string;
+  localLifestyle?: string;
+}
+
+const { locationName, whyChoose, goodFit, localLifestyle } = Astro.props;
+
+const items: ValueItem[] = [
+  whyChoose && {
+    title: `Why homeowners in ${locationName} trust EYS`,
+    body: whyChoose,
+  },
+  goodFit && {
+    title: `Popular projects in ${locationName}`,
+    body: goodFit,
+  },
+  localLifestyle && {
+    title: `Life in ${locationName}`,
+    body: localLifestyle,
+  },
+].filter(Boolean) as ValueItem[];
+---
+
+{
+  items.length > 0 && (
+    <section aria-labelledby="local-values">
+      <p class="text-xs font-bold uppercase tracking-widest text-brand-red mb-2">Why EYS</p>
+      <h2 id="local-values" class="text-2xl md:text-3xl font-bold text-brand-black mb-6">
+        Built for {locationName} homeowners
+      </h2>
+      <BalancedGrid variant="value" items={items} cols={3} gapClass="gap-4" />
+    </section>
+  )
+}

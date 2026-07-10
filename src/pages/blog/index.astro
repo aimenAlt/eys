@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import ContentLayout from '../../layouts/ContentLayout.astro';
 import PageHero from '../../components/common/PageHero.astro';
 import BreadcrumbNav from '../../components/seo/BreadcrumbNav.astro';
+import BalancedGrid from '../../components/ui/BalancedGrid.astro';
 import { absoluteUrl, site } from '../../data/business';
 import { breadcrumbList, webPage } from '../../data/schema';
 
@@ -10,6 +11,18 @@ const posts = await getCollection('blog', ({ data }) => data.published === true)
 posts.sort(
   (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
 );
+
+const postCards = posts.map((entry) => ({
+  title: entry.data.title,
+  description: entry.data.summary,
+  href: `/blog/${entry.data.slug}/`,
+  eyebrow: entry.data.publishedAt.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  }),
+  eyebrowDatetime: entry.data.publishedAt.toISOString(),
+}));
 
 const title = `Blog | ${site.name}`;
 const description =
@@ -26,58 +39,34 @@ const schemaGraph = [
 ---
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-    <BreadcrumbNav
-      items={[
-        { name: 'Home', url: '/' },
-        { name: 'Blog', url: '/blog/' },
-      ]}
-    />
-  </div>
-
-  <PageHero
-    eyebrow="Homeowner Guides"
-    title="Blog"
-    description="Practical advice on repairs, installations, and home improvements for Katy and West Houston homeowners."
-  />
-
-  <section class="py-16 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      {
-        posts.length > 0 ? (
-          <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {posts.map((entry) => (
-              <li>
-                <a
-                  href={`/blog/${entry.data.slug}/`}
-                  class="block h-full p-6 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-brand-red/30 transition-all"
-                >
-                  <time
-                    datetime={entry.data.publishedAt.toISOString()}
-                    class="text-xs text-brand-red font-bold uppercase tracking-wider"
-                  >
-                    {entry.data.publishedAt.toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'short',
-                      day: 'numeric',
-                    })}
-                  </time>
-                  <h2 class="text-xl font-bold text-brand-black mt-2 mb-2">
-                    {entry.data.title}
-                  </h2>
-                  {entry.data.summary && (
-                    <p class="text-sm text-gray-600">{entry.data.summary}</p>
-                  )}
-                </a>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p class="text-gray-600 max-w-2xl">
-            Articles on repairs, pricing factors, and homeowner tips will appear here as they are published.
-          </p>
-        )
-      }
+  <article>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <BreadcrumbNav
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Blog', url: '/blog/' },
+        ]}
+      />
     </div>
-  </section>
+
+    <PageHero
+      eyebrow="Homeowner Guides"
+      title="Blog"
+      description="Practical advice on repairs, installations, and home improvements for Katy and West Houston homeowners."
+    />
+
+    <section class="py-16 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {
+          postCards.length > 0 ? (
+            <BalancedGrid variant="card" items={postCards} cols={3} gapClass="gap-6" />
+          ) : (
+            <p class="text-gray-600 max-w-2xl">
+              Articles on repairs, pricing factors, and homeowner tips will appear here as they are published.
+            </p>
+          )
+        }
+      </div>
+    </section>
+  </article>
 </ContentLayout>

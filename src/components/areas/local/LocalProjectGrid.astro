@@ -1,0 +1,39 @@
+---
+import BalancedGrid from '../../ui/BalancedGrid.astro';
+
+interface Project {
+  name: string;
+  description: string;
+}
+
+interface Props {
+  locationName: string;
+  servicesIntro?: string;
+  commonProjects?: Project[];
+}
+
+const { locationName, servicesIntro, commonProjects } = Astro.props;
+
+const projectItems =
+  commonProjects?.map((project) => ({
+    title: project.name,
+    body: project.description,
+    accentBar: true,
+    tone: 'white' as const,
+  })) ?? [];
+---
+
+{
+  commonProjects && commonProjects.length > 0 && (
+    <section aria-labelledby="local-projects">
+      <p class="text-xs font-bold uppercase tracking-widest text-brand-red mb-2">Services</p>
+      <h2 id="local-projects" class="text-2xl md:text-3xl font-bold text-brand-black mb-3">
+        Handyman services for {locationName} homes
+      </h2>
+      {servicesIntro && (
+        <p class="text-gray-600 leading-relaxed mb-6">{servicesIntro}</p>
+      )}
+      <BalancedGrid variant="project" items={projectItems} cols={3} gapClass="gap-4" />
+    </section>
+  )
+}

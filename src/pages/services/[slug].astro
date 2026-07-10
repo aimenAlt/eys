@@ -3,17 +3,25 @@ import { getCollection, render } from 'astro:content';
 import ServiceLayout from '../../layouts/ServiceLayout.astro';
 
 export async function getStaticPaths() {
-  const services = await getCollection('services', ({ data }) => data.published === true);
+  const [services, communities] = await Promise.all([
+    getCollection('services', ({ data }) => data.published === true),
+    getCollection('communities', ({ data }) => data.published === true),
+  ]);
+
+  const featuredCommunities = communities
+    .sort((a, b) => a.data.title.localeCompare(b.data.title))
+    .slice(0, 6);
+
   return services.map((entry) => ({
     params: { slug: entry.data.slug },
-    props: { entry },
+    props: { entry, featuredCommunities },
   }));
 }
 
-const { entry } = Astro.props;
+const { entry, featuredCommunities } = Astro.props;
 const { Content } = await render(entry);
 ---
 
-<ServiceLayout entry={entry}>
+<ServiceLayout entry={entry} featuredCommunities={featuredCommunities}>
   <Content />
 </ServiceLayout>

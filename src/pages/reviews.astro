@@ -4,28 +4,28 @@ import ContentLayout from '../layouts/ContentLayout.astro';
 import PageHero from '../components/common/PageHero.astro';
 import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
 import CTASection from '../components/home/CTASection.astro';
+import BalancedGrid from '../components/ui/BalancedGrid.astro';
 import { absoluteUrl, site } from '../data/business';
-import { breadcrumbList, webPage } from '../data/schema';
+import { reviewsPageSchema } from '../data/schema';
 
 const reviews = await getCollection('reviews', ({ data }) => data.published === true);
 reviews.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
+const reviewItems = reviews.map((entry) => ({
+  author: entry.data.author,
+  rating: entry.data.rating,
+  text: entry.data.text,
+  source: entry.data.source,
+  date: entry.data.date,
+  location: entry.data.location,
+}));
+
 const title = `Customer Reviews | ${site.name}`;
 const description =
-  'Read verified customer reviews for Elevate Your Space Handyman in Katy and West Houston.';
+  'Read verified customer reviews for Elevate Your Space Handyman in Katy and West Houston. 4.9 stars from 150+ Google reviews.';
 const canonical = absoluteUrl('/reviews/');
 
-const schemaGraph = [
-  webPage('Customer Reviews', canonical, description),
-  breadcrumbList([
-    { name: 'Home', url: absoluteUrl('/') },
-    { name: 'Reviews', url: canonical },
-  ]),
-];
-
-function renderStars(rating: number) {
-  return '★'.repeat(rating) + '☆'.repeat(5 - rating);
-}
+const schemaGraph = reviewsPageSchema(canonical, description);
 ---
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
@@ -48,31 +48,8 @@ function renderStars(rating: number) {
     <section class="py-16 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {
-          reviews.length > 0 ? (
-            <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {reviews.map((entry) => (
-                <li class="p-6 bg-brand-lightbg rounded-xl border border-gray-200">
-                  <div class="flex items-center justify-between mb-3">
-                    <p class="font-bold text-brand-black">{entry.data.author}</p>
-                    <span class="text-brand-red text-sm" aria-label={`${entry.data.rating} out of 5 stars`}>
-                      {renderStars(entry.data.rating)}
-                    </span>
-                  </div>
-                  <p class="text-gray-600 text-sm leading-relaxed mb-4">{entry.data.text}</p>
-                  <div class="text-xs text-gray-500 flex flex-wrap gap-x-3 gap-y-1">
-                    <span>{entry.data.source}</span>
-                    <time datetime={entry.data.date.toISOString()}>
-                      {entry.data.date.toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                      })}
-                    </time>
-                    {entry.data.location && <span>{entry.data.location}</span>}
-                  </div>
-                </li>
-              ))}
-            </ul>
+          reviewItems.length > 0 ? (
+            <BalancedGrid variant="review" items={reviewItems} cols={3} gapClass="gap-6" />
           ) : (
             <p class="text-gray-600 max-w-2xl">
               Verified customer reviews will appear here as they are added. Contact us to share your experience or ask about recent work in your area.

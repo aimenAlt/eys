@@ -1,23 +1,37 @@
 ---
 title: "Door Repair & Installation"
 slug: "door-repair-installation"
-published: false
-seoTitle: "[PLACEHOLDER: SEO title]"
-metaDescription: "[PLACEHOLDER: meta description]"
-heroTitle: "[PLACEHOLDER: hero title]"
-summary: "[PLACEHOLDER: service summary]"
+published: true
+seoTitle: "Door Repair & Installation in Katy, TX | Elevate Your Space"
+metaDescription: "Door repair and installation in Katy and West Houston. Interior doors, hardware, alignment, and pre-hung door swaps."
+heroTitle: "Door Repair & Installation"
+summary: "Sticky doors, misaligned hardware, and new pre-hung door installation — adjusted and hung correctly."
 bookingType: "quote-request"
-primaryCTA: "Request a Quote"
+primaryCTA: "Request Door Service Quote"
 secondaryCTA: "Call Us"
 includedServices:
-  - "[PLACEHOLDER: included service item]"
+  - "Interior door adjustment and re-hanging"
+  - "Pre-hung door installation"
+  - "Hardware and hinge replacement"
+  - "Strike plate and latch alignment"
+  - "Weatherstripping touch-ups"
 priceFactors:
-  - "[PLACEHOLDER: price factor]"
+  - "Door type and quantity"
+  - "New vs adjustment work"
+  - "Hardware upgrades"
+  - "Frame condition"
 process:
-  - "[PLACEHOLDER: process step]"
+  - "Describe the door issue or send photos"
+  - "Receive an estimate"
+  - "Schedule the visit"
+  - "Repair or install and test operation"
 faqs:
-  - question: "[PLACEHOLDER: FAQ question]"
-    answer: "[PLACEHOLDER: FAQ answer]"
+  - question: "Can you fix doors that won't latch?"
+    answer: "Yes. Misaligned latches, swollen doors, and hinge issues are common fixes we handle in one visit."
+  - question: "Do you install new interior doors?"
+    answer: "We install pre-hung interior doors and adjust existing doors for smooth operation."
+  - question: "Do you do exterior front doors?"
+    answer: "Exterior door work is assessed case by case. Contact us with details."
 ---
 
-[PLACEHOLDER: door repair and installation body copy — add verified service details before publish.]
+Doors that stick, squeak, or won't close properly are everyday annoyances EYS fixes quickly — common in aging Katy and Cinco Ranch homes.

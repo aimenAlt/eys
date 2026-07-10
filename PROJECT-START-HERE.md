@@ -31,6 +31,9 @@ The website must be:
 ## First objective
 Convert the existing single-page HTML front page into an Astro-powered static site without destroying the current design quality.
 
+## SEO
+Local SEO is a primary growth lever for this business. Before adding pages or deploying, read **[docs/07-seo-playbook.md](docs/07-seo-playbook.md)** — GBP checklist, review strategy (150+ / 4.9★), schema map, deploy checklist, and monthly rhythm.
+
 ## Non-negotiables
 - Do not create a client-side React SPA.
 - Do not hide core page content behind JavaScript.

@@ -17,8 +17,7 @@ interface Props {
 
 const { service } = Astro.props;
 const heading = service.heroTitle ?? service.title;
-const primaryHref =
-  service.bookingType === 'direct-book' ? '/book/' : '/#contact';
+const primaryHref = '/contact/';
 ---
 
 <section class="py-16 bg-white" aria-labelledby="service-hero">

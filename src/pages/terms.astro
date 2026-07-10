@@ -1,0 +1,22 @@
+---
+import ContentLayout from '../layouts/ContentLayout.astro';
+import { absoluteUrl, site } from '../data/business';
+
+const title = `Terms of Service | ${site.name}`;
+const description = 'Terms of service for Elevate Your Space Handyman.';
+const canonical = absoluteUrl('/terms/');
+---
+
+<ContentLayout seo={{ title, description, canonical }}>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 prose prose-gray">
+    <h1>Terms of Service</h1>
+    <p>Last updated: July 2026</p>
+    <p>By using the Elevate Your Space Handyman website and services, you agree to these terms.</p>
+    <h2>Estimates and scheduling</h2>
+    <p>Estimates are based on information provided and may be adjusted after on-site review. Scheduling is subject to availability.</p>
+    <h2>Service scope</h2>
+    <p>EYS provides handyman services within our stated capabilities. Licensed trade work is coordinated with appropriate professionals when required.</p>
+    <h2>Contact</h2>
+    <p>Questions about these terms? Email us at <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+  </div>
+</ContentLayout>

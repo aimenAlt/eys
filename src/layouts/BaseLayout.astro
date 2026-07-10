@@ -30,6 +30,12 @@ const schemaData = schemaGraph.length ? wrapSchemaGraph(schemaGraph) : null;
   <body
     class="font-sans text-brand-charcoal bg-brand-lightbg antialiased selection:bg-brand-red selection:text-white"
   >
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-brand-black focus:rounded-md focus:shadow-lg focus:ring-2 focus:ring-brand-red"
+    >
+      Skip to main content
+    </a>
     <slot />
   </body>
 </html>

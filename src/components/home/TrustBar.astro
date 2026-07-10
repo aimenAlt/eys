@@ -1,22 +1,46 @@
-    <section class="bg-brand-red py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-x-0 md:divide-x divide-red-800/50">
-                <div class="p-4">
-                    <div class="text-3xl md:text-4xl font-extrabold text-white mb-1">500+</div>
-                    <div class="text-sm text-red-100 font-medium uppercase tracking-wide">Happy Clients</div>
-                </div>
-                <div class="p-4">
-                    <div class="text-3xl md:text-4xl font-extrabold text-white mb-1">500+</div>
-                    <div class="text-sm text-red-100 font-medium uppercase tracking-wide">Project Done</div>
-                </div>
-                <div class="p-4">
-                    <div class="text-3xl md:text-4xl font-extrabold text-white mb-1">2+</div>
-                    <div class="text-sm text-red-100 font-medium uppercase tracking-wide">Professional Expert</div>
-                </div>
-                <div class="p-4">
-                    <div class="text-3xl md:text-4xl font-extrabold text-white mb-1">4.9</div>
-                    <div class="text-sm text-red-100 font-medium uppercase tracking-wide">Customer Rating</div>
-                </div>
-            </div>
-        </div>
-    </section>
+---
+import { googleReviews, googleReviewProfileUrl } from '../../data/business';
+
+interface Props {
+  projectCount: number;
+}
+
+const { projectCount } = Astro.props;
+const gbpUrl = googleReviewProfileUrl();
+const ratingLabel = googleReviews.rating.toFixed(1);
+const reviewLabel = `${googleReviews.count}+`;
+---
+
+<section class="bg-brand-red py-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-x-0 md:divide-x divide-red-800/50">
+      <div class="p-4">
+        <div class="text-3xl md:text-4xl font-extrabold text-white mb-1">Veteran</div>
+        <div class="text-sm text-red-100 font-medium uppercase tracking-wide">Owned & Operated</div>
+      </div>
+      <div class="p-4">
+        <div class="text-3xl md:text-4xl font-extrabold text-white mb-1">Katy</div>
+        <div class="text-sm text-red-100 font-medium uppercase tracking-wide">Based & Local</div>
+      </div>
+      <div class="p-4">
+        <div class="text-3xl md:text-4xl font-extrabold text-white mb-1">{projectCount > 0 ? projectCount : '12+'}</div>
+        <div class="text-sm text-red-100 font-medium uppercase tracking-wide">Communities Served</div>
+      </div>
+      <div class="p-4">
+        {
+          gbpUrl ? (
+            <a href={gbpUrl} target="_blank" rel="noopener noreferrer" class="block hover:opacity-90 transition-opacity">
+              <div class="text-3xl md:text-4xl font-extrabold text-white mb-1">{ratingLabel}</div>
+              <div class="text-sm text-red-100 font-medium uppercase tracking-wide">{reviewLabel} Google Reviews</div>
+            </a>
+          ) : (
+            <>
+              <div class="text-3xl md:text-4xl font-extrabold text-white mb-1">{ratingLabel}</div>
+              <div class="text-sm text-red-100 font-medium uppercase tracking-wide">{reviewLabel} Google Reviews</div>
+            </>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>

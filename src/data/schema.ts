@@ -1,4 +1,4 @@
-import { business, site } from './business';
+import { business, googleReviews, site } from './business';
 
 export type BreadcrumbItem = {
   name: string;
@@ -9,6 +9,39 @@ export type FaqItem = {
   question: string;
   answer: string;
 };
+
+const BUSINESS_ID = `${site.url}/#business`;
+
+export function canonicalBusinessNode() {
+  return {
+    '@type': 'HomeAndConstructionBusiness',
+    '@id': BUSINESS_ID,
+    name: site.name,
+    image: site.defaultOgImage,
+    url: site.url,
+    telephone: site.phone,
+    email: site.email,
+    priceRange: '$$',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: business.address.street,
+      addressLocality: business.address.city,
+      addressRegion: business.address.state,
+      postalCode: business.address.zip,
+      addressCountry: business.address.country,
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: business.geo.latitude,
+      longitude: business.geo.longitude,
+    },
+    areaServed: business.areaServed.map((city) => ({
+      '@type': 'City',
+      name: city,
+    })),
+    ...(business.sameAs.length > 0 ? { sameAs: business.sameAs } : {}),
+  };
+}
 
 export function breadcrumbList(items: BreadcrumbItem[]) {
   return {
@@ -28,6 +61,7 @@ export function webPage(name: string, url: string, description?: string) {
     name,
     url,
     ...(description ? { description } : {}),
+    isPartOf: { '@id': BUSINESS_ID },
   };
 }
 
@@ -48,19 +82,8 @@ export function faqPage(faqs: FaqItem[]) {
 
 export function localBusinessForArea(cityName: string, pageUrl: string) {
   return {
-    '@type': 'HomeAndConstructionBusiness',
-    name: site.name,
+    ...canonicalBusinessNode(),
     url: pageUrl,
-    telephone: site.phone,
-    email: site.email,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: business.address.street,
-      addressLocality: business.address.city,
-      addressRegion: business.address.state,
-      postalCode: business.address.zip,
-      addressCountry: business.address.country,
-    },
     areaServed: {
       '@type': 'City',
       name: cityName,
@@ -79,10 +102,7 @@ export function serviceSchema(
     description,
     url,
     provider: {
-      '@type': 'HomeAndConstructionBusiness',
-      name: site.name,
-      url: site.url,
-      telephone: site.phone,
+      '@id': BUSINESS_ID,
     },
     areaServed: business.areaServed.map((city) => ({
       '@type': 'City',
@@ -94,12 +114,13 @@ export function serviceSchema(
 export const homeFaqs: FaqItem[] = [
   {
     question: 'What areas do you serve?',
-    answer: 'We proudly serve in Katy, Texas and surrounding regions.',
+    answer:
+      'We serve Katy, Cypress, Fulshear, Richmond, West Houston, and 12 master-planned communities including Cinco Ranch, Bridgeland, Sunterra, and Cross Creek Ranch.',
   },
   {
     question: 'Do you offer free estimates?',
     answer:
-      'Yes. Contact us with your project details and we will provide the next steps for an estimate.',
+      'Yes. Contact us with your project details and photos for a clear, itemized estimate.',
   },
   {
     question: 'What types of materials do you use?',
@@ -109,7 +130,7 @@ export const homeFaqs: FaqItem[] = [
   {
     question: 'How long does a typical project take?',
     answer:
-      'Project timelines vary depending on the scope of work, materials, and scheduling. Small repairs may be completed quickly, while remodeling and installation projects may require additional planning.',
+      'Project timelines vary depending on scope. Small repairs may be completed in one visit; larger punch lists are scheduled accordingly.',
   },
   {
     question: 'Are your services insured and guaranteed?',
@@ -117,6 +138,18 @@ export const homeFaqs: FaqItem[] = [
       'Contact Elevate Your Space Handyman directly for current insurance, warranty, and service guarantee details before beginning your project.',
   },
 ];
+
+export function aggregateRatingFromGoogle(): {
+  '@type': 'AggregateRating';
+  ratingValue: string;
+  reviewCount: string;
+} {
+  return {
+    '@type': 'AggregateRating',
+    ratingValue: String(googleReviews.rating),
+    reviewCount: String(googleReviews.count),
+  };
+}
 
 export function aggregateRatingFromReviews(
   reviews: { rating: number }[],
@@ -131,38 +164,52 @@ export function aggregateRatingFromReviews(
   };
 }
 
-export function homePageSchema(
-  faqs: FaqItem[] = homeFaqs,
-  reviews: { rating: number }[] = [],
+export function itemListSchema(
+  name: string,
+  items: { name: string; url: string }[],
 ) {
-  const businessNode: Record<string, unknown> = {
-    '@type': 'HomeAndConstructionBusiness',
-    name: site.name,
-    image: site.defaultOgImage,
-    '@id': site.url,
-    url: site.url,
-    telephone: site.phone,
-    email: site.email,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: business.address.street,
-      addressLocality: business.address.city,
-      addressRegion: business.address.state,
-      postalCode: business.address.zip,
-      addressCountry: business.address.country,
-    },
-    areaServed: business.areaServed.map((city) => ({
-      '@type': 'City',
-      name: city,
+  return {
+    '@type': 'ItemList',
+    name,
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      url: item.url,
     })),
   };
+}
 
-  const rating = aggregateRatingFromReviews(reviews);
-  if (rating) businessNode.aggregateRating = rating;
+export function homePageSchema(
+  faqs: FaqItem[] = homeFaqs,
+  _reviews: { rating: number }[] = [],
+) {
+  const businessNode: Record<string, unknown> = { ...canonicalBusinessNode() };
+  businessNode.aggregateRating = aggregateRatingFromGoogle();
 
   const graph = [businessNode, faqPage(faqs)].filter(Boolean);
 
   return graph;
+}
+
+export function reviewsPageSchema(pageUrl: string, description: string) {
+  const businessNode: Record<string, unknown> = { ...canonicalBusinessNode() };
+  businessNode.aggregateRating = aggregateRatingFromGoogle();
+
+  return [
+    webPage('Customer Reviews', pageUrl, description),
+    breadcrumbList([
+      { name: 'Home', url: absoluteUrl('/') },
+      { name: 'Reviews', url: pageUrl },
+    ]),
+    businessNode,
+  ];
+}
+
+function absoluteUrl(path: string): string {
+  const base = site.url.replace(/\/$/, '');
+  const normalized = path.startsWith('/') ? path : `/${path}`;
+  return `${base}${normalized}`;
 }
 
 export function wrapSchemaGraph(graph: unknown[]) {

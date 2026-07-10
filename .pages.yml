@@ -166,6 +166,110 @@ content:
         label: Body
         type: rich-text
 
+  - name: communities
+    label: Communities
+    type: collection
+    path: src/content/communities
+    format: yaml-frontmatter
+    view:
+      fields: [title, citySlug, published]
+      primary: title
+      sort: [title]
+      default:
+        sort: title
+        order: asc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: slug
+        label: Slug
+        type: string
+        required: true
+      - name: citySlug
+        label: City Slug
+        type: string
+        required: true
+        description: Must match a published service area slug (e.g. katy, cypress).
+      - name: published
+        label: Published
+        type: boolean
+        description: Only published communities appear on city pages and the live site.
+      - name: seoTitle
+        label: SEO Title
+        type: string
+      - name: metaDescription
+        label: Meta Description
+        type: text
+      - name: heroTitle
+        label: Hero Title
+        type: string
+      - name: summary
+        label: Summary
+        type: text
+      - name: heroImage
+        label: Hero Image URL
+        type: string
+      - name: heroImageAlt
+        label: Hero Image Alt
+        type: string
+      - name: promoCode
+        label: Promo Code
+        type: string
+      - name: promoOffer
+        label: Promo Offer
+        type: string
+      - name: localIntro
+        label: Local Intro
+        type: text
+      - name: servicesIntro
+        label: Services Intro
+        type: text
+      - name: commonProjects
+        label: Common Projects
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{name}"
+        fields:
+          - name: name
+            label: Name
+            type: string
+          - name: description
+            label: Description
+            type: text
+      - name: whyChoose
+        label: Why Choose EYS
+        type: text
+      - name: goodFit
+        label: Good Fit Projects
+        type: text
+      - name: localLifestyle
+        label: Local Lifestyle
+        type: text
+      - name: process
+        label: How the Process Works
+        type: text
+      - name: faqs
+        label: FAQs
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{question}"
+        fields:
+          - name: question
+            label: Question
+            type: string
+          - name: answer
+            label: Answer
+            type: text
+      - name: body
+        label: Body
+        type: rich-text
+
   - name: projects
     label: Projects
     type: collection

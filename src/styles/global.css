@@ -1,4 +1,10 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/inter/800.css";
 
 @theme {
   --color-brand-red: #b00000;
@@ -48,4 +54,48 @@ details > summary::-webkit-details-marker {
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.5);
+}
+
+/* Uniform balanced grid — equal tile width per column count, centered short rows */
+.uniform-grid-container {
+  width: 100%;
+}
+
+.uniform-grid-container > * + * {
+  margin-top: 0.75rem;
+}
+
+.uniform-grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.uniform-grid-tile {
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .uniform-grid-tile--md {
+    width: calc(
+      (100% - (var(--uniform-cols) - 1) * var(--uniform-gap)) / var(--uniform-cols)
+    );
+    flex-shrink: 0;
+    flex-grow: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .uniform-grid-tile--lg {
+    width: calc(
+      (100% - (var(--uniform-cols) - 1) * var(--uniform-gap)) / var(--uniform-cols)
+    );
+    flex-shrink: 0;
+    flex-grow: 0;
+  }
 }

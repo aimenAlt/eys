@@ -1,0 +1,31 @@
+---
+import BalancedGrid from '../ui/BalancedGrid.astro';
+
+interface ServiceLink {
+  title: string;
+  slug: string;
+  summary?: string;
+  published: boolean;
+}
+
+interface Props {
+  services: ServiceLink[];
+}
+
+const { services } = Astro.props;
+
+const linkItems = services.map((service) => ({
+  title: service.title,
+  href: service.published ? `/services/${service.slug}/` : `/contact/?service=${service.slug}`,
+}));
+---
+
+<section class="py-12 bg-white border-t border-gray-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h3 class="text-xl font-bold text-brand-black mb-6 text-center">Browse our handyman services</h3>
+    <BalancedGrid variant="link" items={linkItems} cols={4} gapClass="gap-3" />
+    <p class="text-center mt-6">
+      <a href="/services/" class="text-brand-red font-bold hover:underline">View all services &rarr;</a>
+    </p>
+  </div>
+</section>

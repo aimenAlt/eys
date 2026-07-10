@@ -1,4 +1,7 @@
 ---
+import { getCollection } from 'astro:content';
+import BalancedGrid from '../ui/BalancedGrid.astro';
+
 interface Props {
   serviceSlugs?: string[];
   cityName: string;
@@ -6,33 +9,31 @@ interface Props {
 
 const { serviceSlugs, cityName } = Astro.props;
 
+const allServices = await getCollection('services', ({ data }) => data.published === true);
+const titleBySlug = Object.fromEntries(allServices.map((entry) => [entry.data.slug, entry.data.title]));
+
 function formatServiceName(slug: string): string {
-  return slug
+  return titleBySlug[slug] ?? slug
     .split('-')
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 }
+
+const linkItems =
+  serviceSlugs?.map((slug) => ({
+    title: formatServiceName(slug),
+    href: `/services/${slug}/`,
+  })) ?? [];
 ---
 
 {
-  serviceSlugs && serviceSlugs.length > 0 && (
+  linkItems.length > 0 && (
     <section class="py-16 bg-white" aria-labelledby="area-services">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 id="area-services" class="text-3xl font-bold text-brand-black mb-8">
           Services Available in {cityName}
         </h2>
-        <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {serviceSlugs.map((slug) => (
-            <li>
-              <a
-                href={`/services/${slug}/`}
-                class="block p-4 rounded-lg border border-gray-200 hover:border-brand-red hover:shadow-md transition-all font-medium text-brand-black"
-              >
-                {formatServiceName(slug)}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <BalancedGrid variant="link" items={linkItems} cols={3} gapClass="gap-4" />
       </div>
     </section>
   )

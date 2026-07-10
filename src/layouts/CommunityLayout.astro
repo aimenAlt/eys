@@ -1,0 +1,107 @@
+---
+import ContentLayout from './ContentLayout.astro';
+import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
+import LocalHero from '../components/areas/local/LocalHero.astro';
+import LocalLandingShell from '../components/areas/local/LocalLandingShell.astro';
+import LocalProjectGrid from '../components/areas/local/LocalProjectGrid.astro';
+import LocalValueGrid from '../components/areas/local/LocalValueGrid.astro';
+import LocalProcessSteps from '../components/areas/local/LocalProcessSteps.astro';
+import LocalAreaFAQ from '../components/areas/local/LocalAreaFAQ.astro';
+import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
+import LocalServicesGrid from '../components/areas/local/LocalServicesGrid.astro';
+import { absoluteUrl } from '../data/business';
+import { breadcrumbList, faqPage, localBusinessForArea, webPage } from '../data/schema';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'communities'>;
+  cityTitle: string;
+  serviceSlugs?: string[];
+}
+
+const { entry, cityTitle, serviceSlugs } = Astro.props;
+const { data } = entry;
+const pageUrl = absoluteUrl(`/service-areas/${data.citySlug}/${data.slug}/`);
+const title = data.seoTitle ?? `${data.title} Handyman | Elevate Your Space Handyman`;
+const description =
+  data.metaDescription ?? data.summary ?? `Handyman services in ${data.title}, ${cityTitle}.`;
+
+const schemaGraph = [
+  webPage(data.heroTitle ?? data.title, pageUrl, description),
+  breadcrumbList([
+    { name: 'Home', url: absoluteUrl('/') },
+    { name: 'Service Areas', url: absoluteUrl('/service-areas/') },
+    { name: cityTitle, url: absoluteUrl(`/service-areas/${data.citySlug}/`) },
+    { name: data.title, url: pageUrl },
+  ]),
+  localBusinessForArea(data.title, pageUrl),
+  data.faqs?.length ? faqPage(data.faqs) : null,
+].filter(Boolean);
+---
+
+<ContentLayout
+  seo={{ title, description, canonical: pageUrl, ogType: 'website' }}
+  schemaGraph={schemaGraph}
+>
+  <article>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <BreadcrumbNav
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Service Areas', url: '/service-areas/' },
+          { name: cityTitle, url: `/service-areas/${data.citySlug}/` },
+          { name: data.title, url: `/service-areas/${data.citySlug}/${data.slug}/` },
+        ]}
+      />
+    </div>
+
+    <LocalHero
+      heading={data.heroTitle ?? `Handyman Services in ${data.title}`}
+      summary={data.summary}
+      locationLabel={`${data.title} · ${cityTitle}`}
+      promoCode={data.promoCode}
+      promoOffer={data.promoOffer}
+      heroImage={data.heroImage}
+      heroImageAlt={data.heroImageAlt}
+    />
+
+    <LocalLandingShell>
+      {
+        data.localIntro && (
+          <section aria-labelledby="local-intro">
+            <p class="text-xs font-bold uppercase tracking-widest text-brand-red mb-2">About this area</p>
+            <h2 id="local-intro" class="text-2xl md:text-3xl font-bold text-brand-black mb-4">
+              Serving {data.title} homeowners
+            </h2>
+            <p class="text-gray-600 leading-relaxed text-lg">{data.localIntro}</p>
+          </section>
+        )
+      }
+
+      <LocalProjectGrid
+        locationName={data.title}
+        servicesIntro={data.servicesIntro}
+        commonProjects={data.commonProjects}
+      />
+
+      <LocalValueGrid
+        locationName={data.title}
+        whyChoose={data.whyChoose}
+        goodFit={data.goodFit}
+        localLifestyle={data.localLifestyle}
+      />
+
+      <LocalProcessSteps process={data.process} />
+
+      <LocalServicesGrid serviceSlugs={serviceSlugs} locationName={data.title} />
+
+      <p class="text-sm text-gray-600">
+        Also serving all of <a href={`/service-areas/${data.citySlug}/`} class="font-bold text-brand-red hover:underline">{cityTitle}</a>.
+      </p>
+
+      <LocalAreaFAQ faqs={data.faqs} />
+
+      <LocalAreaCTA locationName={data.title} />
+    </LocalLandingShell>
+  </article>
+</ContentLayout>

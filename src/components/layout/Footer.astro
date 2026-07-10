@@ -20,20 +20,22 @@ import { business, site } from '../../data/business';
                 <!-- Col 2 -->
                 <div>
                     <h3 class="text-lg font-bold mb-4 border-b border-gray-800 pb-2 inline-block">Get in touch</h3>
+                    <address class="not-italic">
                     <ul class="space-y-4 text-sm text-gray-400">
                         <li class="flex items-start">
-                            <svg class="w-5 h-5 text-brand-red mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            <svg class="w-5 h-5 text-brand-red mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                             {business.address.formatted}
                         </li>
                         <li class="flex items-center">
-                            <svg class="w-5 h-5 text-brand-red mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            <svg class="w-5 h-5 text-brand-red mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                             <a href={`mailto:${site.email}`} class="hover:text-brand-red transition-colors">{site.email}</a>
                         </li>
                         <li class="flex items-center">
-                            <svg class="w-5 h-5 text-brand-red mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            <svg class="w-5 h-5 text-brand-red mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                             <a href={`tel:${site.phoneTel}`} class="hover:text-brand-red transition-colors">{site.phone}</a>
                         </li>
                     </ul>
+                    </address>
                 </div>
 
                 <!-- Col 3 -->
@@ -63,8 +65,8 @@ import { business, site } from '../../data/business';
             <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
                 <p>&copy; 2026 Elevate Your Space Handyman. All rights reserved.</p>
                 <div class="mt-4 md:mt-0 space-x-4">
-                    <a href="#" class="hover:text-brand-red">Privacy Policy</a>
-                    <a href="#" class="hover:text-brand-red">Terms of Service</a>
+                    <a href="/privacy/" class="hover:text-brand-red">Privacy Policy</a>
+                    <a href="/terms/" class="hover:text-brand-red">Terms of Service</a>
                 </div>
             </div>
         </div>

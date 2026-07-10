@@ -1,43 +1,56 @@
 ---
 import NavLink from './NavLink.astro';
+import NavDropdown from './NavDropdown.astro';
+import NavMobileAccordion from './NavMobileAccordion.astro';
 import { mainNav } from '../../data/navigation';
+import type { NavMenus } from '../../data/navMenus';
+import { site } from '../../data/business';
+
+interface Props {
+  navMenus: NavMenus;
+}
+
+const { navMenus } = Astro.props;
 
 const desktopLinkClass =
   'text-sm font-medium hover:text-brand-red transition-colors';
 const mobileLinkClass =
   'block px-3 py-2 rounded-md text-base font-medium hover:bg-brand-red';
+
+const simpleNavItems = mainNav.filter(
+  (item) => item.label !== 'Services' && item.label !== 'Service Areas',
+);
 ---
 
     <header class="bg-brand-black text-white sticky top-0 z-50 shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <a href="/" class="text-2xl font-bold tracking-tight">
                         Elevate Your Space<span class="text-brand-red">.</span>
                     </a>
                 </div>
                 
-                <!-- Desktop Nav -->
-                <nav class="hidden md:flex space-x-8 items-center">
-                    {mainNav.map((item) => (
-                        <NavLink
-                            href={item.href}
-                            label={item.label}
-                            class={desktopLinkClass}
-                        />
+                <nav class="hidden md:flex space-x-6 items-center" aria-label="Primary">
+                    {simpleNavItems.slice(0, 2).map((item) => (
+                        <NavLink href={item.href} label={item.label} class={desktopLinkClass} />
                     ))}
+                    <NavDropdown menu={navMenus.services} linkClass={desktopLinkClass} />
+                    <NavDropdown menu={navMenus.serviceAreas} linkClass={desktopLinkClass} />
+                    {simpleNavItems.slice(2).map((item) => (
+                        <NavLink href={item.href} label={item.label} class={desktopLinkClass} />
+                    ))}
+                    <NavLink href="/pricing/" label="Pricing" class={desktopLinkClass} />
+                    <NavLink href="/reviews/" label="Reviews" class={desktopLinkClass} />
                 </nav>
 
-                <!-- CTA Button -->
                 <div class="hidden md:flex items-center bg-brand-red/10 px-4 py-2 rounded-md border border-brand-red/20">
                     <div class="flex flex-col items-end">
                         <span class="text-xs text-brand-red font-bold uppercase tracking-wider">Need Help?</span>
-                        <a href="tel:7189861177" class="font-bold text-lg hover:text-brand-red transition-colors">(718) 986-1177</a>
+                        <a href={`tel:${site.phoneTel}`} class="font-bold text-lg hover:text-brand-red transition-colors">{site.phone}</a>
                     </div>
                 </div>
 
-                <!-- Mobile menu button -->
                 <div class="flex items-center md:hidden">
                     <button type="button" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="text-gray-300 hover:text-white focus:outline-none p-2" aria-label="Toggle menu">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -48,18 +61,17 @@ const mobileLinkClass =
             </div>
         </div>
 
-        <!-- Mobile Nav -->
         <div id="mobile-menu" class="hidden md:hidden bg-brand-charcoal border-t border-gray-800">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                {mainNav.map((item) => (
-                    <NavLink
-                        href={item.href}
-                        label={item.label}
-                        class={mobileLinkClass}
-                        closeMobileMenu
-                    />
+            <nav aria-label="Primary" class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                {simpleNavItems.map((item) => (
+                    <NavLink href={item.href} label={item.label} class={mobileLinkClass} closeMobileMenu />
                 ))}
-                <a href="tel:7189861177" class="block px-3 py-3 mt-4 bg-brand-red text-white text-center rounded-md font-bold text-lg">Call: (718) 986-1177</a>
-            </div>
+                <NavMobileAccordion menu={navMenus.services} mobileLinkClass={mobileLinkClass} />
+                <NavMobileAccordion menu={navMenus.serviceAreas} mobileLinkClass={mobileLinkClass} />
+                <NavLink href="/pricing/" label="Pricing" class={mobileLinkClass} closeMobileMenu />
+                <NavLink href="/reviews/" label="Reviews" class={mobileLinkClass} closeMobileMenu />
+                <NavLink href="/blog/" label="Blog" class={mobileLinkClass} closeMobileMenu />
+                <a href={`tel:${site.phoneTel}`} class="block px-3 py-3 mt-4 bg-brand-red text-white text-center rounded-md font-bold text-lg">Call: {site.phone}</a>
+            </nav>
         </div>
     </header>

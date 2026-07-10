@@ -1,0 +1,24 @@
+---
+import { getCollection, render } from 'astro:content';
+import CityAreaLayout from '../../../layouts/CityAreaLayout.astro';
+
+export async function getStaticPaths() {
+  const cities = await getCollection('serviceAreas', ({ data }) => data.published === true);
+  const allCommunities = await getCollection('communities', ({ data }) => data.published === true);
+
+  return cities.map((entry) => ({
+    params: { city: entry.data.slug },
+    props: {
+      entry,
+      communities: allCommunities.filter((c) => c.data.citySlug === entry.data.slug),
+    },
+  }));
+}
+
+const { entry, communities } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<CityAreaLayout entry={entry} communities={communities}>
+  <Content />
+</CityAreaLayout>

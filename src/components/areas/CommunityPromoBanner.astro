@@ -1,0 +1,23 @@
+---
+interface Props {
+  promoCode?: string;
+  promoOffer?: string;
+}
+
+const { promoCode, promoOffer } = Astro.props;
+---
+
+{
+  promoCode && promoOffer && (
+    <section class="py-8 bg-brand-black text-white border-y border-brand-red/30">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p class="text-sm uppercase tracking-widest text-brand-red font-bold mb-2">
+          Community Partner Offer
+        </p>
+        <p class="text-lg">
+          Mention code <strong class="text-brand-red">{promoCode}</strong> when requesting your estimate for {promoOffer}. Offer subject to project approval and may not be combined with other promotions.
+        </p>
+      </div>
+    </section>
+  )
+}

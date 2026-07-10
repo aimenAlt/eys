@@ -1,23 +1,37 @@
 ---
 title: "General Handyman Services"
 slug: "general-handyman-services"
-published: false
-seoTitle: "[PLACEHOLDER: SEO title]"
-metaDescription: "[PLACEHOLDER: meta description]"
-heroTitle: "[PLACEHOLDER: hero title]"
-summary: "[PLACEHOLDER: service summary]"
-bookingType: "call-only"
-primaryCTA: "Call Us"
-secondaryCTA: "Request a Quote"
+published: true
+seoTitle: "General Handyman Services in Katy, TX | Elevate Your Space"
+metaDescription: "Bundled punch-list handyman service in Katy and West Houston. Multiple repairs handled in one efficient visit."
+heroTitle: "General Handyman & Punch-List Services"
+summary: "Multiple small repairs and upgrades handled in one coordinated visit — the efficient choice for busy homeowners."
+bookingType: "quote-request"
+primaryCTA: "Request a Punch-List Quote"
+secondaryCTA: "Call Us"
 includedServices:
-  - "[PLACEHOLDER: included service item]"
+  - "Bundled punch-list visits"
+  - "Drywall patch and touch-up coordination"
+  - "Door adjustment and hardware fixes"
+  - "Picture, mirror, and shelf hanging"
+  - "Minor carpentry and trim touch-ups"
 priceFactors:
-  - "[PLACEHOLDER: price factor]"
+  - "Number of items on the list"
+  - "Materials needed"
+  - "Complexity of individual tasks"
+  - "Same-day vs scheduled visit"
 process:
-  - "[PLACEHOLDER: process step]"
+  - "Send your full punch list with photos"
+  - "Receive an itemized estimate"
+  - "Schedule one visit for multiple tasks"
+  - "Complete the list and clean up"
 faqs:
-  - question: "[PLACEHOLDER: FAQ question]"
-    answer: "[PLACEHOLDER: FAQ answer]"
+  - question: "How many items can you handle in one visit?"
+    answer: "Most punch lists of 5–15 items can be handled in a single visit, depending on scope. Send your list and we will confirm."
+  - question: "Do you do electrical or plumbing work?"
+    answer: "We handle light fixture swaps and minor tasks. Licensed trade support is coordinated when required."
+  - question: "Is there a minimum charge?"
+    answer: "Contact us with your list for a clear estimate based on your specific projects."
 ---
 
-[PLACEHOLDER: general handyman services body copy — add verified service details before publish.]
+Stop juggling multiple contractors for small jobs. EYS punch-list service is built for Katy-area homeowners who want several items done right in one visit.

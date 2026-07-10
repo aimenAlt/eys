@@ -4,10 +4,17 @@ import ContentLayout from '../layouts/ContentLayout.astro';
 import PageHero from '../components/common/PageHero.astro';
 import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
 import CTASection from '../components/home/CTASection.astro';
+import BalancedGrid from '../components/ui/BalancedGrid.astro';
 import { absoluteUrl, site } from '../data/business';
 import { breadcrumbList, faqPage, webPage } from '../data/schema';
 
 const services = await getCollection('services', ({ data }) => data.published === true);
+services.sort((a, b) => a.data.title.localeCompare(b.data.title));
+
+const serviceLinks = services.map((entry) => ({
+  title: entry.data.title,
+  href: `/services/${entry.data.slug}/`,
+}));
 
 const title = `Pricing & Estimates | ${site.name}`;
 const description =
@@ -105,18 +112,7 @@ const schemaGraph = [
               <p class="text-gray-600 mb-6 max-w-3xl">
                 Each service page lists what is typically included and which factors most affect pricing for that type of work.
               </p>
-              <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {services.map((entry) => (
-                  <li>
-                    <a
-                      href={`/services/${entry.data.slug}/`}
-                      class="block p-4 rounded-lg border border-gray-200 hover:border-brand-red/30 hover:shadow-sm transition-all"
-                    >
-                      <span class="font-bold text-brand-black">{entry.data.title}</span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
+              <BalancedGrid variant="link" items={serviceLinks} cols={3} gapClass="gap-4" />
             </div>
           )
         }

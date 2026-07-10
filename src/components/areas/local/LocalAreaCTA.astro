@@ -1,0 +1,34 @@
+---
+import { site } from '../../../data/business';
+
+interface Props {
+  locationName: string;
+}
+
+const { locationName } = Astro.props;
+---
+
+<section class="bg-brand-black text-white rounded-xl overflow-hidden" aria-labelledby="local-cta">
+  <div class="px-6 py-10 md:px-10 md:py-12 text-center">
+    <h2 id="local-cta" class="text-2xl md:text-3xl font-bold mb-3">
+      Ready to elevate your {locationName} home?
+    </h2>
+    <p class="text-gray-300 mb-6 max-w-xl mx-auto text-sm md:text-base">
+      Send us your project list or photos for a clear estimate. We serve {locationName} and surrounding West Houston communities with premium, white-glove handyman work.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <a
+        href="/contact/"
+        class="inline-flex justify-center items-center bg-brand-red text-white px-8 py-3 rounded-md font-bold hover:bg-brand-redhover transition-colors"
+      >
+        Request an Estimate
+      </a>
+      <a
+        href={`tel:${site.phoneTel}`}
+        class="inline-flex justify-center items-center border-2 border-white/30 text-white px-8 py-3 rounded-md font-bold hover:border-white transition-colors"
+      >
+        Call {site.phone}
+      </a>
+    </div>
+  </div>
+</section>

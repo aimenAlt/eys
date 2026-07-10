@@ -1,0 +1,100 @@
+---
+import ContentLayout from './ContentLayout.astro';
+import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
+import LocalHero from '../components/areas/local/LocalHero.astro';
+import LocalLandingShell from '../components/areas/local/LocalLandingShell.astro';
+import LocalCommunitiesGrid from '../components/areas/local/LocalCommunitiesGrid.astro';
+import LocalServicesGrid from '../components/areas/local/LocalServicesGrid.astro';
+import LocalAreaFAQ from '../components/areas/local/LocalAreaFAQ.astro';
+import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
+import { absoluteUrl } from '../data/business';
+import { breadcrumbList, faqPage, localBusinessForArea, webPage } from '../data/schema';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'serviceAreas'>;
+  communities: CollectionEntry<'communities'>[];
+}
+
+const { entry, communities } = Astro.props;
+const { data } = entry;
+const pageUrl = absoluteUrl(`/service-areas/${data.slug}/`);
+const title = data.seoTitle ?? `Handyman Services in ${data.title} | Elevate Your Space Handyman`;
+const description =
+  data.metaDescription ?? data.summary ?? `Handyman services in ${data.title}.`;
+
+const communityLinks = communities.map((c) => ({
+  title: c.data.title,
+  slug: c.data.slug,
+  summary: c.data.summary,
+}));
+
+const schemaGraph = [
+  webPage(data.heroTitle ?? data.title, pageUrl, description),
+  breadcrumbList([
+    { name: 'Home', url: absoluteUrl('/') },
+    { name: 'Service Areas', url: absoluteUrl('/service-areas/') },
+    { name: data.title, url: pageUrl },
+  ]),
+  localBusinessForArea(data.title, pageUrl),
+  data.faqs?.length ? faqPage(data.faqs) : null,
+].filter(Boolean);
+---
+
+<ContentLayout
+  seo={{ title, description, canonical: pageUrl, ogType: 'website' }}
+  schemaGraph={schemaGraph}
+>
+  <article>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <BreadcrumbNav
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Service Areas', url: '/service-areas/' },
+          { name: data.title, url: `/service-areas/${data.slug}/` },
+        ]}
+      />
+    </div>
+
+    <LocalHero
+      heading={data.heroTitle ?? `Handyman Services in ${data.title}`}
+      summary={data.summary}
+      locationLabel={data.title}
+      heroImage={data.heroImage}
+      heroImageAlt={data.heroImageAlt}
+    />
+
+    <LocalLandingShell>
+      {
+        data.localIntro && (
+          <section aria-labelledby="city-intro">
+            <p class="text-xs font-bold uppercase tracking-widest text-brand-red mb-2">About this area</p>
+            <h2 id="city-intro" class="text-2xl md:text-3xl font-bold text-brand-black mb-4">
+              Handyman services across {data.title}
+            </h2>
+            <p class="text-gray-600 leading-relaxed text-lg">{data.localIntro}</p>
+          </section>
+        )
+      }
+
+      <LocalCommunitiesGrid
+        communities={communityLinks}
+        citySlug={data.slug}
+        cityName={data.title}
+      />
+
+      <LocalServicesGrid
+        serviceSlugs={data.servicesAvailable}
+        locationName={data.title}
+      />
+
+      <section class="prose prose-gray max-w-none">
+        <slot />
+      </section>
+
+      <LocalAreaFAQ faqs={data.faqs} />
+
+      <LocalAreaCTA locationName={data.title} />
+    </LocalLandingShell>
+  </article>
+</ContentLayout>

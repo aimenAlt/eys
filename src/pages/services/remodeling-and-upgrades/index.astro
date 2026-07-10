@@ -1,0 +1,11 @@
+---
+import { getCollection } from 'astro:content';
+import ServiceCategoryLayout from '../../../layouts/ServiceCategoryLayout.astro';
+import { getServiceCategory } from '../../../data/serviceCategories';
+
+const category = getServiceCategory('remodeling-and-upgrades')!;
+const services = await getCollection('services', ({ data }) => data.published === true);
+const publishedServiceSlugs = new Set(services.map((s) => s.data.slug));
+---
+
+<ServiceCategoryLayout category={category} publishedServiceSlugs={publishedServiceSlugs} />

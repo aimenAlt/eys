@@ -67,6 +67,39 @@ const serviceAreas = defineCollection({
   }),
 });
 
+const communities = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/communities' }),
+  schema: z.object({
+    title: z.string(),
+    slug: z.string(),
+    citySlug: z.string(),
+    seoTitle: z.string().optional(),
+    metaDescription: z.string().optional(),
+    heroTitle: z.string().optional(),
+    summary: z.string().optional(),
+    promoCode: z.string().optional(),
+    promoOffer: z.string().optional(),
+    localIntro: z.string().optional(),
+    heroImage: z.string().url().optional(),
+    heroImageAlt: z.string().optional(),
+    servicesIntro: z.string().optional(),
+    commonProjects: z
+      .array(
+        z.object({
+          name: z.string(),
+          description: z.string(),
+        }),
+      )
+      .optional(),
+    whyChoose: z.string().optional(),
+    goodFit: z.string().optional(),
+    localLifestyle: z.string().optional(),
+    process: z.string().optional(),
+    faqs: z.array(faqSchema).optional(),
+    published: publishedSchema,
+  }),
+});
+
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projects' }),
   schema: z.object({
@@ -111,6 +144,7 @@ const reviews = defineCollection({
 export const collections = {
   services,
   serviceAreas,
+  communities,
   projects,
   blog,
   reviews,

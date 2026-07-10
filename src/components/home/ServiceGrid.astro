@@ -1,100 +1,53 @@
-    <section id="services" class="py-20 bg-brand-lightbg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <h4 class="text-brand-red font-bold text-sm tracking-widest uppercase mb-2">What We Offer</h4>
-                <h2 class="text-3xl md:text-4xl font-bold text-brand-black mb-6">Our Services</h2>
-                <p class="text-gray-600 text-lg">
-                    Reliable help is just a call away. Our team is ready to tackle your to do list with care and professionalism, making life easier for you.
-                </p>
+---
+import { serviceCategories } from '../../data/serviceCategories';
+---
+
+<section id="services" class="py-20 bg-brand-lightbg">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <h4 class="text-brand-red font-bold text-sm tracking-widest uppercase mb-2">What We Offer</h4>
+      <h2 class="text-3xl md:text-4xl font-bold text-brand-black mb-6">Our Services</h2>
+      <p class="text-gray-600 text-lg">
+        Reliable help is just a call away. Our team is ready to tackle your to do list with care and professionalism, making life easier for you.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      {
+        serviceCategories.map((category) => (
+          <div class="relative rounded-2xl overflow-hidden group shadow-xl flex flex-col h-full bg-black">
+            <img
+              src={`${category.heroImage.replace('w=1200', 'w=600')}`}
+              loading="lazy"
+              class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-30 transition-opacity duration-500"
+              alt={category.heroImageAlt}
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" />
+
+            <div class="relative p-8 flex flex-col h-full z-10">
+              <h3 class="text-2xl font-bold text-white mb-3">{category.title}</h3>
+              <p class="text-gray-300 text-sm mb-6">{category.summary}</p>
+
+              <div class="flex-grow overflow-y-auto custom-scrollbar pr-2 mb-6 space-y-4">
+                {
+                  category.items.map((item) => (
+                    <div class="border-l-2 border-brand-red pl-4">
+                      <h4 class="font-bold text-white text-sm">{item.title}</h4>
+                      <p class="text-xs text-gray-400 mt-1">{item.description}</p>
+                    </div>
+                  ))
+                }
+              </div>
+              <a
+                href={`/services/${category.slug}/`}
+                class="inline-block w-full py-3 px-4 bg-brand-red text-white text-center font-bold rounded hover:bg-brand-redhover transition-colors mt-auto"
+              >
+                {category.ctaLabel}
+              </a>
             </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                
-                <!-- Pillar 1: Repairs & Maintenance -->
-                <div class="relative rounded-2xl overflow-hidden group shadow-xl flex flex-col h-full bg-black">
-                    <img src="https://images.unsplash.com/photo-1581141849291-1125c7b692b5?auto=format&fit=crop&q=80&w=600" loading="lazy" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-30 transition-opacity duration-500" alt="Handyman Repairs">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
-                    
-                    <div class="relative p-8 flex flex-col h-full z-10">
-                        <h3 class="text-2xl font-bold text-white mb-3">Repairs & Maintenance</h3>
-                        <p class="text-gray-300 text-sm mb-6">Reliable repairs for the everyday problems that keep your home from feeling finished, safe, and fully functional.</p>
-                        
-                        <div class="flex-grow overflow-y-auto custom-scrollbar pr-2 mb-6 space-y-4">
-                            <div class="border-l-2 border-brand-red pl-4">
-                                <h4 class="font-bold text-white text-sm">Handyman Services</h4>
-                                <p class="text-xs text-gray-400 mt-1">Fixes holes, cracks, or dents in your walls for a smooth, clean finish that restores appearance and structural integrity.</p>
-                            </div>
-                            <div class="border-l-2 border-brand-red pl-4">
-                                <h4 class="font-bold text-white text-sm">Drywall Repair</h4>
-                                <p class="text-xs text-gray-400 mt-1">Applies fresh caulk to seal gaps, protect against moisture, pests, energy loss, mold, cracks, and weather damage.</p>
-                            </div>
-                            <div class="border-l-2 border-brand-red pl-4">
-                                <h4 class="font-bold text-white text-sm">House Painting</h4>
-                                <p class="text-xs text-gray-400 mt-1">Colors shift the mood without a sound. A brush moves, and suddenly, everything feels different even if nothing really changed.</p>
-                            </div>
-                            <div class="border-l-2 border-brand-red pl-4">
-                                <h4 class="font-bold text-white text-sm">Electrician</h4>
-                                <p class="text-xs text-gray-400 mt-1">Each wire connects like part of a plan. Step by step, circuits form with patience, skillful hands, precise vision, and steady focus.</p>
-                            </div>
-                        </div>
-                        <a href="/services/" class="inline-block w-full py-3 px-4 bg-brand-red text-white text-center font-bold rounded hover:bg-brand-redhover transition-colors mt-auto">View Repair Services</a>
-                    </div>
-                </div>
-
-                <!-- Pillar 2: Installation & Assembly -->
-                <div class="relative rounded-2xl overflow-hidden group shadow-xl flex flex-col h-full bg-black">
-                    <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=600" loading="lazy" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-30 transition-opacity duration-500" alt="Installation and Assembly">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
-                    
-                    <div class="relative p-8 flex flex-col h-full z-10">
-                        <h3 class="text-2xl font-bold text-white mb-3">Installation & Assembly</h3>
-                        <p class="text-gray-300 text-sm mb-6">Precise installation work for doors, fixtures, furniture, cabinetry, and the details that make a home more usable.</p>
-                        
-                        <div class="flex-grow overflow-y-auto custom-scrollbar pr-2 mb-6 space-y-4">
-                            <div class="border-l-2 border-brand-red pl-4">
-                                <h4 class="font-bold text-white text-sm">Door Installation</h4>
-                                <p class="text-xs text-gray-400 mt-1">Quick and accurate installation of store bought doors, saving time, avoiding frustration, and ensuring proper secure fitting.</p>
-                            </div>
-                            <div class="border-l-2 border-brand-red pl-4">
-                                <h4 class="font-bold text-white text-sm">Furniture Installation</h4>
-                                <p class="text-xs text-gray-400 mt-1">Repairs furniture to restore strength, enhance appearance, and extend usability with care and precise detailing.</p>
-                            </div>
-                            <div class="border-l-2 border-brand-red pl-4">
-                                <h4 class="font-bold text-white text-sm">Custom Cabinets</h4>
-                                <p class="text-xs text-gray-400 mt-1">Builds and finishes custom cabinets to enhance storage, style, and functionality with precise fit, lasting quality, and expert attention to detail.</p>
-                            </div>
-                        </div>
-                        <a href="/services/" class="inline-block w-full py-3 px-4 bg-brand-red text-white text-center font-bold rounded hover:bg-brand-redhover transition-colors mt-auto">View Installation Services</a>
-                    </div>
-                </div>
-
-                <!-- Pillar 3: Remodeling & Upgrades -->
-                <div class="relative rounded-2xl overflow-hidden group shadow-xl flex flex-col h-full bg-black">
-                    <img src="https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&q=80&w=600" loading="lazy" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-30 transition-opacity duration-500" alt="Home Remodeling">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
-                    
-                    <div class="relative p-8 flex flex-col h-full z-10">
-                        <h3 class="text-2xl font-bold text-white mb-3">Remodeling & Upgrades</h3>
-                        <p class="text-gray-300 text-sm mb-6">Home improvement and remodeling services that elevate comfort, function, appearance, and long-term value.</p>
-                        
-                        <div class="flex-grow overflow-y-auto custom-scrollbar pr-2 mb-6 space-y-4">
-                            <div class="border-l-2 border-brand-red pl-4">
-                                <h4 class="font-bold text-white text-sm">Bathroom Remodeling</h4>
-                                <p class="text-xs text-gray-400 mt-1">Professional bathroom remodeling for better functionality, space optimization, and a modern, professionally finished look.</p>
-                            </div>
-                            <div class="border-l-2 border-brand-red pl-4">
-                                <h4 class="font-bold text-white text-sm">Kitchen Remodeling</h4>
-                                <p class="text-xs text-gray-400 mt-1">Cabinets remain but something shifts. A transformation starts softly. Not in the materials but in the energy that flows.</p>
-                            </div>
-                            <div class="border-l-2 border-brand-red pl-4">
-                                <h4 class="font-bold text-white text-sm">Floor And Decor</h4>
-                                <p class="text-xs text-gray-400 mt-1">Installs or upgrades flooring and decor safely, improving function, appearance, and adding comfort, style, and value to spaces.</p>
-                            </div>
-                        </div>
-                        <a href="/services/" class="inline-block w-full py-3 px-4 bg-brand-red text-white text-center font-bold rounded hover:bg-brand-redhover transition-colors mt-auto">View Remodeling Services</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

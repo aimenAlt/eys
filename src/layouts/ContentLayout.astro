@@ -3,6 +3,8 @@ import BaseLayout from './BaseLayout.astro';
 import type { SeoProps } from '../components/seo/SEOHead.astro';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
+import { getCollection } from 'astro:content';
+import { buildNavMenus } from '../data/navMenus';
 
 interface Props {
   seo: SeoProps;
@@ -10,10 +12,18 @@ interface Props {
 }
 
 const { seo, schemaGraph = [] } = Astro.props;
+
+const [services, serviceAreas, communities] = await Promise.all([
+  getCollection('services'),
+  getCollection('serviceAreas'),
+  getCollection('communities'),
+]);
+
+const navMenus = buildNavMenus(services, serviceAreas, communities);
 ---
 
 <BaseLayout seo={seo} schemaGraph={schemaGraph}>
-  <Header />
+  <Header navMenus={navMenus} />
   <main id="main-content">
     <slot />
   </main>

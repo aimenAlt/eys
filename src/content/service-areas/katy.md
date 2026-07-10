@@ -1,19 +1,26 @@
 ---
 title: "Katy, TX"
-slug: "katy-tx"
+slug: "katy"
 published: true
 seoTitle: "Katy Handyman Services | Home Repair & Upgrades"
 metaDescription: "Professional handyman services in Katy, TX. Repairs, trim updates, hardware modernization, and punch-list work for established suburban homes near top-rated Katy ISD."
 heroTitle: "Handyman Services in Katy, TX"
 summary: "Elevate Your Space Handyman helps Katy homeowners maintain and upgrade established suburban homes — with reliable repairs, modern trim and hardware, and bundled punch-list service for busy families."
-localIntro: "The City of Katy and its surrounding neighborhoods combine a family-oriented suburban lifestyle with homes largely built from the 1990s through the 2000s. With a population over 25,000 and a median age around 38, many homeowners are balancing work, school, and home upkeep — and looking for a dependable handyman who can handle multiple tasks in one visit."
-neighborhoods:
-  - "Katy proper"
-  - "Old Katy"
-  - "Cane Island"
-  - "Firethorne"
+localIntro: "The City of Katy and its surrounding master-planned communities combine a family-oriented suburban lifestyle with homes largely built from the 1990s through the 2000s. Select your community below for localized services, preferred community pricing, and area-specific guidance."
 servicesAvailable:
   - "tv-mounting"
+  - "ceiling-fan-installation"
+  - "general-handyman-services"
+  - "furniture-assembly"
+  - "drywall-repair"
+  - "painting"
+  - "door-repair-installation"
+  - "electrical-services"
+  - "cabinet-installation"
+  - "bathroom-remodeling"
+  - "kitchen-remodeling"
+  - "flooring-and-decor"
+  - "custom-carpentry"
 faqs:
   - question: "What types of homes do you most often serve in Katy?"
     answer: "Much of our Katy work focuses on established suburban homes from the 1990s and 2000s — trim refresh, hardware updates, drywall repair, door work, TV mounting, and general punch-list repairs for families staying put or preparing a home for sale."

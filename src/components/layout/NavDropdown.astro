@@ -1,0 +1,53 @@
+---
+import NavLink from './NavLink.astro';
+import type { NavMenuGroup } from '../../data/navMenus';
+
+interface Props {
+  menu: NavMenuGroup;
+  linkClass?: string;
+}
+
+const { menu, linkClass = 'text-sm font-medium hover:text-brand-red transition-colors' } = Astro.props;
+---
+
+<div class="relative group/nav">
+  <a
+    href={menu.href}
+    class={`${linkClass} inline-flex items-center gap-1`}
+    aria-haspopup="true"
+  >
+    {menu.label}
+    <svg class="w-4 h-4 opacity-70 group-hover/nav:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </a>
+  <div class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible group-focus-within/nav:opacity-100 group-focus-within/nav:visible transition-all z-50">
+    <div class="bg-white text-brand-black rounded-xl shadow-xl border border-gray-100 p-4 min-w-[280px] max-h-[70vh] overflow-y-auto">
+      <a href={menu.href} class="block text-xs font-bold uppercase tracking-wider text-brand-red mb-3 hover:underline">
+        View all {menu.label} &rarr;
+      </a>
+      <ul class="space-y-1">
+        {menu.children.map((item) => (
+          <li>
+            <a href={item.href} class="block px-3 py-2 rounded-md text-sm font-medium hover:bg-brand-lightbg hover:text-brand-red transition-colors">
+              {item.label}
+            </a>
+            {
+              item.children && item.children.length > 0 && (
+                <ul class="ml-3 border-l border-gray-200 pl-2 mt-1 mb-2 space-y-0.5">
+                  {item.children.map((child) => (
+                    <li>
+                      <a href={child.href} class="block px-2 py-1.5 rounded text-xs text-gray-600 hover:text-brand-red hover:bg-brand-lightbg transition-colors">
+                        {child.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )
+            }
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</div>

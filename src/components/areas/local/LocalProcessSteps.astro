@@ -1,0 +1,41 @@
+---
+interface Props {
+  process?: string;
+}
+
+const { process } = Astro.props;
+
+const defaultSteps = [
+  { step: 1, title: 'Send photos & details', body: 'Tell us what you need through our contact form with photos of the space or project list.' },
+  { step: 2, title: 'Get a clear estimate', body: 'We scope the work and return a transparent, itemized estimate — no surprises.' },
+  { step: 3, title: 'Schedule your visit', body: 'Pick a time that works. We arrive on schedule, prepared, and ready to work.' },
+  { step: 4, title: 'Done — spotless cleanup', body: 'We execute meticulously and leave your home cleaner than we found it.' },
+];
+
+// If custom process text exists, show it above the standard steps
+---
+
+{
+  (process || true) && (
+    <section aria-labelledby="local-process">
+      <p class="text-xs font-bold uppercase tracking-widest text-brand-red mb-2">Process</p>
+      <h2 id="local-process" class="text-2xl md:text-3xl font-bold text-brand-black mb-3">
+        How it works
+      </h2>
+      {process && (
+        <p class="text-gray-600 leading-relaxed mb-6">{process}</p>
+      )}
+      <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {defaultSteps.map((item) => (
+          <li class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-brand-red text-white text-sm font-bold mb-3">
+              {item.step}
+            </span>
+            <h3 class="font-bold text-brand-black mb-2 text-sm">{item.title}</h3>
+            <p class="text-xs text-gray-600 leading-relaxed">{item.body}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
+}
