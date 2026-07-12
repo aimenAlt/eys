@@ -67,47 +67,61 @@ const simpleNavItems = mainNav.filter(
             </div>
         </div>
 
-        <!--
-          Sticky headers do not scroll when taller than the viewport.
-          Cap height below the bar and enable overflow so Service Areas can scroll.
-          Extra bottom padding clears the mobile sticky CTA.
-        -->
-        <div
-          id="mobile-menu"
-          class="hidden md:hidden bg-brand-charcoal border-t border-gray-800 max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch]"
-        >
-            <nav
-              aria-label="Primary"
-              class="px-2 pt-2 pb-[calc(5.5rem+env(safe-area-inset-bottom,0px))] space-y-1 sm:px-3"
-            >
-                {simpleNavItems.map((item) => (
-                    <NavLink href={item.href} label={item.label} class={mobileLinkClass} closeMobileMenu />
-                ))}
-                <NavMobileAccordion menu={navMenus.services} mobileLinkClass={mobileLinkClass} />
-                <NavMobileAccordion menu={navMenus.serviceAreas} mobileLinkClass={mobileLinkClass} />
-                <NavLink href="/pricing/" label="Pricing" class={mobileLinkClass} closeMobileMenu />
-                <NavLink href="/reviews/" label="Reviews" class={mobileLinkClass} closeMobileMenu />
-                <NavLink href="/blog/" label="Blog" class={mobileLinkClass} closeMobileMenu />
-                <a href={`tel:${site.phoneTel}`} class="block px-3 py-3 mt-4 bg-brand-red text-white text-center rounded-md font-bold text-lg">Call: {site.phone}</a>
-            </nav>
-        </div>
     </header>
+
+    <!--
+      The mobile menu + backdrop live OUTSIDE the sticky <header> on purpose.
+      A position:fixed element nested inside a position:sticky ancestor can
+      anchor to the header's stuck offset (browser quirk) instead of the
+      viewport, which made the menu open at the top of the page when scrolled
+      down. As siblings of the header they are reliably viewport-relative.
+      Extra bottom padding on the nav clears the mobile sticky CTA.
+    -->
+    <div
+      id="mobile-menu-backdrop"
+      class="hidden md:hidden fixed left-0 right-0 top-20 bottom-0 z-40 bg-black/40"
+      aria-hidden="true"
+    ></div>
+    <div
+      id="mobile-menu"
+      class="hidden md:hidden fixed left-0 right-0 top-20 z-40 bg-brand-charcoal text-white border-t border-gray-800 max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch]"
+    >
+        <nav
+          aria-label="Primary"
+          class="px-2 pt-2 pb-[calc(5.5rem+env(safe-area-inset-bottom,0px))] space-y-1 sm:px-3"
+        >
+            {simpleNavItems.map((item) => (
+                <NavLink href={item.href} label={item.label} class={mobileLinkClass} closeMobileMenu />
+            ))}
+            <NavMobileAccordion menu={navMenus.services} mobileLinkClass={mobileLinkClass} />
+            <NavMobileAccordion menu={navMenus.serviceAreas} mobileLinkClass={mobileLinkClass} />
+            <NavLink href="/pricing/" label="Pricing" class={mobileLinkClass} closeMobileMenu />
+            <NavLink href="/reviews/" label="Reviews" class={mobileLinkClass} closeMobileMenu />
+            <NavLink href="/blog/" label="Blog" class={mobileLinkClass} closeMobileMenu />
+            <a href={`tel:${site.phoneTel}`} class="block px-3 py-3 mt-4 bg-brand-red text-white text-center rounded-md font-bold text-lg">Call: {site.phone}</a>
+        </nav>
+    </div>
 
     <script>
       function setMobileMenuOpen(open) {
         const menu = document.getElementById('mobile-menu');
+        const backdrop = document.getElementById('mobile-menu-backdrop');
         const toggle = document.getElementById('mobile-menu-toggle');
         if (!menu || !toggle) return;
         menu.classList.toggle('hidden', !open);
+        backdrop?.classList.toggle('hidden', !open);
         toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-        document.documentElement.classList.toggle('overflow-hidden', open);
-        document.body.classList.toggle('overflow-hidden', open);
       }
 
       document.getElementById('mobile-menu-toggle')?.addEventListener('click', () => {
         const menu = document.getElementById('mobile-menu');
         if (!menu) return;
         setMobileMenuOpen(menu.classList.contains('hidden'));
+      });
+
+      // Tapping the backdrop (anywhere outside the nav) closes the menu.
+      document.getElementById('mobile-menu-backdrop')?.addEventListener('click', () => {
+        setMobileMenuOpen(false);
       });
 
       document.getElementById('mobile-menu')?.addEventListener('click', (event) => {
