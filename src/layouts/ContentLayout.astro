@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import type { SeoProps } from '../components/seo/SEOHead.astro';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
+import MobileStickyCTA from '../components/layout/MobileStickyCTA.astro';
 import { getCollection } from 'astro:content';
 import { buildNavMenus } from '../data/navMenus';
 
@@ -28,4 +29,5 @@ const navMenus = buildNavMenus(services, serviceAreas, communities);
     <slot />
   </main>
   <Footer />
+  <MobileStickyCTA />
 </BaseLayout>

@@ -1,14 +1,24 @@
 ---
 import ContentLayout from '../layouts/ContentLayout.astro';
 import { absoluteUrl, site } from '../data/business';
+import { breadcrumbList, webPage } from '../data/schema';
 
 const title = `Terms of Service | ${site.name}`;
-const description = 'Terms of service for Elevate Your Space Handyman.';
+const description =
+  'Terms of service for Elevate Your Space Handyman — estimates, scheduling, and service scope for Katy and West Houston.';
 const canonical = absoluteUrl('/terms/');
+
+const schemaGraph = [
+  webPage('Terms of Service', canonical, description),
+  breadcrumbList([
+    { name: 'Home', url: absoluteUrl('/') },
+    { name: 'Terms of Service', url: canonical },
+  ]),
+];
 ---
 
-<ContentLayout seo={{ title, description, canonical }}>
-  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 prose prose-gray">
+<ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
+  <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12 prose prose-gray">
     <h1>Terms of Service</h1>
     <p>Last updated: July 2026</p>
     <p>By using the Elevate Your Space Handyman website and services, you agree to these terms.</p>
@@ -18,5 +28,5 @@ const canonical = absoluteUrl('/terms/');
     <p>EYS provides handyman services within our stated capabilities. Licensed trade work is coordinated with appropriate professionals when required.</p>
     <h2>Contact</h2>
     <p>Questions about these terms? Email us at <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
-  </div>
+  </article>
 </ContentLayout>

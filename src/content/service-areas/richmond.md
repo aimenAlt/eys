@@ -3,9 +3,11 @@ title: "Richmond, TX"
 slug: "richmond"
 published: true
 seoTitle: "Handyman Richmond TX | Fort Bend Home Upgrades"
-metaDescription: "Handyman services in Richmond, TX for historic homes, established subdivisions, and new Fort Bend communities — repairs, modernizations, and custom carpentry in Pecan Grove, Aliana, and more."
+metaDescription: "Handyman in Richmond, TX for historic homes and new Fort Bend communities — repairs, modernizations, and carpentry in Pecan Grove and Aliana."
 heroTitle: "Handyman Services in Richmond, TX"
 summary: "Elevate Your Space Handyman serves Richmond's diverse housing market — from historic downtown properties and Pecan Grove estates to new builds in Aliana, Harvest Green, and Veranda."
+heroImage: "/images/heroes/richmond.jpg"
+heroImageAlt: "Handyman services in Richmond, Texas"
 localIntro: "Richmond offers one of Fort Bend County's most varied housing markets — historic areas, established subdivisions, and new master-planned communities. Select your community below for localized handyman services."
 servicesAvailable:
   - "tv-mounting"

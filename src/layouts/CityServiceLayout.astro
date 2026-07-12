@@ -1,0 +1,152 @@
+---
+import ContentLayout from './ContentLayout.astro';
+import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
+import LocalHero from '../components/areas/local/LocalHero.astro';
+import LocalLandingShell from '../components/areas/local/LocalLandingShell.astro';
+import LocalAreaFAQ from '../components/areas/local/LocalAreaFAQ.astro';
+import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
+import ServiceIncluded from '../components/services/ServiceIncluded.astro';
+import ServiceProcess from '../components/services/ServiceProcess.astro';
+import CityServiceCrossLinks from '../components/city-services/CityServiceCrossLinks.astro';
+import { absoluteUrl, resolveOgImage } from '../data/business';
+import { resolveServiceHero } from '../data/images';
+import ServiceTrustStrip from '../components/seo/ServiceTrustStrip.astro';
+import { breadcrumbList, faqPage, serviceSchema, webPage } from '../data/schema';
+import { contentMaxClass, contentPaddingClass } from '../data/layout';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'cityServices'>;
+  city: CollectionEntry<'serviceAreas'>;
+  service: CollectionEntry<'services'>;
+  communities: CollectionEntry<'communities'>[];
+}
+
+const { entry, city, service, communities } = Astro.props;
+const { data } = entry;
+const pageUrl = absoluteUrl(`/${data.legacySlug}/`);
+const cityUrl = `/service-areas/${data.citySlug}/`;
+const serviceUrl = `/services/${data.serviceSlug}/`;
+
+const heroImage =
+  data.heroImage ?? service.data.heroImage ?? resolveServiceHero(data.serviceSlug);
+const heroImageAlt =
+  data.heroImageAlt ?? service.data.heroImageAlt ?? `${data.heroTitle} in ${city.data.title}`;
+
+const communityLinks = communities.map((c) => ({
+  title: c.data.title,
+  href: `/service-areas/${c.data.citySlug}/${c.data.slug}/`,
+}));
+
+const schemaGraph = [
+  webPage(data.heroTitle, pageUrl, data.metaDescription),
+  breadcrumbList([
+    { name: 'Home', url: absoluteUrl('/') },
+    { name: 'Service Areas', url: absoluteUrl('/service-areas/') },
+    { name: city.data.title, url: absoluteUrl(cityUrl) },
+    { name: data.heroTitle, url: pageUrl },
+  ]),
+  serviceSchema(data.heroTitle, data.metaDescription, pageUrl),
+  data.faqs?.length ? faqPage(data.faqs) : null,
+].filter(Boolean);
+---
+
+<ContentLayout
+  seo={{
+    title: data.seoTitle,
+    description: data.metaDescription,
+    canonical: pageUrl,
+    ogType: 'website',
+    ogImage: resolveOgImage(data.heroImage ?? service.data.heroImage),
+  }}
+  schemaGraph={schemaGraph}
+>
+  <article>
+    <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-8']}>
+      <BreadcrumbNav
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Service Areas', url: '/service-areas/' },
+          { name: city.data.title, url: cityUrl },
+          { name: data.heroTitle, url: `/${data.legacySlug}/` },
+        ]}
+      />
+    </div>
+
+    <LocalHero
+      heading={data.heroTitle}
+      summary={data.summary}
+      locationLabel={city.data.title}
+      heroImage={heroImage}
+      heroImageAlt={heroImageAlt}
+      citySlug={data.citySlug}
+    />
+
+    <ServiceTrustStrip locationName={city.data.title} />
+
+    <LocalLandingShell>
+      <section aria-labelledby="city-service-intro">
+        <p class="text-xs font-bold uppercase tracking-widest text-brand-red mb-2">{city.data.title}</p>
+        <h2 id="city-service-intro" class="text-2xl md:text-3xl font-bold text-brand-black mb-4">
+          Local service details
+        </h2>
+        <p class="text-gray-600 leading-relaxed text-lg mb-4">{data.localIntro}</p>
+        {
+          data.housingNotes && (
+            <p class="text-gray-600 leading-relaxed">{data.housingNotes}</p>
+          )
+        }
+        {
+          (data.neighborhoods?.length || data.zipCodes?.length) && (
+            <div class="mt-6 flex flex-wrap gap-4 text-sm text-gray-500">
+              {
+                data.neighborhoods && data.neighborhoods.length > 0 && (
+                  <p>
+                    <span class="font-bold text-brand-black">Neighborhoods:</span>{' '}
+                    {data.neighborhoods.join(', ')}
+                  </p>
+                )
+              }
+              {
+                data.zipCodes && data.zipCodes.length > 0 && (
+                  <p>
+                    <span class="font-bold text-brand-black">ZIP codes:</span>{' '}
+                    {data.zipCodes.join(', ')}
+                  </p>
+                )
+              }
+            </div>
+          )
+        }
+      </section>
+
+      <section class="prose prose-gray max-w-none" aria-label="City service details">
+        <slot />
+      </section>
+
+      <ServiceIncluded
+        embedded
+        items={service.data.includedServices}
+        locationName={city.data.title}
+      />
+
+      <ServiceProcess embedded steps={service.data.process} heading="How it works" />
+
+      {
+        data.faqs && data.faqs.length > 0 && (
+          <LocalAreaFAQ faqs={data.faqs} />
+        )
+      }
+
+      <CityServiceCrossLinks
+        embedded
+        cityTitle={city.data.title}
+        cityHref={cityUrl}
+        serviceTitle={service.data.title}
+        serviceHref={serviceUrl}
+        communities={communityLinks}
+      />
+    </LocalLandingShell>
+    <LocalAreaCTA locationName={city.data.title} />
+  </article>
+</ContentLayout>

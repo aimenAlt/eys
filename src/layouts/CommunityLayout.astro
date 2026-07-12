@@ -9,7 +9,7 @@ import LocalProcessSteps from '../components/areas/local/LocalProcessSteps.astro
 import LocalAreaFAQ from '../components/areas/local/LocalAreaFAQ.astro';
 import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
 import LocalServicesGrid from '../components/areas/local/LocalServicesGrid.astro';
-import { absoluteUrl } from '../data/business';
+import { absoluteUrl, resolveOgImage } from '../data/business';
 import { breadcrumbList, faqPage, localBusinessForArea, webPage } from '../data/schema';
 import type { CollectionEntry } from 'astro:content';
 
@@ -40,7 +40,13 @@ const schemaGraph = [
 ---
 
 <ContentLayout
-  seo={{ title, description, canonical: pageUrl, ogType: 'website' }}
+  seo={{
+    title,
+    description,
+    canonical: pageUrl,
+    ogType: 'website',
+    ogImage: resolveOgImage(data.heroImage),
+  }}
   schemaGraph={schemaGraph}
 >
   <article>
@@ -59,6 +65,7 @@ const schemaGraph = [
       heading={data.heroTitle ?? `Handyman Services in ${data.title}`}
       summary={data.summary}
       locationLabel={`${data.title} · ${cityTitle}`}
+      citySlug={data.citySlug}
       promoCode={data.promoCode}
       promoOffer={data.promoOffer}
       heroImage={data.heroImage}
@@ -100,8 +107,7 @@ const schemaGraph = [
       </p>
 
       <LocalAreaFAQ faqs={data.faqs} />
-
-      <LocalAreaCTA locationName={data.title} />
     </LocalLandingShell>
+    <LocalAreaCTA locationName={data.title} />
   </article>
 </ContentLayout>

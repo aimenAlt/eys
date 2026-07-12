@@ -1,8 +1,8 @@
 /**
- * Balanced row sizing for card grids so orphan items don't leave awkward holes.
+ * Balanced row sizing for card grids — uniform tile width, left-aligned short rows.
  *
- * Examples at cols=3: 3→[3], 4→[2,2], 5→[3,2], 7→[3,2,2], 8→[3,3,2], 10→[3,3,2,2]
- * Examples at cols=4: 5→[3,2], 6→[4,2], 9→[4,3,2], 13→[4,4,3,2]
+ * Examples at cols=3: 4→[3,1], 5→[3,2], 7→[3,3,1], 10→[3,3,3,1], 13→[3,3,3,3,1]
+ * Examples at cols=4: 5→[4,1], 6→[4,2], 9→[4,4,1], 13→[4,4,4,1]
  */
 export function balancedRows(count: number, cols: number): number[] {
   if (count <= 0 || cols <= 0) return [];
@@ -14,12 +14,9 @@ export function balancedRows(count: number, cols: number): number[] {
   }
 
   if (remainder === 1) {
-    if (count === 1) return [1];
-    const tailPair: [number, number] = cols === 3 ? [2, 2] : [3, 2];
-    const leading = count - tailPair[0] - tailPair[1];
-    const fullRows = Math.floor(leading / cols);
+    const fullRows = Math.floor((count - 1) / cols);
     const rows = Array.from({ length: fullRows }, () => cols);
-    return [...rows, ...tailPair];
+    return [...rows, 1];
   }
 
   const fullRows = Math.floor(count / cols);
@@ -59,12 +56,12 @@ export function uniformTileClass(breakpoint: GridBreakpoint = 'md'): string {
   return `uniform-grid-tile uniform-grid-tile--${breakpoint}`;
 }
 
-/** Flex row that centers short rows without stretching tiles. */
+/** Flex row — gap-* class supplies equal gutters between tiles (and when they wrap). */
 export function uniformRowClass(gapClass: string): string {
   return `uniform-grid-row ${gapClass}`;
 }
 
-/** Shared outer wrapper for uniform grids. */
+/** Shared outer wrapper for uniform grids (column flex + gap via --uniform-gap). */
 export function uniformGridContainerClass(): string {
   return 'uniform-grid-container';
 }

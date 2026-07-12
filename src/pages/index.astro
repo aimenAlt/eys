@@ -4,16 +4,18 @@ import Header from '../components/layout/Header.astro';
 import HomeHero from '../components/home/HomeHero.astro';
 import TrustBar from '../components/home/TrustBar.astro';
 import ServiceGrid from '../components/home/ServiceGrid.astro';
-import HomeServiceLinks from '../components/home/HomeServiceLinks.astro';
 import HomeReviewsSection from '../components/home/HomeReviewsSection.astro';
 import HomeProjectsPreview from '../components/home/HomeProjectsPreview.astro';
 import HomeServiceAreas from '../components/home/HomeServiceAreas.astro';
 import CTASection from '../components/home/CTASection.astro';
+import HomeFAQ from '../components/home/HomeFAQ.astro';
 import Footer from '../components/layout/Footer.astro';
+import MobileStickyCTA from '../components/layout/MobileStickyCTA.astro';
 import { getCollection } from 'astro:content';
 import { absoluteUrl } from '../data/business';
-import { homePageSchema } from '../data/schema';
+import { homePageSchema, homeFaqs } from '../data/schema';
 import { buildNavMenus } from '../data/navMenus';
+import { homeImages, imageOrPlaceholder, hasImage } from '../data/images';
 
 const [publishedReviews, publishedProjects, allServices, serviceAreas, communities] = await Promise.all([
   getCollection('reviews', ({ data }) => data.published === true),
@@ -24,13 +26,6 @@ const [publishedReviews, publishedProjects, allServices, serviceAreas, communiti
 ]);
 
 const navMenus = buildNavMenus(allServices, serviceAreas, communities);
-
-const serviceLinks = allServices.map((s) => ({
-  title: s.data.title,
-  slug: s.data.slug,
-  summary: s.data.summary,
-  published: s.data.published,
-}));
 
 const cityLinks = serviceAreas.map((a) => ({ title: a.data.title, slug: a.data.slug }));
 const communityLinks = communities.map((c) => ({
@@ -46,7 +41,7 @@ const seo = {
   canonical: absoluteUrl('/'),
 };
 
-const schemaGraph = homePageSchema(undefined, publishedReviews.map((r) => r.data));
+const schemaGraph = homePageSchema(homeFaqs, publishedReviews.map((r) => r.data));
 ---
 
 <BaseLayout seo={seo} schemaGraph={schemaGraph}>
@@ -55,13 +50,13 @@ const schemaGraph = homePageSchema(undefined, publishedReviews.map((r) => r.data
     <HomeHero />
     <TrustBar projectCount={communities.length} />
     <!-- 4. "Who We Are" Section -->
-    <section id="about" class="py-20 bg-white">
+    <section id="about" class="py-20 md:py-24 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
                 
                 <!-- Left: Content -->
                 <div class="mb-12 lg:mb-0">
-                    <h4 class="text-brand-red font-bold text-sm tracking-widest uppercase mb-2">Who We Are</h4>
+                    <p class="text-brand-red font-bold text-sm tracking-widest uppercase mb-2">Who We Are</p>
                     <h2 class="text-3xl md:text-4xl font-bold text-brand-black mb-6">Trusted Handyman Service in Katy</h2>
                     <p class="text-gray-600 mb-8 leading-relaxed">
                         Some names just stay in your mind. When something needs to be done right, you do not think twice. There is a reason people keep coming back, a reason the name carries weight. It is not about words or promises, it is about how it feels when the job is done and the space finally makes sense. In Katy, one service keeps that feeling alive, every single time.
@@ -100,99 +95,75 @@ const schemaGraph = homePageSchema(undefined, publishedReviews.map((r) => r.data
 
                 <!-- Right: Images (Overlapping) -->
                 <div class="relative h-80 sm:h-96 lg:h-[500px] mt-10 lg:mt-0">
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=600" loading="lazy" class="absolute top-0 right-0 w-4/5 h-[75%] object-cover rounded-xl shadow-xl z-10 border-4 border-white" alt="Wall and fireplace feature project in Katy">
-                    <img src="https://images.unsplash.com/photo-1556910103-1c02745a872e?auto=format&fit=crop&q=80&w=600" loading="lazy" class="absolute bottom-0 left-0 w-3/4 h-[70%] object-cover rounded-xl shadow-2xl z-20 border-4 border-white" alt="Kitchen cabinet remodeling in Texas">
+                    <img src={imageOrPlaceholder(homeImages.whoWeAre1)} loading="lazy" class="absolute top-0 right-0 w-4/5 h-[75%] object-cover rounded-xl shadow-xl z-10 border-4 border-white" alt="Wall and fireplace feature project in Katy">
+                    <img src={imageOrPlaceholder(homeImages.whoWeAre2)} loading="lazy" class="absolute bottom-0 left-0 w-3/4 h-[70%] object-cover rounded-xl shadow-2xl z-20 border-4 border-white" alt="Kitchen cabinet remodeling in Texas">
                 </div>
 
             </div>
         </div>
     </section>
 
-    <!-- 5. Value Proposition Section -->
-    <section class="py-16 bg-brand-lightbg border-y border-gray-200">
+    <section class="py-12 md:py-16 bg-white border-t border-brand-line">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-10">
-                <h4 class="text-brand-red font-bold text-sm tracking-widest uppercase">Our Value</h4>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Card 1 -->
-                <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                    <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-6 text-brand-red">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-brand-black mb-3">Experienced Handyman</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed">Reliable, skilled, and always ready, our experienced handyman brings confidence to every task, big or small.</p>
-                </div>
-                <!-- Card 2 -->
-                <div class="bg-brand-black p-8 rounded-xl shadow-sm text-white hover:shadow-md transition-shadow">
-                    <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mb-6 text-white">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Community Partner Pricing</h3>
-                    <p class="text-gray-300 text-sm leading-relaxed">
-                        Preferred rates for neighborhoods where we have built lasting relationships — premium work without the premium markup. See if your community is listed on our service areas page <a href="/service-areas/" class="text-brand-red font-semibold hover:underline">here</a>.
-                    </p>
-                </div>
-                <!-- Card 3 -->
-                <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                    <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-6 text-brand-red">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-brand-black mb-3">Reliable Result You Can Trust</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed">Consistency, care, and peace expect results that meet your standards and leave no room for second guessing.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 6. Dedicated SEO Content Section -->
-    <section class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                <!-- Text Column -->
-                <div class="lg:col-span-8">
-                    <h2 class="text-3xl font-bold text-brand-black mb-6">Home Repair & Remodeling Services in Katy, TX</h2>
-                    <p class="text-gray-600 mb-4 leading-relaxed">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+                <div class="lg:col-span-7">
+                    <h2 class="text-2xl md:text-3xl font-bold text-brand-black mb-4">
+                        Home Repair & Remodeling Services in Katy, TX
+                    </h2>
+                    <p class="text-gray-600 leading-relaxed mb-4">
                         Elevate Your Space Handyman helps homeowners in Katy, Texas complete repairs, improvements, installations, and small remodeling projects with confidence. Whether the job is a drywall patch, door installation, bathroom update, cabinet improvement, painting project, flooring upgrade, or general home repair, our team focuses on honest communication, clean workmanship, and dependable results.
                     </p>
                     <p class="text-gray-600 leading-relaxed">
                         We proudly serve homeowners throughout Katy and surrounding areas, helping with both quick fixes and larger home improvement projects. From minor repairs to complete upgrades, our goal is simple: make your space safer, cleaner, more functional, and more comfortable.
                     </p>
                 </div>
-                <!-- Checklist Column -->
-                <div class="lg:col-span-4 bg-brand-lightbg p-6 rounded-xl border border-gray-200">
+                <aside class="lg:col-span-5 bg-brand-lightbg p-6 rounded-xl border border-brand-line">
                     <h3 class="font-bold text-brand-black mb-4">Common projects we handle include:</h3>
-                    <ul class="space-y-2 text-sm text-gray-700">
-                        <li class="flex items-start"><svg class="w-5 h-5 text-brand-red mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>General handyman services</li>
-                        <li class="flex items-start"><svg class="w-5 h-5 text-brand-red mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Bathroom remodeling</li>
-                        <li class="flex items-start"><svg class="w-5 h-5 text-brand-red mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Kitchen remodeling</li>
-                        <li class="flex items-start"><svg class="w-5 h-5 text-brand-red mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Drywall repair and finishing</li>
-                        <li class="flex items-start"><svg class="w-5 h-5 text-brand-red mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Door installation</li>
-                        <li class="flex items-start"><svg class="w-5 h-5 text-brand-red mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Custom cabinets</li>
-                        <li class="flex items-start"><svg class="w-5 h-5 text-brand-red mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Furniture installation</li>
-                        <li class="flex items-start"><svg class="w-5 h-5 text-brand-red mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>House painting</li>
-                        <li class="flex items-start"><svg class="w-5 h-5 text-brand-red mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Electrical work</li>
-                        <li class="flex items-start"><svg class="w-5 h-5 text-brand-red mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Flooring and decor upgrades</li>
+                    <ul class="flex flex-col gap-3 text-sm text-gray-700">
+                        {
+                          [
+                            { label: 'General handyman services', href: '/services/general-handyman-services/' },
+                            { label: 'Bathroom remodeling', href: '/services/bathroom-remodeling/' },
+                            { label: 'Kitchen remodeling', href: '/services/kitchen-remodeling/' },
+                            { label: 'Drywall repair and finishing', href: '/services/drywall-repair/' },
+                            { label: 'Door installation', href: '/services/door-repair-installation/' },
+                            { label: 'Custom cabinets', href: '/services/cabinet-installation/' },
+                            { label: 'Furniture installation', href: '/services/furniture-assembly/' },
+                            { label: 'House painting', href: '/services/painting/' },
+                            { label: 'Electrical work', href: '/services/electrical-services/' },
+                            { label: 'Flooring and decor upgrades', href: '/services/flooring-and-decor/' },
+                          ].map((item) => (
+                            <li class="flex items-start gap-2.5">
+                              <svg class="w-5 h-5 text-brand-red mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                              </svg>
+                              <a href={item.href} class="hover:text-brand-red transition-colors leading-snug">
+                                {item.label}
+                              </a>
+                            </li>
+                          ))
+                        }
                     </ul>
-                </div>
+                </aside>
             </div>
         </div>
     </section>
     <ServiceGrid />
-    <HomeServiceLinks services={serviceLinks} />
     <!-- 8. Why Choose Us? Section -->
     <section class="relative py-24 bg-brand-black">
+        {hasImage(homeImages.whyChooseUsBg) && (
         <div class="absolute inset-0 overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=1920" loading="lazy" class="w-full h-full object-cover opacity-20" alt="Construction Blueprint Background">
+            <img src={homeImages.whyChooseUsBg} loading="lazy" class="w-full h-full object-cover opacity-20" alt="Construction Blueprint Background">
         </div>
+        )}
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
             <div class="text-center mb-16">
-                <h4 class="text-brand-red font-bold text-sm tracking-widest uppercase mb-2">Why Choose Us</h4>
+                <p class="text-brand-red font-bold text-sm tracking-widest uppercase mb-2">Why Choose Us</p>
                 <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Why Choose Us?</h2>
                 <p class="text-gray-300">The following points show our commitment to excellence</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                 <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-xl text-white">
                     <div class="w-12 h-12 bg-brand-red rounded-full flex items-center justify-center mb-6">
                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
@@ -201,12 +172,20 @@ const schemaGraph = homePageSchema(undefined, publishedReviews.map((r) => r.data
                     <p class="text-gray-300 text-sm">Experienced professionals who treat every project with care, precision, and accountability.</p>
                 </div>
 
-                <div class="bg-brand-red border border-red-700 p-8 rounded-xl text-white shadow-lg transform md:-translate-y-4">
+                <div class="bg-brand-red border border-red-700 p-8 rounded-xl text-white shadow-lg">
                     <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Community Partner Pricing</h3>
+                    <p class="text-red-100 text-sm">Preferred rates for the neighborhoods we serve — premium work without the premium markup. <a href="/service-areas/" class="underline font-semibold hover:text-white">See if your area qualifies</a>.</p>
+                </div>
+
+                <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-xl text-white">
+                    <div class="w-12 h-12 bg-brand-red rounded-full flex items-center justify-center mb-6">
                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Affordable Pricing</h3>
-                    <p class="text-red-100 text-sm">Fair, transparent pricing designed to respect your budget without surprise fees.</p>
+                    <h3 class="text-xl font-bold mb-3">Transparent Pricing</h3>
+                    <p class="text-gray-300 text-sm">Fair, itemized quotes designed to respect your budget — no surprise fees or runaround.</p>
                 </div>
 
                 <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-xl text-white">
@@ -226,7 +205,7 @@ const schemaGraph = homePageSchema(undefined, publishedReviews.map((r) => r.data
     <section class="py-20 bg-brand-lightbg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h4 class="text-brand-red font-bold text-sm tracking-widest uppercase mb-2">How It Works</h4>
+                <p class="text-brand-red font-bold text-sm tracking-widest uppercase mb-2">How It Works</p>
                 <h2 class="text-3xl md:text-4xl font-bold text-brand-black">Simple Steps to Elevate Your Space</h2>
             </div>
 
@@ -280,80 +259,12 @@ const schemaGraph = homePageSchema(undefined, publishedReviews.map((r) => r.data
         </div>
     </section>
 
-    <!-- 13. FAQ Section -->
-    <section class="py-20 bg-brand-lightbg">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-brand-black">Frequently Asked Questions</h2>
-            </div>
-            
-            <div class="space-y-4">
-                <details class="bg-white rounded-lg shadow-sm border border-gray-200 group">
-                    <summary class="flex justify-between items-center font-bold font-lg p-6 focus:outline-none text-brand-black">
-                        What areas do you serve?
-                        <span class="transition group-open:rotate-180 text-brand-red">
-                            <svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
-                        </span>
-                    </summary>
-                    <div class="px-6 pb-6 text-gray-600 text-sm">
-                        <p>We proudly serve in Katy, Texas and surrounding regions.</p>
-                    </div>
-                </details>
-
-                <details class="bg-white rounded-lg shadow-sm border border-gray-200 group">
-                    <summary class="flex justify-between items-center font-bold font-lg p-6 focus:outline-none text-brand-black">
-                        Do you offer free estimates?
-                        <span class="transition group-open:rotate-180 text-brand-red">
-                            <svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
-                        </span>
-                    </summary>
-                    <div class="px-6 pb-6 text-gray-600 text-sm">
-                        <p>Yes. Contact us with your project details and we will provide the next steps for an estimate.</p>
-                    </div>
-                </details>
-
-                <details class="bg-white rounded-lg shadow-sm border border-gray-200 group">
-                    <summary class="flex justify-between items-center font-bold font-lg p-6 focus:outline-none text-brand-black">
-                        What types of materials do you use?
-                        <span class="transition group-open:rotate-180 text-brand-red">
-                            <svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
-                        </span>
-                    </summary>
-                    <div class="px-6 pb-6 text-gray-600 text-sm">
-                        <p>We use materials appropriate to the project, budget, and desired finish. During consultation, we can discuss available options and recommendations.</p>
-                    </div>
-                </details>
-
-                <details class="bg-white rounded-lg shadow-sm border border-gray-200 group">
-                    <summary class="flex justify-between items-center font-bold font-lg p-6 focus:outline-none text-brand-black">
-                        How long does a typical project take?
-                        <span class="transition group-open:rotate-180 text-brand-red">
-                            <svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
-                        </span>
-                    </summary>
-                    <div class="px-6 pb-6 text-gray-600 text-sm">
-                        <p>Project timelines vary depending on the scope of work, materials, and scheduling. Small repairs may be completed quickly, while remodeling and installation projects may require additional planning.</p>
-                    </div>
-                </details>
-
-                <details class="bg-white rounded-lg shadow-sm border border-gray-200 group">
-                    <summary class="flex justify-between items-center font-bold font-lg p-6 focus:outline-none text-brand-black">
-                        Are your services insured and guaranteed?
-                        <span class="transition group-open:rotate-180 text-brand-red">
-                            <svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
-                        </span>
-                    </summary>
-                    <div class="px-6 pb-6 text-gray-600 text-sm">
-                        <p>Contact Elevate Your Space Handyman directly for current insurance, warranty, and service guarantee details before beginning your project.</p>
-                    </div>
-                </details>
-            </div>
-        </div>
-    </section>
+    <HomeFAQ faqs={homeFaqs} />
 
     <HomeServiceAreas cities={cityLinks} communities={communityLinks} />
 
     <CTASection />
     </main>
     <Footer />
+    <MobileStickyCTA />
 </BaseLayout>

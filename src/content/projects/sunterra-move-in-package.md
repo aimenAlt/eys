@@ -6,7 +6,7 @@ location: "Sunterra, Katy"
 summary: "Whole-home move-in punch list: three TVs mounted, five ceiling fans installed, and garage storage racks in a new Sunterra build."
 published: true
 gallery:
-  - src: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=800"
+  - src: "/images/projects/sunterra-move-in-package/after-1.jpg"
     alt: "New home living room setup in Sunterra Katy"
     type: "after"
     featured: true

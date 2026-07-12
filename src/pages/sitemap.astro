@@ -1,0 +1,74 @@
+---
+import ContentLayout from '../layouts/ContentLayout.astro';
+import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
+import { absoluteUrl, site } from '../data/business';
+import { breadcrumbList, webPage } from '../data/schema';
+import { buildSiteMap } from '../data/siteMap';
+
+const { sections, totalCount } = await buildSiteMap();
+
+const title = `Sitemap | ${site.name}`;
+const description =
+  'Browse every page on Elevate Your Space Handyman — services, service areas, projects, blog posts, and more.';
+const canonical = absoluteUrl('/sitemap/');
+
+const schemaGraph = [
+  webPage('Sitemap', canonical, description),
+  breadcrumbList([
+    { name: 'Home', url: absoluteUrl('/') },
+    { name: 'Sitemap', url: canonical },
+  ]),
+];
+---
+
+<ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
+  <article>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <BreadcrumbNav
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Sitemap', url: '/sitemap/' },
+        ]}
+      />
+
+      <h1 class="text-4xl md:text-5xl font-extrabold text-brand-black mb-4 mt-6">Sitemap</h1>
+      <p class="text-lg text-gray-600 mb-2 max-w-3xl">
+        All {totalCount} pages on {site.name}. This list updates automatically when new content is published.
+      </p>
+      <p class="text-sm text-gray-500 mb-12">
+        For search engines:
+        <a href="/sitemap-index.xml" class="text-brand-red hover:underline font-medium">XML sitemap</a>
+      </p>
+
+      <nav aria-label="Sitemap" class="space-y-12">
+        {
+          sections.map((section) => (
+            <section aria-labelledby={`sitemap-${section.title.toLowerCase().replace(/\s+/g, '-')}`}>
+              <h2
+                id={`sitemap-${section.title.toLowerCase().replace(/\s+/g, '-')}`}
+                class="text-2xl font-bold text-brand-black mb-4 border-b border-gray-200 pb-2"
+              >
+                {section.title}
+                <span class="text-sm font-normal text-gray-500 ml-2">({section.links.length})</span>
+              </h2>
+              <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-2">
+                {
+                  section.links.map((link) => (
+                    <li>
+                      <a
+                        href={link.href}
+                        class="text-brand-black hover:text-brand-red transition-colors text-sm leading-relaxed"
+                      >
+                        {link.title}
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </section>
+          ))
+        }
+      </nav>
+    </div>
+  </article>
+</ContentLayout>

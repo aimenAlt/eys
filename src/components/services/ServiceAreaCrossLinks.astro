@@ -1,4 +1,6 @@
 ---
+import { contentMaxClass, contentPaddingClass } from '../../data/layout';
+
 interface CommunityLink {
   title: string;
   href: string;
@@ -14,7 +16,7 @@ const { communities } = Astro.props;
 {
   communities.length > 0 && (
     <section class="py-12 bg-brand-lightbg" aria-labelledby="service-areas-served">
-      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
         <h2 id="service-areas-served" class="text-2xl font-bold text-brand-black mb-4">
           Communities we serve
         </h2>

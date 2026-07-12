@@ -1,3 +1,5 @@
+import { categoryHeroImages } from './images';
+
 export type ServiceCategoryItem = {
   title: string;
   description: string;
@@ -23,8 +25,7 @@ export const serviceCategories: ServiceCategory[] = [
     title: 'Repairs & Maintenance',
     summary:
       'Reliable repairs for the everyday problems that keep your home from feeling finished, safe, and fully functional.',
-    heroImage:
-      'https://images.unsplash.com/photo-1581141849291-1125c7b692b5?auto=format&fit=crop&q=80&w=1200',
+    heroImage: categoryHeroImages['repairs-and-maintenance'] ?? '/images/categories/repairs-installs.jpg',
     heroImageAlt: 'Handyman repairs and maintenance in Katy TX',
     seoTitle: 'Repairs & Maintenance Services in Katy, TX | Elevate Your Space',
     metaDescription:
@@ -62,12 +63,11 @@ export const serviceCategories: ServiceCategory[] = [
     title: 'Installation & Assembly',
     summary:
       'Precise installation work for doors, fixtures, furniture, cabinetry, and the details that make a home more usable.',
-    heroImage:
-      'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=1200',
+    heroImage: categoryHeroImages['installation-and-assembly'] ?? '/images/categories/repairs-installs.jpg',
     heroImageAlt: 'Home installation and assembly services in Katy TX',
     seoTitle: 'Installation & Assembly Services in Katy, TX | Elevate Your Space',
     metaDescription:
-      'Door installation, furniture assembly, TV mounting, ceiling fans, and cabinet installation in Katy and West Houston.',
+      'Door installation, furniture assembly, TV mounting, ceiling fans, curtains, and cabinet installation in Katy and West Houston.',
     ctaLabel: 'View Installation Services',
     items: [
       {
@@ -100,6 +100,12 @@ export const serviceCategories: ServiceCategory[] = [
           'Safe installation of ceiling fans on pre-wired boxes, patios, and bedrooms with balance checks and clean finishing.',
         serviceSlug: 'ceiling-fan-installation',
       },
+      {
+        title: 'Curtain & Drapery Installation',
+        description:
+          'Precise curtain rod, drapery hardware, and window treatment mounting with level placement and secure anchoring.',
+        serviceSlug: 'curtain-installation',
+      },
     ],
   },
   {
@@ -107,8 +113,7 @@ export const serviceCategories: ServiceCategory[] = [
     title: 'Remodeling & Upgrades',
     summary:
       'Home improvement and remodeling services that elevate comfort, function, appearance, and long-term value.',
-    heroImage:
-      'https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&q=80&w=1200',
+    heroImage: categoryHeroImages['remodeling-and-upgrades'] ?? '/images/categories/remodeling.jpg',
     heroImageAlt: 'Home remodeling and upgrades in Katy TX',
     seoTitle: 'Remodeling & Home Upgrades in Katy, TX | Elevate Your Space',
     metaDescription:
@@ -146,6 +151,7 @@ export const serviceCategories: ServiceCategory[] = [
 export const allServiceSlugs = [
   'tv-mounting',
   'ceiling-fan-installation',
+  'curtain-installation',
   'general-handyman-services',
   'furniture-assembly',
   'drywall-repair',

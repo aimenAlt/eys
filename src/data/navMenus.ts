@@ -1,3 +1,5 @@
+import { serviceCategories } from './serviceCategories';
+
 export type NavMenuItem = {
   label: string;
   href: string;
@@ -45,17 +47,51 @@ export function buildNavMenus(
   areas: AreaEntry[],
   communities: CommunityEntry[],
 ): NavMenus {
-  const publishedAreas = areas.filter((a) => a.data.published);
-  const publishedCommunities = communities.filter((c) => c.data.published);
+  const bySlug = new Map(services.map((s) => [s.data.slug, s]));
+  const usedSlugs = new Set<string>();
 
-  const servicesChildren: NavMenuItem[] = services
+  const servicesChildren: NavMenuItem[] = serviceCategories.map((category) => {
+    const children = category.items
+      .map((item) => {
+        if (!item.serviceSlug) return null;
+        const entry = bySlug.get(item.serviceSlug);
+        if (!entry) return null;
+        usedSlugs.add(item.serviceSlug);
+        return {
+          label: entry.data.title,
+          href: entry.data.published
+            ? `/services/${entry.data.slug}/`
+            : `/contact/?service=${entry.data.slug}`,
+        };
+      })
+      .filter((child): child is NavMenuItem => child !== null);
+
+    return {
+      label: category.title,
+      href: `/services/${category.slug}/`,
+      children: children.length > 0 ? children : undefined,
+    };
+  });
+
+  // Any published service missing from categories still appears under an "Other" group
+  const orphanServices = services
+    .filter((s) => s.data.published && !usedSlugs.has(s.data.slug))
     .sort((a, b) => a.data.title.localeCompare(b.data.title))
     .map((entry) => ({
       label: entry.data.title,
-      href: entry.data.published
-        ? `/services/${entry.data.slug}/`
-        : `/contact/?service=${entry.data.slug}`,
+      href: `/services/${entry.data.slug}/`,
     }));
+
+  if (orphanServices.length > 0) {
+    servicesChildren.push({
+      label: 'More services',
+      href: '/services/',
+      children: orphanServices,
+    });
+  }
+
+  const publishedAreas = areas.filter((a) => a.data.published);
+  const publishedCommunities = communities.filter((c) => c.data.published);
 
   const serviceAreasChildren: NavMenuItem[] = publishedAreas
     .sort((a, b) => a.data.title.localeCompare(b.data.title))

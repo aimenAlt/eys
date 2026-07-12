@@ -2,12 +2,15 @@
 import ContentLayout from '../layouts/ContentLayout.astro';
 import PageHero from '../components/common/PageHero.astro';
 import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
-import { absoluteUrl, business, site } from '../data/business';
+import JobberEmbedWrapper from '../components/booking/JobberEmbedWrapper.astro';
+import { absoluteUrl, business, googleReviews, googleReviewProfileUrl, jobberRequestFormUrl, site } from '../data/business';
 import { breadcrumbList, localBusinessForArea, webPage } from '../data/schema';
 
 const title = `Contact Us | ${site.name}`;
 const description =
   'Contact Elevate Your Space Handyman for handyman services in Katy and West Houston. Call, email, or request next steps for your project.';
+const requestFormUrl = jobberRequestFormUrl();
+const gbpUrl = googleReviewProfileUrl();
 const canonical = absoluteUrl('/contact/');
 
 const schemaGraph = [
@@ -37,11 +40,22 @@ const schemaGraph = [
       description="Tell us about your project and we will help you figure out the best next step — repair, installation, quote request, or assessment."
     />
 
-    <section class="py-16 bg-white">
+    <section class="py-10 md:py-12 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div>
             <h2 class="text-2xl font-bold text-brand-black mb-6">Reach us directly</h2>
+            {
+              gbpUrl && (
+                <p class="text-sm text-gray-600 mb-6">
+                  <span class="font-bold text-brand-black">{googleReviews.rating.toFixed(1)} ★</span>
+                  {' '}from {googleReviews.count}+ Google reviews —{' '}
+                  <a href={gbpUrl} target="_blank" rel="noopener noreferrer" class="text-brand-red font-bold hover:underline">
+                    read on Google
+                  </a>
+                </p>
+              )
+            }
             <ul class="space-y-6">
               <li class="flex items-start">
                 <svg
@@ -119,44 +133,11 @@ const schemaGraph = [
             </ul>
           </div>
 
-          <div class="bg-brand-lightbg p-8 rounded-xl border border-gray-200">
-            <h2 class="text-2xl font-bold text-brand-black mb-4">What to include</h2>
-            <p class="text-gray-600 text-sm mb-6 leading-relaxed">
-              When you reach out, it helps to share your city, a brief description of the work, photos if available, and your preferred contact method. We will follow up with next steps — no online booking required at this stage.
-            </p>
-            <ul class="space-y-3 text-sm text-gray-700 mb-8">
-              <li class="flex items-start">
-                <span class="text-brand-red mr-2">•</span>
-                Project type (repair, install, remodel, etc.)
-              </li>
-              <li class="flex items-start">
-                <span class="text-brand-red mr-2">•</span>
-                Location and access details
-              </li>
-              <li class="flex items-start">
-                <span class="text-brand-red mr-2">•</span>
-                Photos of the area or issue
-              </li>
-              <li class="flex items-start">
-                <span class="text-brand-red mr-2">•</span>
-                Timeline or urgency, if applicable
-              </li>
-            </ul>
-            <div class="flex flex-col sm:flex-row gap-3">
-              <a
-                href={`tel:${site.phoneTel}`}
-                class="inline-block text-center bg-brand-red text-white font-bold py-3 px-6 rounded hover:bg-brand-redhover transition-colors"
-              >
-                Call {site.phone}
-              </a>
-              <a
-                href={`mailto:${site.email}`}
-                class="inline-block text-center border border-brand-red text-brand-red font-bold py-3 px-6 rounded hover:bg-brand-red hover:text-white transition-colors"
-              >
-                Send Email
-              </a>
-            </div>
-          </div>
+          <JobberEmbedWrapper
+            embedUrl={requestFormUrl}
+            title="Request service"
+            minHeight="560px"
+          />
         </div>
       </div>
     </section>

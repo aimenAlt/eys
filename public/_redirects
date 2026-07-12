@@ -1,5 +1,34 @@
+# City slug fixes (old -tx suffix)
 /service-areas/katy-tx/ /service-areas/katy/ 301
 /service-areas/cypress-tx/ /service-areas/cypress/ 301
 /service-areas/fulshear-tx/ /service-areas/fulshear/ 301
 /service-areas/richmond-tx/ /service-areas/richmond/ 301
 /service-areas/west-houston-tx/ /service-areas/west-houston/ 301
+
+# Legacy WordPress — core pages
+/about-us/ /about/ 301
+/contact-us/ /contact/ 301
+/gallery/ /projects/ 301
+/handyman-services/ /services/general-handyman-services/ 301
+
+# Legacy WordPress — flat service pages (equivalent regional services)
+/tv-mounting/ /services/tv-mounting/ 301
+/painting/ /services/painting/ 301
+/kitchen-remodeling/ /services/kitchen-remodeling/ 301
+/drywall/ /services/drywall-repair/ 301
+/fan-installation/ /services/ceiling-fan-installation/ 301
+/cabinet-installation/ /services/cabinet-installation/ 301
+/furniture-assembly/ /services/furniture-assembly/ 301
+/light-fixtures/ /services/electrical-services/ 301
+/tiling/ /services/flooring-and-decor/ 301
+/custom-cabinets/ /services/custom-carpentry/ 301
+/curtian-installation/ /services/curtain-installation/ 301
+
+# No redirect — discontinued or distinct intent (returns 404):
+# /tv-media-wall/          → create /services/media-walls/ when offered
+# /furniture-repair-richmond/
+# /furniture-repair-services-katy/
+# /tv-repair-katy/
+# /garage-door-repair-katy/
+
+# Richmond + Katy city-service URLs are live Astro pages at legacy paths (see src/content/city-services/)

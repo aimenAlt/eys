@@ -7,6 +7,7 @@ import {
   uniformRowClass,
   uniformTileClass,
 } from '../../utils/balancedGrid';
+import { imageOrPlaceholder } from '../../data/images';
 
 export type BalancedCardItem = {
   title: string;
@@ -16,6 +17,8 @@ export type BalancedCardItem = {
   headingLevel?: 2 | 3;
   eyebrow?: string;
   eyebrowDatetime?: string;
+  image?: string;
+  imageAlt?: string;
 };
 
 export type BalancedLinkItem = {
@@ -51,25 +54,57 @@ export type BalancedReviewItem = {
   location?: string;
 };
 
+export type BalancedChecklistItem = {
+  text: string;
+};
+
+export type BalancedStepItem = {
+  step: number;
+  body: string;
+};
+
+export type BalancedGalleryItem = {
+  src: string;
+  alt: string;
+  caption?: string;
+  type?: string;
+};
+
 type VariantProps =
   | { variant: 'card'; items: BalancedCardItem[] }
   | { variant: 'link'; items: BalancedLinkItem[] }
   | { variant: 'value'; items: BalancedValueItem[] }
   | { variant: 'feature-card'; items: BalancedFeatureCardItem[] }
   | { variant: 'project'; items: BalancedProjectItem[] }
-  | { variant: 'review'; items: BalancedReviewItem[] };
+  | { variant: 'review'; items: BalancedReviewItem[] }
+  | { variant: 'checklist'; items: BalancedChecklistItem[] }
+  | { variant: 'step'; items: BalancedStepItem[] }
+  | { variant: 'gallery'; items: BalancedGalleryItem[] };
 
 function renderStars(rating: number): string {
   return '★'.repeat(rating) + '☆'.repeat(5 - rating);
 }
 
-interface Props extends VariantProps {
+type GridItem =
+  | BalancedCardItem
+  | BalancedLinkItem
+  | BalancedValueItem
+  | BalancedFeatureCardItem
+  | BalancedProjectItem
+  | BalancedReviewItem
+  | BalancedChecklistItem
+  | BalancedStepItem
+  | BalancedGalleryItem;
+
+type Props = {
+  variant: VariantProps['variant'];
+  items: GridItem[];
   cols?: number;
   gapClass?: string;
   class?: string;
   listClass?: string;
   align?: 'left' | 'center';
-}
+};
 
 const { variant, items, cols = 3, gapClass = 'gap-4', class: className, listClass, align } = Astro.props;
 const rowChunks = chunkBalanced(items, cols);
@@ -77,7 +112,7 @@ const breakpoint = gridBreakpointForCols(cols);
 const tileClass = uniformTileClass(breakpoint);
 const rowClass = uniformRowClass(gapClass);
 const gridStyle = uniformGridStyle(cols, gapClass);
-const textAlign = align ?? (variant === 'link' ? 'center' : 'left');
+const textAlign = align ?? 'left';
 const linkAlignClass = textAlign === 'center' ? 'text-center' : 'text-left';
 ---
 
@@ -92,11 +127,21 @@ const linkAlignClass = textAlign === 'center' ? 'text-center' : 'text-left';
                 <a
                   href={(item as BalancedLinkItem).href}
                   class:list={[
-                    'flex h-full min-h-[2.5rem] items-center justify-center rounded-lg border border-gray-200 bg-white py-2 px-2.5 font-medium text-brand-black hover:border-brand-red hover:shadow-md transition-all text-sm leading-snug',
+                    'group relative flex w-full h-full min-h-[3.25rem] min-w-0 items-center justify-between gap-3 overflow-hidden rounded-lg border border-brand-line bg-white py-3.5 pl-4 pr-3.5 font-semibold text-brand-black shadow-sm transition-all duration-200 hover:border-brand-red/50 hover:bg-brand-redsoft hover:shadow-card',
                     linkAlignClass,
                   ]}
                 >
-                  {(item as BalancedLinkItem).title}
+                  <span
+                    class="absolute inset-y-0 left-0 w-1 bg-brand-red opacity-0 transition-opacity group-hover:opacity-100"
+                    aria-hidden="true"
+                  />
+                  <span class="min-w-0 flex-1 text-sm leading-snug">{(item as BalancedLinkItem).title}</span>
+                  <span
+                    class="shrink-0 text-brand-red opacity-60 transition-all group-hover:translate-x-0.5 group-hover:opacity-100"
+                    aria-hidden="true"
+                  >
+                    →
+                  </span>
                 </a>
               )}
               {variant === 'card' && (() => {
@@ -105,8 +150,23 @@ const linkAlignClass = textAlign === 'center' ? 'text-center' : 'text-left';
                 return (
                   <a
                     href={card.href}
-                    class="block h-full p-6 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-brand-red/30 transition-all text-left"
+                    class="group relative block h-full overflow-hidden rounded-xl border border-brand-line bg-white shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-red/40 hover:shadow-cardhover text-left"
                   >
+                    <span
+                      class="absolute inset-y-0 left-0 w-1.5 bg-brand-red"
+                      aria-hidden="true"
+                    />
+                    {card.image && (
+                      <img
+                        src={imageOrPlaceholder(card.image)}
+                        alt={card.imageAlt ?? card.title}
+                        class="w-full aspect-[4/3] object-cover"
+                        loading="lazy"
+                        width="400"
+                        height="300"
+                      />
+                    )}
+                    <div class="p-6 pl-7 flex flex-col h-full min-h-[11rem]">
                     {card.eyebrow && (
                       <time
                         datetime={card.eyebrowDatetime}
@@ -117,11 +177,19 @@ const linkAlignClass = textAlign === 'center' ? 'text-center' : 'text-left';
                     )}
                     <HeadingTag class:list={['text-xl font-bold text-brand-black mb-2', card.eyebrow && 'mt-2']}>{card.title}</HeadingTag>
                     {card.description && (
-                      <p class="text-sm text-gray-600">{card.description}</p>
+                      <p class="text-sm text-gray-600 leading-relaxed flex-1">{card.description}</p>
                     )}
-                    {card.footerText && (
-                      <span class="inline-block mt-4 text-sm font-bold text-brand-red">{card.footerText}</span>
+                    {card.footerText ? (
+                      <span class="mt-5 inline-flex w-fit items-center gap-1.5 rounded-md bg-brand-red px-3 py-1.5 text-sm font-bold text-white transition-colors group-hover:bg-brand-redhover">
+                        {card.footerText.replace(/\s*→\s*$/, '')}
+                        <span aria-hidden="true">→</span>
+                      </span>
+                    ) : (
+                      <span class="mt-5 inline-flex w-fit items-center gap-1 text-sm font-bold text-brand-red opacity-80 group-hover:opacity-100">
+                        Learn more <span aria-hidden="true">→</span>
+                      </span>
                     )}
+                    </div>
                   </a>
                 );
               })()}
@@ -181,6 +249,55 @@ const linkAlignClass = textAlign === 'center' ? 'text-center' : 'text-left';
                       {review.location && <span>{review.location}</span>}
                     </div>
                   </div>
+                );
+              })()}
+              {variant === 'checklist' && (
+                <div class="h-full flex items-start bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                  <svg
+                    class="w-5 h-5 text-brand-red mr-3 mt-0.5 flex-shrink-0"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-gray-700 text-sm">{(item as BalancedChecklistItem).text}</span>
+                </div>
+              )}
+              {variant === 'step' && (() => {
+                const step = item as BalancedStepItem;
+                return (
+                  <div class="h-full bg-white p-6 rounded-xl border border-brand-line shadow-card hover:shadow-cardhover transition-shadow">
+                    <div class="flex items-center gap-3 mb-4">
+                      <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-red text-white font-extrabold text-lg" aria-hidden="true">
+                        {String(step.step).padStart(2, '0')}
+                      </span>
+                      <span class="hidden md:block h-px flex-grow bg-brand-line" aria-hidden="true" />
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed">{step.body}</p>
+                  </div>
+                );
+              })()}
+              {variant === 'gallery' && (() => {
+                const image = item as BalancedGalleryItem;
+                return (
+                  <figure class="h-full overflow-hidden rounded-lg bg-gray-100 shadow-sm">
+                    <img
+                      src={imageOrPlaceholder(image.src)}
+                      alt={image.alt}
+                      loading="lazy"
+                      class="w-full h-64 object-cover"
+                    />
+                    {(image.caption || image.type) && (
+                      <figcaption class="p-4 text-sm text-gray-600 bg-white">
+                        {image.type && (
+                          <span class="text-xs font-bold uppercase text-brand-red mr-2">{image.type}</span>
+                        )}
+                        {image.caption}
+                      </figcaption>
+                    )}
+                  </figure>
                 );
               })()}
             </li>

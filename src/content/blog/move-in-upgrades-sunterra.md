@@ -21,4 +21,4 @@ New construction in Sunterra gives you a beautiful blank canvas — but most buy
 
 ## Book before closing
 
-We recommend reaching out two to three weeks before your closing date to secure your preferred installation day. [Contact us](/contact/) with photos and your punch list for a clear estimate.
+We recommend reaching out two to three weeks before your closing date to secure your preferred installation day. See our [Sunterra community page](/service-areas/katy/sunterra-handyman/) for area-specific details, or [contact us](/contact/) with photos and your punch list for a clear estimate.

@@ -1,0 +1,51 @@
+---
+import { getCollection, render } from 'astro:content';
+import CityServiceLayout from '../layouts/CityServiceLayout.astro';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('cityServices', ({ data }) => data.published === true);
+
+  const [cities, services, allCommunities] = await Promise.all([
+    getCollection('serviceAreas', ({ data }) => data.published === true),
+    getCollection('services', ({ data }) => data.published === true),
+    getCollection('communities', ({ data }) => data.published === true),
+  ]);
+
+  const cityBySlug = new Map(cities.map((c) => [c.data.slug, c]));
+  const serviceBySlug = new Map(services.map((s) => [s.data.slug, s]));
+
+  return pages
+    .map((entry) => {
+      const city = cityBySlug.get(entry.data.citySlug);
+      const service = serviceBySlug.get(entry.data.serviceSlug);
+      if (!city || !service) return null;
+
+      const communitySlugs = entry.data.relatedCommunitySlugs ?? [];
+      const communities = allCommunities.filter(
+        (c) =>
+          c.data.citySlug === entry.data.citySlug &&
+          (communitySlugs.length === 0 || communitySlugs.includes(c.data.slug)),
+      );
+
+      return {
+        params: { legacySlug: entry.data.legacySlug },
+        props: { entry, city, service, communities },
+      };
+    })
+    .filter(Boolean);
+}
+
+interface Props {
+  entry: Awaited<ReturnType<typeof getCollection<'cityServices'>>>[number];
+  city: Awaited<ReturnType<typeof getCollection<'serviceAreas'>>>[number];
+  service: Awaited<ReturnType<typeof getCollection<'services'>>>[number];
+  communities: Awaited<ReturnType<typeof getCollection<'communities'>>>;
+}
+
+const { entry, city, service, communities } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<CityServiceLayout entry={entry} city={city} service={service} communities={communities}>
+  <Content />
+</CityServiceLayout>

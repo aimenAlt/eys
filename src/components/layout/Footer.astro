@@ -1,20 +1,34 @@
 ---
+import Logo from './Logo.astro';
 import { footerNav } from '../../data/navigation';
-import { business, site } from '../../data/business';
+import { business, googleReviews, googleReviewProfileUrl, site } from '../../data/business';
+import { withBase } from '../../utils/paths';
 ---
 
-    <footer id="contact" class="bg-brand-black text-white pt-16 pb-8 border-t-4 border-brand-red">
+    <footer id="contact" class="bg-brand-black text-white pt-16 pb-24 md:pb-8 border-t-4 border-brand-red">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
                 
                 <!-- Col 1 -->
                 <div>
-                    <a href="/" class="text-2xl font-bold tracking-tight block mb-4">
-                        Elevate Your Space<span class="text-brand-red">.</span>
-                    </a>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                    <Logo variant="footer" class="mb-4" />
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
                         Elevate Your Space Handyman is the company you call for dependable service and high-quality work. For a head start on your home renovation project, contact us right away!
                     </p>
+                    {
+                      googleReviewProfileUrl() && (
+                        <p class="text-sm">
+                          <a
+                            href={googleReviewProfileUrl()}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-brand-red hover:underline font-medium"
+                          >
+                            See our {googleReviews.count}+ Google reviews
+                          </a>
+                        </p>
+                      )
+                    }
                 </div>
 
                 <!-- Col 2 -->
@@ -44,7 +58,7 @@ import { business, site } from '../../data/business';
                     <ul class="space-y-2 text-sm text-gray-400">
                         {footerNav.map((item) => (
                             <li>
-                                <a href={item.href} class="hover:text-brand-red transition-colors">{item.label}</a>
+                                <a href={withBase(item.href)} class="hover:text-brand-red transition-colors">{item.label}</a>
                             </li>
                         ))}
                     </ul>
@@ -53,7 +67,7 @@ import { business, site } from '../../data/business';
                 <!-- Col 4 -->
                 <div>
                     <h3 class="text-lg font-bold mb-4 border-b border-gray-800 pb-2 inline-block">Newsletter</h3>
-                    <p class="text-sm text-gray-400 mb-4">Sign up our newsletter to get update information, news and free insight.</p>
+                    <p class="text-sm text-gray-400 mb-4">Sign up for our newsletter to get updates, news, and free home-care tips.</p>
                     <form class="flex flex-col space-y-2">
                         <input type="email" placeholder="Email" class="bg-gray-900 border border-gray-700 text-white px-4 py-2 rounded focus:outline-none focus:border-brand-red w-full">
                         <button type="button" class="bg-brand-red hover:bg-brand-redhover text-white font-bold py-2 px-4 rounded transition-colors w-full">Sign Up</button>
@@ -65,8 +79,8 @@ import { business, site } from '../../data/business';
             <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
                 <p>&copy; 2026 Elevate Your Space Handyman. All rights reserved.</p>
                 <div class="mt-4 md:mt-0 space-x-4">
-                    <a href="/privacy/" class="hover:text-brand-red">Privacy Policy</a>
-                    <a href="/terms/" class="hover:text-brand-red">Terms of Service</a>
+                    <a href={withBase('/privacy/')} class="hover:text-brand-red">Privacy Policy</a>
+                    <a href={withBase('/terms/')} class="hover:text-brand-red">Terms of Service</a>
                 </div>
             </div>
         </div>

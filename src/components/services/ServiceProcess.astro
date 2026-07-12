@@ -1,29 +1,39 @@
 ---
+import BalancedGrid from '../ui/BalancedGrid.astro';
+import { contentMaxClass, contentPaddingClass } from '../../data/layout';
+
 interface Props {
   steps?: string[];
+  embedded?: boolean;
+  heading?: string;
 }
 
-const { steps } = Astro.props;
+const { steps, embedded = false, heading = 'Our Process' } = Astro.props;
+
+const stepItems = (steps ?? []).map((body, index) => ({
+  step: index + 1,
+  body,
+}));
 ---
 
 {
-  steps && steps.length > 0 && (
-    <section class="py-16 bg-brand-lightbg" aria-labelledby="process">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 id="process" class="text-3xl font-bold text-brand-black mb-8">
-          Our Process
+  stepItems.length > 0 &&
+    (embedded ? (
+      <section aria-labelledby="process">
+        <h2 id="process" class="text-2xl md:text-3xl font-bold text-brand-black mb-6">
+          {heading}
         </h2>
-        <ol class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {steps.map((step, index) => (
-            <li class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm relative">
-              <span class="text-5xl font-extrabold text-gray-100 absolute top-4 right-4">
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <p class="relative z-10 text-sm text-gray-600 mt-4">{step}</p>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </section>
-  )
+        <BalancedGrid variant="step" items={stepItems} cols={4} gapClass="gap-4" />
+      </section>
+    ) : (
+      <section class="py-16 md:py-20 bg-brand-lightbg" aria-labelledby="process">
+        <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
+          <p class="text-xs font-bold uppercase tracking-widest text-brand-red mb-2">How It Works</p>
+          <h2 id="process" class="text-3xl md:text-4xl font-bold text-brand-black mb-8">
+            {heading}
+          </h2>
+          <BalancedGrid variant="step" items={stepItems} cols={4} gapClass="gap-6" />
+        </div>
+      </section>
+    ))
 }

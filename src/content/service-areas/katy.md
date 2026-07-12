@@ -3,9 +3,11 @@ title: "Katy, TX"
 slug: "katy"
 published: true
 seoTitle: "Katy Handyman Services | Home Repair & Upgrades"
-metaDescription: "Professional handyman services in Katy, TX. Repairs, trim updates, hardware modernization, and punch-list work for established suburban homes near top-rated Katy ISD."
+metaDescription: "Handyman services in Katy, TX — repairs, trim updates, hardware modernization, and punch-list work for suburban homes near Katy ISD."
 heroTitle: "Handyman Services in Katy, TX"
 summary: "Elevate Your Space Handyman helps Katy homeowners maintain and upgrade established suburban homes — with reliable repairs, modern trim and hardware, and bundled punch-list service for busy families."
+heroImage: "/images/heroes/katy.jpg"
+heroImageAlt: "Handyman services in Katy, Texas"
 localIntro: "The City of Katy and its surrounding master-planned communities combine a family-oriented suburban lifestyle with homes largely built from the 1990s through the 2000s. Select your community below for localized services, preferred community pricing, and area-specific guidance."
 servicesAvailable:
   - "tv-mounting"
@@ -28,6 +30,8 @@ faqs:
     answer: "Yes. Bundled punch-list visits are one of our most requested services in Katy — ideal for homeowners who want several items addressed efficiently without coordinating multiple contractors."
   - question: "Do you serve areas near Katy ISD?"
     answer: "Yes. We work throughout Katy and nearby communities where families value well-maintained homes close to Katy ISD schools. Share your address and project list and we will confirm scheduling."
+relatedProjectSlugs:
+  - "cinco-ranch-fireplace-tv-mount"
 relatedProjectsPlaceholder: "Katy project gallery entries will be added as jobs are documented."
 ---
 

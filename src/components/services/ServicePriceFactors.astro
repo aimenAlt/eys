@@ -1,27 +1,55 @@
 ---
+import { contentMaxClass, contentPaddingClass } from '../../data/layout';
+
 interface Props {
   items?: string[];
+  embedded?: boolean;
 }
 
-const { items } = Astro.props;
+const { items, embedded = false } = Astro.props;
 ---
 
 {
   items && items.length > 0 && (
-    <section class="py-16 bg-white" aria-labelledby="price-factors">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 id="price-factors" class="text-3xl font-bold text-brand-black mb-8">
-          What Affects Price
+    embedded ? (
+      <section aria-labelledby="price-factors">
+        <h2 id="price-factors" class="text-2xl md:text-3xl font-bold text-brand-black mb-6">
+          What affects price
         </h2>
-        <ul class="space-y-3 max-w-3xl">
+        <div class="grid gap-4 sm:grid-cols-2">
           {items.map((item) => (
-            <li class="flex items-start text-gray-600">
-              <span class="w-2 h-2 bg-brand-red rounded-full mr-3 mt-2 flex-shrink-0" />
-              {item}
-            </li>
+            <div class="flex items-start gap-3 bg-brand-lightbg border border-brand-line rounded-xl p-5">
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-redsoft text-brand-red" aria-hidden="true">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8V7m0 9v1m0-10a9 9 0 100 18 9 9 0 000-18z" />
+                </svg>
+              </span>
+              <span class="text-gray-700 text-sm leading-relaxed">{item}</span>
+            </div>
           ))}
-        </ul>
-      </div>
-    </section>
+        </div>
+      </section>
+    ) : (
+      <section class="py-16 md:py-20 bg-white" aria-labelledby="price-factors">
+        <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
+          <p class="text-xs font-bold uppercase tracking-widest text-brand-red mb-2">Pricing</p>
+          <h2 id="price-factors" class="text-3xl md:text-4xl font-bold text-brand-black mb-8">
+            What affects price
+          </h2>
+          <div class="grid gap-4 sm:grid-cols-2">
+            {items.map((item) => (
+              <div class="flex items-start gap-3 bg-brand-lightbg border border-brand-line rounded-xl p-5">
+                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-redsoft text-brand-red" aria-hidden="true">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8V7m0 9v1m0-10a9 9 0 100 18 9 9 0 000-18z" />
+                  </svg>
+                </span>
+                <span class="text-gray-700 text-sm leading-relaxed">{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
   )
 }

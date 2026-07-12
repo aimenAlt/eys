@@ -3,9 +3,11 @@ title: "Fulshear, TX"
 slug: "fulshear"
 published: true
 seoTitle: "Fulshear TX Handyman | New Home Upgrades"
-metaDescription: "Handyman services in Fulshear, TX for new construction and move-in upgrades — TV mounting, garage storage, ceiling fans, and finishing work in Cross Creek Ranch and Fulbrook."
+metaDescription: "Fulshear TX handyman for new construction and move-in upgrades — TV mounting, garage storage, ceiling fans, and finishing in Cross Creek Ranch."
 heroTitle: "Handyman Services in Fulshear, TX"
 summary: "Elevate Your Space Handyman helps Fulshear homeowners with move-in upgrades and new-home finishing — from TV mounting and ceiling fans to custom storage and detail carpentry in fast-growing master-planned communities."
+heroImage: "/images/heroes/fulshear.jpg"
+heroImageAlt: "Handyman services in Fulshear, Texas"
 localIntro: "Fulshear has transformed into one of the fastest-growing cities in the region, with high-end master-planned communities drawing new homeowners who want move-in upgrades and finishing work done right. Select your community below."
 servicesAvailable:
   - "tv-mounting"

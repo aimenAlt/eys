@@ -22,4 +22,4 @@ Bridgeland's architectural standards protect the community's premium look — an
 
 Exterior modifications in Bridgeland may require Architectural Review Committee approval. We follow community expectations for materials and aesthetics on visible exterior work.
 
-Need help scoping a patio project? [Request an estimate](/contact/) with photos of your space.
+Need help scoping a patio project? See our [Bridgeland community page](/service-areas/cypress/bridgeland-handyman/) or [request an estimate](/contact/) with photos of your space.

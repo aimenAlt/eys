@@ -3,7 +3,7 @@ import ContentLayout from './ContentLayout.astro';
 import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
 import ProjectGallery from '../components/projects/ProjectGallery.astro';
 import CTASection from '../components/home/CTASection.astro';
-import { absoluteUrl } from '../data/business';
+import { absoluteUrl, resolveOgImage } from '../data/business';
 import { breadcrumbList, webPage } from '../data/schema';
 import type { CollectionEntry } from 'astro:content';
 
@@ -17,6 +17,9 @@ const pageUrl = absoluteUrl(`/projects/${data.slug}/`);
 const title = `${data.title} | Elevate Your Space Handyman`;
 const description = data.summary ?? `Project completed by Elevate Your Space Handyman.`;
 
+const featuredImage =
+  data.gallery?.find((img) => img.featured)?.src ?? data.gallery?.[0]?.src;
+
 const schemaGraph = [
   webPage(data.title, pageUrl, description),
   breadcrumbList([
@@ -28,7 +31,13 @@ const schemaGraph = [
 ---
 
 <ContentLayout
-  seo={{ title, description, canonical: pageUrl, ogType: 'article' }}
+  seo={{
+    title,
+    description,
+    canonical: pageUrl,
+    ogType: 'article',
+    ogImage: resolveOgImage(featuredImage),
+  }}
   schemaGraph={schemaGraph}
 >
   <article class="pb-8">

@@ -1,0 +1,36 @@
+---
+import ContentLayout from '../layouts/ContentLayout.astro';
+import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
+import BookingPathSelector from '../components/booking/BookingPathSelector.astro';
+import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
+import { absoluteUrl, site } from '../data/business';
+import { breadcrumbList, webPage } from '../data/schema';
+
+const title = `Book Service | ${site.name}`;
+const description =
+  'Request a quote, book online, or call Elevate Your Space Handyman for handyman services in Katy and West Houston.';
+const canonical = absoluteUrl('/book/');
+
+const schemaGraph = [
+  webPage('Book Service', canonical, description),
+  breadcrumbList([
+    { name: 'Home', url: absoluteUrl('/') },
+    { name: 'Book', url: canonical },
+  ]),
+];
+---
+
+<ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
+  <article>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <BreadcrumbNav
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Book', url: '/book/' },
+        ]}
+      />
+    </div>
+    <BookingPathSelector />
+    <LocalAreaCTA locationName="Katy & West Houston" />
+  </article>
+</ContentLayout>

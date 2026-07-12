@@ -57,8 +57,21 @@ const { cities, communities } = Astro.props;
           )
         }
       </div>
-      <div class="w-full h-80 lg:h-full min-h-[350px] bg-gray-200 rounded-xl overflow-hidden shadow-inner relative">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d110825.2662057922!2d-95.89518040445695!3d29.771960205256434!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8640d00f8da75c01%3A0xcad46f5de0fde2c9!2sKaty%2C%20TX!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus" width="100%" height="100%" style="border:0; position:absolute; top:0; left:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Katy TX service area map"></iframe>
+      <div class="w-full h-80 lg:min-h-[420px] bg-gray-200 rounded-xl overflow-hidden shadow-inner relative">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d110825.2662057922!2d-95.89518040445695!3d29.771960205256434!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8640d00f8da75c01%3A0xcad46f5de0fde2c9!2sKaty%2C%20TX!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
+          width="100%"
+          height="100%"
+          style="border:0; position:absolute; top:0; left:0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Katy TX service area map"
+        ></iframe>
+        <p class="sr-only">
+          Interactive map of our Katy and West Houston service area.
+          <a href="https://maps.google.com/?q=Katy,+TX">Open Katy, TX in Google Maps</a>
+        </p>
       </div>
     </div>
   </div>

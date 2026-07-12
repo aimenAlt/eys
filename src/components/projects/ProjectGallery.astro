@@ -1,4 +1,6 @@
 ---
+import BalancedGrid from '../ui/BalancedGrid.astro';
+
 interface GalleryImage {
   src: string;
   alt: string;
@@ -12,32 +14,20 @@ interface Props {
 }
 
 const { images } = Astro.props;
+
+const galleryItems = (images ?? []).map((image) => ({
+  src: image.src,
+  alt: image.alt,
+  caption: image.caption,
+  type: image.type,
+}));
 ---
 
 {
-  images && images.length > 0 && (
+  galleryItems.length > 0 && (
     <section aria-labelledby="project-gallery">
       <h2 id="project-gallery" class="sr-only">Project Gallery</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {images.map((image) => (
-          <figure class="overflow-hidden rounded-lg bg-gray-100 shadow-sm">
-            <img
-              src={image.src}
-              alt={image.alt}
-              loading="lazy"
-              class="w-full h-64 object-cover"
-            />
-            {(image.caption || image.type) && (
-              <figcaption class="p-4 text-sm text-gray-600 bg-white">
-                {image.type && (
-                  <span class="text-xs font-bold uppercase text-brand-red mr-2">{image.type}</span>
-                )}
-                {image.caption}
-              </figcaption>
-            )}
-          </figure>
-        ))}
-      </div>
+      <BalancedGrid variant="gallery" items={galleryItems} cols={3} gapClass="gap-6" />
     </section>
   )
 }

@@ -1,5 +1,6 @@
 ---
 import { isNavActive } from '../../data/navigation';
+import { withBase } from '../../utils/paths';
 
 interface Props {
   href: string;
@@ -20,12 +21,11 @@ const {
 const pathname = Astro.url.pathname;
 const active = isNavActive(href, pathname);
 const classes = [className, active ? activeClass : ''].filter(Boolean).join(' ');
+const resolvedHref = withBase(href);
 ---
 
 <a
-  href={href}
+  href={resolvedHref}
   class={classes}
-  {...(closeMobileMenu && {
-    onclick: "document.getElementById('mobile-menu').classList.add('hidden')",
-  })}
+  {...(closeMobileMenu ? { 'data-close-mobile-menu': '' } : {})}
 >{label}</a>

@@ -8,7 +8,11 @@ const faqSchema = z.object({
 });
 
 const imageSchema = z.object({
-  src: z.string().url(),
+  src: z
+    .string()
+    .refine((val) => val.startsWith('/') || /^https?:\/\//.test(val), {
+      message: 'Image src must be a site path (/images/...) or absolute URL',
+    }),
   alt: z.string(),
   caption: z.string().optional(),
   type: z.enum(['before', 'after', 'detail', 'process']).optional(),
@@ -38,7 +42,7 @@ const services = defineCollection({
     priceFactors: z.array(z.string()).optional(),
     process: z.array(z.string()).optional(),
     faqs: z.array(faqSchema).optional(),
-    heroImage: z.string().url().optional(),
+    heroImage: z.string().optional(),
     heroImageAlt: z.string().optional(),
     primaryCTA: z.string().optional(),
     secondaryCTA: z.string().optional(),
@@ -61,7 +65,7 @@ const serviceAreas = defineCollection({
     faqs: z.array(faqSchema).optional(),
     relatedProjectsPlaceholder: z.string().optional(),
     relatedProjectSlugs: z.array(z.string()).optional(),
-    heroImage: z.string().url().optional(),
+    heroImage: z.string().optional(),
     heroImageAlt: z.string().optional(),
     published: publishedSchema,
   }),
@@ -80,7 +84,7 @@ const communities = defineCollection({
     promoCode: z.string().optional(),
     promoOffer: z.string().optional(),
     localIntro: z.string().optional(),
-    heroImage: z.string().url().optional(),
+    heroImage: z.string().optional(),
     heroImageAlt: z.string().optional(),
     servicesIntro: z.string().optional(),
     commonProjects: z
@@ -141,6 +145,28 @@ const reviews = defineCollection({
   }),
 });
 
+const cityServices = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/city-services' }),
+  schema: z.object({
+    legacySlug: z.string(),
+    citySlug: z.string(),
+    serviceSlug: z.string(),
+    seoTitle: z.string(),
+    metaDescription: z.string(),
+    heroTitle: z.string(),
+    summary: z.string(),
+    localIntro: z.string(),
+    neighborhoods: z.array(z.string()).optional(),
+    zipCodes: z.array(z.string()).optional(),
+    housingNotes: z.string().optional(),
+    relatedCommunitySlugs: z.array(z.string()).optional(),
+    faqs: z.array(faqSchema).optional(),
+    heroImage: z.string().optional(),
+    heroImageAlt: z.string().optional(),
+    published: publishedSchema,
+  }),
+});
+
 export const collections = {
   services,
   serviceAreas,
@@ -148,4 +174,5 @@ export const collections = {
   projects,
   blog,
   reviews,
+  cityServices,
 };

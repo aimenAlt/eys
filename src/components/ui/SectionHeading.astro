@@ -1,0 +1,45 @@
+---
+type Align = 'left' | 'center';
+type Tone = 'light' | 'dark';
+type As = 'h1' | 'h2' | 'h3';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  intro?: string;
+  align?: Align;
+  tone?: Tone;
+  as?: As;
+  id?: string;
+  class?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  intro,
+  align = 'left',
+  tone = 'light',
+  as = 'h2',
+  id,
+  class: className,
+} = Astro.props;
+
+const Tag = as;
+const alignClass = align === 'center' ? 'text-center mx-auto' : 'text-left';
+const titleColor = tone === 'dark' ? 'text-white' : 'text-brand-black';
+const introColor = tone === 'dark' ? 'text-gray-300' : 'text-gray-600';
+const titleSize = as === 'h1' ? 'text-4xl md:text-5xl' : 'text-3xl md:text-4xl';
+---
+
+<div class:list={['max-w-3xl mb-10 md:mb-12', alignClass, className]}>
+  {
+    eyebrow && (
+      <p class="text-xs font-bold uppercase tracking-widest text-brand-red mb-2">{eyebrow}</p>
+    )
+  }
+  <Tag id={id} class:list={['font-bold tracking-tight leading-tight', titleColor, titleSize]}>
+    {title}
+  </Tag>
+  {intro && <p class:list={['mt-4 text-lg leading-relaxed', introColor]}>{intro}</p>}
+</div>

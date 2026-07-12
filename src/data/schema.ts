@@ -180,6 +180,55 @@ export function itemListSchema(
   };
 }
 
+export function blogPostingSchema(
+  title: string,
+  url: string,
+  description: string,
+  publishedAt: Date,
+  image?: string,
+) {
+  return {
+    '@type': 'BlogPosting',
+    headline: title,
+    description,
+    url,
+    datePublished: publishedAt.toISOString(),
+    author: {
+      '@type': 'Organization',
+      name: site.name,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: site.name,
+      logo: {
+        '@type': 'ImageObject',
+        url: absoluteUrl('/logos/logo-lockup.png'),
+      },
+    },
+    ...(image ? { image } : {}),
+    isPartOf: { '@id': BUSINESS_ID },
+  };
+}
+
+export function reviewSchema(review: {
+  author: string;
+  rating: number;
+  text: string;
+  date: Date;
+}) {
+  return {
+    '@type': 'Review',
+    author: { '@type': 'Person', name: review.author },
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: String(review.rating),
+      bestRating: '5',
+    },
+    reviewBody: review.text,
+    datePublished: review.date.toISOString(),
+  };
+}
+
 export function homePageSchema(
   faqs: FaqItem[] = homeFaqs,
   _reviews: { rating: number }[] = [],
@@ -192,7 +241,11 @@ export function homePageSchema(
   return graph;
 }
 
-export function reviewsPageSchema(pageUrl: string, description: string) {
+export function reviewsPageSchema(
+  pageUrl: string,
+  description: string,
+  reviews: { author: string; rating: number; text: string; date: Date }[] = [],
+) {
   const businessNode: Record<string, unknown> = { ...canonicalBusinessNode() };
   businessNode.aggregateRating = aggregateRatingFromGoogle();
 
@@ -203,13 +256,15 @@ export function reviewsPageSchema(pageUrl: string, description: string) {
       { name: 'Reviews', url: pageUrl },
     ]),
     businessNode,
+    ...reviews.map((review) => reviewSchema(review)),
   ];
 }
 
 function absoluteUrl(path: string): string {
-  const base = site.url.replace(/\/$/, '');
-  const normalized = path.startsWith('/') ? path : `/${path}`;
-  return `${base}${normalized}`;
+  const origin = String(import.meta.env.SITE || site.url).replace(/\/$/, '');
+  const base = import.meta.env.BASE_URL || '/';
+  const clean = path.replace(/^\//, '');
+  return `${origin}${base}${clean}`;
 }
 
 export function wrapSchemaGraph(graph: unknown[]) {

@@ -25,7 +25,16 @@ const description =
   'Read verified customer reviews for Elevate Your Space Handyman in Katy and West Houston. 4.9 stars from 150+ Google reviews.';
 const canonical = absoluteUrl('/reviews/');
 
-const schemaGraph = reviewsPageSchema(canonical, description);
+const schemaGraph = reviewsPageSchema(
+  canonical,
+  description,
+  reviewItems.map((r) => ({
+    author: r.author,
+    rating: r.rating,
+    text: r.text,
+    date: r.date,
+  })),
+);
 ---
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>

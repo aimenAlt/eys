@@ -9,10 +9,44 @@
 @theme {
   --color-brand-red: #b00000;
   --color-brand-redhover: #8a0000;
-  --color-brand-black: #050505;
-  --color-brand-charcoal: #222222;
+  --color-brand-redsoft: #fbeaea;
+  --color-brand-black: #0a0a0a;
+  --color-brand-charcoal: #1c1c1c;
+  --color-brand-ink: #171717;
+  --color-brand-muted: #6b6b6b;
   --color-brand-lightbg: #f7f7f7;
+  --color-brand-line: #ececec;
   --font-sans: "Inter", sans-serif;
+  --shadow-card: 0 1px 2px rgba(10, 10, 10, 0.04), 0 12px 28px -14px rgba(10, 10, 10, 0.14);
+  --shadow-cardhover: 0 10px 34px -10px rgba(10, 10, 10, 0.22);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Consistent keyboard focus ring site-wide */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--color-brand-red);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 /* Details/Summary Accordion Styling */
@@ -25,12 +59,85 @@ details > summary::-webkit-details-marker {
   display: none;
 }
 
+/* Mobile-collapsed SEO text: collapsed behind a toggle on phones, always fully
+   expanded (and toggle hidden) on desktop. Content stays in the DOM either way,
+   so it remains fully indexable for SEO. */
+.seo-collapse > summary {
+  color: var(--color-brand-red);
+  font-weight: 700;
+  padding-top: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .seo-collapse > summary {
+    display: none;
+  }
+  .seo-collapse > .seo-collapse-body {
+    display: block !important;
+  }
+  /* Newer browsers gate <details> content via ::details-content, not display:none */
+  .seo-collapse::details-content {
+    content-visibility: visible !important;
+  }
+}
+
+/* Mobile-collapsible block: collapsed by default on phones (tap heading to open),
+   always fully expanded on desktop. Content stays in the DOM (SEO-safe). */
+.mobile-collapse > summary {
+  cursor: pointer;
+}
+.mobile-collapse > summary .chev {
+  transition: transform 0.2s ease;
+}
+.mobile-collapse[open] > summary .chev {
+  transform: rotate(180deg);
+}
+
+@media (min-width: 768px) {
+  .mobile-collapse > summary {
+    cursor: default;
+    pointer-events: none;
+  }
+  .mobile-collapse > summary .chev {
+    display: none;
+  }
+  .mobile-collapse > .mobile-collapse-body {
+    display: block !important;
+  }
+  .mobile-collapse::details-content {
+    content-visibility: visible !important;
+  }
+}
+
 .gradient-btn {
   background: linear-gradient(135deg, #b00000 0%, #8a0000 100%);
 }
 
 .gradient-btn:hover {
   background: linear-gradient(135deg, #8a0000 0%, #050505 100%);
+}
+
+/* Animated underline for desktop nav links */
+.nav-underline {
+  position: relative;
+}
+
+.nav-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  height: 2px;
+  width: 100%;
+  background: var(--color-brand-red);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease;
+}
+
+.nav-underline:hover::after,
+.nav-underline.text-brand-red::after {
+  transform: scaleX(1);
 }
 
 .lazy-bg {
@@ -56,46 +163,54 @@ details > summary::-webkit-details-marker {
   background: rgba(255, 255, 255, 0.5);
 }
 
-/* Uniform balanced grid — equal tile width per column count, centered short rows */
+/* Uniform balanced grid — equal tile width; short rows left-aligned.
+   Vertical spacing between rows MUST use flex gap (ul margins get zeroed by base styles). */
 .uniform-grid-container {
   width: 100%;
-}
-
-.uniform-grid-container > * + * {
-  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--uniform-gap, 1.5rem);
+  --uniform-tile-width: calc(
+    (100% - (var(--uniform-cols) - 1) * var(--uniform-gap, 1.5rem)) / var(--uniform-cols)
+  );
 }
 
 .uniform-grid-row {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: stretch;
   list-style: none;
   margin: 0;
   padding: 0;
+  /* gap-* utility on the row sets equal horizontal + wrapped vertical spacing */
 }
 
 .uniform-grid-tile {
   width: 100%;
   box-sizing: border-box;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.uniform-grid-tile > * {
+  flex: 1 1 auto;
+  height: 100%;
 }
 
 @media (min-width: 768px) {
   .uniform-grid-tile--md {
-    width: calc(
-      (100% - (var(--uniform-cols) - 1) * var(--uniform-gap)) / var(--uniform-cols)
-    );
-    flex-shrink: 0;
-    flex-grow: 0;
+    flex: 0 0 var(--uniform-tile-width);
+    width: var(--uniform-tile-width);
+    max-width: var(--uniform-tile-width);
   }
 }
 
 @media (min-width: 1024px) {
   .uniform-grid-tile--lg {
-    width: calc(
-      (100% - (var(--uniform-cols) - 1) * var(--uniform-gap)) / var(--uniform-cols)
-    );
-    flex-shrink: 0;
-    flex-grow: 0;
+    flex: 0 0 var(--uniform-tile-width);
+    width: var(--uniform-tile-width);
+    max-width: var(--uniform-tile-width);
   }
 }

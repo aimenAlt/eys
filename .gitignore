@@ -1,5 +1,7 @@
 # build output
 dist/
+# local audit screenshots / crawl reports
+.screenshots/
 # generated types
 .astro/
 

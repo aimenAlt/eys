@@ -1,14 +1,24 @@
 ---
 import ContentLayout from '../layouts/ContentLayout.astro';
 import { absoluteUrl, site } from '../data/business';
+import { breadcrumbList, webPage } from '../data/schema';
 
 const title = `Privacy Policy | ${site.name}`;
-const description = 'Privacy policy for Elevate Your Space Handyman.';
+const description =
+  'Privacy policy for Elevate Your Space Handyman — how we collect and use your information when you request an estimate.';
 const canonical = absoluteUrl('/privacy/');
+
+const schemaGraph = [
+  webPage('Privacy Policy', canonical, description),
+  breadcrumbList([
+    { name: 'Home', url: absoluteUrl('/') },
+    { name: 'Privacy Policy', url: canonical },
+  ]),
+];
 ---
 
-<ContentLayout seo={{ title, description, canonical }}>
-  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 prose prose-gray">
+<ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
+  <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12 prose prose-gray">
     <h1>Privacy Policy</h1>
     <p>Last updated: July 2026</p>
     <p>Elevate Your Space Handyman ("EYS", "we", "us") respects your privacy. This policy describes how we collect and use information when you visit our website or contact us for services.</p>
@@ -18,5 +28,5 @@ const canonical = absoluteUrl('/privacy/');
     <p>We use your information to respond to inquiries, provide estimates, schedule services, and improve our customer experience. We do not sell your personal information.</p>
     <h2>Contact</h2>
     <p>Questions about this policy? Email us at <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
-  </div>
+  </article>
 </ContentLayout>

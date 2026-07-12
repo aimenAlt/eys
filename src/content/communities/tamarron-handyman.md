@@ -4,7 +4,7 @@ slug: "tamarron-handyman"
 citySlug: "katy"
 published: true
 seoTitle: "Handyman & New Home Upgrades in Tamarron | EYS"
-metaDescription: "Elevate Your Space provides premium TV mounting, ceiling fan installation, and new home upgrades for Tamarron residents in Katy and Fulshear. Request an estimate!"
+metaDescription: "TV mounting, ceiling fans, and move-in upgrades for Tamarron residents in Katy and Fulshear. Request an estimate from Elevate Your Space."
 heroTitle: "Premium Handyman & Move-In Upgrades for Tamarron"
 summary: "Elevate Your Space provides the premium finishing touches, custom installations, and upgrades needed to personalize your new Tamarron home."
 promoCode: "TAMARRON25"

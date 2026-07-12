@@ -1,0 +1,23 @@
+---
+import { site } from '../../data/business';
+import { withBase } from '../../utils/paths';
+---
+
+<div
+  class="fixed bottom-0 inset-x-0 z-40 md:hidden bg-brand-black border-t border-brand-red/30 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex gap-3 shadow-lg"
+  role="region"
+  aria-label="Quick actions"
+>
+  <a
+    href={`tel:${site.phoneTel}`}
+    class="flex-1 text-center bg-white text-brand-black font-bold py-3 rounded-md text-sm"
+  >
+    Call
+  </a>
+  <a
+    href={withBase('/book/')}
+    class="flex-1 text-center bg-brand-red text-white font-bold py-3 rounded-md text-sm"
+  >
+    Get Quote
+  </a>
+</div>

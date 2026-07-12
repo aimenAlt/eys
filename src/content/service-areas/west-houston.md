@@ -3,9 +3,11 @@ title: "West Houston, TX"
 slug: "west-houston"
 published: true
 seoTitle: "West Houston Handyman | Energy Corridor Home Improvements"
-metaDescription: "Premium handyman services in West Houston and the Energy Corridor — reliable repairs and high-end finishing for busy professionals who need quality work without the DIY time sink."
+metaDescription: "West Houston and Energy Corridor handyman — reliable repairs and high-end finishing for professionals who need quality work done right."
 heroTitle: "Handyman Services in West Houston, TX"
 summary: "Elevate Your Space Handyman serves West Houston and Energy Corridor professionals with reliable, white-glove handyman service — repairs, installations, and finishing work done right the first time."
+heroImage: "/images/heroes/west-houston.jpg"
+heroImageAlt: "Handyman services in West Houston, Texas"
 localIntro: "West Houston is anchored by the Energy Corridor and suburbs that surround it — home to professionals who value reliable, white-glove handyman service when DIY is not an option."
 servicesAvailable:
   - "tv-mounting"

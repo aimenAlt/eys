@@ -1,6 +1,7 @@
 ---
 import ContentLayout from './ContentLayout.astro';
 import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
+import ServiceTrustStrip from '../components/seo/ServiceTrustStrip.astro';
 import ServiceHero from '../components/services/ServiceHero.astro';
 import ServiceIncluded from '../components/services/ServiceIncluded.astro';
 import ServicePriceFactors from '../components/services/ServicePriceFactors.astro';
@@ -8,8 +9,9 @@ import ServiceProcess from '../components/services/ServiceProcess.astro';
 import ServiceFAQ from '../components/services/ServiceFAQ.astro';
 import ServiceAreaCrossLinks from '../components/services/ServiceAreaCrossLinks.astro';
 import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
-import { absoluteUrl } from '../data/business';
+import { absoluteUrl, resolveOgImage } from '../data/business';
 import { getCategoryForServiceSlug } from '../data/serviceCategories';
+import { contentMaxClass, contentPaddingClass } from '../data/layout';
 import {
   breadcrumbList,
   faqPage,
@@ -67,26 +69,31 @@ const schemaGraph = [
 ---
 
 <ContentLayout
-  seo={{ title, description, canonical: pageUrl, ogType: 'website' }}
+  seo={{
+    title,
+    description,
+    canonical: pageUrl,
+    ogType: 'website',
+    ogImage: resolveOgImage(data.heroImage),
+  }}
   schemaGraph={schemaGraph}
 >
   <article class="pb-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+    <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-8']}>
       <BreadcrumbNav items={navBreadcrumbItems} />
     </div>
     <ServiceHero service={data} />
+    <ServiceTrustStrip />
     <ServiceIncluded items={data.includedServices} />
     <ServicePriceFactors items={data.priceFactors} />
     <ServiceProcess steps={data.process} />
     <section class="py-12 bg-white">
-      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 prose prose-gray max-w-none">
+      <div class:list={['mx-auto prose prose-gray max-w-none', contentMaxClass, contentPaddingClass]}>
         <slot />
       </div>
     </section>
     <ServiceAreaCrossLinks communities={communityLinks} />
     <ServiceFAQ faqs={data.faqs} />
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-      <LocalAreaCTA locationName="Katy & West Houston" />
-    </div>
+    <LocalAreaCTA locationName="Katy & West Houston" />
   </article>
 </ContentLayout>

@@ -1,6 +1,6 @@
 ---
-import NavLink from './NavLink.astro';
 import type { NavMenuGroup } from '../../data/navMenus';
+import { withBase } from '../../utils/paths';
 
 interface Props {
   menu: NavMenuGroup;
@@ -8,7 +8,6 @@ interface Props {
 }
 
 const { menu, mobileLinkClass = 'block px-3 py-2 rounded-md text-base font-medium hover:bg-brand-red' } = Astro.props;
-const accordionId = `mobile-${menu.label.toLowerCase().replace(/\s+/g, '-')}`;
 ---
 
 <details class="group border-b border-gray-700/50">
@@ -19,19 +18,19 @@ const accordionId = `mobile-${menu.label.toLowerCase().replace(/\s+/g, '-')}`;
     </svg>
   </summary>
   <div class="pl-3 pb-2 space-y-1">
-    <a href={menu.href} class="block px-3 py-2 text-sm text-brand-red font-bold">
+    <a href={withBase(menu.href)} class="block px-3 py-2 text-sm text-brand-red font-bold" data-close-mobile-menu>
       View all {menu.label}
     </a>
     {menu.children.map((item) => (
       <div>
-        <a href={item.href} class="block px-3 py-2 text-sm text-gray-200 hover:text-white">
+        <a href={withBase(item.href)} class="block px-3 py-2 text-sm text-gray-200 hover:text-white" data-close-mobile-menu>
           {item.label}
         </a>
         {
           item.children && (
             <div class="pl-4 space-y-0.5">
               {item.children.map((child) => (
-                <a href={child.href} class="block px-3 py-1.5 text-xs text-gray-400 hover:text-white">
+                <a href={withBase(child.href)} class="block px-3 py-1.5 text-xs text-gray-400 hover:text-white" data-close-mobile-menu>
                   {child.label}
                 </a>
               ))}

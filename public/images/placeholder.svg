@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Elevate Your Space Handyman">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#faf9f8"/>
+      <stop offset="1" stop-color="#ececea"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.42" r="0.55">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <rect width="800" height="600" fill="url(#glow)"/>
+  <g transform="translate(400 268)" fill="#b00000" opacity="0.9">
+    <path d="M0 -66 L66 -10 L50 -10 L50 56 L15 56 L15 12 L-15 12 L-15 56 L-50 56 L-50 -10 L-66 -10 Z"/>
+  </g>
+  <text x="400" y="392" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="27" font-weight="700" fill="#57534e" letter-spacing="0.5">
+    Elevate Your Space
+  </text>
+  <text x="400" y="424" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="600" fill="#a8a29e" letter-spacing="4">
+    HANDYMAN
+  </text>
+</svg>

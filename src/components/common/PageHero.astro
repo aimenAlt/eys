@@ -1,4 +1,6 @@
 ---
+import { contentMaxClass, contentPaddingClass } from '../../data/layout';
+
 interface Props {
   eyebrow?: string;
   title: string;
@@ -9,7 +11,7 @@ const { eyebrow, title, description } = Astro.props;
 ---
 
 <section class="bg-brand-lightbg border-b border-gray-200">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'py-10 md:py-12']}>
     {
       eyebrow && (
         <p class="text-brand-red font-bold text-sm tracking-widest uppercase mb-2">

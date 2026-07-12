@@ -4,6 +4,7 @@ import NavDropdown from './NavDropdown.astro';
 import NavMobileAccordion from './NavMobileAccordion.astro';
 import { mainNav } from '../../data/navigation';
 import type { NavMenus } from '../../data/navMenus';
+import Logo from './Logo.astro';
 import { site } from '../../data/business';
 
 interface Props {
@@ -13,7 +14,7 @@ interface Props {
 const { navMenus } = Astro.props;
 
 const desktopLinkClass =
-  'text-sm font-medium hover:text-brand-red transition-colors';
+  'nav-underline text-sm font-medium hover:text-brand-red transition-colors';
 const mobileLinkClass =
   'block px-3 py-2 rounded-md text-base font-medium hover:bg-brand-red';
 
@@ -26,9 +27,7 @@ const simpleNavItems = mainNav.filter(
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="/" class="text-2xl font-bold tracking-tight">
-                        Elevate Your Space<span class="text-brand-red">.</span>
-                    </a>
+                    <Logo />
                 </div>
                 
                 <nav class="hidden md:flex space-x-6 items-center" aria-label="Primary">
@@ -52,8 +51,15 @@ const simpleNavItems = mainNav.filter(
                 </div>
 
                 <div class="flex items-center md:hidden">
-                    <button type="button" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="text-gray-300 hover:text-white focus:outline-none p-2" aria-label="Toggle menu">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <button
+                      type="button"
+                      id="mobile-menu-toggle"
+                      class="text-gray-300 hover:text-white focus:outline-none p-2"
+                      aria-label="Toggle menu"
+                      aria-controls="mobile-menu"
+                      aria-expanded="false"
+                    >
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
@@ -61,8 +67,19 @@ const simpleNavItems = mainNav.filter(
             </div>
         </div>
 
-        <div id="mobile-menu" class="hidden md:hidden bg-brand-charcoal border-t border-gray-800">
-            <nav aria-label="Primary" class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <!--
+          Sticky headers do not scroll when taller than the viewport.
+          Cap height below the bar and enable overflow so Service Areas can scroll.
+          Extra bottom padding clears the mobile sticky CTA.
+        -->
+        <div
+          id="mobile-menu"
+          class="hidden md:hidden bg-brand-charcoal border-t border-gray-800 max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch]"
+        >
+            <nav
+              aria-label="Primary"
+              class="px-2 pt-2 pb-[calc(5.5rem+env(safe-area-inset-bottom,0px))] space-y-1 sm:px-3"
+            >
                 {simpleNavItems.map((item) => (
                     <NavLink href={item.href} label={item.label} class={mobileLinkClass} closeMobileMenu />
                 ))}
@@ -75,3 +92,28 @@ const simpleNavItems = mainNav.filter(
             </nav>
         </div>
     </header>
+
+    <script>
+      function setMobileMenuOpen(open) {
+        const menu = document.getElementById('mobile-menu');
+        const toggle = document.getElementById('mobile-menu-toggle');
+        if (!menu || !toggle) return;
+        menu.classList.toggle('hidden', !open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        document.documentElement.classList.toggle('overflow-hidden', open);
+        document.body.classList.toggle('overflow-hidden', open);
+      }
+
+      document.getElementById('mobile-menu-toggle')?.addEventListener('click', () => {
+        const menu = document.getElementById('mobile-menu');
+        if (!menu) return;
+        setMobileMenuOpen(menu.classList.contains('hidden'));
+      });
+
+      document.getElementById('mobile-menu')?.addEventListener('click', (event) => {
+        const target = event.target;
+        if (target instanceof Element && target.closest('[data-close-mobile-menu]')) {
+          setMobileMenuOpen(false);
+        }
+      });
+    </script>

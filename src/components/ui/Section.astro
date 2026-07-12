@@ -1,0 +1,60 @@
+---
+import { contentMaxClass, contentPaddingClass } from '../../data/layout';
+
+type Tone = 'white' | 'light' | 'dark' | 'red';
+type Width = 'narrow' | 'default' | 'wide';
+type Spacing = 'sm' | 'default' | 'lg';
+
+interface Props {
+  tone?: Tone;
+  width?: Width;
+  spacing?: Spacing;
+  id?: string;
+  labelledby?: string;
+  class?: string;
+  containerClass?: string;
+  border?: boolean;
+}
+
+const {
+  tone = 'white',
+  width = 'default',
+  spacing = 'default',
+  id,
+  labelledby,
+  class: className,
+  containerClass,
+  border = false,
+} = Astro.props;
+
+const toneClass: Record<Tone, string> = {
+  white: 'bg-white text-brand-black',
+  light: 'bg-brand-lightbg text-brand-black',
+  dark: 'bg-brand-black text-white',
+  red: 'bg-brand-red text-white',
+};
+
+const spacingClass: Record<Spacing, string> = {
+  sm: 'py-10 md:py-12',
+  default: 'py-16 md:py-20',
+  lg: 'py-20 md:py-28',
+};
+
+const widthClass: Record<Width, string> = {
+  narrow: 'max-w-4xl',
+  default: contentMaxClass,
+  wide: 'max-w-7xl',
+};
+
+const borderClass = border ? 'border-y border-brand-line' : '';
+---
+
+<section
+  id={id}
+  aria-labelledby={labelledby}
+  class:list={[toneClass[tone], spacingClass[spacing], borderClass, className]}
+>
+  <div class:list={['mx-auto', widthClass[width], contentPaddingClass, containerClass]}>
+    <slot />
+  </div>
+</section>

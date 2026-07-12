@@ -6,6 +6,8 @@ seoTitle: "Cypress TX Handyman | Home Improvement & Repairs"
 metaDescription: "Handyman and home improvement in Cypress, TX — from mature-home maintenance in Lakewood Forest and Ravensway to premium upgrades in Bridgeland and Towne Lake."
 heroTitle: "Handyman Services in Cypress, TX"
 summary: "Elevate Your Space Handyman serves Cypress homeowners across established neighborhoods and modern master-planned communities — with repair, renovation, and finishing work matched to your home's age and style."
+heroImage: "/images/heroes/cypress.jpg"
+heroImageAlt: "Handyman services in Cypress, Texas"
 localIntro: "Cypress sits at an interesting crossroads for home services — mature neighborhoods and modern master-planned communities side by side. Select your community below for localized handyman services and preferred community pricing."
 servicesAvailable:
   - "tv-mounting"

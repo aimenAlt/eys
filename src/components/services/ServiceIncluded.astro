@@ -1,34 +1,43 @@
 ---
+import BalancedGrid from '../ui/BalancedGrid.astro';
+import { contentMaxClass, contentPaddingClass } from '../../data/layout';
+
 interface Props {
   items?: string[];
+  embedded?: boolean;
+  heading?: string;
+  locationName?: string;
 }
 
-const { items } = Astro.props;
+const {
+  items,
+  embedded = false,
+  heading = 'What We Do',
+  locationName,
+} = Astro.props;
+
+const title = locationName ? `What we handle in ${locationName}` : heading;
+const checklistItems = (items ?? []).map((text) => ({ text }));
 ---
 
 {
-  items && items.length > 0 && (
-    <section class="py-16 bg-brand-lightbg" aria-labelledby="included">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 id="included" class="text-3xl font-bold text-brand-black mb-8">
-          What We Do
+  checklistItems.length > 0 &&
+    (embedded ? (
+      <section aria-labelledby="included">
+        <h2 id="included" class="text-2xl md:text-3xl font-bold text-brand-black mb-6">
+          {title}
         </h2>
-        <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {items.map((item) => (
-            <li class="flex items-start bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
-              <svg
-                class="w-5 h-5 text-brand-red mr-3 mt-0.5 flex-shrink-0"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-              </svg>
-              <span class="text-gray-700 text-sm">{item}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  )
+        <BalancedGrid variant="checklist" items={checklistItems} cols={2} gapClass="gap-4" />
+      </section>
+    ) : (
+      <section class="py-16 md:py-20 bg-brand-lightbg" aria-labelledby="included">
+        <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
+          <p class="text-xs font-bold uppercase tracking-widest text-brand-red mb-2">What We Do</p>
+          <h2 id="included" class="text-3xl md:text-4xl font-bold text-brand-black mb-8">
+            {title}
+          </h2>
+          <BalancedGrid variant="checklist" items={checklistItems} cols={2} gapClass="gap-4" />
+        </div>
+      </section>
+    ))
 }

@@ -1,27 +1,56 @@
 ---
 import { getCollection } from 'astro:content';
 import ContentLayout from '../../layouts/ContentLayout.astro';
+import BreadcrumbNav from '../../components/seo/BreadcrumbNav.astro';
 import BalancedGrid from '../../components/ui/BalancedGrid.astro';
+import LocalAreaCTA from '../../components/areas/local/LocalAreaCTA.astro';
 import { absoluteUrl, site } from '../../data/business';
+import { breadcrumbList, webPage } from '../../data/schema';
 
 const projects = await getCollection('projects', ({ data }) => data.published === true);
 
-const projectCards = projects.map((entry) => ({
-  title: entry.data.title,
-  description: entry.data.summary,
-  href: `/projects/${entry.data.slug}/`,
-}));
+function projectThumbnail(entry: (typeof projects)[number]): string | undefined {
+  const featured = entry.data.gallery?.find((img) => img.featured);
+  return featured?.src ?? entry.data.gallery?.[0]?.src;
+}
+
+const projectCards = projects.map((entry) => {
+  const thumb = projectThumbnail(entry);
+  return {
+    title: entry.data.title,
+    description: entry.data.summary,
+    href: `/projects/${entry.data.slug}/`,
+    image: thumb?.replace('w=800', 'w=400'),
+    imageAlt: entry.data.gallery?.[0]?.alt ?? entry.data.title,
+  };
+});
 
 const title = `Project Gallery | ${site.name}`;
 const description = 'Recent handyman and home improvement projects completed in Katy and West Houston.';
 const canonical = absoluteUrl('/projects/');
+
+const schemaGraph = [
+  webPage('Recent Projects', canonical, description),
+  breadcrumbList([
+    { name: 'Home', url: absoluteUrl('/') },
+    { name: 'Projects', url: canonical },
+  ]),
+];
 ---
 
-<ContentLayout seo={{ title, description, canonical }}>
+<ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
   <article>
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+    <BreadcrumbNav
+      items={[
+        { name: 'Home', url: '/' },
+        { name: 'Projects', url: '/projects/' },
+      ]}
+    />
+  </div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12">
     <h1 class="text-4xl md:text-5xl font-extrabold text-brand-black mb-6">Recent Projects</h1>
-    <p class="text-lg text-gray-600 mb-12 max-w-3xl">
+    <p class="text-lg text-gray-600 mb-10 max-w-3xl">
       See examples of repair, installation, and remodeling work completed for local homeowners.
     </p>
     {
@@ -34,5 +63,6 @@ const canonical = absoluteUrl('/projects/');
       )
     }
   </div>
+  <LocalAreaCTA locationName="Katy & West Houston" />
   </article>
 </ContentLayout>

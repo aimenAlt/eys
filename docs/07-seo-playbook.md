@@ -25,12 +25,14 @@ Master reference for local SEO, technical SEO, and content strategy. Use this do
 | Canonical URLs | Trailing slash always | `astro.config.mjs`, `absoluteUrl()` |
 | Open Graph + Twitter | Global default image | `src/data/business.ts` |
 | JSON-LD | Homepage, services, areas, communities, pricing | `src/data/schema.ts` |
-| Sitemap | Auto on build | `@astrojs/sitemap` |
+| Sitemap (XML, for Google) | Auto on build | `@astrojs/sitemap` → `/sitemap-index.xml` |
+| Sitemap (HTML, for humans) | Auto on build | `/sitemap/` via `src/data/siteMap.ts` |
 | robots.txt | Allow all + sitemap | `public/robots.txt` |
-| Service pages | 13 published | `src/content/services/` |
+| Service pages | 14 published | `src/content/services/` |
 | Category hubs | 3 pillars | `/services/repairs-and-maintenance/`, etc. |
 | City pages | 5 published | `src/content/service-areas/` |
 | Community pages | 12 published | `src/content/communities/` |
+| Legacy WP redirects | 38 rules (301) | `public/_redirects` — see [08-legacy-url-redirects.md](./08-legacy-url-redirects.md) |
 
 ---
 
@@ -74,6 +76,47 @@ Master reference for local SEO, technical SEO, and content strategy. Use this do
 
 ---
 
+## Sitemaps
+
+Two sitemaps serve different audiences — both update automatically on `npm run build`.
+
+| Sitemap | URL | Audience |
+|---------|-----|----------|
+| **HTML** (browse all pages) | https://www.eyshandyman.com/sitemap/ | You, team, visitors |
+| **XML** (crawler index) | https://www.eyshandyman.com/sitemap-index.xml | Google, Bing, other bots |
+
+**How pages get included:**
+- Published content (`published: true` in frontmatter) → included
+- Draft content (`published: false`) → excluded
+- New static pages under `src/pages/` → included after build
+
+**Data source for HTML sitemap:** `src/data/siteMap.ts` — queries the same collections as `getStaticPaths`.
+
+### Google Search Console (one-time setup)
+
+1. Go to [Google Search Console](https://search.google.com/search-console)
+2. Add property: `https://www.eyshandyman.com` (URL prefix or domain)
+3. Verify ownership (DNS TXT record or HTML file — follow GSC prompts)
+4. Left menu → **Sitemaps** → enter `sitemap-index.xml` → **Submit**
+5. Status should show **Success** within a few days
+
+**After each deploy:** GSC re-crawls the XML sitemap automatically. Re-submit only if GSC reports errors. Spot-check `/sitemap/` in the browser to confirm new pages appear.
+
+### Legacy WordPress migration
+
+The old flat WordPress URLs (e.g. `/tv-mounting/`, `/bathroom-remodeling-richmond/`) are handled by **301 redirects** in `public/_redirects`. Full mapping: **[08-legacy-url-redirects.md](./08-legacy-url-redirects.md)**.
+
+**Cloudflare (one-time):** Redirect apex `eyshandyman.com/*` → `https://www.eyshandyman.com/$1` (301). Canonical site is always `www`.
+
+After deploy, spot-check redirects:
+
+```bash
+curl -sI https://www.eyshandyman.com/tv-mounting/ | grep -iE 'HTTP|location'
+curl -sI https://www.eyshandyman.com/about-us/ | grep -iE 'HTTP|location'
+```
+
+---
+
 ## Deploy checklist (every release)
 
 ```bash
@@ -81,9 +124,9 @@ npm run build
 ```
 
 After build, verify:
-1. `dist/sitemap-0.xml` includes all service URLs (13), category hubs (3), cities (5), communities (12)
-2. New pages return 200 (not 404)
-3. Submit updated sitemap in [Google Search Console](https://search.google.com/search-console)
+1. `dist/sitemap-0.xml` includes all published URLs
+2. `/sitemap/` lists the same pages grouped by section (~50 total)
+3. New pages return 200 (not 404)
 4. Spot-check canonical tags on 2–3 new pages
 
 Expected URL count after full build: **~50 pages** (varies with blog/projects).
@@ -246,3 +289,4 @@ All card/link grids use `BalancedGrid` with **uniform tile width** — short fin
 - [PROJECT-START-HERE.md](../PROJECT-START-HERE.md) — build doctrine
 - [02-site-architecture.md](./02-site-architecture.md) — URL structure
 - [04-implementation-roadmap.md](./04-implementation-roadmap.md) — phased build plan
+- [08-legacy-url-redirects.md](./08-legacy-url-redirects.md) — WordPress → Astro 301 map

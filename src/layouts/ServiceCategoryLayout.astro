@@ -5,7 +5,7 @@ import LocalHero from '../components/areas/local/LocalHero.astro';
 import LocalLandingShell from '../components/areas/local/LocalLandingShell.astro';
 import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
 import BalancedGrid from '../components/ui/BalancedGrid.astro';
-import { absoluteUrl } from '../data/business';
+import { absoluteUrl, resolveOgImage } from '../data/business';
 import { breadcrumbList, itemListSchema, webPage } from '../data/schema';
 import type { ServiceCategory } from '../data/serviceCategories';
 import { serviceCategories } from '../data/serviceCategories';
@@ -50,7 +50,13 @@ const schemaGraph = [
 ---
 
 <ContentLayout
-  seo={{ title, description, canonical: pageUrl, ogType: 'website' }}
+  seo={{
+    title,
+    description,
+    canonical: pageUrl,
+    ogType: 'website',
+    ogImage: resolveOgImage(category.heroImage),
+  }}
   schemaGraph={schemaGraph}
 >
   <article>
@@ -100,8 +106,7 @@ const schemaGraph = [
           <a href="/services/" class="text-sm font-bold text-brand-red hover:underline">All services →</a>
         </div>
       </section>
-
-      <LocalAreaCTA locationName="Katy & West Houston" />
     </LocalLandingShell>
+    <LocalAreaCTA locationName="Katy & West Houston" />
   </article>
 </ContentLayout>

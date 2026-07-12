@@ -1,0 +1,46 @@
+---
+import { withBase } from '../../utils/paths';
+
+interface Props {
+  variant?: 'header' | 'footer';
+  class?: string;
+}
+
+const { variant = 'header', class: className } = Astro.props;
+
+// The supplied lockup PNG is a tall 3-line image that becomes illegible at header
+// height, so we compose the brand from the crisp square mark + an HTML wordmark.
+// Both header and footer sit on dark backgrounds, so the same colors apply.
+const isFooter = variant === 'footer';
+// The mark art is portrait (~0.76:1), so size by height with auto width to avoid squishing.
+const markSize = isFooter ? 'h-14 w-auto' : 'h-11 w-auto md:h-12';
+const topSize = isFooter ? 'text-base' : 'text-sm lg:text-base';
+const subSize = isFooter ? 'text-[11px]' : 'text-[10px]';
+// On desktop header the wordmark shows from lg up to keep room for the nav; the
+// mark alone represents the brand on smaller widths. Footer always shows both.
+const wordmarkVis = isFooter ? 'flex' : 'hidden lg:flex';
+---
+
+<a
+  href={withBase('/')}
+  class:list={['group inline-flex items-center gap-2.5', className]}
+  aria-label="Elevate Your Space Handyman — Home"
+>
+  <img
+    src={withBase('/logos/logo-mark.png')}
+    alt=""
+    width="36"
+    height="48"
+    class:list={[markSize, 'shrink-0 transition-transform duration-200 group-hover:scale-105']}
+    loading="eager"
+    decoding="async"
+  />
+  <span class:list={[wordmarkVis, 'flex-col leading-none']}>
+    <span class:list={[topSize, 'font-extrabold tracking-tight text-white']}>
+      Elevate Your Space
+    </span>
+    <span class:list={[subSize, 'mt-1 font-bold uppercase tracking-[0.32em] text-brand-red']}>
+      Handyman
+    </span>
+  </span>
+</a>

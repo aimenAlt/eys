@@ -2,7 +2,7 @@
 import ContentLayout from './ContentLayout.astro';
 import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
 import { absoluteUrl } from '../data/business';
-import { breadcrumbList, webPage } from '../data/schema';
+import { breadcrumbList, blogPostingSchema, webPage } from '../data/schema';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -24,6 +24,7 @@ const publishedDate = data.publishedAt.toLocaleDateString('en-US', {
 
 const schemaGraph = [
   webPage(data.title, pageUrl, description),
+  blogPostingSchema(data.title, pageUrl, description, data.publishedAt),
   breadcrumbList([
     { name: 'Home', url: absoluteUrl('/') },
     { name: 'Blog', url: absoluteUrl('/blog/') },

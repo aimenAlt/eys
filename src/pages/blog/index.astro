@@ -55,11 +55,11 @@ const schemaGraph = [
       description="Practical advice on repairs, installations, and home improvements for Katy and West Houston homeowners."
     />
 
-    <section class="py-16 bg-white">
+    <section class="py-10 md:py-12 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {
           postCards.length > 0 ? (
-            <BalancedGrid variant="card" items={postCards} cols={3} gapClass="gap-6" />
+            <BalancedGrid variant="card" items={postCards} cols={2} gapClass="gap-6" />
           ) : (
             <p class="text-gray-600 max-w-2xl">
               Articles on repairs, pricing factors, and homeowner tips will appear here as they are published.

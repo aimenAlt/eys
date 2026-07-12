@@ -1,3 +1,5 @@
+import { stripBasePath } from '../utils/paths';
+
 export type NavItem = {
   label: string;
   href: string;
@@ -9,6 +11,7 @@ export const mainNav: NavItem[] = [
   { label: 'Services', href: '/services/' },
   { label: 'Service Areas', href: '/service-areas/' },
   { label: 'Projects', href: '/projects/' },
+  { label: 'Book', href: '/book/' },
   { label: 'Contact', href: '/contact/' },
 ];
 
@@ -22,6 +25,7 @@ export const footerNav: NavItem[] = [
   { label: 'Reviews', href: '/reviews/' },
   { label: 'Blog', href: '/blog/' },
   { label: 'Contact Us', href: '/contact/' },
+  { label: 'Sitemap', href: '/sitemap/' },
 ];
 
 export const homeSectionNav: NavItem[] = [
@@ -35,10 +39,11 @@ export function normalizePath(path: string): string {
 }
 
 export function isNavActive(href: string, pathname: string): boolean {
+  const current = stripBasePath(pathname);
   const hashIndex = href.indexOf('#');
   if (hashIndex !== -1) {
     const base = href.slice(0, hashIndex) || '/';
-    return normalizePath(pathname) === normalizePath(base);
+    return normalizePath(current) === normalizePath(base);
   }
-  return normalizePath(pathname) === normalizePath(href);
+  return normalizePath(current) === normalizePath(href);
 }
