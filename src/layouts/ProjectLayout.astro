@@ -61,7 +61,14 @@ const schemaGraph = [
             data.service && (
               <div>
                 <dt class="font-bold text-brand-black">Service</dt>
-                <dd class="text-gray-600">{data.service}</dd>
+                <dd class="text-gray-600">
+                  <a href={`/services/${data.service}/`} class="text-brand-red font-medium hover:underline">
+                    {data.service
+                      .split('-')
+                      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                      .join(' ')}
+                  </a>
+                </dd>
               </div>
             )
           }

@@ -26,6 +26,10 @@ faqs:
 published: true
 ---
 
-## Kitchen upgrades for Katy families
+## Kitchen updates for maturing Katy homes
 
-A Katy kitchen project might be new backsplash before the holidays, updated pendants, or a move-in hardware refresh. We scope clearly and work around your schedule.
+Katy kitchens in Cinco Ranch and nearby villages often need hardware modernization, cabinet adjustments, or fixture refreshes more than a full tear-out. Homes built in the 1990s–2000s were built to last — but finishes age, and Gulf Coast humidity is hard on doors, drawers, and trim.
+
+We help Katy homeowners improve kitchens with practical, high-impact work: cabinet hardware, lighting coordination, minor carpentry, and punch-list items that make daily cooking and entertaining feel current again. Send photos for a free estimate, and we will tell you what belongs in one visit versus what needs a licensed trade partner.
+
+Explore our full [kitchen remodeling](/services/kitchen-remodeling/) service page for the West Houston overview, or start from the [Katy service area](/service-areas/katy/) hub.

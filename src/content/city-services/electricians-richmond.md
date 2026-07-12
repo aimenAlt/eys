@@ -32,15 +32,8 @@ faqs:
 published: true
 ---
 
-## Electrical services built for Richmond homes
+## Fixture and fan electrical work in Richmond
 
-Fort Bend County homes are not one-size-fits-all. A Pecan Grove ranch may need careful fixture swaps; a new Aliana build may need fans on pre-wires before furniture arrives.
+Most Richmond electrical calls we receive are fixture swaps, porch fans for outdoor living, and ceiling fans in living spaces — work that improves comfort without a full electrical remodel. When a project needs new circuits or complex wiring, we help coordinate appropriate licensed trade support.
 
-### Common Richmond electrical requests
-
-- Ceiling fan installation on existing or builder pre-wires  
-- Chandelier and pendant swaps in entryways and dining rooms  
-- Dimmer and smart-switch upgrades  
-- Outlet and switch replacement in high-traffic areas  
-
-We explain scope clearly, protect finishes, and bring licensed support when a project requires new circuits or panel work.
+Related: [electrical services](/services/electrical-services/) and [ceiling fan installation](/services/ceiling-fan-installation/). Communities: [Veranda](/service-areas/richmond/veranda-handyman/), [Aliana](/service-areas/richmond/aliana-handyman/).

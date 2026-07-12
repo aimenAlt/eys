@@ -83,7 +83,12 @@ Community hubs live at `/service-areas/{city}/{community}/` — see existing com
 - `/drywall-repair-katy/`
 - `/bathroom-remodeling-services-katy/`
 - `/kitchen-remodeling-katy/`
-- `/handyman-services-katy/`
+
+### Redirected (cannibalization fix)
+
+| Old | New | Reason |
+|-----|-----|--------|
+| `/handyman-services-katy/` | `/service-areas/katy/` | Exact-intent collision with the Katy city hub; city page owns “Katy handyman” |
 
 Content: `src/content/city-services/*.md`  
 Layout: `src/layouts/CityServiceLayout.astro`  

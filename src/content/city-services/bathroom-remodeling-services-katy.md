@@ -26,6 +26,10 @@ faqs:
 published: true
 ---
 
-## Bathroom upgrades in Katy
+## Bathroom upgrades for Katy's established homes
 
-Busy Katy families want bathroom improvements done efficiently — one vanity swap, new fixtures, or a coordinated punch list without weeks of disruption.
+Much of Katy's housing stock dates to the 1990s and early 2000s — solid suburban homes where bathrooms still carry original vanities, brass fixtures, or builders' finishes that no longer match how families live today. Elevate Your Space handles bathroom upgrades that protect property value without turning the house into a weeks-long job site.
+
+Busy Katy families near [Cinco Ranch](/service-areas/katy/cinco-ranch-handyman/), [Sunterra](/service-areas/katy/sunterra-handyman/), and [Tamarron](/service-areas/katy/tamarron-handyman/) usually want one vanity swap, new fixtures, mirror mounting, or a coordinated punch list — not a full gut remodel. We scope from photos, return a clear free estimate, and leave the bathroom ready to use.
+
+For the regional overview of our bathroom work across West Houston, see [bathroom remodeling](/services/bathroom-remodeling/).

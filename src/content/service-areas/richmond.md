@@ -3,7 +3,7 @@ title: "Richmond, TX"
 slug: "richmond"
 published: true
 seoTitle: "Handyman Richmond TX | Fort Bend Home Upgrades"
-metaDescription: "Handyman in Richmond, TX for historic homes and new Fort Bend communities — repairs, modernizations, and carpentry in Pecan Grove and Aliana."
+metaDescription: "Free estimates. Handyman in Richmond, TX for historic homes and new Fort Bend communities — repairs, modernizations, and carpentry in Pecan Grove and Aliana."
 heroTitle: "Handyman Services in Richmond, TX"
 summary: "Elevate Your Space Handyman serves Richmond's diverse housing market — from historic downtown properties and Pecan Grove estates to new builds in Aliana, Harvest Green, and Veranda."
 heroImage: "/images/heroes/richmond.jpg"
@@ -60,3 +60,8 @@ In **Aliana**, **Harvest Green**, **Veranda**, and comparable neighborhoods, we 
 Whether you are **modernizing an established Richmond home** or **finishing a new Fort Bend build**, Elevate Your Space Handyman brings the same standard: honest estimates, skilled work, and a clean finish.
 
 Contact us to discuss your Richmond project and next steps.
+### Handyman near you in Richmond / Fort Bend
+
+Richmond’s mix of historic stock, Pecan Grove estates, and new MPCs like Aliana, Harvest Green, and Veranda needs a partner who can switch mindsets. Looking for a handyman near you in Fort Bend County? Share your address and photos for a free estimate tailored to your home’s era.
+
+Communities: [Aliana](/service-areas/richmond/aliana-handyman/), [Harvest Green](/service-areas/richmond/harvest-green-handyman/), [Veranda](/service-areas/richmond/veranda-handyman/).

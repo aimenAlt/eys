@@ -30,13 +30,8 @@ faqs:
 published: true
 ---
 
-## Painting for Richmond's mixed housing stock
+## Interior painting in Richmond TX
 
-From historic downtown properties to master-planned newcomers, Richmond interiors benefit from **prep-first painting** — not rushed roller work.
+Accent walls, touch-ups, and refreshing builder interiors help Richmond homes feel personal — especially in newer MPCs where beige walls are still the default. We protect floors, cut clean lines, and leave rooms ready to live in.
 
-### Typical Richmond painting scopes
-
-- Accent walls and whole-room refreshes  
-- Trim, doors, and baseboard touch-ups  
-- Drywall repair before paint  
-- Move-in color updates for new Fort Bend buyers
+Pair with [drywall repair](/services/drywall-repair/) when walls need patching first. Service overview: [painting](/services/painting/).

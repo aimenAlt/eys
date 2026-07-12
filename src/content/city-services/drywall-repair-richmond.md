@@ -25,6 +25,8 @@ faqs:
 published: true
 ---
 
-## Drywall repair across Richmond neighborhoods
+## Drywall repair for Richmond homes
 
-Established Richmond homes see settling cracks and wear; new builds see nail pops and move-in accidents. We handle both with the same standard: invisible patches and clean job sites.
+Whether you are patching move-in dings in a newer Aliana home or repairing settling cracks in an older Fort Bend house, clean texture matching and paint-ready walls matter. We patch, blend, and clean up carefully — and can coordinate [painting](/services/painting/) touch-ups in the same visit when it makes sense.
+
+Free estimates from damage photos. Full service: [drywall repair](/services/drywall-repair/).

@@ -26,6 +26,10 @@ faqs:
 published: true
 ---
 
-## Custom cabinets and built-ins in Katy
+## Cabinets and custom carpentry for Katy kitchens
 
-Laundry rooms, pantries, and under-stair storage are prime candidates for custom Katy carpentry — especially in 1990s and 2000s floor plans with limited storage.
+Whether you need cabinet installation, hardware modernization on aging 1990s–2000s cabinets, or custom built-ins that fit traditional Cinco Ranch floor plans, EYS brings precise carpentry and clean job sites. Affluent, detail-oriented Katy homeowners expect white-glove care — shoe covers, dust control, and a finished look that matches existing trim.
+
+Request a free estimate with cabinet photos and measurements. We will tell you what we can complete in-house and when a specialty millwork partner is the better path.
+
+Related: [cabinet installation](/services/cabinet-installation/) and [custom carpentry](/services/custom-carpentry/). Area hub: [Katy](/service-areas/katy/).

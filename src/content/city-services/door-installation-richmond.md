@@ -25,6 +25,8 @@ faqs:
 published: true
 ---
 
-## Door work for Richmond homes
+## Door installation and repair in Richmond
 
-Older Richmond homes often need hinge adjustment and hardware refresh; new builds may need pocket-door tuning or exterior hardware upgrades. We handle both with precise alignment and clean finishes.
+Sticky doors, new interior doors, and hardware refreshes are common across Fort Bend's mix of new builds and older stock. We align, repair, and install doors with trim care that matches your home's character — including porch-facing doors where Veranda's outdoor living style puts finishes on display.
+
+Regional service: [door repair and installation](/services/door-repair-installation/).

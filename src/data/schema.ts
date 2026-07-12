@@ -115,12 +115,12 @@ export const homeFaqs: FaqItem[] = [
   {
     question: 'What areas do you serve?',
     answer:
-      'We serve Katy, Cypress, Fulshear, Richmond, West Houston, and 12 master-planned communities including Cinco Ranch, Bridgeland, Sunterra, and Cross Creek Ranch.',
+      'We serve Katy, Cypress, Fulshear, Richmond, West Houston, and 12 master-planned communities including Cinco Ranch, Bridgeland, Sunterra, and Cross Creek Ranch. Looking for a handyman near you in West Houston? Start with your city page or send us your address for confirmation.',
   },
   {
     question: 'Do you offer free estimates?',
     answer:
-      'Yes. Contact us with your project details and photos for a clear, itemized estimate.',
+      'Yes. Contact us with your project details and photos for a clear, itemized free estimate before work begins.',
   },
   {
     question: 'What types of materials do you use?',
@@ -133,9 +133,9 @@ export const homeFaqs: FaqItem[] = [
       'Project timelines vary depending on scope. Small repairs may be completed in one visit; larger punch lists are scheduled accordingly.',
   },
   {
-    question: 'Are your services insured and guaranteed?',
+    question: 'Who founded Elevate Your Space Handyman?',
     answer:
-      'Contact Elevate Your Space Handyman directly for current insurance, warranty, and service guarantee details before beginning your project.',
+      'EYS was founded by Eyad Essa (many neighbors know him as Essa), a veteran whose construction experience began during U.S. military service. The company is built on preparation, accountability, and finishing the job correctly.',
   },
 ];
 

@@ -33,6 +33,10 @@ faqs:
 published: true
 ---
 
-## Electrical help for Katy homeowners
+## Electrical upgrades Katy homeowners request most
 
-Katy families want safe, clean electrical upgrades without waiting weeks for a contractor. We install fans, swap fixtures, and upgrade switches across Katy ISD and surrounding communities.
+Many Katy calls are fixture and fan swaps — replacing dated 1990s brass lighting, hanging statement fixtures, or installing ceiling fans on existing boxes. We focus on the handyman-scope electrical work that improves daily comfort, and we help coordinate licensed electrical support when a project needs new circuits or complex wiring.
+
+Send photos of the fixture location and the existing box for a free estimate. We protect floors and finishes the way Katy's more established homes deserve.
+
+Regional page: [electrical services](/services/electrical-services/). Also see [ceiling fan installation](/services/ceiling-fan-installation/).

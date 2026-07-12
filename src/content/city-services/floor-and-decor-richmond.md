@@ -25,6 +25,8 @@ faqs:
 published: true
 ---
 
-## Flooring and decor finishing in Richmond
+## Flooring and décor installs in Richmond
 
-The last 10% of a flooring project — transitions, quarter-round, and trim — is where rooms look finished. We help Richmond homeowners close that gap.
+New floors and décor pieces only look finished when transitions, trim, and mounting details are done right. Richmond homeowners in Aliana and Veranda often call after furniture delivery or flooring install when the last 10% of the room still looks unfinished.
+
+See [flooring and décor](/services/flooring-and-decor/) and request a free estimate with room photos.

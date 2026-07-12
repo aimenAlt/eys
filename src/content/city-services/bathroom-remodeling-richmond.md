@@ -25,6 +25,8 @@ faqs:
 published: true
 ---
 
-## Bathroom upgrades across Richmond
+## Bathroom remodeling in Richmond and Fort Bend
 
-Richmond bathrooms range from aging tile and brass fixtures to brand-new builder packages homeowners want to personalize. We handle the upgrades that matter most day to day.
+Richmond's housing spans older golf-course communities, acreage properties, and newer master-planned neighborhoods like [Aliana](/service-areas/richmond/aliana-handyman/), [Harvest Green](/service-areas/richmond/harvest-green-handyman/), and [Veranda](/service-areas/richmond/veranda-handyman/). Bathroom needs follow that mix — vanity refreshes in 2010s homes, fixture upgrades for front-porch lifestyles, and practical punch-list work for busy Fort Bend families.
+
+EYS scopes bathroom upgrades from photos, returns a free estimate, and keeps jobs efficient so you are not living around an open remodel for weeks. For the regional service overview, visit [bathroom remodeling](/services/bathroom-remodeling/).

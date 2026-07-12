@@ -2,7 +2,7 @@
 title: "Curtain Installation"
 slug: "curtain-installation"
 published: true
-seoTitle: "Curtain Rod Installation in Katy, TX | Elevate Your Space"
+seoTitle: "Curtain Rod Installation | Katy & West Houston | EYS"
 metaDescription: "Curtain rod, drapery hardware, and window treatment mounting in Katy and West Houston — precise placement and secure mounting."
 heroTitle: "Curtain & Drapery Installation"
 summary: "Professional curtain rod, drapery hardware, and window treatment mounting for Katy and West Houston homeowners."
@@ -33,5 +33,25 @@ faqs:
   - question: "Do you hang blinds or shades too?"
     answer: "We focus on rods and drapery hardware. Some shade and blind mounting projects overlap — send photos and we will confirm scope."
 ---
+Curtains and drapery finish a room — privacy from the Texas sun, softer acoustics, and a polished look that builder blinds alone rarely deliver. Elevate Your Space installs curtain rods and hardware level and secure across Katy and West Houston.
 
-Curtain hardware looks simple until brackets pull out of drywall or rods sit crooked above the window. EYS installs curtain rods and drapery hardware with level placement, secure anchoring, and finishes that match your room.
+## Who this is for
+
+- New-home buyers who need privacy quickly after closing
+- Homeowners hanging heavy custom drapery on high ceilings
+- Anyone who has stared at a laser level and decided life is too short
+
+## What we install
+
+Curtain rods, brackets, and related hardware for bedrooms, living rooms, and dining spaces. We anchor into structure whenever possible and use appropriate hardware for hollow walls when studs do not align with the design. Heavy drapery needs serious anchoring — we do not trust flimsy drywall-only solutions for expensive fabric.
+
+## Local context
+
+Sunterra and Jordan Ranch move-ins often bundle curtains with [TV mounting](/services/tv-mounting/) and fans. Established Katy homes may need hardware that clears older casing and high windows. Bridgeland and Cane Island projects frequently involve taller ceilings and heavier treatments.
+
+## Free estimate
+
+Share window photos, rod lengths, and whether drapes are already purchased. Curtain work sits under [installation and assembly](/services/installation-and-assembly/). Area starting points: [Katy](/service-areas/katy/) and [Fulshear](/service-areas/fulshear/).
+## Ready for a free estimate?
+
+Send photos and a short description of what you want done. We reply with a clear free estimate, explain what we can complete in one visit, and flag anything that needs a licensed trade partner. Prefer to browse first? Start from [all services](/services/) or your local [service area](/service-areas/) page.

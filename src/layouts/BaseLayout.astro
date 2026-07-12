@@ -4,6 +4,8 @@ import SEOHead, { type SeoProps } from '../components/seo/SEOHead.astro';
 import SchemaJsonLd from '../components/seo/SchemaJsonLd.astro';
 import { site } from '../data/business';
 import { wrapSchemaGraph } from '../data/schema';
+import inter700 from '@fontsource/inter/files/inter-latin-700-normal.woff2?url';
+import inter800 from '@fontsource/inter/files/inter-latin-800-normal.woff2?url';
 
 interface Props {
   seo?: SeoProps;
@@ -11,9 +13,9 @@ interface Props {
 }
 
 const defaultSeo: SeoProps = {
-  title: 'Handyman Services in Katy, TX | Elevate Your Space Handyman',
+  title: 'Veteran-Owned Handyman | Katy & West Houston | EYS',
   description:
-    'Veteran-owned handyman services in Katy, Texas. Elevate Your Space Handyman provides repairs, installations, remodeling, painting, drywall, cabinets, flooring, and more. Call today for reliable local service.',
+    'Looking for a handyman near you in Katy or West Houston? Elevate Your Space handles repairs, installations, painting, drywall, and more. Free estimates.',
   canonical: site.url,
 };
 
@@ -28,6 +30,8 @@ const enableAnalytics = import.meta.env.PROD && (import.meta.env.BASE_URL || '/'
 <html lang="en" class="scroll-smooth">
   <head>
     <SEOHead {...seo} />
+    <link rel="preload" href={inter700} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={inter800} as="font" type="font/woff2" crossorigin />
     {schemaData && <SchemaJsonLd data={schemaData} />}
     {
       enableAnalytics && (

@@ -57,3 +57,8 @@ When you work long hours or travel for business, the last thing you need is a ha
 ### Local West Houston service
 
 Elevate Your Space Handyman is based in Katy and serves West Houston suburbs daily. Whether you need a single repair or a full pre-guest or pre-sale refresh, contact us to get on the calendar.
+### White-glove help for Energy Corridor schedules
+
+If you work long hours near the Energy Corridor and need a handyman near you who shows up on time, scopes clearly, and leaves no mess, that is our West Houston lane. Free estimates from photos and punch lists — including TV mounting, office shelving, and multi-item visits you can actually plan around.
+
+Explore [all services](/services/) or neighboring hubs like [Katy](/service-areas/katy/) and [Cypress](/service-areas/cypress/).

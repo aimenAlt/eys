@@ -29,7 +29,7 @@ relatedCommunitySlugs:
 faqs:
   - question: "What can I bundle in one Katy handyman visit?"
     answer: "TV mounting, drywall patches, door adjustments, fixture installs, furniture assembly, and more — send your list and we will confirm scope."
-published: true
+published: false
 ---
 
 ## Handyman services for Katy homeowners

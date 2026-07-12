@@ -29,6 +29,8 @@ faqs:
 published: true
 ---
 
-## Your Richmond handyman for repairs and upgrades
+## Handyman service for Richmond and Fort Bend
 
-One call can cover TV mounting, drywall patches, door adjustments, fixture installs, and the dozen small items that never get done. We serve Richmond and surrounding Fort Bend communities with clear estimates and skilled work.
+Richmond homeowners need a reliable partner for punch lists that span vanities, fans, TV mounts, garage storage, and small repairs — not a different contractor for every item. Elevate Your Space serves Aliana, Harvest Green, Veranda, and surrounding Fort Bend neighborhoods with clear free estimates and white-glove cleanup.
+
+Start at the [Richmond service area](/service-areas/richmond/) hub or browse [general handyman services](/services/general-handyman-services/) for the regional overview.

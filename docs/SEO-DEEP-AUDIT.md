@@ -1,7 +1,9 @@
 # SEO Deep Audit — Elevate Your Space Handyman
 
-Generated: 2026-07-12
-Scope: Full-site **text + HTML** SEO investigation of the built `dist/` (71 HTML pages) plus source content. Investigation only — no site fixes applied. Every finding below is evidence-backed and includes a described (not implemented) fix.
+Generated: 2026-07-12  
+**Implementation pass 2026-07-12 — P0-2 through P2/P3 applied. P0-1 images and O-* owner blockers still open.**
+
+Scope: Full-site **text + HTML** SEO investigation of the built `dist/` plus source content. Findings below remain as the original audit record; Appendix A checkboxes track remediation.
 
 **Site:** https://www.eyshandyman.com — Astro SSG, Tailwind, 0 client JS.
 **Method / reproducibility:**
@@ -150,3 +152,99 @@ node scripts/seo-deep-analyze.mjs
 node scripts/seo-content-analyze.mjs
 ```
 Exit criteria: crawl stays 70/70 clean; 0 duplicate titles; 0 broken `og:image`; service pages ≥ 500 words; blog/project contextual links ≥ 4; `sameAs` populated once GBP is set.
+
+---
+
+# Appendix A — Per-page / per-file action checklist
+
+Exhaustive, page-by-page list of what to update. Grouped by issue. `[owner]` = needs an asset/decision only the owner can provide; `[code]` = editable in the repo now.
+
+## A1 · Images — exact missing files
+
+**OG default (P0-1, sitewide impact)** `[owner asset + code]`
+- [ ] `public/images/og-default.jpg` — create at 1200×630 (referenced by `SEOHead.astro` on every page; currently 404).
+- [ ] `resolveOgImage()` in `src/data/business.ts` — add existence check so a missing hero falls back to the real default instead of a 404 `[code]`.
+
+**Service hero photos (14)** — each `/services/<slug>/` currently points `og:image` + hero `<img>` at a missing file `[owner asset]`
+- [ ] `/images/services/tv-mounting.jpg` → `/services/tv-mounting/`
+- [ ] `/images/services/ceiling-fan.jpg` → `/services/ceiling-fan-installation/`
+- [ ] `/images/services/general-handyman.jpg` → `/services/general-handyman-services/`
+- [ ] `/images/services/furniture-assembly.jpg` → `/services/furniture-assembly/`
+- [ ] `/images/services/drywall-repair.jpg` → `/services/drywall-repair/`
+- [ ] `/images/services/painting.jpg` → `/services/painting/`
+- [ ] `/images/services/door-install.jpg` → `/services/door-repair-installation/`
+- [ ] `/images/services/electrical.jpg` → `/services/electrical-services/`
+- [ ] `/images/services/cabinet-install.jpg` → `/services/cabinet-installation/`
+- [ ] `/images/services/bathroom-remodel.jpg` → `/services/bathroom-remodeling/`
+- [ ] `/images/services/kitchen-remodel.jpg` → `/services/kitchen-remodeling/`
+- [ ] `/images/services/flooring.jpg` → `/services/flooring-and-decor/`
+- [ ] `/images/services/custom-carpentry.jpg` → `/services/custom-carpentry/`
+- [ ] `/images/services/curtain-install.jpg` → `/services/curtain-installation/`
+- Note: service/legacy frontmatter sometimes declares a differently-named path (e.g. `tv-mounting.md` uses `/images/services/tv-mounting.jpg`, `bathroom-remodeling-services-katy.md` uses `/images/services/bathroom-remodeling.jpg`) that does **not** match `serviceHeroImages` in `src/data/images.ts`. **Reconcile filenames** so frontmatter and the map agree `[code]`.
+
+**City hero photos (5)** — each `/service-areas/<city>/` `[owner asset]`
+- [ ] `/images/heroes/katy.jpg` · `/images/heroes/cypress.jpg` · `/images/heroes/fulshear.jpg` · `/images/heroes/richmond.jpg` · `/images/heroes/west-houston.jpg`
+
+**Category hero photos (2 files, 3 hubs)** `[owner asset]`
+- [ ] `/images/categories/repairs-installs.jpg` → `/services/repairs-and-maintenance/` + `/services/installation-and-assembly/`
+- [ ] `/images/categories/remodeling.jpg` → `/services/remodeling-and-upgrades/`
+
+**Homepage section images (4)** `[owner asset]`
+- [ ] `/images/home/who-we-are-1.jpg` · `who-we-are-2.jpg` · `why-choose-us-bg.jpg` · `cta-bg.jpg`
+
+**Project gallery photos (3 projects)** — dirs exist but are empty; `og:image` uses the featured gallery src `[owner asset]`
+- [ ] `/images/projects/cinco-ranch-fireplace-tv-mount/after-1.jpg` → `/projects/cinco-ranch-fireplace-tv-mount/`
+- [ ] `/images/projects/cross-creek-ranch-garage-storage/…` → `/projects/cross-creek-ranch-garage-storage/`
+- [ ] `/images/projects/sunterra-move-in-package/…` → `/projects/sunterra-move-in-package/`
+
+**Community pages (12)** — no per-community hero in frontmatter, so all fall back to the (missing) default OG `[owner asset, optional]`
+- [ ] Optionally add a real hero per community, else they inherit the default OG once A1 default is fixed: `aliana`, `bridgeland`, `cane-island`, `cinco-ranch`, `cross-creek-ranch`, `elyson`, `harvest-green`, `jordan-ranch`, `sunterra`, `tamarron`, `towne-lake`, `veranda`.
+
+## A2 · Keyword cannibalization — per-URL decision
+
+**Retitle / re-scope** `[code]`
+- [x] `/` (homepage) — change `<title>` off the exact "Handyman Services in Katy, TX" head term to a brand/broad "Katy & West Houston" framing (defined in `src/pages/index.astro`).
+- [x] `/service-areas/katy/` — confirm it owns "Katy handyman services."
+- [x] All 14 `/services/<slug>/` — drop the hard "in Katy, TX" title anchor (make service-led / multi-city) so they stop colliding with the Katy legacy pages. Titles are built in `ServiceLayout.astro` / service frontmatter `seoTitle`.
+
+**Legacy Katy pages — 301-redirect to the canonical service, or differentiate (9)** `[code + decision]`
+- [x] `/handyman-services-katy/` (duplicates homepage title exactly) — **301 → `/service-areas/katy/`**; unpublished from sitemap
+- [x] `/bathroom-remodeling-services-katy/` ↔ `/services/bathroom-remodeling/` — differentiated (kept; unique Katy copy)
+- [x] `/kitchen-remodeling-katy/` ↔ `/services/kitchen-remodeling/` — differentiated
+- [x] `/drywall-repair-katy/` ↔ `/services/drywall-repair/` — differentiated
+- [x] `/floor-and-decor-katy/` ↔ `/services/flooring-and-decor/` — differentiated
+- [x] `/door-installation-services-katy/` ↔ `/services/door-repair-installation/` — differentiated
+- [x] `/electricians-katy/` ↔ `/services/electrical-services/` — differentiated
+- [x] `/custom-cabinets-katy/` ↔ `/services/cabinet-installation/` or `/services/custom-carpentry/` — differentiated
+- [x] `/house-painting-katy/` ↔ `/services/painting/` — differentiated
+
+**Legacy Richmond pages — keep, but verify distinct intent (9)** `[review]`
+- [x] `/bathroom-remodeling-richmond/`, `/kitchen-remodeling-richmond/`, `/drywall-repair-richmond/`, `/floor-and-decor-richmond/`, `/door-installation-richmond/`, `/electricians-richmond/`, `/custom-cabinets-richmond/`, `/house-painting-richmond/`, `/handyman-service-richmond/` — these target Richmond (no canonical `/services/*` competitor) so they can stay; just confirm titles/copy are city-specific.
+
+## A3 · Thin pages — expand toward target word count
+
+**Service detail pages (14, current → target ≥ 500w)** `[code/content]`
+- [x] `drywall-repair` · `painting` · `door-repair-installation` · `furniture-assembly` · `bathroom-remodeling` · `ceiling-fan-installation` · `custom-carpentry` · `kitchen-remodeling` · `cabinet-installation` · `flooring-and-decor` · `electrical-services` · `general-handyman-services` · `tv-mounting` · `curtain-installation` — all ≥500w post-fix
+
+**Other thin / low-link pages** `[code/content]`
+- [x] `/reviews/` — add intro copy + links to services/areas.
+- [x] `/projects/cross-creek-ranch-garage-storage/`
+- [x] `/projects/sunterra-move-in-package/`
+- [x] `/projects/cinco-ranch-fireplace-tv-mount/`
+- [x] `/blog/hoa-patio-updates-bridgeland/`
+- [x] `/blog/move-in-upgrades-sunterra/`
+
+## A4 · Internal linking — add contextual links (target ≥ 4 in-body)
+- [x] Each project page → link to its `service` slug (`tv-mounting`, etc.) + its community/area page.
+- [x] Each blog post → link to the relevant `/services/*` and `/service-areas/*` pages (currently only ~3–4 generic links).
+- [x] `/reviews/` → link out to top services + service areas.
+
+## A5 · Query coverage — add natural, truthful copy
+- [x] "handyman near me" — weave into homepage + city pages naturally.
+- [x] "free estimate" / "free quote" — add to service pages + CTAs.
+- [ ] "same-day" / "emergency" — only 2 pages; add **only where truthfully offered**. *(left unchecked — not claimed in research)*
+- [ ] "warranty" / "guarantee" — pending owner confirmation of actual policy, then add to services + FAQ. *(left unchecked — owner blocker)*
+
+## A6 · Font preload (global, not per-page) `[code]`
+- [x] Add `<link rel="preload" as="font" type="font/woff2" crossorigin>` for the 1–2 above-the-fold latin Inter weights (700/800) in the shared `<head>` (`src/layouts/BaseLayout.astro`). This is a **single global change**, not a per-page edit.
+- [x] Optional: switch `global.css` imports to `@fontsource/inter/latin-*.css` to drop unused greek/cyrillic/vietnamese `@font-face` rules.

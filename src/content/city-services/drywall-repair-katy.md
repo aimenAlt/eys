@@ -26,6 +26,10 @@ faqs:
 published: true
 ---
 
-## Drywall repair across Katy
+## Drywall repair in Katy's 1990s–2000s homes
 
-From nail pops in 1990s ceilings to door-handle holes in busy hallways, Katy drywall damage is routine — and fixable with proper texture matching and paint.
+Doorknob holes, settling cracks, and nail pops show up constantly in established Katy neighborhoods — especially where families have lived for years and walls have taken normal wear. Texture matching matters here: orange peel and knockdown finishes are common, and a bad blend stands out on white walls under bright Texas light.
+
+EYS patches, blends, and prepares walls for paint with careful cleanup. We often pair drywall with [painting](/services/painting/) touch-ups so you are not coordinating two trades for a small list. Request a free estimate with photos of the damage.
+
+Regional drywall details: [drywall repair](/services/drywall-repair/). Local communities we serve include [Cinco Ranch](/service-areas/katy/cinco-ranch-handyman/) and [Elyson](/service-areas/katy/elyson-handyman/).

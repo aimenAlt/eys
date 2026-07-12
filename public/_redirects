@@ -32,3 +32,6 @@
 # /garage-door-repair-katy/
 
 # Richmond + Katy city-service URLs are live Astro pages at legacy paths (see src/content/city-services/)
+
+# Cannibalization fix — city hub owns "Katy handyman"
+/handyman-services-katy/ /service-areas/katy/ 301

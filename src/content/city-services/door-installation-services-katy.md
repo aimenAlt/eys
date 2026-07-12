@@ -26,6 +26,10 @@ faqs:
 published: true
 ---
 
-## Door installation and repair in Katy
+## Door repair and installation in Katy
 
-From interior slab replacements to exterior hardware upgrades, Katy homeowners rely on us for doors that close cleanly and look intentional.
+Humidity, settling slabs, and years of use leave Katy doors sticky, out of square, or ready for a modern hardware refresh. Interior doors, closet doors, and exterior door adjustments are common punch-list items for families preparing a home for sale or settling into a resale purchase.
+
+We repair, align, and install doors with attention to trim and finish so the work looks original to the home. Free estimates from photos and measurements.
+
+Full regional service: [door repair and installation](/services/door-repair-installation/). Communities: [Cane Island](/service-areas/katy/cane-island-handyman/), [Tamarron](/service-areas/katy/tamarron-handyman/).

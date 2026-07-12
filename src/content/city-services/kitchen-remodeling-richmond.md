@@ -25,17 +25,8 @@ faqs:
 published: true
 ---
 
-## Kitchen upgrades for Richmond homeowners
+## Kitchen improvements across Richmond TX
 
-A Richmond kitchen refresh might mean new backsplash in Pecan Grove, updated pendants in Aliana, or a move-in hardware swap in Harvest Green — each with different finishes and timelines.
+From modern farmhouse kitchens in Harvest Green to established layouts in older Richmond subdivisions, we help homeowners improve cabinets, hardware, lighting coordination, and finishing details that make daily cooking easier. Value-focused Fort Bend buyers often want high-impact updates without a full contractor remodel.
 
-### Common Richmond kitchen projects
-
-- Backsplash installation and tile repair  
-- Cabinet hardware and hinge upgrades  
-- Pendant and under-cabinet lighting swaps  
-- Faucet and fixture updates coordinated with your finish selections  
-
-### Why Richmond homeowners call us
-
-We focus on **high-impact upgrades** without a six-month GC remodel — clear scope, protected finishes, and scheduling that respects your household routine.
+Send photos for a free estimate. Regional page: [kitchen remodeling](/services/kitchen-remodeling/). Area hub: [Richmond](/service-areas/richmond/).

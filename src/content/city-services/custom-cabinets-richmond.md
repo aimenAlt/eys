@@ -25,6 +25,8 @@ faqs:
 published: true
 ---
 
-## Custom cabinet work in Richmond
+## Cabinets and carpentry in Richmond
 
-From laundry room built-ins in Aliana to pantry upgrades in Pecan Grove, Richmond homeowners use custom carpentry to add storage that stock cabinets cannot match.
+Custom mudrooms, shiplap accents, and cabinet hardware upgrades fit Richmond's agri-hood and front-porch communities especially well. Harvest Green homeowners often want farmhouse-leaning trim; Aliana families often need garage and mudroom organization that keeps busy households running.
+
+Explore [cabinet installation](/services/cabinet-installation/) and [custom carpentry](/services/custom-carpentry/). Free estimates from photos and measurements.

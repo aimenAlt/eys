@@ -6,7 +6,7 @@ import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
 import BalancedGrid from '../components/ui/BalancedGrid.astro';
 import { getCollection } from 'astro:content';
 import { absoluteUrl, site } from '../data/business';
-import { breadcrumbList, webPage } from '../data/schema';
+import { breadcrumbList, canonicalBusinessNode, webPage } from '../data/schema';
 
 const serviceAreas = await getCollection('serviceAreas', ({ data }) => data.published === true);
 serviceAreas.sort((a, b) => a.data.title.localeCompare(b.data.title));
@@ -19,8 +19,18 @@ const areaCards = serviceAreas.map((area) => ({
 
 const title = `About Us | ${site.name}`;
 const description =
-  'Veteran-owned handyman company in Katy, TX. Learn how Elevate Your Space delivers premium repairs, installations, and home upgrades across West Houston.';
+  'Meet Eyad Essa (Essa), founder of Elevate Your Space — a veteran-owned handyman company serving Katy and West Houston.';
 const canonical = absoluteUrl('/about/');
+
+const businessWithFounder = {
+  ...canonicalBusinessNode(),
+  founder: {
+    '@type': 'Person',
+    name: 'Eyad Essa',
+    alternateName: 'Essa',
+    jobTitle: 'Founder',
+  },
+};
 
 const schemaGraph = [
   webPage('About Elevate Your Space Handyman', canonical, description),
@@ -28,6 +38,7 @@ const schemaGraph = [
     { name: 'Home', url: absoluteUrl('/') },
     { name: 'About', url: canonical },
   ]),
+  businessWithFounder,
 ];
 ---
 
@@ -45,22 +56,22 @@ const schemaGraph = [
     <PageHero
       eyebrow="Our Story"
       title="Veteran-Owned. Katy-Based. Built on Trust."
-      description="Elevate Your Space Handyman was founded to give West Houston homeowners a handyman they can actually rely on — on time, on budget, and with a home left cleaner than we found it."
+      description="Elevate Your Space Handyman was founded by Eyad Essa to give West Houston homeowners a handyman they can actually rely on — on time, on budget, and with a home left cleaner than we found it."
     />
 
     <section class="py-16 bg-white">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-start">
           <div>
-            <h2 class="text-3xl font-bold text-brand-black mb-6">Why we started EYS</h2>
+            <h2 class="text-3xl font-bold text-brand-black mb-6">How EYS started</h2>
             <p class="text-gray-600 mb-6 leading-relaxed">
-              Too many homeowners in Katy and West Houston have been burned by no-shows, vague estimates, and contractors who treat a home like a job site instead of someone's most important investment. We built Elevate Your Space to be the opposite.
+              Eyad’s construction experience began during his service in the United States military. Working in that environment taught him the importance of preparation, responsibility, and completing the work correctly — not simply getting it done quickly.
             </p>
             <p class="text-gray-600 mb-6 leading-relaxed">
-              As a veteran-owned company, we bring discipline, accountability, and respect for the work into every project — whether it is mounting a TV, replacing trim in a 1990s Cinco Ranch home, or knocking out a move-in punch list in a brand-new Sunterra build.
+              He carried that experience into Elevate Your Space with a straightforward goal: give homeowners someone dependable to call when their home needs to be repaired, updated, or improved. Many neighbors know him simply as <strong>Essa</strong> — the person who shows up when unanswered calls and missed appointments have already burned them once.
             </p>
             <p class="text-gray-600 leading-relaxed">
-              We are not a franchise or a call center. When you hire EYS, you get clear communication, honest scoping, and craftsmanship you can see the moment we pack up and leave.
+              EYS was created for homeowners tired of rushed repairs and contractors who disappear halfway through a project. Hiring someone to work inside your home should not feel like a gamble.
             </p>
           </div>
           <div class="mt-10 lg:mt-0 bg-brand-lightbg rounded-xl p-8 border border-gray-200">
@@ -76,7 +87,7 @@ const schemaGraph = [
               <li class="flex gap-4">
                 <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-red text-white flex items-center justify-center text-sm font-bold">2</span>
                 <div>
-                  <p class="font-bold text-brand-black">Transparent estimates</p>
+                  <p class="font-bold text-brand-black">Transparent free estimates</p>
                   <p class="text-sm text-gray-600 mt-1">Send photos and your punch list — we scope the work and return a clear, itemized quote. No surprises.</p>
                 </div>
               </li>
@@ -102,32 +113,56 @@ const schemaGraph = [
 
     <section class="py-16 bg-brand-lightbg">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-brand-black mb-4">What we do</h2>
+        <p class="text-gray-600 mb-6 max-w-3xl leading-relaxed">
+          We handle home repairs, installations, carpentry, drywall, painting, remodeling, and custom home improvement projects. Some customers call for a single repair. Others need several projects completed throughout the house. Whether the job is small or substantial, we approach it the same way: understand what the homeowner needs, explain the work clearly, and complete it with care.
+        </p>
+        <p class="text-gray-600 max-w-3xl leading-relaxed">
+          Not every home project requires a major remodeling company. At the same time, many repairs deserve more than a temporary patch. EYS fills that gap with practical, professional help for the projects homeowners need completed every day.
+        </p>
+      </div>
+    </section>
+
+    <section class="py-16 bg-white">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="text-3xl font-bold text-brand-black mb-4 text-center">How we work</h2>
         <p class="text-gray-600 text-center mb-10 max-w-2xl mx-auto">
           Every project follows the same straightforward process — designed to respect your time and your home.
         </p>
         <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <li class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+          <li class="bg-brand-lightbg rounded-xl border border-gray-200 p-6 shadow-sm">
             <span class="text-brand-red font-bold text-2xl mb-3 block">01</span>
             <h3 class="font-bold text-brand-black mb-2">Tell us what you need</h3>
             <p class="text-sm text-gray-600">Share your project list or photos through our contact form.</p>
           </li>
-          <li class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+          <li class="bg-brand-lightbg rounded-xl border border-gray-200 p-6 shadow-sm">
             <span class="text-brand-red font-bold text-2xl mb-3 block">02</span>
-            <h3 class="font-bold text-brand-black mb-2">Get a clear estimate</h3>
+            <h3 class="font-bold text-brand-black mb-2">Get a clear free estimate</h3>
             <p class="text-sm text-gray-600">We scope the work and return a transparent, itemized quote.</p>
           </li>
-          <li class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+          <li class="bg-brand-lightbg rounded-xl border border-gray-200 p-6 shadow-sm">
             <span class="text-brand-red font-bold text-2xl mb-3 block">03</span>
             <h3 class="font-bold text-brand-black mb-2">We show up on time</h3>
             <p class="text-sm text-gray-600">Prepared, professional, and ready to work when scheduled.</p>
           </li>
-          <li class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+          <li class="bg-brand-lightbg rounded-xl border border-gray-200 p-6 shadow-sm">
             <span class="text-brand-red font-bold text-2xl mb-3 block">04</span>
             <h3 class="font-bold text-brand-black mb-2">Done — spotless cleanup</h3>
             <p class="text-sm text-gray-600">We finish the job and leave your home cleaner than we found it.</p>
           </li>
         </ol>
+      </div>
+    </section>
+
+    <section class="py-16 bg-brand-lightbg">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-brand-black mb-4">A local company built on reputation</h2>
+        <p class="text-gray-600 mb-6 max-w-3xl leading-relaxed">
+          We live and work in the communities we serve. That means our reputation is built one homeowner and one project at a time. We want customers to feel comfortable asking questions, understand what is being done, and know what to expect before work begins. Our military background is part of our foundation, but our work is what continues to earn the trust of local homeowners.
+        </p>
+        <p class="text-gray-600 max-w-3xl leading-relaxed font-medium text-brand-black">
+          Veteran-owned. Locally operated. Proudly serving Katy and West Houston.
+        </p>
       </div>
     </section>
 
