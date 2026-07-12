@@ -21,6 +21,16 @@ export const googleReviews = {
 };
 
 /**
+ * Public profiles for entity SEO (JSON-LD sameAs) and footer links.
+ * Keep NAP consistent with Google / Yelp listings.
+ */
+export const socialProfiles = {
+  facebook: 'https://www.facebook.com/profile.php?id=61558074716141',
+  instagram: 'https://www.instagram.com/eys_handyman/',
+  yelp: 'https://www.yelp.com/biz/elevate-your-space-handyman-katy',
+} as const;
+
+/**
  * Jobber embed URLs — paste from Jobber Client Hub when ready.
  * requestFormUrl: quote / work request form embed
  * onlineBookingUrl: direct online booking (e.g. TV mounting)
@@ -31,8 +41,14 @@ export const jobber = {
 };
 
 function buildSameAs(): string[] {
+  const links = [
+    socialProfiles.facebook,
+    socialProfiles.instagram,
+    socialProfiles.yelp,
+  ];
   const gbp = googleReviews.profileUrl?.trim();
-  return gbp ? [gbp] : [];
+  if (gbp) links.unshift(gbp);
+  return links;
 }
 
 export const business = {

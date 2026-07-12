@@ -1,8 +1,14 @@
 ---
 import Logo from './Logo.astro';
 import { footerNav } from '../../data/navigation';
-import { business, googleReviews, googleReviewProfileUrl, site } from '../../data/business';
+import { business, googleReviews, googleReviewProfileUrl, site, socialProfiles } from '../../data/business';
 import { withBase } from '../../utils/paths';
+
+const socialLinks = [
+  { label: 'Facebook', href: socialProfiles.facebook },
+  { label: 'Instagram', href: socialProfiles.instagram },
+  { label: 'Yelp', href: socialProfiles.yelp },
+] as const;
 ---
 
     <footer id="contact" class="bg-brand-black text-white pt-16 pb-24 md:pb-8 border-t-4 border-brand-red">
@@ -17,7 +23,7 @@ import { withBase } from '../../utils/paths';
                     </p>
                     {
                       googleReviewProfileUrl() && (
-                        <p class="text-sm">
+                        <p class="text-sm mb-3">
                           <a
                             href={googleReviewProfileUrl()}
                             target="_blank"
@@ -29,6 +35,18 @@ import { withBase } from '../../utils/paths';
                         </p>
                       )
                     }
+                    <nav aria-label="Social profiles" class="flex flex-wrap gap-x-4 gap-y-2 text-sm">
+                      {socialLinks.map((link) => (
+                        <a
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="text-gray-400 hover:text-brand-red transition-colors font-medium"
+                        >
+                          {link.label}
+                        </a>
+                      ))}
+                    </nav>
                 </div>
 
                 <!-- Col 2 -->
