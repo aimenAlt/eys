@@ -12,7 +12,7 @@ export const smallRepairVisitMeta = {
   heroEyebrow: 'Small Repairs. One Convenient Visit.',
   heroTitle: 'Take Care of Your Home To-Do List in One Handyman Visit',
   heroSummary:
-    'Reserve a professional handyman for quick repairs, installations, adjustments, and maintenance tasks throughout your home. Choose your highest-priority items, select the time block that fits your list, and we will work through them in order.',
+    'Reserve a professional handyman for quick repairs, installations, adjustments, and maintenance tasks throughout your home. Bring the honey-do list, choose your highest-priority items, select the time block that fits, and we will work through them in order.',
   qualification:
     'Materials and specialty equipment are additional. Completion of every submitted task is not guaranteed within the reserved time.',
   path: '/services/small-repair-visit/',
