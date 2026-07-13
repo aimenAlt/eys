@@ -15,6 +15,7 @@ const { navMenus } = Astro.props;
 
 const desktopLinkClass =
   'nav-underline text-sm font-medium hover:text-brand-red transition-colors';
+const desktopActiveClass = 'text-brand-red';
 const mobileLinkClass =
   'block px-3 py-2 rounded-md text-base font-medium hover:bg-brand-red';
 
@@ -25,27 +26,27 @@ const simpleNavItems = mainNav.filter(
 
     <header class="bg-brand-black text-white sticky top-0 z-50 shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
+            <div class="flex justify-between items-center h-16 md:h-20">
                 <div class="flex-shrink-0 flex items-center">
                     <Logo />
                 </div>
                 
                 <nav class="hidden md:flex space-x-6 items-center" aria-label="Primary">
                     {simpleNavItems.slice(0, 2).map((item) => (
-                        <NavLink href={item.href} label={item.label} class={desktopLinkClass} />
+                        <NavLink href={item.href} label={item.label} class={desktopLinkClass} activeClass={desktopActiveClass} />
                     ))}
                     <NavDropdown menu={navMenus.services} linkClass={desktopLinkClass} />
                     <NavDropdown menu={navMenus.serviceAreas} linkClass={desktopLinkClass} />
                     {simpleNavItems.slice(2).map((item) => (
-                        <NavLink href={item.href} label={item.label} class={desktopLinkClass} />
+                        <NavLink href={item.href} label={item.label} class={desktopLinkClass} activeClass={desktopActiveClass} />
                     ))}
-                    <NavLink href="/pricing/" label="Pricing" class={desktopLinkClass} />
-                    <NavLink href="/reviews/" label="Reviews" class={desktopLinkClass} />
+                    <NavLink href="/pricing/" label="Pricing" class={desktopLinkClass} activeClass={desktopActiveClass} />
+                    <NavLink href="/reviews/" label="Reviews" class={desktopLinkClass} activeClass={desktopActiveClass} />
                 </nav>
 
                 <div class="hidden md:flex items-center bg-brand-red/10 px-4 py-2 rounded-md border border-brand-red/20">
                     <div class="flex flex-col items-end">
-                        <span class="text-xs text-brand-red font-bold uppercase tracking-wider">Need Help?</span>
+                        <span class="text-xs text-brand-redondark font-bold uppercase tracking-wider">Need Help?</span>
                         <a href={`tel:${site.phoneTel}`} class="font-bold text-lg hover:text-brand-red transition-colors">{site.phone}</a>
                     </div>
                 </div>
@@ -79,12 +80,12 @@ const simpleNavItems = mainNav.filter(
     -->
     <div
       id="mobile-menu-backdrop"
-      class="hidden md:hidden fixed left-0 right-0 top-20 bottom-0 z-40 bg-black/40"
+      class="hidden md:hidden fixed left-0 right-0 top-16 bottom-0 z-40 bg-black/40"
       aria-hidden="true"
     ></div>
     <div
       id="mobile-menu"
-      class="hidden md:hidden fixed left-0 right-0 top-20 z-40 bg-brand-charcoal text-white border-t border-gray-800 max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch]"
+      class="hidden md:hidden fixed left-0 right-0 top-16 z-40 bg-brand-charcoal text-white border-t border-gray-800 max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch]"
     >
         <nav
           aria-label="Primary"

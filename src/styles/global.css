@@ -27,6 +27,8 @@
 
 @theme {
   --color-brand-red: #b00000;
+  /* Same hue, brighter — text/icons on dark only (AA on black + brand-red/10) */
+  --color-brand-redondark: #ff3333;
   --color-brand-redhover: #8a0000;
   --color-brand-redsoft: #fbeaea;
   --color-brand-black: #0a0a0a;
@@ -159,8 +161,19 @@ details > summary::-webkit-details-marker {
 }
 
 .nav-underline:hover::after,
-.nav-underline.text-brand-red::after {
+.nav-underline.text-brand-red::after,
+.nav-underline.text-brand-redondark::after {
   transform: scaleX(1);
+}
+
+/*
+ * Fills stay deep brand-red (#b00000) forever — white-on-red passes.
+ * Only TEXT/icons on dark surfaces use the brighter twin.
+ */
+.bg-brand-black :is(.text-brand-red, .hover\:text-brand-red:hover),
+.bg-brand-charcoal :is(.text-brand-red, .hover\:text-brand-red:hover),
+.bg-brand-ink :is(.text-brand-red, .hover\:text-brand-red:hover) {
+  color: var(--color-brand-redondark);
 }
 
 .lazy-bg {

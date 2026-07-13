@@ -10,6 +10,7 @@
     "build": "astro build",
     "build:pages": "GITHUB_PAGES=true sh -c 'astro build && node scripts/prefix-pages-base.mjs'",
     "preview": "astro preview",
+    "bp": "astro build && astro preview",
     "check": "astro check",
     "astro": "astro",
     "screenshot": "node scripts/screenshot.mjs",

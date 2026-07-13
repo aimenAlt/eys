@@ -13,18 +13,18 @@ const reviewLabel = `${googleReviews.count}+`;
 
 <section class="bg-brand-red py-8">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-x-0 md:divide-x divide-red-800/50">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-x-0 md:divide-x divide-white/20">
       <div class="p-4">
         <div class="text-3xl md:text-4xl font-extrabold text-white mb-1">Veteran</div>
-        <div class="text-sm text-red-100 font-medium uppercase tracking-wide">Owned & Operated</div>
+        <div class="text-sm text-white/90 font-medium uppercase tracking-wide">Owned & Operated</div>
       </div>
       <div class="p-4">
         <div class="text-3xl md:text-4xl font-extrabold text-white mb-1">Katy</div>
-        <div class="text-sm text-red-100 font-medium uppercase tracking-wide">Based & Local</div>
+        <div class="text-sm text-white/90 font-medium uppercase tracking-wide">Based & Local</div>
       </div>
       <div class="p-4">
         <div class="text-3xl md:text-4xl font-extrabold text-white mb-1">{projectCount > 0 ? projectCount : '12+'}</div>
-        <div class="text-sm text-red-100 font-medium uppercase tracking-wide">Communities Served</div>
+        <div class="text-sm text-white/90 font-medium uppercase tracking-wide">Communities Served</div>
       </div>
       <div class="p-4">
         {
@@ -37,7 +37,7 @@ const reviewLabel = `${googleReviews.count}+`;
                 </svg>
                 <span class="text-3xl md:text-4xl font-extrabold text-white">{ratingLabel}</span>
               </div>
-              <div class="text-sm text-red-100 font-medium uppercase tracking-wide">{reviewLabel} Google Reviews</div>
+              <div class="text-sm text-white/90 font-medium uppercase tracking-wide">{reviewLabel} Google Reviews</div>
             </a>
           ) : (
             <>
@@ -47,7 +47,7 @@ const reviewLabel = `${googleReviews.count}+`;
                 </svg>
                 <span class="text-3xl md:text-4xl font-extrabold text-white">{ratingLabel}</span>
               </div>
-              <div class="text-sm text-red-100 font-medium uppercase tracking-wide">{reviewLabel} Google Reviews</div>
+              <div class="text-sm text-white/90 font-medium uppercase tracking-wide">{reviewLabel} Google Reviews</div>
             </>
           )
         }
