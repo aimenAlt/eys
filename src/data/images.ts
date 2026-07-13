@@ -66,6 +66,7 @@ export const cityHeroImages: Record<string, string> = {
 };
 
 export const serviceHeroImages: Record<string, string> = {
+  'small-repair-visit': '/images/services/general-handyman.jpg',
   'tv-mounting': '/images/services/tv-mounting.jpg',
   'ceiling-fan-installation': '/images/services/ceiling-fan.jpg',
   'general-handyman-services': '/images/services/general-handyman.jpg',

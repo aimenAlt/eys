@@ -111,6 +111,28 @@ export function serviceSchema(
   };
 }
 
+export type OfferCatalogItem = {
+  name: string;
+  price: number;
+  priceCurrency?: string;
+  description?: string;
+};
+
+/** OfferCatalog for productized service durations (prices must match visible UI). */
+export function offerCatalog(name: string, items: OfferCatalogItem[]) {
+  return {
+    '@type': 'OfferCatalog',
+    name,
+    itemListElement: items.map((item) => ({
+      '@type': 'Offer',
+      name: item.name,
+      price: item.price,
+      priceCurrency: item.priceCurrency ?? 'USD',
+      ...(item.description ? { description: item.description } : {}),
+    })),
+  };
+}
+
 export const homeFaqs: FaqItem[] = [
   {
     question: 'What areas do you serve?',
@@ -202,7 +224,7 @@ export function blogPostingSchema(
       name: site.name,
       logo: {
         '@type': 'ImageObject',
-        url: absoluteUrl('/logos/logo-lockup.png'),
+        url: absoluteUrl('/logos/logo-lockup.webp'),
       },
     },
     ...(image ? { image } : {}),

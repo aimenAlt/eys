@@ -1,15 +1,17 @@
 ---
+/**
+ * Preview route for the Small Repair pathways homepage.
+ * Open at /home2/ — noindex; canonical points to `/`.
+ */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import MobileStickyCTA from '../components/layout/MobileStickyCTA.astro';
-import HomeCurrentPage from '../components/home/HomeCurrentPage.astro';
 import HomeSmallRepairPage from '../components/home/HomeSmallRepairPage.astro';
 import { getCollection } from 'astro:content';
 import { absoluteUrl } from '../data/business';
 import { homePageSchema, homeFaqs } from '../data/schema';
 import { buildNavMenus } from '../data/navMenus';
-import { homepageVariant } from '../data/sitePresentation';
 
 const [publishedReviews, publishedProjects, allServices, serviceAreas, communities] =
   await Promise.all([
@@ -34,32 +36,25 @@ const seo = {
   description:
     'Looking for a handyman near you in Katy or West Houston? Veteran-owned Elevate Your Space handles repairs, TV mounting, and upgrades. Free estimates.',
   canonical: absoluteUrl('/'),
+  noindex: true,
 };
 
 const schemaGraph = homePageSchema(
   homeFaqs,
   publishedReviews.map((r) => r.data),
 );
-
-const pageProps = {
-  projectCount: communities.length,
-  publishedProjects,
-  publishedReviews,
-  cityLinks,
-  communityLinks,
-};
 ---
 
 <BaseLayout seo={seo} schemaGraph={schemaGraph}>
   <Header navMenus={navMenus} />
   <main id="main-content">
-    {
-      homepageVariant === 'small-repair' ? (
-        <HomeSmallRepairPage {...pageProps} />
-      ) : (
-        <HomeCurrentPage {...pageProps} />
-      )
-    }
+    <HomeSmallRepairPage
+      projectCount={communities.length}
+      publishedProjects={publishedProjects}
+      publishedReviews={publishedReviews}
+      cityLinks={cityLinks}
+      communityLinks={communityLinks}
+    />
   </main>
   <Footer />
   <MobileStickyCTA />

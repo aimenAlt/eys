@@ -1,0 +1,197 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import HomeHero from './HomeHero.astro';
+import TrustBar from './TrustBar.astro';
+import ServiceGrid from './ServiceGrid.astro';
+import HomeReviewsSection from './HomeReviewsSection.astro';
+import HomeProjectsPreview from './HomeProjectsPreview.astro';
+import HomeServiceAreas from './HomeServiceAreas.astro';
+import CTASection from './CTASection.astro';
+import HomeFAQ from './HomeFAQ.astro';
+import ServicePathwaysSection from './pathways/ServicePathwaysSection.astro';
+import { homeFaqs } from '../../data/schema';
+import { homeImages, imageOrPlaceholder, hasImage } from '../../data/images';
+
+interface Props {
+  projectCount: number;
+  publishedProjects: CollectionEntry<'projects'>[];
+  publishedReviews: CollectionEntry<'reviews'>[];
+  cityLinks: { title: string; slug: string }[];
+  communityLinks: { title: string; citySlug: string; slug: string }[];
+}
+
+const { projectCount, publishedProjects, publishedReviews, cityLinks, communityLinks } =
+  Astro.props;
+---
+
+<HomeHero />
+<TrustBar projectCount={projectCount} />
+
+<ServicePathwaysSection />
+
+<!-- SEO-critical local copy (condensed) -->
+<section id="about" class="py-16 md:py-20 bg-white border-t border-brand-line">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+      <div class="mb-10 lg:mb-0">
+        <p class="text-brand-red font-bold text-sm tracking-widest uppercase mb-2">Who We Are</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-brand-black mb-6">
+          Trusted Handyman Across Katy &amp; West Houston
+        </h2>
+        <p class="text-gray-600 mb-4 leading-relaxed">
+          Elevate Your Space Handyman helps homeowners in Katy, Cypress, Fulshear, Richmond, and West
+          Houston with repairs, installations, and upgrades — with honest communication and dependable
+          results.
+        </p>
+        <p class="text-gray-600 leading-relaxed">
+          Whether you need a Small Repair Visit for a growing to-do list or a custom estimate for a
+          larger project, we focus on clear expectations and clean workmanship.
+        </p>
+      </div>
+      <div class="relative h-64 sm:h-80 lg:h-96">
+        <img
+          src={imageOrPlaceholder(homeImages.whoWeAre1)}
+          loading="lazy"
+          class="absolute top-0 right-0 w-4/5 h-[75%] object-cover rounded-xl shadow-xl z-10 border-4 border-white"
+          alt="Wall and fireplace feature project in Katy"
+          width="640"
+          height="480"
+        />
+        <img
+          src={imageOrPlaceholder(homeImages.whoWeAre2)}
+          loading="lazy"
+          class="absolute bottom-0 left-0 w-3/4 h-[70%] object-cover rounded-xl shadow-2xl z-20 border-4 border-white"
+          alt="Kitchen cabinet remodeling in Texas"
+          width="640"
+          height="480"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-12 md:py-14 bg-white border-t border-brand-line">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+      <div class="lg:col-span-7">
+        <h2 class="text-2xl md:text-3xl font-bold text-brand-black mb-4">
+          Home Repair & Remodeling Services in Katy, TX
+        </h2>
+        <p class="text-gray-600 leading-relaxed mb-4">
+          From drywall patches and door installation to bathroom updates, cabinet work, painting,
+          flooring, and general home repair, our team focuses on honest communication, clean
+          workmanship, and dependable results across Katy and surrounding West Houston communities.
+        </p>
+        <p class="text-gray-600 leading-relaxed">
+          Start with the service path that fits your project — a photo estimate, a Small Repair Visit,
+          or a custom project discussion.
+        </p>
+      </div>
+      <aside class="lg:col-span-5 bg-brand-lightbg p-6 rounded-xl border border-brand-line">
+        <h3 class="font-bold text-brand-black mb-4">Popular services</h3>
+        <ul class="flex flex-col gap-3 text-sm text-gray-700">
+          {
+            [
+              { label: 'Small Repair Visit', href: '/services/small-repair-visit/' },
+              { label: 'General handyman services', href: '/services/general-handyman-services/' },
+              { label: 'TV mounting', href: '/services/tv-mounting/' },
+              { label: 'Drywall repair', href: '/services/drywall-repair/' },
+              { label: 'Door installation', href: '/services/door-repair-installation/' },
+              { label: 'Bathroom remodeling', href: '/services/bathroom-remodeling/' },
+            ].map((item) => (
+              <li class="flex items-start gap-2.5">
+                <svg
+                  class="w-5 h-5 text-brand-red mt-0.5 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <a href={item.href} class="hover:text-brand-red transition-colors leading-snug">
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<ServiceGrid />
+
+<section class="relative py-24 bg-brand-black">
+  {
+    hasImage(homeImages.whyChooseUsBg) && (
+      <div class="absolute inset-0 overflow-hidden">
+        <img
+          src={homeImages.whyChooseUsBg}
+          loading="lazy"
+          class="w-full h-full object-cover opacity-20"
+          alt=""
+        />
+      </div>
+    )
+  }
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+    <div class="text-center mb-16">
+      <p class="text-brand-red font-bold text-sm tracking-widest uppercase mb-2">Why Choose Us</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Why Choose Elevate Your Space</h2>
+      <p class="text-gray-300">Veteran-owned craftsmanship with clear expectations</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+      <div class="bg-white/10 border border-white/20 p-8 rounded-xl text-white">
+        <h3 class="text-xl font-bold mb-3">Skilled and trusted team</h3>
+        <p class="text-gray-300 text-sm">
+          Experienced professionals who treat every project with care, precision, and accountability.
+        </p>
+      </div>
+      <div class="bg-brand-red border border-red-700 p-8 rounded-xl text-white shadow-lg">
+        <h3 class="text-xl font-bold mb-3">Community Partner Pricing</h3>
+        <p class="text-red-100 text-sm">
+          Preferred rates for the neighborhoods we serve.{' '}
+          <a href="/service-areas/" class="underline font-semibold hover:text-white"
+            >See if your area qualifies</a
+          >.
+        </p>
+      </div>
+      <div class="bg-white/10 border border-white/20 p-8 rounded-xl text-white">
+        <h3 class="text-xl font-bold mb-3">Clear service paths</h3>
+        <p class="text-gray-300 text-sm">
+          Photo estimates, Small Repair Visits, and custom project quotes — so you know how to start.
+        </p>
+      </div>
+      <div class="bg-white/10 border border-white/20 p-8 rounded-xl text-white">
+        <h3 class="text-xl font-bold mb-3">Right on time</h3>
+        <p class="text-gray-300 text-sm">
+          Dependable scheduling, clear communication, and steady professionalism.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<HomeProjectsPreview projects={publishedProjects} />
+<HomeReviewsSection reviews={publishedReviews} />
+
+<section class="bg-brand-red py-10">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+    <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-2 uppercase tracking-wide">
+      Veteran Owned & Operated
+    </h2>
+    <p class="text-red-100 font-medium text-lg mb-2">
+      Veteran-Owned. Locally Trusted. Proudly Serving Katy.
+    </p>
+    <p class="text-red-200 text-sm max-w-2xl">
+      Elevate Your Space Handyman brings discipline, care, and accountability to every project, from
+      small repairs to full home upgrades.
+    </p>
+  </div>
+</section>
+
+<HomeFAQ faqs={homeFaqs} />
+<HomeServiceAreas cities={cityLinks} communities={communityLinks} />
+<CTASection />

@@ -34,14 +34,16 @@ export const socialProfiles = {
  * Jobber embed URLs — paste from Jobber Client Hub when ready.
  * requestFormUrl: quote / work request form embed
  * onlineBookingUrl: direct online booking (e.g. TV mounting)
+ * smallRepairVisitUrl: Small Repair Visit request or booking embed
  */
 export const jobber = {
   requestFormUrl: '' as string,
   onlineBookingUrl: '' as string,
+  smallRepairVisitUrl: '' as string,
 };
 
 function buildSameAs(): string[] {
-  const links = [
+  const links: string[] = [
     socialProfiles.facebook,
     socialProfiles.instagram,
     socialProfiles.yelp,
@@ -92,6 +94,11 @@ export function jobberRequestFormUrl(): string | undefined {
 
 export function jobberOnlineBookingUrl(): string | undefined {
   const url = business.jobber.onlineBookingUrl?.trim();
+  return url || undefined;
+}
+
+export function jobberSmallRepairVisitUrl(): string | undefined {
+  const url = business.jobber.smallRepairVisitUrl?.trim();
   return url || undefined;
 }
 

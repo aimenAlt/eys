@@ -1,0 +1,90 @@
+---
+interface Props {
+  title: string;
+  price: string;
+  bestFor: string;
+  description: string;
+  features: string[];
+  ctaLabel: string;
+  ctaHref: string;
+  featured?: boolean;
+  analyticsId: string;
+  /** Tailwind order classes, e.g. "order-1 md:order-2" */
+  orderClass?: string;
+}
+
+const {
+  title,
+  price,
+  bestFor,
+  description,
+  features,
+  ctaLabel,
+  ctaHref,
+  featured = false,
+  analyticsId,
+  orderClass = '',
+} = Astro.props;
+---
+
+<article
+  class:list={[
+    'flex flex-col rounded-xl border bg-white p-6 md:p-8 shadow-card h-full',
+    featured
+      ? 'border-brand-red ring-2 ring-brand-red/20 relative md:scale-[1.02] z-10'
+      : 'border-brand-line',
+    orderClass,
+  ]}
+  data-pathway={analyticsId}
+>
+  {
+    featured && (
+      <p class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-red text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-md whitespace-nowrap">
+        Most popular
+      </p>
+    )
+  }
+  <p class="text-sm font-bold text-brand-muted uppercase tracking-wide mb-2">{title}</p>
+  <p
+    class:list={[
+      'font-extrabold text-brand-black mb-3 tracking-tight',
+      featured ? 'text-3xl md:text-4xl' : 'text-2xl md:text-3xl',
+    ]}
+  >
+    {price}
+  </p>
+  <p class="text-sm font-semibold text-brand-black mb-2">
+    Best for: <span class="font-normal text-gray-600">{bestFor}</span>
+  </p>
+  <p class="text-sm text-gray-600 leading-relaxed mb-6 flex-grow">{description}</p>
+  <a
+    href={ctaHref}
+    class:list={[
+      'block w-full text-center font-bold py-3 px-4 rounded-md transition-colors mb-6',
+      featured
+        ? 'gradient-btn text-white shadow-lg hover:shadow-xl'
+        : 'bg-brand-black text-white hover:bg-brand-charcoal',
+    ]}
+    data-pathway-cta={analyticsId}
+  >
+    {ctaLabel}
+  </a>
+  <ul class="space-y-3 mt-auto">
+    {
+      features.map((feature) => (
+        <li class="flex items-start gap-2.5 text-sm text-gray-700">
+          <svg
+            class="w-5 h-5 text-brand-red mt-0.5 flex-shrink-0"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          <span>{feature}</span>
+        </li>
+      ))
+    }
+  </ul>
+</article>

@@ -9,6 +9,7 @@ import { absoluteUrl, resolveOgImage } from '../data/business';
 import { breadcrumbList, itemListSchema, webPage } from '../data/schema';
 import type { ServiceCategory } from '../data/serviceCategories';
 import { serviceCategories } from '../data/serviceCategories';
+import { isCustomServicePage } from '../data/sitePresentation';
 
 interface Props {
   category: ServiceCategory;
@@ -20,8 +21,11 @@ const pageUrl = absoluteUrl(`/services/${category.slug}/`);
 const title = category.seoTitle;
 const description = category.metaDescription;
 
+const hasServicePage = (slug?: string) =>
+  Boolean(slug && (publishedServiceSlugs.has(slug) || isCustomServicePage(slug)));
+
 const categoryItems = category.items.map((item) => {
-  const hasPage = item.serviceSlug && publishedServiceSlugs.has(item.serviceSlug);
+  const hasPage = hasServicePage(item.serviceSlug);
   return {
     title: item.title,
     description: item.description,
@@ -33,7 +37,7 @@ const categoryItems = category.items.map((item) => {
 });
 
 const listItems = category.items
-  .filter((item) => item.serviceSlug && publishedServiceSlugs.has(item.serviceSlug))
+  .filter((item) => hasServicePage(item.serviceSlug))
   .map((item) => ({
     name: item.title,
     url: absoluteUrl(`/services/${item.serviceSlug}/`),

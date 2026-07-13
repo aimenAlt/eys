@@ -1,5 +1,6 @@
 import { getCollection } from 'astro:content';
 import { serviceCategories } from './serviceCategories';
+import { customServicePages } from './sitePresentation';
 
 export type SiteMapLink = {
   title: string;
@@ -47,10 +48,20 @@ export async function buildSiteMap(): Promise<{ sections: SiteMapSection[]; tota
     href: `/services/${category.slug}/`,
   }));
 
-  const serviceLinks: SiteMapLink[] = services.map((entry) => ({
-    title: entry.data.title,
-    href: `/services/${entry.data.slug}/`,
-  }));
+  const customServiceLinks: SiteMapLink[] = Object.entries(customServicePages).map(
+    ([slug, meta]) => ({
+      title: meta.title,
+      href: `/services/${slug}/`,
+    }),
+  );
+
+  const serviceLinks: SiteMapLink[] = [
+    ...customServiceLinks,
+    ...services.map((entry) => ({
+      title: entry.data.title,
+      href: `/services/${entry.data.slug}/`,
+    })),
+  ].sort((a, b) => a.title.localeCompare(b.title));
 
   const cityLinks: SiteMapLink[] = serviceAreas.map((entry) => ({
     title: entry.data.title,

@@ -1,0 +1,95 @@
+---
+import {
+  additionalTimeLabel,
+  formatUsd,
+  smallRepairPricing,
+} from '../../../data/smallRepairPricing';
+import { smallRepairVisitMeta } from '../../../data/smallRepairVisitContent';
+import { site } from '../../../data/business';
+import { resolveServiceHero } from '../../../data/images';
+
+const heroImage = resolveServiceHero('small-repair-visit');
+---
+
+<section class="relative bg-white pt-12 pb-14 lg:pt-16 lg:pb-20 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="lg:grid lg:grid-cols-12 lg:gap-12 items-center">
+      <div class="lg:col-span-7">
+        <p class="text-brand-red font-bold text-xs tracking-widest uppercase mb-3">
+          {smallRepairVisitMeta.heroEyebrow}
+        </p>
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-black leading-tight tracking-tight mb-4">
+          {smallRepairVisitMeta.heroTitle}
+        </h1>
+        <p class="text-lg text-gray-600 mb-6 leading-relaxed max-w-2xl">
+          {smallRepairVisitMeta.heroSummary}
+        </p>
+
+        <dl class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+          <div class="rounded-lg border border-brand-line bg-brand-lightbg p-4">
+            <dt class="text-xs font-bold uppercase tracking-wide text-brand-muted mb-1">
+              Starting at
+            </dt>
+            <dd class="text-xl font-extrabold text-brand-black">
+              {formatUsd(smallRepairPricing.oneHour)}
+            </dd>
+            <dd class="text-xs text-gray-500 mt-0.5">1-hour visit</dd>
+          </div>
+          <div class="rounded-lg border border-brand-line bg-brand-lightbg p-4">
+            <dt class="text-xs font-bold uppercase tracking-wide text-brand-muted mb-1">
+              Two-hour visit
+            </dt>
+            <dd class="text-xl font-extrabold text-brand-black">
+              {formatUsd(smallRepairPricing.twoHours)}
+            </dd>
+            <dd class="text-xs text-gray-500 mt-0.5">Most common for lists</dd>
+          </div>
+          <div class="rounded-lg border border-brand-line bg-brand-lightbg p-4">
+            <dt class="text-xs font-bold uppercase tracking-wide text-brand-muted mb-1">
+              Additional time
+            </dt>
+            <dd class="text-lg font-extrabold text-brand-black leading-snug">
+              {additionalTimeLabel}
+            </dd>
+            <dd class="text-xs text-gray-500 mt-0.5">After two hours</dd>
+          </div>
+        </dl>
+
+        <p class="text-sm text-gray-600 mb-8 border-l-4 border-brand-red pl-4 leading-relaxed">
+          {smallRepairVisitMeta.qualification}
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a
+            href="#pricing"
+            class="gradient-btn text-white px-8 py-3.5 rounded-md font-bold text-center transition-all shadow-lg hover:shadow-xl"
+          >
+            Choose Your Visit Length
+          </a>
+          <a
+            href="#eligible-tasks"
+            class="bg-white text-brand-black border-2 border-brand-black px-8 py-3.5 rounded-md font-bold text-center hover:bg-brand-black hover:text-white transition-all"
+          >
+            See Eligible Tasks
+          </a>
+        </div>
+        <p class="mt-4 text-sm text-gray-500">
+          Serving Katy &amp; West Houston · <a
+            href={`tel:${site.phoneTel}`}
+            class="font-semibold text-brand-red hover:underline">{site.phone}</a
+          >
+        </p>
+      </div>
+      <div class="lg:col-span-5 mt-10 lg:mt-0">
+        <img
+          src={heroImage}
+          alt="Handyman completing home repairs during a Small Repair Visit in Katy, TX"
+          class="w-full h-72 sm:h-96 object-cover rounded-xl shadow-card border border-brand-line"
+          width="800"
+          height="600"
+          loading="eager"
+        />
+      </div>
+    </div>
+  </div>
+</section>

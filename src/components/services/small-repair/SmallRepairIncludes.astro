@@ -1,0 +1,35 @@
+---
+import { includes } from '../../../data/smallRepairVisitContent';
+---
+
+<section id="includes" class="py-16 md:py-20 bg-white border-t border-brand-line" aria-labelledby="includes-heading">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-2xl mb-10">
+      <p class="text-brand-red font-bold text-xs tracking-widest uppercase mb-2">Included</p>
+      <h2 id="includes-heading" class="text-3xl font-bold text-brand-black mb-3">
+        What the Service Includes
+      </h2>
+      <p class="text-gray-600 leading-relaxed">
+        Your Small Repair Visit reserves professional handyman labor for the duration you select.
+      </p>
+    </div>
+    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {
+        includes.map((item) => (
+          <li class="flex items-start gap-3 rounded-lg border border-brand-line p-5 text-sm text-gray-700">
+            <svg
+              class="w-5 h-5 text-brand-red mt-0.5 flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span>{item}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

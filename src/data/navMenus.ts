@@ -1,4 +1,5 @@
 import { serviceCategories } from './serviceCategories';
+import { customServicePages, isCustomServicePage } from './sitePresentation';
 
 export type NavMenuItem = {
   label: string;
@@ -55,14 +56,24 @@ export function buildNavMenus(
       .map((item) => {
         if (!item.serviceSlug) return null;
         const entry = bySlug.get(item.serviceSlug);
-        if (!entry) return null;
-        usedSlugs.add(item.serviceSlug);
-        return {
-          label: entry.data.title,
-          href: entry.data.published
-            ? `/services/${entry.data.slug}/`
-            : `/contact/?service=${entry.data.slug}`,
-        };
+        if (entry) {
+          usedSlugs.add(item.serviceSlug);
+          return {
+            label: entry.data.title,
+            href: entry.data.published
+              ? `/services/${entry.data.slug}/`
+              : `/contact/?service=${entry.data.slug}`,
+          };
+        }
+        // Custom static service pages (not content-collection entries)
+        if (isCustomServicePage(item.serviceSlug)) {
+          usedSlugs.add(item.serviceSlug);
+          return {
+            label: customServicePages[item.serviceSlug].title,
+            href: `/services/${item.serviceSlug}/`,
+          };
+        }
+        return null;
       })
       .filter((child): child is NavMenuItem => child !== null);
 

@@ -1,0 +1,34 @@
+---
+import { exclusions } from '../../../data/smallRepairVisitContent';
+---
+
+<section id="exclusions" class="py-16 md:py-20 bg-brand-lightbg" aria-labelledby="exclusions-heading">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-2xl mb-10">
+      <p class="text-brand-red font-bold text-xs tracking-widest uppercase mb-2">Different path</p>
+      <h2 id="exclusions-heading" class="text-3xl font-bold text-brand-black mb-3">
+        Work That Needs a Different Service
+      </h2>
+      <p class="text-gray-600 leading-relaxed">
+        A Small Repair Visit is not intended for the following. For these projects, request a custom
+        estimate instead.
+      </p>
+    </div>
+    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-10">
+      {
+        exclusions.map((item) => (
+          <li class="flex items-start gap-3 text-sm text-gray-700 bg-white rounded-lg border border-brand-line p-4">
+            <span class="text-brand-red font-bold flex-shrink-0" aria-hidden="true">—</span>
+            <span>{item}</span>
+          </li>
+        ))
+      }
+    </ul>
+    <a
+      href="/contact/"
+      class="inline-block gradient-btn text-white px-8 py-3.5 rounded-md font-bold transition-all shadow-lg hover:shadow-xl"
+    >
+      Request a Custom Project Estimate
+    </a>
+  </div>
+</section>

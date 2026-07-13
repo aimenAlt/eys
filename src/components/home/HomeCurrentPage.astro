@@ -1,0 +1,364 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import HomeHero from './HomeHero.astro';
+import TrustBar from './TrustBar.astro';
+import ServiceGrid from './ServiceGrid.astro';
+import HomeReviewsSection from './HomeReviewsSection.astro';
+import HomeProjectsPreview from './HomeProjectsPreview.astro';
+import HomeServiceAreas from './HomeServiceAreas.astro';
+import CTASection from './CTASection.astro';
+import HomeFAQ from './HomeFAQ.astro';
+import { homeFaqs } from '../../data/schema';
+import { homeImages, imageOrPlaceholder, hasImage } from '../../data/images';
+
+interface Props {
+  projectCount: number;
+  publishedProjects: CollectionEntry<'projects'>[];
+  publishedReviews: CollectionEntry<'reviews'>[];
+  cityLinks: { title: string; slug: string }[];
+  communityLinks: { title: string; citySlug: string; slug: string }[];
+}
+
+const { projectCount, publishedProjects, publishedReviews, cityLinks, communityLinks } =
+  Astro.props;
+---
+
+<HomeHero />
+<TrustBar projectCount={projectCount} />
+<!-- 4. "Who We Are" Section -->
+<section id="about" class="py-20 md:py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+      <!-- Left: Content -->
+      <div class="mb-12 lg:mb-0">
+        <p class="text-brand-red font-bold text-sm tracking-widest uppercase mb-2">Who We Are</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-brand-black mb-6">
+          Trusted Handyman Across Katy &amp; West Houston
+        </h2>
+        <p class="text-gray-600 mb-8 leading-relaxed">
+          Some names just stay in your mind. When something needs to be done right, you do not think
+          twice. There is a reason people keep coming back — it is about how it feels when the job
+          is done and the space finally makes sense. Homeowners searching for a handyman near them
+          in Katy, Cypress, Fulshear, Richmond, and West Houston keep choosing Elevate Your Space
+          for that reason.
+        </p>
+
+        <div class="space-y-6">
+          <div class="flex">
+            <div class="flex-shrink-0 mt-1">
+              <svg class="w-6 h-6 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path
+                ></svg
+              >
+            </div>
+            <div class="ml-4">
+              <h3 class="text-lg font-bold text-brand-black">Building Trust</h3>
+              <p class="text-sm text-gray-600 mt-1">
+                For each and every one of our projects, we maintain the highest standards of honesty,
+                professionalism, and quality, which guarantees first rate outcomes and happy clients.
+              </p>
+            </div>
+          </div>
+          <div class="flex">
+            <div class="flex-shrink-0 mt-1">
+              <svg class="w-6 h-6 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                ></path></svg
+              >
+            </div>
+            <div class="ml-4">
+              <h3 class="text-lg font-bold text-brand-black">Experienced professionals</h3>
+              <p class="text-sm text-gray-600 mt-1">
+                Delivering dependable handyman, repair, and home improvement services with a strong
+                focus on safety and customer satisfaction.
+              </p>
+            </div>
+          </div>
+          <div class="flex">
+            <div class="flex-shrink-0 mt-1">
+              <svg class="w-6 h-6 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                ></path></svg
+              >
+            </div>
+            <div class="ml-4">
+              <h3 class="text-lg font-bold text-brand-black">Ensuring Quality</h3>
+              <p class="text-sm text-gray-600 mt-1">
+                Dedicated to improving homes through skilled, reliable, and detail-focused repair,
+                installation, and remodeling solutions.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Images (Overlapping) -->
+      <div class="relative h-80 sm:h-96 lg:h-[500px] mt-10 lg:mt-0">
+        <img
+          src={imageOrPlaceholder(homeImages.whoWeAre1)}
+          loading="lazy"
+          class="absolute top-0 right-0 w-4/5 h-[75%] object-cover rounded-xl shadow-xl z-10 border-4 border-white"
+          alt="Wall and fireplace feature project in Katy"
+        />
+        <img
+          src={imageOrPlaceholder(homeImages.whoWeAre2)}
+          loading="lazy"
+          class="absolute bottom-0 left-0 w-3/4 h-[70%] object-cover rounded-xl shadow-2xl z-20 border-4 border-white"
+          alt="Kitchen cabinet remodeling in Texas"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-12 md:py-16 bg-white border-t border-brand-line">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+      <div class="lg:col-span-7">
+        <h2 class="text-2xl md:text-3xl font-bold text-brand-black mb-4">
+          Home Repair & Remodeling Services in Katy, TX
+        </h2>
+        <p class="text-gray-600 leading-relaxed mb-4">
+          Elevate Your Space Handyman helps homeowners in Katy, Texas complete repairs, improvements,
+          installations, and small remodeling projects with confidence. Whether the job is a drywall
+          patch, door installation, bathroom update, cabinet improvement, painting project, flooring
+          upgrade, or general home repair, our team focuses on honest communication, clean
+          workmanship, and dependable results.
+        </p>
+        <p class="text-gray-600 leading-relaxed">
+          We proudly serve homeowners throughout Katy and surrounding areas, helping with both quick
+          fixes and larger home improvement projects. From minor repairs to complete upgrades, our
+          goal is simple: make your space safer, cleaner, more functional, and more comfortable.
+        </p>
+      </div>
+      <aside class="lg:col-span-5 bg-brand-lightbg p-6 rounded-xl border border-brand-line">
+        <h3 class="font-bold text-brand-black mb-4">Common projects we handle include:</h3>
+        <ul class="flex flex-col gap-3 text-sm text-gray-700">
+          {
+            [
+              { label: 'General handyman services', href: '/services/general-handyman-services/' },
+              { label: 'Bathroom remodeling', href: '/services/bathroom-remodeling/' },
+              { label: 'Kitchen remodeling', href: '/services/kitchen-remodeling/' },
+              { label: 'Drywall repair and finishing', href: '/services/drywall-repair/' },
+              { label: 'Door installation', href: '/services/door-repair-installation/' },
+              { label: 'Custom cabinets', href: '/services/cabinet-installation/' },
+              { label: 'Furniture installation', href: '/services/furniture-assembly/' },
+              { label: 'House painting', href: '/services/painting/' },
+              { label: 'Electrical work', href: '/services/electrical-services/' },
+              { label: 'Flooring and decor upgrades', href: '/services/flooring-and-decor/' },
+            ].map((item) => (
+              <li class="flex items-start gap-2.5">
+                <svg
+                  class="w-5 h-5 text-brand-red mt-0.5 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <a href={item.href} class="hover:text-brand-red transition-colors leading-snug">
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+<ServiceGrid />
+<!-- 8. Why Choose Us? Section -->
+<section class="relative py-24 bg-brand-black">
+  {
+    hasImage(homeImages.whyChooseUsBg) && (
+      <div class="absolute inset-0 overflow-hidden">
+        <img
+          src={homeImages.whyChooseUsBg}
+          loading="lazy"
+          class="w-full h-full object-cover opacity-20"
+          alt="Construction Blueprint Background"
+        />
+      </div>
+    )
+  }
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+    <div class="text-center mb-16">
+      <p class="text-brand-red font-bold text-sm tracking-widest uppercase mb-2">Why Choose Us</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Why Choose Us?</h2>
+      <p class="text-gray-300">The following points show our commitment to excellence</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+      <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-xl text-white">
+        <div class="w-12 h-12 bg-brand-red rounded-full flex items-center justify-center mb-6">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            ><path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+            ></path></svg
+          >
+        </div>
+        <h3 class="text-xl font-bold mb-3">Skilled and trusted team</h3>
+        <p class="text-gray-300 text-sm">
+          Experienced professionals who treat every project with care, precision, and accountability.
+        </p>
+      </div>
+
+      <div class="bg-brand-red border border-red-700 p-8 rounded-xl text-white shadow-lg">
+        <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-6">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            ><path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+            ></path></svg
+          >
+        </div>
+        <h3 class="text-xl font-bold mb-3">Community Partner Pricing</h3>
+        <p class="text-red-100 text-sm">
+          Preferred rates for the neighborhoods we serve — premium work without the premium markup.{' '}
+          <a href="/service-areas/" class="underline font-semibold hover:text-white"
+            >See if your area qualifies</a
+          >.
+        </p>
+      </div>
+
+      <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-xl text-white">
+        <div class="w-12 h-12 bg-brand-red rounded-full flex items-center justify-center mb-6">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            ><path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path></svg
+          >
+        </div>
+        <h3 class="text-xl font-bold mb-3">Transparent Pricing</h3>
+        <p class="text-gray-300 text-sm">
+          Fair, itemized quotes designed to respect your budget — no surprise fees or runaround.
+        </p>
+      </div>
+
+      <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-xl text-white">
+        <div class="w-12 h-12 bg-brand-red rounded-full flex items-center justify-center mb-6">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            ><path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path
+            ></svg
+          >
+        </div>
+        <h3 class="text-xl font-bold mb-3">Right on time</h3>
+        <p class="text-gray-300 text-sm">
+          Dependable scheduling, clear communication, and work completed with steady professionalism.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<HomeProjectsPreview projects={publishedProjects} />
+
+<!-- 10. Process Section (How It Works) -->
+<section class="py-20 bg-brand-lightbg">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <p class="text-brand-red font-bold text-sm tracking-widest uppercase mb-2">How It Works</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-brand-black">
+        Simple Steps to Elevate Your Space
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm relative">
+        <div class="text-5xl font-extrabold text-gray-100 absolute top-4 right-4">01</div>
+        <div class="relative z-10">
+          <h3 class="text-lg font-bold text-brand-black mb-3 mt-4">Consultation</h3>
+          <p class="text-sm text-gray-600">
+            Get in touch with us so we can go over your project details and provide you with our
+            professional opinion.
+          </p>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm relative">
+        <div class="text-5xl font-extrabold text-gray-100 absolute top-4 right-4">02</div>
+        <div class="relative z-10">
+          <h3 class="text-lg font-bold text-brand-black mb-3 mt-4">Estimate</h3>
+          <p class="text-sm text-gray-600">
+            Receive a detailed, transparent quote tailored to your needs and budget.
+          </p>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm relative">
+        <div class="text-5xl font-extrabold text-gray-100 absolute top-4 right-4">03</div>
+        <div class="relative z-10">
+          <h3 class="text-lg font-bold text-brand-black mb-3 mt-4">Execution</h3>
+          <p class="text-sm text-gray-600">
+            Our skilled team completes the work efficiently and with the highest quality standards.
+          </p>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm relative">
+        <div class="text-5xl font-extrabold text-gray-100 absolute top-4 right-4">04</div>
+        <div class="relative z-10">
+          <h3 class="text-lg font-bold text-brand-black mb-3 mt-4">Final Review</h3>
+          <p class="text-sm text-gray-600">
+            We ensure your complete satisfaction before considering the job done.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<HomeReviewsSection reviews={publishedReviews} />
+
+<!-- 12. Veteran-Owned Trust Section -->
+<section class="bg-brand-red py-10">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+    <svg class="w-16 h-16 text-white mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+      ><path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="1.5"
+        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+      ></path></svg
+    >
+    <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-2 uppercase tracking-wide">
+      Veteran Owned & Operated
+    </h2>
+    <p class="text-red-100 font-medium text-lg mb-2">
+      Veteran-Owned. Locally Trusted. Proudly Serving Katy.
+    </p>
+    <p class="text-red-200 text-sm max-w-2xl">
+      Elevate Your Space Handyman brings discipline, care, and accountability to every project, from
+      small repairs to full home upgrades.
+    </p>
+  </div>
+</section>
+
+<HomeFAQ faqs={homeFaqs} />
+
+<HomeServiceAreas cities={cityLinks} communities={communityLinks} />
+
+<CTASection />

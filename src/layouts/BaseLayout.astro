@@ -4,8 +4,8 @@ import SEOHead, { type SeoProps } from '../components/seo/SEOHead.astro';
 import SchemaJsonLd from '../components/seo/SchemaJsonLd.astro';
 import { site } from '../data/business';
 import { wrapSchemaGraph } from '../data/schema';
+import inter400 from '@fontsource/inter/files/inter-latin-400-normal.woff2?url';
 import inter700 from '@fontsource/inter/files/inter-latin-700-normal.woff2?url';
-import inter800 from '@fontsource/inter/files/inter-latin-800-normal.woff2?url';
 
 interface Props {
   seo?: SeoProps;
@@ -30,8 +30,8 @@ const enableAnalytics = import.meta.env.PROD && (import.meta.env.BASE_URL || '/'
 <html lang="en" class="scroll-smooth">
   <head>
     <SEOHead {...seo} />
+    <link rel="preload" href={inter400} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={inter700} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={inter800} as="font" type="font/woff2" crossorigin />
     {schemaData && <SchemaJsonLd data={schemaData} />}
     {
       enableAnalytics && (

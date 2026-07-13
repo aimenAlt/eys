@@ -14,7 +14,11 @@ export default defineConfig({
   trailingSlash: 'always',
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('/404'),
+      filter: (page) =>
+        !page.includes('/404') &&
+        !page.includes('/home-current') &&
+        !page.includes('/home2') &&
+        !page.includes('/home-small-repair'),
     }),
   ],
   vite: {

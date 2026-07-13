@@ -1,0 +1,63 @@
+---
+import JobberEmbedWrapper from '../../booking/JobberEmbedWrapper.astro';
+import { jobberSmallRepairVisitUrl } from '../../../data/business';
+
+const embedUrl = jobberSmallRepairVisitUrl();
+---
+
+<section
+  id="request-form"
+  class="py-16 md:py-20 bg-white"
+  aria-labelledby="request-heading"
+  data-jobber-section
+>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-10">
+      <p class="text-brand-red font-bold text-xs tracking-widest uppercase mb-2">Request</p>
+      <h2 id="request-heading" class="text-3xl font-bold text-brand-black mb-3">
+        Request Your Small Repair Visit
+      </h2>
+      <p class="text-gray-600 leading-relaxed max-w-xl mx-auto">
+        Tell us what needs attention, upload clear photographs, and identify your highest-priority
+        tasks. We will review the request and confirm the appropriate visit length and next steps.
+      </p>
+    </div>
+    <JobberEmbedWrapper
+      embedUrl={embedUrl}
+      title="Request Your Small Repair Visit"
+      minHeight="560px"
+    />
+  </div>
+</section>
+
+<script>
+  import { analyticsEvents, trackEvent } from '../../../utils/analytics';
+
+  const section = document.querySelector('[data-jobber-section]');
+  if (section && 'IntersectionObserver' in window) {
+    let fired = false;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (fired) return;
+        if (entries.some((e) => e.isIntersecting)) {
+          fired = true;
+          trackEvent(analyticsEvents.jobberSectionReached, {
+            form: 'small_repair_visit',
+          });
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.35 },
+    );
+    observer.observe(section);
+  }
+
+  // Fallback link inside JobberEmbedWrapper points to /contact/
+  section?.querySelectorAll('a[href="/contact/"]').forEach((link) => {
+    link.addEventListener('click', () => {
+      trackEvent(analyticsEvents.jobberFallbackClick, {
+        form: 'small_repair_visit',
+      });
+    });
+  });
+</script>

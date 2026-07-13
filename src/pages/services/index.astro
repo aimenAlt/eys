@@ -7,11 +7,20 @@ import LocalAreaCTA from '../../components/areas/local/LocalAreaCTA.astro';
 import { absoluteUrl, site } from '../../data/business';
 import { breadcrumbList, webPage } from '../../data/schema';
 import { serviceCategories } from '../../data/serviceCategories';
+import { customServicePages } from '../../data/sitePresentation';
 
 const services = await getCollection('services', ({ data }) => data.published === true);
 services.sort((a, b) => a.data.title.localeCompare(b.data.title));
 
-const serviceCards = services.map((entry) => ({
+const customCards = Object.entries(customServicePages).map(([slug, meta]) => ({
+  title: meta.title,
+  description: meta.summary,
+  href: `/services/${slug}/`,
+  footerText: 'View service →',
+  headingLevel: 3 as const,
+}));
+
+const collectionCards = services.map((entry) => ({
   title: entry.data.title,
   description: entry.data.summary,
   href: `/services/${entry.data.slug}/`,
@@ -19,9 +28,13 @@ const serviceCards = services.map((entry) => ({
   headingLevel: 3 as const,
 }));
 
+const serviceCards = [...customCards, ...collectionCards].sort((a, b) =>
+  a.title.localeCompare(b.title),
+);
+
 const title = `Handyman Services | ${site.name}`;
 const description =
-  '14 handyman services in Katy and West Houston — repairs, installation, and remodeling including TV mounting, electrical, drywall, and painting.';
+  'Handyman services in Katy and West Houston — Small Repair Visits, repairs, installation, and remodeling including TV mounting, electrical, drywall, and painting.';
 const canonical = absoluteUrl('/services/');
 
 const schemaGraph = [

@@ -1,0 +1,120 @@
+---
+import Section from '../../ui/Section.astro';
+import SectionHeading from '../../ui/SectionHeading.astro';
+import ServicePathwayCard from './ServicePathwayCard.astro';
+import {
+  additionalTimeLabel,
+  formatUsd,
+  smallRepairPricing,
+} from '../../../data/smallRepairPricing';
+import { pathwayCopy } from '../../../data/smallRepairVisitContent';
+
+const pathways = [
+  {
+    title: 'Photo Estimate',
+    price: 'Free',
+    bestFor: 'Projects that need scope and pricing review',
+    description:
+      'Send us clear photographs and project details. We will review the work, contact you if more information is needed, and prepare the appropriate estimate.',
+    features: [
+      'Submit project details and photographs',
+      'Reviewed by an experienced handyman',
+      'No obligation to proceed',
+      'Onsite assessment available when necessary',
+    ],
+    ctaLabel: 'Request an Estimate',
+    ctaHref: '/contact/',
+    analyticsId: 'photo-estimate',
+    featured: false,
+    orderClass: 'order-2 md:order-1',
+  },
+  {
+    title: 'Small Repair Visit',
+    price: `Starting at ${formatUsd(smallRepairPricing.oneHour)}`,
+    bestFor: 'Quick repairs and home to-do lists',
+    description:
+      'Reserve a professional handyman for smaller repairs, installations, adjustments, and maintenance tasks completed in your chosen priority order.',
+    features: [
+      `One-hour visit: ${formatUsd(smallRepairPricing.oneHour)}`,
+      `Two-hour visit: ${formatUsd(smallRepairPricing.twoHours)}`,
+      `Additional time: ${additionalTimeLabel}`,
+      'Ideal for multiple smaller tasks',
+      'Tasks completed in priority order',
+      'Materials and specialty equipment are additional unless included',
+    ],
+    ctaLabel: 'View Small Repair Visit',
+    ctaHref: '/services/small-repair-visit/',
+    analyticsId: 'small-repair-visit',
+    featured: true,
+    orderClass: 'order-1 md:order-2',
+  },
+  {
+    title: 'Larger & Custom Projects',
+    price: 'Custom Estimate',
+    bestFor: 'Renovations, multi-day work, custom installations, and complex repairs',
+    description:
+      'For projects requiring deeper planning, material sourcing, multiple trades, or more than one visit, we will review the scope and prepare a tailored estimate.',
+    features: [
+      'Detailed scope review',
+      'Written project estimate',
+      'Material planning and sourcing',
+      'Multi-day scheduling when required',
+    ],
+    ctaLabel: 'Discuss Your Project',
+    ctaHref: '/contact/',
+    analyticsId: 'custom-project',
+    featured: false,
+    orderClass: 'order-3 md:order-3',
+  },
+];
+---
+
+<Section tone="light" width="wide" spacing="lg" id="service-pathways" labelledby="pathways-heading">
+  <div class="lg:flex lg:items-end lg:justify-between lg:gap-12 mb-10 md:mb-14">
+    <SectionHeading
+      eyebrow={pathwayCopy.eyebrow}
+      title={pathwayCopy.title}
+      intro={pathwayCopy.intro}
+      id="pathways-heading"
+      class="mb-0 md:mb-0 max-w-2xl"
+    />
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-5 lg:gap-6 items-stretch">
+    {
+      pathways.map((pathway) => (
+        <ServicePathwayCard
+          title={pathway.title}
+          price={pathway.price}
+          bestFor={pathway.bestFor}
+          description={pathway.description}
+          features={pathway.features}
+          ctaLabel={pathway.ctaLabel}
+          ctaHref={pathway.ctaHref}
+          featured={pathway.featured}
+          analyticsId={pathway.analyticsId}
+          orderClass={pathway.orderClass}
+        />
+      ))
+    }
+  </div>
+
+  <p class="mt-8 text-center text-sm text-gray-500 max-w-2xl mx-auto">
+    Additional time after two hours requires your approval. Completion of every submitted task is not
+    guaranteed within the reserved visit length.
+  </p>
+</Section>
+
+<script>
+  import { analyticsEvents, trackEvent } from '../../../utils/analytics';
+
+  document.querySelectorAll<HTMLAnchorElement>('[data-pathway-cta]').forEach((link) => {
+    link.addEventListener('click', () => {
+      const id = link.getAttribute('data-pathway-cta') || 'unknown';
+      trackEvent(analyticsEvents.pathwayCtaClick, {
+        pathway_id: id,
+        link_text: link.textContent?.trim() || '',
+      });
+    });
+  });
+</script>

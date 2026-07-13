@@ -33,6 +33,12 @@ export const serviceCategories: ServiceCategory[] = [
     ctaLabel: 'View Repair Services',
     items: [
       {
+        title: 'Small Repair Visit',
+        description:
+          'Reserve a professional handyman for quick repairs, installations, adjustments, and multi-item home to-do lists.',
+        serviceSlug: 'small-repair-visit',
+      },
+      {
         title: 'General Handyman Repairs',
         description:
           'Everyday home fixes for damaged trim, loose hardware, doors, fixtures, and small issues that keep your home from feeling finished.',
@@ -149,6 +155,7 @@ export const serviceCategories: ServiceCategory[] = [
 ];
 
 export const allServiceSlugs = [
+  'small-repair-visit',
   'tv-mounting',
   'ceiling-fan-installation',
   'curtain-installation',

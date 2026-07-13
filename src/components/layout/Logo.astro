@@ -12,7 +12,7 @@ const { variant = 'header', class: className } = Astro.props;
 // height, so we compose the brand from the crisp square mark + an HTML wordmark.
 // Both header and footer sit on dark backgrounds, so the same colors apply.
 const isFooter = variant === 'footer';
-// The mark art is portrait (~0.76:1), so size by height with auto width to avoid squishing.
+// Mark art is portrait (~0.73:1); size by height with auto width.
 const markSize = isFooter ? 'h-14 w-auto' : 'h-11 w-auto md:h-12';
 const topSize = isFooter ? 'text-base' : 'text-sm lg:text-base';
 const subSize = isFooter ? 'text-[11px]' : 'text-[10px]';
@@ -27,13 +27,14 @@ const wordmarkVis = isFooter ? 'flex' : 'hidden lg:flex';
   aria-label="Elevate Your Space Handyman — Home"
 >
   <img
-    src={withBase('/logos/logo-mark.png')}
+    src={withBase('/logos/logo-mark.webp')}
     alt=""
     width="36"
     height="48"
     class:list={[markSize, 'shrink-0 transition-transform duration-200 group-hover:scale-105']}
     loading="eager"
     decoding="async"
+    fetchpriority={isFooter ? 'low' : 'high'}
   />
   <span class:list={[wordmarkVis, 'flex-col leading-none']}>
     <span class:list={[topSize, 'font-extrabold tracking-tight text-white']}>
