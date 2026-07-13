@@ -44,7 +44,7 @@ Master reference for local SEO, technical SEO, and content strategy. Use this do
 |-------|-----------------|
 | Business name | Elevate Your Space Handyman |
 | Address | 1308 Ventura Crk Dr, Katy, TX 77493 |
-| Phone | (713) 986-1177 |
+| Phone | (346) 820-1629 |
 | Website | https://www.eyshandyman.com |
 | Primary category | Handyman (or closest GBP category) |
 | Service areas | Katy, Cypress, Fulshear, Richmond, West Houston |
@@ -260,7 +260,7 @@ Google does not rank sites for using "new" tags — it ranks pages that are **ea
 ### Links and interactive elements
 
 - **Full-card links:** the entire card is one `<a>` — no nested buttons or links inside.
-- **Phone:** always `tel:+17139861177` format via `site.phoneTel`.
+- **Phone:** always `tel:+13468201629` format via `site.phoneTel`.
 - **Email:** `mailto:` links in footer and contact areas.
 - **Breadcrumbs:** `<nav aria-label="Breadcrumb">` — last item is plain text on detail pages.
 
