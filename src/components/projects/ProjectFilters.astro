@@ -1,0 +1,57 @@
+---
+import type { ProjectCategory } from '../../data/projectCategories';
+
+interface Props {
+  categories: ProjectCategory[];
+  counts: Record<string, number>;
+}
+
+const { categories, counts } = Astro.props;
+---
+
+<div class="project-filters" data-project-filters>
+  <div
+    class="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap sm:overflow-visible scrollbar-thin"
+    role="toolbar"
+    aria-label="Filter projects by category"
+  >
+    <button
+      type="button"
+      class="filter-chip shrink-0 inline-flex items-center gap-2 px-4 py-2.5 min-h-11 text-sm font-bold rounded-full border border-brand-red bg-brand-redsoft text-brand-red whitespace-nowrap"
+      data-filter="all"
+      aria-pressed="true"
+    >
+      All Projects
+      <span class="tabular-nums opacity-80">{counts.all ?? 0}</span>
+    </button>
+    {
+      categories.map((cat) => (
+        <button
+          type="button"
+          class="filter-chip shrink-0 inline-flex items-center gap-2 px-4 py-2.5 min-h-11 text-sm font-bold rounded-full border border-gray-200 bg-white text-brand-black whitespace-nowrap hover:border-brand-red hover:text-brand-red transition-colors"
+          data-filter={cat.id}
+          aria-pressed="false"
+        >
+          {cat.label}
+          <span class="tabular-nums opacity-70">{counts[cat.id] ?? 0}</span>
+        </button>
+      ))
+    }
+  </div>
+  <p class="sr-only" aria-live="polite" data-filter-live>
+    {counts.all ?? 0} projects shown.
+  </p>
+</div>
+
+<style>
+  .project-filters .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+  /* Peek next chip on mobile */
+  @media (max-width: 639px) {
+    .project-filters [role='toolbar'] {
+      padding-right: 2.5rem;
+      mask-image: linear-gradient(to right, #000 85%, transparent);
+    }
+  }
+</style>

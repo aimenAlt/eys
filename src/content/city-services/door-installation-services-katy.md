@@ -6,7 +6,7 @@ seoTitle: "Door Installation in Katy, TX | Elevate Your Space Handyman"
 metaDescription: "Door repair and installation in Katy, TX — interior, exterior, and hardware for established suburban homes."
 heroTitle: "Door Installation in Katy, TX"
 summary: "Interior and exterior door installation, hinge adjustment, and hardware upgrades throughout Katy."
-heroImage: "/images/services/door-repair-installation.jpg"
+heroImage: "/images/services/door-install.jpg"
 heroImageAlt: "Door Installation in Katy, TX"
 localIntro: "Sticky doors, worn hardware, and misaligned entries are common in Katy 1990s and 2000s housing stock. We install and adjust doors so they operate smoothly and look updated."
 neighborhoods:

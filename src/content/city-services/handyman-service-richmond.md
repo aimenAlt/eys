@@ -6,7 +6,7 @@ seoTitle: "Handyman Service in Richmond, TX | Elevate Your Space Handyman"
 metaDescription: "Reliable handyman service in Richmond, TX — punch-list repairs, installations, and home upgrades for Fort Bend homeowners."
 heroTitle: "Handyman Service in Richmond, TX"
 summary: "Full-service handyman support in Richmond — multiple repairs, installations, and upgrades in one coordinated visit."
-heroImage: "/images/services/general-handyman-services.jpg"
+heroImage: "/images/services/general-handyman.jpg"
 heroImageAlt: "Handyman Service in Richmond, TX"
 localIntro: "Richmond homeowners need a handyman who understands both historic properties and new master-planned builds. We bundle punch-list repairs, installations, and upgrades so you get more done in fewer visits."
 neighborhoods:

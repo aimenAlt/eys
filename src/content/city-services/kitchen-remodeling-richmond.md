@@ -6,7 +6,7 @@ seoTitle: "Kitchen Remodeling in Richmond, TX | Elevate Your Space Handyman"
 metaDescription: "Kitchen upgrades in Richmond, TX — backsplash, hardware, fixtures, and punch-list remodeling for Fort Bend homeowners."
 heroTitle: "Kitchen Remodeling in Richmond, TX"
 summary: "Practical kitchen upgrades in Richmond — backsplash, hardware, lighting, and coordinated punch-list work without a full GC overhaul."
-heroImage: "/images/services/kitchen-remodeling.jpg"
+heroImage: "/images/services/kitchen-remodel.jpg"
 heroImageAlt: "Kitchen Remodeling in Richmond, TX"
 localIntro: "Richmond homeowners often want a fresher kitchen without a six-month remodel. We focus on high-impact upgrades: backsplash, fixtures, hardware, and the finishing details that make a kitchen feel finished."
 neighborhoods:

@@ -21,6 +21,9 @@ import SectionHeading from '../ui/SectionHeading.astro';
               <img
                 src={category.heroImage}
                 loading="lazy"
+                decoding="async"
+                width="1200"
+                height="1600"
                 class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-30 transition-opacity duration-500"
                 alt={category.heroImageAlt}
               />

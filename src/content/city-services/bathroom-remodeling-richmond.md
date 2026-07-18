@@ -6,7 +6,7 @@ seoTitle: "Bathroom Remodeling in Richmond, TX | Elevate Your Space Handyman"
 metaDescription: "Bathroom upgrades in Richmond, TX — fixtures, hardware, vanity installs, and punch-list remodeling for Fort Bend homes."
 heroTitle: "Bathroom Remodeling in Richmond, TX"
 summary: "Bathroom fixture swaps, vanity installation, hardware updates, and punch-list upgrades for Richmond homeowners."
-heroImage: "/images/services/bathroom-remodeling.jpg"
+heroImage: "/images/services/bathroom-remodel.jpg"
 heroImageAlt: "Bathroom Remodeling in Richmond, TX"
 localIntro: "From dated master baths in established Richmond subdivisions to builder-grade finishes in new Fort Bend communities, we help homeowners upgrade bathrooms with clear scope and reliable scheduling."
 neighborhoods:

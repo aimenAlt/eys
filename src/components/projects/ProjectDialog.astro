@@ -1,0 +1,111 @@
+---
+/**
+ * Native dialog shell. Content is filled by project-gallery.ts from embedded JSON.
+ */
+---
+
+<dialog
+  id="project-viewer"
+  class="project-dialog w-[min(100%,56rem)] max-h-[min(100dvh,920px)] m-auto p-0 rounded-none sm:rounded-2xl border-0 bg-white text-brand-charcoal shadow-2xl backdrop:bg-black/55 open:flex open:flex-col"
+  aria-labelledby="project-viewer-title"
+>
+  <div class="flex flex-col max-h-[min(100dvh,920px)]">
+    <header class="flex items-start justify-between gap-3 px-4 sm:px-6 pt-4 sm:pt-5 pb-3 border-b border-brand-line shrink-0 sticky top-0 bg-white z-10" style="padding-top: max(1rem, env(safe-area-inset-top));">
+      <div class="min-w-0">
+        <h2 id="project-viewer-title" class="text-lg sm:text-xl font-bold text-brand-black m-0 truncate" data-dialog-title>
+          Project
+        </h2>
+        <p class="text-sm text-brand-muted m-0 mt-1" data-dialog-meta></p>
+        <p class="text-xs text-gray-500 m-0 mt-1" data-dialog-photo-count></p>
+      </div>
+      <button
+        type="button"
+        class="shrink-0 inline-flex items-center justify-center w-11 h-11 rounded-md border border-gray-200 bg-white text-brand-black font-bold hover:border-brand-red hover:text-brand-red"
+        data-dialog-close
+        aria-label="Close project viewer"
+      >
+        ✕
+      </button>
+    </header>
+
+    <div class="overflow-y-auto flex-1 px-4 sm:px-6 py-4" data-dialog-body>
+      <p class="text-gray-700 leading-relaxed mb-4" data-dialog-summary></p>
+
+      <div class="relative rounded-xl overflow-hidden bg-gray-100 ring-1 ring-brand-line shadow-card">
+        <img
+          src="/images/placeholder.svg"
+          alt=""
+          width="1200"
+          height="900"
+          class="w-full max-h-[50vh] object-contain bg-brand-charcoal"
+          data-dialog-image
+        />
+        <div class="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-2 pointer-events-none">
+          <button
+            type="button"
+            class="pointer-events-auto inline-flex items-center justify-center w-11 h-11 rounded-full bg-white/95 border border-brand-line text-brand-black font-bold shadow-md hover:text-brand-red"
+            data-dialog-prev
+            aria-label="Previous photo"
+          >
+            ‹
+          </button>
+          <button
+            type="button"
+            class="pointer-events-auto inline-flex items-center justify-center w-11 h-11 rounded-full bg-white/95 border border-brand-line text-brand-black font-bold shadow-md hover:text-brand-red"
+            data-dialog-next
+            aria-label="Next photo"
+          >
+            ›
+          </button>
+        </div>
+      </div>
+      <p class="text-sm text-gray-600 mt-3 mb-0" data-dialog-caption></p>
+
+      <div class="mt-4 overflow-x-auto hidden" data-dialog-thumbs-wrap>
+        <div class="flex gap-2 pb-1" data-dialog-thumbs role="list" aria-label="Project photos"></div>
+      </div>
+
+      <div class="mt-6 flex flex-col sm:flex-row gap-3" data-dialog-actions>
+        <a
+          href="/contact/"
+          class="gradient-btn inline-flex items-center justify-center text-white px-6 py-3 rounded-md font-bold min-h-11"
+          data-dialog-estimate
+          data-gallery-cta="estimate"
+          data-cta-location="project-viewer"
+        >
+          Request an Estimate
+        </a>
+        <a
+          href="/services/"
+          class="inline-flex items-center justify-center border-2 border-brand-black px-6 py-3 rounded-md font-bold min-h-11"
+          data-dialog-service
+          data-gallery-cta="service"
+          data-cta-location="project-viewer"
+        >
+          Related service
+        </a>
+        <a
+          href="#"
+          class="inline-flex items-center justify-center text-brand-red font-bold px-2 py-3 min-h-11 underline-offset-2 hover:underline"
+          data-dialog-detail
+        >
+          Open full project page
+        </a>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .project-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.55);
+  }
+  @media (max-width: 639px) {
+    .project-dialog {
+      width: 100%;
+      max-height: 100dvh;
+      height: 100dvh;
+      border-radius: 0;
+    }
+  }
+</style>

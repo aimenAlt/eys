@@ -6,9 +6,7 @@ import LocalLandingShell from '../components/areas/local/LocalLandingShell.astro
 import LocalCommunitiesGrid from '../components/areas/local/LocalCommunitiesGrid.astro';
 import LocalServicesGrid from '../components/areas/local/LocalServicesGrid.astro';
 import LocalAreaFAQ from '../components/areas/local/LocalAreaFAQ.astro';
-import LocalAreaProjects from '../components/areas/local/LocalAreaProjects.astro';
 import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
-import { getCollection } from 'astro:content';
 import { absoluteUrl, resolveOgImage } from '../data/business';
 import { breadcrumbList, faqPage, localBusinessForArea, webPage } from '../data/schema';
 import type { CollectionEntry } from 'astro:content';
@@ -24,13 +22,6 @@ const pageUrl = absoluteUrl(`/service-areas/${data.slug}/`);
 const title = data.seoTitle ?? `Handyman Services in ${data.title} | Elevate Your Space Handyman`;
 const description =
   data.metaDescription ?? data.summary ?? `Handyman services in ${data.title}.`;
-
-const allProjects = await getCollection('projects', ({ data: projectData }) => projectData.published === true);
-const cityName = data.title.split(',')[0].trim().toLowerCase();
-const relatedProjects =
-  data.relatedProjectSlugs && data.relatedProjectSlugs.length > 0
-    ? allProjects.filter((p) => data.relatedProjectSlugs!.includes(p.data.slug))
-    : allProjects.filter((p) => p.data.location?.toLowerCase().includes(cityName));
 
 const communityLinks = communities.map((c) => ({
   title: c.data.title,
@@ -57,6 +48,7 @@ const schemaGraph = [
     canonical: pageUrl,
     ogType: 'website',
     ogImage: resolveOgImage(data.heroImage),
+    ogImageAlt: data.heroImageAlt ?? `${data.title} handyman service area`,
   }}
   schemaGraph={schemaGraph}
 >
@@ -109,12 +101,6 @@ const schemaGraph = [
       </section>
 
       <LocalAreaFAQ faqs={data.faqs} />
-
-      <LocalAreaProjects
-        projects={relatedProjects}
-        locationName={data.title}
-        placeholder={data.relatedProjectsPlaceholder}
-      />
     </LocalLandingShell>
     <LocalAreaCTA locationName={data.title} />
   </article>

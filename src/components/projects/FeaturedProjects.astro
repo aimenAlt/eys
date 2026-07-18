@@ -1,0 +1,35 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import SectionHeading from '../ui/SectionHeading.astro';
+import ProjectCard from './ProjectCard.astro';
+
+interface Props {
+  projects: CollectionEntry<'projects'>[];
+}
+
+const { projects } = Astro.props;
+const [primary, ...rest] = projects;
+---
+
+{
+  projects.length > 0 && (
+    <section class="py-14 md:py-16 bg-white" aria-labelledby="featured-work-heading">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeading
+          id="featured-work-heading"
+          eyebrow="Portfolio"
+          title="Featured Work"
+          intro="A selection of recent projects demonstrating the range and quality of our work."
+        />
+        <div class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {primary && (
+            <ProjectCard project={primary} featuredPrimary priority />
+          )}
+          {rest.map((project) => (
+            <ProjectCard project={project} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

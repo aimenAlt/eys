@@ -1,0 +1,74 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { imageOrPlaceholder } from '../../data/images';
+import { projectCategoryLabel } from '../../data/projectCategories';
+import { projectHref, projectLocationLabel } from '../../data/projects';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  featuredPrimary?: boolean;
+  priority?: boolean;
+  hidden?: boolean;
+}
+
+const { project, featuredPrimary = false, priority = false, hidden = false } = Astro.props;
+const { data } = project;
+const href = projectHref(data.slug);
+const location = projectLocationLabel(data);
+const photoCount = data.images.length;
+const hasBeforeAfter = Boolean(data.beforeAfter);
+const categoryLabel = projectCategoryLabel(data.category);
+---
+
+<article
+  class:list={[
+    'project-card-wrap',
+    featuredPrimary && 'md:col-span-2',
+    hidden && 'hidden',
+  ]}
+  data-project-card
+  data-category={data.category}
+  data-featured={data.featured ? 'true' : 'false'}
+  data-slug={data.slug}
+  hidden={hidden ? true : undefined}
+>
+  <a
+    href={href}
+    class="project-card group block h-full rounded-xl overflow-hidden bg-white ring-1 ring-brand-line shadow-card hover:shadow-cardhover transition-shadow focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+    data-project-link
+    data-project-slug={data.slug}
+  >
+    <div class="relative aspect-[4/3] overflow-hidden bg-gray-100">
+      <img
+        src={imageOrPlaceholder(data.leadImage)}
+        alt={data.leadAlt}
+        width="800"
+        height="600"
+        loading={priority ? 'eager' : 'lazy'}
+        decoding="async"
+        fetchpriority={priority ? 'high' : undefined}
+        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+      />
+      <span class="absolute top-3 left-3 inline-block px-2.5 py-1 text-xs font-bold uppercase tracking-wide bg-white/95 text-brand-red rounded-md border border-brand-line">
+        {categoryLabel}
+      </span>
+    </div>
+    <div class="p-4 md:p-5">
+      <h3 class:list={['font-bold text-brand-black leading-snug mb-1', featuredPrimary ? 'text-xl md:text-2xl' : 'text-lg']}>
+        {data.title}
+      </h3>
+      {
+        location && (
+          <p class="text-sm text-brand-muted mb-2">{location}</p>
+        )
+      }
+      <p class="text-sm text-gray-600 m-0">
+        {hasBeforeAfter && <span>Before &amp; After · </span>}
+        <span>
+          {photoCount} Photo{photoCount === 1 ? '' : 's'}
+        </span>
+        <span class="text-brand-red font-bold ml-2" aria-hidden="true">View →</span>
+      </p>
+    </div>
+  </a>
+</article>

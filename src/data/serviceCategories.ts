@@ -26,17 +26,18 @@ export const serviceCategories: ServiceCategory[] = [
     summary:
       'Reliable repairs for the everyday problems that keep your home from feeling finished, safe, and fully functional.',
     heroImage: categoryHeroImages['repairs-and-maintenance'] ?? '/images/categories/repairs-installs.jpg',
-    heroImageAlt: 'Handyman repairs and maintenance in Katy TX',
+    heroImageAlt:
+      'Finished living room with custom drapes and chandelier after handyman installation work',
     seoTitle: 'Repairs & Maintenance Services in Katy, TX | Elevate Your Space',
     metaDescription:
       'General handyman repairs, drywall repair, interior painting, and electrical services in Katy and West Houston.',
     ctaLabel: 'View Repair Services',
     items: [
       {
-        title: 'Small Repair Visit',
+        title: 'Handyman To-Do List Visit',
         description:
-          'Reserve a professional handyman for quick repairs, installations, adjustments, and multi-item home to-do lists.',
-        serviceSlug: 'small-repair-visit',
+          'Reserve a professional handyman to work through multiple small repairs, installations, and maintenance tasks in one convenient visit.',
+        serviceSlug: 'handyman-to-do-list',
       },
       {
         title: 'General Handyman Repairs',
@@ -70,7 +71,8 @@ export const serviceCategories: ServiceCategory[] = [
     summary:
       'Precise installation work for doors, fixtures, furniture, cabinetry, and the details that make a home more usable.',
     heroImage: categoryHeroImages['installation-and-assembly'] ?? '/images/categories/repairs-installs.jpg',
-    heroImageAlt: 'Home installation and assembly services in Katy TX',
+    heroImageAlt:
+      'Living room drapes and chandelier installation completed by a handyman crew',
     seoTitle: 'Installation & Assembly Services in Katy, TX | Elevate Your Space',
     metaDescription:
       'Door installation, furniture assembly, TV mounting, ceiling fans, curtains, and cabinet installation in Katy and West Houston.',
@@ -120,7 +122,8 @@ export const serviceCategories: ServiceCategory[] = [
     summary:
       'Home improvement and remodeling services that elevate comfort, function, appearance, and long-term value.',
     heroImage: categoryHeroImages['remodeling-and-upgrades'] ?? '/images/categories/remodeling.jpg',
-    heroImageAlt: 'Home remodeling and upgrades in Katy TX',
+    heroImageAlt:
+      'Blue kitchen island and window-seat cabinetry remodel with open living space beyond',
     seoTitle: 'Remodeling & Home Upgrades in Katy, TX | Elevate Your Space',
     metaDescription:
       'Bathroom remodeling, kitchen remodeling, flooring upgrades, and custom carpentry in Katy and West Houston.',
@@ -155,7 +158,7 @@ export const serviceCategories: ServiceCategory[] = [
 ];
 
 export const allServiceSlugs = [
-  'small-repair-visit',
+  'handyman-to-do-list',
   'tv-mounting',
   'ceiling-fan-installation',
   'curtain-installation',

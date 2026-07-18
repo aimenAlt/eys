@@ -5,17 +5,20 @@ import {
   smallRepairPricing,
 } from './smallRepairPricing';
 
+/** Customer-facing product name — keep in sync across card, page, schema, and Jobber. */
+export const handymanToDoListVisitName = 'Handyman To-Do List Visit' as const;
+
 export const smallRepairVisitMeta = {
-  title: 'Small Repair Visit in Katy, TX | Elevate Your Space Handyman',
-  description: `Book a Small Repair Visit for quick home repairs, installations, adjustments, and multi-item to-do lists in Katy and surrounding West Houston communities. One-hour visits start at ${formatUsd(smallRepairPricing.oneHour)}.`,
-  h1: 'Small Repair Visit in Katy & West Houston',
-  heroEyebrow: 'Small Repairs. One Convenient Visit.',
-  heroTitle: 'Take Care of Your Home To-Do List in One Handyman Visit',
+  title: 'Handyman To-Do List Service in Katy, TX | Elevate Your Space Handyman',
+  description: `Book a Handyman To-Do List Visit for multiple small repairs, installations, and maintenance tasks in one appointment in Katy and surrounding West Houston communities. One-hour visits start at ${formatUsd(smallRepairPricing.oneHour)}.`,
+  h1: 'Complete More of Your Home To-Do List in One Visit',
+  heroEyebrow: 'Multiple Tasks. One Convenient Visit.',
+  heroTitle: 'Complete More of Your Home To-Do List in One Visit',
   heroSummary:
-    'Reserve a professional handyman for quick repairs, installations, adjustments, and maintenance tasks throughout your home. Bring the honey-do list, choose your highest-priority items, select the time block that fits, and we will work through them in order.',
+    'Reserve a professional handyman to work through your prioritized home to-do list during one convenient visit. Bring the honey-do list, choose your highest-priority items, select the time block that fits, and we will work through them in order.',
   qualification:
     'Materials and specialty equipment are additional. Completion of every submitted task is not guaranteed within the reserved time.',
-  path: '/services/small-repair-visit/',
+  path: '/services/handyman-to-do-list/',
 } as const;
 
 export const eligibleTasks = [
@@ -55,7 +58,7 @@ export const howItWorksSteps = [
   {
     title: 'Submit photographs and project details',
     description:
-      'Clear photos and notes help us confirm whether the work fits a Small Repair Visit.',
+      'Clear photos and notes help us confirm whether the work fits a Handyman To-Do List Visit.',
   },
   {
     title: 'Select the visit length that best fits your list',
@@ -93,9 +96,9 @@ export const includes = [
 
 export const smallRepairFaqs: FaqItem[] = [
   {
-    question: 'What is a Small Repair Visit?',
+    question: 'What is a Handyman To-Do List Visit?',
     answer:
-      'A Small Repair Visit reserves a professional handyman for a block of time to work through smaller repairs, installations, adjustments, and maintenance items on your home to-do list, in priority order.',
+      'A Handyman To-Do List Visit reserves a professional handyman for a block of time to work through multiple smaller repairs, installations, adjustments, and maintenance items on your home to-do list, in priority order.',
   },
   {
     question: 'What types of tasks can I include?',
@@ -129,12 +132,12 @@ export const smallRepairFaqs: FaqItem[] = [
   {
     question: 'What if a task requires specialized or licensed work?',
     answer:
-      'Work that requires specialized licensing, permits, or skills beyond a Small Repair Visit will be flagged. We may recommend a different service path or a custom project estimate.',
+      'Work that requires specialized licensing, permits, or skills beyond a Handyman To-Do List Visit will be flagged. We may recommend a different service path or a custom project estimate.',
   },
   {
     question: 'Is this appropriate for a full renovation?',
     answer:
-      'No. Renovations, multi-day work, and complex projects should use a custom project estimate instead of a Small Repair Visit.',
+      'No. Renovations, multi-day work, and complex projects should use a custom project estimate instead of a Handyman To-Do List Visit.',
   },
   {
     question: 'What areas do you serve?',
@@ -149,7 +152,7 @@ export const smallRepairFaqs: FaqItem[] = [
   {
     question: 'Can I reserve more than four hours?',
     answer:
-      'For longer needs, request a custom full-day or project estimate rather than stacking Small Repair Visit blocks without review.',
+      'For longer needs, request a custom full-day or project estimate rather than stacking Handyman To-Do List Visit blocks without review.',
   },
 ];
 

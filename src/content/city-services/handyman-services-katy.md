@@ -6,7 +6,7 @@ seoTitle: "Handyman Services in Katy, TX | Elevate Your Space Handyman"
 metaDescription: "Professional handyman services in Katy, TX — punch-list repairs, installations, and home upgrades for busy families."
 heroTitle: "Handyman Services in Katy, TX"
 summary: "Reliable handyman services in Katy — multiple repairs and installations handled in one coordinated visit."
-heroImage: "/images/services/general-handyman-services.jpg"
+heroImage: "/images/services/general-handyman.jpg"
 heroImageAlt: "Handyman Services in Katy, TX"
 localIntro: "Katy homeowners need a handyman who shows up, communicates clearly, and finishes the punch list. We serve Katy and master-planned communities throughout the area with bundled repair and installation visits."
 neighborhoods:

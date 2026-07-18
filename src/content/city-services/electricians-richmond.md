@@ -6,7 +6,7 @@ seoTitle: "Electricians in Richmond, TX | Elevate Your Space Handyman"
 metaDescription: "Light electrical work in Richmond, TX — fixtures, fans, outlets, and switches for Pecan Grove, Aliana, Harvest Green, and Fort Bend homes."
 heroTitle: "Electricians in Richmond, TX"
 summary: "Fixture swaps, ceiling fans, outlets, and dimmers for Richmond homes — from historic Pecan Grove properties to new builds in Aliana and Harvest Green."
-heroImage: "/images/services/electrical-services.jpg"
+heroImage: "/images/services/electrical.jpg"
 heroImageAlt: "Electricians in Richmond, TX"
 localIntro: "Richmond homeowners need electrical help that respects both older wiring in established subdivisions and clean finishes in new Fort Bend construction. We handle light electrical tasks throughout Richmond and coordinate licensed electricians when code requires it."
 neighborhoods:

@@ -22,7 +22,7 @@ New construction in Sunterra gives you a beautiful blank canvas — but most buy
 
 ## Why new Sunterra homes need a handyman early
 
-Builders deliver a solid shell. They do not hang your drapes, balance five fans, or mount three TVs above fireplace stone. Waiting until after move-in usually means living around boxes longer and scheduling around school and work chaos. A single coordinated visit — like our [Sunterra move-in package project](/projects/sunterra-move-in-package/) — keeps the house usable faster.
+Builders deliver a solid shell. They do not hang your drapes, balance five fans, or mount three TVs above fireplace stone. Waiting until after move-in usually means living around boxes longer and scheduling around school and work chaos. A single coordinated visit keeps the house usable faster.
 
 ## Book before closing
 

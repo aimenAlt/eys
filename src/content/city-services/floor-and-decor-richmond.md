@@ -6,7 +6,7 @@ seoTitle: "Flooring & Decor in Richmond, TX | Elevate Your Space Handyman"
 metaDescription: "Flooring transitions, trim, and decor installation in Richmond, TX for Fort Bend homeowners."
 heroTitle: "Flooring & Decor in Richmond, TX"
 summary: "Flooring transitions, baseboards, trim, and decor installation for Richmond homes — finishing details that tie a room together."
-heroImage: "/images/services/flooring-and-decor.jpg"
+heroImage: "/images/services/flooring.jpg"
 heroImageAlt: "Flooring & Decor in Richmond, TX"
 localIntro: "Richmond homeowners call us for transition strips, baseboard installs, accent trim, and decor mounting that completes a room after flooring or remodeling work."
 neighborhoods:

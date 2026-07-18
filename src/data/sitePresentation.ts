@@ -9,10 +9,10 @@ export const homepageVariant: HomepageVariant = 'current';
 
 /** Static service pages that are not content-collection entries. */
 export const customServicePages = {
-  'small-repair-visit': {
-    title: 'Small Repair Visit',
+  'handyman-to-do-list': {
+    title: 'Handyman To-Do List Visit',
     summary:
-      'Reserve a professional handyman for quick repairs, installations, adjustments, and multi-item home to-do lists.',
+      'Reserve a professional handyman to work through multiple small repairs, installations, and maintenance tasks in one convenient visit.',
   },
 } as const;
 

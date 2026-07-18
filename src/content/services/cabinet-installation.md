@@ -6,6 +6,8 @@ seoTitle: "Cabinet Installation in Katy & West Houston | Elevate Your Space"
 metaDescription: "Cabinet installation in Katy and West Houston. Vanities, shelving, built-ins, and store-bought cabinetry installed level and secure."
 heroTitle: "Cabinet Installation in Katy & West Houston"
 summary: "Installation of cabinets, vanities, shelving, and built-ins with precise fit, level placement, and durable finishing."
+heroImage: "/images/services/cabinet-install.jpg"
+heroImageAlt: "Two-tone sage and white kitchen cabinets with quartz counters after installation"
 bookingType: "quote-request"
 primaryCTA: "Request Cabinet Installation Quote"
 secondaryCTA: "Call Us"
@@ -48,6 +50,10 @@ Secure installation, consistent reveals, and hardware layouts that look intentio
 ## Local examples
 
 Tamarron and other production communities frequently request hardware upgrades that instantly elevate builder cabinets. Cinco Ranch and older Katy homes more often need replacements or repairs that respect existing layouts. Luxury Cane Island projects demand extra floor and finish protection during install.
+
+## See our work
+
+Kitchen and cabinetry projects: [Our Work — kitchens & cabinetry](/our-work/?category=kitchens-cabinetry) and [two-tone sage kitchen remodel](/our-work/sage-kitchen-remodel/).
 
 ## Free estimate
 

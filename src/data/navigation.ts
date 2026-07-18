@@ -9,8 +9,8 @@ export const mainNav: NavItem[] = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about/' },
   { label: 'Services', href: '/services/' },
+  { label: 'Our Work', href: '/our-work/' },
   { label: 'Service Areas', href: '/service-areas/' },
-  { label: 'Projects', href: '/projects/' },
   { label: 'Book', href: '/book/' },
   { label: 'Contact', href: '/contact/' },
 ];
@@ -19,8 +19,8 @@ export const footerNav: NavItem[] = [
   { label: 'Home', href: '/' },
   { label: 'About Us', href: '/about/' },
   { label: 'Services', href: '/services/' },
+  { label: 'Our Work', href: '/our-work/' },
   { label: 'Service Areas', href: '/service-areas/' },
-  { label: 'Projects', href: '/projects/' },
   { label: 'Pricing', href: '/pricing/' },
   { label: 'Reviews', href: '/reviews/' },
   { label: 'Blog', href: '/blog/' },
@@ -30,7 +30,6 @@ export const footerNav: NavItem[] = [
 
 export const homeSectionNav: NavItem[] = [
   { label: 'About', href: '/#about' },
-  { label: 'Gallery', href: '/#gallery' },
 ];
 
 export function normalizePath(path: string): string {

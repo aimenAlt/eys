@@ -4,24 +4,21 @@ import HomeHero from './HomeHero.astro';
 import TrustBar from './TrustBar.astro';
 import ServiceGrid from './ServiceGrid.astro';
 import HomeReviewsSection from './HomeReviewsSection.astro';
-import HomeProjectsPreview from './HomeProjectsPreview.astro';
 import HomeServiceAreas from './HomeServiceAreas.astro';
 import CTASection from './CTASection.astro';
 import HomeFAQ from './HomeFAQ.astro';
 import ServicePathwaysSection from './pathways/ServicePathwaysSection.astro';
 import { homeFaqs } from '../../data/schema';
-import { homeImages, imageOrPlaceholder, hasImage } from '../../data/images';
+import { homeImageAlts, homeImages, imageOrPlaceholder, hasImage } from '../../data/images';
 
 interface Props {
   projectCount: number;
-  publishedProjects: CollectionEntry<'projects'>[];
   publishedReviews: CollectionEntry<'reviews'>[];
   cityLinks: { title: string; slug: string }[];
   communityLinks: { title: string; citySlug: string; slug: string }[];
 }
 
-const { projectCount, publishedProjects, publishedReviews, cityLinks, communityLinks } =
-  Astro.props;
+const { projectCount, publishedReviews, cityLinks, communityLinks } = Astro.props;
 ---
 
 <HomeHero />
@@ -44,7 +41,7 @@ const { projectCount, publishedProjects, publishedReviews, cityLinks, communityL
           results.
         </p>
         <p class="text-gray-600 leading-relaxed">
-          Whether you need a Small Repair Visit for a growing to-do list or a custom estimate for a
+          Whether you need a Handyman To-Do List Visit for a growing to-do list or a custom estimate for a
           larger project, we focus on clear expectations and clean workmanship.
         </p>
       </div>
@@ -53,17 +50,19 @@ const { projectCount, publishedProjects, publishedReviews, cityLinks, communityL
           src={imageOrPlaceholder(homeImages.whoWeAre1)}
           loading="lazy"
           class="absolute top-0 right-0 w-4/5 h-[75%] object-cover rounded-xl shadow-xl z-10 border-4 border-white"
-          alt="Wall and fireplace feature project in Katy"
-          width="640"
-          height="480"
+          alt={homeImageAlts.whoWeAre1}
+          width="1400"
+          height="1050"
+          decoding="async"
         />
         <img
           src={imageOrPlaceholder(homeImages.whoWeAre2)}
           loading="lazy"
           class="absolute bottom-0 left-0 w-3/4 h-[70%] object-cover rounded-xl shadow-2xl z-20 border-4 border-white"
-          alt="Kitchen cabinet remodeling in Texas"
-          width="640"
-          height="480"
+          alt={homeImageAlts.whoWeAre2}
+          width="1050"
+          height="1400"
+          decoding="async"
         />
       </div>
     </div>
@@ -83,7 +82,7 @@ const { projectCount, publishedProjects, publishedReviews, cityLinks, communityL
           workmanship, and dependable results across Katy and surrounding West Houston communities.
         </p>
         <p class="text-gray-600 leading-relaxed">
-          Start with the service path that fits your project — a photo estimate, a Small Repair Visit,
+          Start with the service path that fits your project — a photo estimate, a Handyman To-Do List Visit,
           or a custom project discussion.
         </p>
       </div>
@@ -92,7 +91,7 @@ const { projectCount, publishedProjects, publishedReviews, cityLinks, communityL
         <ul class="flex flex-col gap-3 text-sm text-gray-700">
           {
             [
-              { label: 'Small Repair Visit', href: '/services/small-repair-visit/' },
+              { label: 'Handyman To-Do List Visit', href: '/services/handyman-to-do-list/' },
               { label: 'General handyman services', href: '/services/general-handyman-services/' },
               { label: 'TV mounting', href: '/services/tv-mounting/' },
               { label: 'Drywall repair', href: '/services/drywall-repair/' },
@@ -130,6 +129,9 @@ const { projectCount, publishedProjects, publishedReviews, cityLinks, communityL
         <img
           src={homeImages.whyChooseUsBg}
           loading="lazy"
+          decoding="async"
+          width="1440"
+          height="1920"
           class="w-full h-full object-cover opacity-20"
           alt=""
         />
@@ -161,7 +163,7 @@ const { projectCount, publishedProjects, publishedReviews, cityLinks, communityL
       <div class="bg-white/10 border border-white/20 p-8 rounded-xl text-white">
         <h3 class="text-xl font-bold mb-3">Clear service paths</h3>
         <p class="text-gray-300 text-sm">
-          Photo estimates, Small Repair Visits, and custom project quotes — so you know how to start.
+          Photo estimates, Handyman To-Do List Visits, and custom project quotes — so you know how to start.
         </p>
       </div>
       <div class="bg-white/10 border border-white/20 p-8 rounded-xl text-white">
@@ -174,7 +176,6 @@ const { projectCount, publishedProjects, publishedReviews, cityLinks, communityL
   </div>
 </section>
 
-<HomeProjectsPreview projects={publishedProjects} />
 <HomeReviewsSection reviews={publishedReviews} />
 
 <section class="bg-brand-red py-10">

@@ -5,6 +5,8 @@ citySlug: "katy"
 published: true
 seoTitle: "Premium Handyman Services in Cinco Ranch | Elevate Your Space"
 metaDescription: "Need a reliable handyman in Cinco Ranch? Elevate Your Space offers premium TV mounting, trim work, and home upgrades for Katy residents. Request an estimate!"
+heroImage: "/images/communities/cinco-ranch.jpg"
+heroImageAlt: "Cinco Ranch community entrance monument in Katy, Texas"
 heroTitle: "Premium Handyman Services for Cinco Ranch Homeowners"
 summary: "Elevate Your Space Handyman delivers professional, meticulously clean, and reliable home improvement services tailored to the established, beautiful homes of Cinco Ranch."
 promoCode: "CINCO25"

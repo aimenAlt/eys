@@ -46,6 +46,7 @@ const schemaGraph = [
     canonical: pageUrl,
     ogType: 'website',
     ogImage: resolveOgImage(data.heroImage),
+    ogImageAlt: data.heroImageAlt ?? `${data.title} handyman services`,
   }}
   schemaGraph={schemaGraph}
 >

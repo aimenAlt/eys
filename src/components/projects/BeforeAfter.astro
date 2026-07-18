@@ -1,0 +1,128 @@
+---
+import { imageOrPlaceholder } from '../../data/images';
+
+interface Props {
+  beforeImage: string;
+  beforeAlt: string;
+  afterImage: string;
+  afterAlt: string;
+  angleMatch?: 'exact' | 'similar' | 'different';
+  id?: string;
+}
+
+const { beforeImage, beforeAlt, afterImage, afterAlt, angleMatch = 'similar', id = 'before-after' } =
+  Astro.props;
+
+const note =
+  angleMatch === 'different'
+    ? 'Angles differ between these photographs; compare the overall condition rather than an exact overlay.'
+    : angleMatch === 'similar'
+      ? 'Photographed from a similar angle to show the transformation.'
+      : undefined;
+---
+
+<section class="before-after" aria-labelledby={`${id}-heading`} data-before-after>
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+    <h2 id={`${id}-heading`} class="text-xl md:text-2xl font-bold text-brand-black m-0">
+      Before &amp; After
+    </h2>
+    <div class="flex flex-wrap gap-2" role="group" aria-label="Before and after view">
+      <button
+        type="button"
+        class="ba-mode-btn px-3 py-2 text-sm font-bold rounded-full border border-gray-200 bg-white text-brand-black min-h-11 hover:border-brand-red"
+        data-ba-mode="before"
+        aria-pressed="false"
+      >
+        Before
+      </button>
+      <button
+        type="button"
+        class="ba-mode-btn px-3 py-2 text-sm font-bold rounded-full border border-gray-200 bg-white text-brand-black min-h-11 hover:border-brand-red"
+        data-ba-mode="after"
+        aria-pressed="false"
+      >
+        After
+      </button>
+      <button
+        type="button"
+        class="ba-mode-btn px-3 py-2 text-sm font-bold rounded-full border border-brand-red bg-brand-redsoft text-brand-red min-h-11"
+        data-ba-mode="side"
+        aria-pressed="true"
+      >
+        Side by Side
+      </button>
+    </div>
+  </div>
+
+  <div class="ba-panels grid grid-cols-1 md:grid-cols-2 gap-4" data-ba-panels data-mode="side">
+    <figure class="ba-panel ba-before m-0 overflow-hidden rounded-xl ring-1 ring-brand-line bg-gray-100 shadow-card">
+      <p class="text-xs font-bold uppercase tracking-widest text-brand-red px-3 pt-3 mb-2">Before</p>
+      <img
+        src={imageOrPlaceholder(beforeImage)}
+        alt={beforeAlt}
+        width="800"
+        height="600"
+        loading="lazy"
+        decoding="async"
+        class="w-full aspect-[4/3] object-cover"
+      />
+    </figure>
+    <figure class="ba-panel ba-after m-0 overflow-hidden rounded-xl ring-1 ring-brand-line bg-gray-100 shadow-card">
+      <p class="text-xs font-bold uppercase tracking-widest text-brand-red px-3 pt-3 mb-2">After</p>
+      <img
+        src={imageOrPlaceholder(afterImage)}
+        alt={afterAlt}
+        width="800"
+        height="600"
+        loading="lazy"
+        decoding="async"
+        class="w-full aspect-[4/3] object-cover"
+      />
+    </figure>
+  </div>
+
+  {note && <p class="text-sm text-brand-muted mt-3 mb-0">{note}</p>}
+</section>
+
+<style>
+  .ba-panels[data-mode='before'] .ba-after {
+    display: none;
+  }
+  .ba-panels[data-mode='after'] .ba-before {
+    display: none;
+  }
+  .ba-panels[data-mode='before'],
+  .ba-panels[data-mode='after'] {
+    grid-template-columns: 1fr;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .before-after * {
+      transition: none !important;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-before-after]').forEach((root) => {
+    const panels = root.querySelector<HTMLElement>('[data-ba-panels]');
+    const buttons = root.querySelectorAll<HTMLButtonElement>('[data-ba-mode]');
+    if (!panels) return;
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const mode = btn.dataset.baMode || 'side';
+        panels.dataset.mode = mode;
+        buttons.forEach((b) => {
+          const active = b === btn;
+          b.setAttribute('aria-pressed', active ? 'true' : 'false');
+          b.classList.toggle('border-brand-red', active);
+          b.classList.toggle('bg-brand-redsoft', active);
+          b.classList.toggle('text-brand-red', active);
+          b.classList.toggle('border-gray-200', !active);
+          b.classList.toggle('bg-white', !active);
+          b.classList.toggle('text-brand-black', !active);
+        });
+      });
+    });
+  });
+</script>

@@ -7,7 +7,7 @@ metaDescription: "West Houston and Energy Corridor handyman — reliable repairs
 heroTitle: "Handyman Services in West Houston, TX"
 summary: "Elevate Your Space Handyman serves West Houston and Energy Corridor professionals with reliable, white-glove handyman service — repairs, installations, and finishing work done right the first time."
 heroImage: "/images/heroes/west-houston.jpg"
-heroImageAlt: "Handyman services in West Houston, Texas"
+heroImageAlt: "Energy Corridor office towers in West Houston, Texas"
 localIntro: "West Houston is anchored by the Energy Corridor and suburbs that surround it — home to professionals who value reliable, white-glove handyman service when DIY is not an option."
 servicesAvailable:
   - "tv-mounting"
@@ -30,7 +30,6 @@ faqs:
     answer: "It means protected workspaces, clean job sites, reliable arrival windows, and finished results that look intentional — not rushed. We treat your home the way you treat your career: with professionalism."
   - question: "Which West Houston areas do you cover?"
     answer: "We serve the Energy Corridor, Memorial, Briar Forest, Westchase, CityCentre-adjacent neighborhoods, and surrounding West Houston suburbs. Contact us with your address to confirm."
-relatedProjectsPlaceholder: "West Houston project gallery entries will be added as work is documented."
 ---
 
 ## West Houston & Energy Corridor home improvements

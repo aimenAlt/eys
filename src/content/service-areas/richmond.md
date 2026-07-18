@@ -7,7 +7,7 @@ metaDescription: "Free estimates. Handyman in Richmond, TX for historic homes an
 heroTitle: "Handyman Services in Richmond, TX"
 summary: "Elevate Your Space Handyman serves Richmond's diverse housing market — from historic downtown properties and Pecan Grove estates to new builds in Aliana, Harvest Green, and Veranda."
 heroImage: "/images/heroes/richmond.jpg"
-heroImageAlt: "Handyman services in Richmond, Texas"
+heroImageAlt: "Fort Bend County Courthouse in Richmond, Texas"
 localIntro: "Richmond offers one of Fort Bend County's most varied housing markets — historic areas, established subdivisions, and new master-planned communities. Select your community below for localized handyman services."
 servicesAvailable:
   - "tv-mounting"
@@ -30,7 +30,6 @@ faqs:
     answer: "We serve Richmond and surrounding Fort Bend communities. Share your address and project scope and we will confirm availability."
   - question: "Can you help modernize a 1980s or 1990s Richmond home?"
     answer: "Absolutely. Trim updates, hardware refresh, drywall and paint repair, door work, and bundled punch-list service are common for established Richmond subdivisions like Pecan Grove."
-relatedProjectsPlaceholder: "Richmond and Fort Bend project examples coming soon to our gallery."
 ---
 
 ## Handyman & home upgrades in Richmond, Fort Bend County

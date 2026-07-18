@@ -32,6 +32,8 @@ const heroImage =
   data.heroImage ?? service.data.heroImage ?? resolveServiceHero(data.serviceSlug);
 const heroImageAlt =
   data.heroImageAlt ?? service.data.heroImageAlt ?? `${data.heroTitle} in ${city.data.title}`;
+const ogImage = resolveOgImage(heroImage);
+const ogImageAlt = heroImageAlt;
 
 const communityLinks = communities.map((c) => ({
   title: c.data.title,
@@ -39,14 +41,14 @@ const communityLinks = communities.map((c) => ({
 }));
 
 const schemaGraph = [
-  webPage(data.heroTitle, pageUrl, data.metaDescription),
+  webPage(data.heroTitle, pageUrl, data.metaDescription, ogImage),
   breadcrumbList([
     { name: 'Home', url: absoluteUrl('/') },
     { name: 'Service Areas', url: absoluteUrl('/service-areas/') },
     { name: city.data.title, url: absoluteUrl(cityUrl) },
     { name: data.heroTitle, url: pageUrl },
   ]),
-  serviceSchema(data.heroTitle, data.metaDescription, pageUrl),
+  serviceSchema(data.heroTitle, data.metaDescription, pageUrl, ogImage),
   data.faqs?.length ? faqPage(data.faqs) : null,
 ].filter(Boolean);
 ---
@@ -57,7 +59,8 @@ const schemaGraph = [
     description: data.metaDescription,
     canonical: pageUrl,
     ogType: 'website',
-    ogImage: resolveOgImage(data.heroImage ?? service.data.heroImage),
+    ogImage,
+    ogImageAlt,
   }}
   schemaGraph={schemaGraph}
 >

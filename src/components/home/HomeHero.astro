@@ -18,11 +18,8 @@ const requestFormUrl = jobberRequestFormUrl();
         <p class="text-lg text-gray-600 mb-8 leading-relaxed max-w-2xl">
           Looking for a dependable handyman near you? Elevate Your Space handles TV mounting, ceiling fans, trim work, punch-list repairs, and move-in upgrades across Katy and West Houston — with clear free estimates and clean execution.
         </p>
-        <div class="flex flex-col sm:flex-row gap-4 mb-10">
-          <a href="/contact/" class="gradient-btn text-white px-8 py-4 rounded-md font-bold text-center transition-all shadow-lg hover:shadow-xl">
-            Request an Estimate
-          </a>
-          <a href={`tel:${site.phoneTel}`} class="bg-white text-brand-black border-2 border-brand-black px-8 py-4 rounded-md font-bold text-center hover:bg-brand-black hover:text-white transition-all">
+        <div class="mb-10">
+          <a href={`tel:${site.phoneTel}`} class="inline-flex w-full sm:w-auto justify-center items-center bg-white text-brand-black border-2 border-brand-black px-8 py-4 rounded-md font-bold text-center hover:bg-brand-black hover:text-white transition-all">
             Call {site.phone}
           </a>
         </div>
@@ -43,7 +40,7 @@ const requestFormUrl = jobberRequestFormUrl();
           </a>
         </div>
       </div>
-      <div class="lg:col-span-5 mt-12 lg:mt-0">
+      <div id="estimate" class="lg:col-span-5 mt-12 lg:mt-0 scroll-mt-24">
         <JobberEmbedWrapper
           embedUrl={requestFormUrl}
           title="Get a clear estimate"

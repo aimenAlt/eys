@@ -7,7 +7,7 @@ metaDescription: "Fulshear TX handyman for new construction and move-in upgrades
 heroTitle: "Handyman Services in Fulshear, TX"
 summary: "Elevate Your Space Handyman helps Fulshear homeowners with move-in upgrades and new-home finishing — from TV mounting and ceiling fans to custom storage and detail carpentry in fast-growing master-planned communities."
 heroImage: "/images/heroes/fulshear.jpg"
-heroImageAlt: "Handyman services in Fulshear, Texas"
+heroImageAlt: "Bob Lutts Library in Fulshear, Texas"
 localIntro: "Fulshear has transformed into one of the fastest-growing cities in the region, with high-end master-planned communities drawing new homeowners who want move-in upgrades and finishing work done right. Select your community below."
 servicesAvailable:
   - "tv-mounting"
@@ -30,7 +30,6 @@ faqs:
     answer: "Often within days, depending on scope and schedule. Contact us with your closing date and project list and we will recommend the best timing."
   - question: "Which Fulshear communities do you serve?"
     answer: "We serve Cross Creek Ranch, Fulbrook on Fulshear Creek, and surrounding Fulshear neighborhoods. Share your address when requesting an estimate."
-relatedProjectsPlaceholder: "Fulshear new-home upgrade photos will be added to our project gallery."
 ---
 
 ## New home upgrades in Fulshear

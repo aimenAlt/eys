@@ -1,5 +1,6 @@
 ---
 import { absoluteUrl, site } from '../../data/business';
+import { defaultOgImage, defaultOgImageAlt } from '../../data/images';
 import { withBase } from '../../utils/paths';
 
 export interface SeoProps {
@@ -7,6 +8,8 @@ export interface SeoProps {
   description: string;
   canonical?: string;
   ogImage?: string;
+  /** Accessible description of the OG/Twitter share image. */
+  ogImageAlt?: string;
   ogType?: string;
   noindex?: boolean;
 }
@@ -16,6 +19,7 @@ const {
   description,
   canonical,
   ogImage = site.defaultOgImage,
+  ogImageAlt = defaultOgImageAlt,
   ogType = 'website',
   noindex = false,
 } = Astro.props as SeoProps;
@@ -24,6 +28,10 @@ const {
 const isGithubPagesPreview = (import.meta.env.BASE_URL || '/') !== '/';
 const robotsNoindex = noindex || isGithubPagesPreview;
 const resolvedOgImage = ogImage.startsWith('http') ? ogImage : absoluteUrl(ogImage);
+const isDefaultOg =
+  ogImage === defaultOgImage ||
+  ogImage === site.defaultOgImage ||
+  resolvedOgImage.endsWith('/images/og-default.jpg');
 ---
 
 <meta charset="UTF-8" />
@@ -42,10 +50,12 @@ const resolvedOgImage = ogImage.startsWith('http') ? ogImage : absoluteUrl(ogIma
 <meta property="og:type" content={ogType} />
 {canonical && <meta property="og:url" content={canonical} />}
 <meta property="og:image" content={resolvedOgImage} />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={ogImageAlt} />
+{isDefaultOg && <meta property="og:image:width" content="1200" />}
+{isDefaultOg && <meta property="og:image:height" content="630" />}
 <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={resolvedOgImage} />
+<meta name="twitter:image:alt" content={ogImageAlt} />

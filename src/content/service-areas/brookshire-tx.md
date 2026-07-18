@@ -5,6 +5,8 @@ published: false
 seoTitle: "[PLACEHOLDER: SEO title]"
 metaDescription: "[PLACEHOLDER: meta description]"
 heroTitle: "[PLACEHOLDER: hero title]"
+heroImage: "/images/heroes/brookshire-tx.jpg"
+heroImageAlt: "Welcome to Brookshire, Texas city entrance sign"
 summary: "[PLACEHOLDER: local summary]"
 localIntro: "[PLACEHOLDER: local intro]"
 neighborhoods:

@@ -7,18 +7,17 @@ import HomeCurrentPage from '../components/home/HomeCurrentPage.astro';
 import HomeSmallRepairPage from '../components/home/HomeSmallRepairPage.astro';
 import { getCollection } from 'astro:content';
 import { absoluteUrl } from '../data/business';
+import { defaultOgImageAlt } from '../data/images';
 import { homePageSchema, homeFaqs } from '../data/schema';
 import { buildNavMenus } from '../data/navMenus';
 import { homepageVariant } from '../data/sitePresentation';
 
-const [publishedReviews, publishedProjects, allServices, serviceAreas, communities] =
-  await Promise.all([
-    getCollection('reviews', ({ data }) => data.published === true),
-    getCollection('projects', ({ data }) => data.published === true),
-    getCollection('services'),
-    getCollection('serviceAreas', ({ data }) => data.published === true),
-    getCollection('communities', ({ data }) => data.published === true),
-  ]);
+const [publishedReviews, allServices, serviceAreas, communities] = await Promise.all([
+  getCollection('reviews', ({ data }) => data.published === true),
+  getCollection('services'),
+  getCollection('serviceAreas', ({ data }) => data.published === true),
+  getCollection('communities', ({ data }) => data.published === true),
+]);
 
 const navMenus = buildNavMenus(allServices, serviceAreas, communities);
 
@@ -34,6 +33,7 @@ const seo = {
   description:
     'Looking for a handyman near you in Katy or West Houston? Veteran-owned Elevate Your Space handles repairs, TV mounting, and upgrades. Free estimates.',
   canonical: absoluteUrl('/'),
+  ogImageAlt: defaultOgImageAlt,
 };
 
 const schemaGraph = homePageSchema(
@@ -43,7 +43,6 @@ const schemaGraph = homePageSchema(
 
 const pageProps = {
   projectCount: communities.length,
-  publishedProjects,
   publishedReviews,
   cityLinks,
   communityLinks,

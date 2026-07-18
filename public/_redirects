@@ -1,3 +1,7 @@
+# Product rename — Small Repair Visit → Handyman To-Do List Visit
+/services/small-repair-visit/ /services/handyman-to-do-list/ 301
+/services/small-repair-visit /services/handyman-to-do-list/ 301
+
 # City slug fixes (old -tx suffix)
 /service-areas/katy-tx/ /service-areas/katy/ 301
 /service-areas/cypress-tx/ /service-areas/cypress/ 301
@@ -8,7 +12,9 @@
 # Legacy WordPress — core pages
 /about-us/ /about/ 301
 /contact-us/ /contact/ 301
-/gallery/ /projects/ 301
+/gallery/ /our-work/ 301
+/projects/ /our-work/ 301
+/projects /our-work/ 301
 /handyman-services/ /services/general-handyman-services/ 301
 
 # Legacy WordPress — flat service pages (equivalent regional services)

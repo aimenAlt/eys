@@ -6,10 +6,10 @@ seoTitle: "TV Mounting in Katy & West Houston | Elevate Your Space"
 metaDescription: "Professional TV mounting in Katy and West Houston. Secure wall mounting, bracket installation, and clean wire concealment."
 heroTitle: "Professional TV Mounting in Katy & West Houston"
 summary: "Clean, secure TV mounting for living rooms, bedrooms, media rooms, and fireplace walls."
+heroImage: "/images/services/tv-mounting.jpg"
+heroImageAlt: "Living-room feature wall with marble-look tile and dark vertical wood-slat accents"
 bookingType: "direct-book"
 primaryCTA: "Book TV Mounting"
-heroImage: "/images/services/tv-mounting.jpg"
-heroImageAlt: "TV mounted above fireplace in Katy area home"
 secondaryCTA: "Call Us"
 includedServices:
   - "Wall mount installation on drywall, stone, or tile"
@@ -50,7 +50,11 @@ Stud location or proper anchoring for the wall type, correct bracket selection (
 
 ## Local examples
 
-Cinco Ranch fireplace mounts above custom stone are a frequent request — see our [fireplace TV mount project](/projects/cinco-ranch-fireplace-tv-mount/). Bridgeland and Cane Island homes often need mounts that respect premium finishes. New builds need careful work on fresh drywall so the living room looks finished on day one.
+Cinco Ranch fireplace mounts above custom stone are a frequent request. Bridgeland and Cane Island homes often need mounts that respect premium finishes. New builds need careful work on fresh drywall so the living room looks finished on day one.
+
+## See our work
+
+Browse related projects in our gallery: [TV & media walls](/our-work/?category=tv-media-walls) and [marble & wood-slat feature wall](/our-work/marble-wood-slat-feature-wall/).
 
 ## Free estimate and next steps
 

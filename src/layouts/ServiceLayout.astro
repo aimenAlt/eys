@@ -10,6 +10,7 @@ import ServiceFAQ from '../components/services/ServiceFAQ.astro';
 import ServiceAreaCrossLinks from '../components/services/ServiceAreaCrossLinks.astro';
 import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
 import { absoluteUrl, resolveOgImage } from '../data/business';
+import { resolveServiceHero } from '../data/images';
 import { getCategoryForServiceSlug } from '../data/serviceCategories';
 import { contentMaxClass, contentPaddingClass } from '../data/layout';
 import {
@@ -33,6 +34,10 @@ const parentCategory = getCategoryForServiceSlug(data.slug);
 const title = data.seoTitle ?? `${data.title} | Elevate Your Space Handyman`;
 const description =
   data.metaDescription ?? data.summary ?? `Professional ${data.title} in Katy and West Houston.`;
+const heroSrc = resolveServiceHero(data.slug, data.heroImage);
+const ogImage = resolveOgImage(data.heroImage ?? heroSrc);
+const ogImageAlt =
+  data.heroImageAlt ?? `${data.title} project by Elevate Your Space Handyman in Katy and West Houston`;
 
 const communityLinks = featuredCommunities.map((c) => ({
   title: c.data.title,
@@ -61,9 +66,9 @@ const navBreadcrumbItems = [
 ];
 
 const schemaGraph = [
-  webPage(data.heroTitle ?? data.title, pageUrl, description),
+  webPage(data.heroTitle ?? data.title, pageUrl, description, ogImage),
   breadcrumbList(breadcrumbItems),
-  serviceSchema(data.title, description, pageUrl),
+  serviceSchema(data.title, description, pageUrl, ogImage),
   data.faqs?.length ? faqPage(data.faqs) : null,
 ].filter(Boolean);
 ---
@@ -74,7 +79,8 @@ const schemaGraph = [
     description,
     canonical: pageUrl,
     ogType: 'website',
-    ogImage: resolveOgImage(data.heroImage),
+    ogImage,
+    ogImageAlt,
   }}
   schemaGraph={schemaGraph}
 >

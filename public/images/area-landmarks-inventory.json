@@ -1,0 +1,89 @@
+{
+  "cities": {
+    "katy": {
+      "status": "ready",
+      "hero": "heroes/katy.jpg",
+      "extras": [
+        "cities/katy-welcome-sign.png",
+        "cities/katy-water-tower.jpg",
+        "cities/katy-seal.png",
+        "cities/katy-silos.jpg"
+      ],
+      "note": "User-provided welcome sign used as hero"
+    },
+    "richmond": {
+      "status": "ready",
+      "hero": "heroes/richmond.jpg",
+      "note": "Fort Bend County Courthouse (Wikimedia)"
+    },
+    "fulshear": {
+      "status": "partial",
+      "hero": "heroes/fulshear.jpg",
+      "note": "Library \u2014 not entrance monument style"
+    },
+    "cypress": {
+      "status": "partial",
+      "hero": "heroes/cypress.jpg",
+      "note": "Cypress Creek nature \u2014 not city welcome sign"
+    },
+    "west-houston": {
+      "status": "partial",
+      "hero": "heroes/west-houston.jpg",
+      "note": "Energy Corridor office towers"
+    },
+    "sugar-land-tx": {
+      "status": "ready",
+      "hero": "heroes/sugar-land-tx.jpg",
+      "note": "Imperial Sugar refinery landmark"
+    },
+    "brookshire-tx": {
+      "status": "ready",
+      "hero": "heroes/brookshire-tx.jpg",
+      "note": "Welcome to Brookshire sign"
+    }
+  },
+  "communities": {
+    "sunterra": {
+      "status": "ready",
+      "file": "communities/sunterra.jpg",
+      "note": "User-provided entrance"
+    },
+    "cinco-ranch": {
+      "status": "ready",
+      "file": "communities/cinco-ranch.jpg",
+      "note": "Wikimedia entrance monument"
+    },
+    "aliana": {
+      "status": "low-res",
+      "file": "communities/aliana.jpg",
+      "note": "Entrance monument but only 334px wide \u2014 need better shot"
+    },
+    "tamarron": {
+      "status": "missing"
+    },
+    "veranda": {
+      "status": "missing"
+    },
+    "towne-lake": {
+      "status": "missing"
+    },
+    "jordan-ranch": {
+      "status": "missing"
+    },
+    "harvest-green": {
+      "status": "missing"
+    },
+    "elyson": {
+      "status": "missing"
+    },
+    "cross-creek-ranch": {
+      "status": "missing"
+    },
+    "cane-island": {
+      "status": "missing"
+    },
+    "bridgeland": {
+      "status": "missing"
+    }
+  }
+}

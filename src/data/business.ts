@@ -1,4 +1,4 @@
-import { defaultOgImage } from './images';
+import { defaultOgImage, hasImage, imagePlaceholder } from './images';
 
 export const site = {
   name: 'Elevate Your Space Handyman',
@@ -17,7 +17,7 @@ export const site = {
 export const googleReviews = {
   count: 150,
   rating: 4.9,
-  profileUrl: '' as string,
+  profileUrl: 'https://maps.app.goo.gl/GizAsdkXmcphcMAj6' as string,
 };
 
 /**
@@ -30,15 +30,38 @@ export const socialProfiles = {
   yelp: 'https://www.yelp.com/biz/elevate-your-space-handyman-katy',
 } as const;
 
+/** Jobber Client Hub work-request embed (div + CSS + JS snippet from Share Options). */
+export type JobberRequestFormEmbed = {
+  containerId: string;
+  formUrl: string;
+  cssUrl: string;
+  scriptUrl: string;
+};
+
 /**
  * Jobber embed URLs — paste from Jobber Client Hub when ready.
- * requestFormUrl: quote / work request form embed
- * onlineBookingUrl: direct online booking (e.g. TV mounting)
- * smallRepairVisitUrl: Small Repair Visit request or booking embed
+ * requestFormEmbed: quote / estimate work-request form (preferred Jobber snippet)
+ * requestFormUrl: optional iframe URL override (rarely needed)
+ * onlineBookingUrl: hosted Client Hub link for TV mounting (use link not embed — card fields require hosted form)
+ * handymanToDoListFormUrl: hosted Client Hub link for Handyman To-Do List Visit
+ * projectEstimateFormUrl: hosted Client Hub link for Project Estimate Request
+ * smallRepairVisitUrl: optional iframe/embed URL for Handyman To-Do List Visit page
  */
 export const jobber = {
+  requestFormEmbed: {
+    containerId: 'd0bd2223-f10c-4cda-a73e-02a65e730a50-4985623',
+    formUrl:
+      'https://clienthub.getjobber.com/client_hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/work_request/embedded_work_request_form?form_id=4985623',
+    cssUrl: 'https://d3ey4dbjkt2f6s.cloudfront.net/assets/external/work_request_embed.css',
+    scriptUrl: 'https://d3ey4dbjkt2f6s.cloudfront.net/assets/static_link/work_request_embed_snippet.js',
+  } satisfies JobberRequestFormEmbed,
   requestFormUrl: '' as string,
-  onlineBookingUrl: '' as string,
+  handymanToDoListFormUrl:
+    'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/4983259/new' as string,
+  projectEstimateFormUrl:
+    'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/4985623/new' as string,
+  onlineBookingUrl:
+    'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/4977896/new' as string,
   smallRepairVisitUrl: '' as string,
 };
 
@@ -92,8 +115,29 @@ export function jobberRequestFormUrl(): string | undefined {
   return url || undefined;
 }
 
+export function jobberRequestFormEmbed(): JobberRequestFormEmbed | undefined {
+  const embed = business.jobber.requestFormEmbed;
+  if (!embed?.containerId?.trim() || !embed?.formUrl?.trim()) return undefined;
+  return embed;
+}
+
+/** True when a quote/estimate form can be rendered (snippet or iframe). */
+export function hasJobberRequestForm(): boolean {
+  return Boolean(jobberRequestFormUrl() || jobberRequestFormEmbed());
+}
+
 export function jobberOnlineBookingUrl(): string | undefined {
   const url = business.jobber.onlineBookingUrl?.trim();
+  return url || undefined;
+}
+
+export function jobberHandymanToDoListFormUrl(): string | undefined {
+  const url = business.jobber.handymanToDoListFormUrl?.trim();
+  return url || undefined;
+}
+
+export function jobberProjectEstimateFormUrl(): string | undefined {
+  const url = business.jobber.projectEstimateFormUrl?.trim();
   return url || undefined;
 }
 
@@ -102,17 +146,20 @@ export function jobberSmallRepairVisitUrl(): string | undefined {
   return url || undefined;
 }
 
-/** Pick OG/hero image: absolute URL from CMS path or full URL, else site default. */
+/**
+ * Pick a shareable OG image. Only emit paths that exist (or remote URLs);
+ * missing local heroes fall back to the site default so crawlers never get a 404.
+ */
 export function resolveOgImage(heroImage?: string): string {
   const raw = heroImage?.trim();
-  if (!raw) return site.defaultOgImage;
+  if (!raw || raw === imagePlaceholder || raw.endsWith('/placeholder.svg')) {
+    return site.defaultOgImage;
+  }
   if (raw.startsWith('http')) return raw;
+  if (!hasImage(raw)) return site.defaultOgImage;
   return absoluteUrl(raw);
 }
 
 export function resolveHeroImage(heroImage?: string): string {
-  const raw = heroImage?.trim();
-  if (!raw) return site.defaultOgImage;
-  if (raw.startsWith('http')) return raw;
-  return absoluteUrl(raw);
+  return resolveOgImage(heroImage);
 }

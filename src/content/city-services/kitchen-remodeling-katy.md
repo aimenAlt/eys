@@ -6,7 +6,7 @@ seoTitle: "Kitchen Remodeling in Katy, TX | Elevate Your Space Handyman"
 metaDescription: "Kitchen upgrades in Katy, TX — backsplash, hardware, fixtures, and punch-list remodeling for suburban families."
 heroTitle: "Kitchen Remodeling in Katy, TX"
 summary: "Kitchen backsplash, hardware, lighting, and punch-list upgrades for Katy homeowners who want impact without a full remodel timeline."
-heroImage: "/images/services/kitchen-remodeling.jpg"
+heroImage: "/images/services/kitchen-remodel.jpg"
 heroImageAlt: "Kitchen Remodeling in Katy, TX"
 localIntro: "Katy families use their kitchens constantly. We focus on upgrades that improve daily life — backsplash, fixtures, hardware, and the finishing work that makes a kitchen feel complete."
 neighborhoods:

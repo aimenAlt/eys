@@ -19,28 +19,32 @@ const corePages: SiteMapLink[] = [
   { title: 'Contact', href: '/contact/' },
   { title: 'Pricing', href: '/pricing/' },
   { title: 'Reviews', href: '/reviews/' },
+  { title: 'Our Work', href: '/our-work/' },
   { title: 'Services', href: '/services/' },
   { title: 'Service Areas', href: '/service-areas/' },
-  { title: 'Projects', href: '/projects/' },
   { title: 'Blog', href: '/blog/' },
   { title: 'Privacy Policy', href: '/privacy/' },
   { title: 'Terms of Service', href: '/terms/' },
 ];
 
 export async function buildSiteMap(): Promise<{ sections: SiteMapSection[]; totalCount: number }> {
-  const [services, serviceAreas, communities, projects, blogPosts, cityServicePages] = await Promise.all([
-    getCollection('services', ({ data }) => data.published === true),
-    getCollection('serviceAreas', ({ data }) => data.published === true),
-    getCollection('communities', ({ data }) => data.published === true),
-    getCollection('projects', ({ data }) => data.published === true),
-    getCollection('blog', ({ data }) => data.published === true),
-    getCollection('cityServices', ({ data }) => data.published === true),
-  ]);
+  const [services, serviceAreas, communities, blogPosts, cityServicePages, projects] =
+    await Promise.all([
+      getCollection('services', ({ data }) => data.published === true),
+      getCollection('serviceAreas', ({ data }) => data.published === true),
+      getCollection('communities', ({ data }) => data.published === true),
+      getCollection('blog', ({ data }) => data.published === true),
+      getCollection('cityServices', ({ data }) => data.published === true),
+      getCollection(
+        'projects',
+        ({ data }) =>
+          data.published === true && data.publishable === true && data.privacyReviewed === true,
+      ),
+    ]);
 
   services.sort((a, b) => a.data.title.localeCompare(b.data.title));
   serviceAreas.sort((a, b) => a.data.title.localeCompare(b.data.title));
   communities.sort((a, b) => a.data.title.localeCompare(b.data.title));
-  projects.sort((a, b) => a.data.title.localeCompare(b.data.title));
   blogPosts.sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
 
   const categoryHubs: SiteMapLink[] = serviceCategories.map((category) => ({
@@ -73,11 +77,6 @@ export async function buildSiteMap(): Promise<{ sections: SiteMapSection[]; tota
     href: `/service-areas/${entry.data.citySlug}/${entry.data.slug}/`,
   }));
 
-  const projectLinks: SiteMapLink[] = projects.map((entry) => ({
-    title: entry.data.title,
-    href: `/projects/${entry.data.slug}/`,
-  }));
-
   const blogLinks: SiteMapLink[] = blogPosts.map((entry) => ({
     title: entry.data.title,
     href: `/blog/${entry.data.slug}/`,
@@ -90,14 +89,21 @@ export async function buildSiteMap(): Promise<{ sections: SiteMapSection[]; tota
       href: `/${entry.data.legacySlug}/`,
     }));
 
+  const projectLinks: SiteMapLink[] = projects
+    .sort((a, b) => a.data.title.localeCompare(b.data.title))
+    .map((entry) => ({
+      title: entry.data.title,
+      href: `/our-work/${entry.data.slug}/`,
+    }));
+
   const sections: SiteMapSection[] = [
     { title: 'Core Pages', links: corePages },
     { title: 'Service Categories', links: categoryHubs },
     { title: 'Services', links: serviceLinks },
+    { title: 'Our Work', links: projectLinks },
     { title: 'City Service Pages', links: cityServiceLinks },
     { title: 'Cities', links: cityLinks },
     { title: 'Communities', links: communityLinks },
-    { title: 'Projects', links: projectLinks },
     { title: 'Blog', links: blogLinks },
   ].filter((section) => section.links.length > 0);
 

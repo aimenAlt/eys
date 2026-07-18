@@ -1,0 +1,109 @@
+---
+import ContentLayout from '../../../layouts/ContentLayout.astro';
+import BreadcrumbNav from '../../../components/seo/BreadcrumbNav.astro';
+import ServiceTrustStrip from '../../../components/seo/ServiceTrustStrip.astro';
+import ServiceFAQ from '../../../components/services/ServiceFAQ.astro';
+import LocalAreaCTA from '../../../components/areas/local/LocalAreaCTA.astro';
+import HomeServiceAreas from '../../../components/home/HomeServiceAreas.astro';
+import SmallRepairHero from '../../../components/services/small-repair/SmallRepairHero.astro';
+import SmallRepairPricingSelector from '../../../components/services/small-repair/SmallRepairPricingSelector.astro';
+import SmallRepairIncludes from '../../../components/services/small-repair/SmallRepairIncludes.astro';
+import EligibleTasksGrid from '../../../components/services/small-repair/EligibleTasksGrid.astro';
+import ServiceExclusions from '../../../components/services/small-repair/ServiceExclusions.astro';
+import HowItWorksSteps from '../../../components/services/small-repair/HowItWorksSteps.astro';
+import SmallRepairPrepare from '../../../components/services/small-repair/SmallRepairPrepare.astro';
+import ServiceTermsSummary from '../../../components/services/small-repair/ServiceTermsSummary.astro';
+import SmallRepairRequestForm from '../../../components/services/small-repair/SmallRepairRequestForm.astro';
+import { getCollection } from 'astro:content';
+import { absoluteUrl } from '../../../data/business';
+import {
+  breadcrumbList,
+  canonicalBusinessNode,
+  faqPage,
+  offerCatalog,
+  serviceSchema,
+  webPage,
+} from '../../../data/schema';
+import {
+  formatDurationLabel,
+  visitDurationOptions,
+} from '../../../data/smallRepairPricing';
+import {
+  handymanToDoListVisitName,
+  smallRepairFaqs,
+  smallRepairVisitMeta,
+} from '../../../data/smallRepairVisitContent';
+
+const [serviceAreas, communities] = await Promise.all([
+  getCollection('serviceAreas', ({ data }) => data.published === true),
+  getCollection('communities', ({ data }) => data.published === true),
+]);
+
+const cityLinks = serviceAreas.map((a) => ({ title: a.data.title, slug: a.data.slug }));
+const communityLinks = communities.map((c) => ({
+  title: c.data.title,
+  citySlug: c.data.citySlug,
+  slug: c.data.slug,
+}));
+
+const canonical = absoluteUrl(smallRepairVisitMeta.path);
+const title = smallRepairVisitMeta.title;
+const description = smallRepairVisitMeta.description;
+
+const schemaGraph = [
+  canonicalBusinessNode(),
+  webPage(smallRepairVisitMeta.h1, canonical, description),
+  breadcrumbList([
+    { name: 'Home', url: absoluteUrl('/') },
+    { name: 'Services', url: absoluteUrl('/services/') },
+    { name: handymanToDoListVisitName, url: canonical },
+  ]),
+  {
+    ...serviceSchema(handymanToDoListVisitName, description, canonical),
+    hasOfferCatalog: offerCatalog(
+      `${handymanToDoListVisitName} durations`,
+      visitDurationOptions.map((opt) => ({
+        name: `${handymanToDoListVisitName} — ${formatDurationLabel(opt.hours)}`,
+        price: opt.price,
+        description: 'Handyman labor only. Materials additional unless included.',
+      })),
+    ),
+  },
+  faqPage(smallRepairFaqs),
+];
+---
+
+<ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
+  <article class="pb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <BreadcrumbNav
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Services', url: '/services/' },
+          { name: handymanToDoListVisitName, url: smallRepairVisitMeta.path },
+        ]}
+      />
+    </div>
+
+    <SmallRepairHero />
+    <ServiceTrustStrip locationName="Katy & West Houston" />
+    <SmallRepairPricingSelector />
+    <ServiceTermsSummary />
+    <SmallRepairIncludes />
+    <EligibleTasksGrid />
+    <ServiceExclusions />
+    <HowItWorksSteps />
+    <SmallRepairPrepare />
+
+    <section class="border-t border-brand-line" aria-labelledby="areas-heading">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
+        <h2 id="areas-heading" class="sr-only">Service areas for Handyman To-Do List Visits</h2>
+      </div>
+      <HomeServiceAreas cities={cityLinks} communities={communityLinks} />
+    </section>
+
+    <ServiceFAQ faqs={smallRepairFaqs} />
+    <SmallRepairRequestForm />
+    <LocalAreaCTA locationName="Katy & West Houston" />
+  </article>
+</ContentLayout>

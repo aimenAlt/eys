@@ -15,7 +15,7 @@ const embedUrl = jobberSmallRepairVisitUrl();
     <div class="text-center mb-10">
       <p class="text-brand-red font-bold text-xs tracking-widest uppercase mb-2">Request</p>
       <h2 id="request-heading" class="text-3xl font-bold text-brand-black mb-3">
-        Request Your Small Repair Visit
+        Request Your Handyman To-Do List Visit
       </h2>
       <p class="text-gray-600 leading-relaxed max-w-xl mx-auto">
         Tell us what needs attention, upload clear photographs, and identify your highest-priority
@@ -24,7 +24,7 @@ const embedUrl = jobberSmallRepairVisitUrl();
     </div>
     <JobberEmbedWrapper
       embedUrl={embedUrl}
-      title="Request Your Small Repair Visit"
+      title="Request Your Handyman To-Do List Visit"
       minHeight="560px"
     />
   </div>
@@ -42,7 +42,7 @@ const embedUrl = jobberSmallRepairVisitUrl();
         if (entries.some((e) => e.isIntersecting)) {
           fired = true;
           trackEvent(analyticsEvents.jobberSectionReached, {
-            form: 'small_repair_visit',
+            form: 'handyman_to_do_list',
           });
           observer.disconnect();
         }
@@ -52,11 +52,11 @@ const embedUrl = jobberSmallRepairVisitUrl();
     observer.observe(section);
   }
 
-  // Fallback link inside JobberEmbedWrapper points to /contact/
-  section?.querySelectorAll('a[href="/contact/"]').forEach((link) => {
+  // Fallback link inside JobberEmbedWrapper (hosted estimate or /book/)
+  section?.querySelectorAll('a[href*="getjobber.com"], a[href="/book/"]').forEach((link) => {
     link.addEventListener('click', () => {
       trackEvent(analyticsEvents.jobberFallbackClick, {
-        form: 'small_repair_visit',
+        form: 'handyman_to_do_list',
       });
     });
   });

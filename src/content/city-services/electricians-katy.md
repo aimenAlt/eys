@@ -6,7 +6,7 @@ seoTitle: "Electricians in Katy, TX | Elevate Your Space Handyman"
 metaDescription: "Light electrical work in Katy, TX — ceiling fans, fixtures, outlets, and switches for established suburban homes and master-planned communities."
 heroTitle: "Electricians in Katy, TX"
 summary: "Fixture installation, ceiling fans, outlets, and dimmers for Katy homeowners in Cinco Ranch, Sunterra, Elyson, and surrounding neighborhoods."
-heroImage: "/images/services/electrical-services.jpg"
+heroImage: "/images/services/electrical.jpg"
 heroImageAlt: "Electricians in Katy, TX"
 localIntro: "Katy homes — especially 1990s and 2000s builds — often have dated fixtures and busy families who need electrical upgrades done right the first time. We handle light electrical work throughout Katy and coordinate licensed electricians when required."
 neighborhoods:

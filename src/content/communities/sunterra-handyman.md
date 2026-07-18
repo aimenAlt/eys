@@ -6,6 +6,8 @@ published: true
 seoTitle: "Handyman for New Homes in Sunterra, Katy | Elevate Your Space"
 metaDescription: "Moving into Sunterra? Elevate Your Space offers premium TV mounting, ceiling fan installation, and move-in upgrades for Katy's newest resort community."
 heroTitle: "Premium Handyman & Move-In Services for Sunterra Homes"
+heroImage: "/images/communities/sunterra.jpg"
+heroImageAlt: "Sunterra community entrance monument in Katy, Texas"
 summary: "Elevate Your Space helps you transform your brand-new Sunterra house into a fully functional, customized home with premium installation and aesthetic upgrade services."
 promoCode: "SUNTERRA25"
 promoOffer: "$25 off projects over $250"

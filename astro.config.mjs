@@ -12,6 +12,10 @@ export default defineConfig({
   site: githubPages ? 'https://aimenalt.github.io' : 'https://www.eyshandyman.com',
   base: githubPages ? '/eys/' : '/',
   trailingSlash: 'always',
+  build: {
+    // Avoid render-blocking /_astro/*.css requests (Lighthouse critical path).
+    inlineStylesheets: 'always',
+  },
   integrations: [
     sitemap({
       filter: (page) =>

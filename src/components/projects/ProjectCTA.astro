@@ -1,0 +1,66 @@
+---
+interface Props {
+  heading?: string;
+  body?: string;
+  estimateHref?: string;
+  servicesHref?: string;
+  compact?: boolean;
+  ctaLocation?: string;
+}
+
+const {
+  heading = 'Have a similar project in mind?',
+  body,
+  estimateHref = '/contact/',
+  servicesHref = '/services/',
+  compact = false,
+  ctaLocation = 'gallery',
+} = Astro.props;
+---
+
+{
+  compact ? (
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 rounded-xl border border-brand-line bg-white px-5 py-5 shadow-card">
+      <p class="text-brand-black font-bold text-lg m-0">{heading}</p>
+      <div class="flex flex-wrap gap-3">
+        <a
+          href={estimateHref}
+          class="gradient-btn inline-flex items-center justify-center text-white px-6 py-3 rounded-md font-bold shadow-lg min-h-11"
+          data-gallery-cta="estimate"
+          data-cta-location={ctaLocation}
+        >
+          Request an Estimate
+        </a>
+        <a
+          href={servicesHref}
+          class="inline-flex items-center justify-center border-2 border-brand-black text-brand-black px-6 py-3 rounded-md font-bold hover:bg-brand-black hover:text-white transition-colors min-h-11"
+        >
+          View Services
+        </a>
+      </div>
+    </div>
+  ) : (
+    <div class="text-center max-w-2xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold text-brand-black mb-3">{heading}</h2>
+      {body && <p class="text-gray-600 leading-relaxed mb-6">{body}</p>}
+      <div class="flex flex-wrap justify-center gap-3">
+        <a
+          href={estimateHref}
+          class="gradient-btn inline-flex items-center justify-center text-white px-8 py-3.5 rounded-md font-bold shadow-lg min-h-11"
+          data-gallery-cta="estimate"
+          data-cta-location={ctaLocation}
+        >
+          Request an Estimate
+        </a>
+        <a
+          href="tel:3468201629"
+          class="inline-flex items-center justify-center border-2 border-brand-black text-brand-black px-8 py-3.5 rounded-md font-bold hover:bg-brand-black hover:text-white transition-colors min-h-11"
+          data-gallery-cta="phone"
+          data-cta-location={ctaLocation}
+        >
+          Call EYS Handyman
+        </a>
+      </div>
+    </div>
+  )
+}

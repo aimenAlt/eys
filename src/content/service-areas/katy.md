@@ -7,7 +7,7 @@ metaDescription: "Looking for a handyman near you in Katy, TX? Elevate Your Spac
 heroTitle: "Handyman Services in Katy, TX"
 summary: "Elevate Your Space Handyman helps Katy homeowners maintain and upgrade established suburban homes — with reliable repairs, modern trim and hardware, and bundled punch-list service for busy families."
 heroImage: "/images/heroes/katy.jpg"
-heroImageAlt: "Handyman services in Katy, Texas"
+heroImageAlt: "Katy, Texas welcome sign landmark"
 localIntro: "The City of Katy and its surrounding master-planned communities combine a family-oriented suburban lifestyle with homes largely built from the 1990s through the 2000s. Select your community below for localized services, preferred community pricing, and area-specific guidance."
 servicesAvailable:
   - "tv-mounting"
@@ -32,9 +32,6 @@ faqs:
     answer: "Yes. We work throughout Katy and nearby communities where families value well-maintained homes close to Katy ISD schools. Share your address and project list and we will confirm scheduling."
   - question: "How do I get a free estimate in Katy?"
     answer: "Use our contact form with photos and a short punch list, or call us. We return a clear, itemized estimate before work begins."
-relatedProjectSlugs:
-  - "cinco-ranch-fireplace-tv-mount"
-relatedProjectsPlaceholder: "Katy project gallery entries will be added as jobs are documented."
 ---
 
 ## Katy handyman services for established suburban homes

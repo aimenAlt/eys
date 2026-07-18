@@ -1,4 +1,4 @@
-import { business, googleReviews, site } from './business';
+import { absoluteUrl, business, googleReviews, site } from './business';
 
 export type BreadcrumbItem = {
   name: string;
@@ -17,7 +17,7 @@ export function canonicalBusinessNode() {
     '@type': 'HomeAndConstructionBusiness',
     '@id': BUSINESS_ID,
     name: site.name,
-    image: site.defaultOgImage,
+    image: absoluteUrl(site.defaultOgImage),
     url: site.url,
     telephone: site.phone,
     email: site.email,
@@ -55,12 +55,23 @@ export function breadcrumbList(items: BreadcrumbItem[]) {
   };
 }
 
-export function webPage(name: string, url: string, description?: string) {
+export function webPage(
+  name: string,
+  url: string,
+  description?: string,
+  image?: string,
+) {
+  const imageUrl = image
+    ? image.startsWith('http')
+      ? image
+      : absoluteUrl(image)
+    : undefined;
   return {
     '@type': 'WebPage',
     name,
     url,
     ...(description ? { description } : {}),
+    ...(imageUrl ? { primaryImageOfPage: { '@type': 'ImageObject', url: imageUrl } } : {}),
     isPartOf: { '@id': BUSINESS_ID },
   };
 }
@@ -95,12 +106,19 @@ export function serviceSchema(
   name: string,
   description: string,
   url: string,
+  image?: string,
 ) {
+  const imageUrl = image
+    ? image.startsWith('http')
+      ? image
+      : absoluteUrl(image)
+    : undefined;
   return {
     '@type': 'Service',
     name,
     description,
     url,
+    ...(imageUrl ? { image: imageUrl } : {}),
     provider: {
       '@id': BUSINESS_ID,
     },
@@ -280,13 +298,6 @@ export function reviewsPageSchema(
     businessNode,
     ...reviews.map((review) => reviewSchema(review)),
   ];
-}
-
-function absoluteUrl(path: string): string {
-  const origin = String(import.meta.env.SITE || site.url).replace(/\/$/, '');
-  const base = import.meta.env.BASE_URL || '/';
-  const clean = path.replace(/^\//, '');
-  return `${origin}${base}${clean}`;
 }
 
 export function wrapSchemaGraph(graph: unknown[]) {

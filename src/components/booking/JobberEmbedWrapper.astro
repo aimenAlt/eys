@@ -1,10 +1,18 @@
 ---
+import { jobberProjectEstimateFormUrl, jobberRequestFormEmbed } from '../../data/business';
+
 interface Props {
-  /** Jobber client hub / request form embed URL */
+  /** Optional Jobber iframe URL (overrides snippet embed when set) */
   embedUrl?: string;
   title?: string;
   minHeight?: string;
   class?: string;
+  /**
+   * When true, load + reveal the Jobber snippet when near the viewport.
+   * Default warms the full embed on hover (desktop) / in-view (mobile),
+   * then reveals on click.
+   */
+  eager?: boolean;
 }
 
 const {
@@ -12,22 +20,68 @@ const {
   title = 'Request a quote',
   minHeight = '520px',
   class: className,
+  eager = false,
 } = Astro.props;
 
-const hasEmbed = Boolean(embedUrl?.trim());
+const iframeUrl = embedUrl?.trim() || undefined;
+const snippet = !iframeUrl ? jobberRequestFormEmbed() : undefined;
+const fallbackEstimateUrl = jobberProjectEstimateFormUrl();
 ---
 
-<div class:list={['rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden', className]}>
+<div
+  class:list={['rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden', className]}
+  data-jobber-embed={snippet ? '' : undefined}
+  data-jobber-eager={snippet && eager ? 'true' : undefined}
+  data-iframe-title={snippet ? title : undefined}
+  data-css-url={snippet?.cssUrl}
+  data-script-url={snippet?.scriptUrl}
+  data-container-id={snippet?.containerId}
+  data-form-url={snippet?.formUrl}
+>
   {
-    hasEmbed ? (
+    iframeUrl ? (
       <iframe
-        src={embedUrl}
+        src={iframeUrl}
         title={title}
         class="w-full border-0"
         style={`min-height: ${minHeight}`}
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
       />
+    ) : snippet ? (
+      /* relative + min-height: Jobber's .jobber-spinner is position:absolute and
+         must be contained inside this box (not the viewport).
+         Mount stays in normal flow (not absolute) so Jobber's postMessage height
+         updates can grow this box when the form expands. */
+      <div class="relative w-full bg-white" style={`min-height: ${minHeight}`}>
+        <h2 class="sr-only">{title}</h2>
+        <div
+          id={snippet.containerId}
+          class="relative z-0 w-full"
+          style={`min-height: ${minHeight}`}
+          hidden
+        ></div>
+        <div
+          data-jobber-facade
+          class="absolute inset-0 z-10 flex flex-col justify-center bg-white p-4 sm:p-6"
+        >
+          <span class="inline-block bg-yellow-400 text-brand-black text-xs font-bold px-3 py-1 rounded shadow-sm mb-4 w-fit">
+            Free Estimates!
+          </span>
+          <p class="text-2xl font-bold text-brand-black mb-2">{title}</p>
+          <p class="text-gray-600 text-sm mb-6">
+            Send photos and your project list. We respond with a transparent, itemized quote — no
+            runaround.
+          </p>
+          <button
+            type="button"
+            data-jobber-load
+            class="w-full bg-brand-red text-white font-bold py-3 rounded-md hover:bg-brand-redhover transition-colors"
+          >
+            Open estimate form
+          </button>
+        </div>
+      </div>
     ) : (
       <div class="p-8 bg-brand-lightbg" style={`min-height: ${minHeight}`}>
         <span class="inline-block bg-yellow-400 text-brand-black text-xs font-bold px-3 py-1 rounded shadow-sm mb-4">
@@ -35,7 +89,8 @@ const hasEmbed = Boolean(embedUrl?.trim());
         </span>
         <h2 class="text-2xl font-bold text-brand-black mb-2">{title}</h2>
         <p class="text-gray-600 text-sm mb-6">
-          Send photos and your project list. We respond with a transparent, itemized quote — no runaround.
+          Send photos and your project list. We respond with a transparent, itemized quote — no
+          runaround.
         </p>
         <ol class="space-y-3 text-sm text-gray-700 mb-6 list-decimal list-inside">
           <li>Describe your project or punch list</li>
@@ -43,12 +98,220 @@ const hasEmbed = Boolean(embedUrl?.trim());
           <li>Schedule at a time that works for you</li>
         </ol>
         <a
-          href="/contact/"
+          href={fallbackEstimateUrl ?? '/book/'}
+          target={fallbackEstimateUrl ? '_blank' : undefined}
+          rel={fallbackEstimateUrl ? 'noopener noreferrer' : undefined}
           class="block w-full bg-brand-red text-white font-bold py-3 rounded-md hover:bg-brand-redhover transition-colors text-center"
         >
-          Go to Contact Form
+          {fallbackEstimateUrl ? 'Open estimate form' : 'Choose a booking path'}
         </a>
       </div>
     )
   }
 </div>
+
+{
+  snippet && (
+    <script>
+      function titleJobberIframes(root: ParentNode, title: string) {
+        root.querySelectorAll('iframe').forEach((iframe) => {
+          if (!iframe.getAttribute('title')) {
+            iframe.setAttribute('title', title);
+          }
+        });
+      }
+
+      function markReadyWhenIframeLoads(el: HTMLElement, title: string) {
+        const markReady = () => {
+          el.dataset.jobberReady = 'true';
+          el.dispatchEvent(new CustomEvent('jobber:ready'));
+        };
+
+        const watchIframe = (iframe: HTMLIFrameElement) => {
+          titleJobberIframes(el, title);
+          if (iframe.dataset.jobberWatch === 'true') return;
+          iframe.dataset.jobberWatch = 'true';
+          if (iframe.getAttribute('style')?.includes('visibility: visible') || iframe.style.visibility === 'visible') {
+            markReady();
+            return;
+          }
+          iframe.addEventListener('load', markReady, { once: true });
+          // Jobber sets visibility:visible on its own load handler; poll briefly as backup.
+          const started = Date.now();
+          const tick = window.setInterval(() => {
+            if (el.dataset.jobberReady === 'true' || Date.now() - started > 15000) {
+              window.clearInterval(tick);
+              return;
+            }
+            if (iframe.style.visibility === 'visible' || iframe.offsetHeight > 40) {
+              markReady();
+              window.clearInterval(tick);
+            }
+          }, 100);
+        };
+
+        el.querySelectorAll('iframe').forEach((iframe) => watchIframe(iframe as HTMLIFrameElement));
+
+        const observer = new MutationObserver(() => {
+          titleJobberIframes(el, title);
+          el.querySelectorAll('iframe').forEach((iframe) => watchIframe(iframe as HTMLIFrameElement));
+        });
+        observer.observe(el, { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] });
+      }
+
+      function loadStylesheet(href: string) {
+        if (document.querySelector(`link[data-jobber-css="${href}"]`)) return;
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = href;
+        link.media = 'print';
+        link.dataset.jobberCss = href;
+        link.onload = () => {
+          link.media = 'all';
+        };
+        document.head.appendChild(link);
+      }
+
+      function loadJobberScript(containerId: string, formUrl: string, scriptUrl: string) {
+        if (
+          document.querySelector(
+            `script[data-jobber-script="${scriptUrl}"][data-jobber-container="${containerId}"]`,
+          )
+        ) {
+          return;
+        }
+        const script = document.createElement('script');
+        script.src = scriptUrl;
+        // Must be non-async so Jobber can read document.currentScript attrs.
+        script.async = false;
+        script.dataset.jobberScript = scriptUrl;
+        script.dataset.jobberContainer = containerId;
+        script.setAttribute('clienthub_id', containerId);
+        script.setAttribute('form_url', formUrl);
+        document.body.appendChild(script);
+      }
+
+      /**
+       * Start the full Jobber cascade (CSS + snippet + XHR + iframe + hub assets)
+       * under the facade. Does not reveal the form.
+       */
+      function warmJobberEmbed(el: HTMLElement) {
+        if (el.dataset.jobberWarmed === 'true') return;
+
+        const title = el.dataset.iframeTitle || 'Request a quote';
+        const cssUrl = el.dataset.cssUrl;
+        const scriptUrl = el.dataset.scriptUrl;
+        const containerId = el.dataset.containerId;
+        const formUrl = el.dataset.formUrl;
+        if (!cssUrl || !scriptUrl || !containerId || !formUrl) return;
+
+        el.dataset.jobberWarmed = 'true';
+
+        const mount = document.getElementById(containerId);
+        if (mount) mount.hidden = false;
+
+        markReadyWhenIframeLoads(el, title);
+        loadStylesheet(cssUrl);
+        loadJobberScript(containerId, formUrl, scriptUrl);
+      }
+
+      function revealJobberEmbed(el: HTMLElement) {
+        const facade = el.querySelector<HTMLElement>('[data-jobber-facade]');
+        const button = el.querySelector<HTMLButtonElement>('[data-jobber-load]');
+
+        const finish = () => {
+          facade?.remove();
+          el.dataset.jobberRevealed = 'true';
+        };
+
+        warmJobberEmbed(el);
+
+        if (el.dataset.jobberReady === 'true') {
+          finish();
+          return;
+        }
+
+        if (button) {
+          button.disabled = true;
+          button.textContent = 'Loading form…';
+        }
+
+        const onReady = () => {
+          el.removeEventListener('jobber:ready', onReady);
+          finish();
+        };
+        el.addEventListener('jobber:ready', onReady);
+
+        // Safety: reveal anyway after timeout so the user is never stuck.
+        window.setTimeout(() => {
+          if (el.dataset.jobberRevealed === 'true') return;
+          el.removeEventListener('jobber:ready', onReady);
+          finish();
+        }, 12000);
+      }
+
+      function bindWarmTriggers(el: HTMLElement) {
+        const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+        if (finePointer.matches) {
+          el.addEventListener('pointerenter', () => warmJobberEmbed(el), { once: true });
+          return;
+        }
+
+        const target = el.querySelector('[data-jobber-load]') || el;
+        if (!('IntersectionObserver' in window)) {
+          warmJobberEmbed(el);
+          return;
+        }
+        const io = new IntersectionObserver(
+          (entries) => {
+            if (!entries.some((entry) => entry.isIntersecting)) return;
+            warmJobberEmbed(el);
+            io.disconnect();
+          },
+          { rootMargin: '0px', threshold: 0.4 },
+        );
+        io.observe(target);
+      }
+
+      function bindEmbeds() {
+        document.querySelectorAll<HTMLElement>('[data-jobber-embed][data-script-url]').forEach((el) => {
+          if (el.dataset.jobberBound === 'true') return;
+          el.dataset.jobberBound = 'true';
+
+          if (el.dataset.jobberEager === 'true') {
+            const revealEager = () => {
+              warmJobberEmbed(el);
+              // Show Jobber's in-box spinner immediately on contact / eager pages.
+              el.querySelector('[data-jobber-facade]')?.remove();
+            };
+            if (!('IntersectionObserver' in window)) {
+              revealEager();
+              return;
+            }
+            const io = new IntersectionObserver(
+              (entries) => {
+                if (!entries.some((entry) => entry.isIntersecting)) return;
+                revealEager();
+                io.disconnect();
+              },
+              { rootMargin: '200px 0px' },
+            );
+            io.observe(el);
+            return;
+          }
+
+          bindWarmTriggers(el);
+          el.querySelector('[data-jobber-load]')?.addEventListener(
+            'click',
+            () => revealJobberEmbed(el),
+            { once: true },
+          );
+        });
+      }
+
+      bindEmbeds();
+      document.addEventListener('astro:page-load', bindEmbeds);
+    </script>
+  )
+}

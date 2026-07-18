@@ -6,6 +6,8 @@ seoTitle: "Custom Carpentry in Katy & West Houston | Elevate Your Space"
 metaDescription: "Custom carpentry in Katy and West Houston. Built-ins, accent walls, shelving, trim upgrades, and detail woodwork."
 heroTitle: "Custom Carpentry & Finish Woodwork"
 summary: "Custom woodwork, accent walls, shelving, built-ins, trim upgrades, and detail work that gives the home character."
+heroImage: "/images/services/custom-carpentry.jpg"
+heroImageAlt: "Floor-to-ceiling navy custom built-in office shelving and cabinets"
 bookingType: "quote-request"
 primaryCTA: "Request Custom Carpentry Quote"
 secondaryCTA: "Call Us"
@@ -49,6 +51,10 @@ Custom benches, floating shelves, trim packages, accent walls, and many built-in
 ## Local examples
 
 Active trail communities need gear storage and mudrooms that survive real life. Agri-hood aesthetics favor farmhouse trim details. Established Cinco Ranch homes often need carpentry that respects traditional suburban architecture rather than fighting it.
+
+## See our work
+
+Examples from recent carpentry and built-in projects: [Our Work — carpentry & built-ins](/our-work/?category=carpentry-built-ins), [navy office built-ins](/our-work/navy-office-builtins/), and [curved stair paneling](/our-work/curved-stair-paneling/).
 
 ## Free estimate
 

@@ -13,14 +13,12 @@ import { absoluteUrl } from '../data/business';
 import { homePageSchema, homeFaqs } from '../data/schema';
 import { buildNavMenus } from '../data/navMenus';
 
-const [publishedReviews, publishedProjects, allServices, serviceAreas, communities] =
-  await Promise.all([
-    getCollection('reviews', ({ data }) => data.published === true),
-    getCollection('projects', ({ data }) => data.published === true),
-    getCollection('services'),
-    getCollection('serviceAreas', ({ data }) => data.published === true),
-    getCollection('communities', ({ data }) => data.published === true),
-  ]);
+const [publishedReviews, allServices, serviceAreas, communities] = await Promise.all([
+  getCollection('reviews', ({ data }) => data.published === true),
+  getCollection('services'),
+  getCollection('serviceAreas', ({ data }) => data.published === true),
+  getCollection('communities', ({ data }) => data.published === true),
+]);
 
 const navMenus = buildNavMenus(allServices, serviceAreas, communities);
 
@@ -50,7 +48,6 @@ const schemaGraph = homePageSchema(
   <main id="main-content">
     <HomeCurrentPage
       projectCount={communities.length}
-      publishedProjects={publishedProjects}
       publishedReviews={publishedReviews}
       cityLinks={cityLinks}
       communityLinks={communityLinks}

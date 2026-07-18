@@ -17,11 +17,17 @@ export function trackEvent(eventName: string, params?: AnalyticsParams): void {
   window.gtag('event', eventName, params ?? {});
 }
 
-/** Event names used by Small Repair Visit / pathways surfaces. */
+/** Event names used by Handyman To-Do List Visit / pathways surfaces. */
 export const analyticsEvents = {
   pathwayCtaClick: 'pathway_cta_click',
   durationSelected: 'small_repair_duration_selected',
   jobberSectionReached: 'jobber_form_section_reached',
   jobberFallbackClick: 'jobber_form_fallback_click',
   smallRepairRequestStarted: 'small_repair_request_started',
+  galleryFilterSelected: 'gallery_filter_selected',
+  projectCardOpened: 'project_card_opened',
+  projectPhotoNavigated: 'project_photo_navigated',
+  projectServiceLinkClicked: 'project_service_link_clicked',
+  galleryEstimateClicked: 'gallery_estimate_clicked',
+  galleryPhoneClicked: 'gallery_phone_clicked',
 } as const;

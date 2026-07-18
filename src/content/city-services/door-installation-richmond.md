@@ -6,7 +6,7 @@ seoTitle: "Door Installation in Richmond, TX | Elevate Your Space Handyman"
 metaDescription: "Door repair and installation in Richmond, TX — interior, exterior, and hardware alignment for Pecan Grove and Fort Bend homes."
 heroTitle: "Door Installation in Richmond, TX"
 summary: "Interior and exterior door installation, hinge adjustment, and hardware upgrades for Richmond homeowners."
-heroImage: "/images/services/door-repair-installation.jpg"
+heroImage: "/images/services/door-install.jpg"
 heroImageAlt: "Door Installation in Richmond, TX"
 localIntro: "Sticky interior doors, misaligned exterior entries, and dated hardware are common in Richmond established homes. We install, adjust, and upgrade doors so they close cleanly and look intentional."
 neighborhoods:

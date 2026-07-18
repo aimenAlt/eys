@@ -1,6 +1,5 @@
 import { existsSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
+import { join } from 'node:path';
 import { absoluteUrl } from './business';
 
 const LOCAL_OG = '/images/og-default.jpg';
@@ -10,7 +9,12 @@ export const imagePlaceholder = '/images/placeholder.svg';
 
 const assetsBase = import.meta.env.PUBLIC_ASSETS_BASE_URL?.replace(/\/$/, '') ?? '';
 
-const publicDir = join(dirname(fileURLToPath(import.meta.url)), '../../public');
+/**
+ * Resolve public/ from the project root. Do not derive this from import.meta.url —
+ * Vite bundles this module during `astro build`, so a relative URL check would miss
+ * real files under public/ and force the branded placeholder.
+ */
+const publicDir = join(process.cwd(), 'public');
 
 /**
  * True when a site-relative asset path exists in public/ at build time.
@@ -19,7 +23,7 @@ const publicDir = join(dirname(fileURLToPath(import.meta.url)), '../../public');
 function localAssetExists(path: string): boolean {
   if (!path.startsWith('/')) return false;
   if (assetsBase) return true;
-  return existsSync(join(publicDir, path));
+  return existsSync(join(publicDir, path.replace(/^\//, '')));
 }
 
 /**
@@ -66,7 +70,7 @@ export const cityHeroImages: Record<string, string> = {
 };
 
 export const serviceHeroImages: Record<string, string> = {
-  'small-repair-visit': '/images/services/general-handyman.jpg',
+  'handyman-to-do-list': '/images/services/general-handyman.jpg',
   'tv-mounting': '/images/services/tv-mounting.jpg',
   'ceiling-fan-installation': '/images/services/ceiling-fan.jpg',
   'general-handyman-services': '/images/services/general-handyman.jpg',
@@ -95,6 +99,18 @@ export const homeImages = {
   whyChooseUsBg: '/images/home/why-choose-us-bg.jpg',
   ctaBg: '/images/home/cta-bg.jpg',
 };
+
+/** Descriptive alts matching the actual photos in homeImages (keep in sync when swapping files). */
+export const homeImageAlts = {
+  whoWeAre1:
+    'Finished two-tone kitchen with a sage green island, white upper cabinets, quartz counters, and gold fixtures',
+  whoWeAre2:
+    'Custom white window-seat built-in hutch with open shelving and drawer storage',
+} as const;
+
+/** Default OG share image alt for pages without a page-specific photo. */
+export const defaultOgImageAlt =
+  'Elevate Your Space Handyman project photo — finished kitchen remodel with quartz island';
 
 export function resolveCityHero(citySlug?: string, override?: string): string {
   if (override?.trim()) return imageOrPlaceholder(override);

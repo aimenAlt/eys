@@ -4,23 +4,20 @@ import HomeHero from './HomeHero.astro';
 import TrustBar from './TrustBar.astro';
 import ServiceGrid from './ServiceGrid.astro';
 import HomeReviewsSection from './HomeReviewsSection.astro';
-import HomeProjectsPreview from './HomeProjectsPreview.astro';
 import HomeServiceAreas from './HomeServiceAreas.astro';
 import CTASection from './CTASection.astro';
 import HomeFAQ from './HomeFAQ.astro';
 import { homeFaqs } from '../../data/schema';
-import { homeImages, imageOrPlaceholder, hasImage } from '../../data/images';
+import { homeImageAlts, homeImages, imageOrPlaceholder, hasImage } from '../../data/images';
 
 interface Props {
   projectCount: number;
-  publishedProjects: CollectionEntry<'projects'>[];
   publishedReviews: CollectionEntry<'reviews'>[];
   cityLinks: { title: string; slug: string }[];
   communityLinks: { title: string; citySlug: string; slug: string }[];
 }
 
-const { projectCount, publishedProjects, publishedReviews, cityLinks, communityLinks } =
-  Astro.props;
+const { projectCount, publishedReviews, cityLinks, communityLinks } = Astro.props;
 ---
 
 <HomeHero />
@@ -109,14 +106,20 @@ const { projectCount, publishedProjects, publishedReviews, cityLinks, communityL
         <img
           src={imageOrPlaceholder(homeImages.whoWeAre1)}
           loading="lazy"
+          decoding="async"
+          width="1400"
+          height="1050"
           class="absolute top-0 right-0 w-4/5 h-[75%] object-cover rounded-xl shadow-xl z-10 border-4 border-white"
-          alt="Wall and fireplace feature project in Katy"
+          alt={homeImageAlts.whoWeAre1}
         />
         <img
           src={imageOrPlaceholder(homeImages.whoWeAre2)}
           loading="lazy"
+          decoding="async"
+          width="1050"
+          height="1400"
           class="absolute bottom-0 left-0 w-3/4 h-[70%] object-cover rounded-xl shadow-2xl z-20 border-4 border-white"
-          alt="Kitchen cabinet remodeling in Texas"
+          alt={homeImageAlts.whoWeAre2}
         />
       </div>
     </div>
@@ -189,8 +192,11 @@ const { projectCount, publishedProjects, publishedReviews, cityLinks, communityL
         <img
           src={homeImages.whyChooseUsBg}
           loading="lazy"
+          decoding="async"
+          width="1440"
+          height="1920"
           class="w-full h-full object-cover opacity-20"
-          alt="Construction Blueprint Background"
+          alt=""
         />
       </div>
     )
@@ -276,8 +282,6 @@ const { projectCount, publishedProjects, publishedReviews, cityLinks, communityL
     </div>
   </div>
 </section>
-
-<HomeProjectsPreview projects={publishedProjects} />
 
 <!-- 10. Process Section (How It Works) -->
 <section class="py-20 bg-brand-lightbg">

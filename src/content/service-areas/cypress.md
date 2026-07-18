@@ -7,7 +7,7 @@ metaDescription: "Cypress TX handyman for Lakewood Forest to Bridgeland and Town
 heroTitle: "Handyman Services in Cypress, TX"
 summary: "Elevate Your Space Handyman serves Cypress homeowners across established neighborhoods and modern master-planned communities — with repair, renovation, and finishing work matched to your home's age and style."
 heroImage: "/images/heroes/cypress.jpg"
-heroImageAlt: "Handyman services in Cypress, Texas"
+heroImageAlt: "Cypress Creek greenbelt in Cypress, Texas"
 localIntro: "Cypress sits at an interesting crossroads for home services — mature neighborhoods and modern master-planned communities side by side. Select your community below for localized handyman services and preferred community pricing."
 servicesAvailable:
   - "tv-mounting"
@@ -30,7 +30,6 @@ faqs:
     answer: "Older homes often need drywall repair, trim refresh, door adjustments, and general maintenance. Newer builds frequently call for TV mounting, custom carpentry, outdoor living prep, and detail finishing. Contact us with your project and we will recommend the right next step."
   - question: "How do I get an estimate for a Cypress project?"
     answer: "Call, email, or use our contact page with your neighborhood, a brief description, and photos if available. We will follow up with estimate or assessment options."
-relatedProjectsPlaceholder: "Recent Cypress project photos will be added to the gallery as they are completed."
 ---
 
 ## Handyman & home improvement in Cypress

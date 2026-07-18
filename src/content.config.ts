@@ -7,17 +7,37 @@ const faqSchema = z.object({
   answer: z.string(),
 });
 
+const imagePathSchema = z
+  .string()
+  .refine((val) => val.startsWith('/') || /^https?:\/\//.test(val), {
+    message: 'Image src must be a site path (/images/...) or absolute URL',
+  });
+
 const imageSchema = z.object({
-  src: z
-    .string()
-    .refine((val) => val.startsWith('/') || /^https?:\/\//.test(val), {
-      message: 'Image src must be a site path (/images/...) or absolute URL',
-    }),
+  src: imagePathSchema,
   alt: z.string(),
   caption: z.string().optional(),
-  type: z.enum(['before', 'after', 'detail', 'process']).optional(),
+  type: z.enum(['before', 'after', 'detail', 'process', 'during', 'team']).optional(),
   featured: z.boolean().optional(),
 });
+
+const projectImageStageSchema = z.enum(['before', 'during', 'after', 'detail', 'team']);
+
+const projectImageSchema = imageSchema
+  .omit({ type: true, featured: true })
+  .extend({
+    alt: z.string().min(1),
+    stage: projectImageStageSchema,
+  });
+
+const projectCategorySchema = z.enum([
+  'tv-media-walls',
+  'kitchens-cabinetry',
+  'carpentry-built-ins',
+  'fixtures-installations',
+  'repairs-improvements',
+  'outdoor-projects',
+]);
 
 const bookingTypeSchema = z.enum([
   'direct-book',
@@ -63,8 +83,6 @@ const serviceAreas = defineCollection({
     neighborhoods: z.array(z.string()).optional(),
     servicesAvailable: z.array(z.string()).optional(),
     faqs: z.array(faqSchema).optional(),
-    relatedProjectsPlaceholder: z.string().optional(),
-    relatedProjectSlugs: z.array(z.string()).optional(),
     heroImage: z.string().optional(),
     heroImageAlt: z.string().optional(),
     published: publishedSchema,
@@ -100,19 +118,6 @@ const communities = defineCollection({
     localLifestyle: z.string().optional(),
     process: z.string().optional(),
     faqs: z.array(faqSchema).optional(),
-    published: publishedSchema,
-  }),
-});
-
-const projects = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projects' }),
-  schema: z.object({
-    title: z.string(),
-    slug: z.string(),
-    service: z.string().optional(),
-    location: z.string().optional(),
-    summary: z.string().optional(),
-    gallery: z.array(imageSchema).optional(),
     published: publishedSchema,
   }),
 });
@@ -167,12 +172,70 @@ const cityServices = defineCollection({
   }),
 });
 
+const projects = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projects' }),
+  schema: z
+    .object({
+      title: z.string().min(1),
+      slug: z.string().min(1),
+      category: projectCategorySchema,
+      tags: z.array(z.string()).default([]),
+      city: z.string().optional(),
+      neighborhood: z.string().optional(),
+      date: z.coerce.date().optional(),
+      dateVerified: z.boolean().default(false),
+      featured: z.boolean().default(false),
+      featuredRank: z.number().int().positive().optional(),
+      summary: z.string().min(1),
+      scope: z.array(z.string()).optional(),
+      serviceUrl: z
+        .string()
+        .refine((val) => val.startsWith('/'), {
+          message: 'serviceUrl must be a site path starting with /',
+        })
+        .optional(),
+      leadImage: imagePathSchema,
+      leadAlt: z.string().min(1),
+      images: z.array(projectImageSchema).min(1),
+      beforeAfter: z
+        .object({
+          beforeImage: imagePathSchema,
+          beforeAlt: z.string().min(1),
+          afterImage: imagePathSchema,
+          afterAlt: z.string().min(1),
+          angleMatch: z.enum(['exact', 'similar', 'different']),
+        })
+        .optional(),
+      publishable: z.boolean().default(false),
+      privacyReviewed: z.boolean().default(false),
+      published: publishedSchema,
+      seoTitle: z.string().optional(),
+      metaDescription: z.string().optional(),
+    })
+    .superRefine((data, ctx) => {
+      if (data.featured && data.featuredRank == null) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'featuredRank is required when featured is true',
+          path: ['featuredRank'],
+        });
+      }
+      if (data.published && data.publishable && !data.privacyReviewed) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'privacyReviewed must be true for published publishable projects',
+          path: ['privacyReviewed'],
+        });
+      }
+    }),
+});
+
 export const collections = {
   services,
   serviceAreas,
   communities,
-  projects,
   blog,
   reviews,
   cityServices,
+  projects,
 };

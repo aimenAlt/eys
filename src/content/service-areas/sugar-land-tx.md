@@ -5,6 +5,8 @@ published: false
 seoTitle: "[PLACEHOLDER: SEO title]"
 metaDescription: "[PLACEHOLDER: meta description]"
 heroTitle: "[PLACEHOLDER: hero title]"
+heroImage: "/images/heroes/sugar-land-tx.jpg"
+heroImageAlt: "Imperial Sugar refinery landmark in Sugar Land, Texas"
 summary: "[PLACEHOLDER: local summary]"
 localIntro: "[PLACEHOLDER: local intro]"
 neighborhoods:

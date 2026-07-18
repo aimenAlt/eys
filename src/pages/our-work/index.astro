@@ -1,0 +1,158 @@
+---
+import ContentLayout from '../../layouts/ContentLayout.astro';
+import PageHero from '../../components/common/PageHero.astro';
+import BreadcrumbNav from '../../components/seo/BreadcrumbNav.astro';
+import CTASection from '../../components/home/CTASection.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import FeaturedProjects from '../../components/projects/FeaturedProjects.astro';
+import ProjectFilters from '../../components/projects/ProjectFilters.astro';
+import ProjectGrid from '../../components/projects/ProjectGrid.astro';
+import ProjectDialog from '../../components/projects/ProjectDialog.astro';
+import ProjectCTA from '../../components/projects/ProjectCTA.astro';
+import { absoluteUrl, site } from '../../data/business';
+import { breadcrumbList, webPage } from '../../data/schema';
+import { projectCategoryLabel } from '../../data/projectCategories';
+import {
+  countByCategory,
+  getFeaturedProjects,
+  getLiveProjects,
+  projectHref,
+  projectLocationLabel,
+  visibleCategories,
+} from '../../data/projects';
+import { imageOrPlaceholder } from '../../data/images';
+
+const projects = await getLiveProjects();
+const featured = getFeaturedProjects(projects, 6);
+const categories = visibleCategories(projects);
+const counts = countByCategory(projects);
+
+const title = `Handyman Projects in Katy & Greater Houston | ${site.shortName} Handyman`;
+const description =
+  'Explore completed repairs, installations, carpentry, media walls and home-improvement projects across Katy and surrounding communities.';
+const canonical = absoluteUrl('/our-work/');
+
+const crumbs = [
+  { name: 'Home', url: absoluteUrl('/') },
+  { name: 'Our Work', url: canonical },
+];
+
+const schemaGraph = [webPage(title, canonical, description), breadcrumbList(crumbs)];
+
+const galleryData = projects.map((entry) => ({
+  slug: entry.data.slug,
+  title: entry.data.title,
+  category: entry.data.category,
+  categoryLabel: projectCategoryLabel(entry.data.category),
+  location: projectLocationLabel(entry.data),
+  summary: entry.data.summary,
+  serviceUrl: entry.data.serviceUrl,
+  href: projectHref(entry.data.slug),
+  images: entry.data.images.map((img) => ({
+    src: imageOrPlaceholder(img.src),
+    alt: img.alt,
+    caption: img.caption,
+    stage: img.stage,
+  })),
+}));
+---
+
+<ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
+  <article>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <BreadcrumbNav
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Our Work', url: '/our-work/' },
+        ]}
+      />
+    </div>
+
+    <PageHero
+      eyebrow="Our Work"
+      title="Recent Handyman Projects"
+      description="Explore completed repairs, installations, carpentry, media walls and home-improvement projects across Katy and surrounding communities."
+    />
+
+    <section class="bg-brand-lightbg border-b border-gray-200 pb-10 -mt-2">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-wrap gap-3">
+          <a
+            href="/contact/"
+            class="gradient-btn inline-flex items-center justify-center text-white px-6 py-3 rounded-md font-bold shadow-lg min-h-11"
+            data-gallery-cta="estimate"
+            data-cta-location="our-work-hero"
+          >
+            Request an Estimate
+          </a>
+          <a
+            href="/services/"
+            class="inline-flex items-center justify-center border-2 border-brand-black text-brand-black px-6 py-3 rounded-md font-bold hover:bg-brand-black hover:text-white transition-colors min-h-11"
+          >
+            View Services
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <FeaturedProjects projects={featured} />
+
+    <section class="py-10 bg-brand-lightbg border-y border-brand-line">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <ProjectCTA
+          compact
+          heading="Have a similar project in mind?"
+          ctaLocation="after-featured"
+        />
+      </div>
+    </section>
+
+    <section class="py-14 md:py-16 bg-white" aria-labelledby="browse-projects-heading">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeading
+          id="browse-projects-heading"
+          eyebrow="Browse"
+          title="Browse Our Projects"
+          intro="Filter by project type to find work similar to what you need at home."
+        />
+        <div class="mb-8">
+          <ProjectFilters categories={categories} counts={counts} />
+        </div>
+        <ProjectGrid projects={projects} initialCount={12} />
+      </div>
+    </section>
+
+    <section class="py-16 bg-brand-lightbg border-t border-brand-line">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <ProjectCTA
+          heading="Have a Project in Mind?"
+          body="Send us a few photographs and a description of the work. We’ll review the details and follow up about the next step."
+          ctaLocation="our-work-bottom"
+        />
+      </div>
+    </section>
+
+    <CTASection />
+  </article>
+
+  <ProjectDialog />
+
+  <script
+    id="project-gallery-data"
+    type="application/json"
+    is:inline
+    set:html={JSON.stringify(galleryData)}
+  />
+
+  <script>
+    import '../../scripts/project-gallery.ts';
+  </script>
+</ContentLayout>
+
+<style is:global>
+  @media (prefers-reduced-motion: reduce) {
+    .project-card img {
+      transition: none !important;
+    }
+  }
+</style>

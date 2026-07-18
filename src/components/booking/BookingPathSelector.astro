@@ -1,9 +1,31 @@
 ---
-import { jobberOnlineBookingUrl, jobberRequestFormUrl, site } from '../../data/business';
-import JobberEmbedWrapper from './JobberEmbedWrapper.astro';
+import {
+  jobberHandymanToDoListFormUrl,
+  jobberOnlineBookingUrl,
+  jobberProjectEstimateFormUrl,
+  site,
+} from '../../data/business';
 
-const requestUrl = jobberRequestFormUrl();
-const bookingUrl = jobberOnlineBookingUrl();
+const bookingForms = [
+  {
+    title: 'Handyman To-Do List Visit',
+    description:
+      'Book a handyman to work through multiple small repairs, installations, and maintenance tasks in one visit.',
+    href: jobberHandymanToDoListFormUrl(),
+  },
+  {
+    title: 'Project Estimate Request',
+    description:
+      'Tell us about your project and upload photos. We will review and prepare an itemized estimate.',
+    href: jobberProjectEstimateFormUrl(),
+  },
+  {
+    title: 'Tell Us About Your TV Mounting Project',
+    description:
+      'Answer a few questions and upload photos so we can verify pricing and bring the right materials.',
+    href: jobberOnlineBookingUrl(),
+  },
+].filter((form) => Boolean(form.href));
 ---
 
 <section class="py-10 md:py-12 bg-white" aria-labelledby="booking-options">
@@ -13,49 +35,24 @@ const bookingUrl = jobberOnlineBookingUrl();
         Book or Request Service
       </h1>
       <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-        Choose how you would like to get started with {site.name} in Katy and West Houston.
+        Choose a form to get started with {site.name} in Katy and West Houston.
       </p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <a
-        href="/contact/"
-        class="block p-6 bg-brand-lightbg rounded-xl border border-gray-200 hover:border-brand-red/30 hover:shadow-md transition-all text-center"
-      >
-        <h2 class="text-xl font-bold text-brand-black mb-2">Request a Quote</h2>
-        <p class="text-sm text-gray-600">Send your project list and photos for an itemized estimate.</p>
-      </a>
       {
-        bookingUrl ? (
+        bookingForms.map((form) => (
           <a
-            href={bookingUrl}
+            href={form.href}
             target="_blank"
             rel="noopener noreferrer"
             class="block p-6 bg-brand-lightbg rounded-xl border border-gray-200 hover:border-brand-red/30 hover:shadow-md transition-all text-center"
           >
-            <h2 class="text-xl font-bold text-brand-black mb-2">Book Online</h2>
-            <p class="text-sm text-gray-600">Schedule TV mounting and other direct-book services.</p>
+            <h2 class="text-xl font-bold text-brand-black mb-2">{form.title}</h2>
+            <p class="text-sm text-gray-600">{form.description}</p>
           </a>
-        ) : (
-          <div class="p-6 bg-brand-lightbg rounded-xl border border-gray-200 text-center opacity-75">
-            <h2 class="text-xl font-bold text-brand-black mb-2">Book Online</h2>
-            <p class="text-sm text-gray-600">Online booking link coming soon via Jobber.</p>
-          </div>
-        )
+        ))
       }
-      <a
-        href={`tel:${site.phoneTel}`}
-        class="block p-6 bg-brand-black text-white rounded-xl border border-gray-800 hover:border-brand-red/50 transition-all text-center"
-      >
-        <h2 class="text-xl font-bold mb-2">Call Now</h2>
-        <p class="text-sm text-gray-300">{site.phone}</p>
-      </a>
     </div>
-
-    {
-      requestUrl && (
-        <JobberEmbedWrapper embedUrl={requestUrl} title="Request service" minHeight="600px" />
-      )
-    }
   </div>
 </section>

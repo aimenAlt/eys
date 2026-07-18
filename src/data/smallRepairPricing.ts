@@ -1,5 +1,5 @@
 /**
- * Small Repair Visit labor pricing — single source of truth for UI, calculator, and schema.
+ * Handyman To-Do List Visit labor pricing — single source of truth for UI, calculator, and schema.
  * Do not invent a 90-minute (1.5h) price; approved options start at 1h, then 2h+.
  */
 export const smallRepairPricing = {
@@ -31,7 +31,7 @@ export function priceForHours(hours: number): number {
   if (hours === 1) return smallRepairPricing.oneHour;
   if (hours < 2) {
     throw new Error(
-      `Unsupported Small Repair Visit duration: ${hours}h. Use 1 hour, or 2 hours and above.`,
+      `Unsupported Handyman To-Do List Visit duration: ${hours}h. Use 1 hour, or 2 hours and above.`,
     );
   }
   if (hours === 2) return smallRepairPricing.twoHours;

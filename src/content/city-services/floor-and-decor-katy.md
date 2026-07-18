@@ -6,7 +6,7 @@ seoTitle: "Flooring & Decor in Katy, TX | Elevate Your Space Handyman"
 metaDescription: "Flooring transitions, trim, and decor installation in Katy, TX for suburban homeowners."
 heroTitle: "Flooring & Decor in Katy, TX"
 summary: "Transitions, baseboards, trim, and decor installation — finishing details for Katy flooring and remodeling projects."
-heroImage: "/images/services/flooring-and-decor.jpg"
+heroImage: "/images/services/flooring.jpg"
 heroImageAlt: "Flooring & Decor in Katy, TX"
 localIntro: "After new flooring or a room refresh, Katy homeowners need transitions, trim, and decor mounted correctly. We handle those finishing details that make the project feel complete."
 neighborhoods:
