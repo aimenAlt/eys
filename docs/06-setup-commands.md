@@ -96,18 +96,31 @@ npm run build
 npm run preview
 ```
 
-## Cloudflare Pages deploy
+## Cloudflare Pages deploy (GitHub Actions)
 
-1. Sign in to [Cloudflare Dashboard](https://dash.cloudflare.com) → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**
-2. Select GitHub repo `aimenAlt/eys`, branch `main`
-3. Build settings:
-   - **Framework preset:** Astro (or None)
-   - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
-   - **Node.js version:** `22` (matches [`.nvmrc`](../.nvmrc))
-4. Save and deploy. First build should produce 10 static pages + `sitemap-index.xml` + `robots.txt`
-5. Optional: add custom domain `www.eyshandyman.com` under **Custom domains**
-6. After deploy: run Lighthouse on `/`, `/services/tv-mounting/`, and `/contact/`
+Deploys are driven by [`.github/workflows/deploy-cloudflare.yml`](../.github/workflows/deploy-cloudflare.yml) — **not** Cloudflare “Connect to Git” (avoid double deploys).
 
-Preview URL pattern: `https://<project-name>.pages.dev`
+| Trigger | Result |
+|---------|--------|
+| Push to `main` | Preview at `https://dev.<project>.pages.dev` (`noindex`) |
+| Actions → **Deploy Cloudflare** → **Run workflow** (type `deploy`) | Production (`www` when domain attached) |
+
+### One-time Cloudflare + GitHub setup
+
+1. Cloudflare → **Workers & Pages** → **Create** → **Pages** → **Upload assets** (Direct Upload). Project name: `eys` (or set GitHub variable `CLOUDFLARE_PAGES_PROJECT`).
+2. In the Pages project → **Settings** → production branch = `main`.
+3. Cloudflare → profile → **API Tokens** → create token with **Account → Cloudflare Pages → Edit** (Workers Edit template is fine).
+4. GitHub repo `aimenAlt/eys` → **Settings → Secrets and variables → Actions**
+   - Secret `CLOUDFLARE_API_TOKEN`
+   - Secret `CLOUDFLARE_ACCOUNT_ID` (Account home → right sidebar)
+   - Optional variable `CLOUDFLARE_PAGES_PROJECT` = `eys`
+5. GitHub → **Settings → Environments**
+   - Create `preview` (optional)
+   - Create `production` and enable **Required reviewers** (you) so prod needs approval
+6. Push to `main` → check Actions for the preview URL. QA on `dev.*.pages.dev`.
+7. When ready for live: Actions → **Deploy Cloudflare** → **Run workflow** → confirm with `deploy`.
+8. Attach custom domain `www.eyshandyman.com` under Pages → **Custom domains** only after a successful prod deploy. Apex → www 301 in Cloudflare DNS/rules.
+
+Preview URL pattern: `https://dev.eys.pages.dev` (exact host depends on project name).  
+Production URL: `https://eys.pages.dev` then `https://www.eyshandyman.com`.
 

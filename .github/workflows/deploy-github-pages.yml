@@ -1,8 +1,7 @@
+# Optional legacy preview (aimenalt.github.io/eys/). Manual only — Cloudflare is primary.
 name: Deploy GitHub Pages preview
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:

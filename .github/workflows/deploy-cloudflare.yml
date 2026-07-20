@@ -1,0 +1,110 @@
+# Push → Cloudflare Pages preview ("dev")
+# Actions → "Run workflow" → production (optional GitHub Environment approval)
+#
+# One-time setup:
+# 1. Cloudflare → Workers & Pages → Create → Pages → "Upload assets" (Direct Upload)
+#    Project name must match vars.CLOUDFLARE_PAGES_PROJECT (default: eys)
+#    Production branch: main
+# 2. Cloudflare → My Profile → API Tokens → Create Token
+#    Template: "Edit Cloudflare Workers" (includes Pages) OR custom with Account.Cloudflare Pages:Edit
+# 3. GitHub repo → Settings → Secrets and variables → Actions
+#    Secrets: CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID
+#    Variable (optional): CLOUDFLARE_PAGES_PROJECT=eys
+# 4. GitHub → Settings → Environments → create "production"
+#    (optional) enable Required reviewers so prod needs your approval
+# 5. Do NOT also connect this repo via Cloudflare "Connect to Git" — that double-deploys.
+#    Use Wrangler/GHA only.
+
+name: Deploy Cloudflare
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      confirm_production:
+        description: 'Type deploy to confirm a production release'
+        required: true
+        default: ''
+        type: string
+
+concurrency:
+  group: cloudflare-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build
+        env:
+          # Preview builds stay out of Google; production build is indexable.
+          PUBLIC_DEPLOY_ENV: ${{ github.event_name == 'workflow_dispatch' && 'production' || 'preview' }}
+        run: npm run build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site-dist
+          path: dist
+          retention-days: 7
+
+  deploy-preview:
+    name: Deploy preview (dev)
+    needs: build
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment:
+      name: preview
+      url: ${{ steps.deploy.outputs.deployment-url }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-dist
+          path: dist
+
+      - name: Deploy to Cloudflare Pages (dev branch)
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Project name: set Actions variable CLOUDFLARE_PAGES_PROJECT, or default eys
+          command: pages deploy dist --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT || 'eys' }} --branch=dev --commit-dirty=true
+
+  deploy-production:
+    name: Deploy production
+    needs: build
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.deployment-url }}
+    steps:
+      - name: Require confirmation
+        if: github.event.inputs.confirm_production != 'deploy'
+        run: |
+          echo "::error::Type exactly 'deploy' in the confirm_production input to release production."
+          exit 1
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-dist
+          path: dist
+
+      - name: Deploy to Cloudflare Pages (production)
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Matches Pages "Production branch" = main → live production deployment
+          command: pages deploy dist --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT || 'eys' }} --branch=main --commit-dirty=true

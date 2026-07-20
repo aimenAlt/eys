@@ -24,9 +24,10 @@ const {
   noindex = false,
 } = Astro.props as SeoProps;
 
-// Preview deploys on GitHub Pages should stay out of search indexes.
+// Preview deploys (GitHub Pages base path, or PUBLIC_DEPLOY_ENV=preview) stay out of search indexes.
 const isGithubPagesPreview = (import.meta.env.BASE_URL || '/') !== '/';
-const robotsNoindex = noindex || isGithubPagesPreview;
+const isCloudflarePreview = import.meta.env.PUBLIC_DEPLOY_ENV === 'preview';
+const robotsNoindex = noindex || isGithubPagesPreview || isCloudflarePreview;
 const resolvedOgImage = ogImage.startsWith('http') ? ogImage : absoluteUrl(ogImage);
 const isDefaultOg =
   ogImage === defaultOgImage ||
