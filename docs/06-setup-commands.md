@@ -103,7 +103,7 @@ Deploys are driven by [`.github/workflows/deploy-cloudflare.yml`](../.github/wor
 | Trigger | Result |
 |---------|--------|
 | Push to `main` | Preview at `https://dev.<project>.pages.dev` (`noindex`) |
-| Actions → **Deploy Cloudflare** → **Run workflow** (type `deploy`) | Production (`www` when domain attached) |
+| Actions → **Deploy Cloudflare** → **Run workflow** → choose **production** | Production (`eys-*.pages.dev`, then `www` when domain attached) |
 
 ### One-time Cloudflare + GitHub setup
 
@@ -118,7 +118,7 @@ Deploys are driven by [`.github/workflows/deploy-cloudflare.yml`](../.github/wor
    - Create `preview` (optional)
    - Create `production` and enable **Required reviewers** (you) so prod needs approval
 6. Push to `main` → check Actions for the preview URL. QA on `dev.*.pages.dev`.
-7. When ready for live: Actions → **Deploy Cloudflare** → **Run workflow** → confirm with `deploy`.
+7. When ready for SEO-test / live: Actions → **Deploy Cloudflare** → **Run workflow** → **Deploy target: production**.
 8. Attach custom domain `www.eyshandyman.com` under Pages → **Custom domains** only after a successful prod deploy. Apex → www 301 in Cloudflare DNS/rules.
 
 Preview URL pattern: `https://dev.eys.pages.dev` (exact host depends on project name).  
