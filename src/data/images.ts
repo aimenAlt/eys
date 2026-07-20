@@ -94,7 +94,7 @@ export const categoryHeroImages: Record<string, string> = {
 };
 
 export const homeImages = {
-  hero: '/images/home/hero.webp',
+  hero: '/images/home/hero.jpg',
   whoWeAre1: '/images/home/who-we-are-1.jpg',
   whoWeAre2: '/images/home/who-we-are-2.jpg',
   whyChooseUsBg: '/images/home/why-choose-us-bg.jpg',

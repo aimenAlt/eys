@@ -22,7 +22,7 @@ const defaultSeo: SeoProps = {
 const { seo = defaultSeo, schemaGraph = [] } = Astro.props;
 const schemaData = schemaGraph.length ? wrapSchemaGraph(schemaGraph) : null;
 
-// Only load Google Analytics on production builds (not GitHub Pages base-path previews).
+// Only load Google Analytics on the production domain, not in dev or GitHub Pages previews.
 const enableAnalytics = import.meta.env.PROD && (import.meta.env.BASE_URL || '/') === '/';
 ---
 
@@ -32,36 +32,20 @@ const enableAnalytics = import.meta.env.PROD && (import.meta.env.BASE_URL || '/'
     <SEOHead {...seo} />
     <link rel="preload" href={inter400} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={inter700} as="font" type="font/woff2" crossorigin />
+    <link rel="preconnect" href="https://d3ey4dbjkt2f6s.cloudfront.net" crossorigin />
+    <link rel="preconnect" href="https://clienthub.getjobber.com" crossorigin />
     {schemaData && <SchemaJsonLd data={schemaData} />}
     {
       enableAnalytics && (
-        <script is:inline>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          window.gtag = gtag;
-          function loadGtag() {
-            if (document.querySelector('script[data-eys-gtag]')) return;
-            var s = document.createElement('script');
-            s.async = true;
-            s.src = 'https://www.googletagmanager.com/gtag/js?id=G-9D5MCDT0L1';
-            s.dataset.eysGtag = 'true';
-            s.onload = function () {
-              gtag('js', new Date());
-              gtag('config', 'G-9D5MCDT0L1');
-            };
-            document.head.appendChild(s);
-          }
-          function scheduleGtag() {
-            if ('requestIdleCallback' in window) {
-              requestIdleCallback(loadGtag, { timeout: 4000 });
-            } else {
-              window.addEventListener('load', function () {
-                setTimeout(loadGtag, 1);
-              });
-            }
-          }
-          scheduleGtag();
-        </script>
+        <>
+          <script async src="https://www.googletagmanager.com/gtag/js?id=G-9D5MCDT0L1" />
+          <script is:inline>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-9D5MCDT0L1');
+          </script>
+        </>
       )
     }
   </head>

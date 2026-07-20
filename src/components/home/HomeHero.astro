@@ -5,38 +5,19 @@ import { homeImageAlts, homeImages, imageOrPlaceholder } from '../../data/images
 
 const requestFormUrl = jobberRequestFormUrl();
 const heroSrc = imageOrPlaceholder(homeImages.hero);
-const heroJpg = imageOrPlaceholder('/images/home/hero.jpg');
-const heroIsWebp = heroSrc.endsWith('.webp');
 ---
 
 <section class="relative overflow-hidden bg-brand-black min-h-[min(92vh,880px)]">
   <div class="absolute inset-0" aria-hidden="true">
-    {
-      heroIsWebp ? (
-        <picture>
-          <source srcset={heroSrc} type="image/webp" />
-          <img
-            src={heroJpg}
-            alt={homeImageAlts.hero}
-            width="1400"
-            height="1050"
-            fetchpriority="high"
-            decoding="async"
-            class="h-full w-full object-cover object-[center_40%]"
-          />
-        </picture>
-      ) : (
-        <img
-          src={heroSrc}
-          alt={homeImageAlts.hero}
-          width="1400"
-          height="1050"
-          fetchpriority="high"
-          decoding="async"
-          class="h-full w-full object-cover object-[center_40%]"
-        />
-      )
-    }
+    <img
+      src={heroSrc}
+      alt={homeImageAlts.hero}
+      width="1600"
+      height="1200"
+      fetchpriority="high"
+      decoding="async"
+      class="h-full w-full object-cover object-[center_40%]"
+    />
     <!-- Keep most of the photo visible; only shade the copy column -->
     <div
       class="absolute inset-0 bg-gradient-to-r from-brand-black/75 via-brand-black/35 to-transparent md:via-brand-black/25"

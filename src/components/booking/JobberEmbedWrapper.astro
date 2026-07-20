@@ -143,19 +143,10 @@ const fallbackEstimateUrl = jobberProjectEstimateFormUrl();
               window.clearInterval(tick);
               return;
             }
-            // Defer layout read so we don't force sync reflow mid-script.
-            requestAnimationFrame(() => {
-              requestAnimationFrame(() => {
-                if (el.dataset.jobberReady === 'true') {
-                  window.clearInterval(tick);
-                  return;
-                }
-                if (iframe.style.visibility === 'visible' || iframe.offsetHeight > 40) {
-                  markReady();
-                  window.clearInterval(tick);
-                }
-              });
-            });
+            if (iframe.style.visibility === 'visible' || iframe.offsetHeight > 40) {
+              markReady();
+              window.clearInterval(tick);
+            }
           }, 100);
         };
 
