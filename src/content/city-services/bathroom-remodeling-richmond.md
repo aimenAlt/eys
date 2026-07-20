@@ -7,7 +7,7 @@ metaDescription: "Bathroom upgrades in Richmond, TX — fixtures, hardware, vani
 heroTitle: "Bathroom Remodeling in Richmond, TX"
 summary: "Bathroom fixture swaps, vanity installation, hardware updates, and punch-list upgrades for Richmond homeowners."
 heroImage: "/images/services/bathroom-remodel.jpg"
-heroImageAlt: "Bathroom Remodeling in Richmond, TX"
+heroImageAlt: "Modern skirted toilet and bidet-seat installation in a gray-tiled bathroom alcove"
 localIntro: "From dated master baths in established Richmond subdivisions to builder-grade finishes in new Fort Bend communities, we help homeowners upgrade bathrooms with clear scope and reliable scheduling."
 neighborhoods:
   - "Pecan Grove"

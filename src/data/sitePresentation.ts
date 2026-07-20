@@ -1,11 +1,11 @@
 /**
  * Site presentation switches — flip deliberately in code review, not via env vars.
- * Preview routes (/home-current/, /home-small-repair/) always remain available.
+ * Preview route `/home2/` always shows the alternate (non-live) homepage variant.
  */
 export type HomepageVariant = 'current' | 'small-repair';
 
 /** Which homepage renders at `/`. Change only this value to switch. */
-export const homepageVariant: HomepageVariant = 'current';
+export const homepageVariant: HomepageVariant = 'small-repair';
 
 /** Static service pages that are not content-collection entries. */
 export const customServicePages = {

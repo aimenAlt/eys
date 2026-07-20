@@ -9,8 +9,8 @@ import {
 export const handymanToDoListVisitName = 'Handyman To-Do List Visit' as const;
 
 export const smallRepairVisitMeta = {
-  title: 'Handyman To-Do List Service in Katy, TX | Elevate Your Space Handyman',
-  description: `Book a Handyman To-Do List Visit for multiple small repairs, installations, and maintenance tasks in one appointment in Katy and surrounding West Houston communities. One-hour visits start at ${formatUsd(smallRepairPricing.oneHour)}.`,
+  title: 'Handyman To-Do List | Katy & West Houston | EYS',
+  description: `Book a Handyman To-Do List Visit for multiple small repairs and installs in one appointment across Katy and West Houston. Visits start at ${formatUsd(smallRepairPricing.oneHour)}.`,
   h1: 'Complete More of Your Home To-Do List in One Visit',
   heroEyebrow: 'Multiple Tasks. One Convenient Visit.',
   heroTitle: 'Complete More of Your Home To-Do List in One Visit',
@@ -61,14 +61,14 @@ export const howItWorksSteps = [
       'Clear photos and notes help us confirm whether the work fits a Handyman To-Do List Visit.',
   },
   {
-    title: 'Select the visit length that best fits your list',
+    title: 'Book your visit online',
     description:
-      'Choose a one-hour visit, a two-hour visit, or a longer block based on the size of your list.',
+      'Open the booking form to choose a one-hour, two-hour, or longer visit and submit your prioritized task list with photos.',
   },
   {
-    title: 'We review, confirm scope, and finalize the appointment',
+    title: 'We review and confirm your appointment',
     description:
-      'We review the request, confirm the appropriate visit length, and schedule your appointment. If online booking becomes available, you may be able to choose a time directly.',
+      'We review the request, confirm the visit length fits the scope, and finalize your appointment time.',
   },
 ] as const;
 
@@ -88,7 +88,7 @@ export const serviceTermsDetails = [
 ] as const;
 
 export const includes = [
-  'Reserved handyman labor for the visit length you select',
+  'Reserved handyman labor for the visit length you book',
   'Professional tools for typical small residential repairs',
   'Tasks worked in your stated priority order',
   'Clear communication if scope, safety, or time needs change',

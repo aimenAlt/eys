@@ -40,20 +40,32 @@ Furniture assembly sounds simple until you are staring at fifty identical fasten
 ## Who this is for
 
 - New-home buyers in [Sunterra](/service-areas/katy/sunterra-handyman/), [Jordan Ranch](/service-areas/fulshear/jordan-ranch-handyman/), and [Tamarron](/service-areas/katy/tamarron-handyman/) knocking out move-in lists
-- Families assembling patio sets before a gathering in Towne Lake or Cross Creek Ranch
+- Families assembling patio sets before a gathering in Towne Lake or [Cross Creek Ranch](/service-areas/fulshear/cross-creek-ranch-handyman/)
+- Home offices that need desks and shelving built correctly and anchored when tall
 - Anyone who bought quality furniture and wants it built correctly the first time
 
 ## What we assemble
 
-Beds, dining tables, office desks, shelving units, outdoor patio sets, and many specialty pieces. We bring the right tools, protect floors, and check that everything sits level and secure. If a manufacturer part is missing or damaged, we document it so you can resolve the order quickly instead of guessing.
+Beds, dining tables, office desks, shelving units, outdoor patio sets, and many specialty pieces from major retailers and flat-pack brands. We bring the right tools, protect floors, and check that everything sits level and secure. Tall bookcases and dressers get wall anchoring when needed for safety. If a manufacturer part is missing or damaged, we document it so you can resolve the order quickly instead of guessing.
 
 ## Local lifestyle angle
 
-West Houston weekends are for trails, lagoon amenities, Boardwalk dinners, and kids' activities — not fighting hex keys on the garage floor. Bundling furniture assembly with [TV mounting](/services/tv-mounting/), [curtain installation](/services/curtain-installation/), or [ceiling fan installation](/services/ceiling-fan-installation/) is a popular move-in package.
+West Houston weekends are for trails, lagoon amenities, Boardwalk dinners, and kids' activities — not fighting hex keys on the garage floor. Bundling furniture assembly with [TV mounting](/services/tv-mounting/), [curtain installation](/services/curtain-installation/), or [ceiling fan installation](/services/ceiling-fan-installation/) is a popular move-in package. Many homeowners also combine assembly with a [Handyman To-Do List Visit](/services/handyman-to-do-list/) when several small tasks share the same day.
 
-## Free estimate and booking
+## How booking works
 
-Send product links or photos of the boxes and rooms. We return a free estimate based on piece count and complexity. Furniture assembly lives under [installation and assembly](/services/installation-and-assembly/). Start local from [Fulshear](/service-areas/fulshear/) or [Cypress](/service-areas/cypress/).
+Tell us the piece count, brand or product links, and which rooms are involved. We return a free estimate based on complexity, then schedule a visit with enough time to assemble carefully rather than rush. Packaging is broken down and the area left tidy.
+
 ## Ready for a free estimate?
 
-Send photos and a short description of what you want done. We reply with a clear free estimate, explain what we can complete in one visit, and flag anything that needs a licensed trade partner. Prefer to browse first? Start from [all services](/services/) or your local [service area](/service-areas/) page.
+Furniture assembly lives under [installation and assembly](/services/installation-and-assembly/). Start local from [Fulshear](/service-areas/fulshear/), [Cypress](/service-areas/cypress/), or [Katy](/service-areas/katy/). Looking for furniture assembly near you in West Houston? Send details through [contact](/contact/) and we will reply with a clear plan.
+
+## Why homeowners choose Elevate Your Space
+
+We are a veteran-owned handyman team based in the Katy and West Houston market. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task needs a licensed trade partner, we say so early so your project stays safe and on schedule.
+
+Large patio sectionals and multi-box bedroom sets take longer than a single desk — we plan time blocks accordingly so hardware is fully seated and pieces do not rack or wobble. If you already have a Handyman To-Do List Visit booked, mention assembly items so we can advise whether they fit the reserved window.
+Wall-anchoring tall units is part of a safe assembly when kids or pets share the room. Mention flooring type (carpet, LVP, tile) so we protect surfaces while tipping pieces into place.
+
+Send photos whenever you can — clear pictures shorten the free estimate cycle and help us bring the right tools on day one.
+

@@ -39,6 +39,7 @@ function pageType(pathname) {
     return parts.length === 2 ? 'city' : 'community';
   }
   if (pathname.startsWith('/projects/')) return pathname === '/projects/' ? 'projects-index' : 'project';
+  if (pathname.startsWith('/our-work/')) return pathname === '/our-work/' ? 'projects-index' : 'project';
   if (pathname.startsWith('/blog/')) return pathname === '/blog/' ? 'blog-index' : 'blog-post';
   if (['/privacy/', '/terms/'].includes(pathname)) return 'legal';
   if (pathname === '/reviews/') return 'reviews';

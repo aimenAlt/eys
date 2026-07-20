@@ -1,59 +1,57 @@
 ---
-import JobberEmbedWrapper from '../../booking/JobberEmbedWrapper.astro';
-import { jobberSmallRepairVisitUrl } from '../../../data/business';
+import { jobberHandymanToDoListFormUrl, site } from '../../../data/business';
+import { handymanToDoListVisitName } from '../../../data/smallRepairVisitContent';
 
-const embedUrl = jobberSmallRepairVisitUrl();
+const bookUrl = jobberHandymanToDoListFormUrl();
 ---
 
 <section
-  id="request-form"
-  class="py-16 md:py-20 bg-white"
-  aria-labelledby="request-heading"
-  data-jobber-section
+  id="book-visit"
+  class="py-16 md:py-20 bg-white border-t border-brand-line"
+  aria-labelledby="book-heading"
 >
-  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-10">
-      <p class="text-brand-red font-bold text-xs tracking-widest uppercase mb-2">Request</p>
-      <h2 id="request-heading" class="text-3xl font-bold text-brand-black mb-3">
-        Request Your Handyman To-Do List Visit
-      </h2>
-      <p class="text-gray-600 leading-relaxed max-w-xl mx-auto">
-        Tell us what needs attention, upload clear photographs, and identify your highest-priority
-        tasks. We will review the request and confirm the appropriate visit length and next steps.
-      </p>
-    </div>
-    <JobberEmbedWrapper
-      embedUrl={embedUrl}
-      title="Request Your Handyman To-Do List Visit"
-      minHeight="560px"
-    />
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <p class="text-brand-red font-bold text-xs tracking-widest uppercase mb-2">Book online</p>
+    <h2 id="book-heading" class="text-3xl font-bold text-brand-black mb-3">
+      Ready to book your {handymanToDoListVisitName}?
+    </h2>
+    <p class="text-gray-600 leading-relaxed max-w-xl mx-auto mb-8">
+      Open our booking form to choose a visit length, share your task list and photos, and request a
+      time that works for you.
+    </p>
+    {
+      bookUrl ? (
+        <a
+          href={bookUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="gradient-btn inline-flex items-center justify-center text-white px-8 py-3.5 rounded-md font-bold shadow-lg hover:shadow-xl transition-all"
+          data-cta="handyman-to-do-list-book"
+        >
+          Book a Handyman Visit
+        </a>
+      ) : (
+        <a
+          href="/contact/"
+          class="gradient-btn inline-flex items-center justify-center text-white px-8 py-3.5 rounded-md font-bold shadow-lg hover:shadow-xl transition-all"
+        >
+          Contact us to book
+        </a>
+      )
+    }
+    <p class="mt-6 text-sm text-gray-500">
+      Prefer to talk first? Call{' '}
+      <a href={`tel:${site.phoneTel}`} class="font-semibold text-brand-red hover:underline">
+        {site.phone}
+      </a>
+    </p>
   </div>
 </section>
 
 <script>
   import { analyticsEvents, trackEvent } from '../../../utils/analytics';
 
-  const section = document.querySelector('[data-jobber-section]');
-  if (section && 'IntersectionObserver' in window) {
-    let fired = false;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (fired) return;
-        if (entries.some((e) => e.isIntersecting)) {
-          fired = true;
-          trackEvent(analyticsEvents.jobberSectionReached, {
-            form: 'handyman_to_do_list',
-          });
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.35 },
-    );
-    observer.observe(section);
-  }
-
-  // Fallback link inside JobberEmbedWrapper (hosted estimate or /book/)
-  section?.querySelectorAll('a[href*="getjobber.com"], a[href="/book/"]').forEach((link) => {
+  document.querySelectorAll<HTMLAnchorElement>('[data-cta="handyman-to-do-list-book"]').forEach((link) => {
     link.addEventListener('click', () => {
       trackEvent(analyticsEvents.jobberFallbackClick, {
         form: 'handyman_to_do_list',

@@ -5,10 +5,11 @@ import {
   smallRepairPricing,
 } from '../../../data/smallRepairPricing';
 import { smallRepairVisitMeta } from '../../../data/smallRepairVisitContent';
-import { site } from '../../../data/business';
+import { jobberHandymanToDoListFormUrl, site } from '../../../data/business';
 import { resolveServiceHero } from '../../../data/images';
 
 const heroImage = resolveServiceHero('handyman-to-do-list');
+const bookUrl = jobberHandymanToDoListFormUrl();
 ---
 
 <section class="relative bg-white pt-12 pb-14 lg:pt-16 lg:pb-20 overflow-hidden">
@@ -60,12 +61,25 @@ const heroImage = resolveServiceHero('handyman-to-do-list');
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4">
-          <a
-            href="#pricing"
-            class="gradient-btn text-white px-8 py-3.5 rounded-md font-bold text-center transition-all shadow-lg hover:shadow-xl"
-          >
-            Choose Your Visit Length
-          </a>
+          {
+            bookUrl ? (
+              <a
+                href={bookUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="gradient-btn text-white px-8 py-3.5 rounded-md font-bold text-center transition-all shadow-lg hover:shadow-xl"
+              >
+                Book a Handyman Visit
+              </a>
+            ) : (
+              <a
+                href="#book-visit"
+                class="gradient-btn text-white px-8 py-3.5 rounded-md font-bold text-center transition-all shadow-lg hover:shadow-xl"
+              >
+                Book a Handyman Visit
+              </a>
+            )
+          }
           <a
             href="#eligible-tasks"
             class="bg-white text-brand-black border-2 border-brand-black px-8 py-3.5 rounded-md font-bold text-center hover:bg-brand-black hover:text-white transition-all"

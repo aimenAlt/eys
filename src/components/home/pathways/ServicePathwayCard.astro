@@ -7,6 +7,11 @@ interface Props {
   features: string[];
   ctaLabel: string;
   ctaHref: string;
+  /** Optional second action under the primary CTA (e.g. details page). */
+  secondaryCtaLabel?: string;
+  secondaryCtaHref?: string;
+  /** Open primary CTA in a new tab (external Jobber forms). */
+  ctaExternal?: boolean;
   featured?: boolean;
   analyticsId: string;
   /** Tailwind order classes, e.g. "order-1 md:order-2" */
@@ -21,6 +26,9 @@ const {
   features,
   ctaLabel,
   ctaHref,
+  secondaryCtaLabel,
+  secondaryCtaHref,
+  ctaExternal = false,
   featured = false,
   analyticsId,
   orderClass = '',
@@ -57,18 +65,32 @@ const {
     Best for: <span class="font-normal text-gray-600">{bestFor}</span>
   </p>
   <p class="text-sm text-gray-600 leading-relaxed mb-6 flex-grow">{description}</p>
-  <a
-    href={ctaHref}
-    class:list={[
-      'block w-full text-center font-bold py-3 px-4 rounded-md transition-colors mb-6',
-      featured
-        ? 'gradient-btn text-white shadow-lg hover:shadow-xl'
-        : 'bg-brand-black text-white hover:bg-brand-charcoal',
-    ]}
-    data-pathway-cta={analyticsId}
-  >
-    {ctaLabel}
-  </a>
+  <div class="mb-6 space-y-3">
+    <a
+      href={ctaHref}
+      class:list={[
+        'block w-full text-center font-bold py-3 px-4 rounded-md transition-colors',
+        featured
+          ? 'gradient-btn text-white shadow-lg hover:shadow-xl'
+          : 'bg-brand-black text-white hover:bg-brand-charcoal',
+      ]}
+      data-pathway-cta={analyticsId}
+      {...(ctaExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+    >
+      {ctaLabel}
+    </a>
+    {
+      secondaryCtaLabel && secondaryCtaHref && (
+        <a
+          href={secondaryCtaHref}
+          class="block w-full text-center font-semibold py-2.5 px-4 rounded-md text-brand-black border border-brand-line hover:border-brand-black transition-colors"
+          data-pathway-cta={`${analyticsId}-details`}
+        >
+          {secondaryCtaLabel}
+        </a>
+      )
+    }
+  </div>
   <ul class="space-y-3 mt-auto">
     {
       features.map((feature) => (

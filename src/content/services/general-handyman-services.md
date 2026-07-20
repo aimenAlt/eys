@@ -35,23 +35,35 @@ faqs:
   - question: "Is there a minimum charge?"
     answer: "Contact us with your list for a clear estimate based on your specific projects."
 ---
-General handyman work is the backbone of Elevate Your Space — the punch lists, small repairs, and multi-item visits that keep a home working without calling five different trades. If you have been putting off a list of “little things,” this is the service designed for you.
+General handyman work is the backbone of Elevate Your Space — the punch lists, small repairs, and multi-item visits that keep a home working without calling five different trades. If you have been putting off a list of “little things,” this is the service designed for busy homeowners who want one coordinated visit instead of a month of unfinished chores.
 
 ## Who this is for
 
 - Busy professionals in the Energy Corridor / West Houston who value punctual, white-glove help
 - Katy families bundling repairs before school seasons or holiday guests
 - New-home buyers with a move-in checklist across TV mounts, fans, curtains, and assembly
-- Sellers preparing a property for showings
+- Sellers preparing a property for showings and photos
+- Anyone searching for a dependable handyman near you who will work from a clear, prioritized list
 
 ## What a punch-list visit can include
 
-Drywall patches, door adjustments, hardware installs, fixture swaps, furniture assembly, garage storage, and other items that fit a skilled handyman visit. We scope the whole list up front so you know what belongs in one appointment versus what needs a specialist.
+Drywall patches, door adjustments, hardware installs, fixture swaps, furniture assembly, garage storage, picture hanging, caulk touch-ups, and other items that fit a skilled handyman visit. We scope the whole list up front so you know what belongs in one appointment versus what needs a specialist. When the list is mostly small repairs, many homeowners prefer our [Handyman To-Do List Visit](/services/handyman-to-do-list/) for a reserved time block; larger or mixed scopes stay on a custom free estimate.
+
+## How we keep visits efficient
+
+Send photos with your list. We confirm materials, access, and sequence, then show up prepared so we are not hunting for hardware mid-visit. Floors and furniture get protection, completed items get checked off, and the space is cleaned before we leave. Honest communication matters: if an item expands beyond the estimate once we open a wall or find missing parts, we pause and discuss options rather than surprising you at the end.
 
 ## Local context
 
-Mature Cinco Ranch homes often need maintenance and modernization. Fulshear and Sunterra skew toward customization of new builds. Richmond’s diverse housing stock needs a partner who can switch between new-MPC finishes and older subdivision realities. Across all of it, reputation is local — we live and work here.
+Mature [Cinco Ranch](/service-areas/katy/cinco-ranch-handyman/) homes often need maintenance and modernization. Fulshear and [Sunterra](/service-areas/katy/sunterra-handyman/) skew toward customization of new builds. Richmond’s diverse housing stock needs a partner who can switch between new-MPC finishes and older subdivision realities. Across [Cypress](/service-areas/cypress/), [Katy](/service-areas/katy/), and [Richmond](/service-areas/richmond/), reputation is local — we live and work here.
 
-## Free estimate
+## Ready for a free estimate?
 
-Send your list and photos. We return a free estimate and recommend sequencing. Explore individual services from [all services](/services/), or start with [Katy](/service-areas/katy/), [Cypress](/service-areas/cypress/), [Fulshear](/service-areas/fulshear/), or [Richmond](/service-areas/richmond/). Looking for a handyman near you in West Houston? Start with a clear punch list and we will take it from there.
+Send your list and photos. We return a free estimate and recommend sequencing. Explore individual services from [all services](/services/), or browse [repairs and maintenance](/services/repairs-and-maintenance/). Looking for a handyman near you in West Houston? Start with a clear punch list and we will take it from there.
+
+## Why homeowners choose Elevate Your Space
+
+We are a veteran-owned handyman team based in the Katy and West Houston market. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task needs a licensed trade partner, we say so early so your project stays safe and on schedule.
+
+Many clients keep a running note on their phone and send it before guests arrive or before listing photos. The sooner we see the full list, the better we can bundle tools and materials into one efficient visit instead of multiple trips.
+

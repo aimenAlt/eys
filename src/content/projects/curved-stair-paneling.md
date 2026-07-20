@@ -41,5 +41,15 @@ publishable: true
 privacyReviewed: true
 published: true
 seoTitle: "Curved Stair Wall Paneling | EYS Handyman"
-metaDescription: "Custom curved-stair paneling and picture-frame molding by Elevate Your Space Handyman."
+metaDescription: "See custom curved-stair fluted paneling and picture-frame molding installed for a West Houston home by Elevate Your Space Handyman in Katy."
 ---
+
+This West Houston staircase project turned a plain curved wall into a layered architectural feature with picture-frame molding and fluted paneling. The scope focused on layout along a continuous curve, clean handrail transitions, and a finished paint surface that reads as intentional trim rather than flat drywall.
+
+Working on a curve means the stock approach fails quickly. We template the wall, cut molding and panel sections to follow the radius, and dry-fit each layer before fastening. Fluted panels were aligned for even shadow lines, then framed with multi-layer molding for depth from the landing to the upper floor. The dark wood handrail stayed in place and was wrapped during finishing so paint and dust did not mark the railing.
+
+Materials stayed practical: primed trim stock, fastening into solid backing, and a light-gray finish that complements the stair wood. Caulk, sanding, and paint transitions kept joints tight where the wall bends. That attention is what separates [custom carpentry](/services/custom-carpentry/) on curved walls from a simple rectangle of wainscoting.
+
+The outcome is a finished stair wall with cohesive panel rhythm, crisp molding edges, and a protected handrail as the primary wood accent. Similar work appears in our [carpentry and built-ins gallery](/our-work/?category=carpentry-built-ins), including [curved under-stair shelving](/our-work/understair-curved-shelving/).
+
+Homeowners in [Katy](/service-areas/katy/) and greater West Houston often request this stair upgrade when they want more architecture without a full remodel. Share stair photos and notes about curve tightness if you are planning comparable paneling.

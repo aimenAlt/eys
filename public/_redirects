@@ -1,3 +1,18 @@
+# Trailing-slash normalization (canonical URLs always use a trailing slash)
+/about /about/ 301
+/book /book/ 301
+/contact /contact/ 301
+/pricing /pricing/ 301
+/reviews /reviews/ 301
+/privacy /privacy/ 301
+/terms /terms/ 301
+/blog /blog/ 301
+/services /services/ 301
+/service-areas /service-areas/ 301
+/our-work /our-work/ 301
+/sitemap /sitemap/ 301
+/home2 /home2/ 301
+
 # Product rename — Small Repair Visit → Handyman To-Do List Visit
 /services/small-repair-visit/ /services/handyman-to-do-list/ 301
 /services/small-repair-visit /services/handyman-to-do-list/ 301

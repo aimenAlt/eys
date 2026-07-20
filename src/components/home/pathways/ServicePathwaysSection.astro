@@ -7,9 +7,28 @@ import {
   formatUsd,
   smallRepairPricing,
 } from '../../../data/smallRepairPricing';
-import { pathwayCopy } from '../../../data/smallRepairVisitContent';
+import { pathwayCopy, smallRepairVisitMeta } from '../../../data/smallRepairVisitContent';
+import { jobberHandymanToDoListFormUrl } from '../../../data/business';
 
-const pathways = [
+const toDoListBookUrl = jobberHandymanToDoListFormUrl() ?? smallRepairVisitMeta.path;
+
+type Pathway = {
+  title: string;
+  price: string;
+  bestFor: string;
+  description: string;
+  features: string[];
+  ctaLabel: string;
+  ctaHref: string;
+  ctaExternal?: boolean;
+  secondaryCtaLabel?: string;
+  secondaryCtaHref?: string;
+  analyticsId: string;
+  featured: boolean;
+  orderClass: string;
+};
+
+const pathways: Pathway[] = [
   {
     title: 'Photo Estimate',
     price: 'Free',
@@ -43,7 +62,10 @@ const pathways = [
       'Materials and specialty equipment are additional',
     ],
     ctaLabel: 'Book a Handyman Visit',
-    ctaHref: '/services/handyman-to-do-list/',
+    ctaHref: toDoListBookUrl,
+    ctaExternal: toDoListBookUrl.startsWith('http'),
+    secondaryCtaLabel: 'See visit details',
+    secondaryCtaHref: smallRepairVisitMeta.path,
     analyticsId: 'handyman-to-do-list',
     featured: true,
     orderClass: 'order-1 md:order-2',
@@ -91,6 +113,9 @@ const pathways = [
           features={pathway.features}
           ctaLabel={pathway.ctaLabel}
           ctaHref={pathway.ctaHref}
+          ctaExternal={pathway.ctaExternal}
+          secondaryCtaLabel={pathway.secondaryCtaLabel}
+          secondaryCtaHref={pathway.secondaryCtaHref}
           featured={pathway.featured}
           analyticsId={pathway.analyticsId}
           orderClass={pathway.orderClass}

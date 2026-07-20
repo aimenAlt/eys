@@ -1,13 +1,13 @@
 ---
 /**
- * Preview route for the Handyman To-Do List pathways homepage.
+ * Preview route for the previous homepage variant (HomeCurrentPage).
  * Open at /home2/ — noindex; canonical points to `/`.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import MobileStickyCTA from '../components/layout/MobileStickyCTA.astro';
-import HomeSmallRepairPage from '../components/home/HomeSmallRepairPage.astro';
+import HomeCurrentPage from '../components/home/HomeCurrentPage.astro';
 import { getCollection } from 'astro:content';
 import { absoluteUrl } from '../data/business';
 import { homePageSchema, homeFaqs } from '../data/schema';
@@ -30,9 +30,9 @@ const communityLinks = communities.map((c) => ({
 }));
 
 const seo = {
-  title: 'Veteran-Owned Handyman | Katy & West Houston | EYS',
+  title: 'Classic Homepage Preview | Elevate Your Space',
   description:
-    'Looking for a handyman near you in Katy or West Houston? Veteran-owned Elevate Your Space handles repairs, TV mounting, and upgrades. Free estimates.',
+    'Internal preview of the classic homepage layout. The live site homepage is at the root URL.',
   canonical: absoluteUrl('/'),
   noindex: true,
 };
@@ -46,7 +46,7 @@ const schemaGraph = homePageSchema(
 <BaseLayout seo={seo} schemaGraph={schemaGraph}>
   <Header navMenus={navMenus} />
   <main id="main-content">
-    <HomeSmallRepairPage
+    <HomeCurrentPage
       projectCount={communities.length}
       publishedReviews={publishedReviews}
       cityLinks={cityLinks}

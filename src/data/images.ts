@@ -94,6 +94,7 @@ export const categoryHeroImages: Record<string, string> = {
 };
 
 export const homeImages = {
+  hero: '/images/home/hero.jpg',
   whoWeAre1: '/images/home/who-we-are-1.jpg',
   whoWeAre2: '/images/home/who-we-are-2.jpg',
   whyChooseUsBg: '/images/home/why-choose-us-bg.jpg',
@@ -102,6 +103,8 @@ export const homeImages = {
 
 /** Descriptive alts matching the actual photos in homeImages (keep in sync when swapping files). */
 export const homeImageAlts = {
+  hero:
+    'Finished two-tone kitchen remodel with sage island, white uppers, quartz counters, and gold fixtures',
   whoWeAre1:
     'Finished two-tone kitchen with a sage green island, white upper cabinets, quartz counters, and gold fixtures',
   whoWeAre2:

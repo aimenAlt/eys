@@ -7,7 +7,7 @@ metaDescription: "Bathroom upgrades in Katy, TX — vanities, fixtures, hardware
 heroTitle: "Bathroom Remodeling in Katy, TX"
 summary: "Vanity installs, fixture swaps, and bathroom punch-list upgrades for Katy homeowners."
 heroImage: "/images/services/bathroom-remodel.jpg"
-heroImageAlt: "Bathroom Remodeling in Katy, TX"
+heroImageAlt: "Modern skirted toilet and bidet-seat installation in a gray-tiled bathroom alcove"
 localIntro: "Katy bathrooms in 1990s and 2000s homes often need vanity updates, faucet swaps, and hardware refreshes. We handle bathroom upgrades with clear estimates and clean workmanship."
 neighborhoods:
   - "Cinco Ranch"
