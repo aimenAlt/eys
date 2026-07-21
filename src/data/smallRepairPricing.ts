@@ -5,7 +5,7 @@
 export const smallRepairPricing = {
   oneHour: 224.99,
   twoHours: 349.99,
-  additionalThirtyMinutes: 50,
+  additionalThirtyMinutes: 65,
   currency: 'USD',
 } as const;
 
