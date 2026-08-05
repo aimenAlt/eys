@@ -42,7 +42,7 @@ localLifestyle: "Elyson is built for active living — Adventure Point, Elyson H
 process: "Send pictures and project details through our online form. EYS scopes the work with a transparent project outline, schedules a punctual visit, executes the job flawlessly, and cleans up completely before departure."
 faqs:
   - question: "Can you build custom mudroom benches to match my existing Elyson home trim?"
-    answer: "Yes, our skilled carpentry team can seamlessly match modern prairie or traditional trim styles so built-ins look original to the home."
+    answer: "Yes, EYS can seamlessly match modern prairie or traditional trim styles so built-ins look original to the home."
   - question: "Do you install garage racks strong enough to hold camping gear and bikes?"
     answer: "Absolutely. We anchor heavy-duty racks directly into ceiling joists — perfect for gear used on Elyson's 30+ miles of trails."
   - question: "Are you able to mount TVs on outdoor patios?"

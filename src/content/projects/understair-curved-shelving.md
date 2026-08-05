@@ -13,7 +13,26 @@ scope:
   - "Template and curved shelf cuts"
   - "Secure mounting in a constrained space"
   - "Painted finish and cleanup"
+problem: "An under-stair closet with an odd curved footprint needed custom shelving instead of straight store-bought units that waste the space."
+exclusions:
+  - "Stair structural modification"
+materials:
+  - "Curved shelf stock shaped to template"
+  - "Hidden or low-profile fasteners"
+  - "White painted finish"
+constraints:
+  - "Tight closet limits working swing room during install"
+  - "Mounting requires solid backing and usable shelf elevations for everyday storage"
+  - "Shelf cuts must follow the stair radius with even gaps along the wall"
+processSteps:
+  - "Template the curve and depth at each shelf height"
+  - "Cut shelves to match and dry-fit before fastening"
+  - "Secure shelves with even gaps along the curved wall"
+  - "Prepare seams and edges and apply white paint finish"
+result: "Usable built-in storage that follows the under-stair curve for books, bins, or décor."
 serviceUrl: "/services/custom-carpentry/"
+locationUrl: "/service-areas/west-houston/"
+city: "West Houston"
 leadImage: "/images/projects/understair-curved-shelving/eys-shelving-storage-under-stair-curved-shelving-after-p007-01.jpg"
 leadAlt: "Custom white built-in shelves following a curved under-stairs space."
 images:

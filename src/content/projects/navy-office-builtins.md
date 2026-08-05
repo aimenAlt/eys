@@ -16,7 +16,26 @@ scope:
   - "Painted finish and hardware"
   - "French door assembly with sidelights and transom"
   - "Decorative fluted casing and corner blocks"
+problem: "A flex room needed conversion into a permanent home office with floor-to-ceiling storage and display built-ins, framed by a bright doorway that keeps light from the adjacent space."
+exclusions:
+  - "Structural changes beyond built-in and door trim scope"
+materials:
+  - "Painted navy built-in shelving and lower cabinets"
+  - "Cabinet hardware pulls"
+  - "White French doors with sidelights and transom"
+  - "Fluted casing and corner blocks"
+constraints:
+  - "Built-ins must read as one unit with consistent shelf spacing and cabinet reveals"
+  - "French door alignment, swing, and casing miters must frame the navy millwork cleanly"
+processSteps:
+  - "Lay out and install floor-to-ceiling shelving and lower cabinets plumb and level"
+  - "Finish built-ins in deep navy with hardware pulls"
+  - "Assemble French doors with sidelights and transom"
+  - "Install decorative fluted casing and corner blocks at the entry"
+result: "A finished office with storage below, open shelves for books and décor, and a white doorway that balances the navy millwork."
 serviceUrl: "/services/custom-carpentry/"
+locationUrl: "/service-areas/west-houston/"
+city: "West Houston"
 leadImage: "/images/projects/navy-office-builtins/eys-custom-project-navy-builtin-office-shelving-after-p006-03.jpg"
 leadAlt: "Floor-to-ceiling navy custom built-in shelving and cabinets in a home office."
 images:

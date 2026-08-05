@@ -41,7 +41,7 @@ commonProjects:
 whyChoose: "Inviting a contractor into your home requires immense trust. EYS is recognized throughout Katy for rigorous project scoping, immaculate workspaces, and profound respect for the home. We arrive strictly on time, communicate clearly throughout the project, and guarantee we will leave your home cleaner than we found it."
 goodFit: "We excel at bundled punch-list work for homeowners preparing their properties for the resale market, or for new buyers wanting to customize a recently purchased resale home. From hanging heavy mirrors in formal dining rooms to installing overhead garage storage, we handle complex aesthetic details seamlessly."
 localLifestyle: "The Cinco Ranch lifestyle revolves around community engagement — summer weekends at the Beach Club, biking the interconnected trails, or evenings out at LaCenterra. Homeowners should not have to sacrifice their weekends wrestling with drywall anchors or replacing rotted patio trim. EYS takes the burden of home maintenance off your shoulders so you can return to the active lifestyle that drew you to Katy's most iconic neighborhood."
-process: "First, send photos and details of your project via our online form. Second, our team scopes the project and returns a transparent, detailed estimate. Third, we schedule a visit at a convenient time, arriving fully prepared. Finally, we execute the project meticulously and perform a comprehensive clean-up before we consider the job complete."
+process: "First, send photos and details of your project via our online form. Second, EYS scopes the project and returns a transparent, detailed estimate. Third, we schedule a visit at a convenient time, arriving fully prepared. Finally, we execute the project meticulously and perform a comprehensive clean-up before we consider the job complete."
 faqs:
   - question: "Do you work in both the older (77450) and newer (77494) sections of Cinco Ranch?"
     answer: "Yes, we service all villages, adapting our installation and carpentry approaches whether we are dealing with 1990s construction or newer builds."
@@ -52,5 +52,5 @@ faqs:
   - question: "What if my trim project requires plumbing or electrical adjustments?"
     answer: "We can help coordinate appropriate licensed trade support when the project requires it."
   - question: "How quickly can you install garage storage?"
-    answer: "Once the project is scoped and approved, our team can typically install robust garage storage solutions in a single afternoon."
+    answer: "Once the project is scoped and approved, EYS can typically install robust garage storage solutions in a single afternoon."
 ---

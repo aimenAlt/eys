@@ -63,7 +63,7 @@ Send your list and photos. We return a free estimate and recommend sequencing. E
 
 ## Why homeowners choose Elevate Your Space
 
-We are a veteran-owned handyman team based in the Katy and West Houston market. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task needs a licensed trade partner, we say so early so your project stays safe and on schedule.
+We are a veteran-owned, owner-led handyman service based in the Katy and West Houston market. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task needs a licensed trade partner, we say so early so your project stays safe and on schedule.
 
 Many clients keep a running note on their phone and send it before guests arrive or before listing photos. The sooner we see the full list, the better we can bundle tools and materials into one efficient visit instead of multiple trips.
 

@@ -14,7 +14,25 @@ scope:
   - "High-ceiling fixture mounting"
   - "Chandelier assembly and leveling"
   - "Secure canopy and wiring connections"
+problem: "A high vaulted living room needed a statement crystal chandelier installed centered, level, and secure—beyond what a standard eight-foot ceiling install allows."
+exclusions:
+  - "Full electrical rewire or new circuit work"
+  - "Ceiling fan installation (separate service if needed)"
+materials:
+  - "Crystal chandelier with gold details and candle-style bulbs"
+constraints:
+  - "Existing ceiling box and support must carry the fixture weight"
+  - "Hanging height must suit the vault—not too high into the peak or too low over seating"
+  - "Multi-arm crystal fixture requires careful leveling at the canopy"
+processSteps:
+  - "Confirm existing box and support capacity for the fixture weight"
+  - "Assemble the chandelier without damaging arms or crystals"
+  - "Set hanging height and level the fixture at the canopy"
+  - "Complete wiring connections and canopy cover against the vaulted ceiling"
+result: "An ornate chandelier that anchors the room vertically and reads as a balanced centerpiece from the living area below."
 serviceUrl: "/services/electrical-services/"
+locationUrl: "/service-areas/katy/"
+city: "Katy"
 leadImage: "/images/projects/vaulted-crystal-chandelier/eys-fixture-installation-vaulted-living-crystal-chandelier-after-p008-01.jpg"
 leadAlt: "Large crystal chandelier hanging in a bright vaulted-ceiling living space."
 images:

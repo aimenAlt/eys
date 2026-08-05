@@ -29,7 +29,7 @@ process:
   - "Install finishes with full area protection"
 faqs:
   - question: "What flooring types do you install?"
-    answer: "EYS focuses on interior finish work — transitions, trim, and flooring-adjacent carpentry — rather than full flooring replacement for every material and moisture scenario. When a specialty flooring crew should lead the project, we say so upfront."
+    answer: "EYS focuses on interior finish work — transitions, trim, and flooring-adjacent carpentry — rather than full flooring replacement for every material and moisture scenario. When a specialty flooring contractor should lead the project, we say so upfront."
   - question: "Do you handle baseboards and trim with flooring?"
     answer: "Yes. Trim removal, reinstall, and new baseboards are commonly bundled with flooring-adjacent finish projects."
   - question: "Can you add accent walls and décor details?"
@@ -46,7 +46,7 @@ Interior finish work only looks complete when the edges, transitions, and mounti
 
 ## What we handle
 
-Flooring-adjacent finish work, décor mounting, accent walls, board-and-batten details, shelving, and the carpentry that frames a room. We are not a full flooring replacement company for every material and moisture scenario — we will tell you when a specialty flooring crew is the right lead and where our finishing work adds the most value. When we own the finish scope, we protect adjacent rooms, cut clean transitions, and leave trim painted or ready for paint as agreed.
+Flooring-adjacent finish work, décor mounting, accent walls, board-and-batten details, shelving, and the carpentry that frames a room. We are not a full flooring replacement company for every material and moisture scenario — we will tell you when a specialty flooring contractor is the right lead and where our finishing work adds the most value. When we own the finish scope, we protect adjacent rooms, cut clean transitions, and leave trim painted or ready for paint as agreed.
 
 ## Local context
 
@@ -62,9 +62,9 @@ Room photos, product links, and notes about existing baseboards help. We return 
 
 ## Why homeowners choose Elevate Your Space
 
-We are a veteran-owned handyman team based in the Katy and West Houston market. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task requires an appropriately qualified trade professional, we say so early so your project stays safe and on schedule.
+We are a veteran-owned, owner-led handyman service based in the Katy and West Houston market. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task requires an appropriately qualified trade professional, we say so early so your project stays safe and on schedule.
 
-If your project is mostly trim, molding, or accent walls after floors are already in, we can often schedule faster than a full flooring crew timeline. Send inspiration photos alongside room dimensions so the free estimate reflects both material and finish carpentry time.
+If your project is mostly trim, molding, or accent walls after floors are already in, we can often schedule faster than a specialty flooring contractor timeline. Send inspiration photos alongside room dimensions so the free estimate reflects both material and finish carpentry time.
 Transitions between LVP, tile, and existing hardwood are where DIY projects often look unfinished. We cut and fit those edges carefully so doorways and hallways feel continuous rather than patched.
 
 Send photos whenever you can — clear pictures shorten the free estimate cycle and help us bring the right tools on day one.

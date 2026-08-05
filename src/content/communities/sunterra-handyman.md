@@ -39,7 +39,7 @@ commonProjects:
   - name: "Move-In Upgrades"
     description: "comprehensive punch-list completion so you settle in faster"
 whyChoose: "Moving is stressful enough without assembling complex furniture or locating studs in brand-new walls. EYS brings a clean, highly organized, and professional approach. We wear shoe covers, protect your pristine new floors, and utilize dust-extraction tools to leave zero debris behind."
-goodFit: "Our specialty in Sunterra is the comprehensive \"Move-In Weekend Package.\" Send us your list — mounting TVs, assembling patio furniture, installing ceiling fans on builder pre-wires, hanging bedroom curtains — and our team executes every task seamlessly in a single visit."
+goodFit: "Our specialty in Sunterra is the comprehensive \"Move-In Weekend Package.\" Send us your list — mounting TVs, assembling patio furniture, installing ceiling fans on builder pre-wires, hanging bedroom curtains — and EYS executes every task seamlessly in a single visit."
 localLifestyle: "Life in Sunterra is designed to emulate a vacation. When you live near white sand beaches, a lazy river, and a tropical lagoon, your weekends should not be spent on Swedish furniture instructions or balancing on a ladder. Let EYS handle the technical home setup so you can grab your paddleboard and enjoy the Sol Club."
 process: "First, send photos and details via our online form. Second, EYS scopes the project and returns a clear, itemized estimate. Third, we schedule a visit aligned with your closing or move-in dates. Finally, we complete the work carefully so brand-new finishes stay protected."
 faqs:

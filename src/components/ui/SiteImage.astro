@@ -1,0 +1,47 @@
+---
+/**
+ * Standardized public-folder image delivery: explicit dimensions, lazy/eager
+ * policy, and responsive sizes. Full AVIF/WebP derivatives still require assets
+ * under src/ (astro:assets) or a CDN transform — this component enforces the
+ * markup contract for LCP and layout stability on /public images.
+ */
+interface Props {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  decoding?: 'async' | 'auto' | 'sync';
+  sizes?: string;
+  /** Optional srcset for pre-generated candidates (same path family). */
+  srcset?: string;
+}
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  class: className,
+  loading = 'lazy',
+  fetchpriority,
+  decoding = 'async',
+  sizes = '(max-width: 768px) 100vw, 1200px',
+  srcset,
+} = Astro.props;
+---
+
+<img
+  src={src}
+  alt={alt}
+  width={width}
+  height={height}
+  loading={loading}
+  decoding={decoding}
+  fetchpriority={fetchpriority}
+  sizes={sizes}
+  srcset={srcset}
+  class={className}
+/>

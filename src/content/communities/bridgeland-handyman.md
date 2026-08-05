@@ -36,7 +36,7 @@ commonProjects:
     description: "finishing touches for new builds in Prairieland or Creekland Villages"
   - name: "Outdoor/Patio Improvements"
     description: "covered spaces for lakeside entertaining"
-whyChoose: "Our commitment to excellence aligns with the Bridgeland ethos. We utilize rigorous project scoping, courteous technicians, protective gear for expensive floors, and HEPA vacuums for meticulous cleanup."
+whyChoose: "Our commitment to excellence aligns with the Bridgeland ethos. We utilize rigorous project scoping, careful on-site habits, protective gear for expensive floors, and HEPA vacuums for meticulous cleanup."
 goodFit: "We excel at high-impact visual upgrades: a custom media wall, heavy-duty TV mounting, and precise installation of a heavy statement chandelier in a two-story dining room."
 localLifestyle: "Bridgeland offers 250 miles of trails, kayaking on Josey Lake, and recreation at Dragonfly Park. Let EYS handle the heavy lifting so you can grab your bike or kayak and enjoy the true Bridgeland experience."
 process: "Send photos of your vision through our online portal. EYS scopes the work with a detailed estimate, arrives exactly when promised, executes flawlessly, and leaves your home spotless."

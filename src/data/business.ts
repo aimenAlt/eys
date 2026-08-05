@@ -1,4 +1,5 @@
 import { defaultOgImage, hasImage, imagePlaceholder } from './images';
+import { withJobberUtm } from '../utils/utm';
 
 export const site = {
   name: 'Elevate Your Space Handyman',
@@ -122,13 +123,16 @@ export function googleReviewProfileUrl(): string | undefined {
 
 export function jobberRequestFormUrl(): string | undefined {
   const url = business.jobber.requestFormUrl?.trim();
-  return url || undefined;
+  return url ? withJobberUtm(url, 'request-form') : undefined;
 }
 
 export function jobberRequestFormEmbed(): JobberRequestFormEmbed | undefined {
   const embed = business.jobber.requestFormEmbed;
   if (!embed?.containerId?.trim() || !embed?.formUrl?.trim()) return undefined;
-  return embed;
+  return {
+    ...embed,
+    formUrl: withJobberUtm(embed.formUrl, 'request-form-embed'),
+  };
 }
 
 /** True when a quote/estimate form can be rendered (snippet or iframe). */
@@ -138,22 +142,22 @@ export function hasJobberRequestForm(): boolean {
 
 export function jobberOnlineBookingUrl(): string | undefined {
   const url = business.jobber.onlineBookingUrl?.trim();
-  return url || undefined;
+  return url ? withJobberUtm(url, 'tv-mounting-booking') : undefined;
 }
 
 export function jobberHandymanToDoListFormUrl(): string | undefined {
   const url = business.jobber.handymanToDoListFormUrl?.trim();
-  return url || undefined;
+  return url ? withJobberUtm(url, 'todo-list') : undefined;
 }
 
 export function jobberProjectEstimateFormUrl(): string | undefined {
   const url = business.jobber.projectEstimateFormUrl?.trim();
-  return url || undefined;
+  return url ? withJobberUtm(url, 'project-estimate') : undefined;
 }
 
 export function jobberSmallRepairVisitUrl(): string | undefined {
   const url = business.jobber.smallRepairVisitUrl?.trim();
-  return url || undefined;
+  return url ? withJobberUtm(url, 'small-repair-visit') : undefined;
 }
 
 /**

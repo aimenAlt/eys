@@ -187,11 +187,25 @@ const projects = defineCollection({
       featured: z.boolean().default(false),
       featuredRank: z.number().int().positive().optional(),
       summary: z.string().min(1),
+      /** One concise factual paragraph: what the homeowner needed solved. */
+      problem: z.string().optional(),
       scope: z.array(z.string()).optional(),
+      exclusions: z.array(z.string()).optional(),
+      materials: z.array(z.string()).optional(),
+      constraints: z.array(z.string()).optional(),
+      processSteps: z.array(z.string()).optional(),
+      result: z.string().optional(),
       serviceUrl: z
         .string()
         .refine((val) => val.startsWith('/'), {
           message: 'serviceUrl must be a site path starting with /',
+        })
+        .optional(),
+      /** Verified city/service-area page path when geographic claim is approved. */
+      locationUrl: z
+        .string()
+        .refine((val) => val.startsWith('/'), {
+          message: 'locationUrl must be a site path starting with /',
         })
         .optional(),
       leadImage: imagePathSchema,

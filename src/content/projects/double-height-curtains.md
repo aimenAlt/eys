@@ -12,7 +12,27 @@ scope:
   - "High-reach curtain rod installation"
   - "Floor-to-ceiling drapery hanging"
   - "Level, secure mounting across tall openings"
+problem: "A two-story living space needed floor-to-ceiling drapery hardware and panels that stay level across tall openings without sagging rods or short panels."
+exclusions:
+  - "Chandelier or light-fixture installation"
+  - "Retail curtain rods sized for standard eight-foot walls"
+materials:
+  - "High-reach curtain rods and brackets"
+  - "Sheer white curtain panels"
+constraints:
+  - "Double-height walls require stable high-reach access and fasteners into studs or proper anchors"
+  - "Rod line must stay level across long runs visible from the floor"
+  - "Curved window wall needs adjusted panel spacing and rod segments"
+processSteps:
+  - "Measure opening height and width and confirm solid backing"
+  - "Set brackets at consistent elevations and verify a level rod line"
+  - "Hang sheer panels floor-to-ceiling with clean stacking when open"
+  - "Coordinate hardware style on adjacent bedroom windows in the same visit"
+  - "Adjust spacing and rod segments where the window wall curves"
+result: "Softened tall glass with improved privacy and light control, giving the living room a finished look beside existing lighting."
 serviceUrl: "/services/curtain-installation/"
+locationUrl: "/service-areas/west-houston/"
+city: "West Houston"
 leadImage: "/images/projects/double-height-curtains/eys-general-handyman-double-height-sheer-curtains-after-p023-04.jpg"
 leadAlt: "Two-story living room with floor-to-ceiling sheer white curtains over tall windows."
 images:

@@ -64,7 +64,7 @@ Send kitchen photos and a priority list. We reply with a clear free estimate, ex
 
 ## Why homeowners choose Elevate Your Space
 
-We are a veteran-owned handyman team based in the Katy and West Houston market. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task requires an appropriately qualified trade professional, we say so early so your project stays safe and on schedule.
+We are a veteran-owned, owner-led handyman service based in the Katy and West Houston market. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task requires an appropriately qualified trade professional, we say so early so your project stays safe and on schedule.
 
 Hardware-only refreshes, island touch-ups, and lighting swaps are common entry points before a larger upgrade. We can start there, then expand scope once you see how the kitchen feels with updated finishes — still with a free estimate at each stage so costs stay transparent.
 If you already purchased cabinets, sinks, or lighting, include model photos in the estimate request. Customer-supplied materials are common, and we plan layout and fastening around what you already own.

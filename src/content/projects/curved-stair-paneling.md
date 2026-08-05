@@ -15,7 +15,27 @@ scope:
   - "Curved-wall layout and molding"
   - "Layered paneling and paint finish"
   - "Protected handrail during finishing"
+problem: "A plain curved staircase wall needed layered architectural paneling and molding without a full remodel."
+exclusions:
+  - "Full stair or home remodel"
+  - "Handrail replacement (existing handrail stayed in place)"
+materials:
+  - "Primed trim stock"
+  - "Fluted panel sections"
+  - "Light-gray paint finish"
+constraints:
+  - "Continuous curve requires templating; stock rectangular wainscoting approaches fail"
+  - "Dark wood handrail must stay protected during paint and finishing"
+  - "Molding must fasten into solid backing along the radius"
+processSteps:
+  - "Template the curved wall and cut molding and panel sections to the radius"
+  - "Dry-fit each layer before fastening"
+  - "Align fluted panels for even shadow lines and frame with multi-layer molding"
+  - "Wrap the handrail during finishing, then caulk, sand, and paint transitions"
+result: "A finished stair wall with cohesive panel rhythm, crisp molding edges, and the protected handrail as the primary wood accent."
 serviceUrl: "/services/custom-carpentry/"
+locationUrl: "/service-areas/katy/"
+city: "Katy"
 leadImage: "/images/projects/curved-stair-paneling/eys-trim-carpentry-curved-stair-fluted-wall-paneling-after-p011-07.jpg"
 leadAlt: "Curved staircase with light-gray fluted wall paneling and dark wood handrail."
 images:

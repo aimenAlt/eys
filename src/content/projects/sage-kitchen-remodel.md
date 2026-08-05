@@ -16,7 +16,28 @@ scope:
   - "Quartz countertops and sink area"
   - "Subway-tile backsplash"
   - "Island and peninsula finishing"
+problem: "The kitchen needed a coordinated refresh of cabinetry, counters, backsplash, and fixtures into a sage-and-white palette across the island, perimeter, and peninsula."
+exclusions:
+  - "Gut kitchen rebuild"
+materials:
+  - "Sage and white painted cabinet faces"
+  - "Quartz countertops"
+  - "White subway tile backsplash"
+  - "Brass hardware and faucet"
+constraints:
+  - "Open-plan island and peninsula must read as one complete kitchen"
+  - "Tile and counter edges must meet cleanly at the cook zone and peninsula"
+  - "Cabinet faces need a durable painted finish with consistent hardware"
+processSteps:
+  - "Refinish cabinetry with sage lowers and island faces and white uppers"
+  - "Install quartz at the island and perimeter with a clean sink area"
+  - "Set white subway-tile backsplash with simple grout lines"
+  - "Update hardware and brass fixtures"
+  - "Finish island and peninsula details"
+result: "A finished two-tone kitchen with a soft green island, bright quartz worktops, and brass accents from peninsula to sink."
 serviceUrl: "/services/kitchen-remodeling/"
+locationUrl: "/service-areas/katy/"
+city: "Katy"
 leadImage: "/images/projects/sage-kitchen-remodel/eys-kitchen-repair-upgrades-two-tone-kitchen-island-quartz-after-p005-06.jpg"
 leadAlt: "Finished kitchen with sage green island, white uppers, quartz counters, and gold fixtures."
 images:

@@ -15,7 +15,26 @@ scope:
   - "Marble-look tile feature panel"
   - "Vertical wood-slat side accents"
   - "Clean transitions to adjacent walls and trim"
+problem: "The living room needed a floor-to-ceiling focal wall pairing marble-look tile with dark wood-slat accents, with clean transitions to existing paint and trim."
+exclusions:
+  - "Full living room remodel"
+  - "TV mounting (optional follow-up, not part of this wall scope)"
+materials:
+  - "Marble-look tile center panel"
+  - "Stained vertical wood slats"
+constraints:
+  - "Center tile panel and wood-slat wings must share one vertical plane and finished height"
+  - "Tile coursing must stay balanced across the panel"
+  - "Clean edges required at ceiling, base, and side walls"
+processSteps:
+  - "Plan tile coursing for balanced seams"
+  - "Build wood-slat side assemblies with intentional spacing and reveals"
+  - "Sequence tile setting so the center panel stays square and plumb against the wood"
+  - "Finish transitions at ceiling, base, and adjacent walls"
+result: "A strong focal wall that anchors the living room without a full remodel, with depth from tile and slats as light changes through the day."
 serviceUrl: "/services/custom-carpentry/"
+locationUrl: "/service-areas/west-houston/"
+city: "West Houston"
 leadImage: "/images/projects/marble-wood-slat-feature-wall/eys-custom-project-living-room-marble-wood-slat-wall-after-p002-01.jpg"
 leadAlt: "Tall living-room feature wall with marble-look tile flanked by dark vertical wood slats."
 images:

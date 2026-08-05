@@ -65,7 +65,7 @@ Send wall photos, TV size, and notes about stone vs drywall. Free estimates keep
 
 ## Why homeowners choose Elevate Your Space
 
-We are a veteran-owned handyman team based in the Katy and West Houston market. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task needs a licensed trade partner, we say so early so your project stays safe and on schedule.
+We are a veteran-owned, owner-led handyman service based in the Katy and West Houston market. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task needs a licensed trade partner, we say so early so your project stays safe and on schedule.
 
 If you are also planning a feature wall, soundbar, or floating shelf package, mention it in the estimate request so we can align mounting heights and cable paths in one plan rather than revisiting the same wall twice.
 

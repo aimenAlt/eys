@@ -39,7 +39,7 @@ Interior painting is one of the fastest ways to make a West Houston home feel ca
 
 ## Who this service is for
 
-We paint rooms, accent walls, and repair areas for homeowners who want crisp results without managing a large painting crew. Typical projects include:
+We paint rooms, accent walls, and repair areas for homeowners who want crisp results without managing a large painting company. Typical projects include:
 
 - Accent walls and color updates in [Elyson](/service-areas/katy/elyson-handyman/) and [Aliana](/service-areas/richmond/aliana-handyman/)
 - Touch-ups after [drywall repair](/services/drywall-repair/)
@@ -62,7 +62,7 @@ Share room photos, approximate sizes, and whether you already have paint selecte
 
 ## Why homeowners choose Elevate Your Space
 
-We are a veteran-owned handyman team based in the Katy and West Houston market. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task needs a licensed trade partner, we say so early so your project stays safe and on schedule.
+We are a veteran-owned, owner-led handyman service based in the Katy and West Houston market. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task needs a licensed trade partner, we say so early so your project stays safe and on schedule.
 
 Accent walls behind beds, dining banquettes, or office built-ins are especially popular after [custom carpentry](/services/custom-carpentry/) or molding installs. Tell us sheen preferences for kids' rooms, kitchens, and baths so the finish matches daily use, not just the sample chip under showroom lights.
 We can often paint the same week as drywall patches when schedules align, which keeps color blends consistent. Ask about combining scopes when you send your free estimate request.

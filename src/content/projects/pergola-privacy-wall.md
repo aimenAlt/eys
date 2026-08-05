@@ -14,7 +14,25 @@ scope:
   - "Heavy timber pergola framing"
   - "Privacy-slat wall construction"
   - "Patio attachment and alignment"
+problem: "An existing concrete patio needed a dark-stained wood pergola with integrated privacy screening that feels anchored to the house, not freestanding in the yard."
+exclusions:
+  - "Full screen-room or enclosed patio build"
+materials:
+  - "Outdoor-ready wood with dark stain"
+  - "Exterior-grade connections and fasteners"
+constraints:
+  - "Post locations, beam heights, and privacy wall tie-in must stay square on the concrete slab"
+  - "Vertical slats spaced for screening while allowing airflow"
+  - "Patio attachment must keep the structure aligned along the slab"
+processSteps:
+  - "Layout post locations, beam heights, and privacy wall integration"
+  - "Square the footprint on the concrete and set posts plumb"
+  - "Build the beam and rafter package with consistent spans"
+  - "Construct the vertical slat privacy wall"
+result: "A pergola and privacy wall framed over the patio for shaded seating and a more private outdoor edge without a full screen room."
 serviceUrl: "/services/general-handyman-services/"
+locationUrl: "/service-areas/west-houston/"
+city: "West Houston"
 leadImage: "/images/projects/pergola-privacy-wall/eys-exterior-repair-wood-pergola-privacy-wall-during-p019-01.jpg"
 leadAlt: "Dark-stained wood pergola under construction on a concrete patio with an orange ladder."
 images:

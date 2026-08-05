@@ -6,6 +6,7 @@ import CTASection from '../../components/home/CTASection.astro';
 import BeforeAfter from '../../components/projects/BeforeAfter.astro';
 import ProjectCard from '../../components/projects/ProjectCard.astro';
 import ProjectCTA from '../../components/projects/ProjectCTA.astro';
+import SiteImage from '../../components/ui/SiteImage.astro';
 import { absoluteUrl, site } from '../../data/business';
 import { breadcrumbList, webPage } from '../../data/schema';
 import { projectCategoryLabel } from '../../data/projectCategories';
@@ -29,7 +30,7 @@ const { entry } = Astro.props;
 const { data } = entry;
 const { Content } = await render(entry);
 const all = await getLiveProjects();
-const related = relatedProjects(entry, all, 3);
+const related = relatedProjects(entry, all, 2);
 
 const categoryLabel = projectCategoryLabel(data.category);
 const location = projectLocationLabel(data);
@@ -49,6 +50,13 @@ const crumbs = [
 const schemaGraph = [webPage(title, canonical, description), breadcrumbList(crumbs)];
 
 const supporting = data.images.filter((img) => img.src !== data.leadImage);
+const hasWorksheet =
+  Boolean(data.problem) ||
+  Boolean(data.constraints?.length) ||
+  Boolean(data.materials?.length) ||
+  Boolean(data.exclusions?.length) ||
+  Boolean(data.processSteps?.length) ||
+  Boolean(data.result);
 ---
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
@@ -71,7 +79,15 @@ const supporting = data.images.filter((img) => img.src !== data.leadImage);
         </h1>
         {
           location && (
-            <p class="text-lg text-gray-600 mb-4">{location}</p>
+            <p class="text-lg text-gray-600 mb-4">
+              {data.locationUrl ? (
+                <a href={data.locationUrl} class="text-brand-red font-bold hover:underline">
+                  Handyman projects in {location}
+                </a>
+              ) : (
+                location
+              )}
+            </p>
           )
         }
         <p class="text-lg text-gray-600 max-w-3xl leading-relaxed">{data.summary}</p>
@@ -81,13 +97,14 @@ const supporting = data.images.filter((img) => img.src !== data.leadImage);
     <section class="py-10 md:py-14 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <figure class="m-0 overflow-hidden rounded-2xl ring-1 ring-brand-line shadow-card bg-gray-100">
-          <img
+          <SiteImage
             src={imageOrPlaceholder(data.leadImage)}
             alt={data.leadAlt}
-            width="1200"
-            height="900"
+            width={1200}
+            height={900}
+            loading="eager"
             fetchpriority="high"
-            decoding="async"
+            sizes="(max-width: 1280px) 100vw, 1200px"
             class="w-full aspect-[4/3] object-cover"
           />
         </figure>
@@ -121,13 +138,13 @@ const supporting = data.images.filter((img) => img.src !== data.leadImage);
               {supporting.map((img) => (
                 <li>
                   <figure class="m-0 overflow-hidden rounded-xl ring-1 ring-brand-line shadow-card bg-gray-100">
-                    <img
+                    <SiteImage
                       src={imageOrPlaceholder(img.src)}
                       alt={img.alt}
-                      width="800"
-                      height="600"
+                      width={800}
+                      height={600}
                       loading="lazy"
-                      decoding="async"
+                      sizes="(max-width: 640px) 100vw, 50vw"
                       class="w-full aspect-[4/3] object-cover"
                     />
                     {(img.caption || img.stage) && (
@@ -148,7 +165,97 @@ const supporting = data.images.filter((img) => img.src !== data.leadImage);
     }
 
     {
-      data.scope && data.scope.length > 0 && (
+      hasWorksheet && (
+        <section class="py-12 bg-brand-lightbg border-y border-brand-line" aria-labelledby="project-worksheet-heading">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 id="project-worksheet-heading" class="text-2xl font-bold text-brand-black mb-8">
+              Project Record
+            </h2>
+            <div class="grid gap-8 md:grid-cols-2 max-w-5xl">
+              {
+                data.problem && (
+                  <div>
+                    <h3 class="text-sm font-bold uppercase tracking-widest text-brand-red mb-2">Problem</h3>
+                    <p class="text-gray-700 leading-relaxed m-0">{data.problem}</p>
+                  </div>
+                )
+              }
+              {
+                data.result && (
+                  <div>
+                    <h3 class="text-sm font-bold uppercase tracking-widest text-brand-red mb-2">Result</h3>
+                    <p class="text-gray-700 leading-relaxed m-0">{data.result}</p>
+                  </div>
+                )
+              }
+              {
+                data.scope && data.scope.length > 0 && (
+                  <div>
+                    <h3 class="text-sm font-bold uppercase tracking-widest text-brand-red mb-2">Scope</h3>
+                    <ul class="list-disc pl-5 space-y-1 text-gray-700 m-0">
+                      {data.scope.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )
+              }
+              {
+                data.exclusions && data.exclusions.length > 0 && (
+                  <div>
+                    <h3 class="text-sm font-bold uppercase tracking-widest text-brand-red mb-2">Exclusions</h3>
+                    <ul class="list-disc pl-5 space-y-1 text-gray-700 m-0">
+                      {data.exclusions.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )
+              }
+              {
+                data.materials && data.materials.length > 0 && (
+                  <div>
+                    <h3 class="text-sm font-bold uppercase tracking-widest text-brand-red mb-2">Materials</h3>
+                    <ul class="list-disc pl-5 space-y-1 text-gray-700 m-0">
+                      {data.materials.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )
+              }
+              {
+                data.constraints && data.constraints.length > 0 && (
+                  <div>
+                    <h3 class="text-sm font-bold uppercase tracking-widest text-brand-red mb-2">Constraints</h3>
+                    <ul class="list-disc pl-5 space-y-1 text-gray-700 m-0">
+                      {data.constraints.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )
+              }
+              {
+                data.processSteps && data.processSteps.length > 0 && (
+                  <div class="md:col-span-2">
+                    <h3 class="text-sm font-bold uppercase tracking-widest text-brand-red mb-2">Process</h3>
+                    <ol class="list-decimal pl-5 space-y-1 text-gray-700 m-0">
+                      {data.processSteps.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ol>
+                  </div>
+                )
+              }
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      !hasWorksheet && data.scope && data.scope.length > 0 && (
         <section class="py-12 bg-brand-lightbg border-y border-brand-line" aria-labelledby="project-scope-heading">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 id="project-scope-heading" class="text-2xl font-bold text-brand-black mb-4">
@@ -184,7 +291,17 @@ const supporting = data.images.filter((img) => img.src !== data.leadImage);
                 href={data.serviceUrl}
                 class="inline-flex items-center justify-center border-2 border-brand-black px-6 py-3 rounded-md font-bold min-h-11 hover:bg-brand-black hover:text-white transition-colors"
               >
-                Related: {categoryLabel} services
+                Related service
+              </a>
+            )
+          }
+          {
+            data.locationUrl && (
+              <a
+                href={data.locationUrl}
+                class="inline-flex items-center justify-center border-2 border-brand-black px-6 py-3 rounded-md font-bold min-h-11 hover:bg-brand-black hover:text-white transition-colors"
+              >
+                Service area
               </a>
             )
           }
@@ -196,7 +313,7 @@ const supporting = data.images.filter((img) => img.src !== data.leadImage);
           </a>
         </div>
         <ProjectCTA
-          heading="Need something like this?"
+          heading="Discuss a Similar Project"
           body="Request an estimate with a few photos of your project and we will follow up about next steps."
           ctaLocation="project-detail"
         />

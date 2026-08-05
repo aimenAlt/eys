@@ -12,6 +12,11 @@ export default defineConfig({
   site: githubPages ? 'https://aimenalt.github.io' : 'https://www.eyshandyman.com',
   base: githubPages ? '/eys/' : '/',
   trailingSlash: 'always',
+  image: {
+    // Used when images are imported from src/ via astro:assets.
+    // Public-folder photos use SiteImage.astro for dimensions/loading contract.
+    layout: 'constrained',
+  },
   build: {
     // Avoid render-blocking /_astro/*.css requests (Lighthouse critical path).
     inlineStylesheets: 'always',

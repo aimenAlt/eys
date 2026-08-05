@@ -62,7 +62,7 @@ Furniture assembly lives under [installation and assembly](/services/installatio
 
 ## Why homeowners choose Elevate Your Space
 
-We are a veteran-owned handyman team based in the Katy and West Houston market. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task needs a licensed trade partner, we say so early so your project stays safe and on schedule.
+We are a veteran-owned, owner-led handyman service based in the Katy and West Houston market. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task needs a licensed trade partner, we say so early so your project stays safe and on schedule.
 
 Large patio sectionals and multi-box bedroom sets take longer than a single desk — we plan time blocks accordingly so hardware is fully seated and pieces do not rack or wobble. If you already have a Handyman To-Do List Visit booked, mention assembly items so we can advise whether they fit the reserved window.
 Wall-anchoring tall units is part of a safe assembly when kids or pets share the room. Mention flooring type (carpet, LVP, tile) so we protect surfaces while tipping pieces into place.
