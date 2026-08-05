@@ -27,7 +27,7 @@ faqs:
     answer: "Both. Many Richmond homeowners start with a primary bedroom, office, or accent wall before expanding to additional rooms."
   - question: "Can you repair drywall before painting?"
     answer: "Yes. Drywall patch and paint touch-ups are commonly bundled in Richmond punch-list visits."
-published: true
+published: false
 ---
 
 ## Interior painting in Richmond TX

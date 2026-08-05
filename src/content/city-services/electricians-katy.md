@@ -30,7 +30,7 @@ relatedCommunitySlugs:
 faqs:
   - question: "Do you install ceiling fans in Katy homes with pre-wires?"
     answer: "Yes. Ceiling fan installation on existing or builder pre-wires is one of our most common Katy requests."
-published: true
+published: false
 ---
 
 ## Electrical upgrades Katy homeowners request most

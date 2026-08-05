@@ -23,7 +23,7 @@ relatedCommunitySlugs:
 faqs:
   - question: "Can you install kitchen backsplash in Katy homes?"
     answer: "Yes. Backsplash installation is a common Katy kitchen upgrade — especially in homes with dated 1990s and 2000s finishes."
-published: true
+published: false
 ---
 
 ## Kitchen updates for maturing Katy homes

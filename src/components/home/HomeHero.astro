@@ -1,10 +1,17 @@
 ---
 import JobberEmbedWrapper from '../booking/JobberEmbedWrapper.astro';
-import { jobberRequestFormUrl, site } from '../../data/business';
+import {
+  jobberHandymanToDoListFormUrl,
+  jobberProjectEstimateFormUrl,
+  jobberRequestFormUrl,
+} from '../../data/business';
 import { homeImageAlts, homeImages, imageOrPlaceholder } from '../../data/images';
+import { smallRepairVisitMeta } from '../../data/smallRepairVisitContent';
 
 const requestFormUrl = jobberRequestFormUrl();
 const heroSrc = imageOrPlaceholder(homeImages.hero);
+const toDoListUrl = jobberHandymanToDoListFormUrl() ?? smallRepairVisitMeta.path;
+const customProjectUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
 ---
 
 <section class="relative overflow-hidden bg-brand-black min-h-[min(92vh,880px)]">
@@ -38,23 +45,41 @@ const heroSrc = imageOrPlaceholder(homeImages.hero);
         <h1
           class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight mb-6 [text-shadow:0_2px_24px_rgba(0,0,0,0.55)]"
         >
-          Veteran-Owned Handyman for Katy &amp; West Houston
+          Handyman Services for Katy &amp; West Houston
         </h1>
         <p
           class="text-lg text-white/95 mb-8 leading-relaxed max-w-2xl [text-shadow:0_1px_12px_rgba(0,0,0,0.5)]"
         >
-          Looking for a dependable handyman near you? Elevate Your Space handles TV mounting, ceiling
-          fans, trim work, punch-list repairs, and move-in upgrades across Katy and West Houston —
-          with clear free estimates and clean execution.
+          Send us one project list. Elevate Your Space handles everyday repairs, precise installations,
+          finish carpentry, room upgrades, and larger custom projects with clear expectations, careful
+          protection of your home, dependable communication, and clean completion.
         </p>
-        <div class="mb-10">
+        <div class="flex flex-col sm:flex-row flex-wrap gap-3 mb-4">
           <a
-            href={`tel:${site.phoneTel}`}
-            class="inline-flex w-full sm:w-auto justify-center items-center bg-white text-brand-black border-2 border-white px-8 py-4 rounded-md font-bold text-center hover:bg-brand-red hover:border-brand-red hover:text-white transition-all"
+            href="#estimate"
+            class="inline-flex w-full sm:w-auto justify-center items-center bg-white text-brand-black border-2 border-white px-6 py-3.5 rounded-md font-bold text-center hover:bg-brand-red hover:border-brand-red hover:text-white transition-all"
           >
-            Call {site.phone}
+            Request a Free Photo Estimate
+          </a>
+          <a
+            href={toDoListUrl}
+            target={toDoListUrl.startsWith('http') ? '_blank' : undefined}
+            rel={toDoListUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
+            class="inline-flex w-full sm:w-auto justify-center items-center bg-transparent text-white border-2 border-white/80 px-6 py-3.5 rounded-md font-bold text-center hover:bg-white hover:text-brand-black transition-all"
+          >
+            Book a Handyman To-Do List Visit
           </a>
         </div>
+        <p class="mb-10">
+          <a
+            href={customProjectUrl}
+            target={customProjectUrl.startsWith('http') ? '_blank' : undefined}
+            rel={customProjectUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
+            class="text-white/90 font-semibold underline underline-offset-2 hover:text-white transition-colors [text-shadow:0_1px_8px_rgba(0,0,0,0.45)]"
+          >
+            Discuss Your Custom Project
+          </a>
+        </p>
         <div
           class="flex flex-wrap items-center gap-4 text-sm font-medium text-white/90 [text-shadow:0_1px_8px_rgba(0,0,0,0.45)]"
         >
@@ -75,7 +100,7 @@ const heroSrc = imageOrPlaceholder(homeImages.hero);
                 d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                 clip-rule="evenodd"></path></svg
             >
-            White-Glove Cleanup
+            Clear Service Paths
           </span>
           <span class="hidden sm:inline text-white/40">•</span>
           <a
@@ -88,7 +113,7 @@ const heroSrc = imageOrPlaceholder(homeImages.hero);
                 d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
                 clip-rule="evenodd"></path></svg
             >
-            12+ Communities Served
+            Katy &amp; West Houston
           </a>
         </div>
       </div>

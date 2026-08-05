@@ -2,9 +2,9 @@
 title: "Custom Carpentry"
 slug: "custom-carpentry"
 published: true
-seoTitle: "Custom Carpentry in Katy & West Houston | Elevate Your Space"
-metaDescription: "Custom carpentry in Katy and West Houston. Built-ins, accent walls, shelving, trim upgrades, and detail woodwork."
-heroTitle: "Custom Carpentry & Finish Woodwork"
+seoTitle: "Custom Carpentry, Built-Ins & Accent Walls | Katy"
+metaDescription: "Explore built-ins, shelving, trim, wall paneling, accent walls and custom finish carpentry for Katy and West Houston homes."
+heroTitle: "Custom Carpentry and Built-In Features"
 summary: "Custom woodwork, accent walls, shelving, built-ins, trim upgrades, and detail work that gives the home character."
 heroImage: "/images/services/custom-carpentry.jpg"
 heroImageAlt: "Floor-to-ceiling navy custom built-in office shelving and cabinets"

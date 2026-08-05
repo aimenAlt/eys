@@ -47,7 +47,7 @@ const simpleNavItems = mainNav.filter(
                 <div class="hidden md:flex items-center bg-brand-red/10 px-4 py-2 rounded-md border border-brand-red/20">
                     <div class="flex flex-col items-end">
                         <span class="text-xs text-brand-redondark font-bold uppercase tracking-wider">Need Help?</span>
-                        <a href={`tel:${site.phoneTel}`} class="font-bold text-lg hover:text-brand-red transition-colors">{site.phone}</a>
+                        <a href={`tel:${site.phoneTel}`} data-cta-location="header" class="font-bold text-lg hover:text-brand-red transition-colors">{site.phone}</a>
                     </div>
                 </div>
 
@@ -99,7 +99,7 @@ const simpleNavItems = mainNav.filter(
             <NavLink href="/pricing/" label="Pricing" class={mobileLinkClass} closeMobileMenu />
             <NavLink href="/reviews/" label="Reviews" class={mobileLinkClass} closeMobileMenu />
             <NavLink href="/blog/" label="Blog" class={mobileLinkClass} closeMobileMenu />
-            <a href={`tel:${site.phoneTel}`} class="block px-3 py-3 mt-4 bg-brand-red text-white text-center rounded-md font-bold text-lg">Call: {site.phone}</a>
+            <a href={`tel:${site.phoneTel}`} data-cta-location="header_mobile" class="block px-3 py-3 mt-4 bg-brand-red text-white text-center rounded-md font-bold text-lg">Call: {site.phone}</a>
         </nav>
     </div>
 

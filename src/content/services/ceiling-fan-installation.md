@@ -2,43 +2,44 @@
 title: "Ceiling Fan Installation"
 slug: "ceiling-fan-installation"
 published: true
-seoTitle: "Ceiling Fan Installation | Katy & West Houston | EYS"
-metaDescription: "Ceiling fan installation in Katy and West Houston. Pre-wired rooms, patio fans, and fixture swaps done safely and cleanly."
-heroTitle: "Ceiling Fan Installation in Katy & West Houston"
-summary: "Safe, clean ceiling fan installation for bedrooms, living rooms, patios, and builder pre-wired boxes."
+seoTitle: "Ceiling Fan Installation | Katy & West Houston"
+metaDescription: "Request ceiling-fan replacement or installation where an appropriate existing box and wiring are confirmed. Additional electrical work is referred or coordinated where required."
+heroTitle: "Ceiling Fan Installation"
+summary: "Ceiling fan installation on confirmed existing boxes and builder pre-wires, with clear scope limits and referral when additional electrical work is required."
 heroImage: "/images/services/ceiling-fan.jpg"
 heroImageAlt: "Ceiling fan and chandelier installed on a high vaulted living-room ceiling"
 bookingType: "quote-request"
 primaryCTA: "Request Fan Installation Quote"
 secondaryCTA: "Call Us"
 includedServices:
-  - "Installation on pre-wired ceiling boxes"
-  - "Outdoor-rated patio fan mounting"
+  - "Installation on confirmed existing ceiling boxes and builder pre-wires"
+  - "Outdoor-rated patio fan mounting on appropriate existing boxes"
   - "Balance check and wobble correction"
-  - "Remote and wall control setup"
-  - "Old fixture removal when applicable"
+  - "Remote and wall control setup when wiring supports it"
+  - "Old fixture removal when an existing box is present"
 priceFactors:
   - "Number of fans"
   - "Ceiling height"
   - "Indoor vs outdoor-rated fans"
-  - "Electrical box condition"
+  - "Existing box and wiring condition"
 process:
-  - "Share room photos and fan model details"
+  - "Share room photos, fan model details, and ceiling-box photos"
+  - "Confirm scope against existing box and wiring conditions"
   - "Get a transparent estimate"
-  - "Schedule installation"
+  - "Schedule installation when scope is approved"
   - "Install, test, and clean up"
 faqs:
   - question: "Can you install fans on builder pre-wires?"
-    answer: "Yes. We frequently install fans on pre-wired caps left by builders in new construction throughout Katy-area communities."
+    answer: "Yes, when the builder left a confirmed pre-wired cap or existing box rated for a fan. We verify box support and wiring conditions before installation."
   - question: "Do you install outdoor patio fans?"
-    answer: "Absolutely. We mount outdoor-rated fans on covered patios and porches."
+    answer: "Yes, on covered patios and porches when an appropriate existing box and outdoor-rated fan are confirmed."
   - question: "What if new wiring is needed?"
-    answer: "We can help coordinate licensed electrical support when the project requires it."
+    answer: "New circuits, box upgrades, and other regulated electrical work must be handled by an appropriately qualified professional. EYS can help identify when that scope applies."
   - question: "Do you offer free estimates for ceiling fan installation?"
-    answer: "Yes. Share ceiling photos and fan details for a free estimate covering count, height, and box condition."
+    answer: "Yes. Share ceiling and box photos plus fan details for a free estimate covering count, height, and existing conditions."
 ---
 
-Ceiling fans are essential in Gulf Coast homes — bedrooms, living rooms, covered patios, and front porches all benefit from good airflow. Elevate Your Space installs ceiling fans across Katy and West Houston with secure mounting, balanced blades, and careful cleanup. If you have been looking for a handyman near you to finish builder pre-wires or replace a dated fixture without leaving a mess, this service is built for everyday comfort upgrades done right.
+Ceiling fans are essential in Gulf Coast homes — bedrooms, living rooms, covered patios, and front porches all benefit from good airflow. Elevate Your Space installs ceiling fans across Katy and West Houston when an appropriate existing box and wiring are confirmed. This service covers builder pre-wires, fixture swaps on existing boxes, and secure mounting — not new circuits or panel work.
 
 ## Who this is for
 
@@ -51,18 +52,18 @@ West Houston summers make airflow a quality-of-life issue, not a luxury. Whether
 
 ## What a proper fan install includes
 
-We confirm box support, mount securely, balance the fan, and leave the switch, remote, or pull chains working as designed. Outdoor-rated fans for porches and patios are a frequent request — we verify the fan is rated for the location before we hang it. Old fixture removal, canopy cleanup, and a tidy work area are part of the visit, not an afterthought. Multi-fan installs across bedrooms and living areas are common; we scope each location so ceiling height, box type, and control style are clear before we arrive.
+We confirm box support and existing wiring conditions before we mount. Secure installation, balanced blades, and working switch, remote, or pull chains are part of every approved visit. Outdoor-rated fans for porches and patios require a confirmed existing box and a fan rated for the location. Old fixture removal, canopy cleanup, and a tidy work area are included when an existing box is present. Multi-fan installs across bedrooms and living areas are common; we scope each location so ceiling height, box type, and control style are clear before we arrive.
 
-When a location needs a new circuit, a fan-rated box upgrade, or complex wiring beyond handyman scope, we help coordinate licensed electrical support rather than improvising. Honest scoping protects your home and keeps the free estimate accurate. If you already purchased fans, share model numbers and photos of the ceiling boxes so we can confirm compatibility ahead of the appointment.
+When a location needs a new circuit, a fan-rated box upgrade, or wiring beyond handyman scope, that work must be identified and handled by an appropriately qualified professional — we do not perform regulated electrical contracting. Honest scoping protects your home and keeps the free estimate accurate. If you already purchased fans, share model numbers and photos of the ceiling boxes so we can confirm compatibility ahead of the appointment.
 
 ## Local context across our service areas
 
-Fulshear’s new-build boom means many homes arrive with pre-wired caps waiting for fans. [Bridgeland](/service-areas/cypress/bridgeland-handyman/) and [Cane Island](/service-areas/katy/cane-island-handyman/) projects often involve higher ceilings and heavier fixtures that demand extra care and the right ladders and mounting approach. Pairing fans with [electrical services](/services/electrical-services/) fixture swaps in one visit is common, especially after closing when multiple rooms still need finishing touches. In established Cinco Ranch homes, fan replacements often go hand-in-hand with updating dated canopies and wall controls for a cleaner look.
+Fulshear’s new-build boom means many homes arrive with pre-wired caps waiting for fans. [Bridgeland](/service-areas/cypress/bridgeland-handyman/) and [Cane Island](/service-areas/katy/cane-island-handyman/) projects often involve higher ceilings and heavier fixtures that demand extra care and the right ladders and mounting approach. Pairing fans with [fixture and fan installation](/services/electrical-services/) in one visit is common, especially after closing when multiple rooms still need finishing touches. In established Cinco Ranch homes, fan replacements often go hand-in-hand with updating dated canopies and wall controls for a cleaner look.
 
 ## Free estimate and related links
 
-Send photos of the ceiling location, the fan model if purchased, and note whether a pre-wire exists. We return a free estimate based on count, ceiling height, indoor vs outdoor rating, and box condition. Browse [installation and assembly](/services/installation-and-assembly/), or start from [Fulshear](/service-areas/fulshear/) and [Katy](/service-areas/katy/). Many homeowners also pair fans with [curtain installation](/services/curtain-installation/) or [TV mounting](/services/tv-mounting/) during move-in week.
+Send photos of the ceiling location, the existing box or pre-wire, the fan model if purchased, and note whether builder wiring is present. We return a free estimate based on count, ceiling height, indoor vs outdoor rating, and box condition. Browse [installation and assembly](/services/installation-and-assembly/), or start from [Fulshear](/service-areas/fulshear/) and [Katy](/service-areas/katy/). Many homeowners also pair fans with [curtain installation](/services/curtain-installation/) or [TV mounting](/services/tv-mounting/) during move-in week.
 
 ## Ready for a free estimate?
 
-Looking for ceiling fan installation near you in Katy or West Houston? Share room photos and fan details through our contact form. We reply with a clear free estimate, explain what we can complete in one visit, and flag anything that needs a licensed electrician.
+Share room photos, ceiling-box photos, and fan details through our contact form. We reply with a clear free estimate, explain what we can complete in one visit on confirmed existing boxes, and flag anything that requires an appropriately qualified electrical professional.

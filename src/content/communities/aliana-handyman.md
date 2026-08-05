@@ -2,7 +2,7 @@
 title: "Aliana"
 slug: "aliana-handyman"
 citySlug: "richmond"
-published: true
+published: false
 seoTitle: "Expert Handyman Services in Aliana, Richmond | EYS"
 metaDescription: "Elevate Your Space provides premium handyman services, TV mounting, and home upgrades for Aliana residents in Richmond, TX. Request an estimate!"
 heroTitle: "Premium Handyman Services for Aliana Homeowners"

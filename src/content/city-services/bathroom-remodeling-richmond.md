@@ -22,7 +22,7 @@ relatedCommunitySlugs:
 faqs:
   - question: "Can you install a new vanity in my Richmond bathroom?"
     answer: "Yes. Vanity installation, faucet swaps, mirror mounting, and hardware updates are common Richmond bathroom projects."
-published: true
+published: false
 ---
 
 ## Bathroom remodeling in Richmond and Fort Bend

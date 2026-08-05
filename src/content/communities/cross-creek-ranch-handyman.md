@@ -2,7 +2,7 @@
 title: "Cross Creek Ranch"
 slug: "cross-creek-ranch-handyman"
 citySlug: "fulshear"
-published: true
+published: false
 seoTitle: "Premium Handyman in Cross Creek Ranch | Elevate Your Space"
 metaDescription: "Elevate Your Space provides premium carpentry, garage storage, and home upgrades for Cross Creek Ranch in Fulshear, TX. Request an estimate!"
 heroTitle: "Premium Handyman & Home Upgrades for Cross Creek Ranch"

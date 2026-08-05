@@ -2,11 +2,11 @@
 title: "Cane Island"
 slug: "cane-island-handyman"
 citySlug: "katy"
-published: true
+published: false
 seoTitle: "Luxury Handyman & Carpentry in Cane Island | Elevate Your Space"
-metaDescription: "Elevate Your Space provides white-glove handyman services, custom carpentry, and premium home upgrades for Cane Island in Katy, TX. Request an estimate!"
+metaDescription: "Elevate Your Space provides handyman services, custom carpentry, and home upgrades for Cane Island in Katy, TX. Request an estimate!"
 heroTitle: "Luxury Handyman & Home Upgrades for Cane Island"
-summary: "Elevate Your Space provides white-glove home improvement, custom carpentry, and meticulous installations specifically tailored to the luxury estates of Cane Island."
+summary: "Elevate Your Space provides home improvement, custom carpentry, and careful installations specifically tailored to the luxury estates of Cane Island."
 promoCode: "CANE25"
 promoOffer: "$25 off projects over $250"
 localIntro: "Cane Island is famously \"delightfully different,\" offering a resort-style luxury lifestyle set among 75-year-old oak trees just minutes from I-10. With high-end semi-custom builds and sprawling custom estates featuring premium finishes and tall ceilings, basic handyman services will not suffice. EYS brings the precision, professionalism, and high-end craftsmanship required to enhance your luxury property seamlessly and safely."
@@ -31,7 +31,7 @@ commonProjects:
   - name: "Garage Storage"
     description: "commercial-grade ceiling racks for immaculate luxury garages"
   - name: "Furniture Assembly"
-    description: "white-glove assembly of high-end designer furniture"
+    description: "careful assembly of high-end designer furniture"
   - name: "Move-In Upgrades"
     description: "final details of new custom or semi-custom builds"
   - name: "Outdoor/Patio Improvements"

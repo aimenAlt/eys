@@ -1,4 +1,4 @@
-import { absoluteUrl, business, googleReviews, site } from './business';
+import { absoluteUrl, business, site } from './business';
 
 export type BreadcrumbItem = {
   name: string;
@@ -13,7 +13,7 @@ export type FaqItem = {
 const BUSINESS_ID = `${site.url}/#business`;
 
 export function canonicalBusinessNode() {
-  return {
+  const node: Record<string, unknown> = {
     '@type': 'HomeAndConstructionBusiness',
     '@id': BUSINESS_ID,
     name: site.name,
@@ -22,25 +22,38 @@ export function canonicalBusinessNode() {
     telephone: site.phone,
     email: site.email,
     priceRange: '$$',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: business.address.street,
-      addressLocality: business.address.city,
-      addressRegion: business.address.state,
-      postalCode: business.address.zip,
-      addressCountry: business.address.country,
-    },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: business.geo.latitude,
-      longitude: business.geo.longitude,
-    },
     areaServed: business.areaServed.map((city) => ({
       '@type': 'City',
       name: city,
     })),
     ...(business.sameAs.length > 0 ? { sameAs: business.sameAs } : {}),
   };
+
+  // Service-area business: omit street address + geo unless explicitly published.
+  if (business.publishAddress) {
+    node.address = {
+      '@type': 'PostalAddress',
+      streetAddress: business.address.street,
+      addressLocality: business.address.city,
+      addressRegion: business.address.state,
+      postalCode: business.address.zip,
+      addressCountry: business.address.country,
+    };
+    node.geo = {
+      '@type': 'GeoCoordinates',
+      latitude: business.geo.latitude,
+      longitude: business.geo.longitude,
+    };
+  } else {
+    node.address = {
+      '@type': 'PostalAddress',
+      addressLocality: business.address.city,
+      addressRegion: business.address.state,
+      addressCountry: business.address.country,
+    };
+  }
+
+  return node;
 }
 
 export function breadcrumbList(items: BreadcrumbItem[]) {
@@ -155,7 +168,7 @@ export const homeFaqs: FaqItem[] = [
   {
     question: 'What areas do you serve?',
     answer:
-      'We serve Katy, Cypress, Fulshear, Richmond, West Houston, and 12 master-planned communities including Cinco Ranch, Bridgeland, Sunterra, and Cross Creek Ranch. Looking for a handyman near you in West Houston? Start with your city page or send us your address for confirmation.',
+      'We serve Katy, Cypress, Fulshear, Richmond, and West Houston. Send your address for confirmation before scheduling — coverage depends on location and project scope.',
   },
   {
     question: 'Do you offer free estimates?',
@@ -178,18 +191,6 @@ export const homeFaqs: FaqItem[] = [
       'EYS was founded by Eyad Essa (many neighbors know him as Essa), a veteran whose construction experience began during U.S. military service. The company is built on preparation, accountability, and finishing the job correctly.',
   },
 ];
-
-export function aggregateRatingFromGoogle(): {
-  '@type': 'AggregateRating';
-  ratingValue: string;
-  reviewCount: string;
-} {
-  return {
-    '@type': 'AggregateRating',
-    ratingValue: String(googleReviews.rating),
-    reviewCount: String(googleReviews.count),
-  };
-}
 
 export function aggregateRatingFromReviews(
   reviews: { rating: number }[],
@@ -269,34 +270,17 @@ export function reviewSchema(review: {
   };
 }
 
-export function homePageSchema(
-  faqs: FaqItem[] = homeFaqs,
-  _reviews: { rating: number }[] = [],
-) {
-  const businessNode: Record<string, unknown> = { ...canonicalBusinessNode() };
-  businessNode.aggregateRating = aggregateRatingFromGoogle();
-
-  const graph = [businessNode, faqPage(faqs)].filter(Boolean);
-
-  return graph;
+export function homePageSchema(faqs: FaqItem[] = homeFaqs) {
+  return [canonicalBusinessNode(), faqPage(faqs)].filter(Boolean);
 }
 
-export function reviewsPageSchema(
-  pageUrl: string,
-  description: string,
-  reviews: { author: string; rating: number; text: string; date: Date }[] = [],
-) {
-  const businessNode: Record<string, unknown> = { ...canonicalBusinessNode() };
-  businessNode.aggregateRating = aggregateRatingFromGoogle();
-
+export function reviewsPageSchema(pageUrl: string, description: string) {
   return [
     webPage('Customer Reviews', pageUrl, description),
     breadcrumbList([
       { name: 'Home', url: absoluteUrl('/') },
       { name: 'Reviews', url: pageUrl },
     ]),
-    businessNode,
-    ...reviews.map((review) => reviewSchema(review)),
   ];
 }
 

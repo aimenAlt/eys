@@ -23,7 +23,7 @@ relatedCommunitySlugs:
 faqs:
   - question: "Do you replace bathroom vanities in Katy?"
     answer: "Yes. Vanity installation, mirror mounting, and faucet upgrades are standard Katy bathroom projects."
-published: true
+published: false
 ---
 
 ## Bathroom upgrades for Katy's established homes

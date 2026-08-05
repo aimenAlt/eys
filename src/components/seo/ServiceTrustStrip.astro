@@ -9,9 +9,9 @@ interface Props {
 const { locationName } = Astro.props;
 const gbpUrl = googleReviewProfileUrl();
 const ratingLabel = googleReviews.rating.toFixed(1);
-const reviewLabel = `${googleReviews.count}+`;
+const reviewLabel = `${googleReviews.count}`;
 const proofLine = locationName
-  ? `Trusted by ${locationName} homeowners — ${ratingLabel} on Google`
+  ? `${ratingLabel} ★ from ${reviewLabel} Google reviews — serving ${locationName}`
   : `${ratingLabel} ★ · ${reviewLabel} Google reviews`;
 ---
 
@@ -25,7 +25,14 @@ const proofLine = locationName
     </svg>
     {
       gbpUrl ? (
-        <a href={gbpUrl} target="_blank" rel="noopener noreferrer" class="font-medium text-brand-red hover:underline">
+        <a
+          href={gbpUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-track-review
+          data-cta-location="service_trust_strip"
+          class="font-medium text-brand-red hover:underline"
+        >
           {proofLine}
         </a>
       ) : (

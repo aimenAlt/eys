@@ -12,18 +12,21 @@ const bookingForms = [
     description:
       'Book a handyman to work through multiple small repairs, installations, and maintenance tasks in one visit.',
     href: jobberHandymanToDoListFormUrl(),
+    bookingType: 'handyman_to_do_list',
   },
   {
     title: 'Project Estimate Request',
     description:
       'Tell us about your project and upload photos. We will review and prepare an itemized estimate.',
     href: jobberProjectEstimateFormUrl(),
+    bookingType: 'project_estimate',
   },
   {
     title: 'Tell Us About Your TV Mounting Project',
     description:
       'Answer a few questions and upload photos so we can verify pricing and bring the right materials.',
     href: jobberOnlineBookingUrl(),
+    bookingType: 'tv_mounting',
   },
 ].filter((form) => Boolean(form.href));
 ---
@@ -46,6 +49,8 @@ const bookingForms = [
             href={form.href}
             target="_blank"
             rel="noopener noreferrer"
+            data-booking-type={form.bookingType}
+            data-cta-location="booking_path_selector"
             class="block p-6 bg-brand-lightbg rounded-xl border border-gray-200 hover:border-brand-red/30 hover:shadow-md transition-all text-center"
           >
             <h2 class="text-xl font-bold text-brand-black mb-2">{form.title}</h2>

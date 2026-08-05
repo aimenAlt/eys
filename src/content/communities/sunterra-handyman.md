@@ -2,7 +2,7 @@
 title: "Sunterra"
 slug: "sunterra-handyman"
 citySlug: "katy"
-published: true
+published: false
 seoTitle: "Handyman for New Homes in Sunterra, Katy | Elevate Your Space"
 metaDescription: "Moving into Sunterra? Elevate Your Space offers premium TV mounting, ceiling fan installation, and move-in upgrades for Katy's newest resort community."
 heroTitle: "Premium Handyman & Move-In Services for Sunterra Homes"
@@ -12,7 +12,7 @@ summary: "Elevate Your Space helps you transform your brand-new Sunterra house i
 promoCode: "SUNTERRA25"
 promoOffer: "$25 off projects over $250"
 localIntro: "Sunterra is rapidly evolving into one of Katy's most exciting residential destinations, bringing a Crystal Lagoon and the Sol Club to the 77493 zip code. While your newly constructed home provides a beautiful blank canvas, making it truly yours requires critical finishing touches. From mounting heavy smart TVs and installing ceiling fans to setting up overhead garage storage, EYS specializes in post-closing upgrades with flawless precision."
-servicesIntro: "Because new homes lack the wear-and-tear of older properties, our operational focus in Sunterra is strictly on enhancement, organization, and custom styling. EYS provides the white-glove touch your new real estate investment demands."
+servicesIntro: "Because new homes lack the wear-and-tear of older properties, our operational focus in Sunterra is strictly on enhancement, organization, and custom styling. EYS protects new finishes with careful preparation and clean completion."
 commonProjects:
   - name: "TV Mounting"
     description: "perfect placement and secure mounting on fresh drywall or new fireplaces"
@@ -41,7 +41,7 @@ commonProjects:
 whyChoose: "Moving is stressful enough without assembling complex furniture or locating studs in brand-new walls. EYS brings a clean, highly organized, and professional approach. We wear shoe covers, protect your pristine new floors, and utilize dust-extraction tools to leave zero debris behind."
 goodFit: "Our specialty in Sunterra is the comprehensive \"Move-In Weekend Package.\" Send us your list — mounting TVs, assembling patio furniture, installing ceiling fans on builder pre-wires, hanging bedroom curtains — and our team executes every task seamlessly in a single visit."
 localLifestyle: "Life in Sunterra is designed to emulate a vacation. When you live near white sand beaches, a lazy river, and a tropical lagoon, your weekends should not be spent on Swedish furniture instructions or balancing on a ladder. Let EYS handle the technical home setup so you can grab your paddleboard and enjoy the Sol Club."
-process: "First, send photos and details via our online form. Second, EYS scopes the project and returns a clear, itemized estimate. Third, we schedule a visit aligned with your closing or move-in dates. Finally, we execute the work with white-glove care, ensuring your brand-new finishes remain pristine."
+process: "First, send photos and details via our online form. Second, EYS scopes the project and returns a clear, itemized estimate. Third, we schedule a visit aligned with your closing or move-in dates. Finally, we complete the work carefully so brand-new finishes stay protected."
 faqs:
   - question: "Can you install hardware on my brand-new builder cabinets without damaging them?"
     answer: "Absolutely. We use advanced precision jigs to ensure every knob and pull is perfectly aligned with zero splintering or damage to the veneer."

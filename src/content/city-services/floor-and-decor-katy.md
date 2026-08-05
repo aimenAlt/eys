@@ -22,7 +22,7 @@ relatedCommunitySlugs:
 faqs:
   - question: "Do you install baseboards and transition strips in Katy?"
     answer: "Yes. Trim and transition work is a common follow-up to flooring projects in Katy homes."
-published: true
+published: false
 ---
 
 ## Flooring and décor help for Katy homeowners

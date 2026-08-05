@@ -30,7 +30,7 @@ export const serviceCategories: ServiceCategory[] = [
       'Finished living room with custom drapes and chandelier after handyman installation work',
     seoTitle: 'Repairs & Maintenance | Katy & West Houston | Elevate Your Space',
     metaDescription:
-      'General handyman repairs, drywall repair, interior painting, and electrical services in Katy and West Houston.',
+      'General handyman repairs, drywall repair, interior painting, and fixture installation in Katy and West Houston.',
     ctaLabel: 'View Repair Services',
     items: [
       {
@@ -58,9 +58,9 @@ export const serviceCategories: ServiceCategory[] = [
         serviceSlug: 'painting',
       },
       {
-        title: 'Electrical Services',
+        title: 'Fixture & Fan Installation',
         description:
-          'Light electrical work including fixtures, outlets, switches, fans, and related repairs, with licensed support when required.',
+          'Ceiling-fan and light-fixture installation on confirmed existing boxes, with referral when regulated electrical work is required.',
         serviceSlug: 'electrical-services',
       },
     ],
@@ -72,7 +72,7 @@ export const serviceCategories: ServiceCategory[] = [
       'Precise installation work for doors, fixtures, furniture, cabinetry, and the details that make a home more usable.',
     heroImage: categoryHeroImages['installation-and-assembly'] ?? '/images/categories/repairs-installs.jpg',
     heroImageAlt:
-      'Living room drapes and chandelier installation completed by a handyman crew',
+      'Living room drapes and chandelier installation completed by Elevate Your Space Handyman',
     seoTitle: 'Installation & Assembly | Katy & West Houston | EYS',
     metaDescription:
       'Door installation, furniture assembly, TV mounting, ceiling fans, curtains, and cabinet installation in Katy and West Houston.',
@@ -118,33 +118,33 @@ export const serviceCategories: ServiceCategory[] = [
   },
   {
     slug: 'remodeling-and-upgrades',
-    title: 'Remodeling & Upgrades',
+    title: 'Home Upgrades & Custom Projects',
     summary:
-      'Home improvement and remodeling services that elevate comfort, function, appearance, and long-term value.',
+      'Finish carpentry, room upgrades, and custom home-improvement projects that elevate comfort, function, and appearance.',
     heroImage: categoryHeroImages['remodeling-and-upgrades'] ?? '/images/categories/remodeling.jpg',
     heroImageAlt:
       'Blue kitchen island and window-seat cabinetry remodel with open living space beyond',
-    seoTitle: 'Remodeling & Upgrades | Katy & West Houston | EYS',
+    seoTitle: 'Home Upgrades & Custom Projects | Katy & West Houston | EYS',
     metaDescription:
-      'Bathroom remodeling, kitchen remodeling, flooring upgrades, and custom carpentry in Katy and West Houston.',
-    ctaLabel: 'View Remodeling Services',
+      'Bathroom upgrades, kitchen upgrades, interior finish work, and custom carpentry in Katy and West Houston.',
+    ctaLabel: 'View Upgrade Services',
     items: [
       {
-        title: 'Bathroom Remodeling',
+        title: 'Bathroom Upgrades',
         description:
-          'Bathroom upgrades for improved function, comfort, layout, storage, and a clean finished appearance.',
+          'Vanity installs, fixture swaps, hardware updates, and finish improvements with clear scope limits.',
         serviceSlug: 'bathroom-remodeling',
       },
       {
-        title: 'Kitchen Remodeling',
+        title: 'Kitchen Upgrades',
         description:
-          'Kitchen improvements including cabinets, counters, fixtures, backsplashes, layout upgrades, and finish work.',
+          'Cabinet hardware, finish carpentry, fixture coordination, and punch-list improvements within handyman scope.',
         serviceSlug: 'kitchen-remodeling',
       },
       {
-        title: 'Flooring & Décor',
+        title: 'Interior Finish Work & Décor',
         description:
-          'Flooring, trim, wall accents, décor upgrades, and finish details that improve the look and feel of a space.',
+          'Trim, transitions, accent walls, décor mounting, and clearly scoped interior finish work.',
         serviceSlug: 'flooring-and-decor',
       },
       {

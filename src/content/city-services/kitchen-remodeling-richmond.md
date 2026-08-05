@@ -22,7 +22,7 @@ relatedCommunitySlugs:
 faqs:
   - question: "Do you handle full kitchen gut remodels in Richmond?"
     answer: "We focus on upgrades and punch-list remodeling — backsplash, fixtures, hardware, and detail work. Major structural remodels may require a general contractor; we can discuss scope on a call."
-published: true
+published: false
 ---
 
 ## Kitchen improvements across Richmond TX

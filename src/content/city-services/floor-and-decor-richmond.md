@@ -22,7 +22,7 @@ relatedCommunitySlugs:
 faqs:
   - question: "Do you install LVP or hardwood flooring in Richmond?"
     answer: "We handle trim, transitions, and finishing details around flooring projects. Full flooring installation scope depends on the product — contact us with your material and square footage."
-published: true
+published: false
 ---
 
 ## Flooring and décor installs in Richmond

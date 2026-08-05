@@ -23,7 +23,7 @@ relatedCommunitySlugs:
 faqs:
   - question: "Can you fix doors that stick or do not latch in Katy homes?"
     answer: "Yes. Hinge adjustment, strike plate alignment, and hardware upgrades are frequent Katy door repairs."
-published: true
+published: false
 ---
 
 ## Door repair and installation in Katy

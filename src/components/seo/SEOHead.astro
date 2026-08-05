@@ -27,7 +27,12 @@ const {
 // Preview deploys (GitHub Pages base path, or PUBLIC_DEPLOY_ENV=preview) stay out of search indexes.
 const isGithubPagesPreview = (import.meta.env.BASE_URL || '/') !== '/';
 const isCloudflarePreview = import.meta.env.PUBLIC_DEPLOY_ENV === 'preview';
-const robotsNoindex = noindex || isGithubPagesPreview || isCloudflarePreview;
+const isPreview = isGithubPagesPreview || isCloudflarePreview;
+const robotsContent = noindex
+  ? 'noindex, follow'
+  : isPreview
+    ? 'noindex, nofollow'
+    : 'index, follow, max-image-preview:large';
 const resolvedOgImage = ogImage.startsWith('http') ? ogImage : absoluteUrl(ogImage);
 const isDefaultOg =
   ogImage === defaultOgImage ||
@@ -40,7 +45,7 @@ const isDefaultOg =
 <title>{title}</title>
 <meta name="description" content={description} />
 <meta name="author" content={site.name} />
-{robotsNoindex && <meta name="robots" content="noindex, nofollow" />}
+<meta name="robots" content={robotsContent} />
 {canonical && <link rel="canonical" href={canonical} />}
 <link rel="icon" href={withBase('/favicon.ico')} sizes="any" />
 <link rel="icon" type="image/png" sizes="512x512" href={withBase('/favicon-512.png')} />

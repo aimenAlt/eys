@@ -23,12 +23,12 @@ relatedCommunitySlugs:
 faqs:
   - question: "What is the difference between custom cabinets and cabinet installation?"
     answer: "Custom cabinets are built for your space. Cabinet installation covers pre-built units. We offer both — this page focuses on custom carpentry work."
-published: true
+published: false
 ---
 
 ## Cabinets and custom carpentry for Katy kitchens
 
-Whether you need cabinet installation, hardware modernization on aging 1990s–2000s cabinets, or custom built-ins that fit traditional Cinco Ranch floor plans, EYS brings precise carpentry and clean job sites. Affluent, detail-oriented Katy homeowners expect white-glove care — shoe covers, dust control, and a finished look that matches existing trim.
+Whether you need cabinet installation, hardware modernization on aging 1990s–2000s cabinets, or custom built-ins that fit traditional Cinco Ranch floor plans, EYS brings precise carpentry and clean job sites — shoe covers, dust control, and a finished look that matches existing trim.
 
 Request a free estimate with cabinet photos and measurements. We will tell you what we can complete in-house and when a specialty millwork partner is the better path.
 

@@ -2,7 +2,7 @@
 title: "Bridgeland"
 slug: "bridgeland-handyman"
 citySlug: "cypress"
-published: true
+published: false
 seoTitle: "Premium Handyman & Carpentry in Bridgeland | Elevate Your Space"
 metaDescription: "Elevate Your Space offers premium handyman services, custom carpentry, and home upgrades for Bridgeland residents in Cypress, TX. Request an estimate!"
 heroTitle: "Premium Handyman & Home Upgrades for Bridgeland"
@@ -31,7 +31,7 @@ commonProjects:
   - name: "Garage Storage"
     description: "industrial-grade overhead racks for pristine garages"
   - name: "Furniture Assembly"
-    description: "white-glove assembly of high-value furniture"
+    description: "careful assembly of high-value furniture"
   - name: "Move-In Upgrades"
     description: "finishing touches for new builds in Prairieland or Creekland Villages"
   - name: "Outdoor/Patio Improvements"

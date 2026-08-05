@@ -2,9 +2,9 @@
 title: "Curtain Installation"
 slug: "curtain-installation"
 published: true
-seoTitle: "Curtain Rod Installation | Katy & West Houston | EYS"
-metaDescription: "Curtain rod, drapery hardware, and window treatment mounting in Katy and West Houston — precise placement and secure mounting."
-heroTitle: "Curtain & Drapery Installation"
+seoTitle: "Curtain & Drapery Installation | Katy & West Houston"
+metaDescription: "Professional curtain rod, drapery hardware and high-ceiling window-treatment installation with careful measurement, anchoring and alignment."
+heroTitle: "Curtain, Drapery and High-Ceiling Installation"
 summary: "Professional curtain rod, drapery hardware, and window treatment mounting for Katy and West Houston homeowners."
 heroImage: "/images/services/curtain-install.jpg"
 heroImageAlt: "Double-height sheer curtain panels hung on tall living-room windows"

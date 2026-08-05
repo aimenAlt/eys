@@ -39,7 +39,7 @@ General handyman work is the backbone of Elevate Your Space — the punch lists,
 
 ## Who this is for
 
-- Busy professionals in the Energy Corridor / West Houston who value punctual, white-glove help
+- Busy professionals in the Energy Corridor / West Houston who value clear scheduling, careful protection of the home, and clean completion
 - Katy families bundling repairs before school seasons or holiday guests
 - New-home buyers with a move-in checklist across TV mounts, fans, curtains, and assembly
 - Sellers preparing a property for showings and photos

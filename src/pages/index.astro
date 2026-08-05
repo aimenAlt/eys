@@ -29,20 +29,17 @@ const communityLinks = communities.map((c) => ({
 }));
 
 const seo = {
-  title: 'Veteran-Owned Handyman | Katy & West Houston | EYS',
+  title: 'Handyman Services in Katy & West Houston | EYS',
   description:
-    'Looking for a handyman near you in Katy or West Houston? Veteran-owned Elevate Your Space handles repairs, TV mounting, and upgrades. Free estimates.',
+    'Veteran-owned handyman service for repairs, installations, punch lists, finish carpentry and home upgrades across Katy and West Houston. Choose a photo estimate, To-Do List Visit or custom project estimate.',
   canonical: absoluteUrl('/'),
   ogImageAlt: defaultOgImageAlt,
 };
 
-const schemaGraph = homePageSchema(
-  homeFaqs,
-  publishedReviews.map((r) => r.data),
-);
+const schemaGraph = homePageSchema(homeFaqs);
 
 const pageProps = {
-  projectCount: communities.length,
+  projectCount: serviceAreas.length,
   publishedReviews,
   cityLinks,
   communityLinks,

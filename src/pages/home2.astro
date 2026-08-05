@@ -37,10 +37,7 @@ const seo = {
   noindex: true,
 };
 
-const schemaGraph = homePageSchema(
-  homeFaqs,
-  publishedReviews.map((r) => r.data),
-);
+const schemaGraph = homePageSchema(homeFaqs);
 ---
 
 <BaseLayout seo={seo} schemaGraph={schemaGraph}>

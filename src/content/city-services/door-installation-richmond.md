@@ -22,7 +22,7 @@ relatedCommunitySlugs:
 faqs:
   - question: "Do you replace interior doors in older Richmond homes?"
     answer: "Yes. Interior door replacement, hinge shimming, and hardware upgrades are frequent requests in Pecan Grove and similar subdivisions."
-published: true
+published: false
 ---
 
 ## Door installation and repair in Richmond

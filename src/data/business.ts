@@ -12,11 +12,12 @@ export const site = {
 
 /**
  * Google Business Profile aggregate stats.
+ * Confirmed from live GBP screenshot 2026-08-04: 5.0 stars, 158 reviews.
  * Paste your GBP URL into profileUrl (e.g. https://g.page/...) — sameAs syncs automatically.
  */
 export const googleReviews = {
-  count: 150,
-  rating: 4.9,
+  count: 158,
+  rating: 5.0,
   profileUrl: 'https://maps.app.goo.gl/GizAsdkXmcphcMAj6' as string,
 };
 
@@ -76,8 +77,15 @@ function buildSameAs(): string[] {
   return links;
 }
 
+/**
+ * Service-area business: street address is NOT published on the website or in schema
+ * (matches GBP service-area profile with hidden street address). Keep private fields
+ * for internal ops only — never render when publishAddress is false.
+ */
 export const business = {
   ...site,
+  /** When false, do not show street address, maps pin, or schema PostalAddress/geo. */
+  publishAddress: false as boolean,
   address: {
     street: '1308 Ventura Crk Dr',
     city: 'Katy',
@@ -85,8 +93,10 @@ export const business = {
     zip: '77493',
     country: 'US',
     formatted: '1308 Ventura Crk Dr, Katy, TX 77493, United States',
+    /** Public-facing locality line (no street). */
+    publicLocality: 'Katy & West Houston, TX',
   },
-  areaServed: ['Katy', 'Cinco Ranch', 'Fulshear', 'Cypress', 'Richmond', 'West Houston'],
+  areaServed: ['Katy', 'Cypress', 'Fulshear', 'Richmond', 'West Houston'],
   geo: {
     latitude: 29.7858,
     longitude: -95.8245,

@@ -20,7 +20,9 @@ export default defineConfig({
     sitemap({
       filter: (page) =>
         !page.includes('/404') &&
-        !page.includes('/home2'),
+        !page.includes('/home2') &&
+        !page.includes('/privacy') &&
+        !page.includes('/terms'),
     }),
   ],
   vite: {

@@ -29,7 +29,7 @@ faqs:
     answer: "Yes. We regularly install fixtures and ceiling fans in established Pecan Grove homes and new construction in Aliana, Harvest Green, and Veranda."
   - question: "Can you replace dated light fixtures in older Richmond homes?"
     answer: "Absolutely. Fixture upgrades on existing boxes are one of our most common Richmond requests — especially in 1980s and 1990s interiors."
-published: true
+published: false
 ---
 
 ## Fixture and fan electrical work in Richmond

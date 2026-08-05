@@ -3,12 +3,12 @@ import ContentLayout from '../layouts/ContentLayout.astro';
 import PageHero from '../components/common/PageHero.astro';
 import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
 import JobberEmbedWrapper from '../components/booking/JobberEmbedWrapper.astro';
-import { absoluteUrl, business, googleReviews, googleReviewProfileUrl, jobberRequestFormUrl, site } from '../data/business';
+import { absoluteUrl, business, googleReviewProfileUrl, jobberRequestFormUrl } from '../data/business';
 import { breadcrumbList, localBusinessForArea, webPage } from '../data/schema';
 
-const title = `Contact Us | ${site.name}`;
+const title = 'Contact Elevate Your Space Handyman | Katy, TX';
 const description =
-  'Contact Elevate Your Space Handyman for handyman services in Katy and West Houston. Call, email, or request next steps for your project.';
+  'Call EYS or send photographs, measurements and project details for a handyman visit or custom estimate in Katy and West Houston.';
 const requestFormUrl = jobberRequestFormUrl();
 const gbpUrl = googleReviewProfileUrl();
 const canonical = absoluteUrl('/contact/');
@@ -48,11 +48,10 @@ const schemaGraph = [
             {
               gbpUrl && (
                 <p class="text-sm text-gray-600 mb-6">
-                  <span class="font-bold text-brand-black">{googleReviews.rating.toFixed(1)} ★</span>
-                  {' '}from {googleReviews.count}+ Google reviews —{' '}
                   <a href={gbpUrl} target="_blank" rel="noopener noreferrer" class="text-brand-red font-bold hover:underline">
-                    read on Google
+                    Read our Google Reviews
                   </a>
+                  {' '}for verified customer feedback.
                 </p>
               )
             }
@@ -74,10 +73,10 @@ const schemaGraph = [
                 <div>
                   <p class="font-bold text-brand-black">Phone</p>
                   <a
-                    href={`tel:${site.phoneTel}`}
+                    href={`tel:${business.phoneTel}`}
                     class="text-gray-600 hover:text-brand-red transition-colors"
                   >
-                    {site.phone}
+                    {business.phone}
                   </a>
                 </div>
               </li>
@@ -98,10 +97,10 @@ const schemaGraph = [
                 <div>
                   <p class="font-bold text-brand-black">Email</p>
                   <a
-                    href={`mailto:${site.email}`}
+                    href={`mailto:${business.email}`}
                     class="text-gray-600 hover:text-brand-red transition-colors"
                   >
-                    {site.email}
+                    {business.email}
                   </a>
                 </div>
               </li>
@@ -126,8 +125,14 @@ const schemaGraph = [
                   />
                 </svg>
                 <div>
-                  <p class="font-bold text-brand-black">Address</p>
-                  <p class="text-gray-600">{business.address.formatted}</p>
+                  <p class="font-bold text-brand-black">Service area</p>
+                  <p class="text-gray-600">
+                    {
+                      business.publishAddress
+                        ? business.address.formatted
+                        : `${business.address.publicLocality} — send your address to confirm we cover your location.`
+                    }
+                  </p>
                 </div>
               </li>
             </ul>

@@ -2,7 +2,7 @@
 title: "Towne Lake"
 slug: "towne-lake-handyman"
 citySlug: "cypress"
-published: true
+published: false
 seoTitle: "Towne Lake Handyman & Home Upgrades | Elevate Your Space"
 metaDescription: "Enjoy the lake life while we handle your home. Elevate Your Space provides premium handyman, carpentry, and outdoor upgrades for Towne Lake in Cypress, TX."
 heroTitle: "Premium Handyman Services for Towne Lake Homeowners"
@@ -33,7 +33,7 @@ commonProjects:
   - name: "Furniture Assembly"
     description: "premium patio furniture for your lakeside deck"
   - name: "Punch-List Work"
-    description: "accumulated minor repairs with white-glove service"
+    description: "accumulated minor repairs with careful cleanup"
   - name: "Outdoor/Patio Improvements"
     description: "covered spaces for lakeside entertaining"
 whyChoose: "We understand the high expectations of Towne Lake residents. EYS protects flooring with drop cloths, uses precision tools, and guarantees a spotless cleanup."

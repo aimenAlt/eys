@@ -101,6 +101,8 @@ const fallbackEstimateUrl = jobberProjectEstimateFormUrl();
           href={fallbackEstimateUrl ?? '/book/'}
           target={fallbackEstimateUrl ? '_blank' : undefined}
           rel={fallbackEstimateUrl ? 'noopener noreferrer' : undefined}
+          data-booking-type="project_estimate"
+          data-cta-location="jobber_embed_fallback"
           class="block w-full bg-brand-red text-white font-bold py-3 rounded-md hover:bg-brand-redhover transition-colors text-center"
         >
           {fallbackEstimateUrl ? 'Open estimate form' : 'Choose a booking path'}

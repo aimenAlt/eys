@@ -2,7 +2,7 @@
 title: "Jordan Ranch"
 slug: "jordan-ranch-handyman"
 citySlug: "fulshear"
-published: true
+published: false
 seoTitle: "Handyman & New Home Upgrades in Jordan Ranch | EYS"
 metaDescription: "Moving to Jordan Ranch? Elevate Your Space provides premium TV mounting, ceiling fan installation, and move-in upgrades in Fulshear, TX. Request an estimate!"
 heroTitle: "Premium Handyman & Move-In Upgrades for Jordan Ranch"

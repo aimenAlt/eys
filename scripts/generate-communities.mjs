@@ -48,7 +48,7 @@ const communities = [
     ],
     body: `## Handyman Services for Cinco Ranch Homes
 
-As properties in Cinco Ranch mature, the necessity for detail-oriented upkeep naturally increases. EYS bridges the critical gap between a massive general contractor and an unpredictable neighborhood repairman, offering premium, white-glove execution.
+As properties in Cinco Ranch mature, the necessity for detail-oriented upkeep naturally increases. EYS bridges the critical gap between a massive general contractor and an unpredictable neighborhood repairman, with careful preparation, dust control, and clean completion.
 
 ### Common Projects We Help With
 
@@ -122,7 +122,7 @@ First, send photos and details of your project via our online form. Second, our 
     ],
     body: `## Handyman Services for Sunterra Homes
 
-Because new homes lack the wear-and-tear of older properties, our operational focus in Sunterra is strictly on enhancement, organization, and custom styling. EYS provides the white-glove touch your new real estate investment demands.
+Because new homes lack the wear-and-tear of older properties, our operational focus in Sunterra is strictly on enhancement, organization, and custom styling. EYS protects new finishes with careful preparation and clean completion.
 
 ### Common Projects We Help With
 
@@ -153,7 +153,7 @@ Life in Sunterra is designed to emulate a vacation. When you live near white san
 
 ## How the Process Works
 
-First, send photos and details via our online form. Second, EYS scopes the project and returns a clear, itemized estimate. Third, we schedule a visit aligned with your closing or move-in dates. Finally, we execute the work with white-glove care, ensuring your brand-new finishes remain pristine.`,
+First, send photos and details via our online form. Second, EYS scopes the project and returns a clear, itemized estimate. Third, we schedule a visit aligned with your closing or move-in dates. Finally, we complete the work carefully so brand-new finishes stay protected.`,
   },
   {
     title: 'Elyson',
@@ -237,10 +237,10 @@ Send pictures and project details through our online form. EYS scopes the work w
     promoCode: 'CANE25',
     seoTitle: 'Luxury Handyman & Carpentry in Cane Island | Elevate Your Space',
     metaDescription:
-      'Elevate Your Space provides white-glove handyman services, custom carpentry, and premium home upgrades for Cane Island in Katy, TX. Request an estimate!',
+      'Elevate Your Space provides handyman services, custom carpentry, and home upgrades for Cane Island in Katy, TX. Request an estimate!',
     heroTitle: 'Luxury Handyman & Home Upgrades for Cane Island',
     summary:
-      'Elevate Your Space provides white-glove home improvement, custom carpentry, and meticulous installations specifically tailored to the luxury estates of Cane Island.',
+      'Elevate Your Space provides home improvement, custom carpentry, and careful installations specifically tailored to the luxury estates of Cane Island.',
     localIntro:
       'Cane Island is famously "delightfully different," offering a resort-style luxury lifestyle set among 75-year-old oak trees just minutes from I-10. With high-end semi-custom builds and sprawling custom estates featuring premium finishes and tall ceilings, basic handyman services will not suffice. EYS brings the precision, professionalism, and high-end craftsmanship required to enhance your luxury property seamlessly and safely.',
     faqs: [
@@ -284,7 +284,7 @@ We specialize exclusively in aesthetic enhancements that elevate your interior s
 - **Painting** — impeccable touch-ups and sophisticated accent walls
 - **Light Fixture & Ceiling Fan Installation** — careful hanging of heavy chandeliers and premium fans
 - **Garage Storage** — commercial-grade ceiling racks for immaculate luxury garages
-- **Furniture Assembly** — white-glove assembly of high-end designer furniture
+- **Furniture Assembly** — careful assembly of high-end designer furniture
 - **Move-In Upgrades** — final details of new custom or semi-custom builds
 - **Outdoor/Patio Improvements** — outdoor kitchen and patio enhancements for evening entertaining
 
@@ -431,7 +431,7 @@ We focus exclusively on high-quality aesthetic and functional upgrades, deeply r
 - **Painting** — crisp touch-ups and sophisticated accent walls
 - **Light Fixture & Ceiling Fan Installation** — heavy chandeliers and modern fans
 - **Garage Storage** — industrial-grade overhead racks for pristine garages
-- **Furniture Assembly** — white-glove assembly of high-value furniture
+- **Furniture Assembly** — careful assembly of high-value furniture
 - **Move-In Upgrades** — finishing touches for new builds in Prairieland or Creekland Villages
 - **Outdoor/Patio Improvements** — covered spaces for lakeside entertaining
 
@@ -506,7 +506,7 @@ We specialize in aesthetic enhancements and precise installations specifically t
 - **Light Fixture & Ceiling Fan Installation** — statement fixtures and outdoor-rated patio fans
 - **Garage Storage** — overhead racks for wakeboards, life jackets, and boating gear
 - **Furniture Assembly** — premium patio furniture for your lakeside deck
-- **Punch-List Work** — accumulated minor repairs with white-glove service
+- **Punch-List Work** — accumulated minor repairs with careful cleanup
 - **Outdoor/Patio Improvements** — covered spaces for lakeside entertaining
 
 ## Why Towne Lake Residents Choose EYS

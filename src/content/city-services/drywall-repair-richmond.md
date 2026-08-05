@@ -22,7 +22,7 @@ relatedCommunitySlugs:
 faqs:
   - question: "Can you match existing wall texture in older Richmond homes?"
     answer: "Yes. Texture matching is standard on our Richmond drywall jobs — especially in established subdivisions with orange peel or knockdown finishes."
-published: true
+published: false
 ---
 
 ## Drywall repair for Richmond homes

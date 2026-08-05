@@ -22,7 +22,7 @@ relatedCommunitySlugs:
 faqs:
   - question: "Is custom cabinet work different from cabinet installation?"
     answer: "Yes. Custom cabinets and built-ins are designed and built for your space. We also install pre-built cabinets — see our cabinet installation service for stock unit installs."
-published: true
+published: false
 ---
 
 ## Cabinets and carpentry in Richmond

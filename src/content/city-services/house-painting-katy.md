@@ -25,7 +25,7 @@ relatedCommunitySlugs:
 faqs:
   - question: "How long does a typical Katy room painting project take?"
     answer: "Most single-room projects complete in one to two days depending on prep, repairs, and coat count."
-published: true
+published: false
 ---
 
 ## Interior painting for Katy homes

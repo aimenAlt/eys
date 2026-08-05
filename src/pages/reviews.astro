@@ -5,7 +5,7 @@ import PageHero from '../components/common/PageHero.astro';
 import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
 import CTASection from '../components/home/CTASection.astro';
 import BalancedGrid from '../components/ui/BalancedGrid.astro';
-import { absoluteUrl, site } from '../data/business';
+import { absoluteUrl, googleReviewProfileUrl, site } from '../data/business';
 import { reviewsPageSchema } from '../data/schema';
 
 const reviews = await getCollection('reviews', ({ data }) => data.published === true);
@@ -20,21 +20,13 @@ const reviewItems = reviews.map((entry) => ({
   location: entry.data.location,
 }));
 
-const title = `Customer Reviews | ${site.name}`;
+const title = 'Customer Reviews for Elevate Your Space Handyman';
 const description =
-  'Read verified customer reviews for Elevate Your Space Handyman in Katy and West Houston. 4.9 stars from 150+ Google reviews.';
+  'Read customer feedback about EYS repairs, installations, curtain work, carpentry and home-improvement projects. EYS holds a 5.0 rating from 158 Google reviews — verify the latest on Google.';
 const canonical = absoluteUrl('/reviews/');
+const gbpUrl = googleReviewProfileUrl();
 
-const schemaGraph = reviewsPageSchema(
-  canonical,
-  description,
-  reviewItems.map((r) => ({
-    author: r.author,
-    rating: r.rating,
-    text: r.text,
-    date: r.date,
-  })),
-);
+const schemaGraph = reviewsPageSchema(canonical, description);
 ---
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
@@ -50,14 +42,34 @@ const schemaGraph = reviewsPageSchema(
 
     <PageHero
       eyebrow="Customer Feedback"
-      title="What West Houston Homeowners Say"
-      description="Featured reviews from homeowners we have worked with across Katy and West Houston. Elevate Your Space holds a 4.9-star average from 150+ Google reviews."
+      title="Customer Reviews"
+      description="Featured homeowner feedback plus our Google Business Profile rating — 5.0 stars from 158 reviews (confirm the latest count on Google)."
     />
 
     <section class="py-10 bg-brand-lightbg border-y border-gray-200">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <p class="text-gray-700 max-w-3xl leading-relaxed mb-4">
-          Ratings shown on this page reflect our Google review aggregate (4.9 stars from 150+ reviews). The testimonials below are featured examples from local homeowners — not our full review history.
+          The testimonials below are featured examples from local homeowners — not our full review history.
+          {
+            gbpUrl ? (
+              <>
+                {' '}See our{' '}
+                <a
+                  href={gbpUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-track-review
+                  data-cta-location="reviews_page"
+                  class="text-brand-red font-bold hover:underline"
+                >
+                  Google Reviews
+                </a>{' '}
+                profile for verified feedback on Google.
+              </>
+            ) : (
+              <> Visit our Google Business Profile for verified feedback on Google.</>
+            )
+          }
         </p>
         <p class="text-gray-700 max-w-3xl leading-relaxed">
           Looking for the kind of work people review us for? Explore{' '}

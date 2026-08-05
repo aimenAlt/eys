@@ -8,9 +8,13 @@ import {
   smallRepairPricing,
 } from '../../../data/smallRepairPricing';
 import { pathwayCopy, smallRepairVisitMeta } from '../../../data/smallRepairVisitContent';
-import { jobberHandymanToDoListFormUrl } from '../../../data/business';
+import {
+  jobberHandymanToDoListFormUrl,
+  jobberProjectEstimateFormUrl,
+} from '../../../data/business';
 
 const toDoListBookUrl = jobberHandymanToDoListFormUrl() ?? smallRepairVisitMeta.path;
+const customProjectUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
 
 type Pathway = {
   title: string;
@@ -30,19 +34,20 @@ type Pathway = {
 
 const pathways: Pathway[] = [
   {
-    title: 'Photo Estimate',
+    title: 'Free Photo Estimate',
     price: 'Free',
-    bestFor: 'Projects that need scope and pricing review',
+    bestFor:
+      'Work that can be assessed from clear photographs, measurements, product details, and a written description',
     description:
-      'Send us clear photographs and project details. We will review the work, contact you if more information is needed, and prepare the appropriate estimate.',
+      'EYS reviews the information and confirms whether an on-site assessment is needed before a final scope can be prepared.',
     features: [
       'Submit project details and photographs',
-      'Reviewed by an experienced handyman',
+      'Reviewed before scope is finalized',
       'No obligation to proceed',
-      'Onsite assessment available when necessary',
+      'On-site assessment when necessary',
     ],
-    ctaLabel: 'Request an Estimate',
-    ctaHref: '/contact/',
+    ctaLabel: 'Request a Free Photo Estimate',
+    ctaHref: '#estimate',
     analyticsId: 'photo-estimate',
     featured: false,
     orderClass: 'order-2 md:order-1',
@@ -50,18 +55,18 @@ const pathways: Pathway[] = [
   {
     title: 'Handyman To-Do List Visit',
     price: `Starting at ${formatUsd(smallRepairPricing.oneHour)}`,
-    bestFor: 'Multiple small repairs, installations, and maintenance tasks in one appointment',
+    bestFor:
+      'Several smaller repairs, installations, and maintenance tasks completed in priority order during one reserved visit',
     description:
-      'Reserve a professional handyman to work through your prioritized home to-do list during one convenient visit.',
+      'Materials, specialty equipment, and completion beyond the booked time are handled according to the published visit terms.',
     features: [
       `One-hour visit: ${formatUsd(smallRepairPricing.oneHour)}`,
       `Two-hour visit: ${formatUsd(smallRepairPricing.twoHours)}`,
       `Additional time: ${additionalTimeLabel}`,
-      'Designed for multiple smaller tasks',
       'Tasks completed in priority order',
       'Materials and specialty equipment are additional',
     ],
-    ctaLabel: 'Book a Handyman Visit',
+    ctaLabel: 'Book a Handyman To-Do List Visit',
     ctaHref: toDoListBookUrl,
     ctaExternal: toDoListBookUrl.startsWith('http'),
     secondaryCtaLabel: 'See visit details',
@@ -71,19 +76,21 @@ const pathways: Pathway[] = [
     orderClass: 'order-1 md:order-2',
   },
   {
-    title: 'Larger & Custom Projects',
+    title: 'Custom Project Estimate',
     price: 'Custom Estimate',
-    bestFor: 'Renovations, multi-day work, custom installations, and complex repairs',
+    bestFor:
+      'Custom carpentry, feature walls, larger repairs, coordinated room upgrades, material planning, or work expected to require multiple visits',
     description:
-      'For projects requiring deeper planning, material sourcing, multiple trades, or more than one visit, we will review the scope and prepare a tailored estimate.',
+      'We review the scope, discuss constraints and materials, and prepare a tailored estimate for work that needs deeper planning or more than one visit.',
     features: [
       'Detailed scope review',
       'Written project estimate',
       'Material planning and sourcing',
       'Multi-day scheduling when required',
     ],
-    ctaLabel: 'Discuss Your Project',
-    ctaHref: '/contact/',
+    ctaLabel: 'Discuss Your Custom Project',
+    ctaHref: customProjectUrl,
+    ctaExternal: customProjectUrl.startsWith('http'),
     analyticsId: 'custom-project',
     featured: false,
     orderClass: 'order-3 md:order-3',

@@ -2,9 +2,9 @@
 title: "TV Mounting"
 slug: "tv-mounting"
 published: true
-seoTitle: "TV Mounting in Katy & West Houston | Elevate Your Space"
-metaDescription: "Professional TV mounting in Katy and West Houston. Secure wall mounting, bracket installation, and clean wire concealment."
-heroTitle: "Professional TV Mounting in Katy & West Houston"
+seoTitle: "TV Mounting in Katy & West Houston | EYS"
+metaDescription: "Request secure TV mounting, careful placement and visible-cable planning for living rooms, bedrooms and home offices across Katy and West Houston."
+heroTitle: "Professional TV Mounting"
 summary: "Clean, secure TV mounting for living rooms, bedrooms, media rooms, and fireplace walls."
 heroImage: "/images/services/tv-mounting.jpg"
 heroImageAlt: "Living-room feature wall with marble-look tile and dark vertical wood-slat accents"

@@ -2,7 +2,7 @@
 title: "Cinco Ranch"
 slug: "cinco-ranch-handyman"
 citySlug: "katy"
-published: true
+published: false
 seoTitle: "Premium Handyman Services in Cinco Ranch | Elevate Your Space"
 metaDescription: "Need a reliable handyman in Cinco Ranch? Elevate Your Space offers premium TV mounting, trim work, and home upgrades for Katy residents. Request an estimate!"
 heroImage: "/images/communities/cinco-ranch.jpg"
@@ -12,7 +12,7 @@ summary: "Elevate Your Space Handyman delivers professional, meticulously clean,
 promoCode: "CINCO25"
 promoOffer: "$25 off projects over $250"
 localIntro: "From the mature, tree-lined streets of the original 77450 sections to the expansive modern layouts in Cinco Ranch Southwest, this community has defined upscale Katy living since the early 1990s. Because homes here were built anywhere from 1991 to 2015, property maintenance requires a nuanced, experienced approach. Whether you are modernizing a mid-90s kitchen to match the contemporary aesthetic of LaCenterra, repairing exterior patio structures worn by Gulf Coast humidity, or updating light fixtures prior to a real estate listing, Elevate Your Space serves as your trusted local partner."
-servicesIntro: "As properties in Cinco Ranch mature, the necessity for detail-oriented upkeep naturally increases. EYS bridges the critical gap between a massive general contractor and an unpredictable neighborhood repairman, offering premium, white-glove execution."
+servicesIntro: "As properties in Cinco Ranch mature, the necessity for detail-oriented upkeep naturally increases. EYS bridges the critical gap between a massive general contractor and an unpredictable neighborhood repairman, with careful preparation, dust control, and clean completion."
 commonProjects:
   - name: "TV Mounting"
     description: "secure mounting for modern displays on aging 1990s drywall or custom stone fireplaces"

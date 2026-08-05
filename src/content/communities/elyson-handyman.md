@@ -2,7 +2,7 @@
 title: "Elyson"
 slug: "elyson-handyman"
 citySlug: "katy"
-published: true
+published: false
 seoTitle: "Expert Handyman Services in Elyson, Katy | Elevate Your Space"
 metaDescription: "Need home upgrades in Elyson? Elevate Your Space provides premium carpentry, TV mounting, and garage storage for Elyson residents. Request an estimate!"
 heroTitle: "Expert Handyman & Home Upgrade Services for Elyson"

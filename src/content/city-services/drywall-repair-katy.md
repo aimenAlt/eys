@@ -23,7 +23,7 @@ relatedCommunitySlugs:
 faqs:
   - question: "Can you repair drywall and paint in the same visit?"
     answer: "Often yes. Many Katy homeowners bundle drywall repair with paint touch-ups in a single coordinated visit."
-published: true
+published: false
 ---
 
 ## Drywall repair in Katy's 1990s–2000s homes

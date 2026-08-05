@@ -52,7 +52,40 @@
 # /tv-repair-katy/
 # /garage-door-repair-katy/
 
-# Richmond + Katy city-service URLs are live Astro pages at legacy paths (see src/content/city-services/)
-
-# Cannibalization fix — city hub owns "Katy handyman"
+# City-service legacy URLs — 301 to regional service or city canonical (Plan 03)
+/bathroom-remodeling-services-katy/ /services/bathroom-remodeling/ 301
+/bathroom-remodeling-services-katy /services/bathroom-remodeling/ 301
+/bathroom-remodeling-richmond/ /services/bathroom-remodeling/ 301
+/bathroom-remodeling-richmond /services/bathroom-remodeling/ 301
+/custom-cabinets-katy/ /services/custom-carpentry/ 301
+/custom-cabinets-katy /services/custom-carpentry/ 301
+/custom-cabinets-richmond/ /services/custom-carpentry/ 301
+/custom-cabinets-richmond /services/custom-carpentry/ 301
+/door-installation-services-katy/ /services/door-repair-installation/ 301
+/door-installation-services-katy /services/door-repair-installation/ 301
+/door-installation-richmond/ /services/door-repair-installation/ 301
+/door-installation-richmond /services/door-repair-installation/ 301
+/drywall-repair-katy/ /services/drywall-repair/ 301
+/drywall-repair-katy /services/drywall-repair/ 301
+/drywall-repair-richmond/ /services/drywall-repair/ 301
+/drywall-repair-richmond /services/drywall-repair/ 301
+/electricians-katy/ /services/ceiling-fan-installation/ 301
+/electricians-katy /services/ceiling-fan-installation/ 301
+/electricians-richmond/ /services/ceiling-fan-installation/ 301
+/electricians-richmond /services/ceiling-fan-installation/ 301
+/floor-and-decor-katy/ /services/flooring-and-decor/ 301
+/floor-and-decor-katy /services/flooring-and-decor/ 301
+/floor-and-decor-richmond/ /services/flooring-and-decor/ 301
+/floor-and-decor-richmond /services/flooring-and-decor/ 301
+/handyman-service-richmond/ /service-areas/richmond/ 301
+/handyman-service-richmond /service-areas/richmond/ 301
 /handyman-services-katy/ /service-areas/katy/ 301
+/handyman-services-katy /service-areas/katy/ 301
+/house-painting-katy/ /services/painting/ 301
+/house-painting-katy /services/painting/ 301
+/house-painting-richmond/ /services/painting/ 301
+/house-painting-richmond /services/painting/ 301
+/kitchen-remodeling-katy/ /services/kitchen-remodeling/ 301
+/kitchen-remodeling-katy /services/kitchen-remodeling/ 301
+/kitchen-remodeling-richmond/ /services/kitchen-remodeling/ 301
+/kitchen-remodeling-richmond /services/kitchen-remodeling/ 301

@@ -2,7 +2,7 @@
 title: "Veranda"
 slug: "veranda-handyman"
 citySlug: "richmond"
-published: true
+published: false
 seoTitle: "Handyman & Home Upgrades in Veranda | Elevate Your Space"
 metaDescription: "Elevate Your Space offers premium handyman services, patio upgrades, and custom carpentry for Veranda residents in Richmond, TX. Request an estimate!"
 heroTitle: "Premium Handyman & Home Upgrades for Veranda"

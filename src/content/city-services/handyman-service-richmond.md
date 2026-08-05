@@ -26,11 +26,11 @@ relatedCommunitySlugs:
 faqs:
   - question: "Can I combine multiple small repairs in one Richmond visit?"
     answer: "Yes. Bundled punch-list visits are one of our most popular Richmond services — ideal for move-in, move-out, or catch-up maintenance."
-published: true
+published: false
 ---
 
 ## Handyman service for Richmond and Fort Bend
 
-Richmond homeowners need a reliable partner for punch lists that span vanities, fans, TV mounts, garage storage, and small repairs — not a different contractor for every item. Elevate Your Space serves Aliana, Harvest Green, Veranda, and surrounding Fort Bend neighborhoods with clear free estimates and white-glove cleanup.
+Richmond homeowners need a reliable partner for punch lists that span vanities, fans, TV mounts, garage storage, and small repairs — not a different contractor for every item. Elevate Your Space serves Aliana, Harvest Green, Veranda, and surrounding Fort Bend neighborhoods with clear free estimates and thorough cleanup.
 
 Start at the [Richmond service area](/service-areas/richmond/) hub or browse [general handyman services](/services/general-handyman-services/) for the regional overview.
