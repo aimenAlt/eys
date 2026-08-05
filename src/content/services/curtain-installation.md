@@ -38,7 +38,7 @@ faqs:
     answer: "Yes. We install curtain rods and drapery hardware throughout Katy, Fulshear, Cypress, Richmond, and surrounding West Houston communities."
 ---
 
-Curtains and drapery finish a room — privacy from the Texas sun, softer acoustics, and a polished look that builder blinds alone rarely deliver. Elevate Your Space installs curtain rods and hardware level and secure across Katy and West Houston. If you need a handyman near you who can hang heavy treatments on tall windows without cracked drywall or crooked brackets, this is everyday installation work we take seriously.
+Curtains and drapery finish a room — privacy from the Texas sun, softer acoustics, and a polished look that builder blinds alone rarely deliver. Elevate Your Space installs curtain rods and hardware level and secure across Katy and West Houston. If you need a handyman who can hang heavy treatments on tall windows without cracked drywall or crooked brackets, this is everyday installation work we take seriously.
 
 ## Who this is for
 
@@ -57,7 +57,7 @@ Many homeowners have us install rods and brackets first, then hang curtains when
 
 ## Local context
 
-[Sunterra](/service-areas/katy/sunterra-handyman/) and [Jordan Ranch](/service-areas/fulshear/jordan-ranch-handyman/) move-ins often bundle curtains with [TV mounting](/services/tv-mounting/) and fans. Established [Cinco Ranch](/service-areas/katy/cinco-ranch-handyman/) homes may need hardware that clears older casing and high windows. [Bridgeland](/service-areas/cypress/bridgeland-handyman/) and [Cane Island](/service-areas/katy/cane-island-handyman/) projects frequently involve taller ceilings and heavier treatments. In [Tamarron](/service-areas/katy/tamarron-handyman/) and Towne Lake, privacy and sun control are common requests for west-facing rooms after furniture arrives.
+[Sunterra](/service-areas/katy/) and [Jordan Ranch](/service-areas/fulshear/) move-ins often bundle curtains with [TV mounting](/services/tv-mounting/) and fans. Established [Cinco Ranch](/service-areas/katy/) homes may need hardware that clears older casing and high windows. [Bridgeland](/service-areas/cypress/) and [Cane Island](/service-areas/katy/) projects frequently involve taller ceilings and heavier treatments. In [Tamarron](/service-areas/katy/) and Towne Lake, privacy and sun control are common requests for west-facing rooms after furniture arrives.
 
 Double-height living rooms deserve special care — browse [double-height curtains](/our-work/double-height-curtains/) in our project gallery for an example of how tall installs come together.
 
@@ -67,7 +67,7 @@ Share window photos, rod lengths, and whether drapes are already purchased. Curt
 
 ## Ready for a free estimate?
 
-Looking for curtain rod installation near you in Katy or West Houston? Send window photos and hardware details. We return a free estimate, confirm anchoring approach, and schedule a clean install visit.
+Looking for curtain rod installation in Katy or West Houston? Send window photos and hardware details. We return a free estimate, confirm anchoring approach, and schedule a clean install visit.
 
 Send photos whenever you can — clear pictures shorten the free estimate cycle and help us bring the right tools on day one.
 

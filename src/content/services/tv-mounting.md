@@ -35,12 +35,12 @@ faqs:
   - question: "What size TVs do you mount?"
     answer: "We mount TVs of all sizes, from bedroom screens to large-format displays above fireplaces."
 ---
-Elevate Your Space provides clean, secure TV mounting throughout Katy, Cypress, Fulshear, Richmond, and West Houston. Whether you searched for a handyman near you for a living-room install or need a fireplace mount done without damaging premium stone, we treat walls and finishes with care — level placement, secure anchoring, and a spotless cleanup every time.
+Elevate Your Space provides clean, secure TV mounting throughout Katy, Cypress, Fulshear, Richmond, and West Houston. Whether you searched for a handyman for a living-room install or need a fireplace mount done without damaging premium stone, we treat walls and finishes with care — level placement, secure anchoring, and a spotless cleanup every time.
 
 ## Who this is for
 
 - Living rooms, bedrooms, game rooms, and fireplace walls in new and established homes
-- Move-in packages in [Sunterra](/service-areas/katy/sunterra-handyman/), [Jordan Ranch](/service-areas/fulshear/jordan-ranch-handyman/), and [Tamarron](/service-areas/katy/tamarron-handyman/)
+- Move-in packages in [Sunterra](/service-areas/katy/), [Jordan Ranch](/service-areas/fulshear/), and [Tamarron](/service-areas/katy/)
 - Stone and tile fireplace mounts that need masonry bits and heavy-duty anchors
 - Outdoor-covered patio mounts for lake and porch living in Towne Lake and Veranda
 - Families who want wires managed cleanly so the finished wall looks intentional
@@ -53,7 +53,7 @@ On install day we protect floors, mark carefully, cut only what is necessary for
 
 ## Local examples across West Houston
 
-[Cinco Ranch](/service-areas/katy/cinco-ranch-handyman/) fireplace mounts above custom stone are a frequent request. [Bridgeland](/service-areas/cypress/bridgeland-handyman/) and Cane Island homes often need mounts that respect premium finishes and taller ceilings. New builds need careful work on fresh drywall so the living room looks finished on day one. Richmond porch and patio living in [Veranda](/service-areas/richmond/veranda-handyman/) drives covered outdoor mounts when the structure and rating allow.
+[Cinco Ranch](/service-areas/katy/) fireplace mounts above custom stone are a frequent request. [Bridgeland](/service-areas/cypress/) and Cane Island homes often need mounts that respect premium finishes and taller ceilings. New builds need careful work on fresh drywall so the living room looks finished on day one. Richmond porch and patio living in [Veranda](/service-areas/richmond/) drives covered outdoor mounts when the structure and rating allow.
 
 ## See our work and related services
 
@@ -61,7 +61,7 @@ Browse related projects in our gallery: [marble & wood-slat feature wall](/our-w
 
 ## Ready for a free estimate?
 
-Send wall photos, TV size, and notes about stone vs drywall. Free estimates keep scoping clear so you know what is included before we schedule. Looking for TV mounting near you in Katy or West Houston? Start from [contact](/contact/) or your local [service area](/service-areas/) page and we will reply with a clear plan.
+Send wall photos, TV size, and notes about stone vs drywall. Free estimates keep scoping clear so you know what is included before we schedule. Looking for TV mounting in Katy or West Houston? Start from [contact](/contact/) or your local [service area](/service-areas/) page and we will reply with a clear plan.
 
 ## Why homeowners choose Elevate Your Space
 

@@ -38,12 +38,12 @@ faqs:
     answer: "Yes. Send photos of the door and a short description of the issue for a free estimate before we schedule."
 ---
 
-Doors take daily abuse — humidity, settling slabs, kids, pets, and years of open-and-close cycles. Elevate Your Space repairs, aligns, and installs doors across Katy and West Houston so they close cleanly, latch securely, and look finished against your trim. If you need a handyman near you for sticky interior doors, misaligned hardware, or a new pre-hung swap, this is practical repair work that immediately improves how the house feels.
+Doors take daily abuse — humidity, settling slabs, kids, pets, and years of open-and-close cycles. Elevate Your Space repairs, aligns, and installs doors across Katy and West Houston so they close cleanly, latch securely, and look finished against your trim. If you need a handyman for sticky interior doors, misaligned hardware, or a new pre-hung swap, this is practical repair work that immediately improves how the house feels.
 
 ## Who calls us for doors
 
 - Homeowners with sticky or out-of-square interior doors in 1990s–2000s Katy homes
-- New-build buyers adding or upgrading doors after closing in Fulshear and [Tamarron](/service-areas/katy/tamarron-handyman/)
+- New-build buyers adding or upgrading doors after closing in Fulshear and [Tamarron](/service-areas/katy/)
 - Sellers who need doors and hardware looking sharp before showings
 - Richmond porch-focused homes where exterior-facing doors are part of the curb appeal
 
@@ -57,7 +57,7 @@ On a typical visit we diagnose swing and latch issues, adjust or re-hang as need
 
 ## Local examples
 
-Gulf Coast humidity is tough on wood doors in [Cinco Ranch](/service-areas/katy/cinco-ranch-handyman/) and older Cypress neighborhoods. New production homes around Tamarron and [Jordan Ranch](/service-areas/fulshear/jordan-ranch-handyman/) more often need hardware and alignment tweaks after settling into daily use. [Veranda](/service-areas/richmond/veranda-handyman/) and similar Richmond communities often pair door work with outdoor living upgrades — fans, patio furniture assembly, and porch-facing finishes. In [Bridgeland](/service-areas/cypress/bridgeland-handyman/) and Towne Lake, French doors and interior upgrades show up frequently when families refresh a main living space.
+Gulf Coast humidity is tough on wood doors in [Cinco Ranch](/service-areas/katy/) and older Cypress neighborhoods. New production homes around Tamarron and [Jordan Ranch](/service-areas/fulshear/) more often need hardware and alignment tweaks after settling into daily use. [Veranda](/service-areas/richmond/) and similar Richmond communities often pair door work with outdoor living upgrades — fans, patio furniture assembly, and porch-facing finishes. In [Bridgeland](/service-areas/cypress/) and Towne Lake, French doors and interior upgrades show up frequently when families refresh a main living space.
 
 ## Free estimate and related pages
 
@@ -65,4 +65,4 @@ Photos of the door (both sides if possible), notes about sticking or hardware is
 
 ## Ready for a free estimate?
 
-Looking for door repair or installation near you in Katy or West Houston? Send photos and a short description of the issue. We reply with a clear free estimate, explain what we can complete in one visit, and flag anything that needs specialized millwork or trade support.
+Looking for door repair or installation in Katy or West Houston? Send photos and a short description of the issue. We reply with a clear free estimate, explain what we can complete in one visit, and flag anything that needs specialized millwork or trade support.

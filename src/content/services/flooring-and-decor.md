@@ -50,7 +50,7 @@ Flooring-adjacent finish work, décor mounting, accent walls, board-and-batten d
 
 ## Local context
 
-Established Katy homes often need careful trim work around older casings when floors change. New Fulshear and [Sunterra](/service-areas/katy/sunterra-handyman/) homes need décor and privacy installs quickly after furniture arrives. Richmond communities mix farmhouse décor ([Harvest Green](/service-areas/richmond/harvest-green-handyman/)) with resort-style [Aliana](/service-areas/richmond/aliana-handyman/) living — mounting and finish details should match that character. [Cinco Ranch](/service-areas/katy/cinco-ranch-handyman/) dining and living spaces frequently pair new floors with molding and chandelier updates.
+Established Katy homes often need careful trim work around older casings when floors change. New Fulshear and [Sunterra](/service-areas/katy/) homes need décor and privacy installs quickly after furniture arrives. Richmond communities mix farmhouse décor ([Harvest Green](/service-areas/richmond/)) with resort-style [Aliana](/service-areas/richmond/) living — mounting and finish details should match that character. [Cinco Ranch](/service-areas/katy/) dining and living spaces frequently pair new floors with molding and chandelier updates.
 
 ## Related services and inspiration
 

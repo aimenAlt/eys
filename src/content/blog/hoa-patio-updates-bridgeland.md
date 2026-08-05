@@ -29,4 +29,4 @@ Homes here are built to a high finish standard across villages like Parkland and
 
 ## Next steps
 
-Need help scoping a patio project? See our [Bridgeland community page](/service-areas/cypress/bridgeland-handyman/), the broader [Cypress service area](/service-areas/cypress/), or [request a free estimate](/contact/) with photos of your covered patio and a short project list.
+Need help scoping a patio project? See our [Bridgeland community page](/service-areas/cypress/), the broader [Cypress service area](/service-areas/cypress/), or [request a free estimate](/contact/) with photos of your covered patio and a short project list.

@@ -43,7 +43,7 @@ General handyman work is the backbone of Elevate Your Space — the punch lists,
 - Katy families bundling repairs before school seasons or holiday guests
 - New-home buyers with a move-in checklist across TV mounts, fans, curtains, and assembly
 - Sellers preparing a property for showings and photos
-- Anyone searching for a dependable handyman near you who will work from a clear, prioritized list
+- Anyone searching for a dependable handyman who will work from a clear, prioritized list
 
 ## What a punch-list visit can include
 
@@ -55,11 +55,11 @@ Send photos with your list. We confirm materials, access, and sequence, then sho
 
 ## Local context
 
-Mature [Cinco Ranch](/service-areas/katy/cinco-ranch-handyman/) homes often need maintenance and modernization. Fulshear and [Sunterra](/service-areas/katy/sunterra-handyman/) skew toward customization of new builds. Richmond’s diverse housing stock needs a partner who can switch between new-MPC finishes and older subdivision realities. Across [Cypress](/service-areas/cypress/), [Katy](/service-areas/katy/), and [Richmond](/service-areas/richmond/), reputation is local — we live and work here.
+Mature [Cinco Ranch](/service-areas/katy/) homes often need maintenance and modernization. Fulshear and [Sunterra](/service-areas/katy/) skew toward customization of new builds. Richmond’s diverse housing stock needs a partner who can switch between new-MPC finishes and older subdivision realities. Across [Cypress](/service-areas/cypress/), [Katy](/service-areas/katy/), and [Richmond](/service-areas/richmond/), reputation is local — we live and work here.
 
 ## Ready for a free estimate?
 
-Send your list and photos. We return a free estimate and recommend sequencing. Explore individual services from [all services](/services/), or browse [repairs and maintenance](/services/repairs-and-maintenance/). Looking for a handyman near you in West Houston? Start with a clear punch list and we will take it from there.
+Send your list and photos. We return a free estimate and recommend sequencing. Explore individual services from [all services](/services/), or browse [repairs and maintenance](/services/repairs-and-maintenance/). Looking for a handyman in West Houston? Start with a clear punch list and we will take it from there.
 
 ## Why homeowners choose Elevate Your Space
 

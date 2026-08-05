@@ -41,9 +41,9 @@ Interior painting is one of the fastest ways to make a West Houston home feel ca
 
 We paint rooms, accent walls, and repair areas for homeowners who want crisp results without managing a large painting company. Typical projects include:
 
-- Accent walls and color updates in [Elyson](/service-areas/katy/elyson-handyman/) and [Aliana](/service-areas/richmond/aliana-handyman/)
+- Accent walls and color updates in [Elyson](/service-areas/katy/) and [Aliana](/service-areas/richmond/)
 - Touch-ups after [drywall repair](/services/drywall-repair/)
-- Pre-sale refreshes in established [Cinco Ranch](/service-areas/katy/cinco-ranch-handyman/) homes
+- Pre-sale refreshes in established [Cinco Ranch](/service-areas/katy/) homes
 - Trim and door painting that finishes a remodel or décor project
 
 ## What careful interior painting includes
@@ -54,11 +54,11 @@ Cabinet painting is quoted separately when scope warrants it; send photos so we 
 
 ## Local context
 
-New-construction communities in Fulshear and [Sunterra](/service-areas/katy/sunterra-handyman/) often need personality on top of builder white. Maturing Katy homes more often need color modernization and repair blending after years of family life. Richmond's mix — agri-hood farmhouse aesthetics in [Harvest Green](/service-areas/richmond/harvest-green-handyman/), porch living in [Veranda](/service-areas/richmond/veranda-handyman/) — benefits from intentional accent choices that match how the home is used. Painting also pairs well with [custom carpentry](/services/custom-carpentry/) accent walls and molding projects.
+New-construction communities in Fulshear and [Sunterra](/service-areas/katy/) often need personality on top of builder white. Maturing Katy homes more often need color modernization and repair blending after years of family life. Richmond's mix — agri-hood farmhouse aesthetics in [Harvest Green](/service-areas/richmond/), porch living in [Veranda](/service-areas/richmond/) — benefits from intentional accent choices that match how the home is used. Painting also pairs well with [custom carpentry](/services/custom-carpentry/) accent walls and molding projects.
 
 ## Ready for a free estimate?
 
-Share room photos, approximate sizes, and whether you already have paint selected. We return a free estimate and a clear plan for prep and schedule. Painting lives under [repairs and maintenance](/services/repairs-and-maintenance/). Explore nearby areas from [service areas](/service-areas/) or jump to [Cypress](/service-areas/cypress/) for Bridgeland and Towne Lake coverage. Looking for interior painting near you in Katy or West Houston? Send details through [contact](/contact/).
+Share room photos, approximate sizes, and whether you already have paint selected. We return a free estimate and a clear plan for prep and schedule. Painting lives under [repairs and maintenance](/services/repairs-and-maintenance/). Explore nearby areas from [service areas](/service-areas/) or jump to [Cypress](/service-areas/cypress/) for Bridgeland and Towne Lake coverage. Looking for interior painting in Katy or West Houston? Send details through [contact](/contact/).
 
 ## Why homeowners choose Elevate Your Space
 

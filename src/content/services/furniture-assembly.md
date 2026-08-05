@@ -39,8 +39,8 @@ Furniture assembly sounds simple until you are staring at fifty identical fasten
 
 ## Who this is for
 
-- New-home buyers in [Sunterra](/service-areas/katy/sunterra-handyman/), [Jordan Ranch](/service-areas/fulshear/jordan-ranch-handyman/), and [Tamarron](/service-areas/katy/tamarron-handyman/) knocking out move-in lists
-- Families assembling patio sets before a gathering in Towne Lake or [Cross Creek Ranch](/service-areas/fulshear/cross-creek-ranch-handyman/)
+- New-home buyers in [Sunterra](/service-areas/katy/), [Jordan Ranch](/service-areas/fulshear/), and [Tamarron](/service-areas/katy/) knocking out move-in lists
+- Families assembling patio sets before a gathering in Towne Lake or [Cross Creek Ranch](/service-areas/fulshear/)
 - Home offices that need desks and shelving built correctly and anchored when tall
 - Anyone who bought quality furniture and wants it built correctly the first time
 
@@ -58,7 +58,7 @@ Tell us the piece count, brand or product links, and which rooms are involved. W
 
 ## Ready for a free estimate?
 
-Furniture assembly lives under [installation and assembly](/services/installation-and-assembly/). Start local from [Fulshear](/service-areas/fulshear/), [Cypress](/service-areas/cypress/), or [Katy](/service-areas/katy/). Looking for furniture assembly near you in West Houston? Send details through [contact](/contact/) and we will reply with a clear plan.
+Furniture assembly lives under [installation and assembly](/services/installation-and-assembly/). Start local from [Fulshear](/service-areas/fulshear/), [Cypress](/service-areas/cypress/), or [Katy](/service-areas/katy/). Looking for furniture assembly in West Houston? Send details through [contact](/contact/) and we will reply with a clear plan.
 
 ## Why homeowners choose Elevate Your Space
 

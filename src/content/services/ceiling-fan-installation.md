@@ -43,9 +43,9 @@ Ceiling fans are essential in Gulf Coast homes — bedrooms, living rooms, cover
 
 ## Who this is for
 
-- New-construction buyers installing fans on builder pre-wires in [Sunterra](/service-areas/katy/sunterra-handyman/), [Tamarron](/service-areas/katy/tamarron-handyman/), and [Jordan Ranch](/service-areas/fulshear/jordan-ranch-handyman/)
-- Homeowners replacing dated brass fixtures in established Katy and [Cinco Ranch](/service-areas/katy/cinco-ranch-handyman/) homes
-- Richmond porch living in [Veranda](/service-areas/richmond/veranda-handyman/) and outdoor-covered spaces in [Towne Lake](/service-areas/cypress/towne-lake-handyman/)
+- New-construction buyers installing fans on builder pre-wires in [Sunterra](/service-areas/katy/), [Tamarron](/service-areas/katy/), and [Jordan Ranch](/service-areas/fulshear/)
+- Homeowners replacing dated brass fixtures in established Katy and [Cinco Ranch](/service-areas/katy/) homes
+- Richmond porch living in [Veranda](/service-areas/richmond/) and outdoor-covered spaces in [Towne Lake](/service-areas/cypress/)
 - Families bundling fans with lighting swaps or other move-in installs in one visit
 
 West Houston summers make airflow a quality-of-life issue, not a luxury. Whether the room is a primary suite, a kids’ bedroom, or a covered patio, a properly mounted fan should feel quiet, balanced, and secure from day one. Many homeowners also replace a builder light kit with a fan-light combo when they realize the room needs both illumination and air movement.
@@ -58,7 +58,7 @@ When a location needs a new circuit, a fan-rated box upgrade, or wiring beyond h
 
 ## Local context across our service areas
 
-Fulshear’s new-build boom means many homes arrive with pre-wired caps waiting for fans. [Bridgeland](/service-areas/cypress/bridgeland-handyman/) and [Cane Island](/service-areas/katy/cane-island-handyman/) projects often involve higher ceilings and heavier fixtures that demand extra care and the right ladders and mounting approach. Pairing fans with [fixture and fan installation](/services/electrical-services/) in one visit is common, especially after closing when multiple rooms still need finishing touches. In established Cinco Ranch homes, fan replacements often go hand-in-hand with updating dated canopies and wall controls for a cleaner look.
+Fulshear’s new-build boom means many homes arrive with pre-wired caps waiting for fans. [Bridgeland](/service-areas/cypress/) and [Cane Island](/service-areas/katy/) projects often involve higher ceilings and heavier fixtures that demand extra care and the right ladders and mounting approach. Pairing fans with [fixture and fan installation](/services/electrical-services/) in one visit is common, especially after closing when multiple rooms still need finishing touches. In established Cinco Ranch homes, fan replacements often go hand-in-hand with updating dated canopies and wall controls for a cleaner look.
 
 ## Free estimate and related links
 

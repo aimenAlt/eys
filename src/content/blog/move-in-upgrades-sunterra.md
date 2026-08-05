@@ -26,4 +26,4 @@ Builders deliver a solid shell. They do not hang your drapes, balance five fans,
 
 ## Book before closing
 
-Reach out two to three weeks before closing to secure your preferred installation day. See our [Sunterra community page](/service-areas/katy/sunterra-handyman/) for area details, the [Katy service area](/service-areas/katy/) hub, or [contact us](/contact/) with photos and your punch list for a free estimate.
+Reach out two to three weeks before closing to secure your preferred installation day. See our [Sunterra community page](/service-areas/katy/) for area details, the [Katy service area](/service-areas/katy/) hub, or [contact us](/contact/) with photos and your punch list for a free estimate.

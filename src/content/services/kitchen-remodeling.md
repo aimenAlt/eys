@@ -52,7 +52,7 @@ Projects often start with photos and a priority list — island refresh, hardwar
 
 ## Local context and examples
 
-[Cinco Ranch](/service-areas/katy/cinco-ranch-handyman/) kitchens often need hardware and lighting refreshes that match a more contemporary look around LaCenterra. Production homes in [Tamarron](/service-areas/katy/tamarron-handyman/) and [Jordan Ranch](/service-areas/fulshear/jordan-ranch-handyman/) benefit from precise cabinet hardware jigs that protect new veneers. [Harvest Green](/service-areas/richmond/harvest-green-handyman/) kitchens sometimes lean into farmhouse hardware and open-shelf carpentry. Browse [sage kitchen remodel](/our-work/sage-kitchen-remodel/) for a finished two-tone kitchen from our gallery.
+[Cinco Ranch](/service-areas/katy/) kitchens often need hardware and lighting refreshes that match a more contemporary look around LaCenterra. Production homes in [Tamarron](/service-areas/katy/) and [Jordan Ranch](/service-areas/fulshear/) benefit from precise cabinet hardware jigs that protect new veneers. [Harvest Green](/service-areas/richmond/) kitchens sometimes lean into farmhouse hardware and open-shelf carpentry. Browse [sage kitchen remodel](/our-work/sage-kitchen-remodel/) for a finished two-tone kitchen from our gallery.
 
 ## Related services
 

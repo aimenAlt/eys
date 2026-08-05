@@ -43,11 +43,11 @@ Elevate Your Space helps Katy and West Houston homeowners upgrade baths with van
 Bathroom upgrades make sense for a wide range of West Houston homes:
 
 - Families in maturing Katy homes updating 1990s–2000s baths that still work but feel dated
-- New-build owners in communities like [Sunterra](/service-areas/katy/sunterra-handyman/) and [Jordan Ranch](/service-areas/fulshear/jordan-ranch-handyman/) who want better fixtures and storage after closing
+- New-build owners in communities like [Sunterra](/service-areas/katy/) and [Jordan Ranch](/service-areas/fulshear/) who want better fixtures and storage after closing
 - Sellers preparing baths for listing photos and showings
 - Richmond and Fulshear homeowners who need practical upgrades, not a luxury gut job
 
-Whether you are in an established [Cinco Ranch](/service-areas/katy/cinco-ranch-handyman/) floor plan or a brand-new production home, the goal is the same: a cleaner, more functional bath that matches how you actually live.
+Whether you are in an established [Cinco Ranch](/service-areas/katy/) floor plan or a brand-new production home, the goal is the same: a cleaner, more functional bath that matches how you actually live.
 
 ## What bathroom upgrades typically include
 
@@ -57,7 +57,7 @@ A typical project starts with photos and a priority list, moves into a clear fre
 
 ## Local examples across Katy and West Houston
 
-Cinco Ranch and early Katy MPC baths often need vanity and hardware modernization that respects traditional suburban trim. Sunterra, [Tamarron](/service-areas/katy/tamarron-handyman/), and Jordan Ranch buyers more often want finishing touches on brand-new baths so the room feels intentional from week one. [Harvest Green](/service-areas/richmond/harvest-green-handyman/) and [Veranda](/service-areas/richmond/veranda-handyman/) projects sometimes lean into farmhouse or porch-living aesthetics with fixtures and trim that match the rest of the home. In [Bridgeland](/service-areas/cypress/bridgeland-handyman/) and Towne Lake, we frequently see storage and lighting upgrades that keep busy family baths organized without full demolition.
+Cinco Ranch and early Katy MPC baths often need vanity and hardware modernization that respects traditional suburban trim. Sunterra, [Tamarron](/service-areas/katy/), and Jordan Ranch buyers more often want finishing touches on brand-new baths so the room feels intentional from week one. [Harvest Green](/service-areas/richmond/) and [Veranda](/service-areas/richmond/) projects sometimes lean into farmhouse or porch-living aesthetics with fixtures and trim that match the rest of the home. In [Bridgeland](/service-areas/cypress/) and Towne Lake, we frequently see storage and lighting upgrades that keep busy family baths organized without full demolition.
 
 ## Related services and next steps
 

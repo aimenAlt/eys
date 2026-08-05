@@ -38,7 +38,7 @@ faqs:
     answer: "Yes. Send cabinet photos, model numbers if purchased, and room details for a free estimate before we schedule."
 ---
 
-Cabinet installation and hardware work change how a kitchen or bath feels every single day. Elevate Your Space installs cabinets and premium hardware across Katy and West Houston with level runs, solid anchoring, and protection for surrounding finishes. If you need a handyman near you who treats veneers, floors, and adjacent trim with care — not a rushed “close enough” hang — this is the work we do constantly for local homeowners.
+Cabinet installation and hardware work change how a kitchen or bath feels every single day. Elevate Your Space installs cabinets and premium hardware across Katy and West Houston with level runs, solid anchoring, and protection for surrounding finishes. If you need a handyman who treats veneers, floors, and adjacent trim with care — not a rushed “close enough” hang — this is the work we do constantly for local homeowners.
 
 ## Who this is for
 
@@ -57,7 +57,7 @@ A typical visit includes confirming wall conditions and stud locations, protecti
 
 ## Local examples
 
-[Tamarron](/service-areas/katy/tamarron-handyman/) and other production communities frequently request hardware upgrades that instantly elevate builder cabinets. [Cinco Ranch](/service-areas/katy/cinco-ranch-handyman/) and older Katy homes more often need replacements or repairs that respect existing layouts and trim profiles. Luxury [Cane Island](/service-areas/katy/cane-island-handyman/) projects demand extra floor and finish protection during install. In [Sunterra](/service-areas/katy/sunterra-handyman/) and [Jordan Ranch](/service-areas/fulshear/jordan-ranch-handyman/), vanity and laundry cabinet installs are popular move-in upgrades. [Bridgeland](/service-areas/cypress/bridgeland-handyman/) and Towne Lake kitchens often pair new hardware with lighting or paint refreshes for a cohesive update that still feels like the same home — just better finished.
+[Tamarron](/service-areas/katy/) and other production communities frequently request hardware upgrades that instantly elevate builder cabinets. [Cinco Ranch](/service-areas/katy/) and older Katy homes more often need replacements or repairs that respect existing layouts and trim profiles. Luxury [Cane Island](/service-areas/katy/) projects demand extra floor and finish protection during install. In [Sunterra](/service-areas/katy/) and [Jordan Ranch](/service-areas/fulshear/), vanity and laundry cabinet installs are popular move-in upgrades. [Bridgeland](/service-areas/cypress/) and Towne Lake kitchens often pair new hardware with lighting or paint refreshes for a cohesive update that still feels like the same home — just better finished.
 
 ## See our work and related services
 
@@ -65,4 +65,4 @@ Kitchen and cabinetry projects: [Our Work — kitchens & cabinetry](/our-work/?c
 
 ## Ready for a free estimate?
 
-Share cabinet photos, model numbers if purchased, and room measurements. We return a free estimate that covers quantity, wall conditions, and any coordination needed for counters or plumbing. Looking for cabinet installation near you in Katy or West Houston? Send details and we will outline a clear install plan before we schedule.
+Share cabinet photos, model numbers if purchased, and room measurements. We return a free estimate that covers quantity, wall conditions, and any coordination needed for counters or plumbing. Looking for cabinet installation in Katy or West Houston? Send details and we will outline a clear install plan before we schedule.
