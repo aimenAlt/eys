@@ -27,7 +27,8 @@ export default defineConfig({
         !page.includes('/404') &&
         !page.includes('/home2') &&
         !page.includes('/privacy') &&
-        !page.includes('/terms'),
+        !page.includes('/terms') &&
+        !page.includes('/van'),
     }),
   ],
   vite: {

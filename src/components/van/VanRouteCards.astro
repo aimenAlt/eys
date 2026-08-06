@@ -1,0 +1,102 @@
+---
+import { formatUsd, smallRepairPricing } from '../../data/smallRepairPricing';
+import { vanDestinations, type VanRouteId } from '../../data/vanCampaign';
+
+type RouteCard = {
+  id: VanRouteId;
+  title: string;
+  description: string;
+  note?: string;
+  price?: string;
+  cta: string;
+  href: string | undefined;
+  bookingType: string;
+  featured?: boolean;
+};
+
+const routes = (
+  [
+    {
+      id: 'handyman_booking',
+      title: 'Book a Handyman To-Do List Visit',
+      description:
+        'Best for several smaller repairs, installations, and maintenance tasks completed in priority order during one reserved visit.',
+      price: `Starting at ${formatUsd(smallRepairPricing.oneHour)}`,
+      cta: 'Book a Handyman Visit',
+      href: vanDestinations.handymanBooking,
+      bookingType: 'handyman_to_do_list',
+      featured: true,
+    },
+    {
+      id: 'photo_estimate',
+      title: 'Send Photos for a Free Estimate',
+      description:
+        'Upload your project details and photos once. We’ll review the work and confirm the appropriate next step.',
+      note: 'Best for repairs, installations, drywall, doors, fixtures, and projects that can be evaluated from clear photographs and measurements.',
+      cta: 'Send Project Photos',
+      href: vanDestinations.photoEstimate,
+      bookingType: 'project_estimate',
+    },
+    {
+      id: 'custom_project',
+      title: 'Request a Custom Project Estimate',
+      description:
+        'For media walls, finish carpentry, room upgrades, remodeling, material planning, and work expected to require multiple visits.',
+      cta: 'Request a Custom Estimate',
+      href: vanDestinations.customProject,
+      bookingType: 'custom_project',
+    },
+  ] satisfies RouteCard[]
+).filter((route) => Boolean(route.href));
+---
+
+<section
+  id="service-paths"
+  class="scroll-mt-20 bg-slate-900 px-4 pb-8 pt-6 sm:px-6 sm:pb-10"
+  aria-labelledby="van-routes-heading"
+>
+  <div class="mx-auto max-w-3xl">
+    <h2 id="van-routes-heading" class="sr-only">Choose your service path</h2>
+    <ol class="flex flex-col gap-4">
+      {
+        routes.map((route) => (
+          <li>
+            <article
+              class:list={[
+                'rounded-xl border bg-slate-800 p-5 sm:p-6',
+                route.featured
+                  ? 'border-brand-red/50 shadow-[0_0_0_1px_rgba(176,0,0,0.25)]'
+                  : 'border-white/10',
+              ]}
+            >
+              <h3 class="text-xl font-extrabold leading-snug text-white sm:text-2xl">{route.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-white/80 sm:text-base">{route.description}</p>
+              {route.note && (
+                <p class="mt-2 text-sm leading-relaxed text-white/65">{route.note}</p>
+              )}
+              {route.price && (
+                <p class="mt-3 text-lg font-bold text-brand-redondark">{route.price}</p>
+              )}
+              <a
+                href={route.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-van-route={route.id}
+                data-booking-type={route.bookingType}
+                data-cta-location="van_route_card"
+                class:list={[
+                  'mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-md px-4 py-3 text-center text-base font-bold transition-colors',
+                  route.featured
+                    ? 'bg-brand-red text-white hover:bg-brand-redhover'
+                    : 'bg-white text-brand-black hover:bg-white/90',
+                ]}
+              >
+                {route.cta}
+              </a>
+            </article>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

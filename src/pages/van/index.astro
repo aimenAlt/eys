@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import VanFooter from '../../components/van/VanFooter.astro';
+import VanHeader from '../../components/van/VanHeader.astro';
+import VanHero from '../../components/van/VanHero.astro';
+import VanPopularProjects from '../../components/van/VanPopularProjects.astro';
+import VanProcess from '../../components/van/VanProcess.astro';
+import VanRouteCards from '../../components/van/VanRouteCards.astro';
+import VanServiceArea from '../../components/van/VanServiceArea.astro';
+import VanStickyBar from '../../components/van/VanStickyBar.astro';
+import VanTrust from '../../components/van/VanTrust.astro';
+import { site } from '../../data/business';
+
+const seo = {
+  title: 'Book or Request Service | Elevate Your Space Handyman',
+  description:
+    'Book handyman service or request a project estimate from Elevate Your Space Handyman, serving Katy and West Houston.',
+  canonical: `${site.url}/van/`,
+  noindex: true,
+};
+---
+
+<BaseLayout seo={seo}>
+  <div class="van-landing min-h-screen bg-brand-lightbg text-brand-charcoal">
+    <VanHeader />
+    <main id="main-content" class="pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-0">
+      <!-- One continuous dark conversion surface: hero → routes → popular projects -->
+      <div class="bg-slate-900">
+        <VanHero />
+        <VanRouteCards />
+        <VanPopularProjects />
+        <div
+          class="h-20 bg-gradient-to-b from-slate-900 to-brand-lightbg sm:h-24"
+          aria-hidden="true"
+        >
+        </div>
+      </div>
+      <div class="bg-brand-lightbg">
+        <VanTrust />
+        <VanProcess />
+        <VanServiceArea />
+      </div>
+    </main>
+    <VanFooter />
+    <VanStickyBar />
+  </div>
+  <script>
+    import '../../scripts/van-analytics.ts';
+  </script>
+</BaseLayout>

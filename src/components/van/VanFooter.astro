@@ -1,0 +1,28 @@
+---
+import { withBase } from '../../utils/paths';
+
+const links = [
+  { label: 'Our Work', href: withBase('/our-work/') },
+  { label: 'Reviews', href: withBase('/reviews/') },
+  { label: 'Privacy', href: withBase('/privacy/') },
+  { label: 'Terms', href: withBase('/terms/') },
+] as const;
+---
+
+<footer class="border-t border-white/10 bg-slate-900 px-4 py-6 sm:px-6">
+  <nav
+    class="mx-auto flex max-w-3xl flex-wrap items-center justify-center gap-x-5 gap-y-3"
+    aria-label="Van page footer"
+  >
+    {
+      links.map((link) => (
+        <a
+          href={link.href}
+          class="inline-flex min-h-11 items-center text-sm font-semibold text-white/80 hover:text-white"
+        >
+          {link.label}
+        </a>
+      ))
+    }
+  </nav>
+</footer>

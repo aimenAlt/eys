@@ -42,6 +42,11 @@ export const analyticsEvents = {
   projectServiceLinkClicked: 'project_service_link_clicked',
   galleryEstimateClicked: 'gallery_estimate_clicked',
   galleryPhoneClicked: 'gallery_phone_clicked',
+  vanLandingView: 'van_landing_view',
+  vanRouteSelected: 'van_route_selected',
+  vanProjectSelected: 'van_project_selected',
+  vanPhoneClicked: 'van_phone_clicked',
+  vanReviewsClicked: 'van_reviews_clicked',
 } as const;
 
 export function analyticsPagePath(): string {

@@ -1,0 +1,19 @@
+---
+import Logo from '../layout/Logo.astro';
+import { vanCampaign } from '../../data/vanCampaign';
+---
+
+<header class="van-header sticky top-0 z-50 border-b border-white/10 bg-slate-900">
+  <div class="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
+    <Logo class="shrink-0" />
+    <a
+      href={`tel:${vanCampaign.phoneTel}`}
+      data-van-phone="header"
+      data-cta-location="van_header"
+      class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md bg-brand-red px-4 py-2.5 text-sm font-bold text-white hover:bg-brand-redhover"
+      aria-label={`Call Elevate Your Space Handyman at ${vanCampaign.phoneDisplay}`}
+    >
+      Call {vanCampaign.phoneDisplay}
+    </a>
+  </div>
+</header>

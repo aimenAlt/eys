@@ -1,0 +1,44 @@
+---
+const steps = [
+  {
+    title: 'Choose Your Project',
+    description: 'Select the service path that best matches what you need.',
+  },
+  {
+    title: 'Submit Your Information Once',
+    description:
+      'Complete the appropriate booking or estimate workflow without entering the same details twice.',
+  },
+  {
+    title: 'Book or Receive Your Estimate',
+    description:
+      'Standard services can be scheduled directly. Projects requiring review receive a clear next step from EYS.',
+  },
+] as const;
+---
+
+<section class="bg-brand-lightbg px-4 py-10 sm:px-6 sm:pt-12 sm:pb-8" aria-labelledby="van-process-heading">
+  <div class="mx-auto max-w-3xl">
+    <h2 id="van-process-heading" class="text-2xl font-extrabold tracking-tight text-brand-black sm:text-3xl">
+      One Clear Path From Project to Completion
+    </h2>
+    <ol class="mt-6 flex flex-col gap-4">
+      {
+        steps.map((step, index) => (
+          <li class="flex gap-4 rounded-xl border border-brand-black/10 bg-white p-5">
+            <span
+              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-900 text-sm font-bold text-white"
+              aria-hidden="true"
+            >
+              {index + 1}
+            </span>
+            <div>
+              <h3 class="text-base font-bold text-brand-black sm:text-lg">{step.title}</h3>
+              <p class="mt-1 text-sm leading-relaxed text-brand-muted sm:text-base">{step.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

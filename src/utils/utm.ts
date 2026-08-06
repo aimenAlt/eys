@@ -47,6 +47,16 @@ export function withJobberUtm(url: string, content: string): string {
   });
 }
 
+/** UTMs for outbound Jobber links from the van QR landing page (`/van/`). */
+export function withVehicleWrapUtm(url: string, content?: string): string {
+  return withUtm(url, {
+    source: 'vehicle_wrap',
+    medium: 'qr',
+    campaign: 'promaster_rear_2026',
+    content,
+  });
+}
+
 export function hasUtmParams(url: string): boolean {
   try {
     const parsed = new URL(url, 'https://eys.local');

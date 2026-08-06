@@ -1,0 +1,27 @@
+---
+import { vanCampaign } from '../../data/vanCampaign';
+---
+
+<div
+  class="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-slate-900 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden"
+  role="region"
+  aria-label="Van page quick actions"
+>
+  <div class="mx-auto flex max-w-3xl gap-3">
+    <a
+      href={`tel:${vanCampaign.phoneTel}`}
+      data-van-phone="sticky_bar"
+      data-cta-location="van_sticky"
+      class="inline-flex min-h-12 flex-1 items-center justify-center rounded-md bg-white px-3 py-3 text-center text-sm font-bold text-brand-black"
+      aria-label={`Call Elevate Your Space Handyman at ${vanCampaign.phoneDisplay}`}
+    >
+      Call EYS
+    </a>
+    <a
+      href="#service-paths"
+      class="inline-flex min-h-12 flex-1 items-center justify-center rounded-md bg-brand-red px-3 py-3 text-center text-sm font-bold text-white hover:bg-brand-redhover"
+    >
+      Choose My Project
+    </a>
+  </div>
+</div>
