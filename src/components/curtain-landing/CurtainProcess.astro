@@ -1,0 +1,58 @@
+---
+import CurtainBookLink from './CurtainBookLink.astro';
+
+const steps = [
+  {
+    number: '1',
+    title: 'Choose Your Installation',
+    body: 'Open the high-ceiling booking form and choose rod or track, plus any additional windows.',
+  },
+  {
+    number: '2',
+    title: 'Pick Your Time',
+    body: 'Choose from EYS’s available installation appointments.',
+  },
+  {
+    number: '3',
+    title: 'Secure Your Booking',
+    body: 'Enter your details and securely leave a card on file through Jobber.',
+  },
+] as const;
+---
+
+<section
+  class="bg-white px-4 py-12 sm:px-6 sm:py-16 lg:px-8"
+  aria-labelledby="curtain-process-heading"
+>
+  <div class="mx-auto max-w-6xl">
+    <h2
+      id="curtain-process-heading"
+      class="text-2xl font-bold tracking-tight text-brand-black sm:text-3xl"
+    >
+      Book Your Installation in Minutes
+    </h2>
+
+    <ol class="mt-8 grid gap-4 sm:grid-cols-3">
+      {
+        steps.map((step) => (
+          <li class="rounded-xl border border-brand-line bg-brand-lightbg p-5">
+            <div
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-black text-sm font-bold text-white"
+              aria-hidden="true"
+            >
+              {step.number}
+            </div>
+            <h3 class="mt-4 text-lg font-bold text-brand-black">{step.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-brand-muted sm:text-base">{step.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="mt-8">
+      <CurtainBookLink placement="process">
+        See Available Times &amp; Book
+      </CurtainBookLink>
+    </div>
+  </div>
+</section>

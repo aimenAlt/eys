@@ -1,0 +1,69 @@
+---
+import {
+  highCeilingJobberUrl,
+  regularCeilingJobberUrl,
+  type CurtainCtaPlacement,
+} from '../../data/curtainLanding';
+
+interface Props {
+  variant?: 'primary' | 'secondary' | 'text' | 'sticky';
+  service?: 'high_ceiling' | 'regular_ceiling';
+  placement: CurtainCtaPlacement;
+  class?: string;
+}
+
+const {
+  variant = 'primary',
+  service = 'high_ceiling',
+  placement,
+  class: className,
+} = Astro.props;
+
+const href =
+  service === 'regular_ceiling' ? regularCeilingJobberUrl() : highCeilingJobberUrl();
+
+const serviceType =
+  service === 'regular_ceiling' ? 'regular_ceiling_curtain' : 'high_ceiling_curtain';
+
+const bookingType = serviceType;
+
+const variantClasses = {
+  primary:
+    'inline-flex min-h-12 w-full items-center justify-center rounded-md bg-brand-red px-5 py-3.5 text-center text-base font-bold text-white hover:bg-brand-redhover sm:w-auto',
+  secondary:
+    'inline-flex min-h-12 w-full items-center justify-center rounded-md border-2 border-brand-black px-5 py-3 text-center text-base font-bold text-brand-black hover:bg-brand-black hover:text-white sm:w-auto',
+  sticky:
+    'inline-flex min-h-11 shrink-0 items-center justify-center rounded-md bg-brand-red px-5 py-2.5 text-sm font-bold text-white hover:bg-brand-redhover',
+  text: 'inline-flex min-h-11 items-center text-sm font-bold text-brand-red underline-offset-4 hover:underline',
+} as const;
+---
+
+{
+  href ? (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-booking-type={bookingType}
+      data-service-type={serviceType}
+      data-cta-location={placement}
+      data-curtain-cta={service}
+      class:list={[variantClasses[variant], className]}
+    >
+      <slot />
+    </a>
+  ) : (
+    <span
+      class:list={[
+        variantClasses[variant],
+        'cursor-not-allowed opacity-50',
+        className,
+      ]}
+      role="link"
+      aria-disabled="true"
+      title="Configure Jobber booking URL in src/data/curtainLanding.ts"
+    >
+      <slot />
+    </span>
+  )
+}

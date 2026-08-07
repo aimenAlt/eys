@@ -1,0 +1,54 @@
+---
+import { curtainLanding, formatUsd } from '../../data/curtainLanding';
+import CurtainBookLink from './CurtainBookLink.astro';
+
+const { pricing, highCeilingThresholdFt } = curtainLanding;
+const hc = pricing.highCeiling;
+---
+
+<section
+  class="bg-brand-black px-4 py-14 text-white sm:px-6 sm:py-16 lg:px-8"
+  aria-labelledby="curtain-final-heading"
+>
+  <div class="mx-auto max-w-3xl text-center">
+    <h2
+      id="curtain-final-heading"
+      class="text-2xl font-bold tracking-tight sm:text-3xl"
+    >
+      Ready to Get Those Curtains Installed?
+    </h2>
+    <p class="mx-auto mt-3 max-w-xl text-base leading-relaxed text-white/80">
+      Choose an available appointment and book your high-ceiling installation online.
+    </p>
+
+    <div class="mx-auto mt-8 grid max-w-lg gap-3 sm:grid-cols-2">
+      <div class="rounded-xl border border-white/15 bg-white/5 px-4 py-4">
+        <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">Rod Installation</p>
+        <p class="mt-2 text-xl font-bold">From {formatUsd(hc.rod.startingAt)}</p>
+      </div>
+      <div class="rounded-xl border border-white/15 bg-white/5 px-4 py-4">
+        <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">Track Installation</p>
+        <p class="mt-2 text-xl font-bold">From {formatUsd(hc.track.startingAt)}</p>
+      </div>
+    </div>
+
+    <div class="mt-8 flex flex-col items-center">
+      <CurtainBookLink placement="final_cta" class="shadow-lg shadow-black/40">
+        See Available Times &amp; Book
+      </CurtainBookLink>
+      <p class="mt-4">
+        <CurtainBookLink
+          service="regular_ceiling"
+          placement="final_cta"
+          variant="text"
+          class="!text-white/75 hover:!text-white"
+        >
+          {highCeilingThresholdFt} ft or lower? Book Standard Ceiling Installation →
+        </CurtainBookLink>
+      </p>
+      <p class="mt-4 max-w-md text-sm text-white/65">
+        Veteran-owned · Katy &amp; West Houston · Secure online booking through Jobber
+      </p>
+    </div>
+  </div>
+</section>

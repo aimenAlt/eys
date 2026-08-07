@@ -47,6 +47,8 @@ export const analyticsEvents = {
   vanProjectSelected: 'van_project_selected',
   vanPhoneClicked: 'van_phone_clicked',
   vanReviewsClicked: 'van_reviews_clicked',
+  /** Outbound Jobber click for regular-ceiling curtain booking (secondary funnel event). */
+  regularCeilingBookingClick: 'regular_ceiling_booking_click',
 } as const;
 
 export function analyticsPagePath(): string {
@@ -56,10 +58,12 @@ export function analyticsPagePath(): string {
 
 export function analyticsPageType(path = analyticsPagePath()): string {
   if (path === '/' || path.endsWith('/index.html')) return 'home';
+  if (path.startsWith('/curtain-installation')) return 'curtain_landing';
   if (path.startsWith('/services/')) return 'service';
   if (path.startsWith('/service-areas/')) return 'service_area';
   if (path.startsWith('/blog/')) return 'blog';
   if (path.startsWith('/our-work/')) return 'gallery';
+  if (path.startsWith('/van')) return 'van_landing';
   return 'content';
 }
 

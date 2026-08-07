@@ -29,12 +29,22 @@ function isGoogleReviewLink(link: HTMLAnchorElement): boolean {
   }
 }
 
-function inferBookingType(href: string): string {
+function inferBookingType(href: string, link: HTMLAnchorElement): string {
+  const explicit = link.getAttribute('data-booking-type');
+  if (explicit) return explicit;
   if (href.includes('4983259')) return 'handyman_to_do_list';
   if (href.includes('4985623')) return 'project_estimate';
   if (href.includes('4977896')) return 'tv_mounting';
   if (href.includes('embedded_work_request')) return 'embedded_estimate';
   return 'jobber_form';
+}
+
+function resolvePlacement(link: HTMLAnchorElement): string {
+  return (
+    link.getAttribute('data-cta-location') ??
+    link.closest('[data-cta-location]')?.getAttribute('data-cta-location') ??
+    resolveCtaLocation(link)
+  );
 }
 
 function wireConversionClicks(): void {
@@ -81,12 +91,32 @@ function wireConversionClicks(): void {
           } catch {
             /* keep default */
           }
+          const bookingType = inferBookingType(href, link);
+          const placement = resolvePlacement(link);
+          const serviceType =
+            link.getAttribute('data-service-type') ??
+            (bookingType.includes('curtain') ? bookingType : undefined);
+
           trackEvent(analyticsEvents.jobberBookingClick, {
             page_path: analyticsPagePath(),
-            booking_type: link.getAttribute('data-booking-type') ?? inferBookingType(href),
-            cta_location: resolveCtaLocation(link),
+            booking_type: bookingType,
+            service_type: serviceType,
+            placement,
+            cta_location: placement,
             destination_host: destinationHost,
           });
+
+          // Distinct secondary funnel event for regular-ceiling curtain CTAs.
+          if (
+            link.getAttribute('data-curtain-cta') === 'regular_ceiling' ||
+            serviceType === 'regular_ceiling_curtain'
+          ) {
+            trackEvent(analyticsEvents.regularCeilingBookingClick, {
+              page_path: analyticsPagePath(),
+              service_type: 'regular_ceiling_curtain',
+              placement,
+            });
+          }
         }
         return;
       }

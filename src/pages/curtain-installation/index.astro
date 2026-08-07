@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CurtainCompare from '../../components/curtain-landing/CurtainCompare.astro';
+import CurtainFaq from '../../components/curtain-landing/CurtainFaq.astro';
+import CurtainFinalCta from '../../components/curtain-landing/CurtainFinalCta.astro';
+import CurtainFooter from '../../components/curtain-landing/CurtainFooter.astro';
+import CurtainHeader from '../../components/curtain-landing/CurtainHeader.astro';
+import CurtainHero from '../../components/curtain-landing/CurtainHero.astro';
+import CurtainIncluded from '../../components/curtain-landing/CurtainIncluded.astro';
+import CurtainProcess from '../../components/curtain-landing/CurtainProcess.astro';
+import CurtainProof from '../../components/curtain-landing/CurtainProof.astro';
+import CurtainRegularEscape from '../../components/curtain-landing/CurtainRegularEscape.astro';
+import CurtainSocialProof from '../../components/curtain-landing/CurtainSocialProof.astro';
+import CurtainStickyBar from '../../components/curtain-landing/CurtainStickyBar.astro';
+import CurtainTrustStrip from '../../components/curtain-landing/CurtainTrustStrip.astro';
+import CurtainWhy from '../../components/curtain-landing/CurtainWhy.astro';
+import { absoluteUrl } from '../../data/business';
+import {
+  curtainFaqs,
+  curtainLanding,
+} from '../../data/curtainLanding';
+import {
+  breadcrumbList,
+  faqPage,
+  serviceSchema,
+  webPage,
+} from '../../data/schema';
+
+const pagePath = curtainLanding.path;
+const pageUrl = absoluteUrl(pagePath);
+const heroImage = curtainLanding.images.hero.src;
+
+const seo = {
+  title: 'High Ceiling Curtain Installation in Katy, TX | EYS Handyman',
+  description:
+    'Professional high-ceiling curtain rod and track installation in Katy and West Houston. Rod installation from $799. Track installation from $1,199. Book your installation online.',
+  canonical: pageUrl,
+  ogImage: heroImage,
+  ogImageAlt: curtainLanding.images.hero.alt,
+};
+
+const schemaGraph = [
+  webPage(seo.title, pageUrl, seo.description, heroImage),
+  serviceSchema(
+    'High Ceiling Curtain Installation',
+    'Professional high-ceiling curtain rod and ceiling-track installation for tall windows, vaulted spaces, and two-story rooms in Katy and West Houston.',
+    pageUrl,
+    heroImage,
+  ),
+  breadcrumbList([
+    { name: 'Home', url: absoluteUrl('/') },
+    { name: 'High Ceiling Curtain Installation', url: pageUrl },
+  ]),
+  faqPage(curtainFaqs()),
+].filter(Boolean);
+---
+
+<BaseLayout seo={seo} schemaGraph={schemaGraph}>
+  <div class="curtain-landing min-h-screen bg-brand-lightbg text-brand-charcoal">
+    <CurtainHeader />
+    <main id="main-content">
+      <CurtainHero />
+      <CurtainTrustStrip />
+      <CurtainProof />
+      <CurtainProcess />
+      <CurtainIncluded />
+      <CurtainCompare />
+      <CurtainSocialProof />
+      <CurtainWhy />
+      <CurtainRegularEscape />
+      <CurtainFaq />
+      <CurtainFinalCta />
+    </main>
+    <CurtainFooter />
+    <CurtainStickyBar />
+  </div>
+</BaseLayout>

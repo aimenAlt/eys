@@ -21,6 +21,7 @@ const corePages: SiteMapLink[] = [
   { title: 'Reviews', href: '/reviews/' },
   { title: 'Our Work', href: '/our-work/' },
   { title: 'Services', href: '/services/' },
+  { title: 'High Ceiling Curtain Installation', href: '/curtain-installation/' },
   { title: 'Service Areas', href: '/service-areas/' },
   { title: 'Blog', href: '/blog/' },
   { title: 'Privacy Policy', href: '/privacy/' },

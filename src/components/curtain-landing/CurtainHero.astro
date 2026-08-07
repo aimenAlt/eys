@@ -1,0 +1,100 @@
+---
+import SiteImage from '../ui/SiteImage.astro';
+import { curtainLanding, formatUsd } from '../../data/curtainLanding';
+import { imageOrPlaceholder } from '../../data/images';
+import CurtainBookLink from './CurtainBookLink.astro';
+
+const { pricing, images, highCeilingThresholdFt } = curtainLanding;
+const hc = pricing.highCeiling;
+const hero = images.hero;
+const heroSrc = imageOrPlaceholder(hero.src);
+---
+
+<section
+  class="bg-brand-black px-4 pb-10 pt-8 text-white sm:px-6 sm:pb-14 sm:pt-10 lg:px-8"
+  aria-labelledby="curtain-hero-heading"
+>
+  <div class="mx-auto grid max-w-6xl items-start gap-8 lg:grid-cols-2 lg:gap-12 lg:items-center">
+    <div>
+      <p class="mb-3 text-[11px] font-bold uppercase tracking-[0.16em] text-brand-redondark sm:text-xs">
+        Katy &amp; West Houston
+      </p>
+      <h1
+        id="curtain-hero-heading"
+        class="text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-[2.75rem]"
+      >
+        High-Ceiling Curtain Installation
+      </h1>
+      <p class="mt-3 max-w-xl text-base leading-relaxed text-white/85 sm:text-lg">
+        Professional rod and ceiling-track installation for tall windows, vaulted spaces, and
+        two-story rooms.
+      </p>
+
+      <div class="mt-7 grid gap-3 sm:grid-cols-2">
+        <div class="rounded-xl border border-white/15 bg-white/5 p-4">
+          <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">Curtain Rod</p>
+          <p class="mt-2 text-2xl font-bold tracking-tight text-white">
+            Starting at {formatUsd(hc.rod.startingAt)}
+          </p>
+          <p class="mt-1 text-sm text-white/75">
+            Up to {hc.rod.includedWindows} high-ceiling windows
+          </p>
+          <p class="mt-2 text-xs text-white/60">
+            Additional window: +{formatUsd(hc.rod.additionalWindow)} each
+          </p>
+        </div>
+        <div class="rounded-xl border border-white/15 bg-white/5 p-4">
+          <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">Curtain Track</p>
+          <p class="mt-2 text-2xl font-bold tracking-tight text-white">
+            Starting at {formatUsd(hc.track.startingAt)}
+          </p>
+          <p class="mt-1 text-sm text-white/75">
+            Up to {hc.track.includedWindows} high-ceiling windows
+          </p>
+          <p class="mt-2 text-xs text-white/60">
+            Additional window: +{formatUsd(hc.track.additionalWindow)} each
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-6" data-curtain-hero-cta>
+        <CurtainBookLink placement="hero" class="shadow-lg shadow-black/30">
+          See Available Times &amp; Book
+        </CurtainBookLink>
+        <p class="mt-3 max-w-md text-sm leading-relaxed text-white/70">
+          Choose your installation time and securely leave a card on file to complete your booking.
+        </p>
+        <p class="mt-4 max-w-md text-sm font-bold leading-relaxed text-white">
+          Already have your curtains, rods or tracks, and required hardware?
+          <span class="font-normal text-white/80"> You’re ready to book.</span>
+        </p>
+        <p class="mt-4">
+          <CurtainBookLink
+            service="regular_ceiling"
+            placement="hero"
+            variant="text"
+            class="!text-white/80 hover:!text-white"
+          >
+            Ceilings {highCeilingThresholdFt} ft or lower? Book Standard Ceiling Installation →
+          </CurtainBookLink>
+        </p>
+      </div>
+    </div>
+
+    <figure class="relative mx-auto hidden w-full max-w-md overflow-hidden rounded-xl lg:block lg:max-w-none">
+      <SiteImage
+        src={heroSrc}
+        alt={hero.alt}
+        width={hero.width}
+        height={hero.height}
+        loading="eager"
+        fetchpriority="high"
+        sizes="(max-width: 1024px) 0px, 560px"
+        class="aspect-[3/4] h-full w-full object-cover"
+      />
+      <figcaption class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent px-4 pb-4 pt-10 text-sm font-bold text-white">
+        {hero.label}
+      </figcaption>
+    </figure>
+  </div>
+</section>

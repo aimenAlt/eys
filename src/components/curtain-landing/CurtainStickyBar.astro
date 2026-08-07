@@ -1,0 +1,81 @@
+---
+import { curtainLanding, formatUsd } from '../../data/curtainLanding';
+import CurtainBookLink from './CurtainBookLink.astro';
+
+const fromPrice = formatUsd(curtainLanding.pricing.highCeiling.rod.startingAt);
+---
+
+<div
+  id="curtain-sticky-bar"
+  class="pointer-events-none fixed inset-x-0 bottom-0 z-40 translate-y-full opacity-0 transition-all duration-300 md:hidden"
+  role="region"
+  aria-label="Book high-ceiling curtain installation"
+  data-curtain-sticky
+  hidden
+>
+  <div
+    class="pointer-events-auto border-t border-brand-line bg-white px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-8px_24px_-12px_rgba(10,10,10,0.25)]"
+  >
+    <div class="mx-auto flex max-w-6xl items-center justify-between gap-3">
+      <div class="min-w-0">
+        <p class="truncate text-sm font-bold text-brand-black">High-Ceiling Install</p>
+        <p class="text-xs text-brand-muted">From {fromPrice}</p>
+      </div>
+      <CurtainBookLink placement="sticky_mobile" variant="sticky">
+        Book
+      </CurtainBookLink>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initCurtainStickyBar() {
+    const bar = document.querySelector<HTMLElement>('[data-curtain-sticky]');
+    const heroCta = document.querySelector<HTMLElement>('[data-curtain-hero-cta]');
+    const footer = document.querySelector<HTMLElement>('[data-curtain-footer]');
+    if (!bar || !heroCta) return;
+
+    let heroPassed = false;
+    let footerVisible = false;
+
+    const sync = () => {
+      const show = heroPassed && !footerVisible;
+      bar.hidden = !show;
+      bar.classList.toggle('translate-y-full', !show);
+      bar.classList.toggle('opacity-0', !show);
+      bar.classList.toggle('pointer-events-none', !show);
+      document.body.classList.toggle('curtain-sticky-pad', show);
+    };
+
+    const heroObserver = new IntersectionObserver(
+      ([entry]) => {
+        heroPassed = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+        sync();
+      },
+      { threshold: 0 },
+    );
+    heroObserver.observe(heroCta);
+
+    if (footer) {
+      const footerObserver = new IntersectionObserver(
+        ([entry]) => {
+          footerVisible = entry.isIntersecting;
+          sync();
+        },
+        { threshold: 0 },
+      );
+      footerObserver.observe(footer);
+    }
+  }
+
+  initCurtainStickyBar();
+  document.addEventListener('astro:page-load', initCurtainStickyBar);
+</script>
+
+<style is:global>
+  @media (max-width: 767px) {
+    body.curtain-sticky-pad {
+      padding-bottom: calc(4.75rem + env(safe-area-inset-bottom));
+    }
+  }
+</style>

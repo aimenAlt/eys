@@ -1,0 +1,54 @@
+---
+import { curtainLanding, formatUsd } from '../../data/curtainLanding';
+import CurtainBookLink from './CurtainBookLink.astro';
+
+const { highCeilingThresholdFt, pricing } = curtainLanding;
+const rc = pricing.regularCeiling;
+---
+
+<section
+  class="bg-brand-lightbg px-4 py-12 sm:px-6 sm:py-14 lg:px-8"
+  aria-labelledby="curtain-regular-heading"
+>
+  <div class="mx-auto max-w-6xl rounded-xl border border-brand-line bg-white px-5 py-7 sm:px-8">
+    <h2
+      id="curtain-regular-heading"
+      class="text-xl font-bold tracking-tight text-brand-black sm:text-2xl"
+    >
+      Not a High-Ceiling Project?
+    </h2>
+    <p class="mt-3 max-w-2xl text-base leading-relaxed text-brand-muted">
+      If your installation point is {highCeilingThresholdFt} ft or lower, book Standard Ceiling
+      Curtain Installation instead — a separate booking form from high-ceiling work.
+    </p>
+
+    <div class="mt-6 grid gap-3 sm:grid-cols-2">
+      <div class="rounded-lg border border-brand-line bg-brand-lightbg px-4 py-3">
+        <p class="text-xs font-bold uppercase tracking-[0.12em] text-brand-muted">Curtain rods</p>
+        <p class="mt-1 text-lg font-bold text-brand-black">
+          From {formatUsd(rc.rod.startingAt)}
+        </p>
+        <p class="text-xs text-brand-muted">
+          Up to {rc.rod.includedWindows} windows · +{formatUsd(rc.rod.additionalWindow)} each
+          additional
+        </p>
+      </div>
+      <div class="rounded-lg border border-brand-line bg-brand-lightbg px-4 py-3">
+        <p class="text-xs font-bold uppercase tracking-[0.12em] text-brand-muted">Curtain tracks</p>
+        <p class="mt-1 text-lg font-bold text-brand-black">
+          From {formatUsd(rc.track.startingAt)}
+        </p>
+        <p class="text-xs text-brand-muted">
+          Up to {rc.track.includedWindows} windows · +{formatUsd(rc.track.additionalWindow)} each
+          additional
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-6">
+      <CurtainBookLink service="regular_ceiling" placement="regular_escape" variant="secondary">
+        Book Standard Ceiling Installation
+      </CurtainBookLink>
+    </div>
+  </div>
+</section>
