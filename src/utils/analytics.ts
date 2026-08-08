@@ -6,7 +6,18 @@ declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void;
     dataLayer?: unknown[];
+    fbq?: (...args: unknown[]) => void;
   }
+}
+
+/** Meta Pixel helper — safe no-op when pixel is unavailable (dev / preview). */
+export function trackMetaEvent(
+  eventName: string,
+  params?: Record<string, string | number | boolean | undefined>,
+): void {
+  if (typeof window === 'undefined') return;
+  if (typeof window.fbq !== 'function') return;
+  window.fbq('track', eventName, params ?? {});
 }
 
 export type AnalyticsParams = Record<string, string | number | boolean | undefined>;

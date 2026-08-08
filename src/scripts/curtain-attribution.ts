@@ -1,10 +1,9 @@
 /**
- * Forward inbound landing-page attribution (UTMs + click IDs) onto curtain Jobber CTAs.
- *
- * - Captures params from the current URL into sessionStorage for the visit
- * - Decorates plain <a data-curtain-cta> hrefs so Jobber receives source context
- * - Leaves anchors as normal links so GA4 cross-domain linker can still add `_gl`
+ * Curtain landing conversion helpers:
+ * - Forward inbound UTMs / click IDs onto Jobber CTAs
+ * - Fire Meta Pixel `Schedule` on high-ceiling booking clicks (link still opens normally)
  */
+import { trackMetaEvent } from '../utils/analytics';
 import {
   readAttributionParams,
   withAttributionParams,
@@ -58,5 +57,27 @@ function decorateCurtainJobberLinks(): void {
   });
 }
 
+function wireHighCeilingMetaSchedule(): void {
+  document.addEventListener(
+    'click',
+    (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+
+      const link = target.closest<HTMLAnchorElement>('a[data-curtain-cta="high_ceiling"][href]');
+      if (!link) return;
+      if (!link.href.includes('getjobber.com')) return;
+
+      // Do not preventDefault — Jobber must open normally after this fires.
+      trackMetaEvent('Schedule', {
+        content_name: 'High-Ceiling Curtain Installation',
+        content_category: 'Curtain Installation',
+      });
+    },
+    { capture: true },
+  );
+}
+
 decorateCurtainJobberLinks();
+wireHighCeilingMetaSchedule();
 document.addEventListener('astro:page-load', decorateCurtainJobberLinks);
