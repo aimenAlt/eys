@@ -24,7 +24,7 @@ export const footerNav: NavItem[] = [
   { label: 'Pricing', href: '/pricing/' },
   { label: 'Reviews', href: '/reviews/' },
   { label: 'Blog', href: '/blog/' },
-  { label: 'Contact Us', href: '/contact/' },
+  { label: 'Contact', href: '/contact/' },
   { label: 'Sitemap', href: '/sitemap/' },
 ];
 

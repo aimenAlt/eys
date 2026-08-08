@@ -4,26 +4,27 @@
  * Jobber booking URLs — paste the live Client Hub online-booking form links below.
  * Keep them here only; components read via the getters so URLs are not scattered.
  *
- * Do NOT hard-code Google Ads campaign UTMs on this page. Preserve inbound gclid/UTMs
- * on the landing URL itself. Outbound Jobber links are plain anchors so GA4’s
- * cross-domain linker can decorate them when configured.
+ * Do NOT hard-code campaign UTMs into components. Inbound UTMs / click IDs on this
+ * page are forwarded onto Jobber links at runtime (`curtain-attribution.ts`).
+ * Outbound links stay plain anchors so GA4’s cross-domain linker can add `_gl`.
  */
 
 export const curtainLanding = {
   path: '/curtain-installation/',
 
   /**
-   * PASTE: High-ceiling Jobber online booking form.
+   * High-ceiling Jobber online booking form.
    * One form covers both curtain rods and curtain tracks (customer chooses inside Jobber).
-   * Example: https://clienthub.getjobber.com/hubs/<hub-id>/public/requests/<form-id>/new
    */
-  highCeilingJobberUrl: '' as string,
+  highCeilingJobberUrl:
+    'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/5061244/new' as string,
 
   /**
-   * PASTE: Standard / regular-ceiling (≤11 ft) Jobber online booking form.
+   * Standard / regular-ceiling (≤11 ft) Jobber online booking form.
    * Separate form from high-ceiling — not a rod-vs-track split.
    */
-  regularCeilingJobberUrl: '' as string,
+  regularCeilingJobberUrl:
+    'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/5061268/new' as string,
 
   pricing: {
     highCeiling: {

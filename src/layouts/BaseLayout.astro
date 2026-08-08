@@ -22,8 +22,9 @@ const defaultSeo: SeoProps = {
 const { seo = defaultSeo, schemaGraph = [] } = Astro.props;
 const schemaData = schemaGraph.length ? wrapSchemaGraph(schemaGraph) : null;
 
-// Only load Google Analytics on the production domain, not in dev or GitHub Pages previews.
+// Only load analytics on the production domain, not in dev or GitHub Pages previews.
 const enableAnalytics = import.meta.env.PROD && (import.meta.env.BASE_URL || '/') === '/';
+const metaPixelId = '691010400673866';
 ---
 
 <!doctype html>
@@ -45,6 +46,28 @@ const enableAnalytics = import.meta.env.PROD && (import.meta.env.BASE_URL || '/'
             gtag('js', new Date());
             gtag('config', 'G-9D5MCDT0L1');
           </script>
+          <!-- Meta Pixel -->
+          <link rel="preconnect" href="https://connect.facebook.net" crossorigin />
+          <script is:inline>
+            !(function (f, b, e, v, n, t, s) {
+              if (f.fbq) return;
+              n = f.fbq = function () {
+                n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+              };
+              if (!f._fbq) f._fbq = n;
+              n.push = n;
+              n.loaded = !0;
+              n.version = '2.0';
+              n.queue = [];
+              t = b.createElement(e);
+              t.async = !0;
+              t.src = v;
+              s = b.getElementsByTagName(e)[0];
+              s.parentNode.insertBefore(t, s);
+            })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '691010400673866');
+            fbq('track', 'PageView');
+          </script>
         </>
       )
     }
@@ -52,6 +75,19 @@ const enableAnalytics = import.meta.env.PROD && (import.meta.env.BASE_URL || '/'
   <body
     class="font-sans text-brand-charcoal bg-brand-lightbg antialiased selection:bg-brand-red selection:text-white"
   >
+    {
+      enableAnalytics && (
+        <noscript>
+          <img
+            height="1"
+            width="1"
+            style="display:none"
+            src={`https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1`}
+            alt=""
+          />
+        </noscript>
+      )
+    }
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-brand-black focus:rounded-md focus:shadow-lg focus:ring-2 focus:ring-brand-red"
