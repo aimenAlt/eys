@@ -42,6 +42,9 @@ const heroSrc = imageOrPlaceholder(hero.src);
           <p class="mt-2 text-xs text-white/60">
             Additional window: +{formatUsd(hc.rod.additionalWindow)} each
           </p>
+          <p class="mt-2 text-xs leading-snug text-white/50">
+            Traditional rod &amp; drapery installations
+          </p>
         </div>
         <div class="rounded-xl border border-white/15 bg-white/5 p-4">
           <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">Curtain Track</p>
@@ -53,6 +56,9 @@ const heroSrc = imageOrPlaceholder(hero.src);
           </p>
           <p class="mt-2 text-xs text-white/60">
             Additional window: +{formatUsd(hc.track.additionalWindow)} each
+          </p>
+          <p class="mt-2 text-xs leading-snug text-white/50">
+            Ceiling-mounted &amp; floor-to-ceiling systems
           </p>
         </div>
       </div>
@@ -68,16 +74,22 @@ const heroSrc = imageOrPlaceholder(hero.src);
           Already have your curtains, rods or tracks, and required hardware?
           <span class="font-normal text-white/80"> You’re ready to book.</span>
         </p>
-        <p class="mt-4">
+        <div
+          class="mt-5 max-w-md rounded-lg border border-white/25 bg-white/10 px-4 py-3"
+          data-cta-location="hero"
+        >
+          <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/65">
+            Not a high ceiling?
+          </p>
           <CurtainBookLink
             service="regular_ceiling"
             placement="hero"
             variant="text"
-            class="!text-white/80 hover:!text-white"
+            class="mt-1.5 !min-h-0 !text-base !text-white underline decoration-white/55 underline-offset-4 hover:!text-brand-redondark hover:decoration-brand-redondark"
           >
             Ceilings {highCeilingThresholdFt} ft or lower? Book Standard Ceiling Installation →
           </CurtainBookLink>
-        </p>
+        </div>
       </div>
     </div>
 
