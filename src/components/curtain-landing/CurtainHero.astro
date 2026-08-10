@@ -8,30 +8,54 @@ const { pricing, images, highCeilingThresholdFt } = curtainLanding;
 const hc = pricing.highCeiling;
 const hero = images.hero;
 const heroSrc = imageOrPlaceholder(hero.src);
+
+const pricingCardClass =
+  'rounded-xl border border-white/20 bg-black/45 p-4 backdrop-blur-[2px] lg:border-white/15 lg:bg-white/5 lg:backdrop-blur-none';
 ---
 
 <section
-  class="bg-brand-black px-4 pb-10 pt-8 text-white sm:px-6 sm:pb-14 sm:pt-10 lg:px-8"
+  class="relative overflow-hidden bg-brand-black px-4 pb-10 pt-8 text-white sm:px-6 sm:pb-14 sm:pt-10 lg:px-8"
   aria-labelledby="curtain-hero-heading"
 >
-  <div class="mx-auto grid max-w-6xl items-start gap-8 lg:grid-cols-2 lg:gap-12 lg:items-center">
+  {/* Mobile / tablet: darkened project photo behind the offer (desktop keeps the side image). */}
+  <div class="absolute inset-0 lg:hidden" aria-hidden="true">
+    <SiteImage
+      src={heroSrc}
+      alt=""
+      width={hero.width}
+      height={hero.height}
+      loading="eager"
+      fetchpriority="high"
+      sizes="100vw"
+      class="h-full w-full object-cover object-[center_30%]"
+    />
+    <div class="absolute inset-0 bg-brand-black/55"></div>
+    <div
+      class="absolute inset-0 bg-gradient-to-b from-brand-black/50 via-brand-black/60 to-brand-black/80"
+    >
+    </div>
+  </div>
+
+  <div class="relative mx-auto grid max-w-6xl items-start gap-8 lg:grid-cols-2 lg:gap-12 lg:items-center">
     <div>
       <p class="mb-3 text-[11px] font-bold uppercase tracking-[0.16em] text-brand-redondark sm:text-xs">
         Katy &amp; West Houston
       </p>
       <h1
         id="curtain-hero-heading"
-        class="text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-[2.75rem]"
+        class="text-3xl font-bold leading-tight tracking-tight [text-shadow:0_2px_18px_rgba(0,0,0,0.55)] sm:text-4xl lg:text-[2.75rem] lg:[text-shadow:none]"
       >
         High-Ceiling Curtain Installation
       </h1>
-      <p class="mt-3 max-w-xl text-base leading-relaxed text-white/85 sm:text-lg">
+      <p
+        class="mt-3 max-w-xl text-base leading-relaxed text-white/90 [text-shadow:0_1px_12px_rgba(0,0,0,0.45)] sm:text-lg lg:text-white/85 lg:[text-shadow:none]"
+      >
         Professional rod and ceiling-track installation for tall windows, vaulted spaces, and
         two-story rooms.
       </p>
 
       <div class="mt-7 grid gap-3 sm:grid-cols-2">
-        <div class="rounded-xl border border-white/15 bg-white/5 p-4">
+        <div class={pricingCardClass}>
           <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">Curtain Rod</p>
           <p class="mt-2 text-2xl font-bold tracking-tight text-white">
             Starting at {formatUsd(hc.rod.startingAt)}
@@ -46,7 +70,7 @@ const heroSrc = imageOrPlaceholder(hero.src);
             Traditional rod &amp; drapery installations
           </p>
         </div>
-        <div class="rounded-xl border border-white/15 bg-white/5 p-4">
+        <div class={pricingCardClass}>
           <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">Curtain Track</p>
           <p class="mt-2 text-2xl font-bold tracking-tight text-white">
             Starting at {formatUsd(hc.track.startingAt)}
@@ -67,15 +91,15 @@ const heroSrc = imageOrPlaceholder(hero.src);
         <CurtainBookLink placement="hero" class="shadow-lg shadow-black/30">
           See Available Times &amp; Book
         </CurtainBookLink>
-        <p class="mt-3 max-w-md text-sm leading-relaxed text-white/70">
+        <p class="mt-3 max-w-md text-sm leading-relaxed text-white/80 lg:text-white/70">
           Choose your installation time and securely leave a card on file to complete your booking.
         </p>
         <p class="mt-4 max-w-md text-sm font-bold leading-relaxed text-white">
           Already have your curtains, rods or tracks, and required hardware?
-          <span class="font-normal text-white/80"> You’re ready to book.</span>
+          <span class="font-normal text-white/85 lg:text-white/80"> You’re ready to book.</span>
         </p>
         <div
-          class="mt-5 max-w-md rounded-lg border border-white/25 bg-white/10 px-4 py-3"
+          class="mt-5 max-w-md rounded-lg border border-white/25 bg-black/40 px-4 py-3 backdrop-blur-[2px] lg:bg-white/10 lg:backdrop-blur-none"
           data-cta-location="hero"
         >
           <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/65">
