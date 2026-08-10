@@ -85,6 +85,7 @@ export const serviceHeroImages: Record<string, string> = {
   'flooring-and-decor': '/images/services/flooring.jpg',
   'custom-carpentry': '/images/services/custom-carpentry.jpg',
   'curtain-installation': '/images/services/curtain-install.jpg',
+  'media-walls': '/images/services/media-walls.jpg',
 };
 
 export const categoryHeroImages: Record<string, string> = {

@@ -55,6 +55,14 @@ export function buildNavMenus(
     const children = category.items
       .map((item) => {
         if (!item.serviceSlug) return null;
+        // Custom static landings win (e.g. media-walls) even if an unpublished MD entry exists
+        if (isCustomServicePage(item.serviceSlug)) {
+          usedSlugs.add(item.serviceSlug);
+          return {
+            label: customServicePages[item.serviceSlug].title,
+            href: `/services/${item.serviceSlug}/`,
+          };
+        }
         const entry = bySlug.get(item.serviceSlug);
         if (entry) {
           usedSlugs.add(item.serviceSlug);
@@ -63,14 +71,6 @@ export function buildNavMenus(
             href: entry.data.published
               ? `/services/${entry.data.slug}/`
               : `/contact/?service=${entry.data.slug}`,
-          };
-        }
-        // Custom static service pages (not content-collection entries)
-        if (isCustomServicePage(item.serviceSlug)) {
-          usedSlugs.add(item.serviceSlug);
-          return {
-            label: customServicePages[item.serviceSlug].title,
-            href: `/services/${item.serviceSlug}/`,
           };
         }
         return null;

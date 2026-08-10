@@ -45,8 +45,10 @@
 /custom-cabinets/ /services/custom-carpentry/ 301
 /curtian-installation/ /services/curtain-installation/ 301
 
+/tv-media-wall/ /services/media-walls/ 301
+/services/media-wall/ /services/media-walls/ 301
+
 # No redirect — discontinued or distinct intent (returns 404):
-# /tv-media-wall/          → create /services/media-walls/ when offered
 # /furniture-repair-richmond/
 # /furniture-repair-services-katy/
 # /tv-repair-katy/

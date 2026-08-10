@@ -1,0 +1,38 @@
+---
+import MediaWallEstimateLink from './MediaWallEstimateLink.astro';
+---
+
+<section
+  class="bg-brand-black px-4 py-14 text-white sm:px-6 sm:py-16 lg:px-8"
+  aria-labelledby="media-wall-final-heading"
+>
+  <div class="mx-auto max-w-3xl text-center">
+    <h2 id="media-wall-final-heading" class="text-2xl font-bold tracking-tight sm:text-3xl">
+      Ready to Transform the Wall?
+    </h2>
+    <p class="mx-auto mt-3 max-w-xl text-base leading-relaxed text-white/80">
+      Send a photo of your wall and tell us what you have in mind. We’ll review the project and get
+      back with the next step.
+    </p>
+
+    <div class="mx-auto mt-8 grid max-w-lg gap-3 sm:grid-cols-2">
+      <div class="rounded-xl border border-white/15 bg-white/5 px-4 py-4">
+        <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">Built-Ins</p>
+        <p class="mt-2 text-xl font-bold">Niches · Fireplace · TV</p>
+      </div>
+      <div class="rounded-xl border border-white/15 bg-white/5 px-4 py-4">
+        <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">Feature Walls</p>
+        <p class="mt-2 text-xl font-bold">Slats · Tile · Lighting</p>
+      </div>
+    </div>
+
+    <div class="mt-8 flex flex-col items-center">
+      <MediaWallEstimateLink placement="final_cta" variant="primaryOnDark">
+        Request a Media Wall Estimate
+      </MediaWallEstimateLink>
+      <p class="mt-4 max-w-md text-sm text-white/65">
+        Veteran-owned · Katy &amp; West Houston · Custom project estimates through Jobber
+      </p>
+    </div>
+  </div>
+</section>

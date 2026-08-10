@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import MediaWallFaq from '../../../components/media-wall-landing/MediaWallFaq.astro';
+import MediaWallFinalCta from '../../../components/media-wall-landing/MediaWallFinalCta.astro';
+import MediaWallFooter from '../../../components/media-wall-landing/MediaWallFooter.astro';
+import MediaWallHeader from '../../../components/media-wall-landing/MediaWallHeader.astro';
+import MediaWallHero from '../../../components/media-wall-landing/MediaWallHero.astro';
+import MediaWallIncluded from '../../../components/media-wall-landing/MediaWallIncluded.astro';
+import MediaWallProcess from '../../../components/media-wall-landing/MediaWallProcess.astro';
+import MediaWallProof from '../../../components/media-wall-landing/MediaWallProof.astro';
+import MediaWallStickyBar from '../../../components/media-wall-landing/MediaWallStickyBar.astro';
+import MediaWallTrustStrip from '../../../components/media-wall-landing/MediaWallTrustStrip.astro';
+import MediaWallVideoBuiltIn from '../../../components/media-wall-landing/MediaWallVideoBuiltIn.astro';
+import MediaWallVideoScript from '../../../components/media-wall-landing/MediaWallVideoScript.astro';
+import MediaWallVideoSlat from '../../../components/media-wall-landing/MediaWallVideoSlat.astro';
+import MediaWallWhy from '../../../components/media-wall-landing/MediaWallWhy.astro';
+import { absoluteUrl } from '../../../data/business';
+import { mediaWallFaqs, mediaWallsLanding } from '../../../data/mediaWalls';
+import {
+  breadcrumbList,
+  faqPage,
+  serviceSchema,
+  webPage,
+} from '../../../data/schema';
+
+const pagePath = mediaWallsLanding.path;
+const pageUrl = absoluteUrl(pagePath);
+const heroImage = mediaWallsLanding.images.hero.src;
+
+const seo = {
+  title: mediaWallsLanding.seo.title,
+  description: mediaWallsLanding.seo.description,
+  canonical: pageUrl,
+  ogImage: heroImage,
+  ogImageAlt: mediaWallsLanding.images.hero.alt,
+};
+
+const schemaGraph = [
+  webPage(seo.title, pageUrl, seo.description, heroImage),
+  serviceSchema(
+    'Custom Media Walls',
+    'Custom media walls, fireplace TV walls, wood-slat feature walls, and finished entertainment centers in Katy and West Houston.',
+    pageUrl,
+    heroImage,
+  ),
+  breadcrumbList([
+    { name: 'Home', url: absoluteUrl('/') },
+    { name: 'Services', url: absoluteUrl('/services/') },
+    { name: 'Media Walls', url: pageUrl },
+  ]),
+  faqPage([...mediaWallFaqs()]),
+].filter(Boolean);
+---
+
+<BaseLayout seo={seo} schemaGraph={schemaGraph}>
+  <div class="media-wall-landing min-h-screen bg-brand-lightbg text-brand-charcoal">
+    <MediaWallHeader />
+    <main id="main-content">
+      <MediaWallHero />
+      <MediaWallTrustStrip />
+      <MediaWallProof />
+      <MediaWallProcess />
+      <MediaWallIncluded />
+      <MediaWallVideoBuiltIn />
+      <MediaWallVideoSlat />
+      <MediaWallWhy />
+      <MediaWallFaq />
+      <MediaWallFinalCta />
+    </main>
+    <MediaWallFooter />
+    <MediaWallStickyBar />
+  </div>
+  <MediaWallVideoScript />
+  <script>
+    import '../../../scripts/curtain-attribution.ts';
+  </script>
+</BaseLayout>

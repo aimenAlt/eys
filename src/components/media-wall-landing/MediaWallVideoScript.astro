@@ -1,0 +1,74 @@
+---
+/** In-view muted autoplay for media-wall landing videos (no controls). */
+---
+
+<script>
+  import { analyticsEvents, trackEvent } from '../../utils/analytics';
+
+  function prefersReducedMotion(): boolean {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  function wireMediaWallVideos(): void {
+    const sections = document.querySelectorAll<HTMLElement>('[data-media-wall-video-section]');
+    sections.forEach((section) => {
+      if (section.dataset.wired === '1') return;
+      section.dataset.wired = '1';
+
+      const video = section.querySelector<HTMLVideoElement>('[data-media-wall-video]');
+      if (!video) return;
+      const source = video.querySelector<HTMLSourceElement>('source[data-src]');
+      let viewed = false;
+
+      const markView = () => {
+        if (viewed) return;
+        viewed = true;
+        trackEvent(analyticsEvents.mediaWallCrossSellView, {
+          source_page: 'media_walls',
+          cross_sell: 'media_wall',
+          placement: section.id || 'video_section',
+        });
+      };
+
+      const loadSource = () => {
+        if (!(source instanceof HTMLSourceElement) || source.src) return;
+        const src = source.dataset.src;
+        if (!src) return;
+        source.src = src;
+        video.load();
+      };
+
+      const playIfAllowed = async () => {
+        if (prefersReducedMotion()) return;
+        loadSource();
+        try {
+          video.muted = true;
+          await video.play();
+        } catch {
+          /* autoplay blocked */
+        }
+      };
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
+                markView();
+                void playIfAllowed();
+              } else {
+                video.pause();
+              }
+            }
+          },
+          { threshold: [0, 0.3, 0.6] },
+        ).observe(section);
+      } else {
+        markView();
+      }
+    });
+  }
+
+  wireMediaWallVideos();
+  document.addEventListener('astro:page-load', wireMediaWallVideos);
+</script>

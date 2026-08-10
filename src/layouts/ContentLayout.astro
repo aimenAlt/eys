@@ -10,9 +10,11 @@ import { buildNavMenus } from '../data/navMenus';
 interface Props {
   seo: SeoProps;
   schemaGraph?: unknown[];
+  /** Hide the mobile sticky Call/Book bar (e.g. post-Jobber confirmation pages). */
+  hideMobileStickyCta?: boolean;
 }
 
-const { seo, schemaGraph = [] } = Astro.props;
+const { seo, schemaGraph = [], hideMobileStickyCta = false } = Astro.props;
 
 const [services, serviceAreas, communities] = await Promise.all([
   getCollection('services'),
@@ -29,5 +31,5 @@ const navMenus = buildNavMenus(services, serviceAreas, communities);
     <slot />
   </main>
   <Footer />
-  <MobileStickyCTA />
+  {!hideMobileStickyCta && <MobileStickyCTA />}
 </BaseLayout>

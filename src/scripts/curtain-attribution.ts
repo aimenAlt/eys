@@ -1,7 +1,8 @@
 /**
  * Curtain landing conversion helpers:
  * - Forward inbound UTMs / click IDs onto Jobber CTAs
- * - Fire Meta Pixel `Schedule` on high-ceiling booking clicks (link still opens normally)
+ * - Fire Meta Pixel `InitiateCheckout` on high-ceiling booking *start* clicks
+ *   (Schedule fires only on /booking-confirmed/ after Jobber success)
  */
 import { trackMetaEvent } from '../utils/analytics';
 import {
@@ -57,7 +58,7 @@ function decorateCurtainJobberLinks(): void {
   });
 }
 
-function wireHighCeilingMetaSchedule(): void {
+function wireHighCeilingMetaInitiateCheckout(): void {
   document.addEventListener(
     'click',
     (event) => {
@@ -68,10 +69,12 @@ function wireHighCeilingMetaSchedule(): void {
       if (!link) return;
       if (!link.href.includes('getjobber.com')) return;
 
+      // Booking *start* only — Schedule fires on the post-Jobber confirmation page.
       // Do not preventDefault — Jobber must open normally after this fires.
-      trackMetaEvent('Schedule', {
+      trackMetaEvent('InitiateCheckout', {
         content_name: 'High-Ceiling Curtain Installation',
         content_category: 'Curtain Installation',
+        service: 'high_ceiling_curtains',
       });
     },
     { capture: true },
@@ -79,5 +82,5 @@ function wireHighCeilingMetaSchedule(): void {
 }
 
 decorateCurtainJobberLinks();
-wireHighCeilingMetaSchedule();
+wireHighCeilingMetaInitiateCheckout();
 document.addEventListener('astro:page-load', decorateCurtainJobberLinks);

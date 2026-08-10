@@ -12,7 +12,6 @@ Paste live Client Hub booking URLs in:
 
 - `highCeilingJobberUrl` — **one** form for high-ceiling work (rod **or** track chosen inside Jobber)
 - `regularCeilingJobberUrl` — **separate** form for standard / ≤11 ft ceiling installs
-
 There are not separate rod vs track Jobber forms.
 
 Outbound links are plain `<a href>` anchors (no redirect layer, no JS navigation) so GA4 cross-domain linker parameters are not stripped.

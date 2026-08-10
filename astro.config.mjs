@@ -28,7 +28,9 @@ export default defineConfig({
         !page.includes('/home2') &&
         !page.includes('/privacy') &&
         !page.includes('/terms') &&
-        !page.includes('/van'),
+        !page.includes('/van') &&
+        !page.includes('/booking-confirmed') &&
+        !page.includes('/request-confirmed'),
     }),
   ],
   vite: {

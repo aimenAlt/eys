@@ -1,0 +1,43 @@
+---
+import ContentLayout from '../../layouts/ContentLayout.astro';
+import JobberConfirmation from '../../components/jobber/JobberConfirmation.astro';
+import { absoluteUrl, site } from '../../data/business';
+import {
+  confirmationPath,
+  getRequestConfirmations,
+  type JobberConfirmation as JobberConfirmationConfig,
+} from '../../data/jobberConfirmations';
+import { webPage } from '../../data/schema';
+
+export async function getStaticPaths() {
+  return getRequestConfirmations().map((confirmation) => ({
+    params: { slug: confirmation.slug },
+    props: { confirmation },
+  }));
+}
+
+interface Props {
+  confirmation: JobberConfirmationConfig;
+}
+
+const { confirmation } = Astro.props;
+const path = confirmationPath(confirmation);
+const title = `${confirmation.seoTitle} | ${site.name}`;
+const description = confirmation.seoDescription;
+const canonical = absoluteUrl(path);
+const schemaGraph = [webPage(title, canonical, description)];
+---
+
+<ContentLayout
+  seo={{
+    title,
+    description,
+    canonical,
+    noindex: true,
+    nofollow: true,
+  }}
+  schemaGraph={schemaGraph}
+  hideMobileStickyCta
+>
+  <JobberConfirmation confirmation={confirmation} />
+</ContentLayout>

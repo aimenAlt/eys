@@ -33,7 +33,13 @@ function inferBookingType(href: string, link: HTMLAnchorElement): string {
   const explicit = link.getAttribute('data-booking-type');
   if (explicit) return explicit;
   if (href.includes('4983259')) return 'handyman_to_do_list';
-  if (href.includes('4985623')) return 'project_estimate';
+  if (href.includes('4985623')) {
+    // Same Jobber form as general project estimate; Media Wall CTA tags it explicitly.
+    if (link.getAttribute('data-curtain-cta') === 'media_wall') {
+      return 'media_wall_estimate';
+    }
+    return 'project_estimate';
+  }
   if (href.includes('4977896')) return 'tv_mounting';
   if (href.includes('5061244')) return 'high_ceiling_curtain';
   if (href.includes('5061268')) return 'regular_ceiling_curtain';
@@ -117,6 +123,21 @@ function wireConversionClicks(): void {
               page_path: analyticsPagePath(),
               service_type: 'regular_ceiling_curtain',
               placement,
+            });
+          }
+
+          // Distinct cross-sell event for Media Wall estimate requests from curtain LP.
+          if (
+            link.getAttribute('data-curtain-cta') === 'media_wall' ||
+            bookingType === 'media_wall_estimate'
+          ) {
+            trackEvent(analyticsEvents.mediaWallRequestClick, {
+              page_path: analyticsPagePath(),
+              source_page: 'curtain_installation',
+              cross_sell: 'media_wall',
+              placement: 'lower_page',
+              destination: 'jobber_request',
+              cta_location: placement,
             });
           }
         }

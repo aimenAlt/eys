@@ -91,9 +91,9 @@ export const serviceCategories: ServiceCategory[] = [
         serviceSlug: 'furniture-assembly',
       },
       {
-        title: 'TV Mounting & Media Walls',
+        title: 'TV Mounting',
         description:
-          'Clean TV mounting, cable management, wall placement, and media wall installation for a polished setup.',
+          'Clean TV mounting, cable management, and careful wall placement for a polished living-room setup.',
         serviceSlug: 'tv-mounting',
       },
       {
@@ -153,6 +153,12 @@ export const serviceCategories: ServiceCategory[] = [
           'Custom woodwork, accent walls, shelving, built-ins, trim upgrades, and detail work that gives the home character.',
         serviceSlug: 'custom-carpentry',
       },
+      {
+        title: 'Media Walls',
+        description:
+          'Custom entertainment walls — built-in niches, fireplace media walls, wood-slat features, and finished TV centers.',
+        serviceSlug: 'media-walls',
+      },
     ],
   },
 ];
@@ -173,6 +179,7 @@ export const allServiceSlugs = [
   'kitchen-remodeling',
   'flooring-and-decor',
   'custom-carpentry',
+  'media-walls',
 ] as const;
 
 export function getServiceCategory(slug: string): ServiceCategory | undefined {

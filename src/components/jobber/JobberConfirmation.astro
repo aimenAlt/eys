@@ -1,0 +1,44 @@
+---
+import type { JobberConfirmation } from '../../data/jobberConfirmations';
+import { withBase } from '../../utils/paths';
+
+interface Props {
+  confirmation: JobberConfirmation;
+}
+
+const { confirmation } = Astro.props;
+---
+
+<section
+  class="bg-brand-lightbg"
+  data-jobber-confirmation
+  data-meta-event={confirmation.metaEvent}
+  data-analytics-event={confirmation.analyticsEvent}
+  data-content-name={confirmation.contentName}
+  data-content-category={confirmation.contentCategory}
+  data-service={confirmation.service}
+>
+  <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+    <p class="text-sm font-semibold uppercase tracking-wide text-brand-red mb-3">
+      Elevate Your Space Handyman
+    </p>
+    <h1 class="text-3xl md:text-4xl font-bold text-brand-black tracking-tight">
+      {confirmation.heading}
+    </h1>
+    <p class="mt-5 text-lg text-brand-charcoal leading-relaxed">
+      {confirmation.message}
+    </p>
+    <div class="mt-10">
+      <a
+        href={withBase('/')}
+        class="inline-flex min-h-12 items-center justify-center rounded-md bg-brand-red px-6 py-3 text-base font-bold text-white hover:bg-brand-redhover transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+      >
+        Return to Elevate Your Space
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  import '../../scripts/jobber-confirmation-tracking';
+</script>

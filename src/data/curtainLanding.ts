@@ -26,6 +26,13 @@ export const curtainLanding = {
   regularCeilingJobberUrl:
     'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/5061268/new' as string,
 
+  /**
+   * Media Wall cross-sell → general custom project estimate request form.
+   * Not a standardized booking product — estimate/request only.
+   */
+  mediaWallJobberUrl:
+    'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/4985623/new' as string,
+
   pricing: {
     highCeiling: {
       rod: {
@@ -70,11 +77,11 @@ export const curtainLanding = {
     },
     proof: [
       {
-        src: '/images/curtain-installation/hero-double-height-sheers.jpg',
-        alt: 'Floor-to-ceiling sheer white curtains spanning a double-height living-room wall',
-        width: 1200,
-        height: 1600,
-        label: 'Two-Story Curtain Installation',
+        src: '/images/curtain-installation/proof-high-ceiling-drapes-living-room.jpg',
+        alt: 'Floor-to-ceiling charcoal drapes and sheer panels on tall living-room windows',
+        width: 684,
+        height: 1024,
+        label: 'High-Ceiling Curtain Installation',
       },
       {
         src: '/images/curtain-installation/proof-floor-to-ceiling-drapes.jpg',
@@ -91,6 +98,33 @@ export const curtainLanding = {
         label: 'High-Ceiling Curtain Rod Installation',
       },
     ],
+    mediaWall: {
+      video: {
+        src: '/images/curtain-installation/media-wall/media-wall-vertical.mp4',
+        poster: '/images/curtain-installation/media-wall/media-wall-vertical-poster.jpg',
+        width: 480,
+        height: 848,
+        label: 'Custom Media Wall with Fireplace',
+      },
+      photos: [
+        {
+          src: '/images/curtain-installation/media-wall/media-wall-slat-console.jpg',
+          alt: 'TV on a dark wood-slat media wall with LED backlight above a white floating console',
+          width: 640,
+          height: 360,
+          label: 'Slat Wall & Floating Console',
+          aspect: 'landscape' as const,
+        },
+        {
+          src: '/images/curtain-installation/media-wall/media-wall-marble-wood-slat.jpg',
+          alt: 'Floor-to-ceiling marble-look tile feature wall flanked by dark vertical wood slats',
+          width: 1200,
+          height: 1600,
+          label: 'Marble & Wood-Slat Feature Wall',
+          aspect: 'portrait' as const,
+        },
+      ],
+    },
   },
 } as const;
 
@@ -103,7 +137,8 @@ export type CurtainCtaPlacement =
   | 'gallery'
   | 'final_cta'
   | 'regular_escape'
-  | 'faq';
+  | 'faq'
+  | 'media_wall_cross_sell';
 
 function rawUrl(value: string | undefined): string | undefined {
   const url = value?.trim();
@@ -118,6 +153,11 @@ export function highCeilingJobberUrl(): string | undefined {
 /** Direct regular-ceiling Jobber booking URL (no website UTM rewrite). */
 export function regularCeilingJobberUrl(): string | undefined {
   return rawUrl(curtainLanding.regularCeilingJobberUrl);
+}
+
+/** Direct Media Wall estimate Jobber request URL (no website UTM rewrite). */
+export function mediaWallJobberUrl(): string | undefined {
+  return rawUrl(curtainLanding.mediaWallJobberUrl);
 }
 
 export function formatUsd(amount: number): string {

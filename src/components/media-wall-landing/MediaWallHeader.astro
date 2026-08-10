@@ -1,0 +1,16 @@
+---
+import Logo from '../layout/Logo.astro';
+import MediaWallEstimateLink from './MediaWallEstimateLink.astro';
+---
+
+<header class="sticky top-0 z-50 border-b border-white/10 bg-brand-black">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+    <Logo class="shrink-0" />
+    <MediaWallEstimateLink
+      placement="header"
+      class="!min-h-11 !w-auto !px-4 !py-2.5 !text-sm"
+    >
+      Request Estimate
+    </MediaWallEstimateLink>
+  </div>
+</header>

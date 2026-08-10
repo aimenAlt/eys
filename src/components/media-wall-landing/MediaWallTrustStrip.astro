@@ -1,0 +1,46 @@
+---
+import { googleReviews, googleReviewProfileUrl } from '../../data/business';
+
+const gbpUrl = googleReviewProfileUrl();
+const ratingLabel = googleReviews.rating.toFixed(1);
+const reviewLabel = `${googleReviews.count}`;
+---
+
+<section
+  class="border-y border-brand-line bg-white px-4 py-4 sm:px-6 lg:px-8"
+  aria-label="Trust signals"
+>
+  <ul
+    class="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm font-bold text-brand-black"
+    role="list"
+  >
+    <li>Veteran-Owned</li>
+    <li class="hidden text-brand-line sm:list-item" aria-hidden="true">|</li>
+    <li>Katy &amp; West Houston</li>
+    <li class="hidden text-brand-line sm:list-item" aria-hidden="true">|</li>
+    <li>Custom Media Wall Builds</li>
+    <li class="hidden text-brand-line sm:list-item" aria-hidden="true">|</li>
+    <li>
+      {
+        gbpUrl ? (
+          <a
+            href={gbpUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-track-review
+            data-cta-location="trust_strip"
+            class="inline-flex items-center gap-1.5 text-brand-red hover:underline"
+          >
+            <span aria-hidden="true">{ratingLabel} ★</span>
+            <span class="sr-only">{ratingLabel} star</span>
+            <span>· {reviewLabel} Google reviews</span>
+          </a>
+        ) : (
+          <span>
+            {ratingLabel} ★ · {reviewLabel} Google reviews
+          </span>
+        )
+      }
+    </li>
+  </ul>
+</section>

@@ -36,6 +36,10 @@ export const analyticsEvents = {
   estimateSubmit: 'estimate_submit',
   jobberBookingClick: 'jobber_booking_click',
   jobberBookingComplete: 'jobber_booking_complete',
+  /** Successful scheduled appointment after Jobber redirect to /booking-confirmed/. */
+  bookingComplete: 'booking_complete',
+  /** Successful inquiry/request after Jobber redirect to /request-confirmed/. */
+  leadSubmit: 'lead_submit',
   customProjectInquiry: 'custom_project_inquiry',
   directionsClick: 'directions_click',
   reviewLinkClick: 'review_link_click',
@@ -60,6 +64,10 @@ export const analyticsEvents = {
   vanReviewsClicked: 'van_reviews_clicked',
   /** Outbound Jobber click for regular-ceiling curtain booking (secondary funnel event). */
   regularCeilingBookingClick: 'regular_ceiling_booking_click',
+  /** Media Wall cross-sell section entered viewport on curtain landing. */
+  mediaWallCrossSellView: 'media_wall_cross_sell_view',
+  /** Outbound Jobber request click from Media Wall cross-sell CTA. */
+  mediaWallRequestClick: 'media_wall_request_click',
 } as const;
 
 export function analyticsPagePath(): string {
@@ -75,6 +83,8 @@ export function analyticsPageType(path = analyticsPagePath()): string {
   if (path.startsWith('/blog/')) return 'blog';
   if (path.startsWith('/our-work/')) return 'gallery';
   if (path.startsWith('/van')) return 'van_landing';
+  if (path.startsWith('/booking-confirmed')) return 'booking_confirmation';
+  if (path.startsWith('/request-confirmed')) return 'request_confirmation';
   return 'content';
 }
 

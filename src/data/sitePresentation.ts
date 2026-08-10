@@ -7,12 +7,17 @@ export type HomepageVariant = 'current' | 'small-repair';
 /** Which homepage renders at `/`. Change only this value to switch. */
 export const homepageVariant: HomepageVariant = 'small-repair';
 
-/** Static service pages that are not content-collection entries. */
+/** Static service pages that are not content-collection entries (or supersede unpublished ones). */
 export const customServicePages = {
   'handyman-to-do-list': {
     title: 'Handyman To-Do List Visit',
     summary:
       'Reserve a professional handyman to work through multiple small repairs, installations, and maintenance tasks in one convenient visit.',
+  },
+  'media-walls': {
+    title: 'Media Walls',
+    summary:
+      'Custom entertainment walls — built-in niches, fireplace media walls, wood-slat features, and finished TV centers.',
   },
 } as const;
 

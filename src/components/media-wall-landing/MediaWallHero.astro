@@ -1,0 +1,83 @@
+---
+import SiteImage from '../ui/SiteImage.astro';
+import { mediaWallsLanding } from '../../data/mediaWalls';
+import { imageOrPlaceholder } from '../../data/images';
+import { site } from '../../data/business';
+import MediaWallEstimateLink from './MediaWallEstimateLink.astro';
+
+const hero = mediaWallsLanding.images.hero;
+const heroSrc = imageOrPlaceholder(hero.src);
+---
+
+<section
+  class="bg-brand-black px-4 pb-10 pt-8 text-white sm:px-6 sm:pb-14 sm:pt-10 lg:px-8"
+  aria-labelledby="media-wall-hero-heading"
+>
+  <div class="mx-auto grid max-w-6xl items-start gap-8 lg:grid-cols-2 lg:items-center lg:gap-12">
+    <div>
+      <p class="mb-3 text-[11px] font-bold uppercase tracking-[0.16em] text-brand-redondark sm:text-xs">
+        Katy &amp; West Houston
+      </p>
+      <h1
+        id="media-wall-hero-heading"
+        class="text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-[2.75rem]"
+      >
+        Custom Media Walls
+      </h1>
+      <p class="mt-3 max-w-xl text-base leading-relaxed text-white/85 sm:text-lg">
+        Feature walls and entertainment centers built around your TV — lit niches, fireplace
+        integration, wood-slat accents, and finished consoles.
+      </p>
+
+      <div class="mt-7 grid gap-3 sm:grid-cols-2">
+        <div class="rounded-xl border border-white/15 bg-white/5 p-4">
+          <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">Built-In Walls</p>
+          <p class="mt-2 text-lg font-bold tracking-tight text-white">Niches · Fireplace · TV</p>
+          <p class="mt-1 text-sm text-white/75">Floor-to-ceiling architectural builds</p>
+        </div>
+        <div class="rounded-xl border border-white/15 bg-white/5 p-4">
+          <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">Slat &amp; Feature</p>
+          <p class="mt-2 text-lg font-bold tracking-tight text-white">Wood · Tile · Lighting</p>
+          <p class="mt-1 text-sm text-white/75">Clean TV integration and finishes</p>
+        </div>
+      </div>
+
+      <div class="mt-6" data-media-wall-hero-cta>
+        <MediaWallEstimateLink placement="hero" variant="primaryOnDark">
+          Request a Media Wall Estimate
+        </MediaWallEstimateLink>
+        <p class="mt-3 max-w-md text-sm leading-relaxed text-white/70">
+          Send a photo of your wall and tell us what you have in mind. We’ll review the project and
+          get back with the next step.
+        </p>
+        <p class="mt-4">
+          <a
+            href={`tel:${site.phoneTel}`}
+            data-cta-location="hero"
+            class="inline-flex min-h-11 items-center text-sm font-bold text-white/80 underline-offset-4 hover:text-white hover:underline"
+          >
+            Or call {site.phone}
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <figure class="relative mx-auto hidden w-full max-w-md overflow-hidden rounded-xl lg:block lg:max-w-none">
+      <SiteImage
+        src={heroSrc}
+        alt={hero.alt}
+        width={hero.width}
+        height={hero.height}
+        loading="eager"
+        fetchpriority="high"
+        sizes="(max-width: 1024px) 0px, 560px"
+        class="aspect-[3/4] h-full w-full object-cover"
+      />
+      <figcaption
+        class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-4 pb-4 pt-10 text-sm font-bold text-white"
+      >
+        {hero.label}
+      </figcaption>
+    </figure>
+  </div>
+</section>

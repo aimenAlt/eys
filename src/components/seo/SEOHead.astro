@@ -12,6 +12,8 @@ export interface SeoProps {
   ogImageAlt?: string;
   ogType?: string;
   noindex?: boolean;
+  /** When true with noindex, emits noindex, nofollow (e.g. post-submission confirmation pages). */
+  nofollow?: boolean;
 }
 
 const {
@@ -22,6 +24,7 @@ const {
   ogImageAlt = defaultOgImageAlt,
   ogType = 'website',
   noindex = false,
+  nofollow = false,
 } = Astro.props as SeoProps;
 
 // Preview deploys (GitHub Pages base path, or PUBLIC_DEPLOY_ENV=preview) stay out of search indexes.
@@ -29,7 +32,9 @@ const isGithubPagesPreview = (import.meta.env.BASE_URL || '/') !== '/';
 const isCloudflarePreview = import.meta.env.PUBLIC_DEPLOY_ENV === 'preview';
 const isPreview = isGithubPagesPreview || isCloudflarePreview;
 const robotsContent = noindex
-  ? 'noindex, follow'
+  ? nofollow
+    ? 'noindex, nofollow'
+    : 'noindex, follow'
   : isPreview
     ? 'noindex, nofollow'
     : 'index, follow, max-image-preview:large';

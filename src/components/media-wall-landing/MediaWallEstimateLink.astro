@@ -1,0 +1,53 @@
+---
+import {
+  mediaWallEstimateJobberUrl,
+  type MediaWallCtaPlacement,
+} from '../../data/mediaWalls';
+
+interface Props {
+  variant?: 'primary' | 'secondary' | 'text' | 'sticky' | 'primaryOnDark';
+  placement: MediaWallCtaPlacement;
+  class?: string;
+}
+
+const { variant = 'primary', placement, class: className } = Astro.props;
+const href = mediaWallEstimateJobberUrl();
+
+const variantClasses = {
+  primary:
+    'inline-flex min-h-12 w-full items-center justify-center rounded-md bg-brand-red px-5 py-3.5 text-center text-base font-bold text-white hover:bg-brand-redhover sm:w-auto',
+  primaryOnDark:
+    'inline-flex min-h-12 w-full items-center justify-center rounded-md bg-brand-red px-5 py-3.5 text-center text-base font-bold text-white hover:bg-brand-redhover shadow-lg shadow-black/30 sm:w-auto',
+  secondary:
+    'inline-flex min-h-12 w-full items-center justify-center rounded-md border-2 border-brand-black px-5 py-3 text-center text-base font-bold text-brand-black hover:bg-brand-black hover:text-white sm:w-auto',
+  sticky:
+    'inline-flex min-h-11 shrink-0 items-center justify-center rounded-md bg-brand-red px-5 py-2.5 text-sm font-bold text-white hover:bg-brand-redhover',
+  text: 'inline-flex min-h-11 items-center text-sm font-bold text-brand-red underline-offset-4 hover:underline',
+} as const;
+---
+
+{
+  href ? (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-booking-type="media_wall_estimate"
+      data-service-type="media_wall_estimate"
+      data-cta-location={placement}
+      data-curtain-cta="media_wall"
+      class:list={[variantClasses[variant], className]}
+    >
+      <slot />
+    </a>
+  ) : (
+    <span
+      class:list={[variantClasses[variant], 'cursor-not-allowed opacity-50', className]}
+      role="link"
+      aria-disabled="true"
+      title="Configure Jobber estimate URL in src/data/mediaWalls.ts"
+    >
+      <slot />
+    </span>
+  )
+}
