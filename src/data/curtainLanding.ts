@@ -27,11 +27,11 @@ export const curtainLanding = {
     'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/5061268/new' as string,
 
   /**
-   * Media Wall cross-sell → general custom project estimate request form.
-   * Not a standardized booking product — estimate/request only.
+   * Media Wall cross-sell → Media Wall Design Consultation questionnaire.
+   * Not a standardized booking product — request/lead only.
    */
   mediaWallJobberUrl:
-    'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/4985623/new' as string,
+    'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/5067435/new' as string,
 
   pricing: {
     highCeiling: {
