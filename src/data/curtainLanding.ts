@@ -140,6 +140,28 @@ export type CurtainCtaPlacement =
   | 'faq'
   | 'media_wall_cross_sell';
 
+/**
+ * Subtle cross-sell destinations on the curtain landing only.
+ * Internal service links — never use data-curtain-cta (that is Jobber-only).
+ */
+export type CurtainCrossSellService = {
+  label: string;
+  href: string;
+  /** Slight visual emphasis (e.g. Media Walls) without turning the strip into an ad. */
+  emphasize?: boolean;
+};
+
+export const curtainCrossSellServices: readonly CurtainCrossSellService[] = [
+  { label: 'TV Mounting', href: '/services/tv-mounting/' },
+  { label: 'Media Walls', href: '/services/media-walls/', emphasize: true },
+  { label: 'Lighting & Chandeliers', href: '/services/electrical-services/' },
+  { label: 'Custom Carpentry', href: '/services/custom-carpentry/' },
+  { label: 'Home Improvements', href: '/services/remodeling-and-upgrades/' },
+  { label: 'Repairs & Installations', href: '/services/repairs-and-maintenance/' },
+];
+
+export const curtainAllServicesHref = '/services/';
+
 function rawUrl(value: string | undefined): string | undefined {
   const url = value?.trim();
   return url || undefined;

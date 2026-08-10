@@ -1,0 +1,60 @@
+---
+/**
+ * Compact awareness strip — visually subordinate to curtain booking CTAs.
+ * Curtain-landing only; do not reuse on other pages without review.
+ */
+import {
+  curtainAllServicesHref,
+  curtainCrossSellServices,
+} from '../../data/curtainLanding';
+import { withBase } from '../../utils/paths';
+---
+
+<section
+  class="border-b border-brand-line bg-white px-4 py-5 sm:px-6 lg:px-8"
+  aria-labelledby="curtain-services-strip-heading"
+  data-cta-location="curtain_services_strip"
+>
+  <div class="mx-auto max-w-6xl">
+    <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
+      <div class="min-w-0">
+        <h2
+          id="curtain-services-strip-heading"
+          class="text-base font-bold tracking-tight text-brand-black sm:text-lg"
+        >
+          Need More Done Around the House?
+        </h2>
+        <p class="mt-0.5 text-sm text-brand-muted">EYS handles more than curtains.</p>
+      </div>
+      <a
+        href={withBase(curtainAllServicesHref)}
+        class="shrink-0 text-sm font-bold text-brand-red hover:underline"
+      >
+        Explore All Services →
+      </a>
+    </div>
+
+    <ul
+      class="-mx-4 mt-4 flex snap-x snap-mandatory gap-2 overflow-x-auto px-4 pb-1 [-ms-overflow-style:none] [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden"
+      role="list"
+    >
+      {
+        curtainCrossSellServices.map((service) => (
+          <li class="snap-start shrink-0 sm:shrink">
+            <a
+              href={withBase(service.href)}
+              class:list={[
+                'inline-flex min-h-10 items-center rounded-full border px-3.5 py-2 text-sm font-bold transition-colors',
+                service.emphasize
+                  ? 'border-brand-red/30 bg-brand-redsoft text-brand-black hover:border-brand-red/50'
+                  : 'border-brand-line bg-brand-lightbg text-brand-black hover:border-brand-muted/40 hover:bg-white',
+              ]}
+            >
+              {service.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
