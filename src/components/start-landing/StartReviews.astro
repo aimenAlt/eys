@@ -1,0 +1,91 @@
+---
+import { getCollection } from 'astro:content';
+import { googleReviews, googleReviewProfileUrl } from '../../data/business';
+import { withBase } from '../../utils/paths';
+
+const gbpUrl = googleReviewProfileUrl();
+const reviewsPageHref = withBase('/reviews/');
+const ratingLabel = googleReviews.rating.toFixed(1);
+
+const allReviews = await getCollection('reviews', ({ data }) => data.published === true);
+const quotes = allReviews
+  .filter((entry) => entry.data.featured)
+  .slice(0, 2);
+---
+
+<section
+  class="bg-brand-lightbg px-4 py-12 sm:px-6 sm:py-16 lg:px-8"
+  aria-labelledby="start-reviews-heading"
+>
+  <div class="mx-auto max-w-6xl">
+    <h2
+      id="start-reviews-heading"
+      class="text-2xl font-bold tracking-tight text-brand-black sm:text-3xl"
+    >
+      What Homeowners Say
+    </h2>
+    <p class="mt-3 text-base text-brand-muted">
+      {
+        gbpUrl ? (
+          <a
+            href={gbpUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-track-review
+            data-cta-location="social_proof"
+            class="font-bold text-brand-red hover:underline"
+          >
+            {ratingLabel} ★ · {googleReviews.count} Google reviews
+          </a>
+        ) : (
+          <span class="font-bold text-brand-black">
+            {ratingLabel} ★ · {googleReviews.count} Google reviews
+          </span>
+        )
+      }
+    </p>
+
+    {
+      quotes.length > 0 ? (
+        <ul class="mt-8 grid gap-4 md:grid-cols-2">
+          {quotes.map((entry) => (
+            <li class="rounded-xl border border-brand-line bg-white p-6">
+              <blockquote class="text-sm leading-relaxed text-brand-charcoal sm:text-base">
+                <p>“{entry.data.text}”</p>
+                <footer class="mt-4 text-sm font-bold text-brand-black">
+                  — {entry.data.author}
+                  {entry.data.source ? (
+                    <span class="font-normal text-brand-muted"> · {entry.data.source}</span>
+                  ) : null}
+                </footer>
+              </blockquote>
+            </li>
+          ))}
+        </ul>
+      ) : null
+    }
+
+    <div class="mt-6 flex flex-wrap gap-4">
+      {
+        gbpUrl ? (
+          <a
+            href={gbpUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-track-review
+            data-cta-location="social_proof"
+            class="inline-flex min-h-11 items-center text-sm font-bold text-brand-red underline-offset-4 hover:underline"
+          >
+            Read Google reviews →
+          </a>
+        ) : null
+      }
+      <a
+        href={reviewsPageHref}
+        class="inline-flex min-h-11 items-center text-sm font-bold text-brand-black underline-offset-4 hover:underline"
+      >
+        More customer reviews →
+      </a>
+    </div>
+  </div>
+</section>

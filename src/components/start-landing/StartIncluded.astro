@@ -1,0 +1,63 @@
+---
+const visitIncludes = [
+  'A reserved time block for multiple smaller tasks',
+  'Work completed in the order you prioritize',
+  'Professional tools and clean completion',
+  'Clear communication before and during the visit',
+] as const;
+
+const estimateIncludes = [
+  'A review of the photos and notes you send',
+  'Scope confirmation before materials or scheduling',
+  'The right path: visit, custom build, or next conversation',
+  'No obligation to book until the estimate is clear',
+] as const;
+---
+
+<section
+  class="bg-brand-lightbg px-4 py-12 sm:px-6 sm:py-16 lg:px-8"
+  aria-labelledby="start-included-heading"
+>
+  <div class="mx-auto max-w-6xl">
+    <h2
+      id="start-included-heading"
+      class="text-2xl font-bold tracking-tight text-brand-black sm:text-3xl"
+    >
+      What’s Included
+    </h2>
+    <p class="mt-3 max-w-2xl text-base leading-relaxed text-brand-muted">
+      Pick the path that matches the work. A To-Do List Visit is for several smaller tasks. A photo
+      estimate is for remodeling, general contracting, and other work that needs a written price
+      first.
+    </p>
+
+    <div class="mt-8 grid gap-4 md:grid-cols-2">
+      <div class="rounded-xl border border-brand-line bg-white p-6">
+        <h3 class="text-lg font-bold text-brand-black">To-Do List Visit</h3>
+        <ul class="mt-4 space-y-3 text-sm leading-relaxed text-brand-charcoal sm:text-base">
+          {
+            visitIncludes.map((item) => (
+              <li class="flex gap-3">
+                <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-red" aria-hidden="true" />
+                <span>{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="rounded-xl border border-brand-line bg-white p-6">
+        <h3 class="text-lg font-bold text-brand-black">Remodeling &amp; General Contracting</h3>
+        <ul class="mt-4 space-y-3 text-sm leading-relaxed text-brand-charcoal sm:text-base">
+          {
+            estimateIncludes.map((item) => (
+              <li class="flex gap-3">
+                <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-red" aria-hidden="true" />
+                <span>{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

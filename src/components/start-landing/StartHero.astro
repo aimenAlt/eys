@@ -1,0 +1,101 @@
+---
+import SiteImage from '../ui/SiteImage.astro';
+import { startLanding, todoListFromPrice } from '../../data/startLanding';
+import { imageOrPlaceholder } from '../../data/images';
+import StartCallLink from './StartCallLink.astro';
+import StartChooseLink from './StartChooseLink.astro';
+import { site } from '../../data/business';
+
+const hero = startLanding.images.hero;
+const heroSrc = imageOrPlaceholder(hero.src);
+const todoFrom = todoListFromPrice();
+
+const offerCardClass =
+  'rounded-xl border border-white/20 bg-black/45 p-4 backdrop-blur-[2px] lg:border-white/15 lg:bg-white/5 lg:backdrop-blur-none';
+---
+
+<section
+  class="relative overflow-hidden bg-brand-black px-4 pb-10 pt-8 text-white sm:px-6 sm:pb-14 sm:pt-10 lg:px-8"
+  aria-labelledby="start-hero-heading"
+>
+  <div class="absolute inset-0 lg:hidden" aria-hidden="true">
+    <SiteImage
+      src={heroSrc}
+      alt=""
+      width={hero.width}
+      height={hero.height}
+      loading="eager"
+      fetchpriority="high"
+      sizes="100vw"
+      class="h-full w-full object-cover object-[center_30%]"
+    />
+    <div class="absolute inset-0 bg-brand-black/55"></div>
+    <div
+      class="absolute inset-0 bg-gradient-to-b from-brand-black/50 via-brand-black/60 to-brand-black/80"
+    >
+    </div>
+  </div>
+
+  <div class="relative mx-auto grid max-w-6xl items-start gap-8 lg:grid-cols-2 lg:items-center lg:gap-12">
+    <div>
+      <p class="mb-3 text-[11px] font-bold uppercase tracking-[0.16em] text-brand-redondark sm:text-xs">
+        Veteran-Owned · Katy &amp; West Houston
+      </p>
+      <h1
+        id="start-hero-heading"
+        class="text-3xl font-bold leading-tight tracking-tight [text-shadow:0_2px_18px_rgba(0,0,0,0.55)] sm:text-4xl lg:text-[2.75rem] lg:[text-shadow:none]"
+      >
+        Handyman Service in Katy &amp; West Houston
+      </h1>
+      <p
+        class="mt-3 max-w-xl text-base leading-relaxed text-white/90 [text-shadow:0_1px_12px_rgba(0,0,0,0.45)] sm:text-lg lg:text-white/85 lg:[text-shadow:none]"
+      >
+        From everyday repairs to remodeling, general contracting, and larger projects — call or
+        choose a path to get started.
+      </p>
+
+      <div class="mt-7 grid gap-3 sm:grid-cols-2">
+        <div class={offerCardClass}>
+          <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">To-Do List Visit</p>
+          <p class="mt-2 text-2xl font-bold tracking-tight text-white">From {todoFrom}</p>
+          <p class="mt-1 text-sm text-white/75">Several smaller repairs in one reserved visit</p>
+        </div>
+        <div class={offerCardClass}>
+          <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">
+            Remodeling &amp; GC
+          </p>
+          <p class="mt-2 text-2xl font-bold tracking-tight text-white">Photo Estimate</p>
+          <p class="mt-1 text-sm text-white/75">Kitchens, baths, and coordinated larger projects</p>
+        </div>
+      </div>
+
+      <div class="mt-6" data-start-hero-cta>
+        <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <StartCallLink placement="hero" variant="hero">Call {site.phone}</StartCallLink>
+          <StartChooseLink placement="hero" variant="hero">Choose a Project</StartChooseLink>
+        </div>
+        <p class="mt-3 max-w-md text-sm leading-relaxed text-white/80 lg:text-white/70">
+          Prefer to talk it through first? Call and we’ll point you to the right next step.
+        </p>
+      </div>
+    </div>
+
+    <figure class="relative mx-auto hidden w-full max-w-md overflow-hidden rounded-xl lg:block lg:max-w-none">
+      <SiteImage
+        src={heroSrc}
+        alt={hero.alt}
+        width={hero.width}
+        height={hero.height}
+        loading="eager"
+        fetchpriority="high"
+        sizes="(max-width: 1024px) 0px, 560px"
+        class="aspect-[3/4] h-full w-full object-cover"
+      />
+      <figcaption
+        class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-4 pb-4 pt-10 text-sm font-bold text-white"
+      >
+        {hero.label}
+      </figcaption>
+    </figure>
+  </div>
+</section>

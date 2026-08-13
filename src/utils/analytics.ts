@@ -78,6 +78,7 @@ export function analyticsPagePath(): string {
 export function analyticsPageType(path = analyticsPagePath()): string {
   if (path === '/' || path.endsWith('/index.html')) return 'home';
   if (path.startsWith('/curtain-installation')) return 'curtain_landing';
+  if (path.startsWith('/start')) return 'start_landing';
   if (path.startsWith('/services/')) return 'service';
   if (path.startsWith('/service-areas/')) return 'service_area';
   if (path.startsWith('/blog/')) return 'blog';

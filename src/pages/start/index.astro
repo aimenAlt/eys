@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StartFaq from '../../components/start-landing/StartFaq.astro';
+import StartFinalCta from '../../components/start-landing/StartFinalCta.astro';
+import StartFooter from '../../components/start-landing/StartFooter.astro';
+import StartHeader from '../../components/start-landing/StartHeader.astro';
+import StartHero from '../../components/start-landing/StartHero.astro';
+import StartGeneralContracting from '../../components/start-landing/StartGeneralContracting.astro';
+import StartIncluded from '../../components/start-landing/StartIncluded.astro';
+import StartPaths from '../../components/start-landing/StartPaths.astro';
+import StartProcess from '../../components/start-landing/StartProcess.astro';
+import StartProof from '../../components/start-landing/StartProof.astro';
+import StartReviews from '../../components/start-landing/StartReviews.astro';
+import StartServicesStrip from '../../components/start-landing/StartServicesStrip.astro';
+import StartStickyBar from '../../components/start-landing/StartStickyBar.astro';
+import StartTrustStrip from '../../components/start-landing/StartTrustStrip.astro';
+import StartVideoBuiltIn from '../../components/start-landing/StartVideoBuiltIn.astro';
+import StartVideoSlat from '../../components/start-landing/StartVideoSlat.astro';
+import StartWhy from '../../components/start-landing/StartWhy.astro';
+import MediaWallVideoScript from '../../components/media-wall-landing/MediaWallVideoScript.astro';
+import { absoluteUrl } from '../../data/business';
+import { startFaqs, startLanding } from '../../data/startLanding';
+import { breadcrumbList, faqPage, webPage } from '../../data/schema';
+
+const pagePath = startLanding.path;
+const pageUrl = absoluteUrl(pagePath);
+const heroImage = startLanding.images.hero.src;
+
+const seo = {
+  title: startLanding.seo.title,
+  description: startLanding.seo.description,
+  canonical: pageUrl,
+  ogImage: heroImage,
+  ogImageAlt: startLanding.images.hero.alt,
+};
+
+const schemaGraph = [
+  webPage(seo.title, pageUrl, seo.description, heroImage),
+  breadcrumbList([
+    { name: 'Home', url: absoluteUrl('/') },
+    { name: 'Start Your Project', url: pageUrl },
+  ]),
+  faqPage(startFaqs()),
+].filter(Boolean);
+---
+
+<BaseLayout seo={seo} schemaGraph={schemaGraph}>
+  <div class="start-landing min-h-screen bg-brand-lightbg text-brand-charcoal">
+    <StartHeader />
+    <main id="main-content">
+      <StartHero />
+      <StartTrustStrip />
+      <StartPaths />
+      <StartProof />
+      <StartProcess />
+      <StartIncluded />
+      <StartGeneralContracting />
+      <StartVideoBuiltIn />
+      <StartVideoSlat />
+      <StartWhy />
+      <StartReviews />
+      <StartServicesStrip />
+      <StartFaq />
+      <StartFinalCta />
+    </main>
+    <StartFooter />
+    <StartStickyBar />
+  </div>
+  <MediaWallVideoScript />
+  <script>
+    import '../../scripts/curtain-attribution.ts';
+  </script>
+</BaseLayout>

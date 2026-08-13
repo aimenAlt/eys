@@ -16,6 +16,7 @@ const corePages: SiteMapLink[] = [
   { title: 'Home', href: '/' },
   { title: 'About', href: '/about/' },
   { title: 'Book Service', href: '/book/' },
+  { title: 'Start Your Project', href: '/start/' },
   { title: 'Contact', href: '/contact/' },
   { title: 'Pricing', href: '/pricing/' },
   { title: 'Reviews', href: '/reviews/' },

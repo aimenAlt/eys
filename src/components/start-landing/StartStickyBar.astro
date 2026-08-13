@@ -1,0 +1,74 @@
+---
+import StartCallLink from './StartCallLink.astro';
+import StartChooseLink from './StartChooseLink.astro';
+---
+
+<div
+  id="start-sticky-bar"
+  class="pointer-events-none fixed inset-x-0 bottom-0 z-40 translate-y-full opacity-0 transition-all duration-300 md:hidden"
+  role="region"
+  aria-label="Call or choose a project"
+  data-start-sticky
+  hidden
+>
+  <div
+    class="pointer-events-auto border-t border-brand-line bg-white px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-8px_24px_-12px_rgba(10,10,10,0.25)]"
+  >
+    <div class="mx-auto flex max-w-6xl gap-3">
+      <StartCallLink placement="sticky_mobile" variant="sticky">Call EYS</StartCallLink>
+      <StartChooseLink placement="sticky_mobile" variant="sticky">Choose a Project</StartChooseLink>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initStartStickyBar() {
+    const bar = document.querySelector<HTMLElement>('[data-start-sticky]');
+    const heroCta = document.querySelector<HTMLElement>('[data-start-hero-cta]');
+    const footer = document.querySelector<HTMLElement>('[data-start-footer]');
+    if (!bar || !heroCta) return;
+
+    let heroPassed = false;
+    let footerVisible = false;
+
+    const sync = () => {
+      const show = heroPassed && !footerVisible;
+      bar.hidden = !show;
+      bar.classList.toggle('translate-y-full', !show);
+      bar.classList.toggle('opacity-0', !show);
+      bar.classList.toggle('pointer-events-none', !show);
+      document.body.classList.toggle('start-sticky-pad', show);
+    };
+
+    const heroObserver = new IntersectionObserver(
+      ([entry]) => {
+        heroPassed = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+        sync();
+      },
+      { threshold: 0 },
+    );
+    heroObserver.observe(heroCta);
+
+    if (footer) {
+      const footerObserver = new IntersectionObserver(
+        ([entry]) => {
+          footerVisible = entry.isIntersecting;
+          sync();
+        },
+        { threshold: 0 },
+      );
+      footerObserver.observe(footer);
+    }
+  }
+
+  initStartStickyBar();
+  document.addEventListener('astro:page-load', initStartStickyBar);
+</script>
+
+<style is:global>
+  @media (max-width: 767px) {
+    body.start-sticky-pad {
+      padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+    }
+  }
+</style>

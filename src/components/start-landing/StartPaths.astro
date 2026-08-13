@@ -1,0 +1,70 @@
+---
+import StartJobberLink from './StartJobberLink.astro';
+import { todoListFromPrice } from '../../data/startLanding';
+
+const todoFrom = todoListFromPrice();
+---
+
+<section
+  id="start-paths"
+  class="scroll-mt-24 bg-white px-4 py-12 sm:px-6 sm:py-16 lg:px-8"
+  aria-labelledby="start-paths-heading"
+  data-cta-location="paths"
+>
+  <div class="mx-auto max-w-6xl">
+    <div class="max-w-2xl">
+      <h2
+        id="start-paths-heading"
+        class="text-2xl font-bold tracking-tight text-brand-black sm:text-3xl"
+      >
+        Choose How to Start
+      </h2>
+      <p class="mt-3 text-base leading-relaxed text-brand-muted sm:text-lg">
+        Book a visit for a list of smaller tasks, or send photos for remodeling and general
+        contracting.
+      </p>
+    </div>
+
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2" role="list">
+      <li>
+        <article
+          class="flex h-full flex-col rounded-xl border border-brand-red/40 bg-brand-lightbg p-5 shadow-[0_0_0_1px_rgba(176,0,0,0.18)] sm:p-6"
+        >
+          <p class="text-xs font-bold uppercase tracking-[0.12em] text-brand-red">Most common</p>
+          <h3 class="mt-2 text-xl font-bold leading-snug text-brand-black sm:text-2xl">
+            Handyman To-Do List Visit
+          </h3>
+          <p class="mt-2 flex-1 text-sm leading-relaxed text-brand-muted sm:text-base">
+            Several smaller repairs, installations, and maintenance tasks in priority order during
+            one reserved visit.
+          </p>
+          <p class="mt-3 text-lg font-bold text-brand-red">Starting at {todoFrom}</p>
+          <div class="mt-5">
+            <StartJobberLink service="todo_list" placement="paths" featured>
+              Book a Handyman Visit
+            </StartJobberLink>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="flex h-full flex-col rounded-xl border border-brand-line bg-brand-lightbg p-5 sm:p-6">
+          <p class="text-xs font-bold uppercase tracking-[0.12em] text-brand-muted">
+            Remodeling &amp; general contracting
+          </p>
+          <h3 class="mt-2 text-xl font-bold leading-snug text-brand-black sm:text-2xl">
+            Send Photos for an Estimate
+          </h3>
+          <p class="mt-2 flex-1 text-sm leading-relaxed text-brand-muted sm:text-base">
+            Kitchens, baths, room upgrades, and coordinated larger projects. We’ll review the photos
+            and confirm the right next step.
+          </p>
+          <div class="mt-5">
+            <StartJobberLink service="custom_project" placement="paths">
+              Request a Project Estimate
+            </StartJobberLink>
+          </div>
+        </article>
+      </li>
+    </ul>
+  </div>
+</section>

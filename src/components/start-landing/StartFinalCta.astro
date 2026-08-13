@@ -1,0 +1,29 @@
+---
+import StartCallLink from './StartCallLink.astro';
+import StartChooseLink from './StartChooseLink.astro';
+import { site } from '../../data/business';
+---
+
+<section
+  class="bg-brand-black px-4 py-14 text-white sm:px-6 sm:py-16 lg:px-8"
+  aria-labelledby="start-final-heading"
+>
+  <div class="mx-auto max-w-3xl text-center">
+    <h2 id="start-final-heading" class="text-2xl font-bold tracking-tight sm:text-3xl">
+      Ready to Elevate Your Home?
+    </h2>
+    <p class="mx-auto mt-3 max-w-xl text-base leading-relaxed text-white/80">
+      Call now or choose a booking path. Veteran-owned handyman service for Katy, Cypress, and West
+      Houston.
+    </p>
+
+    <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+      <StartCallLink placement="final_cta" variant="final">Call {site.phone}</StartCallLink>
+      <StartChooseLink placement="final_cta" variant="final">Choose a Project</StartChooseLink>
+    </div>
+
+    <p class="mt-4 max-w-md mx-auto text-sm text-white/65">
+      Veteran-owned · Locally operated · Secure online booking through Jobber
+    </p>
+  </div>
+</section>

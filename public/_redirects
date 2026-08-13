@@ -1,6 +1,7 @@
 # Trailing-slash normalization (canonical URLs always use a trailing slash)
 /about /about/ 301
 /book /book/ 301
+/start /start/ 301
 /contact /contact/ 301
 /pricing /pricing/ 301
 /reviews /reviews/ 301

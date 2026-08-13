@@ -1,0 +1,56 @@
+---
+import StartChooseLink from './StartChooseLink.astro';
+
+const steps = [
+  {
+    number: '1',
+    title: 'Call or Choose a Path',
+    body: 'Call (346) 820-1629, or pick a To-Do List Visit or photo estimate.',
+  },
+  {
+    number: '2',
+    title: 'We Confirm the Scope',
+    body: 'You’ll get a clear next step — a reserved visit time, or a review of the photos you sent.',
+  },
+  {
+    number: '3',
+    title: 'We Show Up and Finish Clean',
+    body: 'Veteran-owned, locally operated work in Katy and West Houston, with the home protected.',
+  },
+] as const;
+---
+
+<section
+  class="bg-white px-4 py-12 sm:px-6 sm:py-16 lg:px-8"
+  aria-labelledby="start-process-heading"
+>
+  <div class="mx-auto max-w-6xl">
+    <h2
+      id="start-process-heading"
+      class="text-2xl font-bold tracking-tight text-brand-black sm:text-3xl"
+    >
+      How It Works
+    </h2>
+
+    <ol class="mt-8 grid gap-4 sm:grid-cols-3">
+      {
+        steps.map((step) => (
+          <li class="rounded-xl border border-brand-line bg-brand-lightbg p-5">
+            <div
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-black text-sm font-bold text-white"
+              aria-hidden="true"
+            >
+              {step.number}
+            </div>
+            <h3 class="mt-4 text-lg font-bold text-brand-black">{step.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-brand-muted sm:text-base">{step.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="mt-8">
+      <StartChooseLink placement="process" variant="primary">Choose a Project</StartChooseLink>
+    </div>
+  </div>
+</section>

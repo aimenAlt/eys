@@ -1,0 +1,17 @@
+---
+import Logo from '../layout/Logo.astro';
+import StartCallLink from './StartCallLink.astro';
+import StartChooseLink from './StartChooseLink.astro';
+---
+
+<header class="sticky top-0 z-50 border-b border-white/10 bg-brand-black">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+    <Logo class="shrink-0" />
+    <div class="flex shrink-0 items-center gap-2">
+      <StartCallLink placement="header" variant="header" class="hidden sm:inline-flex">
+        Call
+      </StartCallLink>
+      <StartChooseLink placement="header" variant="header">Choose a Project</StartChooseLink>
+    </div>
+  </div>
+</header>

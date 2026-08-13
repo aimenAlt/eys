@@ -1,0 +1,72 @@
+---
+import {
+  startJobberUrl,
+  type StartCtaPlacement,
+  type StartJobberService,
+} from '../../data/startLanding';
+
+interface Props {
+  service: StartJobberService;
+  placement: StartCtaPlacement;
+  featured?: boolean;
+  variant?: 'button' | 'caption';
+  class?: string;
+}
+
+const {
+  service,
+  placement,
+  featured = false,
+  variant = 'button',
+  class: className,
+} = Astro.props;
+const href = startJobberUrl(service);
+
+const bookingType =
+  service === 'todo_list'
+    ? 'handyman_to_do_list'
+    : service === 'tv_mounting'
+      ? 'tv_mounting'
+      : service === 'custom_project'
+        ? 'custom_project'
+        : 'project_estimate';
+---
+
+{
+  href ? (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-booking-type={bookingType}
+      data-service-type={bookingType}
+      data-cta-location={placement}
+      data-curtain-cta={service}
+      class:list={[
+        variant === 'caption'
+          ? 'inline-flex min-h-11 items-center text-sm font-bold text-brand-redondark hover:underline'
+          : 'inline-flex min-h-12 w-full items-center justify-center rounded-md px-4 py-3 text-center text-base font-bold transition-colors',
+        variant === 'button' && featured
+          ? 'bg-brand-red text-white hover:bg-brand-redhover'
+          : variant === 'button'
+            ? 'bg-brand-black text-white hover:bg-brand-charcoal'
+            : '',
+        className,
+      ]}
+    >
+      <slot />
+    </a>
+  ) : (
+    <span
+      class:list={[
+        'inline-flex min-h-12 w-full cursor-not-allowed items-center justify-center rounded-md bg-brand-black px-4 py-3 text-center text-base font-bold text-white opacity-50',
+        className,
+      ]}
+      role="link"
+      aria-disabled="true"
+      title="Configure Jobber URL in src/data/business.ts"
+    >
+      <slot />
+    </span>
+  )
+}

@@ -1,5 +1,5 @@
 ---
-/** In-view muted autoplay for media-wall landing videos (no controls). */
+/** In-view muted autoplay for landing videos (no controls). */
 ---
 
 <script>
@@ -9,22 +9,27 @@
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
 
-  function wireMediaWallVideos(): void {
-    const sections = document.querySelectorAll<HTMLElement>('[data-media-wall-video-section]');
+  function wireInViewVideos(): void {
+    const sections = document.querySelectorAll<HTMLElement>(
+      '[data-eys-autoplay-video], [data-media-wall-video-section]',
+    );
     sections.forEach((section) => {
       if (section.dataset.wired === '1') return;
       section.dataset.wired = '1';
 
-      const video = section.querySelector<HTMLVideoElement>('[data-media-wall-video]');
+      const video = section.querySelector<HTMLVideoElement>(
+        '[data-eys-autoplay-video-el], [data-media-wall-video]',
+      );
       if (!video) return;
       const source = video.querySelector<HTMLSourceElement>('source[data-src]');
       let viewed = false;
+      const sourcePage = section.dataset.videoSourcePage || 'media_walls';
 
       const markView = () => {
         if (viewed) return;
         viewed = true;
         trackEvent(analyticsEvents.mediaWallCrossSellView, {
-          source_page: 'media_walls',
+          source_page: sourcePage,
           cross_sell: 'media_wall',
           placement: section.id || 'video_section',
         });
@@ -69,6 +74,6 @@
     });
   }
 
-  wireMediaWallVideos();
-  document.addEventListener('astro:page-load', wireMediaWallVideos);
+  wireInViewVideos();
+  document.addEventListener('astro:page-load', wireInViewVideos);
 </script>

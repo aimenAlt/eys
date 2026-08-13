@@ -1,0 +1,30 @@
+---
+import StartJobberLink from './StartJobberLink.astro';
+import { withBase } from '../../utils/paths';
+import type { StartCtaPlacement } from '../../data/startLanding';
+
+interface Props {
+  label: string;
+  placement: StartCtaPlacement;
+}
+
+const { label, placement } = Astro.props;
+---
+
+<div class="flex items-center gap-3 bg-brand-black px-4 py-3">
+  <img
+    src={withBase('/logos/logo-mark.webp')}
+    alt=""
+    width="28"
+    height="36"
+    class="h-9 w-auto shrink-0"
+    loading="lazy"
+    decoding="async"
+  />
+  <div class="min-w-0">
+    <p class="truncate text-sm font-bold text-white">{label}</p>
+    <StartJobberLink service="project_estimate" placement={placement} variant="caption">
+      Request an Estimate
+    </StartJobberLink>
+  </div>
+</div>

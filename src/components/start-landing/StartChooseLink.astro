@@ -1,0 +1,31 @@
+---
+import { startPathsHash, type StartCtaPlacement } from '../../data/startLanding';
+
+interface Props {
+  variant?: 'header' | 'hero' | 'sticky' | 'final' | 'primary';
+  placement: StartCtaPlacement;
+  class?: string;
+}
+
+const { variant = 'hero', placement, class: className } = Astro.props;
+
+const variantClasses = {
+  header:
+    'inline-flex min-h-11 items-center justify-center rounded-md bg-brand-red px-4 py-2.5 text-sm font-bold text-white hover:bg-brand-redhover',
+  hero: 'inline-flex min-h-12 w-full items-center justify-center rounded-md bg-brand-red px-5 py-3.5 text-center text-base font-bold text-white shadow-lg shadow-black/30 hover:bg-brand-redhover sm:w-auto',
+  sticky:
+    'inline-flex min-h-12 flex-1 items-center justify-center rounded-md bg-brand-red px-3 py-3 text-center text-sm font-bold text-white hover:bg-brand-redhover',
+  final:
+    'inline-flex min-h-12 w-full items-center justify-center rounded-md bg-brand-red px-5 py-3.5 text-center text-base font-bold text-white shadow-lg shadow-black/40 hover:bg-brand-redhover sm:w-auto',
+  primary:
+    'inline-flex min-h-12 w-full items-center justify-center rounded-md bg-brand-red px-5 py-3.5 text-center text-base font-bold text-white hover:bg-brand-redhover sm:w-auto',
+} as const;
+---
+
+<a
+  href={startPathsHash}
+  data-cta-location={placement}
+  class:list={[variantClasses[variant], className]}
+>
+  <slot>Choose a Project</slot>
+</a>
