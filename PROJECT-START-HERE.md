@@ -1,5 +1,9 @@
 # EYS Website Project — Start Here
 
+## GitHub
+
+Repo: [aimenAlt/eys](https://github.com/aimenAlt/eys). `main` deploys to Cloudflare Pages. Workspace git playbook: [eys-biz GIT.md](https://github.com/aimenAlt/eys-biz/blob/main/GIT.md).
+
 ## Public direction
 Use the current public brand:
 - Primary public name: **Elevate Your Space Handyman**
