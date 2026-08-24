@@ -40,7 +40,7 @@ faqs:
 
 ## Handyman and home upgrades across Richmond, Fort Bend County
 
-Richmond is not one housing market — it is several living side by side. Historic downtown properties, established estates in **Pecan Grove**, and a wave of master-planned communities each demand a different approach to home improvement. Elevate Your Space Handyman (EYS) serves Fort Bend homeowners across that spectrum, with concentrated work in three distinctive communities: **Aliana**, **Harvest Green**, and **Veranda**.
+Richmond is not one housing market — it is several living side by side. Historic downtown properties, established estates in **Pecan Grove**, and a wave of master-planned communities each demand a different approach to home improvement. Fort Bend County as a whole has grown from roughly 354,000 residents in 2000 to nearly 954,000 in 2025, and county projections point toward 1 million residents by 2030 — growth that keeps new-construction move-in work steady across Richmond's communities. Elevate Your Space Handyman (EYS) serves Fort Bend homeowners across that spectrum, with concentrated work in three distinctive communities: **Aliana**, **Harvest Green**, and **Veranda**.
 
 Each neighborhood has its own identity, architectural character, and typical project list. EYS adjusts scope and materials accordingly — whether you need [drywall repair](/services/drywall-repair/) in a 1990s subdivision or a custom shiplap wall in a modern farmhouse build.
 
@@ -91,7 +91,7 @@ Projects in Veranda reflect porch-centric living and community pride:
 
 Veranda residents take pride in how their homes look from the street — porch fans, clean trim, and assembled outdoor furniture matter as much as interior finishes. EYS approaches these projects with floor protection, dust control during carpentry, and cleanup that respects a tight-knit neighborhood where reputation travels quickly.
 
-When porch or exterior work may be visible from the street, customers should confirm current association requirements before scheduling. EYS executes approved projects to specification.
+When porch or exterior work may be visible from the street, customers should confirm current association requirements before scheduling. EYS executes approved projects to specification. For exterior security devices specifically, Texas Property Code § 202.023 prevents an HOA from banning a camera or video doorbell on your own property outright, though placement and appearance can still be regulated through the standard review process.
 
 ### Established Richmond homes
 

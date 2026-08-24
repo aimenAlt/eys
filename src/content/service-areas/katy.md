@@ -33,14 +33,14 @@ faqs:
   - question: "Do you work in the Heritage Grand or Wellspring 55+ sections?"
     answer: "Yes. We serve active-adult neighborhoods within Katy-area master-planned communities, including Heritage Grand at Cinco Ranch and Wellspring at Tamarron. We plan for quiet, detail-oriented work and protect finished surfaces throughout the visit."
   - question: "How should I prepare for exterior patio or trim work?"
-    answer: "Customers should confirm current association requirements with their HOA or management company before exterior modifications. EYS can execute the carpentry and installation once your project is approved and scoped — we do not submit architectural review applications on your behalf."
+    answer: "Customers should confirm current association requirements with their HOA or management company before exterior modifications. EYS can execute the carpentry and installation once your project is approved and scoped — we do not submit architectural review applications on your behalf. One note for exterior security devices specifically: under Texas Property Code § 202.023, an HOA cannot ban a camera or video doorbell on your own property outright, though it can still regulate placement and appearance through the standard modification process."
   - question: "How do I request an estimate in Katy?"
     answer: "Use our contact form or book page with photos and a short project list. Eyad and Elevate Your Space return a clear, itemized estimate before any work begins."
 ---
 
 ## Handyman services across Katy’s diverse neighborhoods
 
-Katy is not a single housing market — it is a patchwork of decades, price points, and lifestyles stitched together by Katy ISD, Cy-Fair ISD in western sections, and some of the most recognized master-planned communities in Greater Houston. Elevate Your Space Handyman (EYS) is based here, and our Katy work reflects that range: keeping maturing homes sharp while helping new buyers turn fresh drywall into a finished home.
+Katy is not a single housing market — it is a patchwork of decades, price points, and lifestyles stitched together by Katy ISD, Cy-Fair ISD in western sections, and some of the most recognized master-planned communities in Greater Houston. Katy ISD alone is projected to grow from 97,795 students in 2025–26 to roughly 101,038 by 2029–30, a pace that keeps new-construction closings — and the move-in work that follows them — steady year over year. Elevate Your Space Handyman (EYS) is based here, and our Katy work reflects that range: keeping maturing homes sharp while helping new buyers turn fresh drywall into a finished home.
 
 ### Established communities: maintenance that matches the home
 

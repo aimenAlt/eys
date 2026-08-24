@@ -61,7 +61,7 @@ Cinco Ranch and early Katy MPC baths often need vanity and hardware modernizatio
 
 ## Related services and next steps
 
-Bathroom work often pairs with [cabinet installation](/services/cabinet-installation/), [custom carpentry](/services/custom-carpentry/) for shelving or niches, and [painting](/services/painting/) for a cohesive finish. This service sits in [home upgrades and custom projects](/services/remodeling-and-upgrades/). Serving homeowners across [Katy](/service-areas/katy/) and [Richmond](/service-areas/richmond/). Browse [our work](/our-work/) for finished project inspiration, or start from your local [service area](/service-areas/) page.
+Bathroom work often pairs with [cabinet installation](/services/cabinet-installation/), [custom carpentry](/services/custom-carpentry/) for shelving or niches, [painting](/services/painting/) for a cohesive finish, and [grab bar installation](/services/grab-bar-installation/) for a safety upgrade in the same visit. This service sits in [home upgrades and custom projects](/services/remodeling-and-upgrades/). Serving homeowners across [Katy](/service-areas/katy/) and [Richmond](/service-areas/richmond/). Browse [our work](/our-work/) for finished project inspiration, or start from your local [service area](/service-areas/) page.
 
 ## Ready for a free estimate?
 

@@ -53,7 +53,7 @@ On install day we protect floors, mark carefully, cut only what is necessary for
 
 ## Local examples across West Houston
 
-[Cinco Ranch](/service-areas/katy/) fireplace mounts above custom stone are a frequent request. [Bridgeland](/service-areas/cypress/) and Cane Island homes often need mounts that respect premium finishes and taller ceilings. New builds need careful work on fresh drywall so the living room looks finished on day one. Richmond porch and patio living in [Veranda](/service-areas/richmond/) drives covered outdoor mounts when the structure and rating allow.
+[Cinco Ranch](/service-areas/katy/) fireplace mounts above custom stone are a frequent request. [Bridgeland](/service-areas/cypress/) and Cane Island homes often need mounts that respect premium finishes and taller ceilings. Towne Lake and [Cross Creek Ranch](/service-areas/fulshear/) great rooms frequently pair a floor-to-ceiling stone fireplace with a two-story ceiling, which means masonry bits, heavy-duty anchors, and a plan for running cable cleanly to a mount that high. New builds need careful work on fresh drywall so the living room looks finished on day one. Richmond porch and patio living in [Veranda](/service-areas/richmond/) drives covered outdoor mounts when the structure and rating allow.
 
 ## See our work and related services
 

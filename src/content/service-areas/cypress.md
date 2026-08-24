@@ -27,7 +27,7 @@ faqs:
   - question: "Do you serve all villages within Bridgeland?"
     answer: "Yes. We work throughout Bridgeland — including Lakeland, Parkland, Prairieland, and Creekland Village — as well as established Cypress neighborhoods and Towne Lake. Share your address when requesting an estimate so we can confirm scheduling."
   - question: "Can you handle exterior patio or outdoor living upgrades?"
-    answer: "Yes. Outdoor-rated ceiling fans, patio TV mounting, furniture assembly, and covered-space enhancements are common in Cypress. Customers should confirm current association requirements with Bridgeland ARC or Towne Lake HOA before visible exterior modifications."
+    answer: "Yes. Outdoor-rated ceiling fans, patio TV mounting, furniture assembly, and covered-space enhancements are common in Cypress. Customers should confirm current association requirements with Bridgeland ARC or Towne Lake HOA before visible exterior modifications. Note that under Texas Property Code § 202.023, an HOA cannot outright ban a security camera or video doorbell on your own property, though it can still regulate placement and appearance through the standard review process."
   - question: "What carpentry work is popular in Cypress master-planned communities?"
     answer: "Bridgeland and Towne Lake homeowners frequently request custom media walls, crown molding, mudroom drop-zones, floating shelves, and garage overhead storage. Prairie School-inspired architecture in Bridgeland often calls for trim work that matches existing profiles and finish levels."
   - question: "Do you install garage storage for boating or outdoor gear?"
@@ -42,7 +42,7 @@ faqs:
 
 Cypress sits at an interesting crossroads for home improvement. Established Cy-Fair neighborhoods with wooded lots need steady maintenance and thoughtful modernization. Meanwhile, Howard Hughes and Caldwell Communities have built two of the most architecturally ambitious master-planned destinations in West Houston — **Bridgeland** and **Towne Lake** — where homeowners invest in premium finishing rather than basic patch-and-go repairs.
 
-Elevate Your Space Handyman (EYS) serves both realities from a Katy base, adjusting scope and materials to match whether your project is a drywall patch in a 1980s ranch or a custom media wall in a Prairie School-inspired new build.
+Elevate Your Space Handyman (EYS) serves both realities from a Katy base, adjusting scope and materials to match whether your project is a drywall patch in a 1980s ranch or a custom media wall in a Prairie School-inspired new build. Cy-Fair ISD, which covers most of Cypress, is Texas's third-largest school district at roughly 118,057 students — a scale that keeps new-construction closings, and the move-in work that follows them, arriving steadily.
 
 ### Bridgeland: architecture, nature, and precise finishing
 

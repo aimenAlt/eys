@@ -75,7 +75,7 @@ export const serviceCategories: ServiceCategory[] = [
       'Living room drapes and chandelier installation completed by Elevate Your Space Handyman',
     seoTitle: 'Installation & Assembly | Katy & West Houston | EYS',
     metaDescription:
-      'Door installation, furniture assembly, TV mounting, ceiling fans, curtains, and cabinet installation in Katy and West Houston.',
+      'Door installation, furniture assembly, TV mounting, smart home installation, ceiling fans, curtains, and cabinet installation in Katy and West Houston.',
     ctaLabel: 'View Installation Services',
     items: [
       {
@@ -114,6 +114,18 @@ export const serviceCategories: ServiceCategory[] = [
           'Precise curtain rod, drapery hardware, and window treatment mounting with level placement and secure anchoring.',
         serviceSlug: 'curtain-installation',
       },
+      {
+        title: 'Smart Home Installation',
+        description:
+          'Video doorbells, smart locks, smart thermostats, and smart switches installed on existing wiring, with licensed-trade referral for anything requiring new circuits.',
+        serviceSlug: 'smart-home-installation',
+      },
+      {
+        title: 'Picture Hanging & Floating Shelves',
+        description:
+          'Level, securely anchored picture, mirror, and floating shelf installation for a single room or a full gallery wall.',
+        serviceSlug: 'picture-hanging-floating-shelves',
+      },
     ],
   },
   {
@@ -126,7 +138,7 @@ export const serviceCategories: ServiceCategory[] = [
       'Blue kitchen island and window-seat cabinetry remodel with open living space beyond',
     seoTitle: 'Home Upgrades & Custom Projects | Katy & West Houston | EYS',
     metaDescription:
-      'Bathroom upgrades, kitchen upgrades, interior finish work, and custom carpentry in Katy and West Houston.',
+      'Bathroom upgrades, kitchen upgrades, interior finish work, custom carpentry, and wallpaper installation in Katy and West Houston.',
     ctaLabel: 'View Upgrade Services',
     items: [
       {
@@ -134,6 +146,12 @@ export const serviceCategories: ServiceCategory[] = [
         description:
           'Vanity installs, fixture swaps, hardware updates, and finish improvements with clear scope limits.',
         serviceSlug: 'bathroom-remodeling',
+      },
+      {
+        title: 'Grab Bar Installation',
+        description:
+          'Stud-anchored grab bars for showers, tubs, and toilets in finishes that blend with your bathroom, not a hospital look.',
+        serviceSlug: 'grab-bar-installation',
       },
       {
         title: 'Kitchen Upgrades',
@@ -159,6 +177,30 @@ export const serviceCategories: ServiceCategory[] = [
           'Custom entertainment walls — built-in niches, fireplace media walls, wood-slat features, and finished TV centers.',
         serviceSlug: 'media-walls',
       },
+      {
+        title: 'Closet Shelving & Home Organization',
+        description:
+          'Wire and wood closet shelving, reach-in system upgrades, and pantry or mudroom organization built to fit the space.',
+        serviceSlug: 'closet-shelving-organization',
+      },
+      {
+        title: 'Wallpaper & Accent Wall Installation',
+        description:
+          'Traditional, peel-and-stick, and grasscloth wallpaper installed with Gulf Coast humidity-aware wall prep.',
+        serviceSlug: 'wallpaper-accent-wall-installation',
+      },
+      {
+        title: 'Babyproofing & Child Safety',
+        description:
+          'Furniture and TV anti-tip anchoring, cabinet locks, and gate installation — securely mounted safety upgrades, not adhesive shortcuts.',
+        serviceSlug: 'babyproofing-child-safety',
+      },
+      {
+        title: 'Garage Storage Solutions',
+        description:
+          'Overhead racks and wall-mounted shelving that get bikes, seasonal decor, and gear off the garage floor.',
+        serviceSlug: 'garage-storage-solutions',
+      },
     ],
   },
 ];
@@ -176,10 +218,17 @@ export const allServiceSlugs = [
   'electrical-services',
   'cabinet-installation',
   'bathroom-remodeling',
+  'grab-bar-installation',
   'kitchen-remodeling',
   'flooring-and-decor',
   'custom-carpentry',
   'media-walls',
+  'closet-shelving-organization',
+  'smart-home-installation',
+  'wallpaper-accent-wall-installation',
+  'picture-hanging-floating-shelves',
+  'babyproofing-child-safety',
+  'garage-storage-solutions',
 ] as const;
 
 export function getServiceCategory(slug: string): ServiceCategory | undefined {

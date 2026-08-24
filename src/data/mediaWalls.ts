@@ -101,7 +101,7 @@ export const mediaWallsLanding = {
   why: [
     'Real custom media-wall builds — not just a TV bracket on drywall',
     'Clean TV integration, cable paths, and finish details planned together',
-    'Fireplace, niche, and slat-wall experience in West Houston homes',
+    'Fireplace, niche, and slat-wall experience in Bridgeland, Towne Lake, Cross Creek Ranch, and Cane Island homes',
     'Veteran-owned, owner-led craftsmanship based in Katy',
     'Respect for your home — careful protection and clean completion',
     'Clear project estimates before work begins',
