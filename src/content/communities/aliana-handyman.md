@@ -2,14 +2,14 @@
 title: "Aliana"
 slug: "aliana-handyman"
 citySlug: "richmond"
-published: false
+published: true
 seoTitle: "Expert Handyman Services in Aliana, Richmond | EYS"
 metaDescription: "Elevate Your Space provides premium handyman services, TV mounting, and home upgrades for Aliana residents in Richmond, TX. Request an estimate!"
 heroTitle: "Premium Handyman Services for Aliana Homeowners"
 summary: "Elevate Your Space provides professional, meticulously clean, and highly reliable home improvements for the beautiful homes of Aliana in Richmond."
 promoCode: "ALIANA25"
 promoOffer: "$25 off projects over $250"
-localIntro: "Aliana is celebrated for its resort-style amenities, from The Club at Aliana to scenic trail systems woven throughout the 77407 zip code. With homes primarily built over the last decade by top builders, properties here are modern but often ready for personalized upgrades or routine upkeep. Whether you need heavy patio furniture assembled, TVs mounted in the game room, or your garage organized, EYS delivers the professionalism your home deserves."
+localIntro: "Aliana is celebrated for its resort-style amenities, from The Club at Aliana to scenic trail systems woven throughout the 77407 zip code. With homes primarily built over the last decade by builders including Perry Homes and Highland Homes, properties here are modern but often ready for personalized upgrades or routine upkeep. Whether you need heavy patio furniture assembled, TVs mounted in the game room, or your garage organized, EYS delivers the professionalism your home deserves."
 servicesIntro: "We specialize in aesthetic and functional projects that bridge the gap between basic repairs and major renovations."
 commonProjects:
   - name: "TV Mounting"

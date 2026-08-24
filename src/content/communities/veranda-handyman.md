@@ -2,14 +2,14 @@
 title: "Veranda"
 slug: "veranda-handyman"
 citySlug: "richmond"
-published: false
+published: true
 seoTitle: "Handyman & Home Upgrades in Veranda | Elevate Your Space"
 metaDescription: "Elevate Your Space offers premium handyman services, patio upgrades, and custom carpentry for Veranda residents in Richmond, TX. Request an estimate!"
 heroTitle: "Premium Handyman & Home Upgrades for Veranda"
 summary: "Elevate Your Space provides the meticulous, high-quality home improvements needed to enhance your beautiful Veranda home in Richmond."
 promoCode: "VERANDA25"
 promoOffer: "$25 off projects over $250"
-localIntro: "Veranda is beautifully designed around connection, historical Southern charm, and the iconic front porch lifestyle. With a vibrant social scene centered around The Cottage House, residents take immense pride in their homes. Whether you want outdoor ceiling fans on your porch, a custom mudroom for the kids, or a TV for family movie nights, EYS provides the premium, detail-oriented service your property deserves."
+localIntro: "Veranda is beautifully designed around connection, historical Southern charm, and the iconic front porch lifestyle, with homes generally ranging from the $300,000s to the upper $700,000s. With a vibrant social scene centered around The Cottage House, residents take immense pride in their homes. Whether you want outdoor ceiling fans on your porch, a custom mudroom for the kids, or a TV for family movie nights, EYS provides the premium, detail-oriented service your property deserves."
 servicesIntro: "We focus exclusively on aesthetic and functional enhancements that match the welcoming, high-quality vibe of Veranda."
 commonProjects:
   - name: "TV Mounting"

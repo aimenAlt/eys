@@ -2,7 +2,7 @@
 title: "Towne Lake"
 slug: "towne-lake-handyman"
 citySlug: "cypress"
-published: false
+published: true
 seoTitle: "Towne Lake Handyman & Home Upgrades | Elevate Your Space"
 metaDescription: "Enjoy the lake life while we handle your home. Elevate Your Space provides premium handyman, carpentry, and outdoor upgrades for Towne Lake in Cypress, TX."
 heroTitle: "Premium Handyman Services for Towne Lake Homeowners"
@@ -46,7 +46,7 @@ faqs:
   - question: "Do you install outdoor fans and TVs on waterfront patios?"
     answer: "Absolutely. We ensure secure, perfectly leveled mounting for outdoor entertainment spaces exposed to the elements."
   - question: "Are you familiar with the Towne Lake HOA guidelines?"
-    answer: "Yes, we understand that exterior modifications visible from the water or docks require strict adherence to CCMC and Towne Lake HOA architectural standards."
+    answer: "Yes, we understand that exterior modifications visible from the water or docks require strict adherence to CCMC and Towne Lake HOA architectural standards. One exception: under Texas Property Code § 202.023, the HOA cannot outright ban a security camera or video doorbell on your own property, though placement and appearance can still be regulated."
   - question: "What if my outdoor kitchen needs plumbing adjustments?"
     answer: "We can help coordinate appropriate licensed trade support when the project requires it."
   - question: "How do you protect my home during interior carpentry?"

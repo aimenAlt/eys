@@ -2,14 +2,14 @@
 title: "Bridgeland"
 slug: "bridgeland-handyman"
 citySlug: "cypress"
-published: false
+published: true
 seoTitle: "Premium Handyman & Carpentry in Bridgeland | Elevate Your Space"
 metaDescription: "Elevate Your Space offers premium handyman services, custom carpentry, and home upgrades for Bridgeland residents in Cypress, TX. Request an estimate!"
 heroTitle: "Premium Handyman & Home Upgrades for Bridgeland"
 summary: "Elevate Your Space delivers meticulous, high-end home improvements that meet the exacting standards of Bridgeland's beautiful homes and strict architectural guidelines."
 promoCode: "BRIDGELAND25"
 promoOffer: "$25 off projects over $250"
-localIntro: "Bridgeland is a visionary Howard Hughes community where stunning architecture and preserved nature intertwine across 11,500 acres. From Prairie School-inspired designs in Parkland Village to the scenic waterfronts of Josey Lake, homes here are constructed with exceptional quality. When homeowners require upgrades, they cannot settle for a standard repairman. EYS provides the premium, detail-obsessed service required to enhance your luxury property safely."
+localIntro: "Bridgeland is a visionary Howard Hughes community where stunning architecture and preserved nature intertwine across 11,500 acres. From Prairie School-inspired designs in Parkland Village to the scenic waterfronts of Josey Lake, homes here are constructed with exceptional quality. The community continues to grow with Bridgeland Central, a 925-acre urban district under development with an H-E B, One Bridgeland Green, and a new Houston Texans headquarters and training facility — a sign of how much long-term investment is going into this neighborhood. When homeowners require upgrades, they cannot settle for a standard repairman. EYS provides the premium, detail-obsessed service required to enhance your luxury property safely."
 servicesIntro: "We focus exclusively on high-quality aesthetic and functional upgrades, deeply respecting your home's luxury finishes and the strict guidelines enforced by the Bridgeland HOA."
 commonProjects:
   - name: "TV Mounting"
@@ -42,7 +42,7 @@ localLifestyle: "Bridgeland offers 250 miles of trails, kayaking on Josey Lake, 
 process: "Send photos of your vision through our online portal. EYS scopes the work with a detailed estimate, arrives exactly when promised, executes flawlessly, and leaves your home spotless."
 faqs:
   - question: "Are you familiar with the strict Architectural Review Committee (ARC) guidelines in Bridgeland?"
-    answer: "Yes, we understand that exterior modifications require strict adherence to Bridgeland's ACC/ARC standards regarding materials and aesthetics."
+    answer: "Yes, we understand that exterior modifications require strict adherence to Bridgeland's ACC/ARC standards regarding materials and aesthetics. One exception worth knowing: under Texas Property Code § 202.023, the ARC cannot outright ban a security camera or video doorbell on your own property, though it can still regulate placement and appearance."
   - question: "Do you build custom mudrooms or drop-zones?"
     answer: "Absolutely. Custom carpentry is one of our core specialties, perfect for keeping kids' gear organized after a day at the park."
   - question: "Can you install heavy chandeliers in two-story entryways?"

@@ -2,7 +2,7 @@
 title: "Cane Island"
 slug: "cane-island-handyman"
 citySlug: "katy"
-published: false
+published: true
 seoTitle: "Luxury Handyman & Carpentry in Cane Island | Elevate Your Space"
 metaDescription: "Elevate Your Space provides handyman services, custom carpentry, and home upgrades for Cane Island in Katy, TX. Request an estimate!"
 heroTitle: "Luxury Handyman & Home Upgrades for Cane Island"

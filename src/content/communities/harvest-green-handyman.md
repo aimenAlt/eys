@@ -2,14 +2,14 @@
 title: "Harvest Green"
 slug: "harvest-green-handyman"
 citySlug: "richmond"
-published: false
+published: true
 seoTitle: "Handyman & Carpentry in Harvest Green | Elevate Your Space"
 metaDescription: "Elevate Your Space offers premium handyman services, custom carpentry, and garage storage for Harvest Green in Richmond, TX. Request an estimate!"
 heroTitle: "Premium Handyman & Home Upgrades for Harvest Green"
 summary: "Elevate Your Space provides the premium carpentry, meticulous installations, and upgrades needed to deeply enhance your Harvest Green home in Richmond."
 promoCode: "HARVEST25"
 promoOffer: "$25 off projects over $250"
-localIntro: "Harvest Green offers a unique lifestyle centered around sustainable living, the 12-acre Village Farm, and the stunning Farmhouse amenity center. Homes here often reflect a beautiful modern farmhouse or contemporary aesthetic. Whether you want authentic shiplap in your living room, a custom mudroom for gardening gear, or a deeply organized garage, EYS provides the meticulous craftsmanship your home deserves."
+localIntro: "Harvest Green offers a unique lifestyle centered around sustainable living, the 12-acre Village Farm, and the stunning Farmhouse amenity center. Homes here often reflect a beautiful modern farmhouse or contemporary aesthetic, with a community median market value around $528,000. Whether you want authentic shiplap in your living room, a custom mudroom for gardening gear, or a deeply organized garage, EYS provides the meticulous craftsmanship your home deserves."
 servicesIntro: "We specialize in high-quality visual and functional upgrades that align perfectly with the character of your neighborhood."
 commonProjects:
   - name: "TV Mounting"

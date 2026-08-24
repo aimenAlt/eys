@@ -2,7 +2,7 @@
 title: "Tamarron"
 slug: "tamarron-handyman"
 citySlug: "katy"
-published: false
+published: true
 seoTitle: "Handyman & New Home Upgrades in Tamarron | EYS"
 metaDescription: "TV mounting, ceiling fans, and move-in upgrades for Tamarron residents in Katy and Fulshear. Request an estimate from Elevate Your Space."
 heroTitle: "Premium Handyman & Move-In Upgrades for Tamarron"

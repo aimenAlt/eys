@@ -2,7 +2,7 @@
 title: "Sunterra"
 slug: "sunterra-handyman"
 citySlug: "katy"
-published: false
+published: true
 seoTitle: "Handyman for New Homes in Sunterra, Katy | Elevate Your Space"
 metaDescription: "Moving into Sunterra? Elevate Your Space offers premium TV mounting, ceiling fan installation, and move-in upgrades for Katy's newest resort community."
 heroTitle: "Premium Handyman & Move-In Services for Sunterra Homes"
