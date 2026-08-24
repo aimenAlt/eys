@@ -23,6 +23,7 @@ import {
   serviceSchema,
   webPage,
 } from '../../../data/schema';
+import { contentMaxClass, contentPaddingClass } from '../../../data/layout';
 import {
   formatDurationLabel,
   visitDurationOptions,
@@ -74,7 +75,7 @@ const schemaGraph = [
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
   <article class="pb-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+    <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-8']}>
       <BreadcrumbNav
         items={[
           { name: 'Home', url: '/' },
@@ -94,7 +95,7 @@ const schemaGraph = [
     <SmallRepairPrepare />
 
     <section class="border-t border-brand-line" aria-labelledby="areas-heading">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
+      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-16']}>
         <h2 id="areas-heading" class="sr-only">Service areas for Handyman To-Do List Visits</h2>
       </div>
       <HomeServiceAreas cities={cityLinks} communities={communityLinks} />

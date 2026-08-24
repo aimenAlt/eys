@@ -11,6 +11,7 @@ import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
 import LocalServicesGrid from '../components/areas/local/LocalServicesGrid.astro';
 import { absoluteUrl, resolveOgImage } from '../data/business';
 import { breadcrumbList, faqPage, localBusinessForArea, webPage } from '../data/schema';
+import { contentMaxClass, contentPaddingClass } from '../data/layout';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -51,7 +52,7 @@ const schemaGraph = [
   schemaGraph={schemaGraph}
 >
   <article>
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+    <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-8']}>
       <BreadcrumbNav
         items={[
           { name: 'Home', url: '/' },

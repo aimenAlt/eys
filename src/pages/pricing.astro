@@ -7,6 +7,7 @@ import CTASection from '../components/home/CTASection.astro';
 import BalancedGrid from '../components/ui/BalancedGrid.astro';
 import { absoluteUrl, site } from '../data/business';
 import { breadcrumbList, faqPage, webPage } from '../data/schema';
+import { contentMaxClass, contentPaddingClass } from '../data/layout';
 
 const services = await getCollection('services', ({ data }) => data.published === true);
 services.sort((a, b) => a.data.title.localeCompare(b.data.title));
@@ -51,7 +52,7 @@ const schemaGraph = [
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
   <article>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+    <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-8']}>
       <BreadcrumbNav
         items={[
           { name: 'Home', url: '/' },
@@ -67,7 +68,7 @@ const schemaGraph = [
     />
 
     <section class="py-16 bg-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           <div>
             <h2 class="text-2xl font-bold text-brand-black mb-4">How pricing works</h2>

@@ -3,6 +3,7 @@ import ContentLayout from '../layouts/ContentLayout.astro';
 import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
 import { absoluteUrl, site } from '../data/business';
 import { breadcrumbList, webPage } from '../data/schema';
+import { contentMaxClass, contentPaddingClass } from '../data/layout';
 import { buildSiteMap } from '../data/siteMap';
 
 const { sections, totalCount } = await buildSiteMap();
@@ -23,7 +24,7 @@ const schemaGraph = [
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
   <article>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'py-16']}>
       <BreadcrumbNav
         items={[
           { name: 'Home', url: '/' },

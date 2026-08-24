@@ -6,6 +6,7 @@ import BalancedGrid from '../../components/ui/BalancedGrid.astro';
 import LocalAreaCTA from '../../components/areas/local/LocalAreaCTA.astro';
 import { absoluteUrl, site } from '../../data/business';
 import { breadcrumbList, webPage } from '../../data/schema';
+import { contentMaxClass, contentPaddingClass } from '../../data/layout';
 
 const areas = await getCollection('serviceAreas', ({ data }) => data.published === true);
 areas.sort((a, b) => a.data.title.localeCompare(b.data.title));
@@ -34,7 +35,7 @@ const schemaGraph = [
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
   <article>
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12">
+  <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'py-10 md:py-12']}>
     <BreadcrumbNav
       items={[
         { name: 'Home', url: '/' },

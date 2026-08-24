@@ -3,6 +3,7 @@ import ContentLayout from './ContentLayout.astro';
 import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
 import { absoluteUrl } from '../data/business';
 import { breadcrumbList, blogPostingSchema, webPage } from '../data/schema';
+import { contentMaxClass, contentPaddingClass } from '../data/layout';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -38,7 +39,7 @@ const schemaGraph = [
   schemaGraph={schemaGraph}
 >
   <article class="pb-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+    <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-8']}>
       <BreadcrumbNav
         items={[
           { name: 'Home', url: '/' },

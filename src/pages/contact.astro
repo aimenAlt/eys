@@ -5,6 +5,7 @@ import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
 import JobberEmbedWrapper from '../components/booking/JobberEmbedWrapper.astro';
 import { absoluteUrl, business, googleReviewProfileUrl, jobberRequestFormUrl } from '../data/business';
 import { breadcrumbList, localBusinessForArea, webPage } from '../data/schema';
+import { contentMaxClass, contentPaddingClass } from '../data/layout';
 
 const title = 'Contact Elevate Your Space Handyman | Katy, TX';
 const description =
@@ -25,7 +26,7 @@ const schemaGraph = [
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
   <article>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+    <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-8']}>
       <BreadcrumbNav
         items={[
           { name: 'Home', url: '/' },
@@ -41,7 +42,7 @@ const schemaGraph = [
     />
 
     <section class="py-10 md:py-12 bg-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div>
             <h2 class="text-2xl font-bold text-brand-black mb-6">Reach us directly</h2>

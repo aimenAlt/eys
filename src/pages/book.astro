@@ -5,6 +5,7 @@ import BookingPathSelector from '../components/booking/BookingPathSelector.astro
 import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
 import { absoluteUrl, site } from '../data/business';
 import { breadcrumbList, webPage } from '../data/schema';
+import { contentMaxClass, contentPaddingClass } from '../data/layout';
 
 const title = 'Book a Handyman Visit or Request an Estimate | EYS';
 const description =
@@ -22,7 +23,7 @@ const schemaGraph = [
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
   <article>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+    <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-8']}>
       <BreadcrumbNav
         items={[
           { name: 'Home', url: '/' },

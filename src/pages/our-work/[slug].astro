@@ -9,6 +9,7 @@ import ProjectCTA from '../../components/projects/ProjectCTA.astro';
 import SiteImage from '../../components/ui/SiteImage.astro';
 import { absoluteUrl, site } from '../../data/business';
 import { breadcrumbList, webPage } from '../../data/schema';
+import { contentMaxClass, contentPaddingClass } from '../../data/layout';
 import { projectCategoryLabel } from '../../data/projectCategories';
 import {
   getLiveProjects,
@@ -61,7 +62,7 @@ const hasWorksheet =
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
   <article>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+    <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-8']}>
       <BreadcrumbNav
         items={[
           { name: 'Home', url: '/' },
@@ -72,7 +73,7 @@ const hasWorksheet =
     </div>
 
     <header class="bg-brand-lightbg border-b border-gray-200">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12">
+      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'py-10 md:py-12']}>
         <p class="text-brand-red font-bold text-sm tracking-widest uppercase mb-2">{categoryLabel}</p>
         <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-brand-black tracking-tight mb-3">
           {h1}
@@ -95,7 +96,7 @@ const hasWorksheet =
     </header>
 
     <section class="py-10 md:py-14 bg-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
         <figure class="m-0 overflow-hidden rounded-2xl ring-1 ring-brand-line shadow-card bg-gray-100">
           <SiteImage
             src={imageOrPlaceholder(data.leadImage)}
@@ -114,7 +115,7 @@ const hasWorksheet =
     {
       data.beforeAfter && (
         <section class="py-10 bg-brand-lightbg border-y border-brand-line">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
             <BeforeAfter
               beforeImage={data.beforeAfter.beforeImage}
               beforeAlt={data.beforeAfter.beforeAlt}
@@ -130,7 +131,7 @@ const hasWorksheet =
     {
       supporting.length > 0 && (
         <section class="py-12 md:py-16 bg-white" aria-labelledby="project-photos-heading">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
             <h2 id="project-photos-heading" class="text-2xl md:text-3xl font-bold text-brand-black mb-8">
               Project Photos
             </h2>
@@ -167,7 +168,7 @@ const hasWorksheet =
     {
       hasWorksheet && (
         <section class="py-12 bg-brand-lightbg border-y border-brand-line" aria-labelledby="project-worksheet-heading">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
             <h2 id="project-worksheet-heading" class="text-2xl font-bold text-brand-black mb-8">
               Project Record
             </h2>
@@ -257,7 +258,7 @@ const hasWorksheet =
     {
       !hasWorksheet && data.scope && data.scope.length > 0 && (
         <section class="py-12 bg-brand-lightbg border-y border-brand-line" aria-labelledby="project-scope-heading">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
             <h2 id="project-scope-heading" class="text-2xl font-bold text-brand-black mb-4">
               Project Scope
             </h2>
@@ -272,7 +273,7 @@ const hasWorksheet =
     }
 
     <section class="py-12 md:py-14 bg-white border-t border-brand-line" aria-labelledby="project-story-heading">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
         <h2 id="project-story-heading" class="text-2xl md:text-3xl font-bold text-brand-black mb-6">
           Project Details
         </h2>
@@ -283,7 +284,7 @@ const hasWorksheet =
     </section>
 
     <section class="py-12 bg-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
         <div class="flex flex-col sm:flex-row flex-wrap gap-3 mb-10">
           {
             data.serviceUrl && (
@@ -323,7 +324,7 @@ const hasWorksheet =
     {
       related.length > 0 && (
         <section class="py-14 bg-brand-lightbg border-t border-brand-line" aria-labelledby="related-projects-heading">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
             <h2 id="related-projects-heading" class="text-2xl md:text-3xl font-bold text-brand-black mb-8">
               Related Projects
             </h2>

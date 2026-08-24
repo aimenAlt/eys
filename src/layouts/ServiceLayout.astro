@@ -94,8 +94,10 @@ const schemaGraph = [
     <ServicePriceFactors items={data.priceFactors} />
     <ServiceProcess steps={data.process} />
     <section class="py-12 bg-white">
-      <div class:list={['mx-auto prose prose-gray max-w-none', contentMaxClass, contentPaddingClass]}>
-        <slot />
+      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
+        <div class="prose prose-gray max-w-none">
+          <slot />
+        </div>
       </div>
     </section>
     <ServiceAreaCrossLinks communities={communityLinks} />

@@ -7,6 +7,7 @@ import BalancedGrid from '../components/ui/BalancedGrid.astro';
 import { getCollection } from 'astro:content';
 import { absoluteUrl, site } from '../data/business';
 import { breadcrumbList, canonicalBusinessNode, webPage } from '../data/schema';
+import { contentMaxClass, contentPaddingClass } from '../data/layout';
 
 const serviceAreas = await getCollection('serviceAreas', ({ data }) => data.published === true);
 serviceAreas.sort((a, b) => a.data.title.localeCompare(b.data.title));
@@ -44,7 +45,7 @@ const schemaGraph = [
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
   <article>
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+    <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-8']}>
       <BreadcrumbNav
         items={[
           { name: 'Home', url: '/' },
@@ -60,7 +61,7 @@ const schemaGraph = [
     />
 
     <section class="py-16 bg-white">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
         <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-start">
           <div>
             <h2 class="text-3xl font-bold text-brand-black mb-6">How EYS started</h2>
@@ -105,7 +106,7 @@ const schemaGraph = [
     </section>
 
     <section class="py-16 bg-brand-lightbg">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
         <h2 class="text-3xl font-bold text-brand-black mb-4">What we do</h2>
         <p class="text-gray-600 mb-6 max-w-3xl leading-relaxed">
           We handle home repairs, installations, carpentry, drywall, painting, remodeling, and custom home improvement projects. Some customers call for a single repair. Others need several projects completed throughout the house. Whether the job is small or substantial, we approach it the same way: understand what the homeowner needs, explain the work clearly, and complete it with care.
@@ -117,7 +118,7 @@ const schemaGraph = [
     </section>
 
     <section class="py-16 bg-white">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
         <h2 class="text-3xl font-bold text-brand-black mb-4 text-center">How we work</h2>
         <p class="text-gray-600 text-center mb-10 max-w-2xl mx-auto">
           Every project follows the same straightforward process — designed to respect your time and your home.
@@ -148,7 +149,7 @@ const schemaGraph = [
     </section>
 
     <section class="py-16 bg-brand-lightbg">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
         <h2 class="text-3xl font-bold text-brand-black mb-4">A local company built on reputation</h2>
         <p class="text-gray-600 mb-6 max-w-3xl leading-relaxed">
           We live and work in the communities we serve. That means our reputation is built one homeowner and one project at a time. We want customers to feel comfortable asking questions, understand what is being done, and know what to expect before work begins. Our military background is part of our foundation, but our work is what continues to earn the trust of local homeowners.
@@ -160,7 +161,7 @@ const schemaGraph = [
     </section>
 
     <section class="py-16 bg-white">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
         <h2 class="text-3xl font-bold text-brand-black mb-4">Where we work</h2>
         <p class="text-gray-600 mb-8 max-w-2xl">
           We are based in Katy and serve homeowners across West Houston. Start with your city page or send your address for service confirmation.

@@ -7,6 +7,7 @@ import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
 import BalancedGrid from '../components/ui/BalancedGrid.astro';
 import { absoluteUrl, resolveOgImage } from '../data/business';
 import { breadcrumbList, itemListSchema, webPage } from '../data/schema';
+import { contentMaxClass, contentPaddingClass } from '../data/layout';
 import type { ServiceCategory } from '../data/serviceCategories';
 import { serviceCategories } from '../data/serviceCategories';
 import { isCustomServicePage } from '../data/sitePresentation';
@@ -65,7 +66,7 @@ const schemaGraph = [
   schemaGraph={schemaGraph}
 >
   <article>
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+    <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-8']}>
       <BreadcrumbNav
         items={[
           { name: 'Home', url: '/' },

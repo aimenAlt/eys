@@ -7,6 +7,7 @@ import CTASection from '../components/home/CTASection.astro';
 import BalancedGrid from '../components/ui/BalancedGrid.astro';
 import { absoluteUrl, googleReviewProfileUrl, site } from '../data/business';
 import { reviewsPageSchema } from '../data/schema';
+import { contentMaxClass, contentPaddingClass } from '../data/layout';
 
 const reviews = await getCollection('reviews', ({ data }) => data.published === true);
 reviews.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
@@ -31,7 +32,7 @@ const schemaGraph = reviewsPageSchema(canonical, description);
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
   <article>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+    <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-8']}>
       <BreadcrumbNav
         items={[
           { name: 'Home', url: '/' },
@@ -47,7 +48,7 @@ const schemaGraph = reviewsPageSchema(canonical, description);
     />
 
     <section class="py-10 bg-brand-lightbg border-y border-gray-200">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
         <p class="text-gray-700 max-w-3xl leading-relaxed mb-4">
           The testimonials below are featured examples from local homeowners — not our full review history.
           {
@@ -86,7 +87,7 @@ const schemaGraph = reviewsPageSchema(canonical, description);
     </section>
 
     <section class="py-16 bg-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
         {
           reviewItems.length > 0 ? (
             <BalancedGrid variant="review" items={reviewItems} cols={3} gapClass="gap-6" />

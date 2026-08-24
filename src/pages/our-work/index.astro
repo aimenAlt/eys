@@ -11,6 +11,7 @@ import ProjectDialog from '../../components/projects/ProjectDialog.astro';
 import ProjectCTA from '../../components/projects/ProjectCTA.astro';
 import { absoluteUrl, site } from '../../data/business';
 import { breadcrumbList, webPage } from '../../data/schema';
+import { contentMaxClass, contentPaddingClass } from '../../data/layout';
 import { projectCategoryLabel } from '../../data/projectCategories';
 import {
   countByCategory,
@@ -59,7 +60,7 @@ const galleryData = projects.map((entry) => ({
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
   <article>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+    <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-8']}>
       <BreadcrumbNav
         items={[
           { name: 'Home', url: '/' },
@@ -75,7 +76,7 @@ const galleryData = projects.map((entry) => ({
     />
 
     <section class="bg-brand-lightbg border-b border-gray-200 pb-10 -mt-2">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
         <div class="flex flex-wrap gap-3">
           <a
             href="/contact/"
@@ -98,7 +99,7 @@ const galleryData = projects.map((entry) => ({
     <FeaturedProjects projects={featured} />
 
     <section class="py-10 bg-brand-lightbg border-y border-brand-line">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
         <ProjectCTA
           compact
           heading="Have a similar project in mind?"
@@ -108,7 +109,7 @@ const galleryData = projects.map((entry) => ({
     </section>
 
     <section class="py-14 md:py-16 bg-white" aria-labelledby="browse-projects-heading">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
         <SectionHeading
           id="browse-projects-heading"
           eyebrow="Browse"
@@ -123,7 +124,7 @@ const galleryData = projects.map((entry) => ({
     </section>
 
     <section class="py-16 bg-brand-lightbg border-t border-brand-line">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
         <ProjectCTA
           heading="Have a Project in Mind?"
           body="Send us a few photographs and a description of the work. We’ll review the details and follow up about the next step."
