@@ -100,6 +100,7 @@ export const mediaWallsLanding = {
 
   why: [
     'Real custom media-wall builds — not just a TV bracket on drywall',
+    'Carpentry, drywall, and licensed electrical coordinated under one estimate',
     'Clean TV integration, cable paths, and finish details planned together',
     'Fireplace, niche, and slat-wall experience in Bridgeland, Towne Lake, Cross Creek Ranch, and Cane Island homes',
     'Veteran-owned, owner-led craftsmanship based in Katy',

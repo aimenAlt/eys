@@ -59,7 +59,7 @@ Design-forward new builds in Cane Island and [Bridgeland](/service-areas/cypress
 
 ## Related services and next steps
 
-Want a painted accent wall instead? See [painting](/services/painting/). Prefer board-and-batten, shiplap, or wood-slat? See [custom carpentry](/services/custom-carpentry/). This service sits in [home upgrades and custom projects](/services/remodeling-and-upgrades/). Serving homeowners across [Katy](/service-areas/katy/), [Cypress](/service-areas/cypress/), and [Fulshear](/service-areas/fulshear/).
+Want a painted accent wall instead? See [painting](/services/painting/). Prefer board-and-batten, shiplap, or wood-slat? See [custom carpentry](/services/custom-carpentry/). If the wall is part of a larger room refresh that also needs carpentry, drywall, or licensed electrical, see [whole-project remodeling](/services/whole-project-remodeling/). This service sits in [home upgrades and custom projects](/services/remodeling-and-upgrades/). Serving homeowners across [Katy](/service-areas/katy/), [Cypress](/service-areas/cypress/), and [Fulshear](/service-areas/fulshear/).
 
 ## Ready for a free estimate?
 

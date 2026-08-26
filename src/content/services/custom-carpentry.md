@@ -61,7 +61,9 @@ Active trail communities need gear storage and mudrooms that survive real life. 
 
 ## See our work
 
-Examples from recent carpentry and built-in projects: [Our Work — carpentry & built-ins](/our-work/?category=carpentry-built-ins), [navy office built-ins](/our-work/navy-office-builtins/), and [curved stair paneling](/our-work/curved-stair-paneling/). Related: [cabinet installation](/services/cabinet-installation/) and [remodeling and upgrades](/services/remodeling-and-upgrades/). Communities: [Bridgeland](/service-areas/cypress/), [Cane Island](/service-areas/katy/).
+Examples from recent carpentry and built-in projects: [Our Work — carpentry & built-ins](/our-work/?category=carpentry-built-ins), [navy office built-ins](/our-work/navy-office-builtins/), [curved stair paneling](/our-work/curved-stair-paneling/), [under-stair curved shelving](/our-work/understair-curved-shelving/), and the [marble and wood-slat feature wall](/our-work/marble-wood-slat-feature-wall/). Related: [cabinet installation](/services/cabinet-installation/) and [remodeling and upgrades](/services/remodeling-and-upgrades/). Communities: [Bridgeland](/service-areas/cypress/), [Cane Island](/service-areas/katy/).
+
+When built-in work needs drywall finishing and power run behind it — a media wall, a lit built-in, a bench with outlets — that becomes a multi-trade job. See [whole-project remodeling](/services/whole-project-remodeling/) for how carpentry, drywall, and licensed electrical get sequenced under one estimate.
 
 ## Ready for a free estimate?
 

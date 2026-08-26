@@ -201,6 +201,11 @@ export function curtainFaqs() {
       answer: `Any curtain rod or track installation above ${highCeilingThresholdFt} ft should use the High-Ceiling Installation booking option.`,
     },
     {
+      question: 'How high can you actually reach?',
+      answer:
+        'Two-story living rooms and windows up to roughly 18 ft are routine work for us — it is one of the things customers most often mention in reviews. We bring the access equipment, and long unsupported rod spans get intermediate support so the rod does not sag across the run.',
+    },
+    {
       question: 'Do I need to purchase my curtains before booking?',
       answer:
         'Yes. Customers should have their curtains/drapery and installation system ready before the appointment.',
