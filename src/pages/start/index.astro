@@ -26,12 +26,17 @@ const pagePath = startLanding.path;
 const pageUrl = absoluteUrl(pagePath);
 const heroImage = startLanding.images.hero.src;
 
+// Print-QR / offline conversion landing — reached by scanning a code, never by
+// organic search. Kept out of the index so it cannot compete with `/` for the
+// head term ("handyman Katy"); `follow` so its outbound links still pass equity.
+// Same posture as /van/ and /home2/.
 const seo = {
   title: startLanding.seo.title,
   description: startLanding.seo.description,
   canonical: pageUrl,
   ogImage: heroImage,
   ogImageAlt: startLanding.images.hero.alt,
+  noindex: true,
 };
 
 const schemaGraph = [
