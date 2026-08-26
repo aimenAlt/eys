@@ -43,12 +43,12 @@ process: "Tell us what your new home needs via our online photo form. EYS scopes
 faqs:
   - question: "Can you install cabinet hardware on my new kitchen cabinets without splintering the wood?"
     answer: "Absolutely. We use specialized drilling jigs to ensure flawless, perfectly aligned holes every time, protecting your new veneer."
-  - question: "Do you install ceiling fans where the builder only left a pre-wired cap?"
-    answer: "Yes, we frequently and safely install fans on builder pre-wires in new Jordan Ranch homes."
+  - question: "Can you get the house set up before we actually move in?"
+    answer: "Often yes, if you have keys and access. Jordan Ranch is still delivering new construction, so we regularly do mounting, fan installation on builder pre-wires, and garage racks in an empty house — which is considerably faster than working around furniture and boxes."
   - question: "What if I want to change a hardwired chandelier?"
     answer: "We can help coordinate appropriate licensed trade support when the project requires it."
   - question: "Can you install garage racks to hold my gardening supplies for Sunset Farm?"
     answer: "Yes! Our heavy-duty ceiling racks are perfect for getting tools, soil, and agricultural gear off the floor."
-  - question: "How soon before closing should I book your services?"
-    answer: "We highly recommend contacting us two to three weeks before your closing date to ensure we can arrive shortly after you receive your keys."
+  - question: "Do you work on the covered patios these homes come with?"
+    answer: "Yes. Outdoor-rated fans, patio TV mounting, and furniture assembly are common Jordan Ranch requests once families start using the covered patio for evenings and weekend gatherings. Anything visible from the street or a shared greenbelt may need association approval first — we will flag it when we scope the work."
 ---

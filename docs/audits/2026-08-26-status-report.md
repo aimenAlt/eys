@@ -135,11 +135,13 @@ Genuinely outstanding in Task 6:
 
 Both in `docs/07-seo-playbook.md`, which is committed:
 
-1. **Line 46 publishes the street address** — `1308 Ventura Crk Dr, Katy, TX
-   77493` — in the GBP checklist table. Violates hard constraint 2. (It does
-   not reach `dist/`, but it is in version control.)
+1. **Line 46 publishes the street address** in the GBP checklist table, in a
+   row headed "Must match site". Violates hard constraint 2. (It does not reach
+   `dist/`, but it is in version control.) — **fixed**: replaced with an
+   explicit "hidden, service-area business" note.
 2. **Lines 69 and 140 instruct `aggregateRating`** on the homepage and
-   `/reviews/`. Directly contradicts hard constraint 3.
+   `/reviews/`. Directly contradicts hard constraint 3. — **fixed**: both now
+   state that no `aggregateRating` markup is used anywhere.
 
 The playbook also still lists stale figures (150 reviews / 4.9 stars vs the
 actual 158 / 5.0 in `business.ts`) and a `profileUrl: ''` TODO that is already

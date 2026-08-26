@@ -38,12 +38,12 @@ Master reference for local SEO, technical SEO, and content strategy. Use this do
 
 ## Google Business Profile checklist
 
-> **TODO:** Paste confirmed GBP URL into `src/data/business.ts` → `googleReviews.profileUrl` and add to `business.sameAs[]`.
+> GBP URL is set in `src/data/business.ts` → `googleReviews.profileUrl`, and flows into `business.sameAs[]` automatically.
 
 | Field | Must match site |
 |-------|-----------------|
 | Business name | Elevate Your Space Handyman |
-| Address | 1308 Ventura Crk Dr, Katy, TX 77493 |
+| Address | **Hidden — service-area business.** Never publish the street address on the site, in copy, or in schema. `business.publishAddress` stays `false`. |
 | Phone | (346) 820-1629 |
 | Website | https://www.eyshandyman.com |
 | Primary category | Handyman (or closest GBP category) |
@@ -60,13 +60,13 @@ Master reference for local SEO, technical SEO, and content strategy. Use this do
 ## Review strategy
 
 **Real aggregate stats (use on site):**
-- **150+** Google reviews
-- **~4.9** star average
+- **160+** Google reviews
+- **5.0** star average (confirmed 26 Aug 2026)
 
 **How the site reflects this:**
 - `src/data/business.ts` → `googleReviews: { count, rating, profileUrl }`
 - TrustBar on homepage shows rating + review count
-- JSON-LD `aggregateRating` on homepage and `/reviews/` uses Google stats (not limited to CMS sample reviews)
+- **No `aggregateRating` markup anywhere.** Self-serving review markup on your own LocalBusiness node is a manual-action risk. `aggregateRatingFromReviews()` in `src/data/schema.ts` exists but is deliberately unused — keep it that way.
 - CMS reviews (`src/content/reviews/`) = featured testimonials only; do **not** import all 150 into markdown
 
 **When GBP URL is provided:**
@@ -137,11 +137,11 @@ Expected URL count after full build: **~50 pages** (varies with blog/projects).
 
 | Page type | JSON-LD |
 |-----------|---------|
-| Homepage | `HomeAndConstructionBusiness` + `FAQPage` + `aggregateRating` |
+| Homepage | `HomeAndConstructionBusiness` (incl. `openingHours`) + `FAQPage` — **no `aggregateRating`** |
 | Service detail | `WebPage`, `BreadcrumbList`, `Service`, optional `FAQPage` |
 | Category hub | `WebPage`, `BreadcrumbList`, `ItemList` |
 | City / community | `WebPage`, `BreadcrumbList`, local business node, optional `FAQPage` |
-| Reviews | `WebPage`, `BreadcrumbList`, business + `aggregateRating` |
+| Reviews | `WebPage`, `BreadcrumbList`, business node — **no `aggregateRating`** |
 | Pricing | `WebPage`, `BreadcrumbList`, `FAQPage` |
 | Blog post | `WebPage`, `BreadcrumbList` — **TODO:** add `BlogPosting` |
 | Projects index | **TODO:** add `WebPage` + breadcrumbs |
@@ -221,9 +221,10 @@ Expected URL count after full build: **~50 pages** (varies with blog/projects).
 ```ts
 // src/data/business.ts
 export const googleReviews = {
-  count: 150,
-  rating: 4.9,
-  profileUrl: '', // ← paste GBP URL when ready
+  count: 160,
+  countDisplay: '160+', // display copy — degrades gracefully as reviews accumulate
+  rating: 5.0,
+  profileUrl: 'https://maps.app.goo.gl/GizAsdkXmcphcMAj6',
 };
 ```
 
