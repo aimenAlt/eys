@@ -2,9 +2,9 @@
 title: "Curtain Installation"
 slug: "curtain-installation"
 published: true
-seoTitle: "Curtain & Drapery Installation | Katy & West Houston"
-metaDescription: "Professional curtain rod, drapery hardware and high-ceiling window-treatment installation with careful measurement, anchoring and alignment."
-heroTitle: "Curtain, Drapery and High-Ceiling Installation"
+seoTitle: "Curtain & Drapery Rod Installation | Katy & West Houston"
+metaDescription: "Professional curtain rod and drapery hardware installation for standard-height windows in Katy and West Houston, with careful measurement, anchoring and alignment."
+heroTitle: "Curtain and Drapery Rod Installation"
 summary: "Professional curtain rod, drapery hardware, and window treatment mounting for Katy and West Houston homeowners."
 heroImage: "/images/services/curtain-install.jpg"
 heroImageAlt: "Double-height sheer curtain panels hung on tall living-room windows"
@@ -20,7 +20,7 @@ includedServices:
 priceFactors:
   - "Number of windows and rod length"
   - "Wall material and stud availability"
-  - "Ceiling-height or extra-tall windows"
+  - "Window height and rod span"
   - "Hardware type (standard rod, traverse, decorative brackets)"
 process:
   - "Share window photos or schedule a quick measurement visit"
@@ -36,6 +36,8 @@ faqs:
     answer: "We focus on rods and drapery hardware. Some shade and blind mounting projects overlap — send photos and we will confirm scope."
   - question: "Do you serve Katy and West Houston for curtain installs?"
     answer: "Yes. We install curtain rods and drapery hardware throughout Katy, Fulshear, Cypress, Richmond, and surrounding West Houston communities."
+  - question: "What about two-story or 18-foot windows?"
+    answer: "High-ceiling work is a separate service with its own pricing, because it needs lifts, longer spans, and different hardware. See our high-ceiling curtain installation page for that scope and pricing."
 ---
 
 Curtains and drapery finish a room — privacy from the Texas sun, softer acoustics, and a polished look that builder blinds alone rarely deliver. Elevate Your Space installs curtain rods and hardware level and secure across Katy and West Houston. If you need a handyman who can hang heavy treatments on tall windows without cracked drywall or crooked brackets, this is everyday installation work we take seriously.
@@ -43,9 +45,14 @@ Curtains and drapery finish a room — privacy from the Texas sun, softer acoust
 ## Who this is for
 
 - New-home buyers who need privacy quickly after closing
-- Homeowners hanging heavy custom drapery on high ceilings
+- Homeowners hanging heavy custom drapery on standard-height windows
 - Families staging bedrooms and living rooms before guests or listing photos
 - Anyone who has stared at a laser level and decided life is too short
+
+Working with a two-story wall or windows above roughly ten feet? That is a
+different job — lifts, longer unsupported spans, and heavier hardware — and it
+has its own scope and pricing on our
+[high-ceiling curtain installation](/curtain-installation/) page.
 
 From wide living-room expanses to nursery blackout setups, curtain installs succeed when placement, anchoring, and clearance are planned before the first hole is drilled. We help you decide rod height and width so panels hang with the right fullness and do not drag on flooring or collide with casing. West-facing rooms that bake in afternoon sun especially benefit from properly mounted treatments that actually stay put.
 
@@ -59,7 +66,7 @@ Many homeowners have us install rods and brackets first, then hang curtains when
 
 [Sunterra](/service-areas/katy/) and [Jordan Ranch](/service-areas/fulshear/) move-ins often bundle curtains with [TV mounting](/services/tv-mounting/) and fans. Established [Cinco Ranch](/service-areas/katy/) homes may need hardware that clears older casing and high windows. [Bridgeland](/service-areas/cypress/) and [Cane Island](/service-areas/katy/) projects frequently involve taller ceilings and heavier treatments. In [Tamarron](/service-areas/katy/) and Towne Lake, privacy and sun control are common requests for west-facing rooms after furniture arrives.
 
-Double-height living rooms deserve special care — browse [double-height curtains](/our-work/double-height-curtains/) in our project gallery for an example of how tall installs come together.
+Double-height living rooms deserve special care — browse [double-height curtains](/our-work/double-height-curtains/) in our project gallery for an example of how tall installs come together, and see [high-ceiling curtain installation](/curtain-installation/) for that service and its pricing.
 
 ## Free estimate and related services
 
