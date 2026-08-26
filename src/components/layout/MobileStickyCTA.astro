@@ -4,21 +4,26 @@ import { withBase } from '../../utils/paths';
 ---
 
 <div
-  class="fixed bottom-0 inset-x-0 z-40 md:hidden bg-brand-black border-t border-brand-red/30 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex gap-3 shadow-lg"
+  class="fixed bottom-0 inset-x-0 z-40 md:hidden bg-brand-black border-t border-brand-red/30 px-4 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-lg"
   role="region"
   aria-label="Quick actions"
 >
-  <a
-    href={`tel:${site.phoneTel}`}
-    data-cta-location="mobile_sticky"
-    class="flex-1 text-center bg-white text-brand-black font-bold py-3 rounded-md text-sm"
-  >
-    Call
-  </a>
-  <a
-    href={withBase('/book/')}
-    class="flex-1 text-center bg-brand-red text-white font-bold py-3 rounded-md text-sm"
-  >
-    Book
-  </a>
+  <p class="text-center text-[11px] font-medium uppercase tracking-wide text-white/70 mb-2">
+    Open until 11:30 PM &middot; 7 days
+  </p>
+  <div class="flex gap-3">
+    <a
+      href={`tel:${site.phoneTel}`}
+      data-cta-location="mobile_sticky"
+      class="flex-1 text-center bg-white text-brand-black font-bold py-3 rounded-md text-sm"
+    >
+      Call
+    </a>
+    <a
+      href={withBase('/book/')}
+      class="flex-1 text-center bg-brand-red text-white font-bold py-3 rounded-md text-sm"
+    >
+      Book
+    </a>
+  </div>
 </div>

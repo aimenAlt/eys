@@ -58,6 +58,22 @@ See [vaulted crystal chandelier](/our-work/vaulted-crystal-chandelier/) for a hi
 
 Photos of the fixture location, the new fixture, and the existing box help. This work pairs with [installation and assembly](/services/installation-and-assembly/) and the dedicated [ceiling fan installation](/services/ceiling-fan-installation/) page. Local hubs: [Katy](/service-areas/katy/) and [Richmond](/service-areas/richmond/). Prefer to browse first? Start from [all services](/services/) or your local [service area](/service-areas/) page.
 
+## When a project needs more than a fixture swap
+
+Saying what we do not do is only half the answer. The other half: on larger
+projects, **we bring in our own licensed electrician and manage the schedule**,
+so you are not the one chasing a trade you have never met.
+
+That matters most when electrical is one part of a bigger job. A built-in media
+wall needs carpentry, drywall, and power relocated behind the display — three
+trades, one result. Rather than hand you a referral and step back, we coordinate
+the whole thing: **multi-trade projects run start to finish, including licensed
+electrical**, with one written estimate and one point of contact. Our trade
+partners are licensed and insured for the work they perform.
+
+See [whole-project remodeling](/services/whole-project-remodeling/) for how that
+runs in practice.
+
 ## Why homeowners choose Elevate Your Space
 
 Elevate Your Space Handyman is veteran-owned and based in the Katy and West Houston market. That means clear communication, careful protection of your finishes, and a free estimate before work begins. When a task needs a licensed trade professional, we say so early.
