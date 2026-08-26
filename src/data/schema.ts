@@ -22,6 +22,23 @@ export function canonicalBusinessNode() {
     telephone: site.phone,
     email: site.email,
     priceRange: '$$',
+    // Must match the Google Business Profile hours exactly.
+    openingHoursSpecification: [
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: [
+          'Monday',
+          'Tuesday',
+          'Wednesday',
+          'Thursday',
+          'Friday',
+          'Saturday',
+          'Sunday',
+        ],
+        opens: '05:00',
+        closes: '23:30',
+      },
+    ],
     areaServed: business.areaServed.map((city) => ({
       '@type': 'City',
       name: city,

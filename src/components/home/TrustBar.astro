@@ -8,7 +8,7 @@ interface Props {
 const { projectCount } = Astro.props;
 const gbpUrl = googleReviewProfileUrl();
 const ratingLabel = googleReviews.rating.toFixed(1);
-const reviewLabel = `${googleReviews.count}`;
+const reviewLabel = `${googleReviews.countDisplay}`;
 ---
 
 <section class="bg-brand-red py-8">

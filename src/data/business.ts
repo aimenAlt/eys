@@ -17,7 +17,14 @@ export const site = {
  * Paste your GBP URL into profileUrl (e.g. https://g.page/...) — sameAs syncs automatically.
  */
 export const googleReviews = {
-  count: 158,
+  /**
+   * Confirmed 160 from live GBP, 26 Aug 2026. The count climbs continuously, so
+   * display copy uses `countDisplay` ("160+") rather than this exact figure —
+   * a hardcoded exact number goes stale within days and reads as inaccurate.
+   * Update both together if you refresh this.
+   */
+  count: 160,
+  countDisplay: '160+',
   rating: 5.0,
   profileUrl: 'https://maps.app.goo.gl/GizAsdkXmcphcMAj6' as string,
 };
@@ -30,6 +37,9 @@ export const socialProfiles = {
   facebook: 'https://www.facebook.com/profile.php?id=61558074716141',
   instagram: 'https://www.instagram.com/eys_handyman/',
   yelp: 'https://www.yelp.com/biz/elevate-your-space-handyman-katy',
+  nextdoor: 'https://nextdoor.com/pages/eys-handyman-katy-tx/',
+  // TODO: add the TikTok profile URL. It belongs in sameAs as an independent
+  // corroborating signal, but the URL has not been supplied — do not guess it.
 } as const;
 
 /** Jobber Client Hub work-request embed (div + CSS + JS snippet from Share Options). */
@@ -72,6 +82,7 @@ function buildSameAs(): string[] {
     socialProfiles.facebook,
     socialProfiles.instagram,
     socialProfiles.yelp,
+    socialProfiles.nextdoor,
   ];
   const gbp = googleReviews.profileUrl?.trim();
   if (gbp) links.unshift(gbp);

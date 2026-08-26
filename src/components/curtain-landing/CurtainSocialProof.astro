@@ -47,11 +47,11 @@ const quotes = [
             data-cta-location="social_proof"
             class="font-bold text-brand-red hover:underline"
           >
-            {ratingLabel} ★ · {googleReviews.count} Google reviews
+            {ratingLabel} ★ · {googleReviews.countDisplay} Google reviews
           </a>
         ) : (
           <span class="font-bold text-brand-black">
-            {ratingLabel} ★ · {googleReviews.count} Google reviews
+            {ratingLabel} ★ · {googleReviews.countDisplay} Google reviews
           </span>
         )
       }
