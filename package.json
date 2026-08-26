@@ -12,6 +12,7 @@
     "preview": "astro preview",
     "bp": "astro build && astro preview",
     "check": "astro check",
+    "test": "node --experimental-strip-types src/utils/balancedGrid.test.ts && node --experimental-strip-types src/utils/utm.test.ts",
     "astro": "astro",
     "screenshot": "node scripts/screenshot.mjs",
     "seo:crawl": "node scripts/seo-crawl.mjs",
