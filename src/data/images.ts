@@ -92,6 +92,9 @@ export const serviceHeroImages: Record<string, string> = {
   'picture-hanging-floating-shelves': '/images/services/picture-hanging-floating-shelves.jpg',
   'babyproofing-child-safety': '/images/services/babyproofing-child-safety.jpg',
   'garage-storage-solutions': '/images/services/garage-storage-solutions.jpg',
+  'tile-installation': '/images/services/tile-installation.jpg',
+  'whole-project-remodeling': '/images/services/whole-project-remodeling.jpg',
+  'after-hours-repairs': '/images/services/after-hours-repairs.jpg',
 };
 
 export const categoryHeroImages: Record<string, string> = {

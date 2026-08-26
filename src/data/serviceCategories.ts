@@ -30,7 +30,7 @@ export const serviceCategories: ServiceCategory[] = [
       'Finished living room with custom drapes and chandelier after handyman installation work',
     seoTitle: 'Repairs & Maintenance | Katy & West Houston | Elevate Your Space',
     metaDescription:
-      'General handyman repairs, drywall repair, interior painting, and fixture installation in Katy and West Houston.',
+      'General handyman repairs, drywall repair, interior painting, fixture installation, and after-hours urgent repairs in Katy and West Houston.',
     ctaLabel: 'View Repair Services',
     items: [
       {
@@ -62,6 +62,12 @@ export const serviceCategories: ServiceCategory[] = [
         description:
           'Ceiling-fan and light-fixture installation on confirmed existing boxes, with referral when regulated electrical work is required.',
         serviceSlug: 'electrical-services',
+      },
+      {
+        title: 'After-Hours & Urgent Repairs',
+        description:
+          'Open 5:00 AM to 11:30 PM, seven days, with same-night dispatch for urgent repairs at a late-hours rate.',
+        serviceSlug: 'after-hours-repairs',
       },
     ],
   },
@@ -138,7 +144,7 @@ export const serviceCategories: ServiceCategory[] = [
       'Blue kitchen island and window-seat cabinetry remodel with open living space beyond',
     seoTitle: 'Home Upgrades & Custom Projects | Katy & West Houston | EYS',
     metaDescription:
-      'Bathroom upgrades, kitchen upgrades, interior finish work, custom carpentry, and wallpaper installation in Katy and West Houston.',
+      'Bathroom upgrades, kitchen upgrades, tile installation, whole-project remodeling, custom carpentry, and wallpaper installation in Katy and West Houston.',
     ctaLabel: 'View Upgrade Services',
     items: [
       {
@@ -201,6 +207,18 @@ export const serviceCategories: ServiceCategory[] = [
           'Overhead racks and wall-mounted shelving that get bikes, seasonal decor, and gear off the garage floor.',
         serviceSlug: 'garage-storage-solutions',
       },
+      {
+        title: 'Tile Installation',
+        description:
+          'Backsplashes, shower and tub surrounds, floor tile, accent walls, and grout and caulk renewal.',
+        serviceSlug: 'tile-installation',
+      },
+      {
+        title: 'Whole-Project Remodeling',
+        description:
+          'Multi-trade projects run start to finish — in-house carpentry, coordinated drywall, and licensed electricians, with one point of contact.',
+        serviceSlug: 'whole-project-remodeling',
+      },
     ],
   },
 ];
@@ -229,6 +247,9 @@ export const allServiceSlugs = [
   'picture-hanging-floating-shelves',
   'babyproofing-child-safety',
   'garage-storage-solutions',
+  'tile-installation',
+  'whole-project-remodeling',
+  'after-hours-repairs',
 ] as const;
 
 export function getServiceCategory(slug: string): ServiceCategory | undefined {
