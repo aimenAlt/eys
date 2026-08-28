@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import HomeHero from './HomeHero.astro';
 import TrustBar from './TrustBar.astro';
 import ServiceGrid from './ServiceGrid.astro';
+import HomeMediaWallShowcase from './HomeMediaWallShowcase.astro';
 import HomeReviewsSection from './HomeReviewsSection.astro';
 import HomeServiceAreas from './HomeServiceAreas.astro';
 import CTASection from './CTASection.astro';
@@ -108,6 +109,7 @@ const { projectCount, publishedReviews, cityLinks, communityLinks } = Astro.prop
             [
               { label: 'Handyman To-Do List Visit', href: '/services/handyman-to-do-list/' },
               { label: 'General handyman services', href: '/services/general-handyman-services/' },
+              { label: 'Media walls', href: '/services/media-walls/' },
               { label: 'TV mounting', href: '/services/tv-mounting/' },
               { label: 'Drywall repair', href: '/services/drywall-repair/' },
               { label: 'Door installation', href: '/services/door-repair-installation/' },
@@ -136,6 +138,8 @@ const { projectCount, publishedReviews, cityLinks, communityLinks } = Astro.prop
 </section>
 
 <ServiceGrid />
+
+<HomeMediaWallShowcase />
 
 <section class="relative py-24 bg-brand-black">
   {

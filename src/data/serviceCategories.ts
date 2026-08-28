@@ -196,6 +196,12 @@ export const serviceCategories: ServiceCategory[] = [
         serviceSlug: 'wallpaper-accent-wall-installation',
       },
       {
+        title: 'Limewash Walls',
+        description:
+          'Soft, breathable, mineral-based limewash finish for accent walls, feature walls, and full rooms.',
+        serviceSlug: 'limewash-walls',
+      },
+      {
         title: 'Babyproofing & Child Safety',
         description:
           'Furniture and TV anti-tip anchoring, cabinet locks, and gate installation — securely mounted safety upgrades, not adhesive shortcuts.',
@@ -244,6 +250,7 @@ export const allServiceSlugs = [
   'closet-shelving-organization',
   'smart-home-installation',
   'wallpaper-accent-wall-installation',
+  'limewash-walls',
   'picture-hanging-floating-shelves',
   'babyproofing-child-safety',
   'garage-storage-solutions',

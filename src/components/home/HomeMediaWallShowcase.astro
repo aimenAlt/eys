@@ -1,0 +1,197 @@
+---
+import SiteImage from '../ui/SiteImage.astro';
+
+const video = {
+  src: '/images/services/media-walls/vertical.mp4',
+  poster: '/images/services/media-walls/vertical-poster.jpg',
+  width: 480,
+  height: 848,
+  label: 'Custom media wall with fireplace and lit niches',
+};
+
+const landscapePhoto = {
+  src: '/images/services/media-walls/fireplace-niches.jpg',
+  alt: 'Custom floor-to-ceiling media wall with recessed TV, linear fireplace, and lit niches',
+  width: 1200,
+  height: 1600,
+  label: 'TV, Fireplace & Lit Niches',
+};
+
+const portraitPhoto = {
+  src: '/images/services/media-walls/marble-wood-slat.jpg',
+  alt: 'Floor-to-ceiling marble-look tile feature wall flanked by dark vertical wood slats',
+  width: 1200,
+  height: 1600,
+  label: 'Marble & Wood-Slat Feature Wall',
+};
+---
+
+<section
+  id="media-walls"
+  class="bg-brand-black px-4 py-16 text-white sm:px-6 sm:py-20 lg:px-8"
+  aria-labelledby="home-media-wall-heading"
+  data-home-media-wall
+>
+  <div class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-12 lg:items-center lg:gap-10">
+    <div class="lg:col-span-5">
+      <p class="text-[11px] font-bold uppercase tracking-[0.16em] text-brand-red sm:text-xs">
+        Beyond the To-Do List
+      </p>
+      <h2
+        id="home-media-wall-heading"
+        class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl"
+      >
+        Custom Media Walls — Our Favorite Builds
+      </h2>
+      <p class="mt-4 max-w-md text-base leading-relaxed text-white/80">
+        Built-in shelving, fireplace integration, wood-slat feature walls, and clean TV
+        placement — media walls are some of the most rewarding projects we build, and a good
+        look at what EYS can do beyond a repair visit.
+      </p>
+      <p class="mt-3 max-w-md text-sm leading-relaxed text-white/65">
+        Send a few photos of your wall and what you have in mind. We'll review the project and
+        get back to you with a clear estimate.
+      </p>
+
+      <div class="mt-8">
+        <a
+          href="/services/media-walls/"
+          data-cta-location="home_media_wall_showcase"
+          class="inline-flex min-h-12 w-full items-center justify-center rounded-md bg-brand-red px-6 py-3.5 text-center text-base font-bold text-white hover:bg-brand-redhover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:w-auto"
+        >
+          See Media Wall Projects
+        </a>
+      </div>
+    </div>
+
+    <div class="lg:col-span-7">
+      <div class="grid gap-3 sm:gap-4 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-stretch">
+        <figure
+          class="relative mx-auto w-full max-w-[22rem] overflow-hidden rounded-xl bg-white/5 shadow-card sm:max-w-sm lg:mx-0 lg:max-w-none"
+        >
+          <video
+            class="aspect-[9/16] h-auto w-full object-cover"
+            data-home-media-wall-video
+            poster={video.poster}
+            width={video.width}
+            height={video.height}
+            muted
+            loop
+            playsinline
+            preload="none"
+            disablepictureinpicture
+            aria-label={video.label}
+          >
+            <source data-src={video.src} type="video/mp4" />
+          </video>
+          <figcaption class="sr-only">{video.label}</figcaption>
+        </figure>
+
+        <div class="flex flex-col gap-3 sm:gap-4 lg:min-h-0">
+          <figure class="relative overflow-hidden rounded-xl shadow-card">
+            <SiteImage
+              src={landscapePhoto.src}
+              alt={landscapePhoto.alt}
+              width={landscapePhoto.width}
+              height={landscapePhoto.height}
+              loading="lazy"
+              sizes="(max-width: 1024px) 100vw, 28vw"
+              class="aspect-video w-full object-cover"
+            />
+            <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent px-3 pb-3 pt-12 text-xs font-bold text-white sm:text-sm">
+              {landscapePhoto.label}
+            </figcaption>
+          </figure>
+
+          <figure class="relative min-h-0 flex-1 overflow-hidden rounded-xl shadow-card">
+            <SiteImage
+              src={portraitPhoto.src}
+              alt={portraitPhoto.alt}
+              width={portraitPhoto.width}
+              height={portraitPhoto.height}
+              loading="lazy"
+              sizes="(max-width: 1024px) 100vw, 28vw"
+              class="aspect-[4/5] w-full object-cover lg:absolute lg:inset-0 lg:aspect-auto lg:h-full"
+            />
+            <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent px-3 pb-3 pt-12 text-xs font-bold text-white sm:text-sm">
+              {portraitPhoto.label}
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { analyticsEvents, trackEvent } from '../../utils/analytics';
+
+  function prefersReducedMotion(): boolean {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  function wireHomeMediaWall(): void {
+    const section = document.querySelector<HTMLElement>('[data-home-media-wall]');
+    if (!section || section.dataset.wired === '1') return;
+    section.dataset.wired = '1';
+
+    const video = section.querySelector<HTMLVideoElement>('[data-home-media-wall-video]');
+    const source = video?.querySelector<HTMLSourceElement>('source[data-src]');
+    let viewed = false;
+
+    const markView = () => {
+      if (viewed) return;
+      viewed = true;
+      trackEvent(analyticsEvents.mediaWallCrossSellView, {
+        source_page: 'home',
+        cross_sell: 'media_wall',
+        placement: 'home_media_wall_showcase',
+      });
+    };
+
+    const loadSource = () => {
+      if (!video || !(source instanceof HTMLSourceElement) || source.src) return;
+      const src = source.dataset.src;
+      if (!src) return;
+      source.src = src;
+      video.load();
+    };
+
+    const playIfAllowed = async () => {
+      if (!video || prefersReducedMotion()) return;
+      loadSource();
+      try {
+        video.muted = true;
+        await video.play();
+      } catch {
+        /* autoplay blocked — controls remain available */
+      }
+    };
+
+    const pauseVideo = () => {
+      video?.pause();
+    };
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting && entry.intersectionRatio >= 0.35) {
+              markView();
+              void playIfAllowed();
+            } else {
+              pauseVideo();
+            }
+          }
+        },
+        { threshold: [0, 0.35, 0.6] },
+      );
+      observer.observe(section);
+    } else {
+      markView();
+    }
+  }
+
+  wireHomeMediaWall();
+  document.addEventListener('astro:page-load', wireHomeMediaWall);
+</script>
