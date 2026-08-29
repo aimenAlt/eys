@@ -1,6 +1,6 @@
 ---
 import SiteImage from '../ui/SiteImage.astro';
-import { startLanding, todoListFromPrice } from '../../data/startLanding';
+import { curtainRodFromPrice, startLanding } from '../../data/startLanding';
 import { imageOrPlaceholder } from '../../data/images';
 import StartCallLink from './StartCallLink.astro';
 import StartChooseLink from './StartChooseLink.astro';
@@ -8,7 +8,7 @@ import { site } from '../../data/business';
 
 const hero = startLanding.images.hero;
 const heroSrc = imageOrPlaceholder(hero.src);
-const todoFrom = todoListFromPrice();
+const rodFrom = curtainRodFromPrice();
 
 const offerCardClass =
   'rounded-xl border border-white/20 bg-black/45 p-4 backdrop-blur-[2px] lg:border-white/15 lg:bg-white/5 lg:backdrop-blur-none';
@@ -50,22 +50,26 @@ const offerCardClass =
       <p
         class="mt-3 max-w-xl text-base leading-relaxed text-white/90 [text-shadow:0_1px_12px_rgba(0,0,0,0.45)] sm:text-lg lg:text-white/85 lg:[text-shadow:none]"
       >
-        From everyday repairs to remodeling, general contracting, and larger projects — call or
-        choose a path to get started.
+        From media walls and high-ceiling curtains to remodeling, general contracting, and everyday
+        repairs — call or choose a path to get started.
       </p>
 
       <div class="mt-7 grid gap-3 sm:grid-cols-2">
         <div class={offerCardClass}>
-          <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">To-Do List Visit</p>
-          <p class="mt-2 text-2xl font-bold tracking-tight text-white">From {todoFrom}</p>
-          <p class="mt-1 text-sm text-white/75">Several smaller repairs in one reserved visit</p>
+          <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">Any Project</p>
+          <p class="mt-2 text-2xl font-bold tracking-tight text-white">Free Quote</p>
+          <p class="mt-1 text-sm text-white/75">
+            Repairs, upgrades, remodeling, and one-off work
+          </p>
         </div>
         <div class={offerCardClass}>
           <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">
-            Remodeling &amp; GC
+            Media Walls &amp; Curtains
           </p>
-          <p class="mt-2 text-2xl font-bold tracking-tight text-white">Photo Estimate</p>
-          <p class="mt-1 text-sm text-white/75">Kitchens, baths, and coordinated larger projects</p>
+          <p class="mt-2 text-2xl font-bold tracking-tight text-white">Now Booking</p>
+          <p class="mt-1 text-sm text-white/75">
+            Custom media walls · curtains installed from {rodFrom}
+          </p>
         </div>
       </div>
 

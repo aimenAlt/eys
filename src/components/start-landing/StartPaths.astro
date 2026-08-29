@@ -1,8 +1,37 @@
 ---
+import SiteImage from '../ui/SiteImage.astro';
+import CurtainBookLink from '../curtain-landing/CurtainBookLink.astro';
+import MediaWallEstimateLink from '../media-wall-landing/MediaWallEstimateLink.astro';
 import StartJobberLink from './StartJobberLink.astro';
-import { todoListFromPrice } from '../../data/startLanding';
+import { imageOrPlaceholder } from '../../data/images';
+import {
+  curtainRodFromPrice,
+  curtainTrackFromPrice,
+  startAllServicesHref,
+  startCurtainsHref,
+  startLanding,
+  startMediaWallsHref,
+  startTodoListHref,
+  todoListFromPrice,
+} from '../../data/startLanding';
+import { withBase } from '../../utils/paths';
 
 const todoFrom = todoListFromPrice();
+const rodFrom = curtainRodFromPrice();
+const trackFrom = curtainTrackFromPrice();
+
+const mediaWallVideo = startLanding.images.videos.slat;
+const curtainPhoto = startLanding.images.pathCards.curtain;
+
+const cardClass =
+  'flex h-full flex-col overflow-hidden rounded-xl border border-brand-line bg-brand-lightbg';
+const bodyClass = 'flex flex-1 flex-col p-5 sm:p-6';
+const eyebrowClass = 'text-xs font-bold uppercase tracking-[0.12em] text-brand-muted';
+const titleClass = 'mt-2 text-xl font-bold leading-snug text-brand-black sm:text-2xl';
+const copyClass = 'mt-2 text-sm leading-relaxed text-brand-muted sm:text-base';
+const priceClass = 'mt-3 text-lg font-bold text-brand-red';
+const linkClass =
+  'mt-3 inline-flex min-h-11 items-center text-sm font-bold text-brand-black underline-offset-4 hover:underline';
 ---
 
 <section
@@ -20,48 +49,125 @@ const todoFrom = todoListFromPrice();
         Choose How to Start
       </h2>
       <p class="mt-3 text-base leading-relaxed text-brand-muted sm:text-lg">
-        Book a visit for a list of smaller tasks, or send photos for remodeling and general
-        contracting.
+        Get a quote on any project, start a custom media wall, book high-ceiling curtain
+        installation, or reserve a visit for a list of smaller tasks.
       </p>
     </div>
 
-    <ul class="mt-8 grid gap-4 sm:grid-cols-2" role="list">
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" role="list">
       <li>
-        <article
-          class="flex h-full flex-col rounded-xl border border-brand-red/40 bg-brand-lightbg p-5 shadow-[0_0_0_1px_rgba(176,0,0,0.18)] sm:p-6"
-        >
-          <p class="text-xs font-bold uppercase tracking-[0.12em] text-brand-red">Most common</p>
-          <h3 class="mt-2 text-xl font-bold leading-snug text-brand-black sm:text-2xl">
-            Handyman To-Do List Visit
-          </h3>
-          <p class="mt-2 flex-1 text-sm leading-relaxed text-brand-muted sm:text-base">
-            Several smaller repairs, installations, and maintenance tasks in priority order during
-            one reserved visit.
-          </p>
-          <p class="mt-3 text-lg font-bold text-brand-red">Starting at {todoFrom}</p>
-          <div class="mt-5">
-            <StartJobberLink service="todo_list" placement="paths" featured>
-              Book a Handyman Visit
-            </StartJobberLink>
+        <article class={cardClass}>
+          <div class={bodyClass}>
+            <p class={eyebrowClass}>Any project, any size</p>
+            <h3 class={titleClass}>General Quote</h3>
+            <p class={copyClass}>
+              Not sure where your project fits? Send photos and a short description. We take on all
+              types of jobs — repairs, upgrades, carpentry, remodeling, and one-off work that does
+              not fit a category.
+            </p>
+            <div class="mt-auto pt-5">
+              <StartJobberLink service="project_estimate" placement="paths" featured>
+                Get a Free Quote
+              </StartJobberLink>
+              <a href={withBase(startAllServicesHref)} class={linkClass}>
+                See everything we do →
+              </a>
+            </div>
           </div>
         </article>
       </li>
+
       <li>
-        <article class="flex h-full flex-col rounded-xl border border-brand-line bg-brand-lightbg p-5 sm:p-6">
-          <p class="text-xs font-bold uppercase tracking-[0.12em] text-brand-muted">
-            Remodeling &amp; general contracting
-          </p>
-          <h3 class="mt-2 text-xl font-bold leading-snug text-brand-black sm:text-2xl">
-            Send Photos for an Estimate
-          </h3>
-          <p class="mt-2 flex-1 text-sm leading-relaxed text-brand-muted sm:text-base">
-            Kitchens, baths, room upgrades, and coordinated larger projects. We’ll review the photos
-            and confirm the right next step.
-          </p>
-          <div class="mt-5">
-            <StartJobberLink service="custom_project" placement="paths">
-              Request a Project Estimate
-            </StartJobberLink>
+        <article
+          id="start-path-media-wall"
+          class={cardClass}
+          data-eys-autoplay-video
+          data-video-source-page="start"
+        >
+          <video
+            class="h-44 w-full object-cover sm:h-40"
+            data-eys-autoplay-video-el
+            poster={mediaWallVideo.poster}
+            width={mediaWallVideo.width}
+            height={mediaWallVideo.height}
+            muted
+            loop
+            playsinline
+            preload="none"
+            disablepictureinpicture
+            aria-label={mediaWallVideo.label}
+          >
+            <source data-src={mediaWallVideo.src} type="video/mp4" />
+          </video>
+          <div class={bodyClass}>
+            <p class={eyebrowClass}>Custom build</p>
+            <h3 class={titleClass}>Media Walls</h3>
+            <p class={copyClass}>
+              Custom media walls, fireplace TV walls, wood-slat feature walls, and finished
+              entertainment centers — designed and built for your room.
+            </p>
+            <div class="mt-auto pt-5">
+              <MediaWallEstimateLink placement="paths" class="w-full! sm:w-full!">
+                Start a Media Wall Estimate
+              </MediaWallEstimateLink>
+              <a href={withBase(startMediaWallsHref)} class={linkClass}>
+                See media wall projects →
+              </a>
+            </div>
+          </div>
+        </article>
+      </li>
+
+      <li>
+        <article class={cardClass}>
+          <SiteImage
+            src={imageOrPlaceholder(curtainPhoto.src)}
+            alt={curtainPhoto.alt}
+            width={curtainPhoto.width}
+            height={curtainPhoto.height}
+            loading="lazy"
+            sizes="(max-width: 640px) 100vw, 45vw"
+            class="h-44 w-full object-cover sm:h-40"
+          />
+          <div class={bodyClass}>
+            <p class={eyebrowClass}>Book it yourself</p>
+            <h3 class={titleClass}>High-Ceiling Curtains</h3>
+            <p class={copyClass}>
+              Tall windows and two-story walls. You supply the rod or track and the curtains — we
+              bring the high-ceiling access equipment and install them level and clean. Pick a
+              time and you are booked, no waiting on a callback.
+            </p>
+            <p class={priceClass}>Rods installed from {rodFrom} · tracks from {trackFrom}</p>
+            <div class="mt-auto pt-5">
+              <CurtainBookLink placement="paths" class="w-full! sm:w-full!">
+                See Available Times &amp; Book
+              </CurtainBookLink>
+              <a href={withBase(startCurtainsHref)} class={linkClass}>
+                See curtain pricing &amp; details →
+              </a>
+            </div>
+          </div>
+        </article>
+      </li>
+
+      <li>
+        <article class={cardClass}>
+          <div class={bodyClass}>
+            <p class={eyebrowClass}>Smaller tasks</p>
+            <h3 class={titleClass}>Handyman To-Do List Visit</h3>
+            <p class={copyClass}>
+              Several smaller repairs, installations, and maintenance tasks in priority order during
+              one reserved visit.
+            </p>
+            <p class={priceClass}>Starting at {todoFrom}</p>
+            <div class="mt-auto pt-5">
+              <StartJobberLink service="todo_list" placement="paths">
+                Book a Handyman Visit
+              </StartJobberLink>
+              <a href={withBase(startTodoListHref)} class={linkClass}>
+                See what a visit covers →
+              </a>
+            </div>
           </div>
         </article>
       </li>

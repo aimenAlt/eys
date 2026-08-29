@@ -132,6 +132,8 @@ export type CurtainCtaPlacement =
   | 'header'
   | 'hero'
   | 'sticky_mobile'
+  /** `/start/` chooser — CurtainBookLink is reused there. */
+  | 'paths'
   | 'pricing'
   | 'process'
   | 'gallery'
