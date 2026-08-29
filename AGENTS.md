@@ -57,6 +57,11 @@ Avoid:
 - gimmicky animations
 
 ## SEO doctrine
+A daily automated task requests Google indexing for unindexed pages — see
+`docs/gsc-indexing-automation.md`. It reads `dist/sitemap-0.xml` automatically,
+so no action is needed here when you add/rename/remove pages, but skim that doc
+if you're doing SEO or routing work.
+
 Every service/location/project page must have:
 - one clear H1
 - SEO title

@@ -1,0 +1,638 @@
+{
+  "note": "Tracks GSC \"Request Indexing\" submissions for eyshandyman.com. See docs/gsc-indexing-automation.md.",
+  "pages": [
+    {
+      "path": "/",
+      "status": "pending",
+      "priority_tier": 5,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/about/",
+      "status": "pending",
+      "priority_tier": 5,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/blog/",
+      "status": "pending",
+      "priority_tier": 5,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/blog/hoa-patio-updates-bridgeland/",
+      "status": "pending",
+      "priority_tier": 5,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/blog/move-in-upgrades-sunterra/",
+      "status": "pending",
+      "priority_tier": 5,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/book/",
+      "status": "pending",
+      "priority_tier": 5,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/contact/",
+      "status": "pending",
+      "priority_tier": 5,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/curtain-installation/",
+      "status": "requested",
+      "priority_tier": 5,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": "2026-08-28",
+      "last_requested_at": "2026-08-28",
+      "times_requested": 1,
+      "content_hash": "9d2746d8bd8b497b"
+    },
+    {
+      "path": "/our-work/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/our-work/curved-stair-paneling/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/our-work/double-height-curtains/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/our-work/marble-wood-slat-feature-wall/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/our-work/navy-office-builtins/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/our-work/pergola-privacy-wall/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/our-work/sage-kitchen-remodel/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/our-work/understair-curved-shelving/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/our-work/vaulted-crystal-chandelier/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/pricing/",
+      "status": "pending",
+      "priority_tier": 3,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/reviews/",
+      "status": "pending",
+      "priority_tier": 3,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/service-areas/",
+      "status": "requested",
+      "priority_tier": 1,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": "2026-08-28",
+      "last_requested_at": "2026-08-28",
+      "times_requested": 1,
+      "content_hash": "e7ab2fba1f083b1f"
+    },
+    {
+      "path": "/service-areas/cypress/",
+      "status": "requested",
+      "priority_tier": 1,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": "2026-08-28",
+      "last_requested_at": "2026-08-28",
+      "times_requested": 1,
+      "content_hash": "058082a16f61b33e"
+    },
+    {
+      "path": "/service-areas/cypress/bridgeland-handyman/",
+      "status": "requested",
+      "priority_tier": 1,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": "2026-08-28",
+      "last_requested_at": "2026-08-28",
+      "times_requested": 1,
+      "content_hash": "87d15705d592d7b2"
+    },
+    {
+      "path": "/service-areas/cypress/towne-lake-handyman/",
+      "status": "requested",
+      "priority_tier": 1,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": "2026-08-28",
+      "last_requested_at": "2026-08-28",
+      "times_requested": 1,
+      "content_hash": "61537aac0d2b5dc1"
+    },
+    {
+      "path": "/service-areas/fulshear/",
+      "status": "requested",
+      "priority_tier": 1,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": "2026-08-28",
+      "last_requested_at": "2026-08-28",
+      "times_requested": 1,
+      "content_hash": "e236a91a6ced5e14"
+    },
+    {
+      "path": "/service-areas/fulshear/cross-creek-ranch-handyman/",
+      "status": "requested",
+      "priority_tier": 1,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": "2026-08-28",
+      "last_requested_at": "2026-08-28",
+      "times_requested": 1,
+      "content_hash": "0b560d1128e49d4a"
+    },
+    {
+      "path": "/service-areas/fulshear/jordan-ranch-handyman/",
+      "status": "pending",
+      "priority_tier": 1,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/service-areas/katy/",
+      "status": "requested",
+      "priority_tier": 1,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": "2026-08-28",
+      "last_requested_at": "2026-08-28",
+      "times_requested": 1,
+      "content_hash": "c77cf90b12a503c5"
+    },
+    {
+      "path": "/service-areas/katy/cane-island-handyman/",
+      "status": "pending",
+      "priority_tier": 1,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/service-areas/katy/cinco-ranch-handyman/",
+      "status": "pending",
+      "priority_tier": 1,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/service-areas/katy/elyson-handyman/",
+      "status": "pending",
+      "priority_tier": 1,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/service-areas/katy/sunterra-handyman/",
+      "status": "pending",
+      "priority_tier": 1,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/service-areas/katy/tamarron-handyman/",
+      "status": "pending",
+      "priority_tier": 1,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/service-areas/richmond/",
+      "status": "pending",
+      "priority_tier": 1,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/service-areas/richmond/aliana-handyman/",
+      "status": "pending",
+      "priority_tier": 1,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/service-areas/richmond/harvest-green-handyman/",
+      "status": "pending",
+      "priority_tier": 1,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/service-areas/richmond/veranda-handyman/",
+      "status": "pending",
+      "priority_tier": 1,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/service-areas/west-houston/",
+      "status": "requested",
+      "priority_tier": 1,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": "2026-08-28",
+      "last_requested_at": "2026-08-28",
+      "times_requested": 1,
+      "content_hash": "41a344f53a66d69a"
+    },
+    {
+      "path": "/services/",
+      "status": "requested",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": "2026-08-28",
+      "last_requested_at": "2026-08-28",
+      "times_requested": 1,
+      "content_hash": "fbd45f537f2ee92f"
+    },
+    {
+      "path": "/services/after-hours-repairs/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/babyproofing-child-safety/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/bathroom-remodeling/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/cabinet-installation/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/ceiling-fan-installation/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/closet-shelving-organization/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/curtain-installation/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/custom-carpentry/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/door-repair-installation/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/drywall-repair/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/electrical-services/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/flooring-and-decor/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/furniture-assembly/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/garage-storage-solutions/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/general-handyman-services/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/grab-bar-installation/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/handyman-to-do-list/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/installation-and-assembly/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/kitchen-remodeling/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/media-walls/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/painting/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/picture-hanging-floating-shelves/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/remodeling-and-upgrades/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/repairs-and-maintenance/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/smart-home-installation/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/tile-installation/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/tv-mounting/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/wallpaper-accent-wall-installation/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/whole-project-remodeling/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/sitemap/",
+      "status": "pending",
+      "priority_tier": 5,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0
+    },
+    {
+      "path": "/services/limewash-walls/",
+      "status": "pending",
+      "priority_tier": 2,
+      "first_seen_at": "2026-08-28",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0,
+      "content_hash": null
+    }
+  ],
+  "updated_at": "2026-08-28T17:18:27.749Z"
+}
