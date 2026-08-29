@@ -57,6 +57,8 @@ export type JobberRequestFormEmbed = {
  * onlineBookingUrl: hosted Client Hub link for TV mounting (use link not embed — card fields require hosted form)
  * handymanToDoListFormUrl: hosted Client Hub link for Handyman To-Do List Visit
  * projectEstimateFormUrl: hosted Client Hub link for Project Estimate Request
+ * kitchenRemodelFormUrl: hosted Client Hub link for Kitchen Remodel Estimate Request
+ * bathroomRemodelFormUrl: hosted Client Hub link for Bathroom Remodel Estimate Request
  * smallRepairVisitUrl: optional iframe/embed URL for Handyman To-Do List Visit page
  */
 export const jobber = {
@@ -72,6 +74,10 @@ export const jobber = {
     'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/4983259/new' as string,
   projectEstimateFormUrl:
     'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/4985623/new' as string,
+  kitchenRemodelFormUrl:
+    'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/5130707/new' as string,
+  bathroomRemodelFormUrl:
+    'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/5130734/new' as string,
   onlineBookingUrl:
     'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/4977896/new' as string,
   smallRepairVisitUrl: '' as string,
@@ -164,6 +170,16 @@ export function jobberHandymanToDoListFormUrl(): string | undefined {
 export function jobberProjectEstimateFormUrl(): string | undefined {
   const url = business.jobber.projectEstimateFormUrl?.trim();
   return url ? withJobberUtm(url, 'project-estimate') : undefined;
+}
+
+export function jobberKitchenRemodelFormUrl(): string | undefined {
+  const url = business.jobber.kitchenRemodelFormUrl?.trim();
+  return url ? withJobberUtm(url, 'kitchen-remodel') : undefined;
+}
+
+export function jobberBathroomRemodelFormUrl(): string | undefined {
+  const url = business.jobber.bathroomRemodelFormUrl?.trim();
+  return url ? withJobberUtm(url, 'bathroom-remodel') : undefined;
 }
 
 export function jobberSmallRepairVisitUrl(): string | undefined {

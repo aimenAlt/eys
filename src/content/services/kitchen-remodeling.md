@@ -9,6 +9,7 @@ summary: "Cabinet hardware, finish carpentry, fixture coordination, and punch-li
 heroImage: "/images/services/kitchen-remodel.jpg"
 heroImageAlt: "Finished two-tone kitchen remodel with sage island, quartz counters, and gold fixtures"
 bookingType: "assessment"
+jobberForm: "kitchen-remodel"
 primaryCTA: "Request Kitchen Upgrade Consultation"
 secondaryCTA: "Call Us"
 includedServices:

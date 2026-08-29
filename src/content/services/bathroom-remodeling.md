@@ -9,6 +9,7 @@ summary: "Vanity installs, fixture swaps, hardware updates, and finish improveme
 heroImage: "/images/services/bathroom-remodel.jpg"
 heroImageAlt: "Modern skirted toilet and bidet-seat installation in a gray-tiled bathroom alcove"
 bookingType: "assessment"
+jobberForm: "bathroom-remodel"
 primaryCTA: "Request Bathroom Upgrade Consultation"
 secondaryCTA: "Call Us"
 includedServices:

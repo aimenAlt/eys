@@ -7,6 +7,9 @@ import StartJobberLink from './StartJobberLink.astro';
 
 const photo = startLanding.images.generalContracting;
 const photoSrc = imageOrPlaceholder(photo.src);
+
+const subLinkClass =
+  'inline-flex min-h-11 items-center text-sm font-bold text-white/80 underline-offset-4 hover:text-white hover:underline';
 ---
 
 <section
@@ -42,11 +45,22 @@ const photoSrc = imageOrPlaceholder(photo.src);
         </StartJobberLink>
         <a
           href={withBase(startRemodelingHref)}
-          class="inline-flex min-h-11 items-center text-sm font-bold text-white/80 underline-offset-4 hover:text-white hover:underline"
+          class={subLinkClass}
         >
           See remodeling services →
         </a>
       </div>
+
+      <p class="mt-4 text-sm leading-relaxed text-white/65">
+        Starting with one room?{' '}
+        <a href={withBase('/services/kitchen-remodeling/')} class={subLinkClass}>
+          Kitchen upgrades
+        </a>{' '}
+        <span aria-hidden="true">·</span>{' '}
+        <a href={withBase('/services/bathroom-remodeling/')} class={subLinkClass}>
+          Bathroom upgrades
+        </a>
+      </p>
     </div>
 
     <figure class="relative overflow-hidden rounded-xl shadow-card lg:col-span-7">

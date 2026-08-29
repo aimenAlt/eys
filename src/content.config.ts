@@ -48,6 +48,12 @@ const bookingTypeSchema = z.enum([
 
 const publishedSchema = z.boolean().default(false);
 
+/**
+ * Opt a service page into a dedicated Jobber request form instead of the
+ * generic bookingType CTA destination. Resolved in ServiceHero.astro.
+ */
+const jobberFormSchema = z.enum(['kitchen-remodel', 'bathroom-remodel']);
+
 const services = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/services' }),
   schema: z.object({
@@ -58,6 +64,7 @@ const services = defineCollection({
     heroTitle: z.string().optional(),
     summary: z.string().optional(),
     bookingType: bookingTypeSchema.optional(),
+    jobberForm: jobberFormSchema.optional(),
     includedServices: z.array(z.string()).optional(),
     priceFactors: z.array(z.string()).optional(),
     process: z.array(z.string()).optional(),

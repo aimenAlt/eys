@@ -1,5 +1,10 @@
 ---
-import { jobberOnlineBookingUrl, site } from '../../data/business';
+import {
+  jobberBathroomRemodelFormUrl,
+  jobberKitchenRemodelFormUrl,
+  jobberOnlineBookingUrl,
+  site,
+} from '../../data/business';
 import { resolveServiceHero } from '../../data/images';
 import { contentMaxClass, contentPaddingClass } from '../../data/layout';
 
@@ -10,6 +15,7 @@ interface ServiceData {
   primaryCTA?: string;
   secondaryCTA?: string;
   bookingType?: string;
+  jobberForm?: 'kitchen-remodel' | 'bathroom-remodel';
   slug: string;
   heroImage?: string;
   heroImageAlt?: string;
@@ -25,9 +31,39 @@ const bookingUrl = jobberOnlineBookingUrl();
 const imageSrc = resolveServiceHero(service.slug, service.heroImage);
 const imageAlt = service.heroImageAlt ?? `${service.title} in Katy and West Houston`;
 
-type CtaConfig = { href: string; label: string; external?: boolean };
+type CtaConfig = {
+  href: string;
+  label: string;
+  external?: boolean;
+  /** Set only for dedicated Jobber request forms — drives conversion tracking. */
+  jobberService?: string;
+};
+
+/** Dedicated Jobber request forms, opted into per service via `jobberForm`. */
+const jobberForms = {
+  'kitchen-remodel': {
+    url: jobberKitchenRemodelFormUrl(),
+    service: 'kitchen_remodel',
+    label: 'Request a Kitchen Estimate',
+  },
+  'bathroom-remodel': {
+    url: jobberBathroomRemodelFormUrl(),
+    service: 'bathroom_remodel',
+    label: 'Request a Bathroom Estimate',
+  },
+} as const;
 
 function primaryCta(): CtaConfig {
+  const dedicated = service.jobberForm ? jobberForms[service.jobberForm] : undefined;
+  if (dedicated?.url) {
+    return {
+      href: dedicated.url,
+      label: service.primaryCTA ?? dedicated.label,
+      external: true,
+      jobberService: dedicated.service,
+    };
+  }
+
   switch (service.bookingType) {
     case 'direct-book':
       return {
@@ -74,6 +110,9 @@ const primary = primaryCta();
             target={primary.external ? '_blank' : undefined}
             rel={primary.external ? 'noopener noreferrer' : undefined}
             data-cta-location="service_hero"
+            data-booking-type={primary.jobberService}
+            data-service-type={primary.jobberService}
+            data-curtain-cta={primary.jobberService}
             class="gradient-btn text-white px-8 py-3 rounded-md font-bold text-center transition-all shadow-lg hover:shadow-xl"
           >
             {primary.label}
