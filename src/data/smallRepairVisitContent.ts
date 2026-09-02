@@ -10,8 +10,7 @@ export const handymanToDoListVisitName = 'Handyman To-Do List Visit' as const;
 
 export const smallRepairVisitMeta = {
   title: 'Handyman To-Do List Visit | Katy & West Houston',
-  description:
-    'Reserve a handyman for multiple smaller repairs, installations and maintenance tasks in one visit across Katy and West Houston. One hour $175, two hours $299, three hours $399.',
+  description: `Reserve a handyman for multiple smaller repairs, installations and maintenance tasks in one visit across Katy and West Houston. One hour ${formatUsd(smallRepairPricing.oneHour)}, two hours ${formatUsd(smallRepairPricing.twoHours)}, three hours ${formatUsd(smallRepairPricing.threeHours)}.`,
   h1: 'Complete More of Your Home To-Do List in One Visit',
   heroEyebrow: 'Multiple Tasks. One Convenient Visit.',
   heroTitle: 'Complete More of Your Home To-Do List in One Visit',
