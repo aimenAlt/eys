@@ -62,6 +62,7 @@ const pathways: Pathway[] = [
     features: [
       `One-hour visit: ${formatUsd(smallRepairPricing.oneHour)}`,
       `Two-hour visit: ${formatUsd(smallRepairPricing.twoHours)}`,
+      `Three-hour visit: ${formatUsd(smallRepairPricing.threeHours)}`,
       `Additional time: ${additionalTimeLabel}`,
       'Tasks completed in priority order',
       'Materials and specialty equipment are additional',
@@ -132,8 +133,8 @@ const pathways: Pathway[] = [
   </div>
 
   <p class="mt-8 text-center text-sm text-gray-500 max-w-2xl mx-auto">
-    Additional time after two hours requires your approval. Completion of every submitted task is not
-    guaranteed within the reserved visit length.
+    Additional time beyond your booked visit length requires your approval. Completion of every
+    submitted task is not guaranteed within the reserved visit length.
   </p>
 </Section>
 

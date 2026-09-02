@@ -11,7 +11,7 @@ export const handymanToDoListVisitName = 'Handyman To-Do List Visit' as const;
 export const smallRepairVisitMeta = {
   title: 'Handyman To-Do List Visit | Katy & West Houston',
   description:
-    'Reserve one or two hours for multiple smaller repairs, installations and maintenance tasks. One-hour visits start at $224.99; two-hour visits are $349.99.',
+    'Reserve a handyman for multiple smaller repairs, installations and maintenance tasks in one visit across Katy and West Houston. One hour $175, two hours $299, three hours $399.',
   h1: 'Complete More of Your Home To-Do List in One Visit',
   heroEyebrow: 'Multiple Tasks. One Convenient Visit.',
   heroTitle: 'Complete More of Your Home To-Do List in One Visit',
@@ -113,7 +113,7 @@ export const smallRepairFaqs: FaqItem[] = [
   },
   {
     question: 'What happens if the work takes longer than expected?',
-    answer: `Additional time after your reserved block is available only with your approval. After two hours, additional time is billed at ${additionalTimeLabel}.`,
+    answer: `Additional time beyond your booked visit length is available only with your approval, and is billed at ${additionalTimeLabel}.`,
   },
   {
     question: 'Are materials included?',
