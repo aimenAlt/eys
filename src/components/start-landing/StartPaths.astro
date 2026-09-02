@@ -21,10 +21,17 @@ const rodFrom = curtainRodFromPrice();
 const trackFrom = curtainTrackFromPrice();
 
 const mediaWallVideo = startLanding.images.videos.slat;
+const generalQuotePhoto = startLanding.images.pathCards.generalQuote;
 const curtainPhoto = startLanding.images.pathCards.curtain;
+const todoListPhoto = startLanding.images.pathCards.todoList;
 
+/**
+ * White cards on the white section only read as boxes with a real edge, so the
+ * fill is white and the definition comes from the border plus `shadow-card`.
+ */
 const cardClass =
-  'flex h-full flex-col overflow-hidden rounded-xl border border-brand-line bg-brand-lightbg';
+  'flex h-full flex-col overflow-hidden rounded-xl border border-brand-line bg-white shadow-card transition-shadow hover:shadow-cardhover';
+const mediaClass = 'h-44 w-full object-cover sm:h-40';
 const bodyClass = 'flex flex-1 flex-col p-5 sm:p-6';
 const eyebrowClass = 'text-xs font-bold uppercase tracking-[0.12em] text-brand-muted';
 const titleClass = 'mt-2 text-xl font-bold leading-snug text-brand-black sm:text-2xl';
@@ -57,6 +64,15 @@ const linkClass =
     <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" role="list">
       <li>
         <article class={cardClass}>
+          <SiteImage
+            src={imageOrPlaceholder(generalQuotePhoto.src)}
+            alt={generalQuotePhoto.alt}
+            width={generalQuotePhoto.width}
+            height={generalQuotePhoto.height}
+            loading="lazy"
+            sizes="(max-width: 640px) 100vw, 45vw"
+            class={mediaClass}
+          />
           <div class={bodyClass}>
             <p class={eyebrowClass}>Any project, any size</p>
             <h3 class={titleClass}>General Quote</h3>
@@ -89,7 +105,7 @@ const linkClass =
           data-video-source-page="start"
         >
           <video
-            class="h-44 w-full object-cover sm:h-40"
+            class={mediaClass}
             data-eys-autoplay-video-el
             poster={mediaWallVideo.poster}
             width={mediaWallVideo.width}
@@ -111,8 +127,8 @@ const linkClass =
               entertainment centers — designed and built for your room.
             </p>
             <div class="mt-auto pt-5">
-              <MediaWallEstimateLink placement="paths" class="w-full! sm:w-full!">
-                Start a Media Wall Estimate
+              <MediaWallEstimateLink placement="paths" class="w-full! py-3! sm:w-full!">
+                Get a Media Wall Quote
               </MediaWallEstimateLink>
               <a
                 href={withBase(startMediaWallsHref)}
@@ -135,7 +151,7 @@ const linkClass =
             height={curtainPhoto.height}
             loading="lazy"
             sizes="(max-width: 640px) 100vw, 45vw"
-            class="h-44 w-full object-cover sm:h-40"
+            class={mediaClass}
           />
           <div class={bodyClass}>
             <p class={eyebrowClass}>Book it yourself</p>
@@ -147,8 +163,8 @@ const linkClass =
             </p>
             <p class={priceClass}>Rods installed from {rodFrom} · tracks from {trackFrom}</p>
             <div class="mt-auto pt-5">
-              <CurtainBookLink placement="paths" class="w-full! sm:w-full!">
-                See Available Times &amp; Book
+              <CurtainBookLink placement="paths" class="w-full! py-3! sm:w-full!">
+                Book a Curtain Install
               </CurtainBookLink>
               <a
                 href={withBase(startCurtainsHref)}
@@ -164,6 +180,15 @@ const linkClass =
 
       <li>
         <article class={cardClass}>
+          <SiteImage
+            src={imageOrPlaceholder(todoListPhoto.src)}
+            alt={todoListPhoto.alt}
+            width={todoListPhoto.width}
+            height={todoListPhoto.height}
+            loading="lazy"
+            sizes="(max-width: 640px) 100vw, 45vw"
+            class={mediaClass}
+          />
           <div class={bodyClass}>
             <p class={eyebrowClass}>Smaller tasks</p>
             <h3 class={titleClass}>Handyman To-Do List Visit</h3>
@@ -173,7 +198,7 @@ const linkClass =
             </p>
             <p class={priceClass}>Starting at {todoFrom}</p>
             <div class="mt-auto pt-5">
-              <StartJobberLink service="todo_list" placement="paths">
+              <StartJobberLink service="todo_list" placement="paths" featured>
                 Book a Handyman Visit
               </StartJobberLink>
               <a

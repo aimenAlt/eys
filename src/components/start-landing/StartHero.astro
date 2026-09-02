@@ -1,17 +1,27 @@
 ---
 import SiteImage from '../ui/SiteImage.astro';
-import { curtainRodFromPrice, startLanding } from '../../data/startLanding';
+import { startLanding } from '../../data/startLanding';
 import { imageOrPlaceholder } from '../../data/images';
 import StartCallLink from './StartCallLink.astro';
 import StartChooseLink from './StartChooseLink.astro';
+import StartJobberLink from './StartJobberLink.astro';
+import MediaWallEstimateLink from '../media-wall-landing/MediaWallEstimateLink.astro';
 import { site } from '../../data/business';
 
 const hero = startLanding.images.hero;
 const heroSrc = imageOrPlaceholder(hero.src);
-const rodFrom = curtainRodFromPrice();
 
+/**
+ * Both tiles are links straight into the matching Jobber form — they read as
+ * offers, so leaving them inert wasted the two highest-contrast blocks in the
+ * hero. Hover/focus lift and the arrow in the headline signal that.
+ */
 const offerCardClass =
-  'rounded-xl border border-white/20 bg-black/45 p-4 backdrop-blur-[2px] lg:border-white/15 lg:bg-white/5 lg:backdrop-blur-none';
+  'block rounded-xl border border-white/20 bg-black/45 p-4 backdrop-blur-[2px] transition-colors hover:border-white/45 hover:bg-black/60 lg:border-white/15 lg:bg-white/5 lg:backdrop-blur-none lg:hover:border-white/35 lg:hover:bg-white/10';
+const offerEyebrowClass = 'text-xs font-bold uppercase tracking-[0.12em] text-white/60';
+const offerHeadlineClass = 'mt-2 text-2xl font-bold tracking-tight text-white';
+const offerCopyClass = 'mt-1 text-sm text-white/75';
+const offerArrowClass = 'ml-1.5 text-brand-redondark';
 ---
 
 <section
@@ -55,22 +65,27 @@ const offerCardClass =
       </p>
 
       <div class="mt-7 grid gap-3 sm:grid-cols-2">
-        <div class={offerCardClass}>
-          <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">Any Project</p>
-          <p class="mt-2 text-2xl font-bold tracking-tight text-white">Free Quote</p>
-          <p class="mt-1 text-sm text-white/75">
-            Repairs, upgrades, remodeling, and one-off work
+        <StartJobberLink
+          service="project_estimate"
+          placement="hero_offer"
+          variant="bare"
+          class={offerCardClass}
+        >
+          <p class={offerEyebrowClass}>Any Project</p>
+          <p class={offerHeadlineClass}>
+            Free Quote<span class={offerArrowClass} aria-hidden="true">→</span>
           </p>
-        </div>
-        <div class={offerCardClass}>
-          <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">
-            Media Walls &amp; Curtains
+          <p class={offerCopyClass}>Repairs, upgrades, remodeling, and one-off work</p>
+        </StartJobberLink>
+        <MediaWallEstimateLink placement="hero_offer" variant="bare" class={offerCardClass}>
+          <p class={offerEyebrowClass}>Media Walls</p>
+          <p class={offerHeadlineClass}>
+            Free Estimate<span class={offerArrowClass} aria-hidden="true">→</span>
           </p>
-          <p class="mt-2 text-2xl font-bold tracking-tight text-white">Now Booking</p>
-          <p class="mt-1 text-sm text-white/75">
-            Custom media walls · curtains installed from {rodFrom}
+          <p class={offerCopyClass}>
+            Custom media walls, fireplace TV walls, and slat feature walls
           </p>
-        </div>
+        </MediaWallEstimateLink>
       </div>
 
       <div class="mt-6" data-start-hero-cta>

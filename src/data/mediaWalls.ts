@@ -112,6 +112,8 @@ export const mediaWallsLanding = {
 export type MediaWallCtaPlacement =
   | 'header'
   | 'hero'
+  /** `/start/` hero offer tile — the whole tile is the link. */
+  | 'hero_offer'
   | 'sticky_mobile'
   /** `/start/` chooser — MediaWallEstimateLink is reused there. */
   | 'paths'

@@ -43,11 +43,30 @@ export const startLanding = {
      * slat-console video instead of a still.
      */
     pathCards: {
+      /**
+       * All four chooser cards carry a media band so the row stays even —
+       * without one the two text-only cards started their headings 160px above
+       * the others. Each frame is deliberately absent from the rest of `/start/`
+       * (the proof gallery, the video sections, the general-contracting block)
+       * so the page never shows the same room twice.
+       */
+      generalQuote: {
+        src: '/images/projects/curved-stair-paneling/eys-trim-carpentry-curved-stair-fluted-wall-paneling-after-p011-07.jpg',
+        alt: 'Curved staircase with light-gray fluted wall paneling and dark wood handrail.',
+        width: 3000,
+        height: 4000,
+      },
       curtain: {
         src: curtainLanding.images.proof[1].src,
         alt: curtainLanding.images.proof[1].alt,
         width: curtainLanding.images.proof[1].width,
         height: curtainLanding.images.proof[1].height,
+      },
+      todoList: {
+        src: '/images/projects/navy-office-builtins/eys-door-repair-installation-french-doors-sidelights-transom-after-p006-02.jpg',
+        alt: 'White French doors with sidelights, transom, and fluted casing opening to a navy office.',
+        width: 3000,
+        height: 4000,
       },
     },
     proof: [
@@ -97,6 +116,8 @@ export const startLanding = {
 export type StartCtaPlacement =
   | 'header'
   | 'hero'
+  /** The two dark offer tiles inside the hero — clickable straight to a form. */
+  | 'hero_offer'
   | 'sticky_mobile'
   | 'paths'
   | 'process'
