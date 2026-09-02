@@ -6,8 +6,11 @@ import {
   telDigitsFromHref,
   trackEvent,
 } from '../utils/analytics';
+import { decorateJobberLinks } from './jobber-attribution';
 
 const JOBBER_HOST = 'getjobber.com';
+/** Cap on the free-text CTA label sent to GA4. Labels are static copy, never PII. */
+const CTA_LABEL_MAX = 100;
 
 function isJobberOutbound(href: string): boolean {
   try {
@@ -40,6 +43,29 @@ function inferBookingType(href: string, link: HTMLAnchorElement): string {
   if (href.includes('5061268')) return 'regular_ceiling_curtain';
   if (href.includes('embedded_work_request')) return 'embedded_estimate';
   return 'jobber_form';
+}
+
+/**
+ * Opt-in tracking for internal CTAs — in-page anchors and same-site links that
+ * are not tel:/mailto:/Jobber/review, so no other branch sees them. Requires an
+ * explicit `data-cta-id` so incidental body, breadcrumb, and legal links stay out
+ * of GA4.
+ */
+function trackInternalCtaClick(link: HTMLAnchorElement, href: string): void {
+  const ctaId = link.getAttribute('data-cta-id');
+  if (!ctaId) return;
+
+  const label =
+    link.getAttribute('data-cta-label') ?? link.textContent?.replace(/\s+/g, ' ').trim() ?? '';
+
+  trackEvent(analyticsEvents.internalCtaClick, {
+    page_path: analyticsPagePath(),
+    page_type: analyticsPageType(),
+    cta_id: ctaId,
+    cta_location: resolvePlacement(link),
+    cta_label: label.slice(0, CTA_LABEL_MAX) || undefined,
+    destination: href,
+  });
 }
 
 function resolvePlacement(link: HTMLAnchorElement): string {
@@ -87,7 +113,9 @@ function wireConversionClicks(): void {
           return;
         }
 
-        if (isJobberOutbound(href)) {
+        if (!isJobberOutbound(href)) {
+          trackInternalCtaClick(link, href);
+        } else {
           let destinationHost = JOBBER_HOST;
           try {
             destinationHost = new URL(href, window.location.origin).hostname;
@@ -155,3 +183,5 @@ function wireConversionClicks(): void {
 }
 
 wireConversionClicks();
+decorateJobberLinks();
+document.addEventListener('astro:page-load', decorateJobberLinks);

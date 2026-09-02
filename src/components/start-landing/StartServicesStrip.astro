@@ -1,6 +1,12 @@
 ---
 import { startAllServicesHref, startServicePills } from '../../data/startLanding';
 import { withBase } from '../../utils/paths';
+
+/** Stable per-pill GA4 id derived from the destination, e.g. `start_service_pill_tv_mounting`. */
+function pillCtaId(href: string): string {
+  const slug = href.replace(/^\/|\/$/g, '').split('/').pop() ?? 'service';
+  return `start_service_pill_${slug.replace(/-/g, '_')}`;
+}
 ---
 
 <section
@@ -23,6 +29,7 @@ import { withBase } from '../../utils/paths';
       </div>
       <a
         href={withBase(startAllServicesHref)}
+        data-cta-id="start_services_strip_all"
         class="shrink-0 text-sm font-bold text-brand-red hover:underline"
       >
         Explore All Services →
@@ -38,6 +45,7 @@ import { withBase } from '../../utils/paths';
           <li class="snap-start shrink-0 sm:shrink">
             <a
               href={withBase(service.href)}
+              data-cta-id={pillCtaId(service.href)}
               class:list={[
                 'inline-flex min-h-10 items-center rounded-full border px-3.5 py-2 text-sm font-bold transition-colors',
                 service.emphasize

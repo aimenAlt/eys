@@ -106,6 +106,10 @@ export type StartCtaPlacement =
   | 'footer'
   | 'video_builtin'
   | 'video_slat'
+  /* Caption CTAs sit inside the video sections above; separate placements keep
+     them distinguishable from the section's main button in GA4. */
+  | 'video_builtin_caption'
+  | 'video_slat_caption'
   | 'general_contracting';
 
 export type StartJobberService = 'todo_list' | 'project_estimate' | 'custom_project' | 'tv_mounting';

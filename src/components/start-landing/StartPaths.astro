@@ -69,7 +69,11 @@ const linkClass =
               <StartJobberLink service="project_estimate" placement="paths" featured>
                 Get a Free Quote
               </StartJobberLink>
-              <a href={withBase(startAllServicesHref)} class={linkClass}>
+              <a
+                href={withBase(startAllServicesHref)}
+                data-cta-id="start_path_detail_general"
+                class={linkClass}
+              >
                 See everything we do →
               </a>
             </div>
@@ -110,7 +114,11 @@ const linkClass =
               <MediaWallEstimateLink placement="paths" class="w-full! sm:w-full!">
                 Start a Media Wall Estimate
               </MediaWallEstimateLink>
-              <a href={withBase(startMediaWallsHref)} class={linkClass}>
+              <a
+                href={withBase(startMediaWallsHref)}
+                data-cta-id="start_path_detail_media_wall"
+                class={linkClass}
+              >
                 See media wall projects →
               </a>
             </div>
@@ -142,7 +150,11 @@ const linkClass =
               <CurtainBookLink placement="paths" class="w-full! sm:w-full!">
                 See Available Times &amp; Book
               </CurtainBookLink>
-              <a href={withBase(startCurtainsHref)} class={linkClass}>
+              <a
+                href={withBase(startCurtainsHref)}
+                data-cta-id="start_path_detail_high_ceiling_curtains"
+                class={linkClass}
+              >
                 See curtain pricing &amp; details →
               </a>
             </div>
@@ -164,7 +176,11 @@ const linkClass =
               <StartJobberLink service="todo_list" placement="paths">
                 Book a Handyman Visit
               </StartJobberLink>
-              <a href={withBase(startTodoListHref)} class={linkClass}>
+              <a
+                href={withBase(startTodoListHref)}
+                data-cta-id="start_path_detail_handyman_to_do_list"
+                class={linkClass}
+              >
                 See what a visit covers →
               </a>
             </div>

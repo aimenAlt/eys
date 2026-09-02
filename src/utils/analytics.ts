@@ -40,6 +40,8 @@ export const analyticsEvents = {
   bookingComplete: 'booking_complete',
   /** Successful inquiry/request after Jobber redirect to /request-confirmed/. */
   leadSubmit: 'lead_submit',
+  /** Opt-in click on an internal (non-Jobber, non-tel) CTA tagged `data-cta-id`. */
+  internalCtaClick: 'internal_cta_click',
   customProjectInquiry: 'custom_project_inquiry',
   directionsClick: 'directions_click',
   reviewLinkClick: 'review_link_click',

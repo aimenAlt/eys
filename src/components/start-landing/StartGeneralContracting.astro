@@ -45,6 +45,7 @@ const subLinkClass =
         </StartJobberLink>
         <a
           href={withBase(startRemodelingHref)}
+          data-cta-id="start_general_contracting_remodeling"
           class={subLinkClass}
         >
           See remodeling services →
@@ -53,11 +54,19 @@ const subLinkClass =
 
       <p class="mt-4 text-sm leading-relaxed text-white/65">
         Starting with one room?{' '}
-        <a href={withBase('/services/kitchen-remodeling/')} class={subLinkClass}>
+        <a
+          href={withBase('/services/kitchen-remodeling/')}
+          data-cta-id="start_general_contracting_kitchen_remodel"
+          class={subLinkClass}
+        >
           Kitchen upgrades
         </a>{' '}
         <span aria-hidden="true">·</span>{' '}
-        <a href={withBase('/services/bathroom-remodeling/')} class={subLinkClass}>
+        <a
+          href={withBase('/services/bathroom-remodeling/')}
+          data-cta-id="start_general_contracting_bathroom_remodel"
+          class={subLinkClass}
+        >
           Bathroom upgrades
         </a>
       </p>

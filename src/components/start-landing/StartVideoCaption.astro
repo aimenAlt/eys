@@ -1,14 +1,18 @@
 ---
 import StartJobberLink from './StartJobberLink.astro';
 import { withBase } from '../../utils/paths';
-import type { StartCtaPlacement } from '../../data/startLanding';
 
 interface Props {
   label: string;
-  placement: StartCtaPlacement;
+  placement: 'video_builtin' | 'video_slat';
 }
 
 const { label, placement } = Astro.props;
+
+// The section's main button already reports the bare placement; the caption link
+// reports a `_caption` variant so the two are not merged in GA4.
+const captionPlacement =
+  placement === 'video_builtin' ? 'video_builtin_caption' : 'video_slat_caption';
 ---
 
 <div class="flex items-center gap-3 bg-brand-black px-4 py-3">
@@ -23,7 +27,7 @@ const { label, placement } = Astro.props;
   />
   <div class="min-w-0">
     <p class="truncate text-sm font-bold text-white">{label}</p>
-    <StartJobberLink service="project_estimate" placement={placement} variant="caption">
+    <StartJobberLink service="project_estimate" placement={captionPlacement} variant="caption">
       Request an Estimate
     </StartJobberLink>
   </div>

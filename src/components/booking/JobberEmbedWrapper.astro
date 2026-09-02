@@ -115,6 +115,8 @@ const fallbackEstimateUrl = jobberProjectEstimateFormUrl();
 {
   snippet && (
     <script>
+      import { withJobberAttribution } from '../../scripts/jobber-attribution';
+
       function titleJobberIframes(root: ParentNode, title: string) {
         root.querySelectorAll('iframe').forEach((iframe) => {
           if (!iframe.getAttribute('title')) {
@@ -214,7 +216,9 @@ const fallbackEstimateUrl = jobberProjectEstimateFormUrl();
 
         markReadyWhenIframeLoads(el, title);
         loadStylesheet(cssUrl);
-        loadJobberScript(containerId, formUrl, scriptUrl);
+        // The embed is an iframe, not an anchor, so site-wide link decoration
+        // cannot reach it — stamp the visit's gclid/UTMs onto the form URL here.
+        loadJobberScript(containerId, withJobberAttribution(formUrl), scriptUrl);
       }
 
       function revealJobberEmbed(el: HTMLElement) {
