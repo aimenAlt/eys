@@ -3,9 +3,9 @@ title: "Electrical Services"
 slug: "electrical-services"
 published: true
 seoTitle: "Electrical Services in Katy & West Houston | EYS Handyman"
-metaDescription: "Electrical work in Katy and West Houston — fixtures, fans, outlets, switches, new circuits, and panel work. One call, one estimate, licensed professionals on every job that requires it."
+metaDescription: "Electrical work in Katy and West Houston — fixtures, fans, outlets, switches, new circuits, and panel work. One call, one estimate, licensed electricians brought in for regulated work."
 heroTitle: "Electrical Services in Katy & West Houston"
-summary: "EYS handles electrical jobs of every size — fixtures and fans, outlets and switches, new circuits and panel work — with licensed professionals on any scope that requires a license."
+summary: "EYS handles electrical jobs of every size — fixtures and fans, outlets and switches, new circuits and panel work — with licensed electricians brought in for any scope that requires a license."
 heroImage: "/images/services/electrical.jpg"
 heroImageAlt: "Multi-pendant globe chandelier installed in a two-story foyer"
 bookingType: "quote-request"
@@ -28,21 +28,21 @@ process:
   - "Tell us what's going on — send photos or describe the issue"
   - "Get one clear estimate covering the full job"
   - "Schedule the visit"
-  - "Licensed professionals handle any work that requires a license, done to code"
+  - "Licensed electricians are brought in for any work that requires a license"
   - "Work is completed, tested, and cleaned up"
 faqs:
   - question: "Do you do electrical work?"
-    answer: "Yes. EYS handles electrical jobs of every size in Katy and West Houston — fixture and fan installs, outlets and switches, troubleshooting, new circuits, and panel work. Licensed professionals handle any part of the job that requires a license, so it's done to code."
+    answer: "Yes. EYS handles electrical jobs of every size in Katy and West Houston — fixture and fan installs, outlets and switches, troubleshooting, new circuits, and panel work. Licensed electricians are brought in for any part of the job that requires a license, and we manage their scheduling as part of the job."
   - question: "Are you licensed electricians?"
-    answer: "EYS handles the job from start to finish. Licensed, insured professionals on our team perform any electrical work that requires a license — you get one estimate and one job, not a separate contractor to find and manage yourself."
+    answer: "No. Elevate Your Space Handyman is not advertising as a licensed electrician or electrical contractor. We are a veteran-owned, insured handyman business. Licensed electricians are brought in for regulated electrical work, and we manage their scheduling as part of the job — so you get one estimate and one point of contact, not a separate contractor to find and manage yourself."
   - question: "Do you handle outlets and switches?"
     answer: "Yes — outlet and switch replacement, dimmers, smart switches, and troubleshooting are all part of the job."
   - question: "What about new circuits or panel upgrades?"
-    answer: "Yes, we handle new circuits and panel work too. That scope is done by licensed professionals as part of the same job and the same estimate."
+    answer: "Yes, we coordinate new circuits and panel work too. That scope is performed by licensed electricians brought in for the regulated work, as part of the same job and the same estimate."
   - question: "Can you install ceiling fans and light fixtures?"
     answer: "Yes, where an appropriate existing box and wiring are confirmed. If conditions aren't suitable, we'll say so before work begins."
 ---
-EYS handles electrical work for homes in Katy and West Houston — fixture and fan installs, outlet and switch replacement, troubleshooting, new circuits, and panel work. Tell us what's going on and we'll give you one clear estimate for the whole job. Licensed professionals handle any part of the work that requires a license, so everything is done to code, under one roof, with one team accountable for the result.
+EYS handles electrical work for homes in Katy and West Houston — fixture and fan installs, outlet and switch replacement, troubleshooting, new circuits, and panel work. Tell us what's going on and we'll give you one clear estimate for the whole job. **Licensed electricians are brought in for any part of the work that requires a license**, and we manage their scheduling so it stays one job with one point of contact. Elevate Your Space Handyman is not advertising as a licensed electrician or electrical contractor — we scope and manage the work, and licensed electricians perform the regulated portion.
 
 ## What EYS handles
 
@@ -51,7 +51,7 @@ EYS handles electrical work for homes in Katy and West Houston — fixture and f
 - Troubleshooting dead outlets, tripped breakers, and flickering lights
 - New circuits, panel additions, rewiring, and code corrections
 
-Straightforward fixture, fan, outlet, and switch work is handled directly by our team. Licensed professionals handle new circuits, panel work, rewiring, and anything else that requires a license — as part of the same job, not a separate call.
+Straightforward fixture, fan, outlet, and switch work is handled directly by our team. **Licensed electricians are brought in** for new circuits, panel work, rewiring, and anything else that requires a license — as part of the same job, not a separate call.
 
 ## One job, one estimate
 
@@ -63,7 +63,7 @@ See [vaulted crystal chandelier](/our-work/vaulted-crystal-chandelier/) for a hi
 
 ## Why homeowners call EYS for electrical work
 
-Elevate Your Space Handyman is veteran-owned and based in the Katy and West Houston market. Call us for electrical work the same way you'd call us for anything else on your list — we scope it, quote it, and get it done, with licensed professionals on any part of the job that requires one.
+Elevate Your Space Handyman is veteran-owned, insured, and based in the Katy and West Houston market. Call us for electrical work the same way you'd call us for anything else on your list — we scope it, quote it, and manage it, with licensed electricians brought in for any part of the job that requires one.
 
 Electrical work is also a natural pairing with [painting](/services/painting/), [custom carpentry](/services/custom-carpentry/), and larger [whole-project remodeling](/services/whole-project-remodeling/) when a room is being refreshed as a whole.
 
