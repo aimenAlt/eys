@@ -25,7 +25,6 @@ const schemaData = schemaGraph.length ? wrapSchemaGraph(schemaGraph) : null;
 // Build-time gate: excludes dev and the GitHub Pages preview (base '/eys/'). Cloudflare
 // preview builds still pass this, so the inline script below adds a runtime host guard.
 const enableAnalytics = import.meta.env.PROD && (import.meta.env.BASE_URL || '/') === '/';
-const metaPixelId = '691010400673866';
 ---
 
 <!doctype html>
@@ -97,19 +96,6 @@ const metaPixelId = '691010400673866';
   <body
     class="font-sans text-brand-charcoal bg-brand-lightbg antialiased selection:bg-brand-red selection:text-white"
   >
-    {
-      enableAnalytics && (
-        <noscript>
-          <img
-            height="1"
-            width="1"
-            style="display:none"
-            src={`https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1`}
-            alt=""
-          />
-        </noscript>
-      )
-    }
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-brand-black focus:rounded-md focus:shadow-lg focus:ring-2 focus:ring-brand-red"

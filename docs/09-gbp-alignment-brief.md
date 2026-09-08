@@ -213,7 +213,7 @@ The comment in that file says "Confirmed from live GBP screenshot 2026-08-04" â€
 Verify these survive the full path into Jobber and that `/book/` handles the booking campaign correctly. Add a test to `src/utils/` if one doesn't cover this.
 
 ### 7c. GA4 events
-`src/utils/analytics.ts` has a solid named-event scaffold. Verify these actually fire on the new pages: `phone_click`, `estimate_form_open`, `jobber_booking_click`, `lead_submit`, `booking_complete`.
+`src/utils/analytics.ts` has a solid named-event scaffold. Verify these actually fire on the new pages: `phone_click`, `jobber_booking_click`, `lead_submit`, `booking_complete`. (`estimate_form_open` was removed with the Jobber embed â€” the embedded funnel it measured no longer exists; outbound estimate clicks are now `jobber_booking_click` with `booking_type=project_estimate`.)
 
 ---
 
