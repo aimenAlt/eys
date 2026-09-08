@@ -22,7 +22,8 @@ const defaultSeo: SeoProps = {
 const { seo = defaultSeo, schemaGraph = [] } = Astro.props;
 const schemaData = schemaGraph.length ? wrapSchemaGraph(schemaGraph) : null;
 
-// Only load analytics on the production domain, not in dev or GitHub Pages previews.
+// Build-time gate: excludes dev and the GitHub Pages preview (base '/eys/'). Cloudflare
+// preview builds still pass this, so the inline script below adds a runtime host guard.
 const enableAnalytics = import.meta.env.PROD && (import.meta.env.BASE_URL || '/') === '/';
 const metaPixelId = '691010400673866';
 ---
@@ -38,39 +39,56 @@ const metaPixelId = '691010400673866';
     {
       enableAnalytics && (
         <>
-          <script async src="https://www.googletagmanager.com/gtag/js?id=G-9D5MCDT0L1" />
-          <script is:inline>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            // Google Ads conversion tracking - reuses the gtag.js library loaded above.
-            gtag('config', 'AW-16988082106');
-            // GA4 stays LAST on purpose. Jobber's work-request form reads the final
-            // gtag('config', ...) in dataLayer to fetch client_id/session_id; with the
-            // Ads ID last it got neither, so Jobber-side GA4 events arrive unattributed.
-            gtag('config', 'G-9D5MCDT0L1');
-          </script>
           <!-- Meta Pixel -->
           <link rel="preconnect" href="https://connect.facebook.net" crossorigin />
           <script is:inline>
-            !(function (f, b, e, v, n, t, s) {
-              if (f.fbq) return;
-              n = f.fbq = function () {
-                n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
-              };
-              if (!f._fbq) f._fbq = n;
-              n.push = n;
-              n.loaded = !0;
-              n.version = '2.0';
-              n.queue = [];
-              t = b.createElement(e);
-              t.async = !0;
-              t.src = v;
-              s = b.getElementsByTagName(e)[0];
-              s.parentNode.insertBefore(t, s);
-            })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '691010400673866');
-            fbq('track', 'PageView');
+            // dataLayer + gtag always exist so trackEvent() is a safe no-op off-production.
+            // The tags only INITIALISE on the live host. `enableAnalytics` is a build-time
+            // check, and Cloudflare preview builds are PROD with base "/", so it alone let
+            // eys-48z.pages.dev send page views and events into the real GA4 property and
+            // the real Ads account. gtag.js is injected here rather than rendered as a
+            // static tag so the load itself can be gated too.
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
+
+            if (location.hostname === 'www.eyshandyman.com') {
+              var gtagScript = document.createElement('script');
+              gtagScript.async = true;
+              gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-9D5MCDT0L1';
+              document.head.appendChild(gtagScript);
+
+              gtag('js', new Date());
+              // Google Ads conversion tracking - reuses the gtag.js library loaded above.
+              gtag('config', 'AW-16988082106');
+              // GA4 stays LAST on purpose. Jobber's work-request form reads the final
+              // gtag('config', ...) in dataLayer to fetch client_id/session_id; with the
+              // Ads ID last it got neither, so Jobber-side GA4 events arrive unattributed.
+              gtag('config', 'G-9D5MCDT0L1');
+
+              !(function (f, b, e, v, n, t, s) {
+                if (f.fbq) return;
+                n = f.fbq = function () {
+                  n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+                };
+                if (!f._fbq) f._fbq = n;
+                n.push = n;
+                n.loaded = !0;
+                n.version = '2.0';
+                n.queue = [];
+                t = b.createElement(e);
+                t.async = !0;
+                t.src = v;
+                s = b.getElementsByTagName(e)[0];
+                s.parentNode.insertBefore(t, s);
+              })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+              fbq('init', '691010400673866');
+              fbq('track', 'PageView');
+            } else {
+              // Stub only off-production: the real Meta snippet above bails out on
+              // `if (f.fbq) return;`, so this must never be defined on the live host.
+              window.fbq = window.fbq || function () {};
+            }
           </script>
         </>
       )
