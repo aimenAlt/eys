@@ -65,8 +65,6 @@ const customProjectUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
           </a>
           <a
             href={toDoListUrl}
-            target={toDoListUrl.startsWith('http') ? '_blank' : undefined}
-            rel={toDoListUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
             class="inline-flex w-full sm:w-auto justify-center items-center bg-transparent text-white border-2 border-white/80 px-6 py-3.5 rounded-md font-bold text-center hover:bg-white hover:text-brand-black transition-all"
           >
             Book a Handyman To-Do List Visit
@@ -75,8 +73,6 @@ const customProjectUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
         <p class="mb-10">
           <a
             href={customProjectUrl}
-            target={customProjectUrl.startsWith('http') ? '_blank' : undefined}
-            rel={customProjectUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
             class="text-white/90 font-semibold underline underline-offset-2 hover:text-white transition-colors [text-shadow:0_1px_8px_rgba(0,0,0,0.45)]"
           >
             Discuss Your Custom Project
