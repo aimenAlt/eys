@@ -1,0 +1,69 @@
+---
+/**
+ * Project-estimate CTA card — links to Jobber's HOSTED work-request form.
+ *
+ * This deliberately does NOT embed the form. Jobber's request settings state:
+ * "Custom confirmation pages won't work in embedded forms to protect your and
+ * your clients' security. The confirmation message above will be shown on
+ * embedded forms."
+ *
+ * An embedded submission therefore renders Jobber's inline "thanks" inside the
+ * iframe and never navigates the parent page, so `/request-confirmed/...` never
+ * loads and `lead_submit` never fires. Jobber's embed snippet exposes no submit
+ * postMessage and no success DOM signal, so the parent page cannot detect it
+ * either. Measured Aug 11 - Sep 7 2026: ~22 real Jobber requests, 3 lead_submit.
+ *
+ * The hosted form is the same Jobber form (4985623) and already redirects to
+ * `/request-confirmed/project-estimate/`, where conversion tracking is proven.
+ *
+ * Opens in the SAME tab: the hosted form redirects back to our own confirmation
+ * page, and a new tab strands mobile visitors on the finished form.
+ */
+import { jobberProjectEstimateFormUrl } from '../../data/business';
+
+interface Props {
+  title?: string;
+  minHeight?: string;
+  ctaLocation: string;
+  class?: string;
+}
+
+const {
+  title = 'Request a quote',
+  minHeight = '520px',
+  ctaLocation,
+  class: className,
+} = Astro.props;
+
+const estimateUrl = jobberProjectEstimateFormUrl();
+---
+
+<div
+  class:list={['rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden', className]}
+>
+  <div class="p-8 bg-brand-lightbg" style={`min-height: ${minHeight}`}>
+    <span
+      class="inline-block bg-yellow-400 text-brand-black text-xs font-bold px-3 py-1 rounded shadow-sm mb-4"
+    >
+      Free Estimates!
+    </span>
+    <h2 class="text-2xl font-bold text-brand-black mb-2">{title}</h2>
+    <p class="text-gray-600 text-sm mb-6">
+      Send photos and your project list. We respond with a transparent, itemized quote — no
+      runaround.
+    </p>
+    <ol class="space-y-3 text-sm text-gray-700 mb-6 list-decimal list-inside">
+      <li>Describe your project or punch list</li>
+      <li>Receive a detailed estimate</li>
+      <li>Schedule at a time that works for you</li>
+    </ol>
+    <a
+      href={estimateUrl ?? '/book/'}
+      data-booking-type="project_estimate"
+      data-cta-location={ctaLocation}
+      class="block w-full bg-brand-red text-white font-bold py-3 rounded-md hover:bg-brand-redhover transition-colors text-center"
+    >
+      {estimateUrl ? 'Open estimate form' : 'Choose a booking path'}
+    </a>
+  </div>
+</div>

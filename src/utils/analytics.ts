@@ -32,8 +32,6 @@ export function trackEvent(eventName: string, params?: AnalyticsParams): void {
 export const analyticsEvents = {
   phoneClick: 'phone_click',
   emailClick: 'email_click',
-  estimateFormOpen: 'estimate_form_open',
-  estimateSubmit: 'estimate_submit',
   jobberBookingClick: 'jobber_booking_click',
   jobberBookingComplete: 'jobber_booking_complete',
   /** Successful scheduled appointment after Jobber redirect to /booking-confirmed/. */

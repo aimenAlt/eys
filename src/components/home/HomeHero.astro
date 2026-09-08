@@ -1,15 +1,13 @@
 ---
-import JobberEmbedWrapper from '../booking/JobberEmbedWrapper.astro';
+import JobberRequestCard from '../booking/JobberRequestCard.astro';
 import {
   jobberHandymanToDoListFormUrl,
   jobberProjectEstimateFormUrl,
-  jobberRequestFormUrl,
 } from '../../data/business';
 import SiteImage from '../ui/SiteImage.astro';
 import { homeImageAlts, homeImages, imageOrPlaceholder } from '../../data/images';
 import { smallRepairVisitMeta } from '../../data/smallRepairVisitContent';
 
-const requestFormUrl = jobberRequestFormUrl();
 const heroSrc = imageOrPlaceholder(homeImages.hero);
 const toDoListUrl = jobberHandymanToDoListFormUrl() ?? smallRepairVisitMeta.path;
 const customProjectUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
@@ -58,7 +56,9 @@ const customProjectUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
         </p>
         <div class="flex flex-col sm:flex-row flex-wrap gap-3 mb-4">
           <a
-            href="#estimate"
+            href={customProjectUrl}
+            data-booking-type="project_estimate"
+            data-cta-location="home_hero_primary"
             class="inline-flex w-full sm:w-auto justify-center items-center bg-white text-brand-black border-2 border-white px-6 py-3.5 rounded-md font-bold text-center hover:bg-brand-red hover:border-brand-red hover:text-white transition-all"
           >
             Request a Free Photo Estimate
@@ -120,10 +120,10 @@ const customProjectUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
         </div>
       </div>
       <div id="estimate" class="lg:col-span-5 mt-12 lg:mt-0 scroll-mt-24">
-        <JobberEmbedWrapper
-          embedUrl={requestFormUrl}
+        <JobberRequestCard
           title="Get a clear estimate"
           minHeight="480px"
+          ctaLocation="home_hero_card"
           class="shadow-2xl ring-1 ring-black/10"
         />
       </div>

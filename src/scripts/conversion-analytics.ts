@@ -41,7 +41,6 @@ function inferBookingType(href: string, link: HTMLAnchorElement): string {
   if (href.includes('4977896')) return 'tv_mounting';
   if (href.includes('5061244')) return 'high_ceiling_curtain';
   if (href.includes('5061268')) return 'regular_ceiling_curtain';
-  if (href.includes('embedded_work_request')) return 'embedded_estimate';
   return 'jobber_form';
 }
 
@@ -165,17 +164,6 @@ function wireConversionClicks(): void {
           }
         }
         return;
-      }
-
-      const estimateButton = target.closest('[data-jobber-load]');
-      if (estimateButton instanceof HTMLButtonElement) {
-        trackEvent(analyticsEvents.estimateFormOpen, {
-          page_path: analyticsPagePath(),
-          service: estimateButton.closest('[data-jobber-embed]')?.getAttribute('data-form-url')
-            ? 'embedded_estimate'
-            : 'estimate',
-          cta_location: resolveCtaLocation(estimateButton),
-        });
       }
     },
     { capture: true },

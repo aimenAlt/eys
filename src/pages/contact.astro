@@ -2,15 +2,14 @@
 import ContentLayout from '../layouts/ContentLayout.astro';
 import PageHero from '../components/common/PageHero.astro';
 import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
-import JobberEmbedWrapper from '../components/booking/JobberEmbedWrapper.astro';
-import { absoluteUrl, business, googleReviewProfileUrl, jobberRequestFormUrl } from '../data/business';
+import JobberRequestCard from '../components/booking/JobberRequestCard.astro';
+import { absoluteUrl, business, googleReviewProfileUrl } from '../data/business';
 import { breadcrumbList, localBusinessForArea, webPage } from '../data/schema';
 import { contentMaxClass, contentPaddingClass } from '../data/layout';
 
 const title = 'Contact Elevate Your Space Handyman | Katy, TX';
 const description =
   'Call EYS or send photographs, measurements and project details for a handyman visit or custom estimate in Katy and West Houston.';
-const requestFormUrl = jobberRequestFormUrl();
 const gbpUrl = googleReviewProfileUrl();
 const canonical = absoluteUrl('/contact/');
 
@@ -144,11 +143,10 @@ const schemaGraph = [
             </ul>
           </div>
 
-          <JobberEmbedWrapper
-            embedUrl={requestFormUrl}
+          <JobberRequestCard
             title="Request service"
             minHeight="560px"
-            eager
+            ctaLocation="contact_card"
           />
         </div>
       </div>

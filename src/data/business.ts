@@ -42,18 +42,14 @@ export const socialProfiles = {
   // corroborating signal, but the URL has not been supplied — do not guess it.
 } as const;
 
-/** Jobber Client Hub work-request embed (div + CSS + JS snippet from Share Options). */
-export type JobberRequestFormEmbed = {
-  containerId: string;
-  formUrl: string;
-  cssUrl: string;
-  scriptUrl: string;
-};
-
 /**
- * Jobber embed URLs — paste from Jobber Client Hub when ready.
- * requestFormEmbed: quote / estimate work-request form (preferred Jobber snippet)
- * requestFormUrl: optional iframe URL override (rarely needed)
+ * Jobber hosted Client Hub links — paste from Jobber Client Hub when ready.
+ *
+ * All of these are HOSTED links, never embeds. Jobber does not honour a custom
+ * confirmation page inside an embedded form, so an embedded submission never
+ * reaches `/request-confirmed/...` and never fires a conversion event. Keep the
+ * quote/estimate form as a hosted link (see JobberRequestCard.astro).
+ *
  * onlineBookingUrl: hosted Client Hub link for TV mounting (use link not embed — card fields require hosted form)
  * handymanToDoListFormUrl: hosted Client Hub link for Handyman To-Do List Visit
  * projectEstimateFormUrl: hosted Client Hub link for Project Estimate Request
@@ -62,14 +58,6 @@ export type JobberRequestFormEmbed = {
  * smallRepairVisitUrl: optional iframe/embed URL for Handyman To-Do List Visit page
  */
 export const jobber = {
-  requestFormEmbed: {
-    containerId: 'd0bd2223-f10c-4cda-a73e-02a65e730a50-4985623',
-    formUrl:
-      'https://clienthub.getjobber.com/client_hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/work_request/embedded_work_request_form?form_id=4985623',
-    cssUrl: 'https://d3ey4dbjkt2f6s.cloudfront.net/assets/external/work_request_embed.css',
-    scriptUrl: 'https://d3ey4dbjkt2f6s.cloudfront.net/assets/static_link/work_request_embed_snippet.js',
-  } satisfies JobberRequestFormEmbed,
-  requestFormUrl: '' as string,
   handymanToDoListFormUrl:
     'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/4983259/new' as string,
   projectEstimateFormUrl:
@@ -136,25 +124,6 @@ export function absoluteUrl(path: string): string {
 export function googleReviewProfileUrl(): string | undefined {
   const url = business.googleReviews.profileUrl?.trim();
   return url || undefined;
-}
-
-export function jobberRequestFormUrl(): string | undefined {
-  const url = business.jobber.requestFormUrl?.trim();
-  return url ? withJobberUtm(url, 'request-form') : undefined;
-}
-
-export function jobberRequestFormEmbed(): JobberRequestFormEmbed | undefined {
-  const embed = business.jobber.requestFormEmbed;
-  if (!embed?.containerId?.trim() || !embed?.formUrl?.trim()) return undefined;
-  return {
-    ...embed,
-    formUrl: withJobberUtm(embed.formUrl, 'request-form-embed'),
-  };
-}
-
-/** True when a quote/estimate form can be rendered (snippet or iframe). */
-export function hasJobberRequestForm(): boolean {
-  return Boolean(jobberRequestFormUrl() || jobberRequestFormEmbed());
 }
 
 export function jobberOnlineBookingUrl(): string | undefined {

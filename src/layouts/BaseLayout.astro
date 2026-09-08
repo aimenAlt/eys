@@ -33,7 +33,6 @@ const metaPixelId = '691010400673866';
     <SEOHead {...seo} />
     <link rel="preload" href={inter400} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={inter700} as="font" type="font/woff2" crossorigin />
-    <link rel="preconnect" href="https://d3ey4dbjkt2f6s.cloudfront.net" crossorigin />
     <link rel="preconnect" href="https://clienthub.getjobber.com" crossorigin />
     {schemaData && <SchemaJsonLd data={schemaData} />}
     {
@@ -44,9 +43,12 @@ const metaPixelId = '691010400673866';
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-9D5MCDT0L1');
             // Google Ads conversion tracking - reuses the gtag.js library loaded above.
             gtag('config', 'AW-16988082106');
+            // GA4 stays LAST on purpose. Jobber's work-request form reads the final
+            // gtag('config', ...) in dataLayer to fetch client_id/session_id; with the
+            // Ads ID last it got neither, so Jobber-side GA4 events arrive unattributed.
+            gtag('config', 'G-9D5MCDT0L1');
           </script>
           <!-- Meta Pixel -->
           <link rel="preconnect" href="https://connect.facebook.net" crossorigin />
