@@ -1,18 +1,13 @@
 ---
-import SiteImage from '../ui/SiteImage.astro';
 import { mediaWallsLanding } from '../../data/mediaWalls';
-import { imageOrPlaceholder } from '../../data/images';
 import MediaWallEstimateLink from './MediaWallEstimateLink.astro';
 
+/**
+ * The video stands alone. A marble/wood-slat still used to sit beside it, but
+ * that build now has its own card in the portfolio grid and the project folder
+ * holds no second photo to swap in — so showing it twice was the weaker option.
+ */
 const video = mediaWallsLanding.images.videos.builtIn;
-/** Supporting texture shot — not the same wall as the portrait video. */
-const still = {
-  src: imageOrPlaceholder('/images/services/media-walls/marble-wood-slat.jpg'),
-  alt: 'Floor-to-ceiling marble-look tile feature wall flanked by dark vertical wood slats',
-  width: 1200,
-  height: 1600,
-  label: 'Marble & Wood-Slat Feature Wall',
-};
 ---
 
 <section
@@ -43,8 +38,8 @@ const still = {
       </div>
     </div>
 
-    <div class="grid grid-cols-2 items-stretch gap-3 sm:gap-4 lg:col-span-7">
-      <figure class="relative col-span-2 overflow-hidden rounded-xl bg-white/5 shadow-card ring-1 ring-white/10 sm:col-span-1 sm:col-start-1">
+    <div class="lg:col-span-7">
+      <figure class="relative mx-auto w-full max-w-sm overflow-hidden rounded-xl bg-white/5 shadow-card ring-1 ring-white/10 lg:max-w-md">
         <video
           class="aspect-[3/4] h-auto w-full object-cover"
           data-media-wall-video
@@ -61,22 +56,6 @@ const still = {
           <source data-src={video.src} type="video/mp4" />
         </video>
         <figcaption class="sr-only">{video.label}</figcaption>
-      </figure>
-      <figure class="relative hidden overflow-hidden rounded-xl shadow-card sm:block">
-        <SiteImage
-          src={still.src}
-          alt={still.alt}
-          width={still.width}
-          height={still.height}
-          loading="lazy"
-          sizes="(max-width: 1024px) 50vw, 28vw"
-          class="aspect-[3/4] h-full w-full object-cover"
-        />
-        <figcaption
-          class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent px-3 pb-3 pt-12 text-xs font-bold text-white sm:text-sm"
-        >
-          {still.label}
-        </figcaption>
       </figure>
     </div>
   </div>
