@@ -1,0 +1,34 @@
+---
+/**
+ * Price-range block. Renders nothing until `mediaWallPriceRange` is set in
+ * src/data/mediaWalls.ts — no placeholder, no "starting at", no invented range.
+ */
+import MediaWallEstimateLink from './MediaWallEstimateLink.astro';
+import { mediaWallPriceCopy } from '../../data/mediaWalls';
+
+const copy = mediaWallPriceCopy();
+---
+
+{
+  copy ? (
+    <section
+      class="bg-white px-4 py-12 sm:px-6 sm:py-16 lg:px-8"
+      aria-labelledby="media-wall-pricing-heading"
+    >
+      <div class="mx-auto max-w-3xl rounded-xl border border-brand-line bg-brand-lightbg p-6 sm:p-8">
+        <h2
+          id="media-wall-pricing-heading"
+          class="text-2xl font-bold tracking-tight text-brand-black sm:text-3xl"
+        >
+          What a Media Wall Costs
+        </h2>
+        <p class="mt-3 text-base leading-relaxed text-brand-muted sm:text-lg">{copy}</p>
+        <div class="mt-6">
+          <MediaWallEstimateLink placement="proof">
+            Send photos for a media wall estimate
+          </MediaWallEstimateLink>
+        </div>
+      </div>
+    </section>
+  ) : null
+}

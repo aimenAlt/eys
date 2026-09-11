@@ -105,14 +105,36 @@ export function withUtm(url: string, params: UtmParams): string {
   return trimmed.startsWith('/') ? path : path.replace(/^\//, '');
 }
 
-/** Default UTMs for outbound Jobber Client Hub links. */
-export function withJobberUtm(url: string, content: string): string {
-  return withUtm(url, {
-    source: 'website',
-    medium: 'referral',
-    campaign: 'jobber',
-    content,
-  });
+/**
+ * Tag an outbound Jobber Client Hub link with which form it came from.
+ *
+ * Deliberately NOT a UTM. Stamping `utm_source=website&utm_medium=referral`
+ * on every Jobber link made GA4 record the Jobber-side `generate_lead` as
+ * "website / referral / jobber" for organic, Google Business Profile and
+ * direct visitors alike, burying their real origin. Real attribution arrives
+ * from the inbound URL instead, forwarded by `withAttributionParams` /
+ * `src/scripts/jobber-attribution.ts`. `eys_form` is an internal label only —
+ * GA4 ignores it, so a lead with no inbound UTMs keeps its true source.
+ */
+export function withJobberFormId(url: string, formId: string): string {
+  const trimmed = url.trim();
+  if (!trimmed || !formId.trim()) return trimmed;
+
+  const isAbsolute = /^https?:\/\//i.test(trimmed);
+  const base = isAbsolute ? undefined : 'https://eys.local';
+  let parsed: URL;
+  try {
+    parsed = new URL(trimmed, base);
+  } catch {
+    return trimmed;
+  }
+
+  parsed.searchParams.set('eys_form', formId.trim());
+
+  if (isAbsolute) return parsed.toString();
+
+  const path = `${parsed.pathname}${parsed.search}${parsed.hash}`;
+  return trimmed.startsWith('/') ? path : path.replace(/^\//, '');
 }
 
 /** UTMs for outbound Jobber links from the van QR landing page (`/van/`). */

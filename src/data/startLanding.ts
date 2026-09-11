@@ -13,7 +13,11 @@
  * place. Do not add a third way to link to those forms.
  */
 
-import { business } from './business';
+import {
+  jobberHandymanToDoListFormUrl,
+  jobberOnlineBookingUrl,
+  jobberProjectEstimateFormUrl,
+} from './business';
 import { curtainLanding, formatUsd as formatUsdWhole } from './curtainLanding';
 import { homeImageAlts, homeImages } from './images';
 import { mediaWallsLanding } from './mediaWalls';
@@ -159,24 +163,19 @@ export const startMediaWallsHref = mediaWallsLanding.path;
 export const startTodoListHref = '/services/handyman-to-do-list/';
 export const startPathsHash = '#start-paths';
 
-function rawUrl(value: string | undefined): string | undefined {
-  const url = value?.trim();
-  return url || undefined;
-}
-
-/** Direct Handyman To-Do List Jobber URL (no website UTM rewrite). */
+/** Handyman To-Do List Jobber URL, labelled `eys_form=todo-list`. */
 export function startTodoListJobberUrl(): string | undefined {
-  return rawUrl(business.jobber.handymanToDoListFormUrl);
+  return jobberHandymanToDoListFormUrl();
 }
 
-/** Direct project-estimate Jobber URL (no website UTM rewrite). */
+/** Project-estimate Jobber URL, labelled `eys_form=project-estimate`. */
 export function startProjectEstimateJobberUrl(): string | undefined {
-  return rawUrl(business.jobber.projectEstimateFormUrl);
+  return jobberProjectEstimateFormUrl();
 }
 
-/** Direct TV-mounting Jobber URL (no website UTM rewrite). */
+/** TV-mounting Jobber URL, labelled `eys_form=tv-mounting-booking`. */
 export function startTvMountingJobberUrl(): string | undefined {
-  return rawUrl(business.jobber.onlineBookingUrl);
+  return jobberOnlineBookingUrl();
 }
 
 export function startJobberUrl(service: StartJobberService): string | undefined {

@@ -1,3 +1,4 @@
+import { withJobberFormId } from '../utils/utm';
 /**
  * High-ceiling curtain installation Google Ads landing page (`/curtain-installation/`).
  *
@@ -169,19 +170,22 @@ function rawUrl(value: string | undefined): string | undefined {
   return url || undefined;
 }
 
-/** Direct high-ceiling Jobber booking URL (no website UTM rewrite). */
+/** High-ceiling Jobber booking URL, labelled with the form it came from. */
 export function highCeilingJobberUrl(): string | undefined {
-  return rawUrl(curtainLanding.highCeilingJobberUrl);
+  const url = rawUrl(curtainLanding.highCeilingJobberUrl);
+  return url ? withJobberFormId(url, 'high-ceiling-curtains') : undefined;
 }
 
 /** Direct regular-ceiling Jobber booking URL (no website UTM rewrite). */
 export function regularCeilingJobberUrl(): string | undefined {
-  return rawUrl(curtainLanding.regularCeilingJobberUrl);
+  const url = rawUrl(curtainLanding.regularCeilingJobberUrl);
+  return url ? withJobberFormId(url, 'standard-curtains') : undefined;
 }
 
 /** Direct Media Wall estimate Jobber request URL (no website UTM rewrite). */
 export function mediaWallJobberUrl(): string | undefined {
-  return rawUrl(curtainLanding.mediaWallJobberUrl);
+  const url = rawUrl(curtainLanding.mediaWallJobberUrl);
+  return url ? withJobberFormId(url, 'media-wall') : undefined;
 }
 
 export function formatUsd(amount: number): string {
