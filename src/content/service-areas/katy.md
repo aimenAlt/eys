@@ -2,7 +2,7 @@
 title: "Katy, TX"
 slug: "katy"
 published: true
-seoTitle: "Handyman Services in Katy, TX | EYS"
+seoTitle: "Katy Handyman by Neighborhood — Cinco Ranch, Elyson, Sunterra | EYS"
 metaDescription: "Elevate Your Space Handyman serves Katy homeowners across established and new master-planned communities — trim refresh, move-in upgrades, TV mounting, carpentry, and punch-list work."
 heroTitle: "Handyman Services in Katy, Texas"
 summary: "Elevate Your Space Handyman helps Katy homeowners maintain maturing suburban homes and finish new builds — from trim and hardware updates in Cinco Ranch to move-in upgrades in Sunterra, Elyson, Cane Island, and Tamarron."
