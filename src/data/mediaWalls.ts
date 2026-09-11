@@ -6,6 +6,8 @@
  * via data-curtain-cta="media_wall").
  */
 
+import { formatUsd } from './smallRepairPricing';
+
 export const mediaWallsLanding = {
   path: '/services/media-walls/',
 
@@ -14,7 +16,7 @@ export const mediaWallsLanding = {
     'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/5067435/new' as string,
 
   seo: {
-    title: 'Custom Media Walls in Katy & West Houston | EYS Handyman',
+    title: 'Custom Media Walls & Built-In TV Walls | Katy & Houston | EYS',
     description:
       'Custom media walls, fireplace TV walls, wood-slat feature walls, and finished entertainment centers in Katy and West Houston. Request a project estimate.',
   },
@@ -28,7 +30,7 @@ export const mediaWallsLanding = {
       height: 1024,
       label: 'Marble Wall with Lit Shelves',
     },
-    /** Distinct from hero — strongest build detail first; empty feature wall secondary. */
+    /** Distinct from hero — the strongest build detail. Other builds live in the portfolio grid. */
     proof: [
       {
         src: '/images/services/media-walls/fireplace-niches.jpg',
@@ -36,13 +38,6 @@ export const mediaWallsLanding = {
         width: 1200,
         height: 1600,
         label: 'TV, Fireplace & Lit Niches',
-      },
-      {
-        src: '/images/services/media-walls/marble-wood-slat.jpg',
-        alt: 'Floor-to-ceiling marble-look tile feature wall flanked by dark vertical wood slats',
-        width: 1200,
-        height: 1600,
-        label: 'Marble & Wood-Slat Feature Wall',
       },
     ],
     videos: {
@@ -100,7 +95,7 @@ export const mediaWallsLanding = {
 
   why: [
     'Real custom media-wall builds — not just a TV bracket on drywall',
-    'Carpentry, drywall, and licensed electrical coordinated under one estimate',
+    'Carpentry, drywall, and electrical coordinated under one estimate — licensed electricians brought in when the scope needs them',
     'Clean TV integration, cable paths, and finish details planned together',
     'Fireplace, niche, and slat-wall experience in Bridgeland, Towne Lake, Cross Creek Ranch, and Cane Island homes',
     'Veteran-owned, owner-led craftsmanship based in Katy',
@@ -108,6 +103,23 @@ export const mediaWallsLanding = {
     'Clear project estimates before work begins',
   ],
 } as const;
+
+/**
+ * Observed build range for a custom media wall, in USD.
+ *
+ * Ships as `null` on purpose: nothing on the page may quote a range until Eyad
+ * confirms real numbers. While it is null the price block and the cost FAQ are
+ * omitted entirely — no placeholder, no "starting at", no invented figure.
+ * Set both ends to switch them on; nothing else needs to change.
+ */
+export const mediaWallPriceRange: { low: number; high: number } | null = null;
+
+/** Visible price copy, or `undefined` while the range is unconfirmed. */
+export function mediaWallPriceCopy(): string | undefined {
+  if (!mediaWallPriceRange) return undefined;
+  const { low, high } = mediaWallPriceRange;
+  return `Most media walls we build run ${formatUsd(low)}–${formatUsd(high)} depending on size, fireplace and lighting. Send photos of your wall and we'll give you a written estimate.`;
+}
 
 export type MediaWallCtaPlacement =
   | 'header'
@@ -134,7 +146,16 @@ export function mediaWallEstimateJobberUrl(): string | undefined {
 }
 
 export function mediaWallFaqs() {
+  const costFaq = mediaWallPriceCopy();
   return [
+    ...(costFaq
+      ? [
+          {
+            question: 'How much does a custom media wall cost in Katy / Houston?',
+            answer: costFaq,
+          },
+        ]
+      : []),
     {
       question: 'Is a media wall the same as TV mounting?',
       answer:
@@ -160,5 +181,5 @@ export function mediaWallFaqs() {
       answer:
         'Yes. Elevate Your Space serves Katy, Cypress, Fulshear, Richmond, and nearby West Houston communities.',
     },
-  ] as const;
+  ];
 }

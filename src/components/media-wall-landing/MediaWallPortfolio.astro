@@ -1,0 +1,56 @@
+---
+/**
+ * Completed media-wall and built-in projects from /our-work/.
+ *
+ * Reads the live projects collection so the grid follows the gallery — no
+ * duplicate copy or new image assets live here. Renders nothing if the
+ * matching categories are ever emptied.
+ */
+import ProjectCard from '../projects/ProjectCard.astro';
+import { getLiveProjects } from '../../data/projects';
+
+const MEDIA_WALL_CATEGORIES = ['tv-media-walls', 'carpentry-built-ins'] as const;
+
+const projects = (await getLiveProjects()).filter((entry) =>
+  (MEDIA_WALL_CATEGORIES as readonly string[]).includes(entry.data.category),
+);
+---
+
+{
+  projects.length ? (
+    <section
+      class="bg-white px-4 py-12 sm:px-6 sm:py-16 lg:px-8"
+      aria-labelledby="media-wall-portfolio-heading"
+    >
+      <div class="mx-auto max-w-6xl">
+        <div class="max-w-2xl">
+          <h2
+            id="media-wall-portfolio-heading"
+            class="text-2xl font-bold tracking-tight text-brand-black sm:text-3xl"
+          >
+            Media Walls &amp; Built-Ins We've Finished
+          </h2>
+          <p class="mt-3 text-base leading-relaxed text-brand-muted sm:text-lg">
+            Feature walls, office built-ins, and stair carpentry in Katy and West Houston homes.
+            Every photo is our own work.
+          </p>
+        </div>
+
+        <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project) => (
+            <ProjectCard project={project} />
+          ))}
+        </div>
+
+        <p class="mt-8">
+          <a
+            href="/our-work/?category=tv-media-walls"
+            class="inline-flex min-h-11 items-center text-sm font-bold text-brand-red underline-offset-4 hover:underline"
+          >
+            See every project in our gallery →
+          </a>
+        </p>
+      </div>
+    </section>
+  ) : null
+}
