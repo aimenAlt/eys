@@ -1,17 +1,23 @@
 ---
-import SiteImage from '../ui/SiteImage.astro';
 import { mediaWallsLanding } from '../../data/mediaWalls';
-import { imageOrPlaceholder } from '../../data/images';
 import { site } from '../../data/business';
 import MediaWallEstimateLink from './MediaWallEstimateLink.astro';
 
-const hero = mediaWallsLanding.images.hero;
-const heroSrc = imageOrPlaceholder(hero.src);
+/**
+ * The hero leads with footage of a finished wall rather than a still. The
+ * poster paints immediately (~56KB) so LCP is unaffected; the mp4 itself is
+ * lazy — `preload="none"` plus a `data-src` the in-view script swaps in.
+ * `images.hero` is still the page's OG image and now renders further down in
+ * MediaWallVideoBuiltIn.
+ */
+const video = mediaWallsLanding.images.videos.builtIn;
 ---
 
 <section
   class="bg-brand-black px-4 pb-10 pt-8 text-white sm:px-6 sm:pb-14 sm:pt-10 lg:px-8"
   aria-labelledby="media-wall-hero-heading"
+  data-media-wall-video-section
+  data-video-source-page="media_walls_hero"
 >
   <div class="mx-auto grid max-w-6xl items-start gap-8 lg:grid-cols-2 lg:items-center lg:gap-12">
     <div>
@@ -62,21 +68,24 @@ const heroSrc = imageOrPlaceholder(hero.src);
       </div>
     </div>
 
-    <figure class="relative mx-auto hidden w-full max-w-md overflow-hidden rounded-xl lg:block lg:max-w-none">
-      <SiteImage
-        src={heroSrc}
-        alt={hero.alt}
-        width={hero.width}
-        height={hero.height}
-        loading="eager"
-        fetchpriority="high"
-        sizes="(max-width: 1024px) 0px, 560px"
-        class="aspect-[3/4] h-full w-full object-cover"
-      />
-      <figcaption
-        class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-4 pb-4 pt-10 text-sm font-bold text-white"
+    <figure class="relative mx-auto w-full max-w-xs overflow-hidden rounded-xl bg-white/5 shadow-card ring-1 ring-white/10 sm:max-w-sm lg:max-w-md">
+      <video
+        class="aspect-[3/4] h-auto w-full object-cover"
+        data-media-wall-video
+        poster={video.poster}
+        width={video.width}
+        height={video.height}
+        muted
+        loop
+        playsinline
+        preload="none"
+        disablepictureinpicture
+        aria-label={video.label}
       >
-        {hero.label}
+        <source data-src={video.src} type="video/mp4" />
+      </video>
+      <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-4 pb-4 pt-12 text-sm font-bold text-white">
+        {video.label}
       </figcaption>
     </figure>
   </div>

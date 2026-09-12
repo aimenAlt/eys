@@ -43,15 +43,32 @@
         video.load();
       };
 
+      /**
+       * Start playback, retrying once the element is actually ready.
+       *
+       * `video.load()` aborts a play() issued in the same tick, and with
+       * preload="none" nothing buffers until a play request succeeds — so
+       * waiting on 'canplay' alone would wait forever. A video scrolled into
+       * view survived this because scrolling generates repeat intersection
+       * callbacks; one already on screen at load (the hero) gets exactly one,
+       * so without a retry it sits frozen on its poster.
+       *
+       * rAF handles the common case and conveniently defers while the tab is
+       * hidden; 'canplay' is the backstop for when the fetch is simply slower
+       * than a frame.
+       */
       const playIfAllowed = async () => {
         if (prefersReducedMotion()) return;
         loadSource();
-        try {
-          video.muted = true;
-          await video.play();
-        } catch {
-          /* autoplay blocked */
-        }
+        video.muted = true;
+
+        const attempt = () => video.play().catch(() => false);
+        if ((await attempt()) !== false) return;
+
+        requestAnimationFrame(async () => {
+          if ((await attempt()) !== false) return;
+          video.addEventListener('canplay', () => void attempt(), { once: true });
+        });
       };
 
       if ('IntersectionObserver' in window) {
