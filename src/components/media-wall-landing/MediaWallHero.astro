@@ -1,20 +1,36 @@
 ---
-import SiteImage from '../ui/SiteImage.astro';
 import { mediaWallsLanding } from '../../data/mediaWalls';
-import { imageOrPlaceholder } from '../../data/images';
 import { site } from '../../data/business';
 import MediaWallEstimateLink from './MediaWallEstimateLink.astro';
 
-const hero = mediaWallsLanding.images.hero;
-const heroSrc = imageOrPlaceholder(hero.src);
+/**
+ * The hero leads with footage of a finished wall rather than a still. The
+ * poster paints immediately (~56KB) so LCP is unaffected; the mp4 itself is
+ * lazy — `preload="none"` plus a `data-src` the in-view script swaps in.
+ * `images.hero` is still the page's OG image and now renders further down in
+ * MediaWallVideoBuiltIn.
+ *
+ * Reading order differs by breakpoint on purpose. A media wall is bought with
+ * the eyes, so on mobile the video sits directly under the headline, ahead of
+ * the CTA and the spec tiles — pushing the CTA down costs nothing there
+ * because MediaWallStickyBar takes over the moment it scrolls away. On desktop
+ * the video occupies the right column and the left column keeps its original
+ * order, so the three text blocks are placed by explicit row rather than by
+ * source order.
+ */
+const video = mediaWallsLanding.images.videos.builtIn;
 ---
 
 <section
   class="bg-brand-black px-4 pb-10 pt-8 text-white sm:px-6 sm:pb-14 sm:pt-10 lg:px-8"
   aria-labelledby="media-wall-hero-heading"
+  data-media-wall-video-section
+  data-video-source-page="media_walls_hero"
 >
-  <div class="mx-auto grid max-w-6xl items-start gap-8 lg:grid-cols-2 lg:items-center lg:gap-12">
-    <div>
+  <div
+    class="mx-auto flex max-w-6xl flex-col gap-7 lg:grid lg:grid-cols-2 lg:items-center lg:gap-x-12 lg:gap-y-7"
+  >
+    <div class="order-1 lg:col-start-1 lg:row-start-1">
       <p class="mb-3 text-[11px] font-bold uppercase tracking-[0.16em] text-brand-redondark sm:text-xs">
         Katy &amp; West Houston
       </p>
@@ -28,56 +44,61 @@ const heroSrc = imageOrPlaceholder(hero.src);
         Feature walls and entertainment centers built around your TV — lit niches, fireplace
         integration, wood-slat accents, and finished consoles.
       </p>
-
-      <div class="mt-7 grid gap-3 sm:grid-cols-2">
-        <div class="rounded-xl border border-white/15 bg-white/5 p-4">
-          <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">Built-In Walls</p>
-          <p class="mt-2 text-lg font-bold tracking-tight text-white">Niches · Fireplace · TV</p>
-          <p class="mt-1 text-sm text-white/75">Floor-to-ceiling architectural builds</p>
-        </div>
-        <div class="rounded-xl border border-white/15 bg-white/5 p-4">
-          <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">Slat &amp; Feature</p>
-          <p class="mt-2 text-lg font-bold tracking-tight text-white">Wood · Tile · Lighting</p>
-          <p class="mt-1 text-sm text-white/75">Clean TV integration and finishes</p>
-        </div>
-      </div>
-
-      <div class="mt-6" data-media-wall-hero-cta>
-        <MediaWallEstimateLink placement="hero" variant="primaryOnDark">
-          Send photos for a media wall estimate
-        </MediaWallEstimateLink>
-        <p class="mt-3 max-w-md text-sm leading-relaxed text-white/70">
-          Send a photo of your wall and tell us what you have in mind. We’ll review the project and
-          get back with the next step.
-        </p>
-        <p class="mt-4">
-          <a
-            href={`tel:${site.phoneTel}`}
-            data-cta-location="hero"
-            class="inline-flex min-h-11 items-center text-sm font-bold text-white/80 underline-offset-4 hover:text-white hover:underline"
-          >
-            Or call {site.phone}
-          </a>
-        </p>
-      </div>
     </div>
 
-    <figure class="relative mx-auto hidden w-full max-w-md overflow-hidden rounded-xl lg:block lg:max-w-none">
-      <SiteImage
-        src={heroSrc}
-        alt={hero.alt}
-        width={hero.width}
-        height={hero.height}
-        loading="eager"
-        fetchpriority="high"
-        sizes="(max-width: 1024px) 0px, 560px"
-        class="aspect-[3/4] h-full w-full object-cover"
-      />
-      <figcaption
-        class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-4 pb-4 pt-10 text-sm font-bold text-white"
+    <figure
+      class="order-2 relative mx-auto w-full max-w-xs overflow-hidden rounded-xl bg-white/5 shadow-card ring-1 ring-white/10 sm:max-w-sm lg:col-start-2 lg:row-span-3 lg:row-start-1 lg:max-w-md lg:self-center"
+    >
+      <video
+        class="aspect-[3/4] h-auto w-full object-cover"
+        data-media-wall-video
+        poster={video.poster}
+        width={video.width}
+        height={video.height}
+        muted
+        loop
+        playsinline
+        preload="none"
+        disablepictureinpicture
+        aria-label={video.label}
       >
-        {hero.label}
+        <source data-src={video.src} type="video/mp4" />
+      </video>
+      <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-4 pb-4 pt-12 text-sm font-bold text-white">
+        {video.label}
       </figcaption>
     </figure>
+
+    <div class="order-3 lg:col-start-1 lg:row-start-3" data-media-wall-hero-cta>
+      <MediaWallEstimateLink placement="hero" variant="primaryOnDark">
+        Send photos for a media wall estimate
+      </MediaWallEstimateLink>
+      <p class="mt-3 max-w-md text-sm leading-relaxed text-white/70">
+        Send a photo of your wall and tell us what you have in mind. We’ll review the project and
+        get back with the next step.
+      </p>
+      <p class="mt-4">
+        <a
+          href={`tel:${site.phoneTel}`}
+          data-cta-location="hero"
+          class="inline-flex min-h-11 items-center text-sm font-bold text-white/80 underline-offset-4 hover:text-white hover:underline"
+        >
+          Or call {site.phone}
+        </a>
+      </p>
+    </div>
+
+    <div class="order-4 grid gap-3 sm:grid-cols-2 lg:col-start-1 lg:row-start-2">
+      <div class="rounded-xl border border-white/15 bg-white/5 p-4">
+        <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">Built-In Walls</p>
+        <p class="mt-2 text-lg font-bold tracking-tight text-white">Niches · Fireplace · TV</p>
+        <p class="mt-1 text-sm text-white/75">Floor-to-ceiling architectural builds</p>
+      </div>
+      <div class="rounded-xl border border-white/15 bg-white/5 p-4">
+        <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">Slat &amp; Feature</p>
+        <p class="mt-2 text-lg font-bold tracking-tight text-white">Wood · Tile · Lighting</p>
+        <p class="mt-1 text-sm text-white/75">Clean TV integration and finishes</p>
+      </div>
+    </div>
   </div>
 </section>

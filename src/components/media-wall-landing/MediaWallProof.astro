@@ -14,8 +14,8 @@ const [lead] = mediaWallsLanding.images.proof.map((image) => ({
   class="bg-brand-lightbg px-4 py-12 sm:px-6 sm:py-16 lg:px-8"
   aria-labelledby="media-wall-proof-heading"
 >
-  <div class="mx-auto max-w-6xl">
-    <div class="max-w-2xl">
+  <div class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-12 lg:items-center lg:gap-10">
+    <div class="lg:col-span-5">
       <h2
         id="media-wall-proof-heading"
         class="text-2xl font-bold tracking-tight text-brand-black sm:text-3xl"
@@ -26,19 +26,24 @@ const [lead] = mediaWallsLanding.images.proof.map((image) => ({
         Custom built-ins, fireplace TV walls, and wood-slat features from Elevate Your Space — not
         stock photos.
       </p>
+      <div class="mt-7">
+        <MediaWallEstimateLink placement="proof">
+          Send photos for a media wall estimate
+        </MediaWallEstimateLink>
+      </div>
     </div>
 
     {
       lead ? (
-        <figure class="relative mt-8 overflow-hidden rounded-xl shadow-card">
+        <figure class="relative mx-auto w-full max-w-sm overflow-hidden rounded-xl shadow-card lg:col-span-7 lg:max-w-md">
           <SiteImage
             src={lead.src}
             alt={lead.alt}
             width={lead.width}
             height={lead.height}
             loading="lazy"
-            sizes="(max-width: 1024px) 100vw, 1152px"
-            class="aspect-[4/5] w-full object-cover sm:aspect-[16/10]"
+            sizes="(max-width: 640px) 100vw, 448px"
+            class="aspect-[3/4] w-full object-cover"
           />
           <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-4 pb-4 pt-16 text-sm font-bold text-white">
             {lead.label}
@@ -46,11 +51,5 @@ const [lead] = mediaWallsLanding.images.proof.map((image) => ({
         </figure>
       ) : null
     }
-
-    <div class="mt-8">
-      <MediaWallEstimateLink placement="proof">
-        Request a Media Wall Estimate
-      </MediaWallEstimateLink>
-    </div>
   </div>
 </section>
