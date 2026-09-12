@@ -24,9 +24,16 @@
       const source = video.querySelector<HTMLSourceElement>('source[data-src]');
       let viewed = false;
       const sourcePage = section.dataset.videoSourcePage || 'media_walls';
+      /**
+       * `mediaWallCrossSellView` measures a media wall being surfaced to
+       * someone who came for something else. A section that opts out still
+       * autoplays and still pauses off-screen — it just does not report a
+       * cross-sell, which the media walls page's own hero is not.
+       */
+      const tracksCrossSell = !('noCrossSellEvent' in section.dataset);
 
       const markView = () => {
-        if (viewed) return;
+        if (!tracksCrossSell || viewed) return;
         viewed = true;
         trackEvent(analyticsEvents.mediaWallCrossSellView, {
           source_page: sourcePage,

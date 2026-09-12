@@ -11,8 +11,22 @@ import { getLiveProjects } from '../../data/projects';
 
 const MEDIA_WALL_CATEGORIES = ['tv-media-walls', 'carpentry-built-ins'] as const;
 
-const projects = (await getLiveProjects()).filter((entry) =>
-  (MEDIA_WALL_CATEGORIES as readonly string[]).includes(entry.data.category),
+/**
+ * Held back from this grid on photo quality, not relevance.
+ *
+ * `understair-curved-shelving` has two photos and neither works as a 270px
+ * card here. The finished shot is white shelving against a white wall and
+ * reads as an empty box; the alternative is a mid-install frame of raw
+ * plywood with a spirit level, a step ladder and a drop cloth in it, which
+ * contradicts a section headed "We've Finished". Give the project a finished
+ * photo that reads small and this line can go.
+ */
+const WEAK_LEAD_IMAGE_SLUGS: readonly string[] = ['understair-curved-shelving'];
+
+const projects = (await getLiveProjects()).filter(
+  (entry) =>
+    (MEDIA_WALL_CATEGORIES as readonly string[]).includes(entry.data.category) &&
+    !WEAK_LEAD_IMAGE_SLUGS.includes(entry.data.slug),
 );
 ---
 
@@ -36,7 +50,7 @@ const projects = (await getLiveProjects()).filter((entry) =>
           </p>
         </div>
 
-        <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
             <ProjectCard project={project} />
           ))}
