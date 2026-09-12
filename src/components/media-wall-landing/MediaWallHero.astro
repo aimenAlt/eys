@@ -17,6 +17,11 @@ import MediaWallEstimateLink from './MediaWallEstimateLink.astro';
  * the video occupies the right column and the left column keeps its original
  * order, so the three text blocks are placed by explicit row rather than by
  * source order.
+ *
+ * The section opts out of `mediaWallCrossSellView`: that event exists to count
+ * media walls surfaced to visitors who arrived for something else, and a
+ * visitor already on this page is not a cross-sell. Autoplay and pause-off-
+ * screen are unaffected.
  */
 const video = mediaWallsLanding.images.videos.builtIn;
 ---
@@ -25,7 +30,7 @@ const video = mediaWallsLanding.images.videos.builtIn;
   class="bg-brand-black px-4 pb-10 pt-8 text-white sm:px-6 sm:pb-14 sm:pt-10 lg:px-8"
   aria-labelledby="media-wall-hero-heading"
   data-media-wall-video-section
-  data-video-source-page="media_walls_hero"
+  data-no-cross-sell-event
 >
   <div
     class="mx-auto flex max-w-6xl flex-col gap-7 lg:grid lg:grid-cols-2 lg:items-center lg:gap-x-12 lg:gap-y-7"
