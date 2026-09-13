@@ -3,12 +3,13 @@
   "pages": [
     {
       "path": "/",
-      "status": "pending",
+      "status": "requested",
       "priority_tier": 5,
       "first_seen_at": "2026-08-28",
-      "first_requested_at": null,
-      "last_requested_at": null,
-      "times_requested": 0
+      "first_requested_at": "2026-09-13",
+      "last_requested_at": "2026-09-13",
+      "times_requested": 1,
+      "content_hash": "1ed69b074956df6c"
     },
     {
       "path": "/about/",
@@ -30,12 +31,13 @@
     },
     {
       "path": "/blog/hoa-patio-updates-bridgeland/",
-      "status": "pending",
+      "status": "retired",
       "priority_tier": 5,
       "first_seen_at": "2026-08-28",
       "first_requested_at": null,
       "last_requested_at": null,
-      "times_requested": 0
+      "times_requested": 0,
+      "retired_at": "2026-09-13"
     },
     {
       "path": "/blog/move-in-upgrades-sunterra/",
@@ -66,13 +68,14 @@
     },
     {
       "path": "/curtain-installation/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 5,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-28",
       "last_requested_at": "2026-08-28",
       "times_requested": 1,
-      "content_hash": "9d2746d8bd8b497b"
+      "content_hash": "9d2746d8bd8b497b",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/our-work/",
@@ -166,12 +169,13 @@
     },
     {
       "path": "/reviews/",
-      "status": "pending",
+      "status": "requested",
       "priority_tier": 3,
       "first_seen_at": "2026-08-28",
-      "first_requested_at": null,
-      "last_requested_at": null,
-      "times_requested": 0
+      "first_requested_at": "2026-09-13",
+      "last_requested_at": "2026-09-13",
+      "times_requested": 1,
+      "content_hash": "aa1956a0d79e1335"
     },
     {
       "path": "/service-areas/",
@@ -179,69 +183,75 @@
       "priority_tier": 1,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-28",
-      "last_requested_at": "2026-08-28",
-      "times_requested": 1,
+      "last_requested_at": "2026-09-13",
+      "times_requested": 2,
       "content_hash": "e7ab2fba1f083b1f"
     },
     {
       "path": "/service-areas/cypress/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 1,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-28",
       "last_requested_at": "2026-08-28",
       "times_requested": 1,
-      "content_hash": "058082a16f61b33e"
+      "content_hash": "058082a16f61b33e",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/service-areas/cypress/bridgeland-handyman/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 1,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-28",
       "last_requested_at": "2026-08-28",
       "times_requested": 1,
-      "content_hash": "87d15705d592d7b2"
+      "content_hash": "87d15705d592d7b2",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/service-areas/cypress/towne-lake-handyman/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 1,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-28",
       "last_requested_at": "2026-08-28",
       "times_requested": 1,
-      "content_hash": "61537aac0d2b5dc1"
+      "content_hash": "61537aac0d2b5dc1",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/service-areas/fulshear/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 1,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-28",
       "last_requested_at": "2026-08-28",
       "times_requested": 1,
-      "content_hash": "e236a91a6ced5e14"
+      "content_hash": "e236a91a6ced5e14",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/service-areas/fulshear/cross-creek-ranch-handyman/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 1,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-28",
       "last_requested_at": "2026-08-28",
       "times_requested": 1,
-      "content_hash": "0b560d1128e49d4a"
+      "content_hash": "0b560d1128e49d4a",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/service-areas/fulshear/jordan-ranch-handyman/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 1,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-29",
       "last_requested_at": "2026-08-29",
       "times_requested": 1,
-      "content_hash": "51daa4813c098218"
+      "content_hash": "51daa4813c098218",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/service-areas/katy/",
@@ -249,109 +259,119 @@
       "priority_tier": 1,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-28",
-      "last_requested_at": "2026-08-28",
-      "times_requested": 1,
-      "content_hash": "c77cf90b12a503c5"
+      "last_requested_at": "2026-09-13",
+      "times_requested": 2,
+      "content_hash": "5ba583532b1cb7ba"
     },
     {
       "path": "/service-areas/katy/cane-island-handyman/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 1,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-29",
       "last_requested_at": "2026-08-29",
       "times_requested": 1,
-      "content_hash": "913f79be8c7e20af"
+      "content_hash": "913f79be8c7e20af",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/service-areas/katy/cinco-ranch-handyman/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 1,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-29",
       "last_requested_at": "2026-08-29",
       "times_requested": 1,
-      "content_hash": "ccc86bf954d5fe70"
+      "content_hash": "ccc86bf954d5fe70",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/service-areas/katy/elyson-handyman/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 1,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-29",
       "last_requested_at": "2026-08-29",
       "times_requested": 1,
-      "content_hash": "b1d4a6d86f13dabd"
+      "content_hash": "b1d4a6d86f13dabd",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/service-areas/katy/sunterra-handyman/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 1,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-29",
       "last_requested_at": "2026-08-29",
       "times_requested": 1,
-      "content_hash": "ab516537249ead1e"
+      "content_hash": "ab516537249ead1e",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/service-areas/katy/tamarron-handyman/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 1,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-29",
       "last_requested_at": "2026-08-29",
       "times_requested": 1,
-      "content_hash": "95606671a6f6f0f4"
+      "content_hash": "95606671a6f6f0f4",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/service-areas/richmond/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 1,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-29",
       "last_requested_at": "2026-08-29",
       "times_requested": 1,
-      "content_hash": "d5f8d00200b3139f"
+      "content_hash": "d5f8d00200b3139f",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/service-areas/richmond/aliana-handyman/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 1,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-29",
       "last_requested_at": "2026-08-29",
       "times_requested": 1,
-      "content_hash": "46355e1c40e238a4"
+      "content_hash": "46355e1c40e238a4",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/service-areas/richmond/harvest-green-handyman/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 1,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-29",
       "last_requested_at": "2026-08-29",
       "times_requested": 1,
-      "content_hash": "3a884f59c1d400b6"
+      "content_hash": "3a884f59c1d400b6",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/service-areas/richmond/veranda-handyman/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 1,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-29",
       "last_requested_at": "2026-08-29",
       "times_requested": 1,
-      "content_hash": "23b31b4f866821c8"
+      "content_hash": "23b31b4f866821c8",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/service-areas/west-houston/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 1,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-28",
       "last_requested_at": "2026-08-28",
       "times_requested": 1,
-      "content_hash": "41a344f53a66d69a"
+      "content_hash": "41a344f53a66d69a",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/services/",
@@ -359,49 +379,53 @@
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-28",
-      "last_requested_at": "2026-08-28",
-      "times_requested": 1,
-      "content_hash": "fbd45f537f2ee92f"
+      "last_requested_at": "2026-09-13",
+      "times_requested": 3,
+      "content_hash": "aa17256094c6276b"
     },
     {
       "path": "/services/after-hours-repairs/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-30",
       "last_requested_at": "2026-08-30",
       "times_requested": 1,
-      "content_hash": "b3ac62662f842b2d"
+      "content_hash": "b3ac62662f842b2d",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/services/babyproofing-child-safety/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-30",
       "last_requested_at": "2026-08-30",
       "times_requested": 1,
-      "content_hash": "84bd94c58e3a83b7"
+      "content_hash": "84bd94c58e3a83b7",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/services/bathroom-remodeling/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-30",
       "last_requested_at": "2026-08-30",
       "times_requested": 1,
-      "content_hash": "391b10113a6cb873"
+      "content_hash": "391b10113a6cb873",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/services/cabinet-installation/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-30",
       "last_requested_at": "2026-08-30",
       "times_requested": 1,
-      "content_hash": "493fa7398ce2257f"
+      "content_hash": "493fa7398ce2257f",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/services/ceiling-fan-installation/",
@@ -409,29 +433,31 @@
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-30",
-      "last_requested_at": "2026-08-30",
-      "times_requested": 1,
-      "content_hash": "4851e0b6201d1fbc"
+      "last_requested_at": "2026-09-13",
+      "times_requested": 2,
+      "content_hash": "7fe735010e15bacf"
     },
     {
       "path": "/services/closet-shelving-organization/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-30",
       "last_requested_at": "2026-08-30",
       "times_requested": 1,
-      "content_hash": "cd01529e2c8ac1da"
+      "content_hash": "cd01529e2c8ac1da",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/services/curtain-installation/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-30",
       "last_requested_at": "2026-08-30",
       "times_requested": 1,
-      "content_hash": "aaa4e9bc239e25f2"
+      "content_hash": "aaa4e9bc239e25f2",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/services/custom-carpentry/",
@@ -439,19 +465,20 @@
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-30",
-      "last_requested_at": "2026-08-30",
-      "times_requested": 1,
-      "content_hash": "c52eb24bb40f1247"
+      "last_requested_at": "2026-09-13",
+      "times_requested": 2,
+      "content_hash": "5928a3a374e86709"
     },
     {
       "path": "/services/door-repair-installation/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-30",
       "last_requested_at": "2026-08-30",
       "times_requested": 1,
-      "content_hash": "e48c59e88234bebc"
+      "content_hash": "e48c59e88234bebc",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/services/drywall-repair/",
@@ -459,9 +486,9 @@
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-30",
-      "last_requested_at": "2026-08-30",
-      "times_requested": 1,
-      "content_hash": "d182beb6936f65b7"
+      "last_requested_at": "2026-09-13",
+      "times_requested": 2,
+      "content_hash": "87fd827e509d187e"
     },
     {
       "path": "/services/electrical-services/",
@@ -469,89 +496,97 @@
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-30",
-      "last_requested_at": "2026-08-30",
-      "times_requested": 1,
-      "content_hash": "fc9e34c062c3c375"
+      "last_requested_at": "2026-09-13",
+      "times_requested": 2,
+      "content_hash": "d71bfb7b495ff145"
     },
     {
       "path": "/services/flooring-and-decor/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-30",
       "last_requested_at": "2026-08-30",
       "times_requested": 1,
-      "content_hash": "e1623f9f5413c440"
+      "content_hash": "e1623f9f5413c440",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/services/furniture-assembly/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-30",
       "last_requested_at": "2026-08-30",
       "times_requested": 1,
-      "content_hash": "bd20ede20a685ea6"
+      "content_hash": "bd20ede20a685ea6",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/services/garage-storage-solutions/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-30",
       "last_requested_at": "2026-08-30",
       "times_requested": 1,
-      "content_hash": "8c1aa5dd5d8c4f24"
+      "content_hash": "8c1aa5dd5d8c4f24",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/services/general-handyman-services/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-30",
       "last_requested_at": "2026-08-30",
       "times_requested": 1,
-      "content_hash": "6b2340e40ee1873a"
+      "content_hash": "6b2340e40ee1873a",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/services/grab-bar-installation/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-30",
       "last_requested_at": "2026-08-30",
       "times_requested": 1,
-      "content_hash": "0d57983494e2da6e"
+      "content_hash": "0d57983494e2da6e",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/services/handyman-to-do-list/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-09-02",
       "last_requested_at": "2026-09-02",
       "times_requested": 1,
-      "content_hash": "b35525e4476e6098"
+      "content_hash": "b35525e4476e6098",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/services/installation-and-assembly/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-09-02",
       "last_requested_at": "2026-09-02",
       "times_requested": 1,
-      "content_hash": "285c0dd3d2b14bff"
+      "content_hash": "285c0dd3d2b14bff",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/services/kitchen-remodeling/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-09-02",
       "last_requested_at": "2026-09-02",
       "times_requested": 1,
-      "content_hash": "b7289983285a2c1c"
+      "content_hash": "b7289983285a2c1c",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/services/media-walls/",
@@ -559,39 +594,42 @@
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-09-02",
-      "last_requested_at": "2026-09-02",
-      "times_requested": 1,
-      "content_hash": "6a91f9c03d991567"
+      "last_requested_at": "2026-09-13",
+      "times_requested": 2,
+      "content_hash": "c30c91fa7ffc9bd4"
     },
     {
       "path": "/services/painting/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-09-02",
       "last_requested_at": "2026-09-02",
       "times_requested": 1,
-      "content_hash": "6b13cb5b9aa939de"
+      "content_hash": "6b13cb5b9aa939de",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/services/picture-hanging-floating-shelves/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-09-02",
       "last_requested_at": "2026-09-02",
       "times_requested": 1,
-      "content_hash": "437c7f5b86fa3151"
+      "content_hash": "437c7f5b86fa3151",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/services/remodeling-and-upgrades/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-09-02",
       "last_requested_at": "2026-09-02",
       "times_requested": 1,
-      "content_hash": "803f62073344aaa3"
+      "content_hash": "803f62073344aaa3",
+      "last_content_change_detected_at": "2026-09-13"
     },
     {
       "path": "/services/repairs-and-maintenance/",
@@ -605,13 +643,15 @@
     },
     {
       "path": "/services/smart-home-installation/",
-      "status": "requested",
+      "status": "retired",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-09-02",
       "last_requested_at": "2026-09-02",
       "times_requested": 1,
-      "content_hash": "15db921c57c9ab0c"
+      "content_hash": "15db921c57c9ab0c",
+      "last_content_change_detected_at": "2026-09-13",
+      "retired_at": "2026-09-13"
     },
     {
       "path": "/services/tile-installation/",
@@ -624,12 +664,13 @@
     },
     {
       "path": "/services/tv-mounting/",
-      "status": "pending",
+      "status": "requested",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
-      "first_requested_at": null,
-      "last_requested_at": null,
-      "times_requested": 0
+      "first_requested_at": "2026-09-13",
+      "last_requested_at": "2026-09-13",
+      "times_requested": 1,
+      "content_hash": "c39757b1d061b7a8"
     },
     {
       "path": "/services/wallpaper-accent-wall-installation/",
@@ -660,14 +701,25 @@
     },
     {
       "path": "/services/limewash-walls/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-09-02",
       "last_requested_at": "2026-09-02",
       "times_requested": 1,
-      "content_hash": "c2b446f7bfaa24a5"
+      "content_hash": "c2b446f7bfaa24a5",
+      "last_content_change_detected_at": "2026-09-13"
+    },
+    {
+      "path": "/services/outdoor-carpentry/",
+      "status": "pending",
+      "priority_tier": 5,
+      "first_seen_at": "2026-09-13",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0,
+      "content_hash": null
     }
   ],
-  "updated_at": "2026-09-02T17:37:06.329Z"
+  "updated_at": "2026-09-13T21:38:12.080Z"
 }

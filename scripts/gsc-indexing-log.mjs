@@ -128,6 +128,24 @@ async function cmdSync() {
     });
   }
 
+  /*
+   * Retire anything that has left the sitemap. Without this, a page that is
+   * unpublished or redirected stays `pending` for ever and the daily task keeps
+   * submitting it — and a URL that now 301s is exactly what must never reach the
+   * indexing queue. Found live: /blog/hoa-patio-updates-bridgeland/ and
+   * /services/smart-home-installation/ were both still queued after being
+   * retired. Entries are kept rather than deleted so the history survives.
+   */
+  const live = new Set(paths);
+  const retired = [];
+  for (const entry of log.pages) {
+    if (!live.has(entry.path) && entry.status !== 'retired') {
+      entry.status = 'retired';
+      entry.retired_at = new Date().toISOString().slice(0, 10);
+      retired.push(entry.path);
+    }
+  }
+
   const requeued = [];
   const coolingDown = [];
   const baselined = [];
@@ -156,6 +174,7 @@ async function cmdSync() {
   await saveLog(log);
   console.log(`Synced. ${newOnes.length} new URL(s) added from sitemap. Total tracked: ${log.pages.length}.`);
   if (newOnes.length > 0) console.log('New URLs:', newOnes.join(', '));
+  if (retired.length > 0) console.log('Retired (left the sitemap, will not be submitted):', retired.join(', '));
   if (requeued.length > 0) console.log('Requeued (content changed, cooldown clear):', requeued.join(', '));
   if (coolingDown.length > 0) console.log('Content changed but still in cooldown (will requeue automatically once clear):', coolingDown.join(', '));
   if (baselined.length > 0) console.log(`Captured content baseline for ${baselined.length} already-requested page(s) (no prior hash on record).`);
