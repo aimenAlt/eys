@@ -6,7 +6,7 @@ import MobileStickyCTA from '../components/layout/MobileStickyCTA.astro';
 import HomeCurrentPage from '../components/home/HomeCurrentPage.astro';
 import HomeSmallRepairPage from '../components/home/HomeSmallRepairPage.astro';
 import { getCollection } from 'astro:content';
-import { absoluteUrl } from '../data/business';
+import { absoluteUrl, googleReviews } from '../data/business';
 import { defaultOgImageAlt } from '../data/images';
 import { homePageSchema, homeFaqs } from '../data/schema';
 import { buildNavMenus } from '../data/navMenus';
@@ -31,7 +31,8 @@ const communityLinks = communities.map((c) => ({
 const seo = {
   title: 'Katy Handyman | Elevate Your Space Handyman',
   description:
-    'Veteran-owned, insured Katy handyman: repairs, installations, punch lists, finish carpentry and media walls in Katy, Cypress and Fulshear. 5.0-rated on Google.',
+    `Veteran-owned, insured Katy handyman: repairs, installations, punch lists, finish carpentry ` +
+    `and media walls in Katy, Cypress and Fulshear. ${googleReviews.rating.toFixed(1)}-rated on Google.`,
   canonical: absoluteUrl('/'),
   ogImageAlt: defaultOgImageAlt,
 };

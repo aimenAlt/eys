@@ -1,5 +1,5 @@
 ---
-import { googleReviews } from '../../data/business';
+import { googleReviewCountDisplay } from '../../data/business';
 ---
 
 <section
@@ -8,7 +8,7 @@ import { googleReviews } from '../../data/business';
 >
   <div class="mx-auto max-w-3xl">
     <p class="mb-3 text-[11px] font-bold uppercase tracking-[0.14em] text-brand-redondark sm:text-xs">
-      Veteran-Owned • {googleReviews.countDisplay} Google Reviews • Katy &amp; West Houston
+      Veteran-Owned • {googleReviewCountDisplay()} Google Reviews • Katy &amp; West Houston
     </p>
     <h1 id="van-hero-heading" class="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
       Need it fixed, installed, or improved?

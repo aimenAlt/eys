@@ -1,9 +1,9 @@
 ---
-import { googleReviews, googleReviewProfileUrl } from '../../data/business';
+import { googleReviewCountDisplay, googleReviewProfileUrl, googleReviews } from '../../data/business';
 
 const gbpUrl = googleReviewProfileUrl();
 const ratingLabel = googleReviews.rating.toFixed(1);
-const reviewLabel = `${googleReviews.countDisplay}`;
+const reviewLabel = `${googleReviewCountDisplay()}`;
 ---
 
 <section

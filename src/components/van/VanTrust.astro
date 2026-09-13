@@ -2,13 +2,13 @@
 import SiteImage from '../ui/SiteImage.astro';
 import { imageOrPlaceholder } from '../../data/images';
 import { withBase } from '../../utils/paths';
-import { googleReviews } from '../../data/business';
+import { googleReviewCountDisplay } from '../../data/business';
 
 const reviewsPageHref = withBase('/reviews/');
 
 const trustIndicators = [
   'Veteran-Owned',
-  `${googleReviews.countDisplay} Google Reviews`,
+  `${googleReviewCountDisplay()} Google Reviews`,
   'Katy-Based & Locally Operated',
 ] as const;
 

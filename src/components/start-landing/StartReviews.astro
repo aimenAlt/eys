@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import { googleReviews, googleReviewProfileUrl } from '../../data/business';
+import { googleReviewCountDisplay, googleReviewProfileUrl, googleReviews } from '../../data/business';
 import { withBase } from '../../utils/paths';
 
 const gbpUrl = googleReviewProfileUrl();
@@ -35,11 +35,11 @@ const quotes = allReviews
             data-cta-location="social_proof"
             class="font-bold text-brand-red hover:underline"
           >
-            {ratingLabel} ★ · {googleReviews.countDisplay} Google reviews
+            {ratingLabel} ★ · {googleReviewCountDisplay()} Google reviews
           </a>
         ) : (
           <span class="font-bold text-brand-black">
-            {ratingLabel} ★ · {googleReviews.countDisplay} Google reviews
+            {ratingLabel} ★ · {googleReviewCountDisplay()} Google reviews
           </span>
         )
       }

@@ -8,6 +8,8 @@
  * redirect URL. Routes are generated from this list.
  */
 
+import { site } from './business';
+
 export type JobberConfirmationType = 'booking' | 'request';
 export type JobberMetaEvent = 'Schedule' | 'Lead';
 export type JobberAnalyticsEvent = 'booking_complete' | 'lead_submit';
@@ -107,7 +109,7 @@ export const jobberConfirmations: readonly JobberConfirmation[] = [
     service: 'media_wall',
     heading: 'Your Media Wall Request Has Been Received',
     message:
-      "Thank you for sharing the details of your media wall project. Elevate Your Space Handyman will review your information and reach out regarding the next step. If you'd like to reach us sooner, call (346) 820-1629.",
+      `Thank you for sharing the details of your media wall project. Elevate Your Space Handyman will review your information and reach out regarding the next step. If you'd like to reach us sooner, call ${site.phone}.`,
     seoTitle: 'Media Wall Request Received',
     seoDescription: 'Thank you for sharing your media wall project details with Elevate Your Space Handyman.',
   },
@@ -121,7 +123,7 @@ export const jobberConfirmations: readonly JobberConfirmation[] = [
     service: 'project_estimate',
     heading: 'Your Estimate Request Has Been Received',
     message:
-      "Thank you for submitting your project details. We'll review the information provided and follow up regarding the next step for your estimate. If you'd like to reach us sooner, call (346) 820-1629.",
+      `Thank you for submitting your project details. We'll review the information provided and follow up regarding the next step for your estimate. If you'd like to reach us sooner, call ${site.phone}.`,
     seoTitle: 'Estimate Request Received',
     seoDescription: 'Thank you for submitting your project estimate request to Elevate Your Space Handyman.',
   },
@@ -135,7 +137,7 @@ export const jobberConfirmations: readonly JobberConfirmation[] = [
     service: 'kitchen_remodel',
     heading: 'Your Kitchen Remodel Request Has Been Received',
     message:
-      "Thank you for sharing the details of your kitchen remodel. Elevate Your Space Handyman will review your information and reach out regarding the next step. If you'd like to reach us sooner, call (346) 820-1629.",
+      `Thank you for sharing the details of your kitchen remodel. Elevate Your Space Handyman will review your information and reach out regarding the next step. If you'd like to reach us sooner, call ${site.phone}.`,
     seoTitle: 'Kitchen Remodel Request Received',
     seoDescription: 'Thank you for sharing your kitchen remodel project details with Elevate Your Space Handyman.',
   },
@@ -149,7 +151,7 @@ export const jobberConfirmations: readonly JobberConfirmation[] = [
     service: 'bathroom_remodel',
     heading: 'Your Bathroom Remodel Request Has Been Received',
     message:
-      "Thank you for sharing the details of your bathroom remodel. Elevate Your Space Handyman will review your information and reach out regarding the next step. If you'd like to reach us sooner, call (346) 820-1629.",
+      `Thank you for sharing the details of your bathroom remodel. Elevate Your Space Handyman will review your information and reach out regarding the next step. If you'd like to reach us sooner, call ${site.phone}.`,
     seoTitle: 'Bathroom Remodel Request Received',
     seoDescription: 'Thank you for sharing your bathroom remodel project details with Elevate Your Space Handyman.',
   },

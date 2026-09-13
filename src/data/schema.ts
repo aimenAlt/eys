@@ -1,4 +1,4 @@
-import { absoluteUrl, business, site } from './business';
+import { absoluteUrl, areaServedDisplay, business, site } from './business';
 
 export type BreadcrumbItem = {
   name: string;
@@ -185,7 +185,7 @@ export const homeFaqs: FaqItem[] = [
   {
     question: 'What areas do you serve?',
     answer:
-      'We serve Katy, Cypress, Fulshear, Richmond, and West Houston. Send your address for confirmation before scheduling — coverage depends on location and project scope.',
+      `We serve ${areaServedDisplay()}. Send your address for confirmation before scheduling — coverage depends on location and project scope.`,
   },
   {
     question: 'Do you offer free estimates?',
