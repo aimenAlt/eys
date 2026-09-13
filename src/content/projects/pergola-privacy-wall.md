@@ -30,7 +30,7 @@ processSteps:
   - "Build the beam and rafter package with consistent spans"
   - "Construct the vertical slat privacy wall"
 result: "A pergola and privacy wall framed over the patio for shaded seating and a more private outdoor edge without a full screen room."
-serviceUrl: "/services/general-handyman-services/"
+serviceUrl: "/services/outdoor-carpentry/"
 locationUrl: "/service-areas/west-houston/"
 city: "West Houston"
 leadImage: "/images/projects/pergola-privacy-wall/eys-exterior-repair-wood-pergola-privacy-wall-during-p019-01.jpg"
@@ -51,7 +51,7 @@ This outdoor project framed a dark-stained wood pergola with an integrated priva
 
 Exterior framing starts with layout: post locations, beam heights, and how the privacy wall ties into the pergola without twisting the posts. We square the footprint on the concrete, set posts plumb, and build the beam and rafter package so spans stay consistent. The privacy wall uses vertical slats spaced for screening while still allowing airflow—important on West Houston patios where shade and neighbor sightlines both matter.
 
-Materials were outdoor-ready wood with a dark stain that highlights the grain. Connections and fasteners are chosen for exterior conditions, and patio attachment is checked so the structure stays aligned along the slab. This work falls under [general handyman services](/services/general-handyman-services/) on larger outdoor lists, and under [custom carpentry](/services/custom-carpentry/) when the focus is timber detailing and slats.
+Materials were outdoor-ready wood with a dark stain that highlights the grain. Connections and fasteners are chosen for exterior conditions, and patio attachment is checked so the structure stays aligned along the slab. This work falls under [outdoor carpentry](/services/outdoor-carpentry/), and under [custom carpentry](/services/custom-carpentry/) when the focus is timber detailing and slats.
 
 The during-stage photos show the pergola and privacy wall coming together—posts up, beams in, and the slat wall taking shape as an outdoor enclosure. Homeowners use the finished structure for shaded seating and a more private patio edge without a full screen room.
 

@@ -47,7 +47,7 @@ General handyman work is the backbone of Elevate Your Space — the punch lists,
 
 ## What a punch-list visit can include
 
-Drywall patches, door adjustments, hardware installs, fixture swaps, furniture assembly, garage storage, picture hanging, caulk touch-ups, and other items that fit a skilled handyman visit. We scope the whole list up front so you know what belongs in one appointment versus what needs a specialist. When the list is mostly small repairs, many homeowners prefer our [Handyman To-Do List Visit](/services/handyman-to-do-list/) for a reserved time block; larger or mixed scopes stay on a custom free estimate.
+Drywall patches, door adjustments, hardware installs, fixture swaps, furniture assembly, garage storage, picture hanging, caulk touch-ups, and other items that fit a skilled handyman visit. We scope the whole list up front so you know what belongs in one appointment versus what needs a specialist. When the list is mostly small repairs, many homeowners prefer our [Handyman To-Do List Visit](/services/handyman-to-do-list/) for a reserved time block; larger or mixed scopes stay on a custom free estimate. Exterior items — a dragging gate, rotted fence posts, soft deck boards, trim rot where wood meets brick — belong with [outdoor carpentry](/services/outdoor-carpentry/).
 
 ## How we keep visits efficient
 

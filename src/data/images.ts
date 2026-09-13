@@ -99,6 +99,8 @@ const licensedStockHeroImages: Record<string, string> = {
 /** EYS's own project photography, except where merged from the stock block below. */
 export const serviceHeroImages: Record<string, string> = {
   ...licensedStockHeroImages,
+  // EYS's own pergola project photo, resized for hero use.
+  'outdoor-carpentry': '/images/services/outdoor-carpentry.jpg',
   'handyman-to-do-list': '/images/services/general-handyman.jpg',
   'tv-mounting': '/images/services/tv-mounting.jpg',
   'ceiling-fan-installation': '/images/services/ceiling-fan.jpg',

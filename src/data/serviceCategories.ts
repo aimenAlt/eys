@@ -138,7 +138,7 @@ export const serviceCategories: ServiceCategory[] = [
       'Blue kitchen island and window-seat cabinetry remodel with open living space beyond',
     seoTitle: 'Home Upgrades & Custom Projects | Katy & West Houston | EYS',
     metaDescription:
-      'Bathroom upgrades, kitchen upgrades, tile installation, whole-project remodeling, custom carpentry, and wallpaper installation in Katy and West Houston.',
+      'Bathroom upgrades, kitchen upgrades, tile installation, whole-project remodeling, custom carpentry, outdoor carpentry, and wallpaper installation in Katy and West Houston.',
     ctaLabel: 'View Upgrade Services',
     items: [
       {
@@ -170,6 +170,12 @@ export const serviceCategories: ServiceCategory[] = [
         description:
           'Custom woodwork, accent walls, shelving, built-ins, trim upgrades, and detail work that gives the home character.',
         serviceSlug: 'custom-carpentry',
+      },
+      {
+        title: 'Outdoor Carpentry',
+        description:
+          'Fence and gate repair, deck repair, pergolas, patio covers, and privacy screens — we fix sections instead of selling you a tear-out.',
+        serviceSlug: 'outdoor-carpentry',
       },
       {
         title: 'Media Walls',
@@ -240,6 +246,7 @@ export const allServiceSlugs = [
   'kitchen-remodeling',
   'flooring-and-decor',
   'custom-carpentry',
+  'outdoor-carpentry',
   'media-walls',
   'closet-shelving-organization',
   'wallpaper-accent-wall-installation',
