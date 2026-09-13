@@ -1,4 +1,5 @@
 ---
+import SiteImage from '../../ui/SiteImage.astro';
 import { resolveCityHero } from '../../../data/images';
 import { site } from '../../../data/business';
 import { contentMaxClass, contentPaddingClass } from '../../../data/layout';
@@ -55,7 +56,7 @@ const imageSrc = resolveCityHero(citySlug, heroImage);
             </p>
           )
         }
-        <div class="flex flex-col sm:flex-row gap-3">
+        <div class="flex flex-col sm:flex-row gap-3" data-sticky-hero-cta>
           <a
             href="/contact/"
             class="inline-flex justify-center items-center bg-brand-red text-white px-6 py-3 rounded-md font-bold hover:bg-brand-redhover transition-colors"
@@ -71,14 +72,15 @@ const imageSrc = resolveCityHero(citySlug, heroImage);
         </div>
       </div>
       <div class="relative rounded-2xl overflow-hidden shadow-card ring-1 ring-brand-line aspect-[4/3] bg-brand-lightbg">
-        <img
+        <SiteImage
           src={imageSrc}
           alt={heroImageAlt}
           class="w-full h-full object-cover"
           loading="eager"
           fetchpriority="high"
-          width="800"
-          height="600"
+          sizes="(max-width: 1024px) 100vw, 600px"
+          width={800}
+          height={600}
         />
       </div>
     </div>

@@ -1,29 +1,119 @@
 ---
-import { site } from '../../data/business';
+/**
+ * Mobile Call/Book bar.
+ *
+ * Hidden until the hero CTA group has scrolled out of view, and hidden again
+ * once the footer enters the viewport — the always-pinned version sat on top of
+ * the hero's own buttons at phone height and covered content at the end of the
+ * page. Pages whose hero exposes no `[data-sticky-hero-cta]` hook fall back to a
+ * fixed scroll threshold. Same IntersectionObserver + `astro:page-load` pattern
+ * as `start-landing/StartStickyBar.astro`.
+ *
+ * The space the bar needs is reserved by the footer's own bottom padding rather
+ * than by a toggled `body` padding: changing the document height as the bar
+ * appears flips the footer observer, which hides the bar, which restores the
+ * height — an oscillation right on top of the closing CTA.
+ *
+ * "Book" points at the Jobber project-estimate form rather than `/book/`: the
+ * menu page averaged 0-4s engaged time because it asks people who already
+ * decided to decide again.
+ */
+import { jobberProjectEstimateFormUrl, site } from '../../data/business';
 import { withBase } from '../../utils/paths';
+
+const bookUrl = jobberProjectEstimateFormUrl() ?? withBase('/book/');
 ---
 
 <div
-  class="fixed bottom-0 inset-x-0 z-40 md:hidden bg-brand-black border-t border-brand-red/30 px-4 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-lg"
+  class="pointer-events-none fixed bottom-0 inset-x-0 z-40 md:hidden translate-y-full opacity-0 transition-all duration-300"
   role="region"
   aria-label="Quick actions"
+  data-mobile-sticky
+  hidden
 >
-  <p class="text-center text-[11px] font-medium uppercase tracking-wide text-white/70 mb-2">
-    Open until 11:30 PM &middot; 7 days
-  </p>
-  <div class="flex gap-3">
-    <a
-      href={`tel:${site.phoneTel}`}
-      data-cta-location="mobile_sticky"
-      class="flex-1 text-center bg-white text-brand-black font-bold py-3 rounded-md text-sm"
-    >
-      Call
-    </a>
-    <a
-      href={withBase('/book/')}
-      class="flex-1 text-center bg-brand-red text-white font-bold py-3 rounded-md text-sm"
-    >
-      Book
-    </a>
+  <div
+    class="pointer-events-auto bg-brand-black border-t border-brand-red/30 px-4 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-lg"
+  >
+    <p class="text-center text-[11px] font-medium uppercase tracking-wide text-white/70 mb-2">
+      Open until 11:30 PM &middot; 7 days
+    </p>
+    <div class="flex gap-3">
+      <a
+        href={`tel:${site.phoneTel}`}
+        data-cta-location="mobile_sticky"
+        class="flex-1 text-center bg-white text-brand-black font-bold py-3 rounded-md text-sm"
+      >
+        Call
+      </a>
+      <a
+        href={bookUrl}
+        data-booking-type="project_estimate"
+        data-cta-location="mobile_sticky"
+        class="flex-1 text-center bg-brand-red text-white font-bold py-3 rounded-md text-sm"
+      >
+        Book
+      </a>
+    </div>
   </div>
 </div>
+
+<script>
+  /** Scroll distance after which the bar appears on pages with no hero CTA hook. */
+  const FALLBACK_REVEAL_PX = 600;
+
+  function initMobileStickyCta() {
+    const bar = document.querySelector<HTMLElement>('[data-mobile-sticky]');
+    if (!bar) return;
+
+    const heroCta = document.querySelector<HTMLElement>('[data-sticky-hero-cta]');
+    const footer = document.querySelector<HTMLElement>('footer');
+
+    let heroPassed = false;
+    let footerVisible = false;
+
+    const sync = () => {
+      const show = heroPassed && !footerVisible;
+      bar.hidden = !show;
+      bar.classList.toggle('translate-y-full', !show);
+      bar.classList.toggle('opacity-0', !show);
+      bar.classList.toggle('pointer-events-none', !show);
+    };
+
+    if (heroCta) {
+      const heroObserver = new IntersectionObserver(
+        ([entry]) => {
+          heroPassed = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+          sync();
+        },
+        { threshold: 0 },
+      );
+      heroObserver.observe(heroCta);
+    } else {
+      const onScroll = () => {
+        const passed = window.scrollY > FALLBACK_REVEAL_PX;
+        if (passed === heroPassed) return;
+        heroPassed = passed;
+        sync();
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+
+    if (footer) {
+      const footerObserver = new IntersectionObserver(
+        ([entry]) => {
+          footerVisible = entry.isIntersecting;
+          sync();
+        },
+        { threshold: 0 },
+      );
+      footerObserver.observe(footer);
+    }
+
+    sync();
+  }
+
+  initMobileStickyCta();
+  document.addEventListener('astro:page-load', initMobileStickyCta);
+</script>
+

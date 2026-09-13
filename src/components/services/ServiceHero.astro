@@ -5,6 +5,7 @@ import {
   jobberOnlineBookingUrl,
   site,
 } from '../../data/business';
+import SiteImage from '../ui/SiteImage.astro';
 import { imagePlaceholder, resolveServiceHero } from '../../data/images';
 import { contentMaxClass, contentPaddingClass } from '../../data/layout';
 
@@ -18,7 +19,8 @@ interface ServiceData {
   jobberForm?: 'kitchen-remodel' | 'bathroom-remodel';
   slug: string;
   heroImage?: string;
-  heroImageAlt?: string;
+  /** Required by the services content schema — see content.config.ts. */
+  heroImageAlt: string;
 }
 
 interface Props {
@@ -118,7 +120,7 @@ const primary = primaryCta();
             <p class="text-lg text-gray-600 leading-relaxed mb-6">{service.summary}</p>
           )
         }
-        <div class="flex flex-col sm:flex-row gap-3">
+        <div class="flex flex-col sm:flex-row gap-3" data-sticky-hero-cta>
           <a
             href={primary.href}
             target={primary.external ? '_blank' : undefined}
@@ -140,15 +142,16 @@ const primary = primaryCta();
         </div>
       </div>
       <div class="relative rounded-2xl overflow-hidden shadow-card ring-1 ring-brand-line aspect-[4/3] bg-brand-lightbg">
-        <img
+        <SiteImage
           src={imageSrc}
           alt={imageAlt}
           class="w-full h-full object-cover"
           loading="eager"
           fetchpriority="high"
           decoding="async"
-          width="800"
-          height="600"
+          sizes="(max-width: 1024px) 100vw, 600px"
+          width={800}
+          height={600}
         />
       </div>
     </div>
