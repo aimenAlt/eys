@@ -81,7 +81,7 @@ export const serviceCategories: ServiceCategory[] = [
       'Living room drapes and chandelier installation completed by Elevate Your Space Handyman',
     seoTitle: 'Installation & Assembly | Katy & West Houston | EYS',
     metaDescription:
-      'Door installation, furniture assembly, TV mounting, smart home installation, ceiling fans, curtains, and cabinet installation in Katy and West Houston.',
+      'Door installation, furniture assembly, TV mounting, ceiling fans, curtains, and cabinet installation in Katy and West Houston.',
     ctaLabel: 'View Installation Services',
     items: [
       {
@@ -119,12 +119,6 @@ export const serviceCategories: ServiceCategory[] = [
         description:
           'Precise curtain rod, drapery hardware, and window treatment mounting with level placement and secure anchoring.',
         serviceSlug: 'curtain-installation',
-      },
-      {
-        title: 'Smart Home Installation',
-        description:
-          'Video doorbells, smart locks, smart thermostats, and smart switches installed on existing wiring, with licensed-trade referral for anything requiring new circuits.',
-        serviceSlug: 'smart-home-installation',
       },
       {
         title: 'Picture Hanging & Floating Shelves',
@@ -248,7 +242,6 @@ export const allServiceSlugs = [
   'custom-carpentry',
   'media-walls',
   'closet-shelving-organization',
-  'smart-home-installation',
   'wallpaper-accent-wall-installation',
   'limewash-walls',
   'picture-hanging-floating-shelves',

@@ -82,8 +82,10 @@ export const cityHeroImages: Record<string, string> = {
  *
  *   after-hours-repairs      pexels.com/photo/5691693  (Faceless man repairing door in room)
  *   furniture-assembly       pexels.com/photo/5805494  (Hammer, screwdrivers and assembly instructions)
- *   smart-home-installation  pexels.com/photo/27638181 (Digital thermostat on a wall next to a window)
  *   limewash-walls           pexels.com/photo/27522843 (Studio with limewash textured walls and wood armchair)
+ *
+ * The furniture-assembly instruction sheet is printed in Portuguese — illegible at
+ * hero size, carries no brand or claim, and is deliberately kept. Not a defect.
  *
  * Still on the placeholder and needing a real photo from Eyad:
  *   grab-bar-installation, babyproofing-child-safety
@@ -91,7 +93,6 @@ export const cityHeroImages: Record<string, string> = {
 const licensedStockHeroImages: Record<string, string> = {
   'after-hours-repairs': '/images/services/after-hours-repairs.jpg',
   'furniture-assembly': '/images/services/furniture-assembly.jpg',
-  'smart-home-installation': '/images/services/smart-home-installation.jpg',
   'limewash-walls': '/images/services/limewash-walls.jpg',
 };
 
