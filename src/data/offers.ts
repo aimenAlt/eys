@@ -9,8 +9,14 @@
  *  - Offers live as ANCHORED SECTIONS on the page that already sells the
  *    service. They do not get their own URLs (the new-URL freeze targets page
  *    volume), and the anchor is what a GBP "Link to redeem offer" points at.
- *  - Redemption is manual — the customer names the code when booking. Jobber
- *    forms, ids, embeds and attribution plumbing are NOT touched by an offer.
+ *  - An offer NEVER touches Jobber forms, ids, embeds or attribution plumbing.
+ *    Redemption differs per offer and the fine print must match the flow the
+ *    CTA actually lands on: TODO10 is named by the customer, because that
+ *    request is reviewed before the appointment is confirmed. HIGH200 is a
+ *    SELECTABLE discounted line item on the curtain request form, so its copy
+ *    tells the customer to pick the option rather than to type a code. Check
+ *    the destination flow before writing redemption copy — advertising a price
+ *    the booking flow then contradicts is the failure mode here.
  *  - Curtain figures are INSTALLATION LABOR ONLY. Never word an offer so it
  *    implies EYS supplies rods, tracks or curtains.
  *
@@ -200,7 +206,13 @@ const highCeilingCurtainOffer = {
       `${CURTAIN_DISCOUNT_DISPLAY} off the starting price of high-ceiling curtain rod or ceiling-track installation booked by ${formatOfferDate(OFFER_WINDOW.endDate)}.`,
       `Starting prices cover up to ${hc.rod.includedWindows} windows; additional windows bill at the standard rate and are not discounted.`,
       'Installation labor only. You supply the rods, tracks, and curtains.',
-      `High-ceiling installations only. One offer per job. Mention code ${CURTAIN_CODE} when you book.`,
+      // Redemption is a SELECTABLE LINE ITEM, not a code the customer types.
+      // Jobber request form 5061244 carries the discounted rod and track
+      // services alongside the list-price ones, so the $599 this page promises
+      // is a $599 option in the booking flow. CURTAIN_CODE stays because it is
+      // still the Google Business Profile coupon-code field and the phone
+      // reference — it is not something to type into the online form.
+      `High-ceiling installations only. One offer per job. Choose the ${CURTAIN_DISCOUNT_DISPLAY} OFF option when you book online, or mention ${CURTAIN_CODE} if you book by phone.`,
     ];
   },
 } as const;
