@@ -6,11 +6,11 @@ published: true
 seoTitle: "Handyman & New Home Upgrades in Tamarron | EYS"
 metaDescription: "TV mounting, ceiling fans, and move-in upgrades for Tamarron residents in Katy and Fulshear. Request an estimate from Elevate Your Space."
 heroTitle: "Handyman & Move-In Upgrades for Tamarron"
-summary: "Elevate Your Space provides the premium finishing touches, custom installations, and upgrades needed to personalize your new Tamarron home."
+summary: "Elevate Your Space provides the finishing touches, custom installations, and upgrades needed to personalize your new Tamarron home."
 promoCode: "TAMARRON25"
 promoOffer: "$25 off projects over $250"
 localIntro: "Spanning Katy and Fulshear, Tamarron is one of the larger master-planned communities in the area. With thousands of new D.R. Horton homes and the exclusive Wellspring 55+ neighborhood, residents enjoy amenities like Club Tamarron. Production homes often require a personal touch — hardware on builder-grade cabinets, securely mounted TVs, and organized garages. EYS specializes in essential post-closing upgrades."
-servicesIntro: "We focus on precision installations and premium enhancements for new properties, treating your fresh drywall and unblemished floors with the utmost respect."
+servicesIntro: "We focus on precise installations and finishing work for new properties, treating your fresh drywall and unblemished floors with the utmost respect."
 commonProjects:
   - name: "TV Mounting"
     description: "clean, perfectly leveled mounting in living rooms and bedrooms"
