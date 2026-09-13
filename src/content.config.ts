@@ -66,6 +66,11 @@ const services = defineCollection({
     bookingType: bookingTypeSchema.optional(),
     jobberForm: jobberFormSchema.optional(),
     includedServices: z.array(z.string()).optional(),
+    /** Override the 'What We Do' label when the list needs a different frame. */
+    includedHeading: z.string().optional(),
+    includedEyebrow: z.string().optional(),
+    /** One line attributing the whole list, instead of caveating every entry. */
+    includedNote: z.string().optional(),
     priceFactors: z.array(z.string()).optional(),
     process: z.array(z.string()).optional(),
     faqs: z.array(faqSchema).optional(),

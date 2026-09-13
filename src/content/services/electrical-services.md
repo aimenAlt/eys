@@ -11,13 +11,16 @@ heroImageAlt: "Multi-pendant globe chandelier installed in a two-story foyer"
 bookingType: "quote-request"
 primaryCTA: "Request an Electrical Estimate"
 secondaryCTA: "Call Us"
+includedEyebrow: "Scope we manage"
+includedHeading: "Electrical work we scope and manage"
+includedNote: "Licensed electricians perform every item below. Elevate Your Space Handyman scopes the work, quotes it, and manages the schedule, so it stays one job with one point of contact."
 includedServices:
-  - "Light fixture and ceiling fan installation on confirmed existing boxes — performed by a licensed electrician"
-  - "Outlet and switch replacement, including GFCI and USB outlets — performed by a licensed electrician"
-  - "Dimmer and smart-switch installation — performed by a licensed electrician"
-  - "Troubleshooting for dead outlets, tripped breakers, and flickering lights — performed by a licensed electrician"
-  - "New circuits, panel additions, and rewiring — performed by a licensed electrician"
-  - "Code corrections and inspection-related electrical fixes — performed by a licensed electrician"
+  - "Light fixture and ceiling fan installation on confirmed existing boxes"
+  - "Outlet and switch replacement, including GFCI and USB outlets"
+  - "Dimmer and smart-switch installation"
+  - "Troubleshooting for dead outlets, tripped breakers, and flickering lights"
+  - "New circuits, panel additions, and rewiring"
+  - "Code corrections and inspection-related electrical fixes"
 priceFactors:
   - "Scope of the job"
   - "Number of fixtures, outlets, or switches"
@@ -44,16 +47,11 @@ faqs:
 ---
 EYS handles electrical work for homes in Katy and West Houston — fixture and fan installs, outlet and switch replacement, troubleshooting, new circuits, and panel work. Tell us what's going on and we'll give you one clear estimate for the whole job. **Licensed electricians perform the electrical work**, and we manage their scheduling so it stays one job with one point of contact. Elevate Your Space Handyman is not advertising as a licensed electrician or electrical contractor — we scope and manage the work, and licensed electricians perform the electrical work.
 
-## Electrical work we scope and manage
-
-Every item below is performed by the licensed electrician brought onto the job. Elevate Your Space Handyman scopes the work, quotes it, and manages the schedule.
-
-- Light fixture and ceiling fan installation on confirmed existing boxes — see [ceiling fan installation](/services/ceiling-fan-installation/) for that page specifically
-- Outlet and switch replacement, dimmers, and smart-switch installs
-- Troubleshooting dead outlets, tripped breakers, and flickering lights
-- New circuits, panel additions, rewiring, and code corrections
+## Who does the work
 
 **Licensed electricians perform the electrical work** — fixture and fan installation, outlets and switches, new circuits, panel work, rewiring, and code corrections alike. We scope the job, coordinate their schedule, and keep it under one estimate, so it stays part of the same job rather than a separate call.
+
+If a ceiling fan is the whole job, [ceiling fan installation](/services/ceiling-fan-installation/) covers that on its own.
 
 ## One job, one estimate
 
