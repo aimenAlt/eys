@@ -7,7 +7,7 @@ metaDescription: "Video doorbell, smart lock, smart thermostat, and mesh Wi-Fi i
 heroTitle: "Smart Home Installation — Safely Scoped, Clearly Explained"
 summary: "Video doorbells, smart locks, smart thermostats on existing wiring, smart switches on existing circuits, and mesh Wi-Fi placement — installed correctly, with clear limits on anything that touches wiring."
 heroImage: "/images/services/smart-home-installation.jpg"
-heroImageAlt: "Smart video doorbell and smart lock installed on a front entry door"
+heroImageAlt: "A digital thermostat mounted on a plaster wall beside a window"
 bookingType: "quote-request"
 primaryCTA: "Book a Smart Home Setup"
 secondaryCTA: "Call Us"

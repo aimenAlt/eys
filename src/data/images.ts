@@ -69,7 +69,35 @@ export const cityHeroImages: Record<string, string> = {
   'west-houston': '/images/heroes/west-houston.jpg',
 };
 
+/**
+ * LICENSED STOCK — NOT EYS's OWN WORK.
+ *
+ * Four service pages have no EYS photograph of that work yet, and were shipping
+ * the branded placeholder. These are Pexels photographs, verified individually
+ * against the frame before use and confirmed "Free to use" under the Pexels
+ * License (commercial use permitted, no attribution required), checked
+ * 2026-09-13. They are ILLUSTRATION, not proof: alt text must describe what is
+ * in the frame and must never imply EYS built or installed it. Replace each one
+ * as soon as a real job photo exists.
+ *
+ *   after-hours-repairs      pexels.com/photo/5691693  (Faceless man repairing door in room)
+ *   furniture-assembly       pexels.com/photo/5805494  (Hammer, screwdrivers and assembly instructions)
+ *   smart-home-installation  pexels.com/photo/27638181 (Digital thermostat on a wall next to a window)
+ *   limewash-walls           pexels.com/photo/27522843 (Studio with limewash textured walls and wood armchair)
+ *
+ * Still on the placeholder and needing a real photo from Eyad:
+ *   grab-bar-installation, babyproofing-child-safety
+ */
+const licensedStockHeroImages: Record<string, string> = {
+  'after-hours-repairs': '/images/services/after-hours-repairs.jpg',
+  'furniture-assembly': '/images/services/furniture-assembly.jpg',
+  'smart-home-installation': '/images/services/smart-home-installation.jpg',
+  'limewash-walls': '/images/services/limewash-walls.jpg',
+};
+
+/** EYS's own project photography, except where merged from the stock block below. */
 export const serviceHeroImages: Record<string, string> = {
+  ...licensedStockHeroImages,
   'handyman-to-do-list': '/images/services/general-handyman.jpg',
   'tv-mounting': '/images/services/tv-mounting.jpg',
   'ceiling-fan-installation': '/images/services/ceiling-fan.jpg',
@@ -87,14 +115,12 @@ export const serviceHeroImages: Record<string, string> = {
   'curtain-installation': '/images/services/curtain-install.jpg',
   'media-walls': '/images/services/media-walls.jpg',
   'closet-shelving-organization': '/images/services/closet-shelving-organization.jpg',
-  'smart-home-installation': '/images/services/smart-home-installation.jpg',
   'wallpaper-accent-wall-installation': '/images/services/wallpaper-accent-wall-installation.jpg',
   'picture-hanging-floating-shelves': '/images/services/picture-hanging-floating-shelves.jpg',
   'babyproofing-child-safety': '/images/services/babyproofing-child-safety.jpg',
   'garage-storage-solutions': '/images/services/garage-storage-solutions.jpg',
   'tile-installation': '/images/services/tile-installation.jpg',
   'whole-project-remodeling': '/images/services/whole-project-remodeling.jpg',
-  'after-hours-repairs': '/images/services/after-hours-repairs.jpg',
 };
 
 export const categoryHeroImages: Record<string, string> = {
