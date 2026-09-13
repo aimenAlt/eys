@@ -5,7 +5,21 @@ import { imageOrPlaceholder } from '../../data/images';
 import StartJobberLink from './StartJobberLink.astro';
 import StartVideoCaption from './StartVideoCaption.astro';
 
-const video = startLanding.images.videos.builtIn;
+/**
+ * Shows the lit-shelves still, which used to lead the page. The hero now opens
+ * with the built-in video instead — footage of a finished wall sells the work
+ * harder than a photograph — so the two simply traded places. Same trade as
+ * `/services/media-walls/`, and it keeps `/start/` from playing one clip twice.
+ *
+ * The section keeps its autoplay data attributes even though it no longer holds
+ * a video: they are what makes the in-view script report
+ * `mediaWallCrossSellView` for this placement, which is a genuine cross-sell
+ * (someone who came to `/start/` for handyman work, shown a media wall).
+ */
+const featured = {
+  ...startLanding.images.hero,
+  src: imageOrPlaceholder(startLanding.images.hero.src),
+};
 const still = {
   ...startLanding.images.videos.builtInStill,
   src: imageOrPlaceholder(startLanding.images.videos.builtInStill.src),
@@ -50,23 +64,16 @@ const still = {
       <figure
         class="relative col-span-2 overflow-hidden rounded-xl bg-white/5 shadow-card ring-1 ring-white/10 sm:col-span-1 sm:col-start-1"
       >
-        <video
+        <SiteImage
+          src={featured.src}
+          alt={featured.alt}
+          width={featured.width}
+          height={featured.height}
+          loading="lazy"
+          sizes="(max-width: 640px) 100vw, 28vw"
           class="aspect-[3/4] h-auto w-full object-cover"
-          data-eys-autoplay-video-el
-          poster={video.poster}
-          width={video.width}
-          height={video.height}
-          muted
-          loop
-          playsinline
-          preload="none"
-          disablepictureinpicture
-          aria-label={video.label}
-        >
-          <source data-src={video.src} type="video/mp4" />
-        </video>
-        <StartVideoCaption label="Custom Media Wall" placement="video_builtin" />
-        <figcaption class="sr-only">{video.label}</figcaption>
+        />
+        <StartVideoCaption label={featured.label} placement="video_builtin" />
       </figure>
       <figure class="relative hidden overflow-hidden rounded-xl shadow-card sm:block">
         <SiteImage

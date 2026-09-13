@@ -44,6 +44,12 @@ export const startLanding = {
   },
 
   images: {
+    /**
+     * The page's OG / link-preview image. It no longer leads the hero — that
+     * now opens with `videos.builtIn`, the same media wall footage that leads
+     * `/services/media-walls/` — so this frame renders further down in
+     * StartVideoBuiltIn instead. The two traded places.
+     */
     hero: {
       src: mediaWallsLanding.images.hero.src,
       alt: mediaWallsLanding.images.hero.alt,
@@ -108,6 +114,7 @@ export const startLanding = {
       },
     ],
     videos: {
+      /** Leads the hero. Do not also render it lower on the page. */
       builtIn: mediaWallsLanding.images.videos.builtIn,
       slat: mediaWallsLanding.images.videos.slat,
       builtInStill: {

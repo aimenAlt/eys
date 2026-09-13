@@ -1,15 +1,31 @@
 ---
-import SiteImage from '../ui/SiteImage.astro';
 import { startLanding } from '../../data/startLanding';
-import { imageOrPlaceholder } from '../../data/images';
 import StartCallLink from './StartCallLink.astro';
 import StartChooseLink from './StartChooseLink.astro';
 import StartJobberLink from './StartJobberLink.astro';
 import MediaWallEstimateLink from '../media-wall-landing/MediaWallEstimateLink.astro';
 import { site } from '../../data/business';
 
-const hero = startLanding.images.hero;
-const heroSrc = imageOrPlaceholder(hero.src);
+/**
+ * The hero leads with footage of a finished media wall rather than a still,
+ * matching `/services/media-walls/`. The poster paints immediately (~56KB) so
+ * LCP is unaffected; the mp4 itself is lazy — `preload="none"` plus a `data-src`
+ * the in-view script swaps in.
+ *
+ * It renders twice because the two breakpoints place it differently: full-bleed
+ * behind the copy on mobile, and as a captioned figure in the right column on
+ * desktop. Exactly one is displayed at a time and the script only loads the copy
+ * that is actually rendered, so the file is never fetched twice.
+ *
+ * `startLanding.images.hero` is still the page's OG image and now renders
+ * further down in StartVideoBuiltIn — the two simply traded places.
+ *
+ * The section opts out of `mediaWallCrossSellView`: that event counts a media
+ * wall surfaced to someone who came for something else, and a hero fires on
+ * essentially every pageview, which would swamp the deeper sections it exists
+ * to measure.
+ */
+const heroVideo = startLanding.images.videos.builtIn;
 
 /**
  * Both tiles are links straight into the matching Jobber form — they read as
@@ -27,18 +43,25 @@ const offerArrowClass = 'ml-1.5 text-brand-redondark';
 <section
   class="relative overflow-hidden bg-brand-black px-4 pb-10 pt-8 text-white sm:px-6 sm:pb-14 sm:pt-10 lg:px-8"
   aria-labelledby="start-hero-heading"
+  data-eys-autoplay-video
+  data-video-source-page="start"
+  data-no-cross-sell-event
 >
   <div class="absolute inset-0 lg:hidden" aria-hidden="true">
-    <SiteImage
-      src={heroSrc}
-      alt=""
-      width={hero.width}
-      height={hero.height}
-      loading="eager"
-      fetchpriority="high"
-      sizes="100vw"
+    <video
       class="h-full w-full object-cover object-[center_30%]"
-    />
+      data-eys-autoplay-video-el
+      poster={heroVideo.poster}
+      width={heroVideo.width}
+      height={heroVideo.height}
+      muted
+      loop
+      playsinline
+      preload="none"
+      disablepictureinpicture
+    >
+      <source data-src={heroVideo.src} type="video/mp4" />
+    </video>
     <div class="absolute inset-0 bg-brand-black/55"></div>
     <div
       class="absolute inset-0 bg-gradient-to-b from-brand-black/50 via-brand-black/60 to-brand-black/80"
@@ -100,20 +123,25 @@ const offerArrowClass = 'ml-1.5 text-brand-redondark';
     </div>
 
     <figure class="relative mx-auto hidden w-full max-w-md overflow-hidden rounded-xl lg:block lg:max-w-none">
-      <SiteImage
-        src={heroSrc}
-        alt={hero.alt}
-        width={hero.width}
-        height={hero.height}
-        loading="eager"
-        fetchpriority="high"
-        sizes="(max-width: 1024px) 0px, 560px"
-        class="aspect-[3/4] h-full w-full object-cover"
-      />
+      <video
+        class="aspect-[3/4] h-auto w-full object-cover"
+        data-eys-autoplay-video-el
+        poster={heroVideo.poster}
+        width={heroVideo.width}
+        height={heroVideo.height}
+        muted
+        loop
+        playsinline
+        preload="none"
+        disablepictureinpicture
+        aria-label={heroVideo.label}
+      >
+        <source data-src={heroVideo.src} type="video/mp4" />
+      </video>
       <figcaption
         class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-4 pb-4 pt-10 text-sm font-bold text-white"
       >
-        {hero.label}
+        {heroVideo.label}
       </figcaption>
     </figure>
   </div>
