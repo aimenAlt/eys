@@ -36,8 +36,7 @@ const description =
   data.metaDescription ?? data.summary ?? `Professional ${data.title} in Katy and West Houston.`;
 const heroSrc = resolveServiceHero(data.slug, data.heroImage);
 const ogImage = resolveOgImage(data.heroImage ?? heroSrc);
-const ogImageAlt =
-  data.heroImageAlt ?? `${data.title} project by Elevate Your Space Handyman in Katy and West Houston`;
+const ogImageAlt = data.heroImageAlt;
 
 const communityLinks = featuredCommunities.map((c) => ({
   title: c.data.title,

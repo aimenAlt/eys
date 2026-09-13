@@ -9,6 +9,7 @@ import ServiceIncluded from '../components/services/ServiceIncluded.astro';
 import ServiceProcess from '../components/services/ServiceProcess.astro';
 import CityServiceCrossLinks from '../components/city-services/CityServiceCrossLinks.astro';
 import { absoluteUrl, resolveOgImage } from '../data/business';
+import { defaultOgImageAlt } from '../data/images';
 import { resolveServiceHero } from '../data/images';
 import ServiceTrustStrip from '../components/seo/ServiceTrustStrip.astro';
 import { breadcrumbList, faqPage, serviceSchema, webPage } from '../data/schema';
@@ -30,8 +31,7 @@ const serviceUrl = `/services/${data.serviceSlug}/`;
 
 const heroImage =
   data.heroImage ?? service.data.heroImage ?? resolveServiceHero(data.serviceSlug);
-const heroImageAlt =
-  data.heroImageAlt ?? service.data.heroImageAlt ?? `${data.heroTitle} in ${city.data.title}`;
+const heroImageAlt = data.heroImageAlt ?? service.data.heroImageAlt ?? defaultOgImageAlt;
 const ogImage = resolveOgImage(heroImage);
 const ogImageAlt = heroImageAlt;
 
