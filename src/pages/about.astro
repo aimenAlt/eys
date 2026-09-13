@@ -1,6 +1,7 @@
 ---
 import ContentLayout from '../layouts/ContentLayout.astro';
 import PageHero from '../components/common/PageHero.astro';
+import ServiceTrustStrip from '../components/seo/ServiceTrustStrip.astro';
 import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
 import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
 import BalancedGrid from '../components/ui/BalancedGrid.astro';
@@ -59,6 +60,8 @@ const schemaGraph = [
       title="Veteran-Owned. Katy-Based. Accountable From Start to Finish."
       description="Elevate Your Space Handyman was founded by Eyad Essa to give West Houston homeowners a handyman they can rely on — with clear expectations, careful preparation, and accountable completion."
     />
+
+    <ServiceTrustStrip />
 
     <section class="py-16 bg-white">
       <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>

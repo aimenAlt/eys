@@ -32,7 +32,7 @@ const links = [
                 rel="noopener noreferrer"
                 data-track-review
                 data-cta-location="footer"
-                class="font-bold text-brand-redondark hover:underline"
+                class="inline-block py-1 font-bold text-brand-redondark hover:underline"
               >
                 {business.googleReviews.rating.toFixed(1)} ★ · {googleReviewCountDisplay()} Google
                 Reviews
@@ -44,7 +44,7 @@ const links = [
           <a
             href={`tel:${site.phoneTel}`}
             data-cta-location="footer"
-            class="hover:text-white"
+            class="inline-block py-1 hover:text-white"
           >
             {site.phone}
           </a>

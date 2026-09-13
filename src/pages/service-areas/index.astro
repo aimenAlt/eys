@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import ContentLayout from '../../layouts/ContentLayout.astro';
 import BreadcrumbNav from '../../components/seo/BreadcrumbNav.astro';
+import ServiceTrustStrip from '../../components/seo/ServiceTrustStrip.astro';
 import BalancedGrid from '../../components/ui/BalancedGrid.astro';
 import LocalAreaCTA from '../../components/areas/local/LocalAreaCTA.astro';
 import { absoluteUrl, site } from '../../data/business';
@@ -43,9 +44,10 @@ const schemaGraph = [
       ]}
     />
     <h1 class="text-4xl md:text-5xl font-extrabold text-brand-black mb-6 mt-6">Service Areas</h1>
-    <p class="text-lg text-gray-600 mb-10 max-w-3xl">
+    <p class="text-lg text-gray-600 mb-6 max-w-3xl">
       Elevate Your Space Handyman serves homeowners throughout Katy and West Houston.
     </p>
+    <div class="-mx-4 sm:-mx-6 lg:-mx-8 mb-10"><ServiceTrustStrip /></div>
     {
       areaCards.length > 0 ? (
         <BalancedGrid variant="card" items={areaCards} cols={3} gapClass="gap-6" />

@@ -2,6 +2,7 @@
 import { render } from 'astro:content';
 import ContentLayout from '../../layouts/ContentLayout.astro';
 import BreadcrumbNav from '../../components/seo/BreadcrumbNav.astro';
+import ServiceTrustStrip from '../../components/seo/ServiceTrustStrip.astro';
 import CTASection from '../../components/home/CTASection.astro';
 import BeforeAfter from '../../components/projects/BeforeAfter.astro';
 import ProjectCard from '../../components/projects/ProjectCard.astro';
@@ -94,6 +95,8 @@ const hasWorksheet =
         <p class="text-lg text-gray-600 max-w-3xl leading-relaxed">{data.summary}</p>
       </div>
     </header>
+
+    <ServiceTrustStrip />
 
     <section class="py-10 md:py-14 bg-white">
       <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
