@@ -14,6 +14,7 @@
  */
 
 import {
+  googleReviews,
   jobberHandymanToDoListFormUrl,
   jobberOnlineBookingUrl,
   jobberProjectEstimateFormUrl,
@@ -27,9 +28,15 @@ export const startLanding = {
   path: '/start/',
 
   seo: {
-    title: 'Start Your Project | EYS Handyman in Katy & West Houston',
+    title: 'Handyman in Katy & West Houston | Elevate Your Space Handyman',
+    // Review rating and count render from `googleReviews` — the single source of
+    // truth in business.ts. Never hardcode a figure here; it drifts from the
+    // trust strips within days.
     description:
-      'Veteran-owned handyman service in Katy, Cypress, and West Houston. Get a quote on any project, request a custom media wall, book high-ceiling curtain installation, or reserve a To-Do List Visit.',
+      `Veteran-owned, insured handyman serving Katy, Cypress, Cinco Ranch, Fulshear and Richmond. ` +
+      `To-Do List visits from ${formatUsdWhole(smallRepairPricing.oneHour)} for the first hour. ` +
+      `Rated ${googleReviews.rating.toFixed(1)} from ${googleReviews.countDisplay} Google reviews. ` +
+      `Send photos, get a price.`,
   },
 
   images: {

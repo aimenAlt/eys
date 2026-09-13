@@ -2,12 +2,62 @@
 import Logo from '../layout/Logo.astro';
 import StartCallLink from './StartCallLink.astro';
 import StartChooseLink from './StartChooseLink.astro';
+import { withBase } from '../../utils/paths';
+
+/**
+ * Navigation is here for ad quality, not SEO. Google announced on 5 Feb 2025 that
+ * it serves fewer ads to landing pages it judges non-navigable, and this header
+ * previously offered a logo and two CTAs with no way into the rest of the site.
+ * `/start/` stays noindexed and out of the sitemap, so these links pass no
+ * organic signal — do not count them when mapping the internal link graph.
+ *
+ * The disclosure below `md` is CSS-only (<details>/<summary>) so the header keeps
+ * working without JavaScript and the Call / Choose a Project buttons keep their
+ * current prominence on a phone.
+ */
+const navLinks = [
+  { label: 'Services', href: withBase('/services/') },
+  { label: 'Our Work', href: withBase('/our-work/') },
+  { label: 'Reviews', href: withBase('/reviews/') },
+  { label: 'Service Areas', href: withBase('/service-areas/') },
+  { label: 'About', href: withBase('/about/') },
+] as const;
+
+const linkClass =
+  'inline-flex min-h-11 items-center text-sm font-semibold text-white/75 hover:text-white';
 ---
 
 <header class="sticky top-0 z-50 border-b border-white/10 bg-brand-black">
-  <div class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+  <div class="relative mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
     <Logo class="shrink-0" />
+
+    <nav class="hidden md:flex md:flex-1 md:items-center md:justify-center md:gap-6" aria-label="Site">
+      {navLinks.map((link) => <a href={link.href} class={linkClass}>{link.label}</a>)}
+    </nav>
+
     <div class="flex shrink-0 items-center gap-2">
+      <details class="md:hidden" data-start-nav>
+        <summary
+          class="flex min-h-11 min-w-11 cursor-pointer list-none items-center justify-center rounded-md border border-white/20 px-3 text-sm font-semibold text-white/75 hover:text-white [&::-webkit-details-marker]:hidden"
+          aria-label="Site navigation"
+        >
+          Menu
+        </summary>
+        <ul
+          class="absolute right-4 top-full z-50 mt-1 w-52 rounded-md border border-white/15 bg-brand-black p-2 shadow-lg sm:right-6"
+          role="list"
+        >
+          {
+            navLinks.map((link) => (
+              <li>
+                <a href={link.href} class:list={[linkClass, 'w-full px-2']}>
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </details>
       <StartCallLink placement="header" variant="header" class="hidden sm:inline-flex">
         Call
       </StartCallLink>
