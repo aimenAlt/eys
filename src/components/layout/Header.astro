@@ -36,7 +36,7 @@ const simpleNavItems = mainNav.filter(
                         <NavLink href={item.href} label={item.label} class={desktopLinkClass} activeClass={desktopActiveClass} />
                     ))}
                     <NavDropdown menu={navMenus.services} linkClass={desktopLinkClass} />
-                    <NavDropdown menu={navMenus.serviceAreas} linkClass={desktopLinkClass} />
+                    <NavLink href="/service-areas/" label="Service Areas" class={desktopLinkClass} activeClass={desktopActiveClass} />
                     {simpleNavItems.slice(2).map((item) => (
                         <NavLink href={item.href} label={item.label} class={desktopLinkClass} activeClass={desktopActiveClass} />
                     ))}
@@ -95,10 +95,9 @@ const simpleNavItems = mainNav.filter(
                 <NavLink href={item.href} label={item.label} class={mobileLinkClass} closeMobileMenu />
             ))}
             <NavMobileAccordion menu={navMenus.services} mobileLinkClass={mobileLinkClass} />
-            <NavMobileAccordion menu={navMenus.serviceAreas} mobileLinkClass={mobileLinkClass} />
+            <NavLink href="/service-areas/" label="Service Areas" class={mobileLinkClass} closeMobileMenu />
             <NavLink href="/pricing/" label="Pricing" class={mobileLinkClass} closeMobileMenu />
             <NavLink href="/reviews/" label="Reviews" class={mobileLinkClass} closeMobileMenu />
-            <NavLink href="/blog/" label="Blog" class={mobileLinkClass} closeMobileMenu />
             <a href={`tel:${site.phoneTel}`} data-cta-location="header_mobile" class="block px-3 py-3 mt-4 bg-brand-red text-white text-center rounded-md font-bold text-lg">Call: {site.phone}</a>
         </nav>
     </div>
