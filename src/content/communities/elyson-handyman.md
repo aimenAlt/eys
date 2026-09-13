@@ -25,7 +25,7 @@ commonProjects:
   - name: "Media Walls"
     description: "high-end slatted wood feature walls for entertainment centers"
   - name: "Painting"
-    description: "flawless accent walls in standard builder layouts"
+    description: "clean accent walls in standard builder layouts"
   - name: "Light Fixture & Ceiling Fan Installation"
     description: "improved ambiance and airflow"
   - name: "Garage Storage"
@@ -39,7 +39,7 @@ commonProjects:
 whyChoose: "We deeply respect the investment you have made in your Elyson home. EYS stands out by providing highly accurate estimates, arriving strictly on schedule, and maintaining an exceptionally clean workspace with drop cloths and dust-extraction equipment."
 goodFit: "A highly requested project is the \"Family Organization Package\": a custom drop-zone for Katy ISD or Cy-Fair ISD backpacks, heavy-duty garage racks for bikes used at Speedway Park, and a securely mounted TV in the family room."
 localLifestyle: "Elyson is built for active living — Adventure Point, Elyson House, and community events on the great lawn. You should not spend your Saturday frustrated with a tape measure and drywall anchors. EYS gives you your weekend back."
-process: "Send pictures and project details through our online form. EYS scopes the work with a transparent project outline, schedules a punctual visit, executes the job flawlessly, and cleans up completely before departure."
+process: "Send pictures and project details through our online form. EYS scopes the work with a transparent project outline, schedules a punctual visit, executes the job, and cleans up completely before departure."
 faqs:
   - question: "Can you build custom mudroom benches to match my existing Elyson home trim?"
     answer: "Yes, EYS can seamlessly match modern prairie or traditional trim styles so built-ins look original to the home."

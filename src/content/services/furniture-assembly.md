@@ -19,7 +19,7 @@ priceFactors:
   - "Number of pieces"
   - "Complexity of assembly"
   - "Brand and item type"
-  - "Same-day scheduling"
+  - "Same-day versus scheduled visit"
 process:
   - "Tell us what needs assembling"
   - "Get a clear estimate"

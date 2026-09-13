@@ -13,7 +13,7 @@ localIntro: "Cane Island is famously \"delightfully different,\" offering a reso
 servicesIntro: "We specialize exclusively in aesthetic enhancements that elevate your interior spaces without disrupting your home's refined design or risking damage to premium finishes."
 commonProjects:
   - name: "TV Mounting"
-    description: "flawless mounting on custom stone, tile, or shiplap fireplaces"
+    description: "level, securely anchored mounting on custom stone, tile, or shiplap fireplaces"
   - name: "Curtain Installation"
     description: "heavy custom drapery at exact heights for oversized windows"
   - name: "Wall-Mounted Shelving"
@@ -37,7 +37,7 @@ commonProjects:
   - name: "Outdoor/Patio Improvements"
     description: "outdoor kitchen and patio enhancements for evening entertaining"
 whyChoose: "Cane Island homes are finished with hardwood, stone, and millwork that are expensive to put right once they are damaged. EYS utilizes rigorous project scoping, aggressively protects hardwood and stone floors, uses HEPA dust-extraction during carpentry, and conducts ourselves with absolute professionalism."
-goodFit: "We excel at high-end visual centerpieces: a custom slatted-wood media wall, an 85-inch TV securely mounted above the fireplace, and a heavy statement chandelier in the dining room — all delivered flawlessly."
+goodFit: "Common Cane Island requests are visual centerpieces: a custom slatted-wood media wall, an 85-inch TV mounted above the fireplace, and a heavy statement chandelier in the dining room."
 localLifestyle: "Cane Island is designed for leisure — dining at The Oaks Kitchen, enjoying Cane Quarter, or admiring the Ambassador Suite treehouse. Let EYS handle the intricate technical details so you can fully enjoy the sophisticated lifestyle Cane Island offers."
 process: "Provide details and photos through our secure form. EYS scopes the work with a transparent estimate, arrives punctually and fully prepared, executes with precision, and performs a meticulous cleanup."
 faqs:

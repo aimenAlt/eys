@@ -13,7 +13,7 @@ localIntro: "Bridgeland is a visionary Howard Hughes community where stunning ar
 servicesIntro: "We focus exclusively on high-quality aesthetic and functional upgrades, deeply respecting your home's luxury finishes and the strict guidelines enforced by the Bridgeland HOA."
 commonProjects:
   - name: "TV Mounting"
-    description: "flawless mounting on high-end drywall, shiplap, or luxury stone fireplaces"
+    description: "level, securely anchored mounting on high-end drywall, shiplap, or luxury stone fireplaces"
   - name: "Curtain Installation"
     description: "precise installation of heavy luxury window treatments"
   - name: "Wall-Mounted Shelving"
@@ -37,9 +37,9 @@ commonProjects:
   - name: "Outdoor/Patio Improvements"
     description: "covered spaces for lakeside entertaining"
 whyChoose: "Our commitment to excellence aligns with the Bridgeland ethos. We utilize rigorous project scoping, careful on-site habits, protective gear for expensive floors, and HEPA vacuums for meticulous cleanup."
-goodFit: "We excel at high-impact visual upgrades: a custom media wall, heavy-duty TV mounting, and precise installation of a heavy statement chandelier in a two-story dining room."
+goodFit: "Common requests here are high-impact visual upgrades: a custom media wall, heavy-duty TV mounting, and precise installation of a heavy statement chandelier in a two-story dining room."
 localLifestyle: "Bridgeland offers 250 miles of trails, kayaking on Josey Lake, and recreation at Dragonfly Park. Let EYS handle the heavy lifting so you can grab your bike or kayak and enjoy the true Bridgeland experience."
-process: "Send photos of your vision through our online portal. EYS scopes the work with a detailed estimate, arrives exactly when promised, executes flawlessly, and leaves your home spotless."
+process: "Send photos of your vision through our online portal. EYS scopes the work with a detailed estimate, arrives at the agreed time, and cleans up before leaving."
 faqs:
   - question: "Are you familiar with the strict Architectural Review Committee (ARC) guidelines in Bridgeland?"
     answer: "Yes, we understand that exterior modifications require strict adherence to Bridgeland's ACC/ARC standards regarding materials and aesthetics. One exception worth knowing: under Texas Property Code § 202.023, the ARC cannot outright ban a security camera or video doorbell on your own property, though it can still regulate placement and appearance."
