@@ -103,3 +103,9 @@
 # somewhere valid instead of 404ing. Link to the TARGET, never this source.
 /blog/hoa-patio-updates-bridgeland/ /service-areas/cypress/bridgeland-handyman/ 301
 /blog/hoa-patio-updates-bridgeland /service-areas/cypress/bridgeland-handyman/ 301
+
+# Smart home retired 2026-09-13 (EYS is not taking that work at the moment).
+# Redirected rather than deleted so any live Google Ads keyword, sitelink or
+# asset still lands on a valid page. Link to the TARGET, never this source.
+/services/smart-home-installation/ /services/electrical-services/ 301
+/services/smart-home-installation /services/electrical-services/ 301

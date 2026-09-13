@@ -1,7 +1,11 @@
 ---
+# UNPUBLISHED 2026-09-13: EYS is not taking smart-home work at the moment.
+# The file is kept for history; /services/smart-home-installation/ 301s to
+# /services/electrical-services/ so any live Google Ads target still lands
+# somewhere valid. Do not republish without the owner's say-so.
 title: "Smart Home Installation"
 slug: "smart-home-installation"
-published: true
+published: false
 seoTitle: "Smart Home Installation | Katy & West Houston | EYS"
 metaDescription: "Video doorbell, smart lock, smart thermostat, and mesh Wi-Fi installation in Katy and West Houston — no unlicensed electrical work, clear scope every time."
 heroTitle: "Smart Home Installation — Safely Scoped, Clearly Explained"

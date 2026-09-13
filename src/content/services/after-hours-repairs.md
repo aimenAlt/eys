@@ -71,7 +71,7 @@ Active plumbing emergencies need a licensed plumber, and regulated electrical wo
 
 ## Related services and next steps
 
-Same-night work most often turns into [door repair and installation](/services/door-repair-installation/), [drywall repair](/services/drywall-repair/), or [smart home installation](/services/smart-home-installation/) for a lock or camera upgrade after the fact. This service sits in [repairs and maintenance](/services/repairs-and-maintenance/). Serving [Katy](/service-areas/katy/), [Cypress](/service-areas/cypress/), [Fulshear](/service-areas/fulshear/), and [Richmond](/service-areas/richmond/).
+Same-night work most often turns into [door repair and installation](/services/door-repair-installation/), [drywall repair](/services/drywall-repair/). Lock and hardware upgrades after the fact are [door repair and installation](/services/door-repair-installation/) work too. This service sits in [repairs and maintenance](/services/repairs-and-maintenance/). Serving [Katy](/service-areas/katy/), [Cypress](/service-areas/cypress/), [Fulshear](/service-areas/fulshear/), and [Richmond](/service-areas/richmond/).
 
 ## Need someone tonight?
 

@@ -61,7 +61,7 @@ Gulf Coast humidity is tough on wood doors in [Cinco Ranch](/service-areas/katy/
 
 ## Free estimate and related pages
 
-Photos of the door (both sides if possible), notes about sticking or hardware issues, and whether you already purchased a replacement door help us quote accurately. Door work sits with our [repairs and maintenance](/services/repairs-and-maintenance/) services. Related pages: [custom carpentry](/services/custom-carpentry/) for casing or trim details, [drywall repair](/services/drywall-repair/) when hinge or strike work leaves wall scars, and the [Katy](/service-areas/katy/) area hub. Upgrading to a smart lock while your hardware is already off the door? See [smart home installation](/services/smart-home-installation/).
+Photos of the door (both sides if possible), notes about sticking or hardware issues, and whether you already purchased a replacement door help us quote accurately. Door work sits with our [repairs and maintenance](/services/repairs-and-maintenance/) services. Related pages: [custom carpentry](/services/custom-carpentry/) for casing or trim details, [drywall repair](/services/drywall-repair/) when hinge or strike work leaves wall scars, and the [Katy](/service-areas/katy/) area hub.
 
 ## Ready for a free estimate?
 
