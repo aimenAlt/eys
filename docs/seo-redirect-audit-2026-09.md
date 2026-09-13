@@ -137,6 +137,41 @@ produced 13 impressions and zero clicks** — the overhang has already evaporate
 its own. Weighted positions of 39–70 put these URLs on results pages four through
 seven. That is not equity waiting to be recovered; it is a large denominator.
 
+### CLOSED — 2026-09-13. Do not publish any of the 18.
+
+The 18 city-service files were read in full to test whether they were genuinely
+distinct documents or 18 fills of one template. **They are neither, and the answer
+closes the question.**
+
+Their prose is real — the Katy and Richmond versions of a service are not
+noun-swaps, they cite different neighborhoods and take different angles, and
+shared phrasing across files is statistical noise. But their structure is rigid in
+the one dimension that matters: **18 of 18 have exactly one H2, 16 of 18 have
+exactly one FAQ, 17 of 18 follow an identical three-move shape** (H2 naming
+service and city → a paragraph of local colour → a link-out line), and 13 of 18
+list exactly three neighborhoods. And **the bodies run 42 to 124 words**, median
+around 80, against 800+ on the service pages.
+
+Original sentences do not rescue an 80-word page. One H2, one FAQ and one fixed
+shape replicated eighteen times is the crawl-suppression fingerprint reproduced in
+a new collection.
+
+Publishing one as a controlled test was considered and rejected. The best
+candidate, `kitchen-remodeling-katy`, is the longest body in the set at 124 words
+— too thin for a null result to be interpretable, since failure could not be
+attributed to the page or to the premise. Commissioning a deep version instead was
+also rejected: the clicks figures below have already answered the question the
+test would ask, and on its own merits a Katy kitchen page still loses the slot
+(kitchen sits around position 62 and is one of the two worst-closing categories in
+the quote data, while carpentry is already at 9.07 and outdoor carries a 31% win
+rate with copy already written).
+
+**Reopening condition — the only one.** Revisit this only if the legacy geo set
+starts showing **clicks**, not impressions. The figure to argue against is:
+**20 clicks on 48,452 impressions over 16 months, and zero clicks on 13
+impressions in the last 28 days.** An argument from the impression headline alone
+is not sufficient to reopen it, and that headline is recorded above as a mistake.
+
 ### The other two reasons
 
 **It would reverse a deliberate decision.** The 18 city-service pages were set
