@@ -14,22 +14,32 @@
  */
 
 import {
+  areaServedDisplay,
+  googleReviewCountDisplay,
+  googleReviews,
   jobberHandymanToDoListFormUrl,
   jobberOnlineBookingUrl,
   jobberProjectEstimateFormUrl,
+  site,
 } from './business';
 import { curtainLanding, formatUsd as formatUsdWhole } from './curtainLanding';
 import { homeImageAlts, homeImages } from './images';
 import { mediaWallsLanding } from './mediaWalls';
-import { formatUsd as formatUsdExact, smallRepairPricing } from './smallRepairPricing';
+import { formatUsd as formatUsdExact, smallRepairPricing } from './pricing/todoList';
 
 export const startLanding = {
   path: '/start/',
 
   seo: {
-    title: 'Start Your Project | EYS Handyman in Katy & West Houston',
+    title: 'Handyman in Katy & West Houston | Elevate Your Space Handyman',
+    // Review rating and count render from `googleReviews` — the single source of
+    // truth in business.ts. Never hardcode a figure here; it drifts from the
+    // trust strips within days.
     description:
-      'Veteran-owned handyman service in Katy, Cypress, and West Houston. Get a quote on any project, request a custom media wall, book high-ceiling curtain installation, or reserve a To-Do List Visit.',
+      `Veteran-owned, insured handyman serving Katy, Cypress, Cinco Ranch, Fulshear and Richmond. ` +
+      `To-Do List visits from ${formatUsdWhole(smallRepairPricing.oneHour)} for the first hour. ` +
+      `Rated ${googleReviews.rating.toFixed(1)} from ${googleReviewCountDisplay()} Google reviews. ` +
+      `Send photos, get a price.`,
   },
 
   images: {
@@ -213,7 +223,7 @@ export function startFaqs() {
     {
       question: 'Can I just call instead of booking online?',
       answer:
-        'Yes. Call (346) 820-1629 and we will help you choose the right next step. Online booking is available if you prefer to pick a time or send photos without waiting on the phone.',
+        `Yes. Call ${site.phone} and we will help you choose the right next step. Online booking is available if you prefer to pick a time or send photos without waiting on the phone.`,
     },
     {
       question: 'Do you handle remodeling and general contracting?',
@@ -232,7 +242,7 @@ export function startFaqs() {
     {
       question: 'What areas do you serve?',
       answer:
-        'Elevate Your Space is veteran-owned and locally operated, serving Katy, Cypress, Fulshear, Richmond, and West Houston.',
+        `Elevate Your Space is veteran-owned and locally operated, serving ${areaServedDisplay()}.`,
     },
     {
       question: 'I scanned the QR on your letter. What happens next?',

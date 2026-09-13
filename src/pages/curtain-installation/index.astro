@@ -19,6 +19,7 @@ import { absoluteUrl } from '../../data/business';
 import {
   curtainFaqs,
   curtainLanding,
+  formatUsd,
 } from '../../data/curtainLanding';
 import {
   breadcrumbList,
@@ -34,7 +35,10 @@ const heroImage = curtainLanding.images.hero.src;
 const seo = {
   title: 'High Ceiling Curtain Installation in Katy, TX | EYS Handyman',
   description:
-    'Professional high-ceiling curtain rod and track installation in Katy and West Houston. Rod installation from $799. Track installation from $1,199. Book your installation online.',
+    `Professional high-ceiling curtain rod and track installation in Katy and West Houston. ` +
+    `Rod installation from ${formatUsd(curtainLanding.pricing.highCeiling.rod.startingAt)}. ` +
+    `Track installation from ${formatUsd(curtainLanding.pricing.highCeiling.track.startingAt)}. ` +
+    `Book your installation online.`,
   canonical: pageUrl,
   ogImage: heroImage,
   ogImageAlt: curtainLanding.images.hero.alt,

@@ -7,8 +7,8 @@ export const vanCampaign = {
   source: 'vehicle_wrap',
   medium: 'qr',
   /** E.164 for van landing tap-to-call (spec requires +1). */
-  phoneTel: '+13468201629',
-  phoneDisplay: '(346) 820-1629',
+  phoneTel: `+1${business.phoneTel}`,
+  phoneDisplay: business.phone,
 } as const;
 
 function attributed(raw: string | undefined, content: string): string | undefined {

@@ -3,7 +3,7 @@ legacySlug: "handyman-service-richmond"
 citySlug: "richmond"
 serviceSlug: "general-handyman-services"
 seoTitle: "Handyman Service in Richmond, TX | Elevate Your Space Handyman"
-metaDescription: "Reliable handyman service in Richmond, TX — punch-list repairs, installations, and home upgrades for Fort Bend homeowners."
+metaDescription: "Handyman service in Richmond, TX — punch-list repairs, installations, and home upgrades for Fort Bend homeowners."
 heroTitle: "Handyman Service in Richmond, TX"
 summary: "Full-service handyman support in Richmond — multiple repairs, installations, and upgrades in one coordinated visit."
 heroImage: "/images/services/general-handyman.jpg"
@@ -31,6 +31,6 @@ published: false
 
 ## Handyman service for Richmond and Fort Bend
 
-Richmond homeowners need a reliable partner for punch lists that span vanities, fans, TV mounts, garage storage, and small repairs — not a different contractor for every item. Elevate Your Space serves Aliana, Harvest Green, Veranda, and surrounding Fort Bend neighborhoods with clear free estimates and thorough cleanup.
+Richmond homeowners need one visit for punch lists that span vanities, fans, TV mounts, garage storage, and small repairs — not a different contractor for every item. Elevate Your Space serves Aliana, Harvest Green, Veranda, and surrounding Fort Bend neighborhoods with clear free estimates and thorough cleanup.
 
 Start at the [Richmond service area](/service-areas/richmond/) hub or browse [general handyman services](/services/general-handyman-services/) for the regional overview.

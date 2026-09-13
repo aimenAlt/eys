@@ -1,5 +1,7 @@
 /**
  * Handyman To-Do List Visit labor pricing — single source of truth for UI, calculator, and schema.
+ * Lives in `src/data/pricing/` with every other price on the site; service copy
+ * and FAQs stay in the matching `src/data/*.ts` content file.
  * Do not invent a 90-minute (1.5h) price; approved options start at 1h, then 2h+.
  *
  * The three-hour tier is a deliberate flat round-number rate ($399), not

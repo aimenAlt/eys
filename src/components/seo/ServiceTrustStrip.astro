@@ -1,5 +1,5 @@
 ---
-import { googleReviews, googleReviewProfileUrl } from '../../data/business';
+import { googleReviewCountDisplay, googleReviewProfileUrl, googleReviews } from '../../data/business';
 import { contentMaxClass, contentPaddingClass } from '../../data/layout';
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 const { locationName } = Astro.props;
 const gbpUrl = googleReviewProfileUrl();
 const ratingLabel = googleReviews.rating.toFixed(1);
-const reviewLabel = `${googleReviews.countDisplay}`;
+const reviewLabel = `${googleReviewCountDisplay()}`;
 const proofLine = locationName
   ? `${ratingLabel} ★ from ${reviewLabel} Google reviews — serving ${locationName}`
   : `${ratingLabel} ★ · ${reviewLabel} Google reviews`;

@@ -12,22 +12,30 @@ export const site = {
 };
 
 /**
- * Google Business Profile aggregate stats.
- * Confirmed from live GBP screenshot 2026-08-04: 5.0 stars, 158 reviews.
+ * Google Business Profile aggregate stats — the SINGLE SOURCE for every review
+ * claim on the site. Do not hardcode a count, a rating, or a "N+" string in any
+ * other file: import `googleReviews` and call `googleReviewCountDisplay()` or
+ * read `rating` instead. Three different figures (158, 160+, 150+) were live
+ * simultaneously before this was consolidated.
+ *
  * Paste your GBP URL into profileUrl (e.g. https://g.page/...) — sameAs syncs automatically.
  */
 export const googleReviews = {
-  /**
-   * Confirmed 160 from live GBP, 26 Aug 2026. The count climbs continuously, so
-   * display copy uses `countDisplay` ("160+") rather than this exact figure —
-   * a hardcoded exact number goes stale within days and reads as inaccurate.
-   * Update both together if you refresh this.
-   */
-  count: 160,
-  countDisplay: '160+',
+  // Verified against live GBP knowledge panel 2026-09-13: 5.0 stars, 162 reviews.
+  count: 162,
   rating: 5.0,
   profileUrl: 'https://maps.app.goo.gl/GizAsdkXmcphcMAj6' as string,
 };
+
+/**
+ * Public review-count claim, rounded DOWN to the nearest ten so the displayed
+ * figure is never higher than the verified count: 162 -> "160+", 171 -> "170+".
+ * Derived on purpose — a hand-typed string went stale every time the count
+ * crossed a ten.
+ */
+export function googleReviewCountDisplay(count: number = googleReviews.count): string {
+  return `${Math.floor(count / 10) * 10}+`;
+}
 
 /**
  * Public profiles for entity SEO (JSON-LD sameAs) and footer links.
@@ -119,6 +127,17 @@ export function absoluteUrl(path: string): string {
   const base = import.meta.env.BASE_URL || '/';
   const clean = path.replace(/^\//, '');
   return `${origin}${base}${clean}`;
+}
+
+/**
+ * `areaServed` as prose, so copy interpolates the list instead of retyping it.
+ * City tier only — communities inside a city (Cinco Ranch, Elyson, Sunterra)
+ * live in the content collections, not here.
+ */
+export function areaServedDisplay(conjunction: 'and' | '&' = 'and'): string {
+  const cities = business.areaServed;
+  const last = cities[cities.length - 1];
+  return `${cities.slice(0, -1).join(', ')}, ${conjunction} ${last}`;
 }
 
 export function googleReviewProfileUrl(): string | undefined {

@@ -1,4 +1,5 @@
 import { withJobberFormId } from '../utils/utm';
+import { curtainPricing } from './pricing/curtains';
 /**
  * High-ceiling curtain installation Google Ads landing page (`/curtain-installation/`).
  *
@@ -34,37 +35,7 @@ export const curtainLanding = {
   mediaWallJobberUrl:
     'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/5067435/new' as string,
 
-  pricing: {
-    highCeiling: {
-      rod: {
-        label: 'Curtain rods',
-        startingAt: 799,
-        includedWindows: 3,
-        additionalWindow: 250,
-      },
-      track: {
-        label: 'Curtain tracks',
-        startingAt: 1199,
-        includedWindows: 3,
-        additionalWindow: 349,
-      },
-    },
-    /** Regular-height = half the high-ceiling tier (recorded pricing). */
-    regularCeiling: {
-      rod: {
-        label: 'Curtain rods',
-        startingAt: 399,
-        includedWindows: 3,
-        additionalWindow: 125,
-      },
-      track: {
-        label: 'Curtain tracks',
-        startingAt: 599,
-        includedWindows: 3,
-        additionalWindow: 175,
-      },
-    },
-  },
+  pricing: curtainPricing,
 
   highCeilingThresholdFt: 11,
 

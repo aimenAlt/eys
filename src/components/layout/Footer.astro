@@ -1,7 +1,7 @@
 ---
 import Logo from './Logo.astro';
 import { footerNav } from '../../data/navigation';
-import { business, googleReviewProfileUrl, site, socialProfiles } from '../../data/business';
+import { business, googleReviewCountDisplay, googleReviewProfileUrl, site, socialProfiles } from '../../data/business';
 import { withBase } from '../../utils/paths';
 
 const socialLinks = [
@@ -32,7 +32,7 @@ const socialLinks = [
                             data-cta-location="footer"
                             class="text-brand-red hover:underline font-medium"
                           >
-                            {business.googleReviews.rating.toFixed(1)} ★ · {business.googleReviews.countDisplay} Google Reviews
+                            {business.googleReviews.rating.toFixed(1)} ★ · {googleReviewCountDisplay()} Google Reviews
                           </a>
                         </p>
                       )

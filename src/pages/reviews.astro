@@ -5,7 +5,7 @@ import PageHero from '../components/common/PageHero.astro';
 import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
 import CTASection from '../components/home/CTASection.astro';
 import BalancedGrid from '../components/ui/BalancedGrid.astro';
-import { absoluteUrl, googleReviewProfileUrl, site } from '../data/business';
+import { absoluteUrl, googleReviewCountDisplay, googleReviewProfileUrl, googleReviews, site } from '../data/business';
 import { reviewsPageSchema } from '../data/schema';
 import { contentMaxClass, contentPaddingClass } from '../data/layout';
 
@@ -22,8 +22,8 @@ const reviewItems = reviews.map((entry) => ({
 }));
 
 const title = 'Customer Reviews for Elevate Your Space Handyman';
-const description =
-  'Read customer feedback about EYS repairs, installations, curtain work, carpentry and home-improvement projects. EYS holds a 5.0 rating from 158 Google reviews — verify the latest on Google.';
+const ratingLabel = googleReviews.rating.toFixed(1);
+const description = `Read customer feedback about EYS repairs, installations, curtain work, carpentry and home-improvement projects. EYS holds a ${ratingLabel} rating from ${googleReviewCountDisplay()} Google reviews — verify the latest on Google.`;
 const canonical = absoluteUrl('/reviews/');
 const gbpUrl = googleReviewProfileUrl();
 
@@ -44,7 +44,7 @@ const schemaGraph = reviewsPageSchema(canonical, description);
     <PageHero
       eyebrow="Customer Feedback"
       title="Customer Reviews"
-      description="Featured homeowner feedback plus our Google Business Profile rating — 5.0 stars from 158 reviews (confirm the latest count on Google)."
+      description={`Featured homeowner feedback plus our Google Business Profile rating — ${ratingLabel} stars from ${googleReviewCountDisplay()} reviews (confirm the latest count on Google).`}
     />
 
     <section class="py-10 bg-brand-lightbg border-y border-gray-200">

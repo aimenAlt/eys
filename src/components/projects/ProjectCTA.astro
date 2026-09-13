@@ -1,4 +1,6 @@
 ---
+import { site } from '../../data/business';
+
 interface Props {
   heading?: string;
   body?: string;
@@ -53,7 +55,7 @@ const {
           Request an Estimate
         </a>
         <a
-          href="tel:3468201629"
+          href={`tel:${site.phoneTel}`}
           class="inline-flex items-center justify-center border-2 border-brand-black text-brand-black px-8 py-3.5 rounded-md font-bold hover:bg-brand-black hover:text-white transition-colors min-h-11"
           data-gallery-cta="phone"
           data-cta-location={ctaLocation}

@@ -1,0 +1,103 @@
+---
+import { jobberProjectEstimateFormUrl } from '../../data/business';
+import MediaWallEstimateLink from './MediaWallEstimateLink.astro';
+
+/**
+ * Scope selector sitting directly under the hero.
+ *
+ * The page previously funnelled every visitor into the Media Wall Design
+ * Consultation form regardless of what they actually wanted built. A shiplap
+ * accent wall and a floor-to-ceiling fireplace build are not the same purchase,
+ * and sending both to the same questionnaire loses the smaller one.
+ *
+ * So the first two doors route to the general Project Estimate form and only
+ * the third keeps the design-consultation form. Doors differentiate by SCOPE,
+ * never by price — no figure appears here, and `mediaWallPriceRange` stays null.
+ *
+ * Attribution: `jobberProjectEstimateFormUrl()` stamps `eys_form=project-estimate`,
+ * and inbound UTMs / click IDs are forwarded onto every `getjobber.com` anchor at
+ * runtime by `jobber-attribution.ts` (site-wide via conversion-analytics.ts), so
+ * these links need no opt-in attribute to keep their attribution. GA4 booking type
+ * is inferred from the form id in `conversion-analytics.ts` — no new event name.
+ */
+const projectEstimateHref = jobberProjectEstimateFormUrl();
+
+const doors = [
+  {
+    title: 'Feature Wall',
+    body: 'Shiplap, board-and-batten, wood slat, tile or limewash. Finish carpentry only — no fireplace, nothing behind the drywall.',
+    placement: 'doors_feature',
+    cta: 'Send photos for a feature wall estimate',
+  },
+  {
+    title: 'Built-In Entertainment Center',
+    body: 'Cabinetry, lit niches, floating shelves and a console built around the TV. Clean cable paths planned before anything is cut.',
+    placement: 'doors_builtin',
+    cta: 'Send photos for a built-in estimate',
+  },
+] as const;
+
+const cardClass =
+  'flex flex-col rounded-xl border border-brand-line border-t-4 border-t-brand-red bg-white p-6';
+const ctaClass =
+  'mt-5 inline-flex min-h-11 items-center text-sm font-bold text-brand-red underline-offset-4 hover:underline';
+---
+
+<section
+  class="bg-brand-lightbg px-4 py-12 sm:px-6 sm:py-16 lg:px-8"
+  aria-labelledby="media-wall-doors-heading"
+>
+  <div class="mx-auto max-w-6xl">
+    <h2
+      id="media-wall-doors-heading"
+      class="text-2xl font-bold tracking-tight text-brand-black sm:text-3xl"
+    >
+      Three Ways to Build It
+    </h2>
+    <p class="mt-3 max-w-2xl text-base leading-relaxed text-brand-muted">
+      Scope is what separates these, not taste. Pick the one closest to what you have in mind —
+      we’ll confirm it in the estimate.
+    </p>
+
+    <div class="mt-8 grid gap-4 md:grid-cols-3">
+      {
+        doors.map((door) => (
+          <div class={cardClass}>
+            <h3 class="text-lg font-bold text-brand-black">{door.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-brand-charcoal sm:text-base">{door.body}</p>
+            <div class="mt-auto">
+              {projectEstimateHref ? (
+                <a
+                  href={projectEstimateHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-cta-location={door.placement}
+                  class={ctaClass}
+                >
+                  {door.cta}
+                </a>
+              ) : (
+                <span class:list={[ctaClass, 'cursor-not-allowed opacity-50']} role="link" aria-disabled="true">
+                  {door.cta}
+                </span>
+              )}
+            </div>
+          </div>
+        ))
+      }
+
+      <div class={cardClass}>
+        <h3 class="text-lg font-bold text-brand-black">Full Media Wall</h3>
+        <p class="mt-3 text-sm leading-relaxed text-brand-charcoal sm:text-base">
+          Floor-to-ceiling build with fireplace integration and power behind the display. A licensed
+          electrician is brought in when the scope needs one.
+        </p>
+        <div class="mt-auto">
+          <MediaWallEstimateLink placement="doors_full" variant="text" class="mt-5">
+            Send photos for a media wall estimate
+          </MediaWallEstimateLink>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

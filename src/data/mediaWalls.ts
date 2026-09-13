@@ -7,7 +7,7 @@
  */
 
 import { withJobberFormId } from '../utils/utm';
-import { formatUsd } from './smallRepairPricing';
+import { mediaWallPriceCopy } from './pricing/mediaWalls';
 
 export const mediaWallsLanding = {
   path: '/services/media-walls/',
@@ -17,9 +17,9 @@ export const mediaWallsLanding = {
     'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/5067435/new' as string,
 
   seo: {
-    title: 'Custom Media Walls & Built-In TV Walls | Katy & Houston | EYS',
+    title: 'Built-In Entertainment Centers & Media Walls | Katy | EYS',
     description:
-      'Custom media walls, fireplace TV walls, wood-slat feature walls, and finished entertainment centers in Katy and West Houston. Request a project estimate.',
+      'Built-in entertainment centers, fireplace built-ins, slat and shiplap feature walls, and custom media walls in Katy & West Houston. Send photos for an estimate.',
   },
 
   images: {
@@ -105,23 +105,6 @@ export const mediaWallsLanding = {
   ],
 } as const;
 
-/**
- * Observed build range for a custom media wall, in USD.
- *
- * Ships as `null` on purpose: nothing on the page may quote a range until Eyad
- * confirms real numbers. While it is null the price block and the cost FAQ are
- * omitted entirely — no placeholder, no "starting at", no invented figure.
- * Set both ends to switch them on; nothing else needs to change.
- */
-export const mediaWallPriceRange: { low: number; high: number } | null = null;
-
-/** Visible price copy, or `undefined` while the range is unconfirmed. */
-export function mediaWallPriceCopy(): string | undefined {
-  if (!mediaWallPriceRange) return undefined;
-  const { low, high } = mediaWallPriceRange;
-  return `Most media walls we build run ${formatUsd(low)}–${formatUsd(high)} depending on size, fireplace and lighting. Send photos of your wall and we'll give you a written estimate.`;
-}
-
 export type MediaWallCtaPlacement =
   | 'header'
   | 'hero'
@@ -135,7 +118,11 @@ export type MediaWallCtaPlacement =
   | 'video_builtin'
   | 'video_slat'
   | 'final_cta'
-  | 'faq';
+  | 'faq'
+  /** "Three Ways to Build It" scope selector — one placement per door. */
+  | 'doors_feature'
+  | 'doors_builtin'
+  | 'doors_full';
 
 function rawUrl(value: string | undefined): string | undefined {
   const url = value?.trim();
@@ -158,6 +145,16 @@ export function mediaWallFaqs() {
           },
         ]
       : []),
+    {
+      question: "What's the difference between a built-in entertainment center and a media wall?",
+      answer:
+        'Mostly the name. "Media wall" is what the trade says; "built-in entertainment center" is what most homeowners search for. Both describe custom carpentry built around your TV. In practice the difference is scope — a feature wall is finish carpentry, an entertainment center adds cabinetry and shelving, and a full media wall adds a fireplace and power behind the display.',
+    },
+    {
+      question: 'Can you build a shiplap or slat accent wall instead of a full built-in?',
+      answer:
+        "Yes, and it's a common starting point. Shiplap, board-and-batten, and wood-slat walls are finish carpentry — no fireplace, no rework behind the drywall. Send a photo of the wall and we'll scope it as its own project.",
+    },
     {
       question: 'Is a media wall the same as TV mounting?',
       answer:

@@ -8,7 +8,7 @@ heroTitle: "Handyman Services in West Houston"
 summary: "Elevate Your Space Handyman serves West Houston and Energy Corridor professionals with efficient punch-list visits, installations, and finish work — scoped clearly and completed cleanly."
 heroImage: "/images/heroes/west-houston.jpg"
 heroImageAlt: "Energy Corridor office towers in West Houston, Texas"
-localIntro: "West Houston stretches from the Energy Corridor through suburban communities where long work hours and travel schedules make reliable home improvement essential. Browse services below or send your address for confirmation."
+localIntro: "West Houston stretches from the Energy Corridor through suburban communities where long work hours and travel schedules leave little time for home improvement. Browse services below or send your address for confirmation."
 servicesAvailable:
   - "tv-mounting"
   - "ceiling-fan-installation"

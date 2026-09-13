@@ -3,7 +3,7 @@ import {
   additionalTimeLabel,
   formatUsd,
   smallRepairPricing,
-} from './smallRepairPricing';
+} from './pricing/todoList';
 
 /** Customer-facing product name — keep in sync across card, page, schema, and Jobber. */
 export const handymanToDoListVisitName = 'Handyman To-Do List Visit' as const;
