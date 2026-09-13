@@ -111,6 +111,8 @@ export type CurtainCtaPlacement =
   | 'gallery'
   | 'final_cta'
   | 'regular_escape'
+  /** Promotional offer band — GBP "Link to redeem offer" target. */
+  | 'offer'
   | 'faq'
   | 'media_wall_cross_sell';
 

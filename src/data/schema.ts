@@ -181,6 +181,39 @@ export function offerCatalog(name: string, items: OfferCatalogItem[]) {
   };
 }
 
+/**
+ * A time-bounded promotional Offer node.
+ *
+ * JSON-LD is the MOST exposed surface a claim has — a rich result can surface
+ * detached from every disclaimer on the page — so this node carries only
+ * figures derived in `src/data/offers.ts` and always states validFrom /
+ * validThrough. `url` should be the anchored offer section, which is also the
+ * Google Business Profile "Link to redeem offer" target.
+ */
+export function promotionOffer(opts: {
+  name: string;
+  description: string;
+  url: string;
+  price: number;
+  validFrom: string;
+  validThrough: string;
+  priceCurrency?: string;
+}) {
+  return {
+    '@type': 'Offer',
+    name: opts.name,
+    description: opts.description,
+    url: opts.url,
+    price: opts.price,
+    priceCurrency: opts.priceCurrency ?? 'USD',
+    availability: 'https://schema.org/InStock',
+    validFrom: opts.validFrom,
+    validThrough: opts.validThrough,
+    priceValidUntil: opts.validThrough,
+    seller: { '@id': BUSINESS_ID },
+  };
+}
+
 export const homeFaqs: FaqItem[] = [
   {
     question: 'What areas do you serve?',

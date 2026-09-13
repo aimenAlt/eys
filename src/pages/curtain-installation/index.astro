@@ -9,6 +9,7 @@ import CurtainIncluded from '../../components/curtain-landing/CurtainIncluded.as
 import CurtainProcess from '../../components/curtain-landing/CurtainProcess.astro';
 import CurtainProof from '../../components/curtain-landing/CurtainProof.astro';
 import CurtainMediaWall from '../../components/curtain-landing/CurtainMediaWall.astro';
+import CurtainOffer from '../../components/curtain-landing/CurtainOffer.astro';
 import CurtainRegularEscape from '../../components/curtain-landing/CurtainRegularEscape.astro';
 import CurtainServicesStrip from '../../components/curtain-landing/CurtainServicesStrip.astro';
 import CurtainSocialProof from '../../components/curtain-landing/CurtainSocialProof.astro';
@@ -24,9 +25,13 @@ import {
 import {
   breadcrumbList,
   faqPage,
+  promotionOffer,
   serviceSchema,
   webPage,
 } from '../../data/schema';
+import { offerAnchorPath, offers } from '../../data/offers';
+
+const curtainOffer = offers.highCeilingCurtains;
 
 const pagePath = curtainLanding.path;
 const pageUrl = absoluteUrl(pagePath);
@@ -44,14 +49,32 @@ const seo = {
   ogImageAlt: curtainLanding.images.hero.alt,
 };
 
+const offerUrl = absoluteUrl(offerAnchorPath(curtainOffer));
+
 const schemaGraph = [
   webPage(seo.title, pageUrl, seo.description, heroImage),
-  serviceSchema(
-    'High Ceiling Curtain Installation',
-    'Professional high-ceiling curtain rod and ceiling-track installation for tall windows, vaulted spaces, and two-story rooms in Katy and West Houston.',
-    pageUrl,
-    heroImage,
-  ),
+  {
+    ...serviceSchema(
+      'High Ceiling Curtain Installation',
+      'Professional high-ceiling curtain rod and ceiling-track installation for tall windows, vaulted spaces, and two-story rooms in Katy and West Houston.',
+      pageUrl,
+      heroImage,
+    ),
+    ...(curtainOffer.active
+      ? {
+          offers: curtainOffer.rows.map((row) =>
+            promotionOffer({
+              name: `${curtainOffer.headline} — ${row.label}`,
+              description: `High-ceiling ${row.label.toLowerCase()} installation, up to 3 windows. Installation labor only; customer supplies hardware and curtains. Offer code ${curtainOffer.code}.`,
+              url: offerUrl,
+              price: row.now,
+              validFrom: curtainOffer.startDate,
+              validThrough: curtainOffer.endDate,
+            }),
+          ),
+        }
+      : {}),
+  },
   breadcrumbList([
     { name: 'Home', url: absoluteUrl('/') },
     { name: 'High Ceiling Curtain Installation', url: pageUrl },
@@ -66,6 +89,7 @@ const schemaGraph = [
     <main id="main-content">
       <CurtainHero />
       <CurtainTrustStrip />
+      <CurtainOffer />
       <CurtainServicesStrip />
       <CurtainProof />
       <CurtainProcess />

@@ -1,0 +1,73 @@
+---
+/**
+ * High-ceiling curtain offer band for the curtain landing page.
+ *
+ * Anchored at #offer so a Google Business Profile "Link to redeem offer" can
+ * point straight at it. Booking goes through CurtainBookLink so the existing
+ * curtain attribution (data-booking-type / data-curtain-cta) is preserved —
+ * never hand-roll a Jobber link here.
+ *
+ * Figures are derived in offers.ts from curtainPricing. Installation labor
+ * only: the customer supplies rods, tracks and curtains.
+ */
+import CurtainBookLink from './CurtainBookLink.astro';
+import { formatOfferDate, offers } from '../../data/offers';
+
+const offer = offers.highCeilingCurtains;
+---
+
+{
+  offer.active && (
+    <section
+      id={offer.anchor}
+      class="scroll-mt-24 bg-brand-black px-4 py-14 text-white sm:px-6 sm:py-16 lg:px-8"
+      aria-labelledby="curtain-offer-heading"
+    >
+      <div class="mx-auto max-w-6xl">
+        <p class="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-brand-redondark">
+          {offer.eyebrow}
+        </p>
+        <h2
+          id="curtain-offer-heading"
+          class="text-3xl font-bold tracking-tight sm:text-4xl"
+        >
+          {offer.headline}
+        </h2>
+        <p class="mt-2 text-lg font-semibold text-white/70">{offer.subhead}</p>
+        <p class="mt-4 max-w-2xl leading-relaxed text-white/80">{offer.summary}</p>
+
+        <div class="mt-8 grid gap-3 sm:grid-cols-2">
+          {offer.rows.map((row) => (
+            <div class="rounded-xl border border-white/15 bg-white/5 px-5 py-5">
+              <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">
+                {row.label}
+              </p>
+              <p class="mt-2 flex items-baseline gap-2">
+                <span class="text-3xl font-bold text-white">{row.nowFormatted}</span>
+                <span class="text-base text-white/50 line-through">{row.wasFormatted}</span>
+              </p>
+              <p class="mt-1 text-xs text-white/55">Starting price, installation labor only</p>
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-8">
+          <CurtainBookLink service="high_ceiling" placement="offer">
+            Book High-Ceiling Installation
+          </CurtainBookLink>
+        </div>
+
+        <p class="mt-6 text-sm font-semibold text-white/80">
+          Offer code <span class="font-bold text-white">{offer.code}</span> · valid through{' '}
+          {formatOfferDate(offer.endDate)}
+        </p>
+
+        <ul class="mt-4 space-y-1.5 text-xs leading-relaxed text-white/55">
+          {offer.finePrint.map((line) => (
+            <li>{line}</li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}
