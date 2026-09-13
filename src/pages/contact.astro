@@ -3,7 +3,13 @@ import ContentLayout from '../layouts/ContentLayout.astro';
 import PageHero from '../components/common/PageHero.astro';
 import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
 import JobberRequestCard from '../components/booking/JobberRequestCard.astro';
-import { absoluteUrl, business, googleReviewProfileUrl } from '../data/business';
+import ServiceTrustStrip from '../components/seo/ServiceTrustStrip.astro';
+import {
+  absoluteUrl,
+  business,
+  googleReviewProfileUrl,
+  jobberProjectEstimateFormUrl,
+} from '../data/business';
 import { breadcrumbList, localBusinessForArea, webPage } from '../data/schema';
 import { contentMaxClass, contentPaddingClass } from '../data/layout';
 
@@ -11,6 +17,7 @@ const title = 'Contact Elevate Your Space Handyman | Katy, TX';
 const description =
   'Call EYS or send photographs, measurements and project details for a handyman visit or custom estimate in Katy and West Houston.';
 const gbpUrl = googleReviewProfileUrl();
+const estimateUrl = jobberProjectEstimateFormUrl();
 const canonical = absoluteUrl('/contact/');
 
 const schemaGraph = [
@@ -39,6 +46,55 @@ const schemaGraph = [
       title="Contact Elevate Your Space Handyman"
       description="Tell us about your project and we will help you figure out the best next step — repair, installation, quote request, or assessment."
     />
+
+    <ServiceTrustStrip />
+
+    <section class="pt-8 pb-2 bg-white">
+      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
+        <div
+          class="rounded-xl border border-gray-200 border-l-4 border-l-brand-red bg-brand-lightbg p-6 md:p-8"
+        >
+          <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between md:gap-8">
+            <div>
+              <h2 class="text-xl md:text-2xl font-bold text-brand-black mb-2">
+                Send photos, get an itemized estimate
+              </h2>
+              <p class="text-sm md:text-base text-gray-600 leading-relaxed max-w-xl">
+                The fastest route for repairs, installations, carpentry and larger projects. Prefer
+                to talk it through? Call or email — both reach us directly.
+              </p>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-3 md:flex-shrink-0">
+              <a
+                href={estimateUrl ?? '/book/'}
+                data-booking-type="project_estimate"
+                data-cta-location="contact_primary"
+                class="inline-flex justify-center items-center bg-brand-red text-white px-6 py-3.5 rounded-md font-bold hover:bg-brand-redhover transition-colors"
+              >
+                Request an Estimate
+              </a>
+              <a
+                href={`tel:${business.phoneTel}`}
+                data-cta-location="contact_primary"
+                class="inline-flex justify-center items-center border-2 border-brand-black text-brand-black px-6 py-3.5 rounded-md font-bold hover:bg-brand-black hover:text-white transition-colors"
+              >
+                Call {business.phone}
+              </a>
+            </div>
+          </div>
+          <p class="text-sm text-gray-600 mt-4">
+            Or email
+            <a
+              href={`mailto:${business.email}`}
+              data-cta-location="contact_primary"
+              class="font-bold text-brand-red hover:underline"
+            >
+              {business.email}
+            </a>.
+          </p>
+        </div>
+      </div>
+    </section>
 
     <section class="py-10 md:py-12 bg-white">
       <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>

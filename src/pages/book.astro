@@ -2,6 +2,7 @@
 import ContentLayout from '../layouts/ContentLayout.astro';
 import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
 import BookingPathSelector from '../components/booking/BookingPathSelector.astro';
+import ServiceTrustStrip from '../components/seo/ServiceTrustStrip.astro';
 import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
 import { absoluteUrl, site } from '../data/business';
 import { breadcrumbList, webPage } from '../data/schema';
@@ -31,6 +32,7 @@ const schemaGraph = [
         ]}
       />
     </div>
+    <ServiceTrustStrip />
     <BookingPathSelector />
     <LocalAreaCTA locationName="Katy & West Houston" />
   </article>
