@@ -34,24 +34,61 @@ export function formatUsd(amount: number): string {
 }
 
 /**
- * Labor price for an approved duration.
- * Tiers: 1h, 2h, and a flat 3h rate. Time past a tier adds 30-minute blocks
- * from that tier's price.
+ * How a duration decomposes into a booked tier plus extra 30-minute blocks.
+ *
+ * Exported because anything that prices a duration *differently* from list
+ * price — a percentage promotion, for example — has to know which part of the
+ * total is the booked tier and which part is additional time. Offers discount
+ * the tier only; additional blocks bill at the standard rate. Re-deriving that
+ * split at the call site is how an offer ends up advertising a number the
+ * fine print contradicts.
  */
-export function priceForHours(hours: number): number {
-  if (hours === 1) return smallRepairPricing.oneHour;
+export type VisitPriceBreakdown = {
+  /** The tier the customer actually books: 1, 2, or 3 hours. */
+  tierHours: 1 | 2 | 3;
+  /** Flat price of that tier. */
+  tierPrice: number;
+  /** Extra 30-minute blocks stacked on top of the tier. */
+  additionalBlocks: number;
+  /** tierPrice + additionalBlocks * additionalThirtyMinutes. */
+  total: number;
+};
+
+export function visitPriceBreakdown(hours: number): VisitPriceBreakdown {
+  if (hours === 1) {
+    return {
+      tierHours: 1,
+      tierPrice: smallRepairPricing.oneHour,
+      additionalBlocks: 0,
+      total: smallRepairPricing.oneHour,
+    };
+  }
   if (hours < 2) {
     throw new Error(
       `Unsupported Handyman To-Do List Visit duration: ${hours}h. Use 1 hour, or 2 hours and above.`,
     );
   }
-  if (hours === 2) return smallRepairPricing.twoHours;
-  if (hours === 3) return smallRepairPricing.threeHours;
 
-  const base = hours > 3 ? smallRepairPricing.threeHours : smallRepairPricing.twoHours;
-  const baseHours = hours > 3 ? 3 : 2;
-  const additionalBlocks = Math.round((hours - baseHours) / 0.5);
-  return base + additionalBlocks * smallRepairPricing.additionalThirtyMinutes;
+  const tierHours: 2 | 3 = hours >= 3 ? 3 : 2;
+  const tierPrice =
+    tierHours === 3 ? smallRepairPricing.threeHours : smallRepairPricing.twoHours;
+  const additionalBlocks = Math.round((hours - tierHours) / 0.5);
+
+  return {
+    tierHours,
+    tierPrice,
+    additionalBlocks,
+    total: tierPrice + additionalBlocks * smallRepairPricing.additionalThirtyMinutes,
+  };
+}
+
+/**
+ * Labor price for an approved duration.
+ * Tiers: 1h, 2h, and a flat 3h rate. Time past a tier adds 30-minute blocks
+ * from that tier's price.
+ */
+export function priceForHours(hours: number): number {
+  return visitPriceBreakdown(hours).total;
 }
 
 export function formatDurationLabel(hours: number): string {

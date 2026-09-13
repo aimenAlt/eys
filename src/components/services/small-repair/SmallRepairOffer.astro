@@ -1,0 +1,90 @@
+---
+/**
+ * Handyman To-Do List Visit offer band.
+ *
+ * Anchored at #offer so a Google Business Profile "Link to redeem offer" can
+ * point straight at it. Renders nothing when the offer is switched off in
+ * src/data/offers.ts — no dead promo band left behind when it expires.
+ *
+ * Every figure is derived in offers.ts from smallRepairPricing. Do not type a
+ * discounted price into this file.
+ */
+import { jobberHandymanToDoListFormUrl, site } from '../../../data/business';
+import { formatOfferDate, offers } from '../../../data/offers';
+
+const offer = offers.todoList;
+const bookUrl = jobberHandymanToDoListFormUrl();
+---
+
+{
+  offer.active && (
+    <section
+      id={offer.anchor}
+      class="scroll-mt-24 bg-brand-black py-16 text-white md:py-20"
+      aria-labelledby="offer-heading"
+    >
+      <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <p class="mb-2 text-xs font-bold uppercase tracking-widest text-brand-redondark">
+          {offer.eyebrow}
+        </p>
+        <h2 id="offer-heading" class="text-3xl font-bold tracking-tight sm:text-4xl">
+          {offer.headline}
+        </h2>
+        <p class="mt-2 text-lg font-semibold text-white/70">{offer.subhead}</p>
+        <p class="mt-4 max-w-2xl leading-relaxed text-white/80">{offer.summary}</p>
+
+        <div class="mt-8 grid gap-3 sm:grid-cols-3">
+          {offer.rows.map((row) => (
+            <div class="rounded-lg border border-white/15 bg-white/5 px-4 py-4">
+              <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">
+                {row.label}
+              </p>
+              <p class="mt-2 flex items-baseline gap-2">
+                <span class="text-2xl font-bold text-white">{row.nowFormatted}</span>
+                <span class="text-sm text-white/50 line-through">{row.wasFormatted}</span>
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+          {bookUrl ? (
+            <a
+              href={bookUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex min-h-12 items-center justify-center rounded-md bg-brand-red px-6 py-3.5 text-base font-bold text-white hover:bg-brand-redhover"
+              data-cta="handyman-to-do-list-offer"
+            >
+              Book a Visit &amp; Save 10%
+            </a>
+          ) : (
+            <a
+              href="#book-visit"
+              class="inline-flex min-h-12 items-center justify-center rounded-md bg-brand-red px-6 py-3.5 text-base font-bold text-white hover:bg-brand-redhover"
+            >
+              Book a Visit &amp; Save 10%
+            </a>
+          )}
+          <a
+            href={`tel:${site.phoneTel}`}
+            class="inline-flex min-h-12 items-center justify-center rounded-md border-2 border-white/30 px-6 py-3 text-base font-bold text-white hover:bg-white hover:text-brand-black"
+          >
+            Call {site.phone}
+          </a>
+        </div>
+
+        <p class="mt-6 text-sm font-semibold text-white/80">
+          Offer code <span class="font-bold text-white">{offer.code}</span> · valid through{' '}
+          {formatOfferDate(offer.endDate)}
+        </p>
+
+        <ul class="mt-4 space-y-1.5 text-xs leading-relaxed text-white/55">
+          {offer.finePrint.map((line) => (
+            <li>{line}</li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}

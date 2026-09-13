@@ -13,6 +13,7 @@ import HowItWorksSteps from '../../../components/services/small-repair/HowItWork
 import SmallRepairPrepare from '../../../components/services/small-repair/SmallRepairPrepare.astro';
 import ServiceTermsSummary from '../../../components/services/small-repair/ServiceTermsSummary.astro';
 import SmallRepairRequestForm from '../../../components/services/small-repair/SmallRepairRequestForm.astro';
+import SmallRepairOffer from '../../../components/services/small-repair/SmallRepairOffer.astro';
 import { getCollection } from 'astro:content';
 import { absoluteUrl } from '../../../data/business';
 import {
@@ -20,6 +21,7 @@ import {
   canonicalBusinessNode,
   faqPage,
   offerCatalog,
+  promotionOffer,
   serviceSchema,
   webPage,
 } from '../../../data/schema';
@@ -33,6 +35,10 @@ import {
   smallRepairFaqs,
   smallRepairVisitMeta,
 } from '../../../data/smallRepairVisitContent';
+import { offerAnchorPath, offers } from '../../../data/offers';
+
+const todoOffer = offers.todoList;
+const offerUrl = absoluteUrl(offerAnchorPath(todoOffer));
 
 const [serviceAreas, communities] = await Promise.all([
   getCollection('serviceAreas', ({ data }) => data.published === true),
@@ -60,6 +66,20 @@ const schemaGraph = [
   ]),
   {
     ...serviceSchema(handymanToDoListVisitName, description, canonical),
+    ...(todoOffer.active
+      ? {
+          offers: todoOffer.allRows.map((row) =>
+            promotionOffer({
+              name: `${todoOffer.headline} — ${row.label}`,
+              description: `${handymanToDoListVisitName}, ${row.label}. Handyman labor only; materials additional. Offer code ${todoOffer.code}.`,
+              url: offerUrl,
+              price: row.now,
+              validFrom: todoOffer.startDate,
+              validThrough: todoOffer.endDate,
+            }),
+          ),
+        }
+      : {}),
     hasOfferCatalog: offerCatalog(
       `${handymanToDoListVisitName} durations`,
       visitDurationOptions.map((opt) => ({
@@ -87,6 +107,7 @@ const schemaGraph = [
 
     <SmallRepairHero />
     <ServiceTrustStrip locationName="Katy & West Houston" />
+    <SmallRepairOffer />
     <ServiceTermsSummary />
     <SmallRepairIncludes />
     <EligibleTasksGrid />
