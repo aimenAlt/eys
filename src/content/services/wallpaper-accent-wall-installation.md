@@ -7,7 +7,7 @@ metaDescription: "Wallpaper, peel-and-stick, and grasscloth installation for Kat
 heroTitle: "Wallpaper Installation — Prepped for Gulf Coast Humidity"
 summary: "Traditional, peel-and-stick, and grasscloth wallpaper installed with the wall prep Gulf Coast humidity actually requires — plus accent-wall guidance if wallpaper isn't the right fit."
 heroImage: "/images/services/wallpaper-accent-wall-installation.jpg"
-heroImageAlt: "Grasscloth wallpaper accent wall installed behind a bedroom headboard"
+heroImageAlt: "Tall living-room feature wall with marble-look tile flanked by dark vertical wood slats."
 bookingType: "quote-request"
 primaryCTA: "Get an Accent Wall Quote"
 secondaryCTA: "Call Us"

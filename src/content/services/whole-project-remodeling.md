@@ -7,7 +7,7 @@ metaDescription: "One point of contact for multi-trade home projects in Katy and
 heroTitle: "Whole-Project Remodeling — One Point of Contact, Start to Finish"
 summary: "Multi-trade projects run start to finish: in-house carpentry, a coordinated drywall trade, and licensed electricians brought in for regulated work — with one estimate and one person accountable."
 heroImage: "/images/services/whole-project-remodeling.jpg"
-heroImageAlt: "Finished built-in media wall combining carpentry, drywall, and concealed wiring"
+heroImageAlt: "Finished kitchen with sage green island, white uppers, quartz counters, and gold fixtures."
 bookingType: "assessment"
 primaryCTA: "Schedule a Project Walkthrough"
 secondaryCTA: "Call Us"
