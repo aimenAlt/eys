@@ -35,7 +35,7 @@ faqs:
   - question: "What size TVs do you mount?"
     answer: "We mount TVs of all sizes, from bedroom screens to large-format displays above fireplaces."
 ---
-Elevate Your Space provides clean, secure TV mounting throughout Katy, Cypress, Fulshear, Richmond, and West Houston. Whether you searched for a handyman for a living-room install or need a fireplace mount done without damaging premium stone, we treat walls and finishes with care — level placement, secure anchoring, and a spotless cleanup every time.
+Elevate Your Space provides clean, secure TV mounting throughout Katy, Cypress, Fulshear, Richmond, and West Houston. Whether you searched for a handyman for a living-room install or need a fireplace mount done without damaging premium stone, we treat walls and finishes with care — level placement, secure anchoring, and cleanup.
 
 ## Who this is for
 

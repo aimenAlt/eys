@@ -7,7 +7,7 @@ metaDescription: "Finish tile work in Katy and West Houston — kitchen backspla
 heroTitle: "Tile Installation — Backsplash, Surround, and Floor Tile"
 summary: "Finish tile work done properly: kitchen backsplashes, shower and tub surrounds, floor tile, accent walls, and grout and caulk renewal."
 heroImage: "/images/services/tile-installation.jpg"
-heroImageAlt: "Tiled kitchen backsplash with even grout lines and finished edge trim"
+heroImageAlt: "Sage green kitchen peninsula with subway tile backsplash and quartz countertop."
 bookingType: "quote-request"
 primaryCTA: "Request a Tile Quote"
 secondaryCTA: "Call Us"

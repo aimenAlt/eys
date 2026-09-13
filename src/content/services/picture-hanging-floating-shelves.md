@@ -7,7 +7,7 @@ metaDescription: "Picture, mirror, and floating shelf hanging in Katy and West H
 heroTitle: "Picture Hanging & Floating Shelves"
 summary: "Level, securely anchored picture, mirror, and floating shelf installation — the small detail work that makes a room feel finished."
 heroImage: "/images/services/picture-hanging-floating-shelves.jpg"
-heroImageAlt: "Floating wood shelves with concealed brackets installed above a living room console"
+heroImageAlt: "Floor-to-ceiling navy custom built-in shelving and cabinets in a home office."
 bookingType: "direct-book"
 primaryCTA: "Book Picture & Shelf Hanging"
 secondaryCTA: "Call Us"

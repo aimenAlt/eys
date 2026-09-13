@@ -7,7 +7,7 @@ metaDescription: "Wire and wood closet shelving, reach-in systems, and pantry or
 heroTitle: "Closet Shelving & Home Organization"
 summary: "Wire and wood shelving systems, reach-in closet upgrades, and pantry or mudroom organization installed to fit your space — not a one-size-fits-all kit."
 heroImage: "/images/services/closet-shelving-organization.jpg"
-heroImageAlt: "Wire and wood closet shelving system installed in a reach-in bedroom closet"
+heroImageAlt: "Custom white built-in shelves following a curved under-stairs space."
 bookingType: "quote-request"
 primaryCTA: "Design My Closet"
 secondaryCTA: "Call Us"

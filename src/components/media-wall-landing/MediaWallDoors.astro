@@ -75,6 +75,7 @@ const ctaClass =
                   class={ctaClass}
                 >
                   {door.cta}
+                  <span class="ml-1.5" aria-hidden="true">&#8594;</span>
                 </a>
               ) : (
                 <span class:list={[ctaClass, 'cursor-not-allowed opacity-50']} role="link" aria-disabled="true">
@@ -95,6 +96,7 @@ const ctaClass =
         <div class="mt-auto">
           <MediaWallEstimateLink placement="doors_full" variant="text" class="mt-5">
             Send photos for a media wall estimate
+            <span class="ml-1.5" aria-hidden="true">&#8594;</span>
           </MediaWallEstimateLink>
         </div>
       </div>

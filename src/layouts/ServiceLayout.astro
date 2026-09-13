@@ -90,7 +90,12 @@ const schemaGraph = [
     </div>
     <ServiceHero service={data} />
     <ServiceTrustStrip />
-    <ServiceIncluded items={data.includedServices} />
+    <ServiceIncluded
+      items={data.includedServices}
+      heading={data.includedHeading}
+      eyebrow={data.includedEyebrow}
+      note={data.includedNote}
+    />
     <ServicePriceFactors items={data.priceFactors} />
     <ServiceProcess steps={data.process} />
     <section class="py-12 bg-white">
