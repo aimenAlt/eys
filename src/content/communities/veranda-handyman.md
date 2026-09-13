@@ -5,7 +5,7 @@ citySlug: "richmond"
 published: true
 seoTitle: "Handyman & Home Upgrades in Veranda | Elevate Your Space"
 metaDescription: "Elevate Your Space offers premium handyman services, patio upgrades, and custom carpentry for Veranda residents in Richmond, TX. Request an estimate!"
-heroTitle: "Premium Handyman & Home Upgrades for Veranda"
+heroTitle: "Handyman & Home Upgrades for Veranda"
 summary: "Elevate Your Space provides the meticulous, high-quality home improvements needed to enhance your beautiful Veranda home in Richmond."
 promoCode: "VERANDA25"
 promoOffer: "$25 off projects over $250"

@@ -5,7 +5,7 @@ citySlug: "cypress"
 published: true
 seoTitle: "Towne Lake Handyman & Home Upgrades | Elevate Your Space"
 metaDescription: "Enjoy the lake life while we handle your home. Elevate Your Space provides premium handyman, carpentry, and outdoor upgrades for Towne Lake in Cypress, TX."
-heroTitle: "Premium Handyman Services for Towne Lake Homeowners"
+heroTitle: "Handyman Services for Towne Lake Homeowners"
 summary: "Elevate Your Space provides top-tier home improvements and meticulous maintenance, ensuring your Towne Lake home remains as stunning as its waterfront views."
 promoCode: "TOWNELAKE25"
 promoOffer: "$25 off projects over $250"

@@ -2,10 +2,12 @@
 title: "After-Hours & Urgent Repairs"
 slug: "after-hours-repairs"
 published: true
-seoTitle: "After-Hours & Same-Night Handyman Repairs | Katy | EYS"
-metaDescription: "Reach a Katy handyman 5:00 AM to 11:30 PM, seven days a week, with same-night dispatch for urgent repairs at a late-hours rate. Doors, locks, water damage, lighting."
+# Hours below are sourced from the live Google Business Profile listing
+# ("Open · Closes 11:30 PM"). If GBP hours change, change them here too.
+seoTitle: "After-Hours & Urgent Handyman Repairs | Katy | EYS"
+metaDescription: "Reach a Katy handyman 5:00 AM to 11:30 PM, seven days a week. Urgent after-hours repairs at a late-hours rate — doors, locks, water damage, and failed lighting."
 heroTitle: "After-Hours & Urgent Repairs — Open Until 11:30 PM, Seven Days"
-summary: "Reach us 5:00 AM to 11:30 PM, seven days a week, with same-night dispatch available for urgent repairs at a late-hours rate."
+summary: "Reach us 5:00 AM to 11:30 PM, seven days a week, for urgent repairs at a late-hours rate."
 heroImage: "/images/services/after-hours-repairs.jpg"
 heroImageAlt: "Handyman repairing an exterior door lock in the evening"
 bookingType: "call-only"
@@ -30,8 +32,8 @@ process:
 faqs:
   - question: "What hours can I actually reach someone?"
     answer: "5:00 AM to 11:30 PM, seven days a week. That is when the phone is answered — not a voicemail box that gets returned the following business day."
-  - question: "Will you really come out the same night?"
-    answer: "For genuinely urgent work, yes, at a late-hours rate. If it is something that can safely wait until morning, we will say so rather than charge you the premium for it."
+  - question: "Can you come out tonight?"
+    answer: "Call and we will tell you on the phone whether we can get to you that night or first thing the next morning, and what the late-hours rate would be before we come out. If it is something that can safely wait until morning, we will say so rather than charge you the premium for it."
   - question: "How does the late-hours rate work?"
     answer: "Work outside standard hours carries a higher rate than a normal scheduled visit. We tell you what that is on the phone before we come out, so it is agreed in advance rather than discovered on the invoice."
   - question: "What counts as urgent?"
@@ -44,7 +46,7 @@ faqs:
 
 Most handyman operations in Katy close at 5 PM. That is precisely when a door stops latching, a lock fails, or a supply line lets go — and the difference between a call answered at 9 PM and one returned at 8 AM the next morning is a night spent with a house that will not lock.
 
-Elevate Your Space answers the phone **5:00 AM to 11:30 PM, seven days a week**, and will dispatch same-night for genuinely urgent work at a late-hours rate.
+Elevate Your Space answers the phone **5:00 AM to 11:30 PM, seven days a week**. Call and we will tell you what we can do that night and what the late-hours rate would be, before anyone comes out.
 
 ## What qualifies as urgent
 

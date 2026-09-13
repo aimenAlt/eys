@@ -5,7 +5,7 @@ citySlug: "richmond"
 published: true
 seoTitle: "Handyman & Carpentry in Harvest Green | Elevate Your Space"
 metaDescription: "Elevate Your Space offers premium handyman services, custom carpentry, and garage storage for Harvest Green in Richmond, TX. Request an estimate!"
-heroTitle: "Premium Handyman & Home Upgrades for Harvest Green"
+heroTitle: "Handyman & Home Upgrades for Harvest Green"
 summary: "Elevate Your Space provides the premium carpentry, meticulous installations, and upgrades needed to deeply enhance your Harvest Green home in Richmond."
 promoCode: "HARVEST25"
 promoOffer: "$25 off projects over $250"
