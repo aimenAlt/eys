@@ -10,7 +10,7 @@ summary: "Elevate Your Space delivers home improvements that meet the exacting s
 promoCode: "BRIDGELAND25"
 promoOffer: "$25 off projects over $250"
 localIntro: "Bridgeland is a visionary Howard Hughes community where stunning architecture and preserved nature intertwine across 11,500 acres. From Prairie School-inspired designs in Parkland Village to the scenic waterfronts of Josey Lake, homes here are constructed with exceptional quality. The community continues to grow with Bridgeland Central, a 925-acre urban district under development with an H-E B, One Bridgeland Green, and a new Houston Texans headquarters and training facility — a sign of how much long-term investment is going into this neighborhood. When homeowners require upgrades, they cannot settle for a standard repairman. EYS provides the detail-focused service required to enhance your luxury property safely."
-servicesIntro: "We focus exclusively on high-quality aesthetic and functional upgrades, deeply respecting your home's luxury finishes and the strict guidelines enforced by the Bridgeland HOA."
+servicesIntro: "We focus on aesthetic and functional upgrades, working carefully around your home's existing finishes."
 commonProjects:
   - name: "TV Mounting"
     description: "level, securely anchored mounting on high-end drywall, shiplap, or luxury stone fireplaces"
@@ -41,8 +41,6 @@ goodFit: "Common requests here are high-impact visual upgrades: a custom media w
 localLifestyle: "Bridgeland offers 250 miles of trails, kayaking on Josey Lake, and recreation at Dragonfly Park. Let EYS handle the heavy lifting so you can grab your bike or kayak and enjoy the true Bridgeland experience."
 process: "Send photos of your vision through our online portal. EYS scopes the work with a detailed estimate, arrives at the agreed time, and cleans up before leaving."
 faqs:
-  - question: "Are you familiar with the strict Architectural Review Committee (ARC) guidelines in Bridgeland?"
-    answer: "Yes, we understand that exterior modifications require strict adherence to Bridgeland's ACC/ARC standards regarding materials and aesthetics. One exception worth knowing: under Texas Property Code § 202.023, the ARC cannot outright ban a security camera or video doorbell on your own property, though it can still regulate placement and appearance."
   - question: "Do you build custom mudrooms or drop-zones?"
     answer: "Absolutely. Custom carpentry is one of our core specialties, perfect for keeping kids' gear organized after a day at the park."
   - question: "Can you install heavy chandeliers in two-story entryways?"

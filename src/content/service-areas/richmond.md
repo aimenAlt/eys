@@ -91,7 +91,6 @@ Projects in Veranda reflect porch-centric living and community pride:
 
 Veranda residents take pride in how their homes look from the street — porch fans, clean trim, and assembled outdoor furniture matter as much as interior finishes. EYS approaches these projects with floor protection, dust control during carpentry, and cleanup that respects a tight-knit neighborhood where reputation travels quickly.
 
-When porch or exterior work may be visible from the street, customers should confirm current association requirements before scheduling. EYS executes approved projects to specification. For exterior security devices specifically, Texas Property Code § 202.023 prevents an HOA from banning a camera or video doorbell on your own property outright, though placement and appearance can still be regulated through the standard review process.
 
 ### Established Richmond homes
 

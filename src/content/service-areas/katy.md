@@ -33,7 +33,7 @@ faqs:
   - question: "Do you work in the Heritage Grand or Wellspring 55+ sections?"
     answer: "Yes. We serve active-adult neighborhoods within Katy-area master-planned communities, including Heritage Grand at Cinco Ranch and Wellspring at Tamarron. We plan for quiet, detail-oriented work and protect finished surfaces throughout the visit."
   - question: "How should I prepare for exterior patio or trim work?"
-    answer: "Customers should confirm current association requirements with their HOA or management company before exterior modifications. EYS can execute the carpentry and installation once your project is approved and scoped — we do not submit architectural review applications on your behalf. One note for exterior security devices specifically: under Texas Property Code § 202.023, an HOA cannot ban a camera or video doorbell on your own property outright, though it can still regulate placement and appearance through the standard modification process."
+    answer: "Yes. Exterior trim, patio woodwork, outdoor-rated fans, and security-camera and video-doorbell mounting are all regular Katy work. Send photos of the area and we will scope it."
   - question: "How do I request an estimate in Katy?"
     answer: "Use our contact form or book page with photos and a short project list. Eyad and Elevate Your Space return a clear, itemized estimate before any work begins."
 ---
@@ -51,7 +51,7 @@ In these established neighborhoods, EYS regularly handles:
 - **Trim and molding refresh** — replacing aging baseboards, crown molding, and window casings that show wear after decades of Houston humidity
 - **Cabinet hardware modernization** — precise installation of updated pulls and knobs on 1990s and 2000s kitchen cabinetry
 - **[Drywall repair](/services/drywall-repair/)** and paint touch-ups for walls, ceilings, and high-traffic areas
-- **Patio and exterior woodwork** — trim replacement and outdoor living upgrades (customers should confirm current association requirements before exterior work)
+- **Patio and exterior woodwork** — trim replacement and outdoor living upgrades
 - **Pre-sale punch lists** — bundled items for homeowners preparing a property for the Katy resale market
 
 The **Heritage Grand** 55+ enclave within Cinco Ranch draws homeowners who want maintenance handled with care and minimal disruption — a fit for organized, scoped visits rather than open-ended repair days.
@@ -60,7 +60,7 @@ The **Heritage Grand** 55+ enclave within Cinco Ranch draws homeowners who want 
 
 Katy’s western and northern growth corridors look entirely different from Cinco Ranch’s mature streets. These neighborhoods skew toward new construction and customization rather than aging-in-place repairs.
 
-**Sunterra** is a rapidly developing resort-style community in the 77493 zip code, centered around the Crystal Lagoon and Sol Club amenities. Because homes here are largely new construction from 2022 onward, projects focus on enhancement: [TV mounting](/services/tv-mounting/) on fresh drywall, [curtain installation](/services/curtain-installation/) for privacy, ceiling fans on builder pre-wires, and overhead garage storage before moving boxes pile up.
+**Sunterra** is a rapidly developing resort-style community in the 77493 zip code, centered around the Crystal Lagoon and Sol Club amenities. Because homes here are largely new construction from 2022 onward, projects focus on enhancement: [TV mounting](/services/tv-mounting/) on fresh drywall, [curtain installation](/services/curtain-installation/) for privacy, ceiling fans on builder pre-wires, and overhead garage storage before moving boxes pile up. Our guide to [move-in upgrades in Sunterra](/blog/move-in-upgrades-sunterra/) covers what new owners book first.
 
 **Elyson** combines modern prairie architecture with miles of trails, community orchards, and the Elyson House amenity hub. Families here often request custom mudroom benches for school gear, garage racks for trail bikes, shiplap accent walls, and covered patio improvements — functional upgrades that match an active, outdoor-oriented lifestyle. Addresses in Elyson may fall under Katy ISD or Cy-Fair ISD depending on location; send your address for confirmation.
 

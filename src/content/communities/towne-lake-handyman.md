@@ -45,8 +45,6 @@ faqs:
     answer: "Yes, we install industrial-strength overhead garage racks perfect for life jackets, wakeboards, and lake toys safely off the floor."
   - question: "Do you install outdoor fans and TVs on waterfront patios?"
     answer: "Yes. Outdoor mounting is anchored and leveled for spaces exposed to the elements, using outdoor-rated hardware."
-  - question: "Are you familiar with the Towne Lake HOA guidelines?"
-    answer: "Yes, we understand that exterior modifications visible from the water or docks require strict adherence to CCMC and Towne Lake HOA architectural standards. One exception: under Texas Property Code § 202.023, the HOA cannot outright ban a security camera or video doorbell on your own property, though placement and appearance can still be regulated."
   - question: "What if my outdoor kitchen needs plumbing adjustments?"
     answer: "We can help coordinate appropriate licensed trade support when the project requires it."
   - question: "How do you protect my home during interior carpentry?"

@@ -1,4 +1,9 @@
 ---
+# UNPUBLISHED 2026-09-13 at the owner's direction: EYS does not discuss HOAs with
+# homeowners at all - not offering help, not advising them to check, and not
+# stating that EYS does not deal with them. A disclaimer is still a mention.
+# The file is kept for history only; /blog/hoa-patio-updates-bridgeland/ now 301s
+# to the Bridgeland community page via public/_redirects. Do not republish.
 title: "HOA-Friendly Patio Updates in Bridgeland"
 slug: "hoa-patio-updates-bridgeland"
 seoTitle: "HOA-Friendly Patio Updates in Bridgeland | EYS Handyman"
@@ -6,7 +11,7 @@ metaDescription: "Planning exterior patio improvements in Bridgeland? Tips for H
 summary: "What Bridgeland homeowners should know about patio trim, outdoor fans, and ARC-conscious upgrades."
 publishedAt: 2025-11-10
 tags: ["Bridgeland", "Cypress", "Outdoor"]
-published: true
+published: false
 ---
 
 Bridgeland's architectural standards protect the community's premium look — and that includes exterior patio and trim work. If you live in this Howard Hughes Cypress community, plan outdoor upgrades with ARC expectations in mind from day one.

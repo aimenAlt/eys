@@ -32,14 +32,15 @@ export const startLanding = {
 
   seo: {
     title: 'Handyman in Katy & West Houston | Elevate Your Space Handyman',
-    // Review rating and count render from `googleReviews` — the single source of
-    // truth in business.ts. Never hardcode a figure here; it drifts from the
-    // trust strips within days.
+    // Review rating, count and price all render from their single sources in
+    // business.ts / smallRepairPricing.ts. Never hardcode a figure here.
+    // Cinco Ranch is deliberate community-tier targeting, not drift — keep it.
+    // Trimmed to ~145 chars for link previews; /start/ is noindexed, so this was
+    // never a search-result truncation issue.
     description:
-      `Veteran-owned, insured handyman serving Katy, Cypress, Cinco Ranch, Fulshear and Richmond. ` +
-      `To-Do List visits from ${formatUsdWhole(smallRepairPricing.oneHour)} for the first hour. ` +
-      `Rated ${googleReviews.rating.toFixed(1)} from ${googleReviewCountDisplay()} Google reviews. ` +
-      `Send photos, get a price.`,
+      `Veteran-owned, insured handyman in Katy, Cinco Ranch and Cypress. ` +
+      `To-Do List visits from ${formatUsdWhole(smallRepairPricing.oneHour)} the first hour. ` +
+      `Rated ${googleReviews.rating.toFixed(1)} from ${googleReviewCountDisplay()} Google reviews.`,
   },
 
   images: {
