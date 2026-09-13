@@ -713,7 +713,7 @@
     {
       "path": "/services/outdoor-carpentry/",
       "status": "pending",
-      "priority_tier": 5,
+      "priority_tier": 2,
       "first_seen_at": "2026-09-13",
       "first_requested_at": null,
       "last_requested_at": null,
@@ -721,5 +721,5 @@
       "content_hash": null
     }
   ],
-  "updated_at": "2026-09-13T21:38:12.080Z"
+  "updated_at": "2026-09-13T22:05:47.496Z"
 }
