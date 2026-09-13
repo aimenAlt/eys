@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import MediaWallDoors from '../../../components/media-wall-landing/MediaWallDoors.astro';
 import MediaWallFaq from '../../../components/media-wall-landing/MediaWallFaq.astro';
 import MediaWallFinalCta from '../../../components/media-wall-landing/MediaWallFinalCta.astro';
 import MediaWallFooter from '../../../components/media-wall-landing/MediaWallFooter.astro';
@@ -40,7 +41,7 @@ const seo = {
 const schemaGraph = [
   webPage(seo.title, pageUrl, seo.description, heroImage),
   serviceSchema(
-    'Custom Media Walls & Built-In TV Walls',
+    'Built-In Entertainment Centers & Custom Media Walls',
     'Custom media walls, fireplace TV walls, wood-slat feature walls, and finished entertainment centers in Katy and West Houston.',
     pageUrl,
     heroImage,
@@ -59,6 +60,7 @@ const schemaGraph = [
     <MediaWallHeader />
     <main id="main-content">
       <MediaWallHero />
+      <MediaWallDoors />
       <MediaWallTrustStrip />
       <MediaWallProof />
       <MediaWallPortfolio />
