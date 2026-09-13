@@ -48,12 +48,23 @@ const COOLDOWN_DAYS = 7;
 
 function priorityTier(pathname) {
   if (pathname.startsWith('/service-areas/')) return 1;
-  // Outdoor carpentry is a conversion and Ads-landing asset, not a search asset:
-  // "outdoor carpentry" has near-zero search volume even though the service is a
-  // top-three revenue line. Deliberately tier 5 so it does not compete for the
-  // daily indexing budget with custom-carpentry or electrical-services. Must stay
-  // ABOVE the /services/ line below, which would otherwise return 2.
-  if (pathname === '/services/outdoor-carpentry/') return 5;
+  /*
+   * /services/outdoor-carpentry/ is deliberately NOT special-cased down to tier 5.
+   * It was, briefly, on the reasoning that the service has revenue but no search
+   * demand. That reasoning was wrong, and the mistake is worth recording because
+   * it is easy to repeat: Search Console cannot show demand for a page that does
+   * not exist. It only reports queries the site already surfaced for, and EYS had
+   * never had an outdoor page, so a zero there meant INVISIBLE, not ABSENT.
+   *
+   * The contrast is a page like a new-home-finishing landing: its near-zero
+   * numbers were measured against community and service pages that DO exist and
+   * DO cover move-in and punch-list intent, so that zero is a real reading. Same
+   * number, opposite meaning. Do not demote a page on GSC silence unless
+   * something comparable was already competing for the query.
+   *
+   * Outdoor is 38% of won revenue at a 31% win rate, so it takes the default
+   * tier 2 from the /services/ line below.
+   */
   if (pathname.startsWith('/services/')) return 2;
   if (pathname.startsWith('/guides/')) return 2;
   if (pathname === '/pricing/' || pathname === '/reviews/') return 3;
@@ -136,6 +147,18 @@ async function cmdSync() {
    * /services/smart-home-installation/ were both still queued after being
    * retired. Entries are kept rather than deleted so the history survives.
    */
+  // Re-derive tiers on every sync. Without this, priority_tier is frozen at
+  // whatever priorityTier() returned the day a URL was first seen, so editing the
+  // policy above silently does nothing to pages already tracked.
+  const retiered = [];
+  for (const entry of log.pages) {
+    const tier = priorityTier(entry.path);
+    if (entry.priority_tier !== tier) {
+      retiered.push(`${entry.path} ${entry.priority_tier}->${tier}`);
+      entry.priority_tier = tier;
+    }
+  }
+
   const live = new Set(paths);
   const retired = [];
   for (const entry of log.pages) {
@@ -174,6 +197,7 @@ async function cmdSync() {
   await saveLog(log);
   console.log(`Synced. ${newOnes.length} new URL(s) added from sitemap. Total tracked: ${log.pages.length}.`);
   if (newOnes.length > 0) console.log('New URLs:', newOnes.join(', '));
+  if (retiered.length > 0) console.log('Priority tier updated:', retiered.join(', '));
   if (retired.length > 0) console.log('Retired (left the sitemap, will not be submitted):', retired.join(', '));
   if (requeued.length > 0) console.log('Requeued (content changed, cooldown clear):', requeued.join(', '));
   if (coolingDown.length > 0) console.log('Content changed but still in cooldown (will requeue automatically once clear):', coolingDown.join(', '));
