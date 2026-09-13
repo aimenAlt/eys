@@ -9,7 +9,7 @@ metaDescription: "Reach a Katy handyman 5:00 AM to 11:30 PM, seven days a week. 
 heroTitle: "After-Hours & Urgent Repairs — Open Until 11:30 PM, Seven Days"
 summary: "Reach us 5:00 AM to 11:30 PM, seven days a week, for urgent repairs at a late-hours rate."
 heroImage: "/images/services/after-hours-repairs.jpg"
-heroImageAlt: "Handyman repairing an exterior door lock in the evening"
+heroImageAlt: "A person with their back to the camera working on a taped-off door frame in an empty room, lit by a handheld work light"
 bookingType: "call-only"
 primaryCTA: "Call Now"
 secondaryCTA: "Call Us"
