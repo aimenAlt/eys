@@ -48,7 +48,14 @@ const COOLDOWN_DAYS = 7;
 
 function priorityTier(pathname) {
   if (pathname.startsWith('/service-areas/')) return 1;
+  // Outdoor carpentry is a conversion and Ads-landing asset, not a search asset:
+  // "outdoor carpentry" has near-zero search volume even though the service is a
+  // top-three revenue line. Deliberately tier 5 so it does not compete for the
+  // daily indexing budget with custom-carpentry or electrical-services. Must stay
+  // ABOVE the /services/ line below, which would otherwise return 2.
+  if (pathname === '/services/outdoor-carpentry/') return 5;
   if (pathname.startsWith('/services/')) return 2;
+  if (pathname.startsWith('/guides/')) return 2;
   if (pathname === '/pricing/' || pathname === '/reviews/') return 3;
   if (pathname.startsWith('/our-work/') || pathname.startsWith('/projects/')) return 4;
   return 5;
