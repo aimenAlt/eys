@@ -1,6 +1,8 @@
 ---
 import ContentLayout from './ContentLayout.astro';
 import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
+import InlineEstimateBand from '../components/common/InlineEstimateBand.astro';
+import ServiceTrustStrip from '../components/seo/ServiceTrustStrip.astro';
 import { absoluteUrl } from '../data/business';
 import { breadcrumbList, blogPostingSchema, webPage } from '../data/schema';
 import { contentMaxClass, contentPaddingClass } from '../data/layout';
@@ -72,10 +74,13 @@ const schemaGraph = [
       }
     </header>
 
+    <ServiceTrustStrip />
+
     <section class="bg-white border-t border-gray-100">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 prose prose-gray">
         <slot />
       </div>
     </section>
+    <InlineEstimateBand ctaLocation="blog_post_footer" />
   </article>
 </ContentLayout>

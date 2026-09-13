@@ -7,6 +7,7 @@ import HomeMediaWallShowcase from './HomeMediaWallShowcase.astro';
 import HomeReviewsSection from './HomeReviewsSection.astro';
 import HomeServiceAreas from './HomeServiceAreas.astro';
 import CTASection from './CTASection.astro';
+import InlineEstimateBand from '../common/InlineEstimateBand.astro';
 import HomeFAQ from './HomeFAQ.astro';
 import ServicePathwaysSection from './pathways/ServicePathwaysSection.astro';
 import { homeFaqs } from '../../data/schema';
@@ -139,6 +140,8 @@ const { projectCount, publishedReviews, cityLinks, communityLinks } = Astro.prop
 
 <ServiceGrid />
 
+<InlineEstimateBand ctaLocation="home_midpage_1" />
+
 <HomeMediaWallShowcase />
 
 <section class="relative py-24 bg-brand-black">
@@ -196,6 +199,8 @@ const { projectCount, publishedReviews, cityLinks, communityLinks } = Astro.prop
     </div>
   </div>
 </section>
+
+<InlineEstimateBand ctaLocation="home_midpage_2" />
 
 <HomeReviewsSection reviews={publishedReviews} />
 

@@ -9,6 +9,7 @@ import ServiceProcess from '../components/services/ServiceProcess.astro';
 import ServiceFAQ from '../components/services/ServiceFAQ.astro';
 import ServiceAreaCrossLinks from '../components/services/ServiceAreaCrossLinks.astro';
 import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
+import InlineEstimateBand from '../components/common/InlineEstimateBand.astro';
 import { absoluteUrl, resolveOgImage } from '../data/business';
 import { resolveServiceHero } from '../data/images';
 import { getCategoryForServiceSlug } from '../data/serviceCategories';
@@ -97,6 +98,7 @@ const schemaGraph = [
     />
     <ServicePriceFactors items={data.priceFactors} />
     <ServiceProcess steps={data.process} />
+    <InlineEstimateBand ctaLocation="service_midpage" />
     <section class="py-12 bg-white">
       <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
         <div class="prose prose-gray max-w-none">

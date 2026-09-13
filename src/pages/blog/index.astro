@@ -2,7 +2,9 @@
 import { getCollection } from 'astro:content';
 import ContentLayout from '../../layouts/ContentLayout.astro';
 import PageHero from '../../components/common/PageHero.astro';
+import ServiceTrustStrip from '../../components/seo/ServiceTrustStrip.astro';
 import BreadcrumbNav from '../../components/seo/BreadcrumbNav.astro';
+import InlineEstimateBand from '../../components/common/InlineEstimateBand.astro';
 import BalancedGrid from '../../components/ui/BalancedGrid.astro';
 import { absoluteUrl, site } from '../../data/business';
 import { breadcrumbList, webPage } from '../../data/schema';
@@ -56,6 +58,8 @@ const schemaGraph = [
       description="Practical advice on repairs, installations, and home improvements for Katy and West Houston homeowners."
     />
 
+    <ServiceTrustStrip />
+
     <section class="py-10 md:py-12 bg-white">
       <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
         {
@@ -69,5 +73,6 @@ const schemaGraph = [
         }
       </div>
     </section>
+    <InlineEstimateBand ctaLocation="blog_index_footer" />
   </article>
 </ContentLayout>

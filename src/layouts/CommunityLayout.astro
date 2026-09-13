@@ -8,6 +8,8 @@ import LocalValueGrid from '../components/areas/local/LocalValueGrid.astro';
 import LocalProcessSteps from '../components/areas/local/LocalProcessSteps.astro';
 import LocalAreaFAQ from '../components/areas/local/LocalAreaFAQ.astro';
 import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
+import InlineEstimateBand from '../components/common/InlineEstimateBand.astro';
+import ServiceTrustStrip from '../components/seo/ServiceTrustStrip.astro';
 import LocalServicesGrid from '../components/areas/local/LocalServicesGrid.astro';
 import { absoluteUrl, resolveOgImage } from '../data/business';
 import { defaultOgImageAlt } from '../data/images';
@@ -75,6 +77,8 @@ const schemaGraph = [
       heroImageAlt={data.heroImageAlt}
     />
 
+    <ServiceTrustStrip locationName={data.title} />
+
     <LocalLandingShell>
       {
         data.localIntro && (
@@ -102,6 +106,12 @@ const schemaGraph = [
       />
 
       <LocalProcessSteps process={data.process} />
+
+      <InlineEstimateBand
+        ctaLocation="community_midpage"
+        locationName={data.title}
+        embedded
+      />
 
       <LocalServicesGrid serviceSlugs={serviceSlugs} locationName={data.title} />
 

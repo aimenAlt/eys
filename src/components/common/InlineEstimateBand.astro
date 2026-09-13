@@ -1,0 +1,71 @@
+---
+/**
+ * Mid-content conversion band for the long stretch between a page's hero CTAs
+ * and its closing `LocalAreaCTA`. Deliberately a bordered light panel rather
+ * than a second full-bleed black slab, so it reads as a step inside the page
+ * instead of a duplicate of the end-of-page CTA.
+ *
+ * `embedded` drops the outer width/padding wrapper for placement inside an
+ * already-constrained stack such as `LocalLandingShell`.
+ */
+import { jobberProjectEstimateFormUrl, site } from '../../data/business';
+import { contentMaxClass, contentPaddingClass } from '../../data/layout';
+
+interface Props {
+  locationName?: string;
+  ctaLocation: string;
+  heading?: string;
+  embedded?: boolean;
+}
+
+const { locationName, ctaLocation, heading, embedded = false } = Astro.props;
+
+const estimateUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
+const title =
+  heading ??
+  (locationName ? `Have a project in ${locationName}?` : 'Have a project in mind?');
+const body = locationName
+  ? `Send photos and your list. We scope the work and return an itemized estimate for ${locationName}.`
+  : 'Send photos and your list. We scope the work and return an itemized estimate.';
+const panelClass = embedded
+  ? 'bg-white border border-gray-200'
+  : 'bg-brand-lightbg border border-gray-200';
+---
+
+<section
+  class:list={embedded ? [] : ['bg-white py-10 md:py-12']}
+  aria-labelledby={`inline-estimate-${ctaLocation}`}
+>
+  <div class:list={embedded ? [] : ['mx-auto', contentMaxClass, contentPaddingClass]}>
+    <div class:list={['rounded-xl border-l-4 border-l-brand-red p-6 md:p-8', panelClass]}>
+      <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between md:gap-8">
+        <div>
+          <h2
+            id={`inline-estimate-${ctaLocation}`}
+            class="text-xl md:text-2xl font-bold text-brand-black mb-2"
+          >
+            {title}
+          </h2>
+          <p class="text-sm md:text-base text-gray-600 leading-relaxed">{body}</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-3 md:flex-shrink-0">
+          <a
+            href={estimateUrl}
+            data-booking-type="project_estimate"
+            data-cta-location={ctaLocation}
+            class="inline-flex justify-center items-center bg-brand-red text-white px-6 py-3.5 rounded-md font-bold hover:bg-brand-redhover transition-colors"
+          >
+            Request an Estimate
+          </a>
+          <a
+            href={`tel:${site.phoneTel}`}
+            data-cta-location={ctaLocation}
+            class="inline-flex justify-center items-center border-2 border-brand-black text-brand-black px-6 py-3.5 rounded-md font-bold hover:bg-brand-black hover:text-white transition-colors"
+          >
+            Call {site.phone}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

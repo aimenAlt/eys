@@ -1,6 +1,8 @@
 ---
 import ContentLayout from '../layouts/ContentLayout.astro';
 import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
+import ServiceTrustStrip from '../components/seo/ServiceTrustStrip.astro';
+import InlineEstimateBand from '../components/common/InlineEstimateBand.astro';
 import { absoluteUrl, site } from '../data/business';
 import { breadcrumbList, webPage } from '../data/schema';
 import { contentMaxClass, contentPaddingClass } from '../data/layout';
@@ -31,6 +33,8 @@ const schemaGraph = [
           { name: 'Sitemap', url: '/sitemap/' },
         ]}
       />
+
+      <div class="-mx-4 sm:-mx-6 lg:-mx-8 mb-6"><ServiceTrustStrip /></div>
 
       <h1 class="text-4xl md:text-5xl font-extrabold text-brand-black mb-4 mt-6">Sitemap</h1>
       <p class="text-lg text-gray-600 mb-2 max-w-3xl">
@@ -71,5 +75,6 @@ const schemaGraph = [
         }
       </nav>
     </div>
+    <InlineEstimateBand ctaLocation="sitemap_footer" />
   </article>
 </ContentLayout>
