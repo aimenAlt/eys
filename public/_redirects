@@ -97,3 +97,9 @@
 /kitchen-remodeling-katy /services/kitchen-remodeling/ 301
 /kitchen-remodeling-richmond/ /services/kitchen-remodeling/ 301
 /kitchen-remodeling-richmond /services/kitchen-remodeling/ 301
+
+# HOA content retired 2026-09-13 (owner direction: no HOA mention anywhere).
+# Post kept in the repo as published: false; this keeps the indexed URL landing
+# somewhere valid instead of 404ing. Link to the TARGET, never this source.
+/blog/hoa-patio-updates-bridgeland/ /service-areas/cypress/bridgeland-handyman/ 301
+/blog/hoa-patio-updates-bridgeland /service-areas/cypress/bridgeland-handyman/ 301

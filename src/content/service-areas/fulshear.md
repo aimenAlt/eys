@@ -83,7 +83,6 @@ When a project requires licensed trade support — swapping a hardwired chandeli
 
 While much of Fulshear skews toward new construction, the city’s growth also brings maturing subdivisions that need [drywall repair](/services/drywall-repair/), paint touch-ups, door adjustments, and general maintenance. EYS adjusts approach based on your home’s age — protecting fresh drywall in a Jordan Ranch build differs from patching walls in an established Fulshear property.
 
-Customers in communities with architectural review processes should confirm current association requirements before exterior patio or visible trim modifications. EYS executes approved work to specification; association submissions remain the homeowner's responsibility. For exterior security devices specifically, Texas Property Code § 202.023 prevents an HOA from banning a camera or video doorbell on your own property outright, though placement and appearance can still be regulated through the standard review process — Cross Creek Ranch's CCMC-managed review typically runs about 30 days.
 
 ### Why Fulshear homeowners choose EYS
 

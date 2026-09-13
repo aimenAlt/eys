@@ -9,7 +9,7 @@ heroTitle: "Handyman & Home Upgrades for Cross Creek Ranch"
 summary: "Elevate Your Space delivers home improvements designed to enhance your beautiful Cross Creek Ranch home in Fulshear."
 promoCode: "CCR25"
 promoOffer: "$25 off projects over $250"
-localIntro: "Cross Creek Ranch is celebrated for its deep integration with nature — the restored Flewellen Creek, expansive native landscaping, and over 60 miles of winding trails. Homes here range from large family estates to peaceful retreats in the 55+ Bonterra neighborhood. The community is managed by CCMC, and exterior modifications typically go through an architectural review process that runs about 30 days — EYS can help you scope a project with that timeline in mind. Whether you need to organize your garage for hiking and biking gear or add custom woodwork to elevate your living room, EYS works to a standard that respects the quality of your home."
+localIntro: "Cross Creek Ranch is celebrated for its deep integration with nature — the restored Flewellen Creek, expansive native landscaping, and over 60 miles of winding trails. Homes here range from large family estates to peaceful retreats in the 55+ Bonterra neighborhood. Whether you need to organize your garage for hiking and biking gear or add custom woodwork to elevate your living room, EYS works to a standard that respects the quality of your home."
 servicesIntro: "We bridge the gap between massive general contractors and basic repairmen, focusing entirely on installations and aesthetic upgrades."
 commonProjects:
   - name: "TV Mounting"

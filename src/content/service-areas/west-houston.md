@@ -31,7 +31,7 @@ faqs:
   - question: "Can you handle multiple small repairs in one visit?"
     answer: "Yes. Bundled handyman visits are one of our most requested West Houston services — drywall patches, door adjustments, fixture swaps, shelving, and mounting handled in a single coordinated appointment."
   - question: "How do you protect the home during work?"
-    answer: "Floor protection, dust control, and thorough cleanup are part of normal job-site practice. Scope, access needs, and any HOA considerations are discussed before the visit."
+    answer: "Floor protection, dust control, and thorough cleanup are part of normal job-site practice. Scope and access needs are discussed before the visit."
   - question: "What if my project requires plumbing or high-voltage electrical work?"
     answer: "EYS can help coordinate appropriate licensed trade support when a project goes beyond handyman scope — such as new circuits for a wall-mounted TV, hardwired fixture swaps, or plumbing adjustments for an outdoor kitchen prep area."
   - question: "How do I request an estimate in West Houston?"
@@ -89,7 +89,6 @@ West Houston homeowners — particularly in newer builds and updated interiors �
 
 EYS approaches installation and carpentry with measurement-first habits suited to homes where details are visible and daily use is demanding. For projects requiring licensed trade support — new circuits, hardwired chandelier swaps, plumbing adjustments — EYS can help coordinate appropriate specialists alongside handyman-scope work.
 
-Customers in communities with architectural review processes should confirm current association requirements before exterior modifications. EYS executes approved work to specification; association submissions remain the homeowner's responsibility.
 
 ### Connected to Katy, Cypress, and Fort Bend
 

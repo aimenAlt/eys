@@ -27,7 +27,7 @@ faqs:
   - question: "Do you serve all villages within Bridgeland?"
     answer: "Yes. We work throughout Bridgeland — including Lakeland, Parkland, Prairieland, and Creekland Village — as well as established Cypress neighborhoods and Towne Lake. Share your address when requesting an estimate so we can confirm scheduling."
   - question: "Can you handle exterior patio or outdoor living upgrades?"
-    answer: "Yes. Outdoor-rated ceiling fans, patio TV mounting, furniture assembly, and covered-space enhancements are common in Cypress. Customers should confirm current association requirements with Bridgeland ARC or Towne Lake HOA before visible exterior modifications. Note that under Texas Property Code § 202.023, an HOA cannot outright ban a security camera or video doorbell on your own property, though it can still regulate placement and appearance through the standard review process."
+    answer: "Yes. Outdoor-rated ceiling fans, patio TV mounting, furniture assembly, and covered-space enhancements are common in Cypress."
   - question: "What carpentry work is popular in Cypress master-planned communities?"
     answer: "Bridgeland and Towne Lake homeowners frequently request custom media walls, crown molding, mudroom drop-zones, floating shelves, and garage overhead storage. Prairie School-inspired architecture in Bridgeland often calls for trim work that matches existing profiles and finish levels."
   - question: "Do you install garage storage for boating or outdoor gear?"
@@ -58,7 +58,6 @@ Homeowners in Bridgeland frequently book EYS for:
 
 Bridgeland’s lifestyle centers on 250 miles of trails, kayaking on Josey Lake, and recreation at **Dragonfly Park**. That outdoor focus means weekends belong on the water or bike paths — not spent balancing on a ladder with a drill. EYS handles the measuring, anchoring, and cleanup so you can return to the community’s trail network.
 
-For any exterior modification — fence details, patio structures, or visible trim changes — **customers should confirm current association requirements** with the Bridgeland Architectural Review Committee before work begins. EYS executes approved projects to spec; association submissions remain the homeowner’s responsibility.
 
 ### Towne Lake: lakeside living and outdoor entertaining
 
@@ -75,7 +74,6 @@ That lifestyle shapes the projects EYS sees in Towne Lake:
 
 Towne Lake’s “boat to dinner” culture at The Boardwalk means your free time has a clear alternative to home improvement frustration. Send your project list and address for confirmation, and EYS scopes the work around your schedule.
 
-Exterior work visible from the water or docks may require architectural approval through CCMC and Towne Lake HOA standards. Confirm current guidelines before scheduling exterior patio or dock-adjacent improvements.
 
 ### Established Cypress neighborhoods
 

@@ -57,7 +57,7 @@ We install and configure devices on confirmed existing wiring and circuits: vide
 
 ## Local examples across Katy and West Houston
 
-New-build move-in packages in Sunterra, Elyson, and Cane Island often bundle smart-lock and video-doorbell installs alongside [TV mounting](/services/tv-mounting/) and [furniture assembly](/services/furniture-assembly/) on the same visit. Large two-story floor plans common across these communities are also where mesh Wi-Fi placement matters most — a single router rarely reaches every room. For exterior cameras and doorbells, HOA rules vary by community; see your [local service area page](/service-areas/katy/) for the specifics that apply to exterior modifications where you live.
+New-build move-in packages in Sunterra, Elyson, and Cane Island often bundle smart-lock and video-doorbell installs alongside [TV mounting](/services/tv-mounting/) and [furniture assembly](/services/furniture-assembly/) on the same visit. Large two-story floor plans common across these communities are also where mesh Wi-Fi placement matters most — a single router rarely reaches every room.
 
 ## Related services and next steps
 
