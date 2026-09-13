@@ -8,6 +8,7 @@ import LocalServicesGrid from '../components/areas/local/LocalServicesGrid.astro
 import LocalAreaFAQ from '../components/areas/local/LocalAreaFAQ.astro';
 import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
 import { absoluteUrl, resolveOgImage } from '../data/business';
+import { defaultOgImageAlt } from '../data/images';
 import { breadcrumbList, faqPage, localBusinessForArea, webPage } from '../data/schema';
 import { contentMaxClass, contentPaddingClass } from '../data/layout';
 import type { CollectionEntry } from 'astro:content';
@@ -49,7 +50,7 @@ const schemaGraph = [
     canonical: pageUrl,
     ogType: 'website',
     ogImage: resolveOgImage(data.heroImage),
-    ogImageAlt: data.heroImageAlt ?? `${data.title} handyman service area`,
+    ogImageAlt: data.heroImageAlt ?? defaultOgImageAlt,
   }}
   schemaGraph={schemaGraph}
 >

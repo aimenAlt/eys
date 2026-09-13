@@ -75,7 +75,13 @@ const services = defineCollection({
     process: z.array(z.string()).optional(),
     faqs: z.array(faqSchema).optional(),
     heroImage: z.string().optional(),
-    heroImageAlt: z.string().optional(),
+    /**
+     * REQUIRED. ServiceHero used to synthesise `<title> in Katy and West Houston`
+     * when this was absent — a geographic claim about EYS's work, generated
+     * silently and attached to whatever image the page was showing. Failing the
+     * build is the point: a missing alt must never default to a claim.
+     */
+    heroImageAlt: z.string().min(1),
     primaryCTA: z.string().optional(),
     secondaryCTA: z.string().optional(),
     published: publishedSchema,

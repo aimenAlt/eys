@@ -5,7 +5,7 @@ import {
   jobberOnlineBookingUrl,
   site,
 } from '../../data/business';
-import { resolveServiceHero } from '../../data/images';
+import { imagePlaceholder, resolveServiceHero } from '../../data/images';
 import { contentMaxClass, contentPaddingClass } from '../../data/layout';
 
 interface ServiceData {
@@ -29,7 +29,21 @@ const { service } = Astro.props;
 const heading = service.heroTitle ?? service.title;
 const bookingUrl = jobberOnlineBookingUrl();
 const imageSrc = resolveServiceHero(service.slug, service.heroImage);
-const imageAlt = service.heroImageAlt ?? `${service.title} in Katy and West Houston`;
+/**
+ * Alt must describe what actually renders. `resolveServiceHero` silently falls
+ * back to the branded placeholder when a registered photo has not been uploaded,
+ * and two pages were shipping alt text describing a grab bar and an anti-tip
+ * strap that were not in any image. Pages keep their real alt in frontmatter so
+ * it is ready the day the photo lands; until then the placeholder describes
+ * itself. There is deliberately NO title/geography fallback here - omitting alt
+ * used to generate "<title> in Katy and West Houston", a claim about EYS's work
+ * attached to whatever image happened to be showing. heroImageAlt is required by
+ * the schema, so absence is now a build error rather than a silent claim.
+ */
+const isPlaceholderImage = imageSrc === imagePlaceholder;
+const imageAlt = isPlaceholderImage
+  ? 'Elevate Your Space Handyman logo'
+  : service.heroImageAlt;
 
 type CtaConfig = {
   href: string;
