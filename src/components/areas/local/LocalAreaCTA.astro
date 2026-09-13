@@ -1,11 +1,12 @@
 ---
-import { site } from '../../../data/business';
+import { jobberProjectEstimateFormUrl, site } from '../../../data/business';
 
 interface Props {
   locationName: string;
 }
 
 const { locationName } = Astro.props;
+const estimateUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
 ---
 
 <section class="bg-brand-black text-white border-t border-white/10" aria-labelledby="local-cta">
@@ -19,7 +20,9 @@ const { locationName } = Astro.props;
     </p>
     <div class="flex flex-col sm:flex-row gap-3 justify-center">
       <a
-        href="/contact/"
+        href={estimateUrl}
+        data-booking-type="project_estimate"
+        data-cta-location="local_area_cta"
         class="inline-flex justify-center items-center bg-brand-red text-white px-8 py-3.5 rounded-md font-bold hover:bg-brand-redhover transition-colors"
       >
         Request an Estimate
