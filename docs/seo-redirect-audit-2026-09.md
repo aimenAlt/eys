@@ -29,7 +29,9 @@ is a targeting problem.
 
 **Legacy URLs carry 50,970 of 75,999 impressions over 16 months — 67.1% of all
 page-level impressions on the property.** They are redirected away to pages that
-have almost no impressions of their own.
+have almost no impressions of their own. **Read the resolution section before
+acting on that sentence: on clicks rather than impressions the same set produced
+20 clicks in 16 months and 0 in the last 28 days, and the conclusion reverses.**
 
 **`/services/electrical-services/` has never recorded a single impression in 16
 months.** It is the target of three distinct legacy sources carrying 23,191
@@ -45,7 +47,10 @@ hero, local intro, neighborhoods, ZIP codes, housing notes, FAQs) and all 18 are
 equity these URLs earned is city-specific; the pages that could receive it exist
 and are switched off.
 
-**Thirteen redirect targets have never recorded an impression.**
+**Thirteen redirect targets have never recorded an impression.** One of them is
+`/blog/`, which has 0 impressions and is down to a small number of posts. Carry
+both facts into the Phase 3 internal-link report together — a never-crawled hub
+with almost nothing behind it is a link-graph question, not a redirect one.
 
 ## Target-level summary
 
@@ -68,16 +73,19 @@ Source impressions are deduplicated across each rule's slash and non-slash varia
 
 ## Recommendations
 
-**REPOINT (36 rules).** Every geo-qualified legacy source whose city-service page
+**REPOINT — NOT RECOMMENDED. See the resolution below.**
+
+The 32 remaining geo-qualified rules (36 less the 4 electrician rules above) were
+initially flagged REPOINT on impression volume. Every geo-qualified legacy source whose city-service page
 already exists. `/drywall-repair-katy/` should serve or point to the Katy drywall
 city-service page, not the generic `/services/drywall-repair/`. This requires
 publishing those pages, which is a separate decision with its own risk — see the
 open question below.
 
-**KEEP (37 rules).** All trailing-slash normalization, the product rename, the
+**KEEP (all other rules).** All trailing-slash normalization, the product rename, the
 city slug fixes, and the legacy WordPress core-page rules. These are correct.
 
-**KEEP AS-IS, EXPLICIT NOTE (3 rules).** The `/electricians-katy/` and
+**KEEP AS-IS, EXPLICIT NOTE (4 rules — table rows 57–60).** The `/electricians-katy/` and
 `/electricians-richmond/` rules carry a NOTE comment forbidding a repoint to a
 ceiling-fan or electrician-branded page, on the grounds that EYS is a handyman
 business and must not be positioned or indexed under an electrician identity.
@@ -93,14 +101,65 @@ left to 404. `/garage-door-repair-katy/` (227 impressions, weighted position 76.
 and `/tv-repair-katy/` are genuinely discontinued services; `/furniture-repair-*/`
 is distinct intent. No redirect should be added.
 
-## Open question for sign-off
+## RESOLVED — do not publish the 18, and keep all 76 rules
 
-Repointing the 36 geo rules means publishing 18 city-service pages. Those URLs
-already exist in Google's index and already receive impressions, so this is
-arguably restoring indexed URLs rather than minting new ones — but it is an
-18-page publish against a property where 34 of 69 URLs already sit in
-"Discovered — currently not indexed". That judgement is not this document's to
-make.
+**Resolution, 2026-09-13: all 76 rules are KEEP. No rule is repointed.** You cannot
+repoint to an unpublished page, and the current targets are the best ones that
+exist. Do not reopen this from the impression figures alone — that is precisely
+the mistake the first draft of this document made.
+
+### Why the impression headline above is the wrong unit
+
+The standing measurement rule on this property is **clicks, position and CTR —
+never impressions**, because roughly 75% of impressions are desktop on a local
+trade and scraper query volume tripled in a fortnight. Re-cutting the same legacy
+set on clicks inverts the conclusion:
+
+| Legacy geo URL | 16mo clicks | 16mo impr | CTR | 28d clicks | 28d impr |
+|---|---:|---:|---:|---:|---:|
+| `/electricians-katy/` | **1** | 22,651 | 0.00% | 0 | 0 |
+| `/kitchen-remodeling-katy/` | 6 | 6,154 | 0.10% | 0 | 0 |
+| `/bathroom-remodeling-services-katy/` | 2 | 5,426 | 0.04% | 0 | 8 |
+| `/house-painting-katy/` | 2 | 3,475 | 0.06% | 0 | 0 |
+| `/drywall-repair-katy/` | 1 | 2,554 | 0.04% | 0 | 0 |
+| `/handyman-service-richmond/` | 2 | 1,755 | 0.11% | 0 | 0 |
+| `/custom-cabinets-katy/` | 3 | 1,536 | 0.20% | 0 | 0 |
+| `/floor-and-decor-katy/` | 3 | 1,470 | 0.20% | 0 | 1 |
+| all 8 Richmond geo URLs combined | **0** | 3,431 | 0.00% | 0 | 4 |
+| **Total, geo legacy** | **20** | **48,452** | **0.04%** | **0** | **13** |
+
+Site-wide for comparison: 361 clicks on 75,999 impressions, **0.48% CTR** — twelve
+times the legacy set's rate.
+
+Two facts end the argument. **Forty-eight thousand impressions produced twenty
+clicks in sixteen months.** And **in the last 28 days the entire geo-legacy set
+produced 13 impressions and zero clicks** — the overhang has already evaporated on
+its own. Weighted positions of 39–70 put these URLs on results pages four through
+seven. That is not equity waiting to be recovered; it is a large denominator.
+
+### The other two reasons
+
+**It would reverse a deliberate decision.** The 18 city-service pages were set
+`published: false` in commit `37493a0` as a duplicate-content fix, after they were
+flagged as live duplicates of the generic service pages. (Precisely: 17 of the 18
+were switched off in that commit; `handyman-services-katy.md` was not part of it
+and should be checked separately for how it came to be false.) Reversing that
+belongs in an explicit decision that solves the duplicate-content problem first —
+not as a side effect of a redirect audit.
+
+**It is an 18-page publish against 34 URLs already sitting in "Discovered —
+currently not indexed".** That is exactly the volume the publishing freeze exists
+to stop.
+
+### The electrician rules specifically
+
+Rows 57–60 carry the largest source pool on the property and are the most tempting
+repoint in the file. **They stay as they are.** The NOTE in `public/_redirects`
+forbidding an electrician-branded target is a legal-positioning constraint under
+Tex. Occ. Code § 1305.151, and it outranks the traffic argument — which, per the
+table above, amounts to one click in sixteen months. The correct way to serve that
+demand is at task level (ceiling fan installation, fixture replacement, outlet and
+switch work) on pages that do not claim the identity.
 
 ## Full rule table
 
@@ -162,10 +221,10 @@ make.
 | 54 | `/drywall-repair-katy` | `/services/drywall-repair/` | legacy city-service | 2554 | 39.8 | 75 | geo→generic, city page exists (unpublished); high-equity source (2554 impr) | REPOINT |
 | 55 | `/drywall-repair-richmond/` | `/services/drywall-repair/` | legacy city-service | 1098 | 27.8 | 75 | geo→generic, city page exists (unpublished); high-equity source (1098 impr) | REPOINT |
 | 56 | `/drywall-repair-richmond` | `/services/drywall-repair/` | legacy city-service | 1098 | 27.8 | 75 | geo→generic, city page exists (unpublished); high-equity source (1098 impr) | REPOINT |
-| 57 | `/electricians-katy/` | `/services/electrical-services/` | legacy city-service | 22651 | 70.3 | 0 | never-crawled target; geo→generic, city page exists (unpublished); high-equity source (22651 impr) | REPOINT |
-| 58 | `/electricians-katy` | `/services/electrical-services/` | legacy city-service | 22651 | 70.3 | 0 | never-crawled target; geo→generic, city page exists (unpublished); high-equity source (22651 impr) | REPOINT |
-| 59 | `/electricians-richmond/` | `/services/electrical-services/` | legacy city-service | 540 | 44.9 | 0 | never-crawled target; geo→generic, city page exists (unpublished); high-equity source (540 impr) | REPOINT |
-| 60 | `/electricians-richmond` | `/services/electrical-services/` | legacy city-service | 540 | 44.9 | 0 | never-crawled target; geo→generic, city page exists (unpublished); high-equity source (540 impr) | REPOINT |
+| 57 | `/electricians-katy/` | `/services/electrical-services/` | legacy city-service | 22651 | 70.3 | 0 | never-crawled target; geo→generic, city page exists (unpublished); high-equity source (22651 impr) | electrician-identity constraint, see NOTE in `public/_redirects` | **KEEP** |
+| 58 | `/electricians-katy` | `/services/electrical-services/` | legacy city-service | 22651 | 70.3 | 0 | never-crawled target; geo→generic, city page exists (unpublished); high-equity source (22651 impr) | electrician-identity constraint, see NOTE in `public/_redirects` | **KEEP** |
+| 59 | `/electricians-richmond/` | `/services/electrical-services/` | legacy city-service | 540 | 44.9 | 0 | never-crawled target; geo→generic, city page exists (unpublished); high-equity source (540 impr) | electrician-identity constraint, see NOTE in `public/_redirects` | **KEEP** |
+| 60 | `/electricians-richmond` | `/services/electrical-services/` | legacy city-service | 540 | 44.9 | 0 | never-crawled target; geo→generic, city page exists (unpublished); high-equity source (540 impr) | electrician-identity constraint, see NOTE in `public/_redirects` | **KEEP** |
 | 61 | `/floor-and-decor-katy/` | `/services/flooring-and-decor/` | legacy city-service | 1470 | 49.9 | 6 | geo→generic, city page exists (unpublished); high-equity source (1470 impr) | REPOINT |
 | 62 | `/floor-and-decor-katy` | `/services/flooring-and-decor/` | legacy city-service | 1470 | 49.9 | 6 | geo→generic, city page exists (unpublished); high-equity source (1470 impr) | REPOINT |
 | 63 | `/floor-and-decor-richmond/` | `/services/flooring-and-decor/` | legacy city-service | 76 | 34.9 | 6 | geo→generic, city page exists (unpublished) | REPOINT |
