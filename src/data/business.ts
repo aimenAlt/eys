@@ -12,18 +12,19 @@ export const site = {
 };
 
 /**
- * Google Business Profile aggregate stats.
- * Confirmed from live GBP screenshot 2026-08-04: 5.0 stars, 158 reviews.
+ * Google Business Profile aggregate stats — the SINGLE SOURCE for every review
+ * claim on the site. Do not hardcode a count, a rating, or a "N+" string in any
+ * other file: import `googleReviews` and read `countDisplay` / `rating` instead.
+ * Three different figures (158, 160+, 150+) were live simultaneously before this
+ * was consolidated.
+ *
  * Paste your GBP URL into profileUrl (e.g. https://g.page/...) — sameAs syncs automatically.
  */
 export const googleReviews = {
-  /**
-   * Confirmed 160 from live GBP, 26 Aug 2026. The count climbs continuously, so
-   * display copy uses `countDisplay` ("160+") rather than this exact figure —
-   * a hardcoded exact number goes stale within days and reads as inaccurate.
-   * Update both together if you refresh this.
-   */
-  count: 160,
+  // Verified against live GBP knowledge panel 2026-09-13: 5.0 stars, 162 reviews.
+  // countDisplay stays '160+' because the count climbs continuously. Re-verify before
+  // any count claim ships.
+  count: 162,
   countDisplay: '160+',
   rating: 5.0,
   profileUrl: 'https://maps.app.goo.gl/GizAsdkXmcphcMAj6' as string,
