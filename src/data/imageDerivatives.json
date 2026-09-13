@@ -1,0 +1,440 @@
+{
+  "/images/categories/remodeling.jpg": [
+    480,
+    768
+  ],
+  "/images/categories/repairs-installs.jpg": [
+    480,
+    768
+  ],
+  "/images/cities/brookshire-raw.jpg": [
+    480
+  ],
+  "/images/cities/cypress-creek.jpg": [
+    480,
+    768,
+    1200,
+    1600
+  ],
+  "/images/cities/fulshear-library.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/cities/katy-silos.jpg": [
+    480,
+    768,
+    1200,
+    1600
+  ],
+  "/images/cities/katy-water-tower.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/cities/katy-water-tower.png": [
+    480
+  ],
+  "/images/cities/katy-welcome-sign-commons.jpg": [
+    480,
+    768,
+    1200,
+    1600
+  ],
+  "/images/cities/katy-welcome-sign.png": [
+    480,
+    768
+  ],
+  "/images/cities/richmond-courthouse.jpg": [
+    480,
+    768,
+    1200,
+    1600
+  ],
+  "/images/cities/sugar-land-refinery.jpg": [
+    480,
+    768,
+    1200,
+    1600
+  ],
+  "/images/cities/west-houston-bp.jpg": [
+    480,
+    768,
+    1200,
+    1600
+  ],
+  "/images/cities/west-houston-energy.jpg": [
+    480
+  ],
+  "/images/communities/aliana-raw.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/communities/bridgeland-raw.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/communities/cane-island-raw.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/communities/cinco-ranch-entrance.jpg": [
+    480,
+    768,
+    1200,
+    1600
+  ],
+  "/images/communities/cinco-ranch-sign-a.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/communities/cinco-ranch.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/communities/cross-creek-ranch-raw.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/communities/elyson-raw.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/communities/elyson-raw.png": [
+    480
+  ],
+  "/images/communities/sunterra-entrance.png": [
+    480,
+    768
+  ],
+  "/images/communities/sunterra.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/curtain-installation/hero-double-height-sheers.jpg": [
+    480,
+    768
+  ],
+  "/images/curtain-installation/media-wall/media-wall-fireplace-niches.jpg": [
+    480,
+    768
+  ],
+  "/images/curtain-installation/media-wall/media-wall-marble-wood-slat.jpg": [
+    480,
+    768
+  ],
+  "/images/curtain-installation/media-wall/media-wall-slat-console-poster.jpg": [
+    480
+  ],
+  "/images/curtain-installation/media-wall/media-wall-slat-console.jpg": [
+    480
+  ],
+  "/images/curtain-installation/proof-curved-window-panels.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/curtain-installation/proof-floor-to-ceiling-drapes.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/curtain-installation/proof-high-ceiling-drapes-living-room.jpg": [
+    480
+  ],
+  "/images/heroes/brookshire-tx.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/heroes/cypress.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/heroes/fulshear.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/heroes/katy.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/heroes/richmond.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/heroes/sugar-land-tx.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/heroes/west-houston.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/home/cta-bg.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/home/hero.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/home/who-we-are-1.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/home/who-we-are-2.jpg": [
+    480,
+    768
+  ],
+  "/images/home/why-choose-us-bg.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/og-default.jpg": [
+    480,
+    768
+  ],
+  "/images/projects/curved-stair-paneling/eys-trim-carpentry-curved-stair-fluted-wall-paneling-after-p011-07.jpg": [
+    480,
+    768,
+    1200,
+    1600
+  ],
+  "/images/projects/curved-stair-paneling/eys-trim-carpentry-curved-stair-handrail-protected-during-p011-02.jpg": [
+    480,
+    768
+  ],
+  "/images/projects/curved-stair-paneling/eys-trim-carpentry-curved-wall-picture-frame-molding-after-p011-03.jpg": [
+    480,
+    768,
+    1200,
+    1600
+  ],
+  "/images/projects/double-height-curtains/eys-fixture-installation-living-room-drapes-chandelier-after-p023-03.jpg": [
+    480,
+    768,
+    1200,
+    1600
+  ],
+  "/images/projects/double-height-curtains/eys-general-handyman-double-height-sheer-curtains-after-p023-04.jpg": [
+    480,
+    768
+  ],
+  "/images/projects/double-height-curtains/eys-general-handyman-high-ceiling-curtain-panels-after-p023-05.jpg": [
+    480,
+    768,
+    1200,
+    1600
+  ],
+  "/images/projects/marble-wood-slat-feature-wall/eys-custom-project-living-room-marble-wood-slat-wall-after-p002-01.jpg": [
+    480,
+    768,
+    1200,
+    1600
+  ],
+  "/images/projects/navy-office-builtins/eys-custom-project-navy-builtin-office-shelving-after-p006-03.jpg": [
+    480,
+    768,
+    1200,
+    1600
+  ],
+  "/images/projects/navy-office-builtins/eys-door-repair-installation-french-doors-sidelights-transom-after-p006-02.jpg": [
+    480,
+    768,
+    1200,
+    1600
+  ],
+  "/images/projects/pergola-privacy-wall/eys-exterior-repair-wood-pergola-privacy-wall-during-p019-01.jpg": [
+    480,
+    768,
+    1200,
+    1600
+  ],
+  "/images/projects/sage-kitchen-remodel/eys-kitchen-repair-upgrades-kitchen-quartz-countertops-after-p005-01.jpg": [
+    480,
+    768
+  ],
+  "/images/projects/sage-kitchen-remodel/eys-kitchen-repair-upgrades-sage-kitchen-peninsula-subway-tile-after-p005-04.jpg": [
+    480,
+    768,
+    1200,
+    1600
+  ],
+  "/images/projects/sage-kitchen-remodel/eys-kitchen-repair-upgrades-two-tone-kitchen-island-during-p005-05.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/projects/sage-kitchen-remodel/eys-kitchen-repair-upgrades-two-tone-kitchen-island-quartz-after-p005-06.jpg": [
+    480,
+    768,
+    1200,
+    1600
+  ],
+  "/images/projects/sage-kitchen-remodel/eys-kitchen-repair-upgrades-two-tone-sage-kitchen-cabinets-after-p005-03.jpg": [
+    480,
+    768,
+    1200,
+    1600
+  ],
+  "/images/projects/understair-curved-shelving/eys-shelving-storage-custom-curved-understair-shelving-during-p007-02.jpg": [
+    480,
+    768,
+    1200,
+    1600
+  ],
+  "/images/projects/understair-curved-shelving/eys-shelving-storage-under-stair-curved-shelving-after-p007-01.jpg": [
+    480,
+    768,
+    1200,
+    1600
+  ],
+  "/images/projects/vaulted-crystal-chandelier/eys-fixture-installation-ornate-crystal-chandelier-after-p008-03.jpg": [
+    480,
+    768,
+    1200,
+    1600
+  ],
+  "/images/projects/vaulted-crystal-chandelier/eys-fixture-installation-vaulted-living-crystal-chandelier-after-p008-01.jpg": [
+    480,
+    768
+  ],
+  "/images/services/after-hours-repairs.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/services/bathroom-remodel.jpg": [
+    480,
+    768
+  ],
+  "/images/services/cabinet-install.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/services/ceiling-fan.jpg": [
+    480,
+    768
+  ],
+  "/images/services/closet-shelving-organization.jpg": [
+    480,
+    768
+  ],
+  "/images/services/curtain-install.jpg": [
+    480,
+    768
+  ],
+  "/images/services/custom-carpentry.jpg": [
+    480,
+    768
+  ],
+  "/images/services/door-install.jpg": [
+    480,
+    768
+  ],
+  "/images/services/drywall-repair.jpg": [
+    480,
+    768
+  ],
+  "/images/services/electrical.jpg": [
+    480,
+    768
+  ],
+  "/images/services/flooring.jpg": [
+    480,
+    768
+  ],
+  "/images/services/furniture-assembly.jpg": [
+    480,
+    768
+  ],
+  "/images/services/garage-storage-solutions.jpg": [
+    480,
+    768
+  ],
+  "/images/services/general-handyman.jpg": [
+    480,
+    768
+  ],
+  "/images/services/kitchen-remodel.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/services/limewash-walls.jpg": [
+    480,
+    768
+  ],
+  "/images/services/media-walls.jpg": [
+    480,
+    768
+  ],
+  "/images/services/media-walls/fireplace-niches.jpg": [
+    480,
+    768
+  ],
+  "/images/services/media-walls/lit-shelves-living-room.jpg": [
+    480
+  ],
+  "/images/services/media-walls/marble-wood-slat.jpg": [
+    480,
+    768
+  ],
+  "/images/services/media-walls/slat-console-poster.jpg": [
+    480
+  ],
+  "/images/services/media-walls/slat-console.jpg": [
+    480
+  ],
+  "/images/services/outdoor-carpentry.jpg": [
+    480,
+    768
+  ],
+  "/images/services/painting.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/services/picture-hanging-floating-shelves.jpg": [
+    480,
+    768
+  ],
+  "/images/services/tile-installation.jpg": [
+    480,
+    768,
+    1200
+  ],
+  "/images/services/tv-mounting.jpg": [
+    480,
+    768
+  ],
+  "/images/services/wallpaper-accent-wall-installation.jpg": [
+    480,
+    768
+  ],
+  "/images/services/whole-project-remodeling.jpg": [
+    480,
+    768,
+    1200
+  ]
+}

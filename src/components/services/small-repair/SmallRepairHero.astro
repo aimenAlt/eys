@@ -6,6 +6,7 @@ import {
 } from '../../../data/pricing/todoList';
 import { smallRepairVisitMeta } from '../../../data/smallRepairVisitContent';
 import { jobberHandymanToDoListFormUrl, site } from '../../../data/business';
+import SiteImage from '../../ui/SiteImage.astro';
 import { resolveServiceHero } from '../../../data/images';
 
 const heroImage = resolveServiceHero('handyman-to-do-list');
@@ -95,12 +96,13 @@ const bookUrl = jobberHandymanToDoListFormUrl();
         </p>
       </div>
       <div class="lg:col-span-5 mt-10 lg:mt-0">
-        <img
+        <SiteImage
           src={heroImage}
           alt="Handyman completing home to-do list tasks during a reserved visit in Katy, TX"
           class="w-full h-72 sm:h-96 object-cover rounded-xl shadow-card border border-brand-line"
-          width="800"
-          height="600"
+          sizes="(max-width: 1024px) 100vw, 500px"
+          width={800}
+          height={600}
           loading="eager"
         />
       </div>

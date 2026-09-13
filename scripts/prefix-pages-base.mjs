@@ -31,6 +31,12 @@ function rewrite(content) {
   return content
     // href="/foo" or src='/foo' but not already /eys/ and not protocol-relative //
     .replace(/(href|src|poster)=(["'])\/(?!\/|eys\/)/g, `$1=$2${base}/`)
+    // srcset="/a-480w.webp 480w, /a-768w.webp 768w" — every candidate URL
+    .replace(
+      /srcset=(["'])([^"']*)\1/g,
+      (match, quote, value) =>
+        `srcset=${quote}${value.replace(/(^|,\s*)\/(?!\/|eys\/)/g, `$1${base}/`)}${quote}`,
+    )
     // CSS url(/foo) but not url(/eys/...) or url(//...)
     .replace(/url\(\s*(['"]?)\/(?!\/|eys\/)/g, `url($1${base}/`)
     // content="/images/..." style attributes

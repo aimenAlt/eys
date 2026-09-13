@@ -7,7 +7,9 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node scripts/gen-image-derivatives.mjs",
     "build": "astro build",
+    "images": "node scripts/gen-image-derivatives.mjs",
     "build:pages": "GITHUB_PAGES=true sh -c 'astro build && node scripts/prefix-pages-base.mjs'",
     "preview": "astro preview",
     "bp": "astro build && astro preview",
@@ -29,6 +31,7 @@
     "typescript": "^6.0.3"
   },
   "devDependencies": {
-    "playwright": "^1.61.1"
+    "playwright": "^1.61.1",
+    "sharp": "^0.35.4"
   }
 }

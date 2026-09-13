@@ -1,10 +1,20 @@
 ---
 /**
  * Standardized public-folder image delivery: explicit dimensions, lazy/eager
- * policy, and responsive sizes. Full AVIF/WebP derivatives still require assets
- * under src/ (astro:assets) or a CDN transform — this component enforces the
- * markup contract for LCP and layout stability on /public images.
+ * policy, and responsive sizes.
+ *
+ * Responsive candidates come from `scripts/gen-image-derivatives.mjs`, which
+ * writes `<name>-<width>w.webp` next to each original and records the available
+ * widths in `imageDerivatives.json`. When an entry exists the image renders as a
+ * `<picture>` with a WebP `<source>`; the `<img>` keeps the original file as its
+ * `src`, so a browser without WebP still gets a working photo. The `<picture>`
+ * carries `display: contents` so it creates no box of its own and every existing
+ * layout (absolutely positioned heroes, `object-cover` fills) is unaffected.
+ *
+ * Falls back cleanly to a bare `<img>` when no derivatives exist for `src`.
  */
+import derivatives from '../../data/imageDerivatives.json';
+
 interface Props {
   src: string;
   alt: string;
@@ -15,7 +25,7 @@ interface Props {
   fetchpriority?: 'high' | 'low' | 'auto';
   decoding?: 'async' | 'auto' | 'sync';
   sizes?: string;
-  /** Optional srcset for pre-generated candidates (same path family). */
+  /** Optional explicit srcset. Overrides the generated WebP candidates. */
   srcset?: string;
 }
 
@@ -31,17 +41,41 @@ const {
   sizes = '(max-width: 768px) 100vw, 1200px',
   srcset,
 } = Astro.props;
+
+const widths = (derivatives as Record<string, number[]>)[src];
+const webpSrcset = widths?.length
+  ? widths.map((w) => `${src.replace(/\.[^.]+$/, '')}-${w}w.webp ${w}w`).join(', ')
+  : undefined;
 ---
 
-<img
-  src={src}
-  alt={alt}
-  width={width}
-  height={height}
-  loading={loading}
-  decoding={decoding}
-  fetchpriority={fetchpriority}
-  sizes={sizes}
-  srcset={srcset}
-  class={className}
-/>
+{
+  webpSrcset && !srcset ? (
+    <picture class="contents">
+      <source type="image/webp" srcset={webpSrcset} sizes={sizes} />
+      <img
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        loading={loading}
+        decoding={decoding}
+        fetchpriority={fetchpriority}
+        sizes={sizes}
+        class={className}
+      />
+    </picture>
+  ) : (
+    <img
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      loading={loading}
+      decoding={decoding}
+      fetchpriority={fetchpriority}
+      sizes={sizes}
+      srcset={srcset}
+      class={className}
+    />
+  )
+}
