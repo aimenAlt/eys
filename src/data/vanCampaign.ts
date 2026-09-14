@@ -80,6 +80,11 @@ export const vanImages = {
       label: 'Kitchen Remodel · Katy',
     },
     /**
+     * Labelled as a design reference, not a portfolio piece: this frame is not
+     * an EYS build, and the caption sits inches from one that is ("Kitchen
+     * Remodel · Katy"), so an unqualified "Bathroom Remodel" would read as a
+     * claim of authorship. Change the label the day a real bath job is shot.
+     *
      * The section renders this frame only when the file is actually present
      * (`hasImage`), so a missing photo leaves a clean one-up rather than a
      * placeholder box. `services/bathroom-remodel.jpg` is deliberately not used
@@ -91,7 +96,7 @@ export const vanImages = {
       alt: 'Finished bathroom remodel with a glass walk-in shower, large-format stone-look tile, floating double vanity, backlit mirrors, and matte black fixtures',
       width: 1800,
       height: 1200,
-      label: 'Bathroom Remodel',
+      label: 'Bathroom Remodel · The Look We Build To',
     },
   },
   /** Proof strip. Captions matter — an uncaptioned thumbnail says nothing about scope. */
