@@ -52,14 +52,14 @@ const schemaGraph = [
     <section class="pt-8 pb-2 bg-white">
       <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
         <div
-          class="rounded-xl border border-gray-200 border-l-4 border-l-brand-red bg-brand-lightbg p-6 md:p-8"
+          class="rounded-xl border border-neutral-200 border-l-4 border-l-brand-red bg-brand-lightbg p-6 md:p-8"
         >
           <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between md:gap-8">
             <div>
               <h2 class="text-xl md:text-2xl font-bold text-brand-black mb-2">
                 Send photos, get an itemized estimate
               </h2>
-              <p class="text-sm md:text-base text-gray-600 leading-relaxed max-w-xl">
+              <p class="text-sm md:text-base text-neutral-600 leading-relaxed max-w-xl">
                 The fastest route for repairs, installations, carpentry and larger projects. Prefer
                 to talk it through? Call or email — both reach us directly.
               </p>
@@ -82,7 +82,7 @@ const schemaGraph = [
               </a>
             </div>
           </div>
-          <p class="text-sm text-gray-600 mt-4">
+          <p class="text-sm text-neutral-600 mt-4">
             Or email
             <a
               href={`mailto:${business.email}`}
@@ -103,7 +103,7 @@ const schemaGraph = [
             <h2 class="text-2xl font-bold text-brand-black mb-6">Reach us directly</h2>
             {
               gbpUrl && (
-                <p class="text-sm text-gray-600 mb-6">
+                <p class="text-sm text-neutral-600 mb-6">
                   <a href={gbpUrl} target="_blank" rel="noopener noreferrer" class="text-brand-red font-bold hover:underline">
                     Read our Google Reviews
                   </a>
@@ -130,11 +130,11 @@ const schemaGraph = [
                   <p class="font-bold text-brand-black">Phone</p>
                   <a
                     href={`tel:${business.phoneTel}`}
-                    class="text-gray-600 hover:text-brand-red transition-colors"
+                    class="text-neutral-600 hover:text-brand-red transition-colors"
                   >
                     {business.phone}
                   </a>
-                  <p class="text-sm text-gray-600 mt-1">
+                  <p class="text-sm text-neutral-600 mt-1">
                     Answered <strong class="text-brand-black">5:00 AM – 11:30 PM, seven days a week</strong>.
                     Same-night dispatch is available for urgent work at a late-hours rate — see
                     <a href="/services/after-hours-repairs/" class="text-brand-red font-semibold hover:underline">after-hours &amp; urgent repairs</a>.
@@ -159,7 +159,7 @@ const schemaGraph = [
                   <p class="font-bold text-brand-black">Email</p>
                   <a
                     href={`mailto:${business.email}`}
-                    class="text-gray-600 hover:text-brand-red transition-colors"
+                    class="text-neutral-600 hover:text-brand-red transition-colors"
                   >
                     {business.email}
                   </a>
@@ -187,7 +187,7 @@ const schemaGraph = [
                 </svg>
                 <div>
                   <p class="font-bold text-brand-black">Service area</p>
-                  <p class="text-gray-600">
+                  <p class="text-neutral-600">
                     {
                       business.publishAddress
                         ? business.address.formatted

@@ -10,7 +10,7 @@ interface Props {
 const { eyebrow, title, description } = Astro.props;
 ---
 
-<section class="bg-brand-lightbg border-b border-gray-200">
+<section class="bg-brand-lightbg border-b border-neutral-200">
   <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'py-10 md:py-12']}>
     {
       eyebrow && (
@@ -20,6 +20,6 @@ const { eyebrow, title, description } = Astro.props;
       )
     }
     <h1 class="text-4xl md:text-5xl font-extrabold text-brand-black mb-4">{title}</h1>
-    {description && <p class="text-lg text-gray-600 max-w-3xl">{description}</p>}
+    {description && <p class="text-lg text-neutral-600 max-w-3xl">{description}</p>}
   </div>
 </section>

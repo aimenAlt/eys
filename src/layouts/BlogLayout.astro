@@ -58,14 +58,14 @@ const schemaGraph = [
       <h1 class="text-4xl md:text-5xl font-extrabold text-brand-black mt-3 mb-4">{data.title}</h1>
       {
         data.summary && (
-          <p class="text-lg text-gray-600 leading-relaxed">{data.summary}</p>
+          <p class="text-lg text-neutral-600 leading-relaxed">{data.summary}</p>
         )
       }
       {
         data.tags && data.tags.length > 0 && (
           <ul class="flex flex-wrap gap-2 mt-6">
             {data.tags.map((tag) => (
-              <li class="text-xs font-medium bg-brand-lightbg text-gray-700 px-3 py-1 rounded-full border border-gray-200">
+              <li class="text-xs font-medium bg-brand-lightbg text-neutral-700 px-3 py-1 rounded-full border border-neutral-200">
                 {tag}
               </li>
             ))}
@@ -76,7 +76,7 @@ const schemaGraph = [
 
     <ServiceTrustStrip />
 
-    <section class="bg-white border-t border-gray-100">
+    <section class="bg-white border-t border-neutral-100">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 prose prose-gray">
         <slot />
       </div>

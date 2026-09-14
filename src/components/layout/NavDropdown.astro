@@ -22,7 +22,7 @@ const { menu, linkClass = 'text-sm font-medium hover:text-brand-red transition-c
     </svg>
   </a>
   <div class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible group-focus-within/nav:opacity-100 group-focus-within/nav:visible transition-all z-50">
-    <div class="bg-white text-brand-black rounded-xl shadow-xl border border-gray-100 p-4 min-w-[280px] max-h-[70vh] overflow-y-auto">
+    <div class="bg-white text-brand-black rounded-xl shadow-xl border border-neutral-100 p-4 min-w-[280px] max-h-[70vh] overflow-y-auto">
       <a href={withBase(menu.href)} class="block text-xs font-bold uppercase tracking-wider text-brand-red mb-3 hover:underline">
         View all {menu.label} &rarr;
       </a>
@@ -34,10 +34,10 @@ const { menu, linkClass = 'text-sm font-medium hover:text-brand-red transition-c
             </a>
             {
               item.children && item.children.length > 0 && (
-                <ul class="ml-3 border-l border-gray-200 pl-2 mt-1 mb-2 space-y-0.5">
+                <ul class="ml-3 border-l border-neutral-200 pl-2 mt-1 mb-2 space-y-0.5">
                   {item.children.map((child) => (
                     <li>
-                      <a href={withBase(child.href)} class="block px-2 py-1.5 rounded text-xs text-gray-600 hover:text-brand-red hover:bg-brand-lightbg transition-colors">
+                      <a href={withBase(child.href)} class="block px-2 py-1.5 rounded text-xs text-neutral-600 hover:text-brand-red hover:bg-brand-lightbg transition-colors">
                         {child.label}
                       </a>
                     </li>

@@ -29,7 +29,7 @@ const note =
     <div class="flex flex-wrap gap-2" role="group" aria-label="Before and after view">
       <button
         type="button"
-        class="ba-mode-btn px-3 py-2 text-sm font-bold rounded-full border border-gray-200 bg-white text-brand-black min-h-11 hover:border-brand-red"
+        class="ba-mode-btn px-3 py-2 text-sm font-bold rounded-full border border-neutral-200 bg-white text-brand-black min-h-11 hover:border-brand-red"
         data-ba-mode="before"
         aria-pressed="false"
       >
@@ -37,7 +37,7 @@ const note =
       </button>
       <button
         type="button"
-        class="ba-mode-btn px-3 py-2 text-sm font-bold rounded-full border border-gray-200 bg-white text-brand-black min-h-11 hover:border-brand-red"
+        class="ba-mode-btn px-3 py-2 text-sm font-bold rounded-full border border-neutral-200 bg-white text-brand-black min-h-11 hover:border-brand-red"
         data-ba-mode="after"
         aria-pressed="false"
       >
@@ -55,7 +55,7 @@ const note =
   </div>
 
   <div class="ba-panels grid grid-cols-1 md:grid-cols-2 gap-4" data-ba-panels data-mode="side">
-    <figure class="ba-panel ba-before m-0 overflow-hidden rounded-xl ring-1 ring-brand-line bg-gray-100 shadow-card">
+    <figure class="ba-panel ba-before m-0 overflow-hidden rounded-xl ring-1 ring-brand-line bg-neutral-100 shadow-card">
       <p class="text-xs font-bold uppercase tracking-widest text-brand-red px-3 pt-3 mb-2">Before</p>
       <img
         src={imageOrPlaceholder(beforeImage)}
@@ -67,7 +67,7 @@ const note =
         class="w-full aspect-[4/3] object-cover"
       />
     </figure>
-    <figure class="ba-panel ba-after m-0 overflow-hidden rounded-xl ring-1 ring-brand-line bg-gray-100 shadow-card">
+    <figure class="ba-panel ba-after m-0 overflow-hidden rounded-xl ring-1 ring-brand-line bg-neutral-100 shadow-card">
       <p class="text-xs font-bold uppercase tracking-widest text-brand-red px-3 pt-3 mb-2">After</p>
       <img
         src={imageOrPlaceholder(afterImage)}
@@ -118,7 +118,7 @@ const note =
           b.classList.toggle('border-brand-red', active);
           b.classList.toggle('bg-brand-redsoft', active);
           b.classList.toggle('text-brand-red', active);
-          b.classList.toggle('border-gray-200', !active);
+          b.classList.toggle('border-neutral-200', !active);
           b.classList.toggle('bg-white', !active);
           b.classList.toggle('text-brand-black', !active);
         });

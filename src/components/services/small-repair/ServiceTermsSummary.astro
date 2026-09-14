@@ -10,13 +10,13 @@ import {
     <h2 id="terms-heading" class="text-3xl font-bold text-brand-black mb-3 text-center">
       Important Service Terms
     </h2>
-    <p class="text-gray-600 text-center mb-10">
+    <p class="text-neutral-600 text-center mb-10">
       Clear expectations so your visit goes smoothly.
     </p>
     <ul class="space-y-3 mb-6">
       {
         serviceTermsSummary.map((term) => (
-          <li class="flex items-start gap-3 bg-white rounded-lg border border-brand-line p-4 text-sm text-gray-700">
+          <li class="flex items-start gap-3 bg-white rounded-lg border border-brand-line p-4 text-sm text-neutral-700">
             <svg
               class="w-5 h-5 text-brand-red mt-0.5 flex-shrink-0"
               fill="none"
@@ -40,7 +40,7 @@ import {
           </svg>
         </span>
       </summary>
-      <ul class="px-5 pb-5 space-y-2 text-sm text-gray-600">
+      <ul class="px-5 pb-5 space-y-2 text-sm text-neutral-600">
         {
           serviceTermsDetails.map((detail) => (
             <li class="leading-relaxed">{detail}</li>

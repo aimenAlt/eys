@@ -28,7 +28,7 @@ const { categories, counts } = Astro.props;
       categories.map((cat) => (
         <button
           type="button"
-          class="filter-chip shrink-0 inline-flex items-center gap-2 px-4 py-2.5 min-h-11 text-sm font-bold rounded-full border border-gray-200 bg-white text-brand-black whitespace-nowrap hover:border-brand-red hover:text-brand-red transition-colors"
+          class="filter-chip shrink-0 inline-flex items-center gap-2 px-4 py-2.5 min-h-11 text-sm font-bold rounded-full border border-neutral-200 bg-white text-brand-black whitespace-nowrap hover:border-brand-red hover:text-brand-red transition-colors"
           data-filter={cat.id}
           aria-pressed="false"
         >

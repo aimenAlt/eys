@@ -18,7 +18,7 @@ const socialLinks = [
                 <!-- Col 1 -->
                 <div>
                     <Logo variant="footer" class="mb-4" />
-                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                    <p class="text-neutral-400 text-sm leading-relaxed mb-4">
                         Elevate Your Space Handyman is the company you call for dependable service and high-quality work. For a head start on your home renovation project, contact us right away!
                     </p>
                     {
@@ -43,7 +43,7 @@ const socialLinks = [
                           href={link.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          class="text-gray-400 hover:text-brand-red transition-colors font-medium"
+                          class="text-neutral-400 hover:text-brand-red transition-colors font-medium"
                         >
                           {link.label}
                         </a>
@@ -53,9 +53,9 @@ const socialLinks = [
 
                 <!-- Col 2 -->
                 <div>
-                    <h3 class="text-lg font-bold mb-4 border-b border-gray-800 pb-2 inline-block">Get in touch</h3>
+                    <h3 class="text-lg font-bold mb-4 border-b border-neutral-800 pb-2 inline-block">Get in touch</h3>
                     <address class="not-italic">
-                    <ul class="space-y-4 text-sm text-gray-400">
+                    <ul class="space-y-4 text-sm text-neutral-400">
                         <li class="flex items-start">
                             <svg class="w-5 h-5 text-brand-red mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                             {
@@ -93,8 +93,8 @@ const socialLinks = [
 
                 <!-- Col 3 -->
                 <div>
-                    <h3 class="text-lg font-bold mb-4 border-b border-gray-800 pb-2 inline-block">Quick Links</h3>
-                    <ul class="space-y-2 text-sm text-gray-400">
+                    <h3 class="text-lg font-bold mb-4 border-b border-neutral-800 pb-2 inline-block">Quick Links</h3>
+                    <ul class="space-y-2 text-sm text-neutral-400">
                         {footerNav.map((item) => (
                             <li>
                                 <a href={withBase(item.href)} class="hover:text-brand-red transition-colors">{item.label}</a>
@@ -105,17 +105,17 @@ const socialLinks = [
 
                 <!-- Col 4 -->
                 <div>
-                    <h3 class="text-lg font-bold mb-4 border-b border-gray-800 pb-2 inline-block">Newsletter</h3>
-                    <p class="text-sm text-gray-400 mb-4">Sign up for our newsletter to get updates, news, and free home-care tips.</p>
+                    <h3 class="text-lg font-bold mb-4 border-b border-neutral-800 pb-2 inline-block">Newsletter</h3>
+                    <p class="text-sm text-neutral-400 mb-4">Sign up for our newsletter to get updates, news, and free home-care tips.</p>
                     <form class="flex flex-col space-y-2">
-                        <input type="email" placeholder="Email" class="bg-gray-900 border border-gray-700 text-white px-4 py-2 rounded focus:outline-none focus:border-brand-red w-full">
+                        <input type="email" placeholder="Email" class="bg-brand-black border border-neutral-700 text-white px-4 py-2 rounded focus:outline-none focus:border-brand-red w-full">
                         <button type="button" class="bg-brand-red hover:bg-brand-redhover text-white font-bold py-2 px-4 rounded transition-colors w-full">Sign Up</button>
                     </form>
                 </div>
 
             </div>
             
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400">
+            <div class="border-t border-neutral-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-neutral-400">
                 <p>&copy; 2026 Elevate Your Space Handyman. All rights reserved.</p>
                 <div class="mt-4 md:mt-0 space-x-4">
                     <a href={withBase('/privacy/')} class="hover:text-brand-red transition-colors">Privacy Policy</a>

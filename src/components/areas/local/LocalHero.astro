@@ -29,7 +29,7 @@ const {
 const imageSrc = resolveCityHero(citySlug, heroImage);
 ---
 
-<section class="bg-white border-b border-gray-200" aria-labelledby="local-hero">
+<section class="bg-white border-b border-neutral-200" aria-labelledby="local-hero">
   <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'py-10 md:py-12']}>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
       <div>
@@ -45,14 +45,14 @@ const imageSrc = resolveCityHero(citySlug, heroImage);
         </h1>
         {
           summary && (
-            <p class="text-lg text-gray-600 leading-relaxed mb-6">{summary}</p>
+            <p class="text-lg text-neutral-600 leading-relaxed mb-6">{summary}</p>
           )
         }
         {
           promoCode && promoOffer && (
             <p class="inline-flex items-center gap-2 text-sm bg-brand-lightbg border border-brand-red/20 text-brand-black px-4 py-2 rounded-full mb-6">
               <span class="font-bold text-brand-red">{promoCode}</span>
-              <span class="text-gray-600">— {promoOffer}</span>
+              <span class="text-neutral-600">— {promoOffer}</span>
             </p>
           )
         }

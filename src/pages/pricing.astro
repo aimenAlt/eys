@@ -75,16 +75,16 @@ const schemaGraph = [
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           <div>
             <h2 class="text-2xl font-bold text-brand-black mb-4">How pricing works</h2>
-            <p class="text-gray-600 leading-relaxed mb-4">
+            <p class="text-neutral-600 leading-relaxed mb-4">
               We price based on the work required — not a one-size-fits-all menu. After you describe the project (and share photos when helpful), we outline what is included, what may affect the total, and the recommended next step.
             </p>
-            <p class="text-gray-600 leading-relaxed">
+            <p class="text-neutral-600 leading-relaxed">
               You can book a Handyman To-Do List Visit, request TV mounting, or send a photo estimate through our <a href="/book/" class="text-brand-red font-semibold hover:underline">booking paths</a>. Call or email if you prefer to talk through the scope first.
             </p>
           </div>
-          <div class="bg-brand-lightbg p-8 rounded-xl border border-gray-200">
+          <div class="bg-brand-lightbg p-8 rounded-xl border border-neutral-200">
             <h3 class="font-bold text-brand-black mb-4">Common price factors</h3>
-            <ul class="space-y-3 text-sm text-gray-700">
+            <ul class="space-y-3 text-sm text-neutral-700">
               <li class="flex items-start">
                 <span class="text-brand-red mr-2">•</span>
                 Scope of work and number of items
@@ -113,7 +113,7 @@ const schemaGraph = [
           services.length > 0 && (
             <div class="mb-16">
               <h2 class="text-2xl font-bold text-brand-black mb-6">Service-specific details</h2>
-              <p class="text-gray-600 mb-6 max-w-3xl">
+              <p class="text-neutral-600 mb-6 max-w-3xl">
                 Each service page lists what is typically included and which factors most affect pricing for that type of work.
               </p>
               <BalancedGrid variant="link" items={serviceLinks} cols={3} gapClass="gap-4" />
@@ -126,9 +126,9 @@ const schemaGraph = [
           <dl class="space-y-6">
             {
               pricingFaqs.map((faq) => (
-                <div class="border-b border-gray-100 pb-6">
+                <div class="border-b border-neutral-100 pb-6">
                   <dt class="font-bold text-brand-black mb-2">{faq.question}</dt>
-                  <dd class="text-gray-600 text-sm leading-relaxed">{faq.answer}</dd>
+                  <dd class="text-neutral-600 text-sm leading-relaxed">{faq.answer}</dd>
                 </div>
               ))
             }

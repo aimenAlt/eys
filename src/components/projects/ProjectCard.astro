@@ -39,7 +39,7 @@ const categoryLabel = projectCategoryLabel(data.category);
     data-project-link
     data-project-slug={data.slug}
   >
-    <div class="relative aspect-[4/3] overflow-hidden bg-gray-100">
+    <div class="relative aspect-[4/3] overflow-hidden bg-neutral-100">
       <SiteImage
         src={imageOrPlaceholder(data.leadImage)}
         alt={data.leadAlt}
@@ -63,7 +63,7 @@ const categoryLabel = projectCategoryLabel(data.category);
           <p class="text-sm text-brand-muted mb-2">{location}</p>
         )
       }
-      <p class="text-sm text-gray-600 m-0">
+      <p class="text-sm text-neutral-600 m-0">
         {hasBeforeAfter && <span>Before &amp; After · </span>}
         <span>
           {photoCount} Photo{photoCount === 1 ? '' : 's'}

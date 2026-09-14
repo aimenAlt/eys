@@ -17,7 +17,7 @@ const { faqs } = Astro.props;
         </h2>
         <div class="space-y-4">
           {faqs.map((faq) => (
-            <details class="bg-white rounded-lg shadow-sm border border-gray-200 group">
+            <details class="bg-white rounded-lg shadow-sm border border-neutral-200 group">
               <summary class="flex justify-between items-center font-bold p-6 focus:outline-none text-brand-black cursor-pointer list-none">
                 {faq.question}
                 <span class="transition group-open:rotate-180 text-brand-red ml-4 flex-shrink-0">
@@ -26,7 +26,7 @@ const { faqs } = Astro.props;
                   </svg>
                 </span>
               </summary>
-              <div class="px-6 pb-6 text-gray-600 text-sm">
+              <div class="px-6 pb-6 text-neutral-600 text-sm">
                 <p>{faq.answer}</p>
               </div>
             </details>

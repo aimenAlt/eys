@@ -108,7 +108,7 @@ function primaryCta(): CtaConfig {
 const primary = primaryCta();
 ---
 
-<section class="bg-white border-b border-gray-200" aria-labelledby="service-hero">
+<section class="bg-white border-b border-neutral-200" aria-labelledby="service-hero">
   <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'py-10 md:py-12']}>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
       <div>
@@ -117,7 +117,7 @@ const primary = primaryCta();
         </h1>
         {
           service.summary && (
-            <p class="text-lg text-gray-600 leading-relaxed mb-6">{service.summary}</p>
+            <p class="text-lg text-neutral-600 leading-relaxed mb-6">{service.summary}</p>
           )
         }
         <div class="flex flex-col sm:flex-row gap-3" data-sticky-hero-cta>

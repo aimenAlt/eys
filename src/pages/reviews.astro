@@ -47,9 +47,9 @@ const schemaGraph = reviewsPageSchema(canonical, description);
       description={`Featured homeowner feedback plus our Google Business Profile rating — ${ratingLabel} stars from ${googleReviewCountDisplay()} reviews (confirm the latest count on Google).`}
     />
 
-    <section class="py-10 bg-brand-lightbg border-y border-gray-200">
+    <section class="py-10 bg-brand-lightbg border-y border-neutral-200">
       <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
-        <p class="text-gray-700 max-w-3xl leading-relaxed mb-4">
+        <p class="text-neutral-700 max-w-3xl leading-relaxed mb-4">
           The testimonials below are featured examples from local homeowners — not our full review history.
           {
             gbpUrl ? (
@@ -72,7 +72,7 @@ const schemaGraph = reviewsPageSchema(canonical, description);
             )
           }
         </p>
-        <p class="text-gray-700 max-w-3xl leading-relaxed">
+        <p class="text-neutral-700 max-w-3xl leading-relaxed">
           Looking for the kind of work people review us for? Explore{' '}
           <a href="/services/tv-mounting/" class="text-brand-red font-bold hover:underline">TV mounting</a>,{' '}
           <a href="/services/general-handyman-services/" class="text-brand-red font-bold hover:underline">general handyman services</a>, and{' '}
@@ -92,7 +92,7 @@ const schemaGraph = reviewsPageSchema(canonical, description);
           reviewItems.length > 0 ? (
             <BalancedGrid variant="review" items={reviewItems} cols={3} gapClass="gap-6" />
           ) : (
-            <p class="text-gray-600 max-w-2xl">
+            <p class="text-neutral-600 max-w-2xl">
               Verified customer reviews will appear here as they are added. Contact us to share your experience or ask about recent work in your area.
             </p>
           )

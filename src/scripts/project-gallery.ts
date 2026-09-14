@@ -43,7 +43,7 @@ function setChipActive(btn: HTMLButtonElement, active: boolean) {
   btn.classList.toggle('border-brand-red', active);
   btn.classList.toggle('bg-brand-redsoft', active);
   btn.classList.toggle('text-brand-red', active);
-  btn.classList.toggle('border-gray-200', !active);
+  btn.classList.toggle('border-neutral-200', !active);
   btn.classList.toggle('bg-white', !active);
   btn.classList.toggle('text-brand-black', !active);
 }

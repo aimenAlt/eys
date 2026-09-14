@@ -73,7 +73,7 @@ const hasWorksheet =
       />
     </div>
 
-    <header class="bg-brand-lightbg border-b border-gray-200">
+    <header class="bg-brand-lightbg border-b border-neutral-200">
       <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'py-10 md:py-12']}>
         <p class="text-brand-red font-bold text-sm tracking-widest uppercase mb-2">{categoryLabel}</p>
         <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-brand-black tracking-tight mb-3">
@@ -81,7 +81,7 @@ const hasWorksheet =
         </h1>
         {
           location && (
-            <p class="text-lg text-gray-600 mb-4">
+            <p class="text-lg text-neutral-600 mb-4">
               {data.locationUrl ? (
                 <a href={data.locationUrl} class="text-brand-red font-bold hover:underline">
                   Handyman projects in {location}
@@ -92,7 +92,7 @@ const hasWorksheet =
             </p>
           )
         }
-        <p class="text-lg text-gray-600 max-w-3xl leading-relaxed">{data.summary}</p>
+        <p class="text-lg text-neutral-600 max-w-3xl leading-relaxed">{data.summary}</p>
       </div>
     </header>
 
@@ -100,7 +100,7 @@ const hasWorksheet =
 
     <section class="py-10 md:py-14 bg-white">
       <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
-        <figure class="m-0 overflow-hidden rounded-2xl ring-1 ring-brand-line shadow-card bg-gray-100">
+        <figure class="m-0 overflow-hidden rounded-2xl ring-1 ring-brand-line shadow-card bg-neutral-100">
           <SiteImage
             src={imageOrPlaceholder(data.leadImage)}
             alt={data.leadAlt}
@@ -141,7 +141,7 @@ const hasWorksheet =
             <ul class="grid grid-cols-1 sm:grid-cols-2 gap-6 list-none p-0 m-0">
               {supporting.map((img) => (
                 <li>
-                  <figure class="m-0 overflow-hidden rounded-xl ring-1 ring-brand-line shadow-card bg-gray-100">
+                  <figure class="m-0 overflow-hidden rounded-xl ring-1 ring-brand-line shadow-card bg-neutral-100">
                     <SiteImage
                       src={imageOrPlaceholder(img.src)}
                       alt={img.alt}
@@ -152,7 +152,7 @@ const hasWorksheet =
                       class="w-full aspect-[4/3] object-cover"
                     />
                     {(img.caption || img.stage) && (
-                      <figcaption class="p-4 text-sm text-gray-600 bg-white">
+                      <figcaption class="p-4 text-sm text-neutral-600 bg-white">
                         {img.stage && (
                           <span class="text-xs font-bold uppercase text-brand-red mr-2">{img.stage}</span>
                         )}
@@ -180,7 +180,7 @@ const hasWorksheet =
                 data.problem && (
                   <div>
                     <h3 class="text-sm font-bold uppercase tracking-widest text-brand-red mb-2">Problem</h3>
-                    <p class="text-gray-700 leading-relaxed m-0">{data.problem}</p>
+                    <p class="text-neutral-700 leading-relaxed m-0">{data.problem}</p>
                   </div>
                 )
               }
@@ -188,7 +188,7 @@ const hasWorksheet =
                 data.result && (
                   <div>
                     <h3 class="text-sm font-bold uppercase tracking-widest text-brand-red mb-2">Result</h3>
-                    <p class="text-gray-700 leading-relaxed m-0">{data.result}</p>
+                    <p class="text-neutral-700 leading-relaxed m-0">{data.result}</p>
                   </div>
                 )
               }
@@ -196,7 +196,7 @@ const hasWorksheet =
                 data.scope && data.scope.length > 0 && (
                   <div>
                     <h3 class="text-sm font-bold uppercase tracking-widest text-brand-red mb-2">Scope</h3>
-                    <ul class="list-disc pl-5 space-y-1 text-gray-700 m-0">
+                    <ul class="list-disc pl-5 space-y-1 text-neutral-700 m-0">
                       {data.scope.map((item) => (
                         <li>{item}</li>
                       ))}
@@ -208,7 +208,7 @@ const hasWorksheet =
                 data.exclusions && data.exclusions.length > 0 && (
                   <div>
                     <h3 class="text-sm font-bold uppercase tracking-widest text-brand-red mb-2">Exclusions</h3>
-                    <ul class="list-disc pl-5 space-y-1 text-gray-700 m-0">
+                    <ul class="list-disc pl-5 space-y-1 text-neutral-700 m-0">
                       {data.exclusions.map((item) => (
                         <li>{item}</li>
                       ))}
@@ -220,7 +220,7 @@ const hasWorksheet =
                 data.materials && data.materials.length > 0 && (
                   <div>
                     <h3 class="text-sm font-bold uppercase tracking-widest text-brand-red mb-2">Materials</h3>
-                    <ul class="list-disc pl-5 space-y-1 text-gray-700 m-0">
+                    <ul class="list-disc pl-5 space-y-1 text-neutral-700 m-0">
                       {data.materials.map((item) => (
                         <li>{item}</li>
                       ))}
@@ -232,7 +232,7 @@ const hasWorksheet =
                 data.constraints && data.constraints.length > 0 && (
                   <div>
                     <h3 class="text-sm font-bold uppercase tracking-widest text-brand-red mb-2">Constraints</h3>
-                    <ul class="list-disc pl-5 space-y-1 text-gray-700 m-0">
+                    <ul class="list-disc pl-5 space-y-1 text-neutral-700 m-0">
                       {data.constraints.map((item) => (
                         <li>{item}</li>
                       ))}
@@ -244,7 +244,7 @@ const hasWorksheet =
                 data.processSteps && data.processSteps.length > 0 && (
                   <div class="md:col-span-2">
                     <h3 class="text-sm font-bold uppercase tracking-widest text-brand-red mb-2">Process</h3>
-                    <ol class="list-decimal pl-5 space-y-1 text-gray-700 m-0">
+                    <ol class="list-decimal pl-5 space-y-1 text-neutral-700 m-0">
                       {data.processSteps.map((item) => (
                         <li>{item}</li>
                       ))}
@@ -265,7 +265,7 @@ const hasWorksheet =
             <h2 id="project-scope-heading" class="text-2xl font-bold text-brand-black mb-4">
               Project Scope
             </h2>
-            <ul class="list-disc pl-5 space-y-2 text-gray-700 max-w-2xl">
+            <ul class="list-disc pl-5 space-y-2 text-neutral-700 max-w-2xl">
               {data.scope.map((item) => (
                 <li>{item}</li>
               ))}

@@ -177,7 +177,7 @@ const linkAlignClass = textAlign === 'center' ? 'text-center' : 'text-left';
                     )}
                     <HeadingTag class:list={['text-xl font-bold text-brand-black mb-2', card.eyebrow && 'mt-2']}>{card.title}</HeadingTag>
                     {card.description && (
-                      <p class="text-sm text-gray-600 leading-relaxed flex-1">{card.description}</p>
+                      <p class="text-sm text-neutral-600 leading-relaxed flex-1">{card.description}</p>
                     )}
                     {card.footerText ? (
                       <span class="mt-5 inline-flex w-fit items-center gap-1.5 rounded-md bg-brand-red px-3 py-1.5 text-sm font-bold text-white transition-colors group-hover:bg-brand-redhover">
@@ -194,19 +194,19 @@ const linkAlignClass = textAlign === 'center' ? 'text-center' : 'text-left';
                 );
               })()}
               {variant === 'value' && (
-                <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm h-full text-left">
+                <div class="bg-white rounded-xl border border-neutral-200 p-6 shadow-sm h-full text-left">
                   <h3 class="font-bold text-brand-black mb-3">{(item as BalancedValueItem).title}</h3>
-                  <p class="text-sm text-gray-600 leading-relaxed">{(item as BalancedValueItem).body}</p>
+                  <p class="text-sm text-neutral-600 leading-relaxed">{(item as BalancedValueItem).body}</p>
                 </div>
               )}
               {variant === 'feature-card' && (
                 <a
                   href={(item as BalancedFeatureCardItem).href}
-                  class="block h-full bg-white rounded-xl border border-gray-200 p-6 shadow-sm hover:border-brand-red/30 hover:shadow-md transition-all group text-left"
+                  class="block h-full bg-white rounded-xl border border-neutral-200 p-6 shadow-sm hover:border-brand-red/30 hover:shadow-md transition-all group text-left"
                 >
                   <div class="w-1 h-8 bg-brand-red rounded-full mb-3 group-hover:h-10 transition-all" aria-hidden="true" />
                   <h3 class="font-bold text-brand-black mb-2 text-lg">{(item as BalancedFeatureCardItem).title}</h3>
-                  <p class="text-sm text-gray-600 leading-relaxed mb-4">{(item as BalancedFeatureCardItem).description}</p>
+                  <p class="text-sm text-neutral-600 leading-relaxed mb-4">{(item as BalancedFeatureCardItem).description}</p>
                   <span class="text-sm font-bold text-brand-red">{(item as BalancedFeatureCardItem).footerText}</span>
                 </a>
               )}
@@ -214,30 +214,30 @@ const linkAlignClass = textAlign === 'center' ? 'text-center' : 'text-left';
                 const project = item as BalancedProjectItem;
                 const panelClass =
                   project.tone === 'light'
-                    ? 'bg-brand-lightbg border-gray-100'
-                    : 'bg-white border-gray-200 shadow-sm hover:border-brand-red/30 hover:shadow-md transition-all';
+                    ? 'bg-brand-lightbg border-neutral-100'
+                    : 'bg-white border-neutral-200 shadow-sm hover:border-brand-red/30 hover:shadow-md transition-all';
                 return (
                   <div class:list={['h-full rounded-xl border p-5', panelClass]}>
                     {project.accentBar && (
                       <div class="w-1 h-8 bg-brand-red rounded-full mb-3" aria-hidden="true" />
                     )}
                     <h3 class="font-bold text-brand-black mb-2">{project.title}</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">{project.body}</p>
+                    <p class="text-sm text-neutral-600 leading-relaxed">{project.body}</p>
                   </div>
                 );
               })()}
               {variant === 'review' && (() => {
                 const review = item as BalancedReviewItem;
                 return (
-                  <div class="h-full p-6 bg-brand-lightbg rounded-xl border border-gray-200">
+                  <div class="h-full p-6 bg-brand-lightbg rounded-xl border border-neutral-200">
                     <div class="flex items-center justify-between mb-3">
                       <p class="font-bold text-brand-black">{review.author}</p>
                       <span class="text-brand-red text-sm" aria-label={`${review.rating} out of 5 stars`}>
                         {renderStars(review.rating)}
                       </span>
                     </div>
-                    <p class="text-gray-600 text-sm leading-relaxed mb-4">{review.text}</p>
-                    <div class="text-xs text-gray-500 flex flex-wrap gap-x-3 gap-y-1">
+                    <p class="text-neutral-600 text-sm leading-relaxed mb-4">{review.text}</p>
+                    <div class="text-xs text-neutral-500 flex flex-wrap gap-x-3 gap-y-1">
                       <span>{review.source}</span>
                       <time datetime={review.date.toISOString()}>
                         {review.date.toLocaleDateString('en-US', {
@@ -252,7 +252,7 @@ const linkAlignClass = textAlign === 'center' ? 'text-center' : 'text-left';
                 );
               })()}
               {variant === 'checklist' && (
-                <div class="h-full flex items-start bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                <div class="h-full flex items-start bg-white p-4 rounded-lg border border-neutral-100 shadow-sm">
                   <svg
                     class="w-5 h-5 text-brand-red mr-3 mt-0.5 flex-shrink-0"
                     fill="none"
@@ -262,7 +262,7 @@ const linkAlignClass = textAlign === 'center' ? 'text-center' : 'text-left';
                   >
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                   </svg>
-                  <span class="text-gray-700 text-sm">{(item as BalancedChecklistItem).text}</span>
+                  <span class="text-neutral-700 text-sm">{(item as BalancedChecklistItem).text}</span>
                 </div>
               )}
               {variant === 'step' && (() => {
@@ -275,14 +275,14 @@ const linkAlignClass = textAlign === 'center' ? 'text-center' : 'text-left';
                       </span>
                       <span class="hidden md:block h-px flex-grow bg-brand-line" aria-hidden="true" />
                     </div>
-                    <p class="text-sm text-gray-600 leading-relaxed">{step.body}</p>
+                    <p class="text-sm text-neutral-600 leading-relaxed">{step.body}</p>
                   </div>
                 );
               })()}
               {variant === 'gallery' && (() => {
                 const image = item as BalancedGalleryItem;
                 return (
-                  <figure class="h-full overflow-hidden rounded-lg bg-gray-100 shadow-sm">
+                  <figure class="h-full overflow-hidden rounded-lg bg-neutral-100 shadow-sm">
                     <img
                       src={imageOrPlaceholder(image.src)}
                       alt={image.alt}
@@ -290,7 +290,7 @@ const linkAlignClass = textAlign === 'center' ? 'text-center' : 'text-left';
                       class="w-full h-64 object-cover"
                     />
                     {(image.caption || image.type) && (
-                      <figcaption class="p-4 text-sm text-gray-600 bg-white">
+                      <figcaption class="p-4 text-sm text-neutral-600 bg-white">
                         {image.type && (
                           <span class="text-xs font-bold uppercase text-brand-red mr-2">{image.type}</span>
                         )}

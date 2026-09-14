@@ -99,9 +99,9 @@ const schemaGraph = [
 
       <InlineEstimateBand ctaLocation="service_category_midpage" embedded />
 
-      <section class="bg-white rounded-xl border border-gray-200 p-6">
+      <section class="bg-white rounded-xl border border-neutral-200 p-6">
         <h2 class="text-lg font-bold text-brand-black mb-2">Explore other service categories</h2>
-        <p class="text-sm text-gray-600 mb-4">Browse our full range of handyman services for Katy and West Houston.</p>
+        <p class="text-sm text-neutral-600 mb-4">Browse our full range of handyman services for Katy and West Houston.</p>
         <div class="flex flex-wrap gap-3">
           {
             serviceCategories
@@ -109,7 +109,7 @@ const schemaGraph = [
               .map((c) => (
                 <a
                   href={`/services/${c.slug}/`}
-                  class="text-sm font-medium text-brand-black hover:text-brand-red border border-gray-200 rounded-lg px-4 py-2 hover:border-brand-red/30 transition-colors"
+                  class="text-sm font-medium text-brand-black hover:text-brand-red border border-neutral-200 rounded-lg px-4 py-2 hover:border-brand-red/30 transition-colors"
                 >
                   {c.title}
                 </a>

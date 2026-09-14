@@ -17,14 +17,14 @@ const { faqs } = Astro.props;
     <div class="space-y-4">
       {
         faqs.map((faq) => (
-          <details class="bg-white rounded-lg shadow-sm border border-gray-200 group">
+          <details class="bg-white rounded-lg shadow-sm border border-neutral-200 group">
             <summary class="flex justify-between items-center font-bold font-lg p-6 focus:outline-none text-brand-black cursor-pointer">
               {faq.question}
               <span class="transition group-open:rotate-180 text-brand-red flex-shrink-0 ml-4">
                 <svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
               </span>
             </summary>
-            <div class="px-6 pb-6 text-gray-600 text-sm">
+            <div class="px-6 pb-6 text-neutral-600 text-sm">
               <p>{faq.answer}</p>
             </div>
           </details>

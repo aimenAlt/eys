@@ -10,7 +10,7 @@ interface Props {
 const { menu, mobileLinkClass = 'block px-3 py-2 rounded-md text-base font-medium hover:bg-brand-red' } = Astro.props;
 ---
 
-<details class="group border-b border-gray-700/50">
+<details class="group border-b border-neutral-700/50">
   <summary class={`${mobileLinkClass} flex justify-between items-center cursor-pointer list-none`}>
     <span>{menu.label}</span>
     <svg class="w-5 h-5 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -23,14 +23,14 @@ const { menu, mobileLinkClass = 'block px-3 py-2 rounded-md text-base font-mediu
     </a>
     {menu.children.map((item) => (
       <div>
-        <a href={withBase(item.href)} class="block px-3 py-2 text-sm text-gray-200 hover:text-white" data-close-mobile-menu>
+        <a href={withBase(item.href)} class="block px-3 py-2 text-sm text-neutral-200 hover:text-white" data-close-mobile-menu>
           {item.label}
         </a>
         {
           item.children && (
             <div class="pl-4 space-y-0.5">
               {item.children.map((child) => (
-                <a href={withBase(child.href)} class="block px-3 py-1.5 text-xs text-gray-400 hover:text-white" data-close-mobile-menu>
+                <a href={withBase(child.href)} class="block px-3 py-1.5 text-xs text-neutral-400 hover:text-white" data-close-mobile-menu>
                   {child.label}
                 </a>
               ))}

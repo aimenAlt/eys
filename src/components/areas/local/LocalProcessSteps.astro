@@ -23,16 +23,16 @@ const defaultSteps = [
         How it works
       </h2>
       {process && (
-        <p class="text-gray-600 leading-relaxed mb-6">{process}</p>
+        <p class="text-neutral-600 leading-relaxed mb-6">{process}</p>
       )}
       <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {defaultSteps.map((item) => (
-          <li class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+          <li class="bg-white rounded-xl border border-neutral-200 p-5 shadow-sm">
             <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-brand-red text-white text-sm font-bold mb-3">
               {item.step}
             </span>
             <h3 class="font-bold text-brand-black mb-2 text-sm">{item.title}</h3>
-            <p class="text-xs text-gray-600 leading-relaxed">{item.body}</p>
+            <p class="text-xs text-neutral-600 leading-relaxed">{item.body}</p>
           </li>
         ))}
       </ol>
