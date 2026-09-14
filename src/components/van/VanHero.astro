@@ -1,7 +1,5 @@
 ---
-import SiteImage from '../ui/SiteImage.astro';
 import { googleReviewCountDisplay } from '../../data/business';
-import { imageOrPlaceholder } from '../../data/images';
 import { vanCampaign, vanImages } from '../../data/vanCampaign';
 
 /**
@@ -9,32 +7,43 @@ import { vanCampaign, vanImages } from '../../data/vanCampaign';
  * the first screen has to answer "are these people any good?" before it asks
  * for anything. It used to be text on a flat panel with no photograph at all.
  *
- * A still, not video: on a sidewalk over cellular, a 1.8MB clip spends the
- * whole budget before the first tap. One gradient scrim, not a stack of two —
- * the same mistake `/start/` had, where layered scrims composited to ~80%
- * coverage and left the photo invisible.
+ * It leads with footage rather than a photograph because motion is what stops
+ * a thumb, and the clip is affordable over cellular only now that it has been
+ * re-encoded to 534KB. The poster paints immediately so nothing waits on it.
+ *
+ * One gradient scrim, not a stack of two. Stops chosen by measurement, not by
+ * eye: sampled across five frames of the clip these leave the body copy at
+ * 4.8:1 against white on its hottest pixel, just over the 4.5:1 floor, while
+ * showing about a quarter more of the footage than the darker version did.
+ * Brightening further drops that band below the floor.
  */
-const hero = vanImages.hero;
-const heroSrc = imageOrPlaceholder(hero.src);
+const heroVideo = vanImages.heroVideo;
 ---
 
 <section
   class="van-hero relative overflow-hidden bg-brand-black px-4 pb-6 pt-9 text-white sm:px-6 sm:pb-8 sm:pt-12"
   aria-labelledby="van-hero-heading"
+  data-autoplay-video
+  data-video-source-page="van"
+  data-no-cross-sell-event
 >
   <div class="absolute inset-0" aria-hidden="true">
-    <SiteImage
-      src={heroSrc}
-      alt=""
-      width={hero.width}
-      height={hero.height}
-      loading="eager"
-      fetchpriority="high"
-      sizes="100vw"
+    <video
       class="h-full w-full object-cover object-[center_38%]"
-    />
+      data-autoplay-video-el
+      poster={heroVideo.poster}
+      width={heroVideo.width}
+      height={heroVideo.height}
+      muted
+      loop
+      playsinline
+      preload="none"
+      disablepictureinpicture
+    >
+      <source data-src={heroVideo.src} type="video/mp4" />
+    </video>
     <div
-      class="absolute inset-0 bg-gradient-to-b from-brand-black/55 via-brand-black/70 to-brand-black"
+      class="absolute inset-0 bg-gradient-to-b from-brand-black/45 via-brand-black/58 to-brand-black/92"
     >
     </div>
   </div>

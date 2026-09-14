@@ -1,4 +1,5 @@
 import { business } from './business';
+import { mediaWallsLanding } from './mediaWalls';
 import { withVehicleWrapUtm } from '../utils/utm';
 
 /** Campaign constants for the ProMaster rear QR landing page. */
@@ -37,12 +38,6 @@ export const vanDestinations = {
  * each card shows the kind of work its button actually books.
  */
 export const vanImages = {
-  hero: {
-    src: '/images/home/hero.jpg',
-    alt: 'Finished two-tone kitchen remodel with sage island, white uppers, quartz counters, and gold fixtures',
-    width: 1400,
-    height: 1050,
-  },
   routes: {
     handymanBooking: {
       src: '/images/projects/vaulted-crystal-chandelier/eys-fixture-installation-vaulted-living-crystal-chandelier-after-p008-01.jpg',
@@ -61,6 +56,35 @@ export const vanImages = {
       alt: 'Custom marble and wood-slat feature wall completed in a living room',
       width: 3000,
       height: 4000,
+    },
+  },
+  /**
+   * The hero now leads with footage rather than a photograph — motion is what
+   * stops a thumb. Affordable on cellular only because the clip was re-encoded
+   * from 1.74MB to 534KB; do not swap in an unoptimised file here.
+   */
+  heroVideo: mediaWallsLanding.images.videos.builtIn,
+  /** Second, different media wall clip so the dedicated section is not a repeat of the hero. */
+  mediaWallVideo: mediaWallsLanding.images.videos.slat,
+  /**
+   * Kitchen and bath remodels. The kitchen frame led the hero before the video
+   * took that slot — it is a remodel photograph, so it belongs to the remodel
+   * section rather than standing in for the whole business.
+   */
+  remodeling: {
+    /**
+     * Kitchen only, deliberately. The single bathroom photograph on the site
+     * (services/bathroom-remodel.jpg) is a skirted toilet in a water closet,
+     * lid up, with the power cord showing — it undersells the work badly next
+     * to this frame. The copy still names bathrooms; add a bath photo here when
+     * there is one worth showing.
+     */
+    kitchen: {
+      src: '/images/home/hero.jpg',
+      alt: 'Finished two-tone kitchen remodel with sage island, white uppers, quartz counters, and gold fixtures',
+      width: 1400,
+      height: 1050,
+      label: 'Kitchen Remodel · Katy',
     },
   },
   /** Proof strip. Captions matter — an uncaptioned thumbnail says nothing about scope. */

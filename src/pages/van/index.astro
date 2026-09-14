@@ -4,11 +4,14 @@ import VanFinalCta from '../../components/van/VanFinalCta.astro';
 import VanFooter from '../../components/van/VanFooter.astro';
 import VanHeader from '../../components/van/VanHeader.astro';
 import VanHero from '../../components/van/VanHero.astro';
+import VanMediaWalls from '../../components/van/VanMediaWalls.astro';
 import VanPopularProjects from '../../components/van/VanPopularProjects.astro';
 import VanProcess from '../../components/van/VanProcess.astro';
+import VanRemodeling from '../../components/van/VanRemodeling.astro';
 import VanRouteCards from '../../components/van/VanRouteCards.astro';
 import VanServiceArea from '../../components/van/VanServiceArea.astro';
 import VanStickyBar from '../../components/van/VanStickyBar.astro';
+import VideoAutoplayScript from '../../components/common/VideoAutoplayScript.astro';
 import VanTrust from '../../components/van/VanTrust.astro';
 import { site } from '../../data/business';
 
@@ -30,6 +33,7 @@ const seo = {
         <VanHero />
         <VanRouteCards />
         <VanPopularProjects />
+        <VanMediaWalls />
         <div
           class="h-20 bg-gradient-to-b from-brand-black to-brand-lightbg sm:h-24"
           aria-hidden="true"
@@ -37,6 +41,7 @@ const seo = {
         </div>
       </div>
       <div class="bg-brand-lightbg">
+        <VanRemodeling />
         <VanTrust />
         <VanProcess />
         <VanServiceArea />
@@ -46,6 +51,7 @@ const seo = {
     <VanFooter />
     <VanStickyBar />
   </div>
+  <VideoAutoplayScript />
   <script>
     import '../../scripts/van-analytics.ts';
   </script>

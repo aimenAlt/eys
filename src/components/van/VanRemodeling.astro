@@ -1,0 +1,67 @@
+---
+import SiteImage from '../ui/SiteImage.astro';
+import { imageOrPlaceholder } from '../../data/images';
+import { vanDestinations, vanImages } from '../../data/vanCampaign';
+
+/**
+ * Kitchen and bath were only ever implied on this page, buried inside "room
+ * upgrades, remodeling" on the custom-project card. They are the largest jobs
+ * EYS takes, so they get named and shown.
+ */
+const kitchen = vanImages.remodeling.kitchen;
+const kitchenSrc = imageOrPlaceholder(kitchen.src);
+const href = vanDestinations.customProject;
+---
+
+<section
+  id="remodeling"
+  class="scroll-mt-20 bg-brand-lightbg px-4 py-10 sm:px-6 sm:py-12"
+  aria-labelledby="van-remodeling-heading"
+>
+  <div class="mx-auto max-w-3xl">
+    <p class="text-[11px] font-bold uppercase tracking-[0.14em] text-brand-red sm:text-xs">
+      Bigger projects
+    </p>
+    <h2
+      id="van-remodeling-heading"
+      class="mt-2 text-2xl font-extrabold tracking-tight text-brand-black sm:text-3xl"
+    >
+      Kitchen &amp; Bathroom Remodeling
+    </h2>
+    <p class="mt-3 text-sm leading-relaxed text-brand-muted sm:text-base">
+      Full kitchen and bath remodels, cabinets and countertops, tile and shower surrounds, vanities,
+      lighting and fixtures — planned, coordinated and finished by one crew you deal with directly.
+    </p>
+
+    <figure class="relative mt-6 overflow-hidden rounded-xl shadow-card">
+      <SiteImage
+        src={kitchenSrc}
+        alt={kitchen.alt}
+        width={kitchen.width}
+        height={kitchen.height}
+        loading="lazy"
+        sizes="(max-width: 768px) 100vw, 768px"
+        class="aspect-[4/3] w-full object-cover sm:aspect-[16/10]"
+      />
+      <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent px-4 pb-3 pt-12 text-sm font-bold text-white">
+        {kitchen.label}
+      </figcaption>
+    </figure>
+
+    {
+      href && (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-van-project="remodeling"
+          data-booking-type="custom_project"
+          data-cta-location="van_remodeling"
+          class="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-md bg-brand-red px-4 py-3 text-center text-base font-bold text-white transition-colors hover:bg-brand-redhover sm:w-auto sm:px-7"
+        >
+          Request a Remodeling Estimate
+        </a>
+      )
+    }
+  </div>
+</section>
