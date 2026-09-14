@@ -41,7 +41,7 @@ const bookUrl = jobberProjectEstimateFormUrl() ?? withBase('/book/');
       <a
         href={`tel:${site.phoneTel}`}
         data-cta-location="mobile_sticky"
-        class="flex-1 text-center bg-white text-brand-black font-bold py-3 rounded-md text-sm"
+        class="flex-1 text-center border-2 border-white/85 bg-transparent text-white transition-colors hover:bg-white hover:text-brand-black font-bold py-3 rounded-md text-sm"
       >
         Call
       </a>
@@ -66,7 +66,11 @@ const bookUrl = jobberProjectEstimateFormUrl() ?? withBase('/book/');
     if (!bar) return;
 
     const heroCta = document.querySelector<HTMLElement>('[data-sticky-hero-cta]');
-    const footer = document.querySelector<HTMLElement>('footer');
+    // Review cards mark their attribution line up as a <footer>, so a bare
+    // `querySelector('footer')` matches one mid-page and hides the bar there.
+    const footer =
+      document.querySelector<HTMLElement>('[data-site-footer]') ??
+      ([...document.querySelectorAll<HTMLElement>('footer')].pop() ?? null);
 
     let heroPassed = false;
     let footerVisible = false;
