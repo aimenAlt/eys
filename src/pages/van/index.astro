@@ -9,7 +9,6 @@ import VanPopularProjects from '../../components/van/VanPopularProjects.astro';
 import VanProcess from '../../components/van/VanProcess.astro';
 import VanRemodeling from '../../components/van/VanRemodeling.astro';
 import VanRouteCards from '../../components/van/VanRouteCards.astro';
-import VanServiceArea from '../../components/van/VanServiceArea.astro';
 import VanStickyBar from '../../components/van/VanStickyBar.astro';
 import VideoAutoplayScript from '../../components/common/VideoAutoplayScript.astro';
 import VanTrust from '../../components/van/VanTrust.astro';
@@ -42,9 +41,17 @@ const seo = {
       <div class="bg-brand-lightbg">
         <VanRemodeling />
         <VanTrust />
-        <VanProcess />
-        <VanPopularProjects />
-        <VanServiceArea />
+        <!--
+          Two columns, one row, from lg. As separate full-width bands these
+          were 251px and 298px of mostly empty horizontal space stacked on top
+          of each other; side by side they cost one row instead of two.
+        -->
+        <div class="bg-brand-lightbg lg:px-8 lg:pb-12 lg:pt-6">
+          <div class="mx-auto grid gap-0 lg:max-w-6xl lg:grid-cols-2 lg:items-start lg:gap-12">
+            <VanProcess />
+            <VanPopularProjects />
+          </div>
+        </div>
       </div>
       <VanFinalCta />
     </main>

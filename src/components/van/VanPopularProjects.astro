@@ -31,8 +31,8 @@ const projects = (
 ).filter((project) => Boolean(project.href));
 ---
 
-<section class="bg-brand-lightbg px-4 pb-10 pt-2 sm:px-6" aria-labelledby="van-popular-heading">
-  <div class="mx-auto max-w-3xl lg:max-w-6xl">
+<section class="bg-brand-lightbg px-4 pb-10 pt-2 sm:px-6 lg:px-0 lg:pb-0 lg:pt-0" aria-labelledby="van-popular-heading">
+  <div class="mx-auto max-w-3xl lg:max-w-none">
     <h2
       id="van-popular-heading"
       class="text-2xl font-extrabold tracking-tight text-brand-black sm:text-3xl"
@@ -43,7 +43,7 @@ const projects = (
       Tap the job and we&rsquo;ll take it from there.
     </p>
 
-    <ul class="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-3" role="list">
+    <ul class="mt-5 grid grid-cols-2 gap-3" role="list">
       {
         projects.map((project) => (
           <li class="flex">

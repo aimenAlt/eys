@@ -13,6 +13,11 @@ import { vanCampaign, vanDestinations, vanImages } from '../../data/vanCampaign'
  * It closes on a photograph for the same reason the hero opens on one: the last
  * two screens of this page were measured at zero percent image coverage, which
  * is the weakest possible ground on which to ask for the job.
+ *
+ * The service-area note shares this band rather than occupying a 156px
+ * full-width strip of its own above it. It belongs next to the ask anyway —
+ * it is the last objection ("do you even come out here?") answered beside the
+ * button that acts on the answer.
  */
 const photoEstimateHref = vanDestinations.photoEstimate;
 const closer = vanImages.closer;
@@ -39,7 +44,8 @@ const closerSrc = imageOrPlaceholder(closer.src);
     </div>
   </div>
 
-  <div class="relative mx-auto max-w-3xl lg:max-w-6xl">
+  <div class="relative mx-auto grid max-w-3xl gap-8 lg:max-w-6xl lg:grid-cols-12 lg:items-start lg:gap-12">
+    <div class="lg:col-span-7">
     <h2
       id="van-final-cta-heading"
       class="text-2xl font-extrabold tracking-tight sm:text-3xl"
@@ -76,6 +82,23 @@ const closerSrc = imageOrPlaceholder(closer.src);
       >
         Call {vanCampaign.phoneDisplay}
       </a>
+    </div>
+    </div>
+
+    <div class="border-t border-white/15 pt-6 lg:col-span-5 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+      <h3 class="text-lg font-bold tracking-tight text-white">
+        Serving Katy, Cypress, Fulshear, Richmond &amp; West Houston
+      </h3>
+      <p class="mt-2 text-sm leading-relaxed text-white/75">
+        Just outside the area, or not sure? Give us the address when you book or send photos and
+        we&rsquo;ll tell you straight away whether we can take it on. Or{' '}
+        <a
+          href={`tel:${vanCampaign.phoneTel}`}
+          data-van-phone="service_area"
+          data-cta-location="van_service_area"
+          class="font-bold text-white underline underline-offset-4 hover:text-brand-redondark"
+        >call {vanCampaign.phoneDisplay}</a> and ask.
+      </p>
     </div>
   </div>
 </section>
