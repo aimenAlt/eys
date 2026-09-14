@@ -31,11 +31,11 @@ const todoListPhoto = startLanding.images.pathCards.todoList;
  */
 const cardClass =
   'flex h-full flex-col overflow-hidden rounded-xl border border-brand-line bg-white shadow-card transition-shadow hover:shadow-cardhover';
-const mediaClass = 'h-44 w-full object-cover sm:h-40';
-const bodyClass = 'flex flex-1 flex-col p-5 sm:p-6';
+const mediaClass = 'h-36 w-full object-cover sm:h-40';
+const bodyClass = 'flex flex-1 flex-col p-4 sm:p-5';
 const eyebrowClass = 'text-xs font-bold uppercase tracking-[0.12em] text-brand-muted';
 const titleClass = 'mt-2 text-xl font-bold leading-snug text-brand-black sm:text-2xl';
-const copyClass = 'mt-2 text-sm leading-relaxed text-brand-muted sm:text-base';
+const copyClass = 'mt-1.5 text-sm leading-relaxed text-brand-muted';
 const priceClass = 'mt-3 text-lg font-bold text-brand-red';
 const linkClass =
   'mt-3 inline-flex min-h-11 items-center text-sm font-bold text-brand-black underline-offset-4 hover:underline';
@@ -77,11 +77,10 @@ const linkClass =
             <p class={eyebrowClass}>Any project, any size</p>
             <h3 class={titleClass}>General Quote</h3>
             <p class={copyClass}>
-              Not sure where your project fits? Send photos and a short description. We take on all
-              types of jobs — repairs, upgrades, carpentry, remodeling, and one-off work that does
-              not fit a category.
+              Send photos and a short description. Repairs, upgrades, carpentry, remodeling — or
+              anything that does not fit a category.
             </p>
-            <div class="mt-auto pt-5">
+            <div class="mt-auto pt-4">
               <StartJobberLink service="project_estimate" placement="paths" featured>
                 Get a Free Quote
               </StartJobberLink>
@@ -123,10 +122,10 @@ const linkClass =
             <p class={eyebrowClass}>Custom build</p>
             <h3 class={titleClass}>Media Walls</h3>
             <p class={copyClass}>
-              Custom media walls, fireplace TV walls, wood-slat feature walls, and finished
-              entertainment centers — designed and built for your room.
+              Fireplace TV walls, wood-slat feature walls and finished entertainment centers, built
+              for your room.
             </p>
-            <div class="mt-auto pt-5">
+            <div class="mt-auto pt-4">
               <MediaWallEstimateLink placement="paths" class="w-full! py-3! sm:w-full!">
                 Get a Media Wall Quote
               </MediaWallEstimateLink>
@@ -157,12 +156,11 @@ const linkClass =
             <p class={eyebrowClass}>Book it yourself</p>
             <h3 class={titleClass}>High-Ceiling Curtains</h3>
             <p class={copyClass}>
-              Tall windows and two-story walls. You supply the rod or track and the curtains — we
-              bring the high-ceiling access equipment and install them level and clean. Pick a
+              Tall windows and two-story walls. You supply the rod, track and curtains — we install them. Pick a
               time and you are booked, no waiting on a callback.
             </p>
             <p class={priceClass}>Rods installed from {rodFrom} · tracks from {trackFrom}</p>
-            <div class="mt-auto pt-5">
+            <div class="mt-auto pt-4">
               <CurtainBookLink placement="paths" class="w-full! py-3! sm:w-full!">
                 Book a Curtain Install
               </CurtainBookLink>
@@ -193,11 +191,10 @@ const linkClass =
             <p class={eyebrowClass}>Smaller tasks</p>
             <h3 class={titleClass}>Handyman To-Do List Visit</h3>
             <p class={copyClass}>
-              Several smaller repairs, installations, and maintenance tasks in priority order during
-              one reserved visit.
+              Several smaller repairs and installations, worked in priority order during one visit.
             </p>
             <p class={priceClass}>Starting at {todoFrom}</p>
-            <div class="mt-auto pt-5">
+            <div class="mt-auto pt-4">
               <StartJobberLink service="todo_list" placement="paths" featured>
                 Book a Handyman Visit
               </StartJobberLink>

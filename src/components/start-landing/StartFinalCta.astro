@@ -1,14 +1,43 @@
 ---
+import SiteImage from '../ui/SiteImage.astro';
 import StartCallLink from './StartCallLink.astro';
 import StartChooseLink from './StartChooseLink.astro';
 import { site } from '../../data/business';
+import { imageOrPlaceholder } from '../../data/images';
+import { startLanding } from '../../data/startLanding';
+
+/**
+ * Closes on a photograph. Measured at 390x844 the last four screens of this
+ * page carried zero percent image coverage — the weakest possible ground on
+ * which to ask for the job. The frame is the one displaced from the hero when
+ * the video took that slot, so nothing new is loaded that the page did not
+ * already carry.
+ */
+const closer = startLanding.images.hero;
+const closerSrc = imageOrPlaceholder(closer.src);
 ---
 
 <section
-  class="bg-brand-black px-4 py-14 text-white sm:px-6 sm:py-16 lg:px-8"
+  class="relative overflow-hidden bg-brand-black px-4 py-14 text-white sm:px-6 sm:py-16 lg:px-8"
   aria-labelledby="start-final-heading"
 >
-  <div class="mx-auto max-w-3xl text-center">
+  <div class="absolute inset-0" aria-hidden="true">
+    <SiteImage
+      src={closerSrc}
+      alt=""
+      width={closer.width}
+      height={closer.height}
+      loading="lazy"
+      sizes="100vw"
+      class="h-full w-full object-cover object-[center_30%]"
+    />
+    <div
+      class="absolute inset-0 bg-gradient-to-b from-brand-black/78 via-brand-black/84 to-brand-black/92"
+    >
+    </div>
+  </div>
+
+  <div class="relative mx-auto max-w-3xl text-center">
     <h2 id="start-final-heading" class="text-2xl font-bold tracking-tight sm:text-3xl">
       Ready to Elevate Your Home?
     </h2>
