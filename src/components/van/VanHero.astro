@@ -1,5 +1,5 @@
 ---
-import { googleReviewCountDisplay } from '../../data/business';
+import { googleReviewCountDisplay, googleReviewProfileUrl } from '../../data/business';
 import { vanCampaign, vanImages } from '../../data/vanCampaign';
 
 /**
@@ -18,6 +18,15 @@ import { vanCampaign, vanImages } from '../../data/vanCampaign';
  * Brightening further drops that band below the floor.
  */
 const heroVideo = vanImages.heroVideo;
+
+/**
+ * The review count is a claim about someone else's records, so it links to the
+ * Google Business Profile that holds them rather than asking to be believed.
+ * Padded rather than sized with min-height: this eyebrow sits on an 11px line
+ * above the h1, so a 44px box would shove the headline down. Padding widens the
+ * hit area for a thumb without touching the line box.
+ */
+const gbpUrl = googleReviewProfileUrl();
 ---
 
 <section
@@ -50,7 +59,23 @@ const heroVideo = vanImages.heroVideo;
 
   <div class="relative mx-auto max-w-3xl">
     <p class="mb-3 text-[11px] font-bold uppercase tracking-[0.14em] text-brand-redondark sm:text-xs">
-      Veteran-Owned · {googleReviewCountDisplay()} Google Reviews · Katy &amp; West Houston
+      Veteran-Owned ·{' '}
+      {
+        gbpUrl ? (
+          <a
+            href={gbpUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-track-review
+            data-cta-location="van_hero"
+            class="py-2 underline decoration-brand-redondark/60 underline-offset-4 hover:text-white hover:decoration-white"
+          >
+            {googleReviewCountDisplay()} Google Reviews
+          </a>
+        ) : (
+          <>{googleReviewCountDisplay()} Google Reviews</>
+        )
+      }{' '}· Katy &amp; West Houston
     </p>
     <h1
       id="van-hero-heading"

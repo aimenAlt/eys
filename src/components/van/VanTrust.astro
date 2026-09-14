@@ -2,7 +2,7 @@
 import SiteImage from '../ui/SiteImage.astro';
 import { imageOrPlaceholder } from '../../data/images';
 import { withBase } from '../../utils/paths';
-import { googleReviewCountDisplay, googleReviews } from '../../data/business';
+import { googleReviewCountDisplay, googleReviewProfileUrl, googleReviews } from '../../data/business';
 import { vanImages } from '../../data/vanCampaign';
 
 /**
@@ -13,10 +13,21 @@ import { vanImages } from '../../data/vanCampaign';
  */
 const reviewsPageHref = withBase('/reviews/');
 
+/**
+ * The rating chip is the one indicator a visitor can check, so it opens the
+ * Google Business Profile it is quoting. The other two are statements about us
+ * and stay plain text, which is why these carry an optional href rather than
+ * all three being links.
+ */
+const gbpUrl = googleReviewProfileUrl();
+
 const trustIndicators = [
-  'Veteran-Owned',
-  `${googleReviews.rating.toFixed(1)} stars · ${googleReviewCountDisplay()} reviews`,
-  'Katy-Based & Locally Operated',
+  { label: 'Veteran-Owned', href: undefined },
+  {
+    label: `${googleReviews.rating.toFixed(1)} stars · ${googleReviewCountDisplay()} reviews`,
+    href: gbpUrl,
+  },
+  { label: 'Katy-Based & Locally Operated', href: undefined },
 ] as const;
 
 const proof = vanImages.proof.map((image) => ({ ...image, src: imageOrPlaceholder(image.src) }));
@@ -54,9 +65,24 @@ const captionClass =
 
     <ul class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3" role="list">
       {
-        trustIndicators.map((label) => (
-          <li class="rounded-lg border border-brand-black/10 bg-white px-4 py-3 text-center text-sm font-bold text-brand-black">
-            {label}
+        trustIndicators.map((indicator) => (
+          <li class="rounded-lg border border-brand-black/10 bg-white text-center text-sm font-bold text-brand-black">
+            {indicator.href ? (
+              <a
+                href={indicator.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-track-review
+                data-cta-location="van_trust"
+                class="flex min-h-11 items-center justify-center rounded-lg px-4 py-3 underline underline-offset-4 hover:bg-brand-black hover:text-white"
+              >
+                {indicator.label}
+              </a>
+            ) : (
+              <span class="flex min-h-11 items-center justify-center px-4 py-3">
+                {indicator.label}
+              </span>
+            )}
           </li>
         ))
       }
