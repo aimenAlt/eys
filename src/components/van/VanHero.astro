@@ -1,20 +1,77 @@
 ---
+import SiteImage from '../ui/SiteImage.astro';
 import { googleReviewCountDisplay } from '../../data/business';
+import { imageOrPlaceholder } from '../../data/images';
+import { vanCampaign, vanImages } from '../../data/vanCampaign';
+
+/**
+ * Someone reached this page by scanning the QR code off the back of the van, so
+ * the first screen has to answer "are these people any good?" before it asks
+ * for anything. It used to be text on a flat panel with no photograph at all.
+ *
+ * A still, not video: on a sidewalk over cellular, a 1.8MB clip spends the
+ * whole budget before the first tap. One gradient scrim, not a stack of two —
+ * the same mistake `/start/` had, where layered scrims composited to ~80%
+ * coverage and left the photo invisible.
+ */
+const hero = vanImages.hero;
+const heroSrc = imageOrPlaceholder(hero.src);
 ---
 
 <section
-  class="van-hero bg-slate-900 px-4 pb-2 pt-8 text-white sm:px-6 sm:pt-10"
+  class="van-hero relative overflow-hidden bg-brand-black px-4 pb-6 pt-9 text-white sm:px-6 sm:pb-8 sm:pt-12"
   aria-labelledby="van-hero-heading"
 >
-  <div class="mx-auto max-w-3xl">
+  <div class="absolute inset-0" aria-hidden="true">
+    <SiteImage
+      src={heroSrc}
+      alt=""
+      width={hero.width}
+      height={hero.height}
+      loading="eager"
+      fetchpriority="high"
+      sizes="100vw"
+      class="h-full w-full object-cover object-[center_38%]"
+    />
+    <div
+      class="absolute inset-0 bg-gradient-to-b from-brand-black/55 via-brand-black/70 to-brand-black"
+    >
+    </div>
+  </div>
+
+  <div class="relative mx-auto max-w-3xl">
     <p class="mb-3 text-[11px] font-bold uppercase tracking-[0.14em] text-brand-redondark sm:text-xs">
-      Veteran-Owned • {googleReviewCountDisplay()} Google Reviews • Katy &amp; West Houston
+      Veteran-Owned · {googleReviewCountDisplay()} Google Reviews · Katy &amp; West Houston
     </p>
-    <h1 id="van-hero-heading" class="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
-      Need it fixed, installed, or improved?
+    <h1
+      id="van-hero-heading"
+      class="text-3xl font-extrabold leading-tight tracking-tight [text-shadow:0_2px_18px_rgba(0,0,0,0.55)] sm:text-4xl"
+    >
+      You found the van. Let&rsquo;s get your project done.
     </h1>
-    <p class="mt-3 max-w-xl text-base leading-relaxed text-white/85 sm:text-lg">
-      Book a standard service online or send photos for a clear estimate.
+    <p
+      class="mt-3 max-w-xl text-base leading-relaxed text-white/90 [text-shadow:0_1px_12px_rgba(0,0,0,0.45)] sm:text-lg"
+    >
+      Repairs, installations, carpentry and full remodels across Katy and West Houston. Pick a path
+      below, or call and we&rsquo;ll point you to the right one.
     </p>
+
+    <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+      <a
+        href="#service-paths"
+        class="inline-flex min-h-12 items-center justify-center rounded-md bg-brand-red px-6 py-3 text-center text-base font-bold text-white transition-colors hover:bg-brand-redhover sm:px-7"
+      >
+        Choose My Project
+      </a>
+      <a
+        href={`tel:${vanCampaign.phoneTel}`}
+        data-van-phone="hero"
+        data-cta-location="van_hero"
+        class="inline-flex min-h-12 items-center justify-center rounded-md border-2 border-white/70 px-6 py-3 text-center text-base font-bold text-white transition-colors hover:bg-white hover:text-brand-black sm:px-7"
+        aria-label={`Call Elevate Your Space Handyman at ${vanCampaign.phoneDisplay}`}
+      >
+        Call {vanCampaign.phoneDisplay}
+      </a>
+    </div>
   </div>
 </section>

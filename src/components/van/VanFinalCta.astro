@@ -1,0 +1,54 @@
+---
+import { vanCampaign, vanDestinations } from '../../data/vanCampaign';
+
+/**
+ * The page used to end on the service-area paragraph and hand the visitor
+ * straight to the footer, which meant the last thing they read was a caveat.
+ * This closes on the two actions that matter instead. Both are repeats of the
+ * hero's, which is the point — a QR visitor who scrolled the whole page should
+ * not have to scroll back up to act.
+ */
+const photoEstimateHref = vanDestinations.photoEstimate;
+---
+
+<section class="bg-brand-black px-4 py-12 text-white sm:px-6 sm:py-14" aria-labelledby="van-final-cta-heading">
+  <div class="mx-auto max-w-3xl">
+    <h2
+      id="van-final-cta-heading"
+      class="text-2xl font-extrabold tracking-tight sm:text-3xl"
+    >
+      Ready when you are
+    </h2>
+    <p class="mt-3 max-w-xl text-base leading-relaxed text-white/80">
+      Send a few photos and we&rsquo;ll come back with a price and a next step. Prefer to talk it
+      through? Call and we&rsquo;ll point you to the right option.
+    </p>
+
+    <div class="mt-7 flex flex-col gap-3 sm:flex-row">
+      {
+        photoEstimateHref && (
+          <a
+            href={photoEstimateHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-van-route="photo_estimate"
+            data-booking-type="project_estimate"
+            data-cta-location="van_final_cta"
+            class="inline-flex min-h-12 items-center justify-center rounded-md bg-brand-red px-6 py-3 text-center text-base font-bold text-white transition-colors hover:bg-brand-redhover sm:px-7"
+          >
+            Send Project Photos
+          </a>
+        )
+      }
+      <a
+        href={`tel:${vanCampaign.phoneTel}`}
+        data-van-phone="final_cta"
+        data-cta-location="van_final_cta"
+        class="inline-flex min-h-12 items-center justify-center rounded-md border-2 border-white/70 px-6 py-3 text-center text-base font-bold text-white transition-colors hover:bg-white hover:text-brand-black sm:px-7"
+        aria-label={`Call Elevate Your Space Handyman at ${vanCampaign.phoneDisplay}`}
+      >
+        Call {vanCampaign.phoneDisplay}
+      </a>
+    </div>
+  </div>
+</section>

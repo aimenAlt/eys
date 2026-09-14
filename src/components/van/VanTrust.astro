@@ -2,42 +2,25 @@
 import SiteImage from '../ui/SiteImage.astro';
 import { imageOrPlaceholder } from '../../data/images';
 import { withBase } from '../../utils/paths';
-import { googleReviewCountDisplay } from '../../data/business';
+import { googleReviewCountDisplay, googleReviews } from '../../data/business';
+import { vanImages } from '../../data/vanCampaign';
 
+/**
+ * The proof strip used to be three uncaptioned thumbnails about 110px wide on a
+ * phone, which read as decoration rather than evidence. It now leads with one
+ * large frame and captions every shot, so a visitor can name the kind of work
+ * they are looking at. Photography lives in `vanImages` with the rest.
+ */
 const reviewsPageHref = withBase('/reviews/');
 
 const trustIndicators = [
   'Veteran-Owned',
-  `${googleReviewCountDisplay()} Google Reviews`,
+  `${googleReviews.rating.toFixed(1)} stars · ${googleReviewCountDisplay()} reviews`,
   'Katy-Based & Locally Operated',
 ] as const;
 
-const proofImages = [
-  {
-    src: imageOrPlaceholder(
-      '/images/projects/double-height-curtains/eys-general-handyman-double-height-sheer-curtains-after-p023-04.jpg',
-    ),
-    alt: 'Floor-to-ceiling sheer white curtains installed on tall living-room windows',
-    width: 1200,
-    height: 1600,
-  },
-  {
-    src: imageOrPlaceholder(
-      '/images/projects/vaulted-crystal-chandelier/eys-fixture-installation-vaulted-living-crystal-chandelier-after-p008-01.jpg',
-    ),
-    alt: 'Crystal chandelier installed on a vaulted living-room ceiling',
-    width: 1200,
-    height: 1600,
-  },
-  {
-    src: imageOrPlaceholder(
-      '/images/projects/marble-wood-slat-feature-wall/eys-custom-project-living-room-marble-wood-slat-wall-after-p002-01.jpg',
-    ),
-    alt: 'Custom marble and wood-slat feature wall completed in a living room',
-    width: 1200,
-    height: 1600,
-  },
-] as const;
+const proof = vanImages.proof.map((image) => ({ ...image, src: imageOrPlaceholder(image.src) }));
+const [lead, second, third] = proof;
 
 const reviews = [
   {
@@ -49,13 +32,25 @@ const reviews = [
     text: 'Essa did great jobs today. He arrived on time, maintained clean workspace. completed all work fast and neatly. If you need a reliable and efficient handyman, definitely ask for Essa at Elevate Your Space!',
   },
 ] as const;
+
+const captionClass =
+  'absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent px-4 pb-3 pt-12 text-sm font-bold text-white';
 ---
 
-<section class="bg-brand-lightbg px-4 pb-10 pt-2 sm:px-6 sm:pb-12 sm:pt-4" aria-labelledby="van-trust-heading">
+<section
+  class="bg-brand-lightbg px-4 pb-10 pt-10 sm:px-6 sm:pb-12 sm:pt-12"
+  aria-labelledby="van-trust-heading"
+>
   <div class="mx-auto max-w-3xl">
-    <h2 id="van-trust-heading" class="text-2xl font-extrabold tracking-tight text-brand-black sm:text-3xl">
-      Trusted Local Work
+    <h2
+      id="van-trust-heading"
+      class="text-2xl font-extrabold tracking-tight text-brand-black sm:text-3xl"
+    >
+      Real work, in homes like yours
     </h2>
+    <p class="mt-2 text-sm leading-relaxed text-brand-muted sm:text-base">
+      Every photo below is a finished EYS job in Katy or West Houston.
+    </p>
 
     <ul class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3" role="list">
       {
@@ -67,22 +62,41 @@ const reviews = [
       }
     </ul>
 
-    <div class="mt-8 grid grid-cols-3 gap-2 sm:gap-3">
+    <div class="mt-8 grid gap-3 sm:gap-4">
       {
-        proofImages.map((image) => (
-          <figure class="overflow-hidden rounded-lg bg-brand-lightbg">
+        lead ? (
+          <figure class="relative overflow-hidden rounded-xl shadow-card">
             <SiteImage
-              src={image.src}
-              alt={image.alt}
-              width={image.width}
-              height={image.height}
+              src={lead.src}
+              alt={lead.alt}
+              width={lead.width}
+              height={lead.height}
               loading="lazy"
-              sizes="(max-width: 768px) 33vw, 220px"
-              class="aspect-[3/4] h-full w-full object-cover"
+              sizes="(max-width: 768px) 100vw, 768px"
+              class="aspect-[4/3] w-full object-cover sm:aspect-[16/10]"
             />
+            <figcaption class={captionClass}>{lead.label}</figcaption>
           </figure>
-        ))
+        ) : null
       }
+      <div class="grid grid-cols-2 gap-3 sm:gap-4">
+        {
+          [second, third].filter(Boolean).map((image) => (
+            <figure class="relative overflow-hidden rounded-xl shadow-card">
+              <SiteImage
+                src={image.src}
+                alt={image.alt}
+                width={image.width}
+                height={image.height}
+                loading="lazy"
+                sizes="(max-width: 768px) 50vw, 376px"
+                class="aspect-[4/5] w-full object-cover"
+              />
+              <figcaption class={captionClass}>{image.label}</figcaption>
+            </figure>
+          ))
+        }
+      </div>
     </div>
 
     <ul class="mt-8 flex flex-col gap-4">

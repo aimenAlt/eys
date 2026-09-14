@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import VanFinalCta from '../../components/van/VanFinalCta.astro';
 import VanFooter from '../../components/van/VanFooter.astro';
 import VanHeader from '../../components/van/VanHeader.astro';
 import VanHero from '../../components/van/VanHero.astro';
@@ -25,12 +26,12 @@ const seo = {
     <VanHeader />
     <main id="main-content" class="pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-0">
       <!-- One continuous dark conversion surface: hero → routes → popular projects -->
-      <div class="bg-slate-900">
+      <div class="bg-brand-black">
         <VanHero />
         <VanRouteCards />
         <VanPopularProjects />
         <div
-          class="h-20 bg-gradient-to-b from-slate-900 to-brand-lightbg sm:h-24"
+          class="h-20 bg-gradient-to-b from-brand-black to-brand-lightbg sm:h-24"
           aria-hidden="true"
         >
         </div>
@@ -40,6 +41,7 @@ const seo = {
         <VanProcess />
         <VanServiceArea />
       </div>
+      <VanFinalCta />
     </main>
     <VanFooter />
     <VanStickyBar />

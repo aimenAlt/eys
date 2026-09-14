@@ -1,6 +1,8 @@
 ---
+import SiteImage from '../ui/SiteImage.astro';
+import { imageOrPlaceholder } from '../../data/images';
 import { formatUsd, smallRepairPricing } from '../../data/pricing/todoList';
-import { vanDestinations, type VanRouteId } from '../../data/vanCampaign';
+import { vanDestinations, vanImages, type VanRouteId } from '../../data/vanCampaign';
 
 type RouteCard = {
   id: VanRouteId;
@@ -11,40 +13,52 @@ type RouteCard = {
   cta: string;
   href: string | undefined;
   bookingType: string;
+  image: { src: string; alt: string; width: number; height: number };
   featured?: boolean;
 };
 
+/**
+ * Each card now leads with a finished job of the kind its button books, so the
+ * choice is made by looking rather than by reading three paragraphs of process
+ * language. Copy is deliberately spoken rather than administrative — this is
+ * read one-handed on a sidewalk, not filed.
+ *
+ * The price renders from `smallRepairPricing`. Never type the figure here.
+ */
 const routes = (
   [
     {
       id: 'handyman_booking',
-      title: 'Book a Handyman To-Do List Visit',
+      title: 'Book a To-Do List Visit',
       description:
-        'Best for several smaller repairs, installations, and maintenance tasks completed in priority order during one reserved visit.',
-      price: `Starting at ${formatUsd(smallRepairPricing.oneHour)}`,
+        'Got a list? We reserve a block of time and work down it in the order you care about — repairs, installs, and the small stuff that has been piling up.',
+      price: `Starting at ${formatUsd(smallRepairPricing.oneHour)} for the first hour`,
       cta: 'Book a Handyman Visit',
       href: vanDestinations.handymanBooking,
       bookingType: 'handyman_to_do_list',
+      image: vanImages.routes.handymanBooking,
       featured: true,
     },
     {
       id: 'photo_estimate',
       title: 'Send Photos for a Free Estimate',
       description:
-        'Upload your project details and photos once. We’ll review the work and confirm the appropriate next step.',
-      note: 'Best for repairs, installations, drywall, doors, fixtures, and projects that can be evaluated from clear photographs and measurements.',
+        'Send a few photos of the work and tell us what you want done. We review it and come back with a price and a clear next step — no visit needed to get started.',
+      note: 'Good for repairs, drywall, doors, fixtures and installs — anything we can size up from clear photos.',
       cta: 'Send Project Photos',
       href: vanDestinations.photoEstimate,
       bookingType: 'project_estimate',
+      image: vanImages.routes.photoEstimate,
     },
     {
       id: 'custom_project',
       title: 'Request a Custom Project Estimate',
       description:
-        'For media walls, finish carpentry, room upgrades, remodeling, material planning, and work expected to require multiple visits.',
+        'Media walls, built-ins, finish carpentry, room upgrades and remodels — the bigger work that takes planning, materials, and more than one day on site.',
       cta: 'Request a Custom Estimate',
       href: vanDestinations.customProject,
       bookingType: 'custom_project',
+      image: vanImages.routes.customProject,
     },
   ] satisfies RouteCard[]
 ).filter((route) => Boolean(route.href));
@@ -52,47 +66,71 @@ const routes = (
 
 <section
   id="service-paths"
-  class="scroll-mt-20 bg-slate-900 px-4 pb-8 pt-6 sm:px-6 sm:pb-10"
+  class="scroll-mt-20 bg-brand-black px-4 pb-8 pt-10 sm:px-6 sm:pb-10 sm:pt-12"
   aria-labelledby="van-routes-heading"
 >
   <div class="mx-auto max-w-3xl">
-    <h2 id="van-routes-heading" class="sr-only">Choose your service path</h2>
-    <ol class="flex flex-col gap-4">
+    <h2
+      id="van-routes-heading"
+      class="text-2xl font-extrabold tracking-tight text-white sm:text-3xl"
+    >
+      Pick the path that fits your project
+    </h2>
+    <p class="mt-2 text-sm leading-relaxed text-white/70 sm:text-base">
+      Three ways in. Any of them reaches us the same day.
+    </p>
+
+    <ol class="mt-6 flex flex-col gap-5">
       {
         routes.map((route) => (
           <li>
             <article
               class:list={[
-                'rounded-xl border bg-slate-800 p-5 sm:p-6',
+                'overflow-hidden rounded-xl border bg-brand-charcoal',
                 route.featured
                   ? 'border-brand-red/50 shadow-[0_0_0_1px_rgba(176,0,0,0.25)]'
                   : 'border-white/10',
               ]}
             >
-              <h3 class="text-xl font-extrabold leading-snug text-white sm:text-2xl">{route.title}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-white/80 sm:text-base">{route.description}</p>
-              {route.note && (
-                <p class="mt-2 text-sm leading-relaxed text-white/65">{route.note}</p>
-              )}
-              {route.price && (
-                <p class="mt-3 text-lg font-bold text-brand-redondark">{route.price}</p>
-              )}
-              <a
-                href={route.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-van-route={route.id}
-                data-booking-type={route.bookingType}
-                data-cta-location="van_route_card"
-                class:list={[
-                  'mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-md px-4 py-3 text-center text-base font-bold transition-colors',
-                  route.featured
-                    ? 'bg-brand-red text-white hover:bg-brand-redhover'
-                    : 'bg-white text-brand-black hover:bg-white/90',
-                ]}
-              >
-                {route.cta}
-              </a>
+              <SiteImage
+                src={imageOrPlaceholder(route.image.src)}
+                alt={route.image.alt}
+                width={route.image.width}
+                height={route.image.height}
+                loading="lazy"
+                sizes="(max-width: 768px) 100vw, 768px"
+                class="h-44 w-full object-cover object-center sm:h-52"
+              />
+              <div class="p-5 sm:p-6">
+                <h3 class="text-xl font-extrabold leading-snug text-white sm:text-2xl">
+                  {route.title}
+                </h3>
+                <p class="mt-2 text-sm leading-relaxed text-white/80 sm:text-base">
+                  {route.description}
+                </p>
+                {route.note && (
+                  <p class="mt-2 text-sm leading-relaxed text-white/65">{route.note}</p>
+                )}
+                {route.price && (
+                  <p class="mt-3 text-lg font-bold text-brand-redondark">{route.price}</p>
+                )}
+                <a
+                  href={route.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-van-route={route.id}
+                  data-booking-type={route.bookingType}
+                  data-cta-location="van_route_card"
+                  class:list={[
+                    'mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-md px-4 py-3 text-center text-base font-bold transition-colors',
+                    route.featured
+                      ? 'bg-brand-red text-white hover:bg-brand-redhover'
+                      : 'bg-white text-brand-black hover:bg-white/90',
+                  ]}
+                >
+                  {route.cta}
+                </a>
+              </div>
             </article>
           </li>
         ))
