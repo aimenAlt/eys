@@ -24,7 +24,11 @@ import { breadcrumbList, faqPage, webPage } from '../../data/schema';
 
 const pagePath = startLanding.path;
 const pageUrl = absoluteUrl(pagePath);
-const heroImage = startLanding.images.hero.src;
+// The hero's own opening frame, so a shared link previews what the page
+// actually opens with. `images.hero` is the still that used to lead the page
+// and now renders in StartVideoBuiltIn; it is no longer what a visitor sees
+// first, so it is no longer what the link preview shows.
+const heroImage = startLanding.images.videos.builtIn.poster;
 
 // Print-QR / offline conversion landing — reached by scanning a code, never by
 // organic search. Kept out of the index so it cannot compete with `/` for the
@@ -35,7 +39,7 @@ const seo = {
   description: startLanding.seo.description,
   canonical: pageUrl,
   ogImage: heroImage,
-  ogImageAlt: startLanding.images.hero.alt,
+  ogImageAlt: startLanding.images.videos.builtIn.label,
   noindex: true,
 };
 
