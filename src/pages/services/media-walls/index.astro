@@ -14,7 +14,7 @@ import MediaWallProof from '../../../components/media-wall-landing/MediaWallProo
 import MediaWallStickyBar from '../../../components/media-wall-landing/MediaWallStickyBar.astro';
 import MediaWallTrustStrip from '../../../components/media-wall-landing/MediaWallTrustStrip.astro';
 import MediaWallVideoBuiltIn from '../../../components/media-wall-landing/MediaWallVideoBuiltIn.astro';
-import MediaWallVideoScript from '../../../components/media-wall-landing/MediaWallVideoScript.astro';
+import VideoAutoplayScript from '../../../components/common/VideoAutoplayScript.astro';
 import MediaWallVideoSlat from '../../../components/media-wall-landing/MediaWallVideoSlat.astro';
 import MediaWallWhy from '../../../components/media-wall-landing/MediaWallWhy.astro';
 import { absoluteUrl } from '../../../data/business';
@@ -76,7 +76,7 @@ const schemaGraph = [
     <MediaWallFooter />
     <MediaWallStickyBar />
   </div>
-  <MediaWallVideoScript />
+  <VideoAutoplayScript />
   <script>
     import '../../../scripts/curtain-attribution.ts';
   </script>

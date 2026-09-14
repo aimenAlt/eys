@@ -29,7 +29,8 @@ const video = mediaWallsLanding.images.videos.builtIn;
 <section
   class="bg-brand-black px-4 pb-10 pt-8 text-white sm:px-6 sm:pb-14 sm:pt-10 lg:px-8"
   aria-labelledby="media-wall-hero-heading"
-  data-media-wall-video-section
+  data-autoplay-video
+  data-video-source-page="media_walls"
   data-no-cross-sell-event
 >
   <div
@@ -56,7 +57,7 @@ const video = mediaWallsLanding.images.videos.builtIn;
     >
       <video
         class="aspect-[3/4] h-auto w-full object-cover"
-        data-media-wall-video
+        data-autoplay-video-el
         poster={video.poster}
         width={video.width}
         height={video.height}

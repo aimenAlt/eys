@@ -12,7 +12,9 @@ const portraitPhoto = photos.find((photo) => photo.aspect === 'portrait');
   id="media-wall-cross-sell"
   class="bg-brand-black px-4 py-12 text-white sm:px-6 sm:py-14 lg:px-8"
   aria-labelledby="curtain-media-wall-heading"
-  data-media-wall-cross-sell
+  data-autoplay-video
+  data-video-source-page="curtain_installation"
+  data-video-placement="lower_page"
   data-cta-location="media_wall_cross_sell"
 >
   <div class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-12 lg:items-center lg:gap-10">
@@ -73,7 +75,7 @@ const portraitPhoto = photos.find((photo) => photo.aspect === 'portrait');
         >
           <video
             class="aspect-[9/16] h-auto w-full object-cover"
-            data-media-wall-video
+            data-autoplay-video-el
             poster={video.poster}
             width={video.width}
             height={video.height}
@@ -132,76 +134,3 @@ const portraitPhoto = photos.find((photo) => photo.aspect === 'portrait');
     </div>
   </div>
 </section>
-
-<script>
-  import { analyticsEvents, trackEvent } from '../../utils/analytics';
-
-  function prefersReducedMotion(): boolean {
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  }
-
-  function wireMediaWallCrossSell(): void {
-    const section = document.querySelector<HTMLElement>('[data-media-wall-cross-sell]');
-    if (!section || section.dataset.wired === '1') return;
-    section.dataset.wired = '1';
-
-    const video = section.querySelector<HTMLVideoElement>('[data-media-wall-video]');
-    const source = video?.querySelector<HTMLSourceElement>('source[data-src]');
-    let viewed = false;
-
-    const markView = () => {
-      if (viewed) return;
-      viewed = true;
-      trackEvent(analyticsEvents.mediaWallCrossSellView, {
-        source_page: 'curtain_installation',
-        cross_sell: 'media_wall',
-        placement: 'lower_page',
-      });
-    };
-
-    const loadSource = () => {
-      if (!video || !(source instanceof HTMLSourceElement) || source.src) return;
-      const src = source.dataset.src;
-      if (!src) return;
-      source.src = src;
-      video.load();
-    };
-
-    const playIfAllowed = async () => {
-      if (!video || prefersReducedMotion()) return;
-      loadSource();
-      try {
-        video.muted = true;
-        await video.play();
-      } catch {
-        /* autoplay blocked — controls remain available */
-      }
-    };
-
-    const pauseVideo = () => {
-      video?.pause();
-    };
-
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            if (entry.isIntersecting && entry.intersectionRatio >= 0.35) {
-              markView();
-              void playIfAllowed();
-            } else {
-              pauseVideo();
-            }
-          }
-        },
-        { threshold: [0, 0.35, 0.6] },
-      );
-      observer.observe(section);
-    } else {
-      markView();
-    }
-  }
-
-  wireMediaWallCrossSell();
-  document.addEventListener('astro:page-load', wireMediaWallCrossSell);
-</script>

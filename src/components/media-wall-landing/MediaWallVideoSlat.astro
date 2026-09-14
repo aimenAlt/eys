@@ -9,7 +9,8 @@ const video = mediaWallsLanding.images.videos.slat;
   id="slat-walls-tv-integration"
   class="bg-brand-lightbg px-4 py-12 sm:px-6 sm:py-14 lg:px-8"
   aria-labelledby="media-wall-slat-heading"
-  data-media-wall-video-section
+  data-autoplay-video
+  data-video-source-page="media_walls"
 >
   <div class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-12 lg:items-center lg:gap-10">
     <div class="lg:col-span-4">
@@ -36,7 +37,7 @@ const video = mediaWallsLanding.images.videos.slat;
     <figure class="relative overflow-hidden rounded-xl bg-brand-black/5 shadow-card lg:col-span-8">
       <video
         class="aspect-video h-auto w-full object-cover"
-        data-media-wall-video
+        data-autoplay-video-el
         poster={video.poster}
         width={video.width}
         height={video.height}

@@ -1,0 +1,128 @@
+---
+/**
+ * In-view muted autoplay for landing-page videos, plus the media wall
+ * cross-sell view event. One implementation for every page that shows silent
+ * looping footage — `/services/media-walls/`, `/start/` and
+ * `/curtain-installation/` each carried their own copy before this, and they
+ * had already drifted apart on playback retries and intersection thresholds.
+ *
+ * Markup contract:
+ *
+ *   <section data-autoplay-video
+ *            data-video-source-page="start"      <- GA4 `source_page`
+ *            data-video-placement="lower_page"   <- GA4 `placement`, else the id
+ *            data-no-cross-sell-event>           <- report no cross-sell
+ *     <video data-autoplay-video-el poster=... muted loop playsinline
+ *            preload="none">
+ *       <source data-src="/path.mp4" type="video/mp4" />
+ *     </video>
+ *   </section>
+ *
+ * A section may hold any number of videos, including none:
+ *
+ * - Several, when a layout places the same clip differently per breakpoint
+ *   (`/start/`'s hero is full-bleed behind the copy on mobile and a column
+ *   figure on desktop). Only the copy actually rendered is loaded, so the file
+ *   is fetched once.
+ * - None, when the section shows a still but should still report that a media
+ *   wall was put in front of the visitor (StartVideoBuiltIn).
+ *
+ * `mediaWallCrossSellView` counts a media wall surfaced to someone who came for
+ * something else, so two kinds of section opt out with
+ * `data-no-cross-sell-event`: the media walls page's own hero, where the
+ * visitor is already there for media walls, and `/start/`'s hero, which would
+ * fire on essentially every pageview and swamp the deeper placements.
+ */
+---
+
+<script>
+  import { analyticsEvents, trackEvent } from '../../utils/analytics';
+
+  function prefersReducedMotion(): boolean {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  /**
+   * Start playback, retrying once the element is actually ready.
+   *
+   * `video.load()` aborts a play() issued in the same tick, and with
+   * preload="none" nothing buffers until a play request succeeds — so waiting
+   * on 'canplay' alone would wait forever. A video scrolled into view survived
+   * this because scrolling generates repeat intersection callbacks; one already
+   * on screen at load (a hero) gets exactly one, so without a retry it sits
+   * frozen on its poster.
+   *
+   * rAF handles the common case and conveniently defers while the tab is
+   * hidden; 'canplay' is the backstop for when the fetch is simply slower than
+   * a frame.
+   */
+  async function playIfAllowed(video: HTMLVideoElement): Promise<void> {
+    if (prefersReducedMotion()) return;
+    // A copy hidden at this breakpoint has no box — never fetch it.
+    if (video.getClientRects().length === 0) return;
+
+    const source = video.querySelector<HTMLSourceElement>('source[data-src]');
+    if (source && !source.src && source.dataset.src) {
+      source.src = source.dataset.src;
+      video.load();
+    }
+    video.muted = true;
+
+    const attempt = () => video.play().catch(() => false);
+    if ((await attempt()) !== false) return;
+
+    requestAnimationFrame(async () => {
+      if ((await attempt()) !== false) return;
+      video.addEventListener('canplay', () => void attempt(), { once: true });
+    });
+  }
+
+  function wireSection(section: HTMLElement): void {
+    if (section.dataset.autoplayWired === '1') return;
+    section.dataset.autoplayWired = '1';
+
+    const videos = Array.from(
+      section.querySelectorAll<HTMLVideoElement>('[data-autoplay-video-el]'),
+    );
+    const tracksCrossSell = !('noCrossSellEvent' in section.dataset);
+    let viewed = false;
+
+    const markView = () => {
+      if (!tracksCrossSell || viewed) return;
+      viewed = true;
+      trackEvent(analyticsEvents.mediaWallCrossSellView, {
+        source_page: section.dataset.videoSourcePage || 'media_walls',
+        cross_sell: 'media_wall',
+        placement: section.dataset.videoPlacement || section.id || 'video_section',
+      });
+    };
+
+    if (!('IntersectionObserver' in window)) {
+      markView();
+      return;
+    }
+
+    new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
+            markView();
+            videos.forEach((video) => void playIfAllowed(video));
+          } else {
+            videos.forEach((video) => video.pause());
+          }
+        }
+      },
+      { threshold: [0, 0.3, 0.6] },
+    ).observe(section);
+  }
+
+  function wireAutoplayVideos(): void {
+    document
+      .querySelectorAll<HTMLElement>('[data-autoplay-video]')
+      .forEach((section) => wireSection(section));
+  }
+
+  wireAutoplayVideos();
+  document.addEventListener('astro:page-load', wireAutoplayVideos);
+</script>

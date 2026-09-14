@@ -20,9 +20,8 @@ import { site } from '../../data/business';
  * `startLanding.images.hero` is still the page's OG image and now renders
  * further down in StartVideoBuiltIn — the two simply traded places.
  *
- * Playback is wired by StartVideoScript rather than the shared
- * MediaWallVideoScript, which `/services/media-walls/` also runs on and which
- * handles one video per section.
+ * Playback is wired by the shared VideoAutoplayScript, which loads only the
+ * copy rendered at the current breakpoint.
  */
 const heroVideo = startLanding.images.videos.builtIn;
 
@@ -42,11 +41,14 @@ const offerArrowClass = 'ml-1.5 text-brand-redondark';
 <section
   class="relative overflow-hidden bg-brand-black px-4 pb-10 pt-8 text-white sm:px-6 sm:pb-14 sm:pt-10 lg:px-8"
   aria-labelledby="start-hero-heading"
-  data-start-hero-video
+  data-autoplay-video
+  data-video-source-page="start"
+  data-no-cross-sell-event
 >
   <div class="absolute inset-0 lg:hidden" aria-hidden="true">
     <video
       class="h-full w-full object-cover object-[center_30%]"
+      data-autoplay-video-el
       poster={heroVideo.poster}
       width={heroVideo.width}
       height={heroVideo.height}
@@ -121,6 +123,7 @@ const offerArrowClass = 'ml-1.5 text-brand-redondark';
     <figure class="relative mx-auto hidden w-full max-w-md overflow-hidden rounded-xl lg:block lg:max-w-none">
       <video
         class="aspect-[3/4] h-auto w-full object-cover"
+        data-autoplay-video-el
           poster={heroVideo.poster}
         width={heroVideo.width}
         height={heroVideo.height}
