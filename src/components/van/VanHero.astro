@@ -16,6 +16,13 @@ import { vanCampaign, vanImages } from '../../data/vanCampaign';
  * 4.8:1 against white on its hottest pixel, just over the 4.5:1 floor, while
  * showing about a quarter more of the footage than the darker version did.
  * Brightening further drops that band below the floor.
+ *
+ * The clip is full-bleed behind the copy on phones and a contained figure in
+ * the second column from `lg` up — the same switch StartHero and MediaWallHero
+ * make. A full-bleed background never resolves on a wide monitor: the copy sits
+ * in one narrow column and the rest of the screen is empty video. Both copies
+ * are the same element twice; the shared script loads only the one actually
+ * rendered, so the file is still fetched once.
  */
 const heroVideo = vanImages.heroVideo;
 
@@ -36,7 +43,7 @@ const gbpUrl = googleReviewProfileUrl();
   data-video-source-page="van"
   data-no-cross-sell-event
 >
-  <div class="absolute inset-0" aria-hidden="true">
+  <div class="absolute inset-0 lg:hidden" aria-hidden="true">
     <video
       class="h-full w-full object-cover object-[center_38%]"
       data-autoplay-video-el
@@ -57,7 +64,8 @@ const gbpUrl = googleReviewProfileUrl();
     </div>
   </div>
 
-  <div class="relative mx-auto max-w-3xl">
+  <div class="relative mx-auto grid max-w-3xl lg:max-w-6xl items-center gap-8 lg:grid-cols-2 lg:gap-10">
+    <div>
     <p class="mb-3 text-[11px] font-bold uppercase tracking-[0.14em] text-brand-redondark sm:text-xs">
       Veteran-Owned ·{' '}
       {
@@ -79,12 +87,12 @@ const gbpUrl = googleReviewProfileUrl();
     </p>
     <h1
       id="van-hero-heading"
-      class="text-3xl font-extrabold leading-tight tracking-tight [text-shadow:0_2px_18px_rgba(0,0,0,0.55)] sm:text-4xl"
+      class="text-3xl font-extrabold leading-tight tracking-tight [text-shadow:0_2px_18px_rgba(0,0,0,0.55)] sm:text-4xl lg:[text-shadow:none]"
     >
       You found the van. Let&rsquo;s get your project done.
     </h1>
     <p
-      class="mt-3 max-w-xl text-base leading-relaxed text-white/90 [text-shadow:0_1px_12px_rgba(0,0,0,0.45)] sm:text-lg"
+      class="mt-3 max-w-xl text-base leading-relaxed text-white/90 [text-shadow:0_1px_12px_rgba(0,0,0,0.45)] sm:text-lg lg:text-white/85 lg:[text-shadow:none]"
     >
       Repairs, installations, carpentry and full remodels across Katy and West Houston. Pick a path
       below, or call and we&rsquo;ll point you to the right one.
@@ -106,6 +114,28 @@ const gbpUrl = googleReviewProfileUrl();
       >
         Call {vanCampaign.phoneDisplay}
       </a>
+      </div>
     </div>
+
+    <figure class="relative hidden overflow-hidden rounded-xl bg-brand-charcoal shadow-card ring-1 ring-white/10 lg:block">
+      <video
+        class="aspect-[3/4] h-auto w-full object-cover"
+        data-autoplay-video-el
+        poster={heroVideo.poster}
+        width={heroVideo.width}
+        height={heroVideo.height}
+        muted
+        loop
+        playsinline
+        preload="none"
+        disablepictureinpicture
+        aria-label={heroVideo.label}
+      >
+        <source data-src={heroVideo.src} type="video/mp4" />
+      </video>
+      <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-4 pb-4 pt-12 text-sm font-bold text-white">
+        {heroVideo.label}
+      </figcaption>
+    </figure>
   </div>
 </section>

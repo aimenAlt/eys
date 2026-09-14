@@ -27,6 +27,10 @@ type RouteCard = {
  * screen. The photographs carry the appeal, the sentence only has to name the
  * job.
  *
+ * Phones stack the card: photograph above the copy. From `lg` the three sit in
+ * a row — a single column of full-width cards on a 1440px monitor is a stack of
+ * letterboxes with empty space either side.
+ *
  * The price renders from `smallRepairPricing`. Never type the figure here.
  */
 const routes = (
@@ -73,7 +77,7 @@ const routes = (
   class="scroll-mt-20 bg-brand-black px-4 pb-8 pt-8 sm:px-6 sm:pb-10 sm:pt-10"
   aria-labelledby="van-routes-heading"
 >
-  <div class="mx-auto max-w-3xl">
+  <div class="mx-auto max-w-3xl lg:max-w-6xl">
     <h2
       id="van-routes-heading"
       class="text-2xl font-extrabold tracking-tight text-white sm:text-3xl"
@@ -84,13 +88,13 @@ const routes = (
       Three ways in. Any of them reaches us the same day.
     </p>
 
-    <ol class="mt-5 flex flex-col gap-4">
+    <ol class="mt-5 flex flex-col gap-4 lg:grid lg:grid-cols-3 lg:items-stretch lg:gap-5">
       {
         routes.map((route) => (
-          <li>
+          <li class="flex">
             <article
               class:list={[
-                'overflow-hidden rounded-xl border bg-brand-charcoal',
+                'flex w-full flex-col overflow-hidden rounded-xl border bg-brand-charcoal',
                 route.featured
                   ? 'border-brand-red/50 shadow-[0_0_0_1px_rgba(176,0,0,0.25)]'
                   : 'border-white/10',
@@ -103,9 +107,9 @@ const routes = (
                 height={route.image.height}
                 loading="lazy"
                 sizes="(max-width: 768px) 100vw, 768px"
-                class="h-32 w-full object-cover object-center sm:h-40"
+                class="h-32 w-full object-cover object-center sm:h-40 lg:h-36"
               />
-              <div class="p-4 sm:p-5">
+              <div class="flex flex-1 flex-col p-4 sm:p-5">
                 <h3 class="text-xl font-extrabold leading-snug text-white sm:text-2xl">
                   {route.title}
                 </h3>
@@ -118,6 +122,7 @@ const routes = (
                 {route.price && (
                   <p class="mt-2.5 text-base font-bold text-brand-redondark">{route.price}</p>
                 )}
+                <div class="mt-auto pt-4">
                 <a
                   href={route.href}
                   target="_blank"
@@ -126,7 +131,7 @@ const routes = (
                   data-booking-type={route.bookingType}
                   data-cta-location="van_route_card"
                   class:list={[
-                    'mt-4 inline-flex min-h-12 w-full items-center justify-center rounded-md px-4 py-3 text-center text-base font-bold transition-colors',
+                    'inline-flex min-h-12 w-full items-center justify-center rounded-md px-4 py-3 text-center text-base font-bold transition-colors',
                     route.featured
                       ? 'bg-brand-red text-white hover:bg-brand-redhover'
                       : 'bg-white text-brand-black hover:bg-white/90',
@@ -134,6 +139,7 @@ const routes = (
                 >
                   {route.cta}
                 </a>
+                </div>
               </div>
             </article>
           </li>

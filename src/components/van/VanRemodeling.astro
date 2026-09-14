@@ -25,7 +25,8 @@ const href = vanDestinations.customProject;
   class="scroll-mt-20 bg-brand-lightbg px-4 py-10 sm:px-6 sm:py-12"
   aria-labelledby="van-remodeling-heading"
 >
-  <div class="mx-auto max-w-3xl">
+  <div class="mx-auto grid max-w-3xl items-center gap-8 lg:max-w-6xl lg:grid-cols-12 lg:gap-10">
+    <div class="lg:col-span-5">
     <p class="text-[11px] font-bold uppercase tracking-[0.14em] text-brand-red sm:text-xs">
       Bigger projects
     </p>
@@ -40,7 +41,24 @@ const href = vanDestinations.customProject;
       lighting and fixtures — planned, coordinated and finished by one crew you deal with directly.
     </p>
 
-    <div class="mt-6 grid gap-3 sm:gap-4">
+    {
+      href && (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-van-project="remodeling"
+          data-booking-type="custom_project"
+          data-cta-location="van_remodeling"
+          class="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-md bg-brand-red px-4 py-3 text-center text-base font-bold text-white transition-colors hover:bg-brand-redhover sm:w-auto sm:px-7"
+        >
+          Request a Remodeling Estimate
+        </a>
+      )
+    }
+    </div>
+
+    <div class="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:col-span-7">
       {
         shots.map((shot) => (
           <figure class="relative overflow-hidden rounded-xl shadow-card">
@@ -61,20 +79,5 @@ const href = vanDestinations.customProject;
       }
     </div>
 
-    {
-      href && (
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-van-project="remodeling"
-          data-booking-type="custom_project"
-          data-cta-location="van_remodeling"
-          class="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-md bg-brand-red px-4 py-3 text-center text-base font-bold text-white transition-colors hover:bg-brand-redhover sm:w-auto sm:px-7"
-        >
-          Request a Remodeling Estimate
-        </a>
-      )
-    }
   </div>
 </section>
