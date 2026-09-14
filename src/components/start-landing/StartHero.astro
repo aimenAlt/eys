@@ -29,12 +29,22 @@ const heroVideo = startLanding.images.videos.builtIn;
  * Both tiles are links straight into the matching Jobber form — they read as
  * offers, so leaving them inert wasted the two highest-contrast blocks in the
  * hero. Hover/focus lift and the arrow in the headline signal that.
+ *
+ * The headline is the category and the eyebrow is the offer, not the other way
+ * round: `Free Quote` and `Free Estimate` read as the same thing, so the line
+ * that has to be scannable is the one that tells you which tile is yours.
  */
 const offerCardClass =
-  'block rounded-xl border border-white/20 bg-black/45 p-4 backdrop-blur-[2px] transition-colors hover:border-white/45 hover:bg-black/60 lg:border-white/15 lg:bg-white/5 lg:backdrop-blur-none lg:hover:border-white/35 lg:hover:bg-white/10';
-const offerEyebrowClass = 'text-xs font-bold uppercase tracking-[0.12em] text-white/60';
+  'block rounded-xl border border-white/35 bg-black/60 p-4 backdrop-blur-[2px] transition-colors hover:border-white/55 hover:bg-black/75 lg:border-white/25 lg:bg-white/5 lg:backdrop-blur-none lg:hover:border-white/45 lg:hover:bg-white/10';
+/**
+ * The offer, not the category, carries the red: `free` is the word worth
+ * shouting, and white/60 over the hero video was the faintest text on the page
+ * sitting on its busiest background.
+ */
+const offerEyebrowClass =
+  'text-xs font-bold uppercase tracking-[0.12em] text-brand-redondark';
 const offerHeadlineClass = 'mt-2 text-2xl font-bold tracking-tight text-white';
-const offerCopyClass = 'mt-1 text-sm text-white/75';
+const offerCopyClass = 'mt-1 text-sm text-white/90 lg:text-white/80';
 const offerArrowClass = 'ml-1.5 text-brand-redondark';
 ---
 
@@ -100,19 +110,19 @@ const offerArrowClass = 'ml-1.5 text-brand-redondark';
           variant="bare"
           class={offerCardClass}
         >
-          <p class={offerEyebrowClass}>Any Project</p>
+          <p class={offerEyebrowClass}>Free Quote</p>
           <p class={offerHeadlineClass}>
-            Free Quote<span class={offerArrowClass} aria-hidden="true">→</span>
+            Any Project<span class={offerArrowClass} aria-hidden="true">→</span>
           </p>
           <p class={offerCopyClass}>Repairs, upgrades, remodeling, and one-off work</p>
         </StartJobberLink>
         <MediaWallEstimateLink placement="hero_offer" variant="bare" class={offerCardClass}>
-          <p class={offerEyebrowClass}>Media Walls</p>
+          <p class={offerEyebrowClass}>Free Design Consult</p>
           <p class={offerHeadlineClass}>
-            Free Estimate<span class={offerArrowClass} aria-hidden="true">→</span>
+            Media Walls<span class={offerArrowClass} aria-hidden="true">→</span>
           </p>
           <p class={offerCopyClass}>
-            Custom media walls, fireplace TV walls, and slat feature walls
+            Fireplace TV walls, slat walls, and entertainment centers
           </p>
         </MediaWallEstimateLink>
       </div>
