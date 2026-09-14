@@ -1,16 +1,51 @@
 ---
-import Logo from '../layout/Logo.astro';
 import { vanCampaign } from '../../data/vanCampaign';
+import { withBase } from '../../utils/paths';
+
+/**
+ * This header composes its own lockup instead of reusing `layout/Logo.astro`,
+ * which hides the wordmark below `lg` so the site header keeps room for its nav.
+ * `/van/` is reached by scanning the van itself, so the name has to be on screen
+ * the moment the page loads — that is the whole confirmation the visitor is
+ * looking for. There is no nav here to compete for the room: at 375px the mark
+ * and the Call button leave ~140px spare, which the wordmark fits into at a
+ * slightly smaller size than the site header uses.
+ */
 ---
 
 <header class="van-header sticky top-0 z-50 border-b border-white/10 bg-brand-black">
   <div class="mx-auto flex max-w-3xl lg:max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
-    <Logo class="shrink-0" />
+    <a
+      href={withBase('/')}
+      class="group inline-flex shrink-0 items-center gap-1.5 sm:gap-2.5"
+      aria-label="Elevate Your Space Handyman"
+    >
+      <img
+        src={withBase('/logos/logo-mark.webp')}
+        alt=""
+        width="36"
+        height="48"
+        class="h-10 w-auto shrink-0 transition-transform duration-200 group-hover:scale-105 sm:h-11 md:h-12"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+      />
+      <span class="flex flex-col leading-none">
+        <span class="text-[12px] font-extrabold tracking-tight text-white sm:text-sm lg:text-base">
+          Elevate Your Space
+        </span>
+        <span
+          class="mt-1 text-[9px] font-bold uppercase tracking-[0.24em] text-brand-redondark sm:text-[10px] sm:tracking-[0.32em]"
+        >
+          Handyman
+        </span>
+      </span>
+    </a>
     <a
       href={`tel:${vanCampaign.phoneTel}`}
       data-van-phone="header"
       data-cta-location="van_header"
-      class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md bg-brand-red px-4 py-2.5 text-sm font-bold text-white hover:bg-brand-redhover"
+      class="inline-flex min-h-11 min-w-11 items-center justify-center whitespace-nowrap rounded-md bg-brand-red px-3 py-2.5 text-[13px] font-bold text-white hover:bg-brand-redhover sm:px-4 sm:text-sm"
       aria-label={`Call Elevate Your Space Handyman at ${vanCampaign.phoneDisplay}`}
     >
       Call {vanCampaign.phoneDisplay}
