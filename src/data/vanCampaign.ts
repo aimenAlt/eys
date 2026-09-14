@@ -72,19 +72,26 @@ export const vanImages = {
    * section rather than standing in for the whole business.
    */
   remodeling: {
-    /**
-     * Kitchen only, deliberately. The single bathroom photograph on the site
-     * (services/bathroom-remodel.jpg) is a skirted toilet in a water closet,
-     * lid up, with the power cord showing — it undersells the work badly next
-     * to this frame. The copy still names bathrooms; add a bath photo here when
-     * there is one worth showing.
-     */
     kitchen: {
       src: '/images/home/hero.jpg',
       alt: 'Finished two-tone kitchen remodel with sage island, white uppers, quartz counters, and gold fixtures',
       width: 1400,
       height: 1050,
       label: 'Kitchen Remodel · Katy',
+    },
+    /**
+     * The section renders this frame only when the file is actually present
+     * (`hasImage`), so a missing photo leaves a clean one-up rather than a
+     * placeholder box. `services/bathroom-remodel.jpg` is deliberately not used
+     * here — it is a skirted toilet in a water closet with the cord showing,
+     * which undersells the work badly beside the kitchen frame.
+     */
+    bath: {
+      src: '/images/projects/modern-bath-remodel/eys-bathroom-remodeling-walk-in-shower-floating-vanity-after-01.jpg',
+      alt: 'Finished bathroom remodel with a glass walk-in shower, large-format stone-look tile, floating double vanity, backlit mirrors, and matte black fixtures',
+      width: 1800,
+      height: 1200,
+      label: 'Bathroom Remodel',
     },
   },
   /** Proof strip. Captions matter — an uncaptioned thumbnail says nothing about scope. */

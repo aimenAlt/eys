@@ -1,6 +1,6 @@
 ---
 import SiteImage from '../ui/SiteImage.astro';
-import { imageOrPlaceholder } from '../../data/images';
+import { hasImage, imageOrPlaceholder } from '../../data/images';
 import { vanDestinations, vanImages } from '../../data/vanCampaign';
 
 /**
@@ -8,8 +8,15 @@ import { vanDestinations, vanImages } from '../../data/vanCampaign';
  * upgrades, remodeling" on the custom-project card. They are the largest jobs
  * EYS takes, so they get named and shown.
  */
-const kitchen = vanImages.remodeling.kitchen;
-const kitchenSrc = imageOrPlaceholder(kitchen.src);
+/**
+ * Both frames are landscape, so they stack full width rather than sitting in a
+ * cramped two-up — on a phone a half-width landscape crop is about 170px across
+ * and shows nothing. The bath frame appears only once its file is in place.
+ */
+const { kitchen, bath } = vanImages.remodeling;
+const shots = [kitchen, bath]
+  .filter((shot) => hasImage(shot.src))
+  .map((shot) => ({ ...shot, src: imageOrPlaceholder(shot.src) }));
 const href = vanDestinations.customProject;
 ---
 
@@ -33,20 +40,26 @@ const href = vanDestinations.customProject;
       lighting and fixtures — planned, coordinated and finished by one crew you deal with directly.
     </p>
 
-    <figure class="relative mt-6 overflow-hidden rounded-xl shadow-card">
-      <SiteImage
-        src={kitchenSrc}
-        alt={kitchen.alt}
-        width={kitchen.width}
-        height={kitchen.height}
-        loading="lazy"
-        sizes="(max-width: 768px) 100vw, 768px"
-        class="aspect-[4/3] w-full object-cover sm:aspect-[16/10]"
-      />
-      <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent px-4 pb-3 pt-12 text-sm font-bold text-white">
-        {kitchen.label}
-      </figcaption>
-    </figure>
+    <div class="mt-6 grid gap-3 sm:gap-4">
+      {
+        shots.map((shot) => (
+          <figure class="relative overflow-hidden rounded-xl shadow-card">
+            <SiteImage
+              src={shot.src}
+              alt={shot.alt}
+              width={shot.width}
+              height={shot.height}
+              loading="lazy"
+              sizes="(max-width: 768px) 100vw, 768px"
+              class="aspect-[4/3] w-full object-cover sm:aspect-[16/10]"
+            />
+            <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent px-4 pb-3 pt-12 text-sm font-bold text-white">
+              {shot.label}
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
 
     {
       href && (
