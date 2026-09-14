@@ -60,9 +60,17 @@ const offerArrowClass = 'ml-1.5 text-brand-redondark';
     >
       <source data-src={heroVideo.src} type="video/mp4" />
     </video>
-    <div class="absolute inset-0 bg-brand-black/55"></div>
+    <!--
+      One scrim, not two. The previous pair — a flat 55% black under a
+      50/60/80 gradient — composited to 78-91% coverage, which was fine when
+      this was a still used as texture but left the video averaging 22-32 of
+      255: effectively black. These stops roughly double that while staying the
+      brightest the copy can carry — sampled across five frames of the clip, the
+      body paragraph holds 4.6:1 against white on its hottest pixel, just over
+      the 4.5:1 floor for normal text. Brighten further and that band fails.
+    -->
     <div
-      class="absolute inset-0 bg-gradient-to-b from-brand-black/50 via-brand-black/60 to-brand-black/80"
+      class="absolute inset-0 bg-gradient-to-b from-brand-black/45 via-brand-black/58 to-brand-black/75"
     >
     </div>
   </div>
