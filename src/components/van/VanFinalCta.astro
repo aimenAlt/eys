@@ -1,5 +1,7 @@
 ---
-import { vanCampaign, vanDestinations } from '../../data/vanCampaign';
+import SiteImage from '../ui/SiteImage.astro';
+import { imageOrPlaceholder } from '../../data/images';
+import { vanCampaign, vanDestinations, vanImages } from '../../data/vanCampaign';
 
 /**
  * The page used to end on the service-area paragraph and hand the visitor
@@ -7,12 +9,37 @@ import { vanCampaign, vanDestinations } from '../../data/vanCampaign';
  * This closes on the two actions that matter instead. Both are repeats of the
  * hero's, which is the point — a QR visitor who scrolled the whole page should
  * not have to scroll back up to act.
+ *
+ * It closes on a photograph for the same reason the hero opens on one: the last
+ * two screens of this page were measured at zero percent image coverage, which
+ * is the weakest possible ground on which to ask for the job.
  */
 const photoEstimateHref = vanDestinations.photoEstimate;
+const closer = vanImages.closer;
+const closerSrc = imageOrPlaceholder(closer.src);
 ---
 
-<section class="bg-brand-black px-4 py-12 text-white sm:px-6 sm:py-14" aria-labelledby="van-final-cta-heading">
-  <div class="mx-auto max-w-3xl">
+<section
+  class="relative overflow-hidden bg-brand-black px-4 py-12 text-white sm:px-6 sm:py-14"
+  aria-labelledby="van-final-cta-heading"
+>
+  <div class="absolute inset-0" aria-hidden="true">
+    <SiteImage
+      src={closerSrc}
+      alt=""
+      width={closer.width}
+      height={closer.height}
+      loading="lazy"
+      sizes="100vw"
+      class="h-full w-full object-cover object-[center_35%]"
+    />
+    <div
+      class="absolute inset-0 bg-gradient-to-b from-brand-black/75 via-brand-black/80 to-brand-black/90"
+    >
+    </div>
+  </div>
+
+  <div class="relative mx-auto max-w-3xl">
     <h2
       id="van-final-cta-heading"
       class="text-2xl font-extrabold tracking-tight sm:text-3xl"

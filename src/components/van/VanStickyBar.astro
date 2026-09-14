@@ -3,16 +3,18 @@ import { vanCampaign } from '../../data/vanCampaign';
 ---
 
 <div
-  class="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-brand-black px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden"
+  class="pointer-events-none translate-y-full opacity-0 transition-all duration-300 fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-brand-black px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden"
   role="region"
   aria-label="Van page quick actions"
+  data-van-sticky
+  hidden
 >
   <div class="mx-auto flex max-w-3xl gap-3">
     <a
       href={`tel:${vanCampaign.phoneTel}`}
       data-van-phone="sticky_bar"
       data-cta-location="van_sticky"
-      class="inline-flex min-h-12 flex-1 items-center justify-center rounded-md bg-white px-3 py-3 text-center text-sm font-bold text-brand-black"
+      class="inline-flex min-h-12 flex-1 items-center justify-center rounded-md border-2 border-white/85 bg-transparent text-white transition-colors hover:bg-white hover:text-brand-black px-3 py-3 text-center text-sm font-bold"
       aria-label={`Call Elevate Your Space Handyman at ${vanCampaign.phoneDisplay}`}
     >
       Call EYS
@@ -25,3 +27,72 @@ import { vanCampaign } from '../../data/vanCampaign';
     </a>
   </div>
 </div>
+
+<script>
+  /**
+   * Same reveal/hide contract as `layout/MobileStickyCTA.astro`: the bar stays
+   * out of the way until the hero has scrolled past, and steps aside once the
+   * footer is on screen so it never sits on top of the footer links. Without
+   * this the bar was pinned permanently and covered the end of the page.
+   */
+  const FALLBACK_REVEAL_PX = 600;
+
+  function initVanStickyBar() {
+    const bar = document.querySelector<HTMLElement>('[data-van-sticky]');
+    if (!bar) return;
+
+    const heroCta = document.querySelector<HTMLElement>('[data-sticky-hero-cta]');
+    // Review cards mark their attribution line up as a <footer>, so a bare
+    // `querySelector('footer')` matches one mid-page and hides the bar there.
+    const footer =
+      document.querySelector<HTMLElement>('[data-site-footer]') ??
+      ([...document.querySelectorAll<HTMLElement>('footer')].pop() ?? null);
+
+    let heroPassed = false;
+    let footerVisible = false;
+
+    const sync = () => {
+      const show = heroPassed && !footerVisible;
+      bar.hidden = !show;
+      bar.classList.toggle('translate-y-full', !show);
+      bar.classList.toggle('opacity-0', !show);
+      bar.classList.toggle('pointer-events-none', !show);
+    };
+
+    if (heroCta) {
+      const heroObserver = new IntersectionObserver(
+        ([entry]) => {
+          heroPassed = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+          sync();
+        },
+        { threshold: 0 },
+      );
+      heroObserver.observe(heroCta);
+    } else {
+      const onScroll = () => {
+        const passed = window.scrollY > FALLBACK_REVEAL_PX;
+        if (passed === heroPassed) return;
+        heroPassed = passed;
+        sync();
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+
+    if (footer) {
+      const footerObserver = new IntersectionObserver(
+        ([entry]) => {
+          footerVisible = entry.isIntersecting;
+          sync();
+        },
+        { threshold: 0 },
+      );
+      footerObserver.observe(footer);
+    }
+
+    sync();
+  }
+
+  initVanStickyBar();
+  document.addEventListener('astro:page-load', initVanStickyBar);
+</script>

@@ -4,69 +4,46 @@ import { vanDestinations, type VanProjectId } from '../../data/vanCampaign';
 type ProjectShortcut = {
   id: VanProjectId;
   label: string;
-  cta: string;
   href: string | undefined;
   bookingType: string;
-  note?: string;
 };
 
+/**
+ * A catch-all, deliberately placed late and kept small.
+ *
+ * It used to run 893px of seven text links with no imagery, sitting directly
+ * after the three service paths — the flattest stretch of the page in its
+ * highest-intent position. It is now a compact label grid below the proof, for
+ * the visitor whose job was not obviously covered above.
+ *
+ * Each tile keeps its own `data-van-project` and `data-booking-type`, so the
+ * shortcut-level reporting in van-analytics.ts is unchanged.
+ */
 const projects = (
   [
-    {
-      id: 'tv_mounting',
-      label: 'TV Mounting',
-      cta: 'View TV Mounting Options',
-      href: vanDestinations.tvMounting,
-      bookingType: 'tv_mounting',
-    },
-    {
-      id: 'curtains_tracks',
-      label: 'Curtains & Tracks',
-      cta: 'Choose Curtain Installation',
-      href: vanDestinations.photoEstimate,
-      bookingType: 'project_estimate',
-      note: 'Curtain rods, tracks, curtains, and required hardware must be purchased and available before the installation appointment.',
-    },
-    {
-      id: 'lighting_fans',
-      label: 'Lighting & Ceiling Fans',
-      cta: 'Send Project Photos',
-      href: vanDestinations.photoEstimate,
-      bookingType: 'project_estimate',
-    },
-    {
-      id: 'drywall_painting',
-      label: 'Drywall & Painting',
-      cta: 'Send Project Photos',
-      href: vanDestinations.photoEstimate,
-      bookingType: 'project_estimate',
-    },
-    {
-      id: 'doors_cabinets',
-      label: 'Doors & Cabinets',
-      cta: 'Send Project Photos',
-      href: vanDestinations.photoEstimate,
-      bookingType: 'project_estimate',
-    },
-    {
-      id: 'media_walls',
-      label: 'Media Walls',
-      cta: 'Request a Custom Estimate',
-      href: vanDestinations.customProject,
-      bookingType: 'custom_project',
-    },
+    { id: 'tv_mounting', label: 'TV Mounting', href: vanDestinations.tvMounting, bookingType: 'tv_mounting' },
+    { id: 'curtains_tracks', label: 'Curtains & Tracks', href: vanDestinations.photoEstimate, bookingType: 'project_estimate' },
+    { id: 'lighting_fans', label: 'Lighting & Fans', href: vanDestinations.photoEstimate, bookingType: 'project_estimate' },
+    { id: 'drywall_painting', label: 'Drywall & Painting', href: vanDestinations.photoEstimate, bookingType: 'project_estimate' },
+    { id: 'doors_cabinets', label: 'Doors & Cabinets', href: vanDestinations.photoEstimate, bookingType: 'project_estimate' },
+    { id: 'media_walls', label: 'Media Walls', href: vanDestinations.customProject, bookingType: 'custom_project' },
   ] satisfies ProjectShortcut[]
 ).filter((project) => Boolean(project.href));
-
-const uncertainHref = vanDestinations.photoEstimate;
 ---
 
-<section class="bg-brand-black px-4 pb-4 pt-2 sm:px-6 sm:pb-6" aria-labelledby="van-popular-heading">
+<section class="bg-brand-lightbg px-4 pb-10 pt-2 sm:px-6" aria-labelledby="van-popular-heading">
   <div class="mx-auto max-w-3xl">
-    <h2 id="van-popular-heading" class="text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
-      Popular Projects
+    <h2
+      id="van-popular-heading"
+      class="text-2xl font-extrabold tracking-tight text-brand-black sm:text-3xl"
+    >
+      Something else?
     </h2>
-    <ul class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:items-stretch">
+    <p class="mt-2 text-sm leading-relaxed text-brand-muted sm:text-base">
+      Tap the job and we&rsquo;ll take it from there.
+    </p>
+
+    <ul class="mt-5 grid grid-cols-2 gap-3" role="list">
       {
         projects.map((project) => (
           <li class="flex">
@@ -77,36 +54,18 @@ const uncertainHref = vanDestinations.photoEstimate;
               data-van-project={project.id}
               data-booking-type={project.bookingType}
               data-cta-location="van_popular_project"
-              class="flex min-h-14 w-full flex-col justify-center gap-1 rounded-xl border border-white/10 bg-brand-charcoal px-4 py-4 text-left transition-colors hover:border-brand-red/40"
+              class="flex min-h-14 w-full items-center rounded-xl border border-brand-black/10 bg-white px-4 py-3 text-sm font-bold text-brand-black transition-colors hover:border-brand-red/50 hover:text-brand-red sm:text-base"
             >
-              <span class="text-base font-bold text-white">{project.label}</span>
-              <span class="text-sm font-bold text-brand-redondark">{project.cta}</span>
-              {project.note && (
-                <span class="mt-2 block text-xs leading-relaxed text-white/60">{project.note}</span>
-              )}
+              {project.label}
             </a>
           </li>
         ))
       }
     </ul>
 
-    {
-      uncertainHref && (
-        <div class="mt-8 rounded-xl border border-white/10 bg-brand-charcoal p-5 sm:p-6">
-          <p class="text-lg font-bold text-white">Not sure which option fits your project?</p>
-          <a
-            href={uncertainHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-van-route="photo_estimate"
-            data-booking-type="project_estimate"
-            data-cta-location="van_uncertain"
-            class="mt-4 inline-flex min-h-12 w-full items-center justify-center rounded-md bg-white px-4 py-3 text-center text-base font-bold text-brand-black hover:bg-white/90 sm:w-auto sm:px-6"
-          >
-            Send Photos and We’ll Guide You
-          </a>
-        </div>
-      )
-    }
+    <p class="mt-4 text-xs leading-relaxed text-brand-muted">
+      Curtains &amp; tracks is installation labor — rods, tracks and curtains are supplied by you and
+      need to be on site for the appointment.
+    </p>
   </div>
 </section>

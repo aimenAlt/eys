@@ -18,10 +18,14 @@ type RouteCard = {
 };
 
 /**
- * Each card now leads with a finished job of the kind its button books, so the
- * choice is made by looking rather than by reading three paragraphs of process
- * language. Copy is deliberately spoken rather than administrative — this is
- * read one-handed on a sidewalk, not filed.
+ * Each card leads with a finished job of the kind its button books, so the
+ * choice is made by looking rather than by reading.
+ *
+ * Copy is held to one line on purpose. At 440-490px a card the three of them
+ * spanned 2.5 screens, which meant nobody saw the full choice without
+ * committing to a scroll; trimmed to a line each they land inside the second
+ * screen. The photographs carry the appeal, the sentence only has to name the
+ * job.
  *
  * The price renders from `smallRepairPricing`. Never type the figure here.
  */
@@ -31,8 +35,8 @@ const routes = (
       id: 'handyman_booking',
       title: 'Book a To-Do List Visit',
       description:
-        'Got a list? We reserve a block of time and work down it in the order you care about — repairs, installs, and the small stuff that has been piling up.',
-      price: `Starting at ${formatUsd(smallRepairPricing.oneHour)} for the first hour`,
+        'A reserved block of time, worked down your list in the order you choose.',
+      price: `From ${formatUsd(smallRepairPricing.oneHour)} the first hour`,
       cta: 'Book a Handyman Visit',
       href: vanDestinations.handymanBooking,
       bookingType: 'handyman_to_do_list',
@@ -43,8 +47,8 @@ const routes = (
       id: 'photo_estimate',
       title: 'Send Photos for a Free Estimate',
       description:
-        'Send a few photos of the work and tell us what you want done. We review it and come back with a price and a clear next step — no visit needed to get started.',
-      note: 'Good for repairs, drywall, doors, fixtures and installs — anything we can size up from clear photos.',
+        'Send photos, get a price and a next step. No visit needed to start.',
+      note: 'Repairs · drywall · doors · fixtures · installs',
       cta: 'Send Project Photos',
       href: vanDestinations.photoEstimate,
       bookingType: 'project_estimate',
@@ -54,7 +58,7 @@ const routes = (
       id: 'custom_project',
       title: 'Request a Custom Project Estimate',
       description:
-        'Media walls, built-ins, finish carpentry, room upgrades and remodels — the bigger work that takes planning, materials, and more than one day on site.',
+        'Built-ins, carpentry and remodels — work that takes planning and more than a day.',
       cta: 'Request a Custom Estimate',
       href: vanDestinations.customProject,
       bookingType: 'custom_project',
@@ -66,7 +70,7 @@ const routes = (
 
 <section
   id="service-paths"
-  class="scroll-mt-20 bg-brand-black px-4 pb-8 pt-10 sm:px-6 sm:pb-10 sm:pt-12"
+  class="scroll-mt-20 bg-brand-black px-4 pb-8 pt-8 sm:px-6 sm:pb-10 sm:pt-10"
   aria-labelledby="van-routes-heading"
 >
   <div class="mx-auto max-w-3xl">
@@ -80,7 +84,7 @@ const routes = (
       Three ways in. Any of them reaches us the same day.
     </p>
 
-    <ol class="mt-6 flex flex-col gap-5">
+    <ol class="mt-5 flex flex-col gap-4">
       {
         routes.map((route) => (
           <li>
@@ -99,20 +103,20 @@ const routes = (
                 height={route.image.height}
                 loading="lazy"
                 sizes="(max-width: 768px) 100vw, 768px"
-                class="h-44 w-full object-cover object-center sm:h-52"
+                class="h-32 w-full object-cover object-center sm:h-40"
               />
-              <div class="p-5 sm:p-6">
+              <div class="p-4 sm:p-5">
                 <h3 class="text-xl font-extrabold leading-snug text-white sm:text-2xl">
                   {route.title}
                 </h3>
-                <p class="mt-2 text-sm leading-relaxed text-white/80 sm:text-base">
+                <p class="mt-1.5 text-sm leading-relaxed text-white/80">
                   {route.description}
                 </p>
                 {route.note && (
-                  <p class="mt-2 text-sm leading-relaxed text-white/65">{route.note}</p>
+                  <p class="mt-2 text-xs font-medium uppercase tracking-[0.08em] text-white/55">{route.note}</p>
                 )}
                 {route.price && (
-                  <p class="mt-3 text-lg font-bold text-brand-redondark">{route.price}</p>
+                  <p class="mt-2.5 text-base font-bold text-brand-redondark">{route.price}</p>
                 )}
                 <a
                   href={route.href}
@@ -122,7 +126,7 @@ const routes = (
                   data-booking-type={route.bookingType}
                   data-cta-location="van_route_card"
                   class:list={[
-                    'mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-md px-4 py-3 text-center text-base font-bold transition-colors',
+                    'mt-4 inline-flex min-h-12 w-full items-center justify-center rounded-md px-4 py-3 text-center text-base font-bold transition-colors',
                     route.featured
                       ? 'bg-brand-red text-white hover:bg-brand-redhover'
                       : 'bg-white text-brand-black hover:bg-white/90',

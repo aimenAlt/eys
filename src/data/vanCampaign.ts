@@ -99,6 +99,13 @@ export const vanImages = {
       label: 'Bathroom Remodel · The Look We Build To',
     },
   },
+  /** Backs the closing CTA. Deliberately a frame shown nowhere else on the page. */
+  closer: {
+    src: '/images/projects/curved-stair-paneling/eys-trim-carpentry-curved-stair-fluted-wall-paneling-after-p011-07.jpg',
+    alt: 'Curved staircase with light-gray fluted wall paneling and dark wood handrail',
+    width: 3000,
+    height: 4000,
+  },
   /** Proof strip. Captions matter — an uncaptioned thumbnail says nothing about scope. */
   proof: [
     {
