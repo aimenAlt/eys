@@ -2,7 +2,14 @@
 import '../../styles/global.css';
 import SEOHead from '../../components/seo/SEOHead.astro';
 import { absoluteUrl } from '../../data/business';
-import { goLinksByGroup, goMessageText, goRowLabel } from '../../data/goLinks';
+import {
+  GO_DEFAULT_TONE,
+  goLinksByGroup,
+  goMessagesByTone,
+  goRowLabel,
+  goTone,
+  goTones,
+} from '../../data/goLinks';
 
 /**
  * Essa's private share page — the notes-app replacement.
@@ -24,7 +31,10 @@ import { goLinksByGroup, goMessageText, goRowLabel } from '../../data/goLinks';
 const rows = (group: 'phone-leads' | 'searchable') =>
   goLinksByGroup(group).map((entry) => ({
     label: goRowLabel(entry),
-    text: goMessageText(entry),
+    // All three openers ship with every row; the switcher just decides which
+    // one Share and Copy read. Cheaper than re-rendering, and it means the
+    // page keeps working with no network.
+    texts: goMessagesByTone(entry),
     search: `${entry.label} ${entry.keywords}`.toLowerCase(),
   }));
 
@@ -48,6 +58,10 @@ const shareClass =
   'h-11 w-[4.25rem] shrink-0 rounded-md bg-brand-red text-[0.8125rem] font-bold text-white transition-colors active:bg-brand-redhover';
 const copyClass =
   'h-11 w-[3.75rem] shrink-0 rounded-md border border-brand-line text-[0.8125rem] font-bold text-brand-charcoal transition-colors active:bg-brand-lightbg';
+
+const toneButtonClass =
+  'h-10 rounded-md border text-[0.8125rem] font-bold transition-colors aria-pressed:border-brand-red aria-pressed:bg-brand-red aria-pressed:text-white';
+const toneIdleClass = 'border-brand-line bg-white text-brand-charcoal';
 ---
 
 <!doctype html>
@@ -65,10 +79,48 @@ const copyClass =
     <meta name="apple-mobile-web-app-title" content="EYS Links" />
   </head>
   <body class="bg-brand-lightbg font-sans text-brand-charcoal antialiased">
-    <main class="mx-auto max-w-lg px-3 pb-6 pt-3">
+    <main class="mx-auto max-w-lg px-3 pb-3 pt-3">
       <h1 class="sr-only">Send a client a request-form link</h1>
 
-      <section aria-labelledby="essa-phone-leads">
+      <!--
+        Who he is texting, chosen once for the whole page rather than per row —
+        eleven rows times three buttons would not fit a phone, and he knows the
+        situation before he knows which form he wants.
+
+        Deliberately NOT remembered between visits. Opening the page fresh
+        resets to "Answered", because the expensive mistake here is sending
+        "Nice talking with you" to someone he has never spoken to, not having
+        to tap a button twice during a batch.
+      -->
+      <div
+        class="grid grid-cols-3 gap-1.5"
+        role="group"
+        aria-label="Who are you texting?"
+        data-go-tones
+      >
+        {
+          goTones.map((tone) => (
+            <button
+              type="button"
+              class:list={[toneButtonClass, toneIdleClass]}
+              data-go-tone={tone.id}
+              data-go-opener={tone.opener}
+              aria-pressed={tone.id === GO_DEFAULT_TONE ? 'true' : 'false'}
+            >
+              {tone.label}
+            </button>
+          ))
+        }
+      </div>
+      <!-- The rows show no message text, so this is his only sight of the opener. -->
+      <p
+        class="mt-1 truncate text-[0.6875rem] leading-tight text-brand-muted"
+        data-go-tone-preview
+      >
+        {goTone(GO_DEFAULT_TONE).opener}
+      </p>
+
+      <section class="mt-3" aria-labelledby="essa-phone-leads">
         <h2 id="essa-phone-leads" class={headingClass}>
           <span class="h-[3px] w-6 rounded-full bg-brand-red" aria-hidden="true"></span>
           Phone leads
@@ -76,7 +128,14 @@ const copyClass =
         <div class="mt-1.5 space-y-1.5">
           {
             pinned.map((row) => (
-              <div class={pinnedRowClass} data-go-item data-text={row.text} title={row.text}>
+              <div
+                class={pinnedRowClass}
+                data-go-item
+                data-text-answered={row.texts.answered}
+                data-text-missed={row.texts.missed}
+                data-text-cold={row.texts.cold}
+                title={row.texts.answered}
+              >
                 <span class={nameClass}>{row.label}</span>
                 <button type="button" class={shareClass} data-go-share aria-label={`Share ${row.label}`}>
                   Share
@@ -117,8 +176,10 @@ const copyClass =
                 class={rowClass}
                 data-go-item
                 data-search={row.search}
-                data-text={row.text}
-                title={row.text}
+                data-text-answered={row.texts.answered}
+                data-text-missed={row.texts.missed}
+                data-text-cold={row.texts.cold}
+                title={row.texts.answered}
               >
                 <span class={nameClass}>{row.label}</span>
                 <button type="button" class={shareClass} data-go-share aria-label={`Share ${row.label}`}>
@@ -187,6 +248,45 @@ const copyClass =
     <script is:inline>
       (function () {
         var RESET_MS = 1600;
+
+        /* ---- Which opener Share and Copy use --------------------------- */
+
+        // Never persisted: a fresh page is always "Answered". Sending "Nice
+        // talking with you" to someone he has never spoken to is the mistake
+        // worth designing against.
+        var activeTone = 'answered';
+        var toneButtons = [].slice.call(document.querySelectorAll('[data-go-tone]'));
+        var tonePreview = document.querySelector('[data-go-tone-preview]');
+
+        /** The text for one row, in whichever tone is currently selected. */
+        function textFor(item) {
+          return (
+            item.getAttribute('data-text-' + activeTone) ||
+            item.getAttribute('data-text-answered') ||
+            ''
+          );
+        }
+
+        function selectTone(id) {
+          activeTone = id;
+          toneButtons.forEach(function (button) {
+            var on = button.getAttribute('data-go-tone') === id;
+            button.setAttribute('aria-pressed', on ? 'true' : 'false');
+            if (on && tonePreview) {
+              tonePreview.textContent = button.getAttribute('data-go-opener') || '';
+            }
+          });
+          // Keep the long-press tooltip honest about what would actually send.
+          [].slice.call(document.querySelectorAll('[data-go-item]')).forEach(function (item) {
+            item.setAttribute('title', textFor(item));
+          });
+        }
+
+        toneButtons.forEach(function (button) {
+          button.addEventListener('click', function () {
+            selectTone(button.getAttribute('data-go-tone') || 'answered');
+          });
+        });
 
         function flash(button, mark) {
           if (!button) return;
@@ -262,7 +362,7 @@ const copyClass =
           if (!trigger) return;
           var item = trigger.closest('[data-go-item]');
           if (!item) return;
-          var text = item.getAttribute('data-text') || '';
+          var text = textFor(item);
           if (trigger.hasAttribute('data-go-share')) {
             shareText(text, trigger);
           } else {

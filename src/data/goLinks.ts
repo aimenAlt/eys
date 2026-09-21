@@ -35,11 +35,23 @@ export interface GoLink {
   buttonLabel: string;
   group: GoLinkGroup;
   /**
-   * The message Essa sends, above the link. Owner-approved copy.
+   * The body of the text Essa sends, above the link — everything after the
+   * opening sentence. Owner-approved copy.
+   *
+   * The opener is NOT here: it depends on whether he spoke to them, missed
+   * their call, or has never been in touch (see `goTones`). Splitting it out
+   * is what lets one body serve all three without eleven copies of each.
+   *
    * Never add a turnaround promise here ("same day", "within 24 hours"):
    * say what happens next, never how fast it happens.
    */
-  message: string;
+  body: string;
+  /**
+   * True for the two forms that book a slot rather than ask for a quote.
+   * Those get no "add as much detail as you can" nudge — there is no quote
+   * coming, and the body already tells them what to bring or pick.
+   */
+  booking?: boolean;
   /** Client-page line that says what the button opens. */
   next: string;
   /** GA4 `booking_type` for the outbound click. */
@@ -62,6 +74,58 @@ export const GO_DEFAULT_BUTTON_LABEL = 'Continue to your request →';
 
 /** Signature appended to every texted message, on its own line. He goes by Essa. */
 export const GO_SIGN_OFF = '– Essa, EYS Handyman';
+
+export type GoToneId = 'answered' | 'missed' | 'cold';
+
+export interface GoTone {
+  id: GoToneId;
+  /** Button label on `/essa/`. Short — three of them share one row on a phone. */
+  label: string;
+  /** Opening sentence, ahead of the form's own body. */
+  opener: string;
+  /**
+   * Appended after the body on quote forms only. Where there has been no
+   * conversation, the form is the only thing carrying the job, so it is worth
+   * asking for detail; after a call it would be redundant and faintly rude.
+   */
+  nudge?: string;
+}
+
+/**
+ * How the text opens, by what happened before it.
+ *
+ * "Hey! Nice talking with you." is wrong — embarrassing, even — sent to
+ * someone whose call he missed or who has never heard from him. The body of
+ * each message stays the same in all three; only the first sentence, and a
+ * request for detail where there has been no conversation, change.
+ *
+ * `answered` reproduces the original message byte for byte. Leave it that way.
+ */
+export const goTones: GoTone[] = [
+  {
+    id: 'answered',
+    label: 'Answered',
+    opener: 'Hey! Nice talking with you.',
+  },
+  {
+    id: 'missed',
+    label: 'Missed call',
+    opener: 'Hi — Essa here with EYS Handyman, sorry I missed your call.',
+    nudge: 'Add as much detail as you can and I can get you an accurate quote.',
+  },
+  {
+    id: 'cold',
+    label: 'No contact',
+    opener: 'Hi — Essa here with EYS Handyman in Katy.',
+    nudge: 'Add as much detail as you can and I can get you an accurate quote.',
+  },
+];
+
+export const GO_DEFAULT_TONE: GoToneId = 'answered';
+
+export function goTone(id: GoToneId = GO_DEFAULT_TONE): GoTone {
+  return goTones.find((tone) => tone.id === id) ?? goTones[0];
+}
 
 /**
  * Review shown when a form has no closely matching one — see `GoLink.reviewId`.
@@ -125,8 +189,8 @@ export const goLinks: GoLink[] = [
     keywords: 'home project general new lead call anything else',
     buttonLabel: GO_DEFAULT_BUTTON_LABEL,
     group: 'phone-leads',
-    message:
-      "Hey! Nice talking with you. Here's the link to send me your project details and a few photos — once it's in, I'll get your estimate started.",
+    body:
+      "Here's the link to send me your project details and a few photos — once it's in, I'll get your estimate started.",
     next: 'Next: a short form about your home project.',
     bookingType: 'phone_lead_home_project',
   },
@@ -137,8 +201,8 @@ export const goLinks: GoLink[] = [
     keywords: 'repair fix broken install installation replace',
     buttonLabel: GO_DEFAULT_BUTTON_LABEL,
     group: 'phone-leads',
-    message:
-      "Hey! Nice talking with you. Here's the link to send me what needs fixing or installing, plus a few photos — once it's in, I'll get your price together.",
+    body:
+      "Here's the link to send me what needs fixing or installing, plus a few photos — once it's in, I'll get your price together.",
     next: 'Next: a short form about the repair or installation you need.',
     bookingType: 'phone_lead_repair',
     /** On time, clean workspace, fast and neat — a repair customer describing exactly this visit. */
@@ -151,8 +215,8 @@ export const goLinks: GoLink[] = [
     keywords: 'commercial business property office rental large scale multi unit',
     buttonLabel: GO_DEFAULT_BUTTON_LABEL,
     group: 'phone-leads',
-    message:
-      "Hey! Nice talking with you. Here's the link to send me the property details and the scope you have in mind — once it's in, I'll start on your proposal.",
+    body:
+      "Here's the link to send me the property details and the scope you have in mind — once it's in, I'll start on your proposal.",
     next: 'Next: a short form about your commercial project.',
     bookingType: 'phone_lead_commercial',
     // Jay Liang's review was tried here for the crew he turned up with, but the
@@ -165,10 +229,11 @@ export const goLinks: GoLink[] = [
     formId: '4983259',
     label: 'Handyman To-Do List visit',
     keywords: 'honey do handyman list small jobs punch list odd jobs hourly',
+    booking: true,
     buttonLabel: BOOKING_BUTTON_LABEL,
     group: 'searchable',
-    message:
-      "Hey! Nice talking with you. Here's the link to book your Handyman To-Do List visit — add your list so I know exactly what to bring.",
+    body:
+      "Here's the link to book your Handyman To-Do List visit — add your list so I know exactly what to bring.",
     next: 'Next: a short booking form for your Handyman To-Do List visit.',
     bookingType: 'handyman_to_do_list',
     /** A list of small jobs done fast and neatly, which is what a To-Do List visit is. */
@@ -179,10 +244,11 @@ export const goLinks: GoLink[] = [
     formId: '5025076',
     label: 'Free on-site estimate',
     keywords: 'walkthrough visit assessment on site in person come out free',
+    booking: true,
     buttonLabel: BOOKING_BUTTON_LABEL,
     group: 'searchable',
-    message:
-      "Hey! Nice talking with you. Here's the link to book your free 30-minute on-site estimate — pick a time that works for you.",
+    body:
+      "Here's the link to book your free 30-minute on-site estimate — pick a time that works for you.",
     next: 'Next: a short booking form for your free on-site estimate.',
     bookingType: 'on_site_estimate',
     /** "He arrived on time" is the promise a booked on-site slot makes. */
@@ -195,8 +261,8 @@ export const goLinks: GoLink[] = [
     keywords: 'tv television mount bracket wall',
     buttonLabel: GO_DEFAULT_BUTTON_LABEL,
     group: 'searchable',
-    message:
-      "Hey! Nice talking with you. Here's the link for your TV mounting — once it's in, I'll get your quote started.",
+    body:
+      "Here's the link for your TV mounting — once it's in, I'll get your quote started.",
     next: 'Next: a short form about your TV mounting project.',
     bookingType: 'tv_mounting',
   },
@@ -207,8 +273,8 @@ export const goLinks: GoLink[] = [
     keywords: 'curtains drapes high ceiling tall two story vaulted rod track',
     buttonLabel: GO_DEFAULT_BUTTON_LABEL,
     group: 'searchable',
-    message:
-      "Hey! Nice talking with you. Here's the link for your high-ceiling curtains — once it's in, I'll get your quote started.",
+    body:
+      "Here's the link for your high-ceiling curtains — once it's in, I'll get your quote started.",
     next: 'Next: a short form about your high-ceiling curtains.',
     bookingType: 'high_ceiling_curtain',
     /** A curtain-installation customer, on the curtain page. */
@@ -221,8 +287,8 @@ export const goLinks: GoLink[] = [
     keywords: 'drapes rod track blinds standard height curtains',
     buttonLabel: GO_DEFAULT_BUTTON_LABEL,
     group: 'searchable',
-    message:
-      "Hey! Nice talking with you. Here's the link for your curtain installation — once it's in, I'll get your quote started.",
+    body:
+      "Here's the link for your curtain installation — once it's in, I'll get your quote started.",
     next: 'Next: a short form about your curtain installation.',
     bookingType: 'regular_ceiling_curtain',
     /** A curtain-installation customer, on the curtain page. */
@@ -235,8 +301,8 @@ export const goLinks: GoLink[] = [
     keywords: 'media wall fireplace feature accent slat entertainment center',
     buttonLabel: GO_DEFAULT_BUTTON_LABEL,
     group: 'searchable',
-    message:
-      "Hey! Nice talking with you. Here's the link for your media wall — share your ideas for the wall and I'll start on your design and quote.",
+    body:
+      "Here's the link for your media wall — share your ideas for the wall and I'll start on your design and quote.",
     next: 'Next: a short form about your media wall.',
     bookingType: 'media_wall_estimate',
   },
@@ -247,8 +313,8 @@ export const goLinks: GoLink[] = [
     keywords: 'kitchen remodel cabinets countertops backsplash island',
     buttonLabel: GO_DEFAULT_BUTTON_LABEL,
     group: 'searchable',
-    message:
-      "Hey! Nice talking with you. Here's the link for your kitchen project — once it's in, I'll start putting your estimate together.",
+    body:
+      "Here's the link for your kitchen project — once it's in, I'll start putting your estimate together.",
     next: 'Next: a short form about your kitchen remodel.',
     bookingType: 'kitchen_remodel',
   },
@@ -259,8 +325,8 @@ export const goLinks: GoLink[] = [
     keywords: 'bath shower vanity bathroom remodel tile tub',
     buttonLabel: GO_DEFAULT_BUTTON_LABEL,
     group: 'searchable',
-    message:
-      "Hey! Nice talking with you. Here's the link for your bathroom project — once it's in, I'll start putting your estimate together.",
+    body:
+      "Here's the link for your bathroom project — once it's in, I'll start putting your estimate together.",
     next: 'Next: a short form about your bathroom remodel.',
     bookingType: 'bathroom_remodel',
   },
@@ -304,7 +370,22 @@ export function goRowLabel(entry: GoLink): string {
   return entry.label.replace(/^Phone lead\s·\s/, '');
 }
 
-/** Exactly what the Share/Copy buttons put on the clipboard. */
-export function goMessageText(entry: GoLink): string {
-  return `${entry.message}\n\n${goShareUrl(entry.slug)}\n\n${GO_SIGN_OFF}`;
+/**
+ * Exactly what the Share/Copy buttons put on the clipboard, for one tone.
+ *
+ * Shape is fixed and owner-approved: message, blank line, bare link, blank
+ * line, sign-off. No query parameters on the link.
+ */
+export function goMessageText(entry: GoLink, toneId: GoToneId = GO_DEFAULT_TONE): string {
+  const tone = goTone(toneId);
+  const nudge = tone.nudge && !entry.booking ? ` ${tone.nudge}` : '';
+  const message = `${tone.opener} ${entry.body}${nudge}`;
+  return `${message}\n\n${goShareUrl(entry.slug)}\n\n${GO_SIGN_OFF}`;
+}
+
+/** Every tone's text for one link, keyed by tone id — what `/essa/` renders. */
+export function goMessagesByTone(entry: GoLink): Record<GoToneId, string> {
+  return Object.fromEntries(
+    goTones.map((tone) => [tone.id, goMessageText(entry, tone.id)]),
+  ) as Record<GoToneId, string>;
 }
