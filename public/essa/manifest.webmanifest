@@ -1,0 +1,17 @@
+{
+  "name": "EYS — Send a Link",
+  "short_name": "EYS Links",
+  "description": "Ready-made text messages for EYS request forms.",
+  "start_url": "/essa/",
+  "scope": "/essa/",
+  "id": "/essa/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f7f7f7",
+  "theme_color": "#0a0a0a",
+  "icons": [
+    { "src": "/essa/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/essa/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/essa/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

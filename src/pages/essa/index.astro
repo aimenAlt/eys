@@ -54,6 +54,15 @@ const copyClass =
 <html lang="en-US">
   <head>
     <SEOHead {...seo} />
+    <!--
+      Installable as a home-screen app, for this page only. The manifest and
+      the service worker both live under /essa/, which is what keeps the
+      worker's scope off the rest of the site.
+    -->
+    <link rel="manifest" href="/essa/manifest.webmanifest" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="EYS Links" />
   </head>
   <body class="bg-brand-lightbg font-sans text-brand-charcoal antialiased">
     <main class="mx-auto max-w-lg px-3 pb-6 pt-3">
@@ -130,6 +139,45 @@ const copyClass =
           </p>
         </div>
       </section>
+
+      <!--
+        Install prompt. Sits at the BOTTOM on purpose: the eleven rows are
+        sized to fit one 390x844 screen with ~95px to spare, and a banner above
+        them would push the last link off. Hidden until Chrome actually offers
+        `beforeinstallprompt`, so it never appears once the app is installed.
+      -->
+      <div
+        class="mt-3 flex items-center gap-2.5 rounded-lg border border-brand-line bg-brand-black py-2 pl-3 pr-2 text-white"
+        data-pwa-banner
+        hidden
+      >
+        <img
+          src="/essa/icon-192.png"
+          alt=""
+          width="192"
+          height="192"
+          class="h-8 w-8 shrink-0 rounded-md"
+          aria-hidden="true"
+        />
+        <span class="min-w-0 flex-1 text-[0.8125rem] font-bold leading-tight">
+          Hey Essa &mdash; add this to your Home Screen
+        </span>
+        <button
+          type="button"
+          class="h-9 shrink-0 rounded-md bg-brand-red px-3 text-[0.8125rem] font-bold text-white"
+          data-pwa-install
+        >
+          Add
+        </button>
+        <button
+          type="button"
+          class="h-9 w-8 shrink-0 rounded-md text-[0.9375rem] font-bold text-white/60"
+          data-pwa-dismiss
+          aria-label="Not now"
+        >
+          &times;
+        </button>
+      </div>
     </main>
 
     <!--
@@ -221,6 +269,77 @@ const copyClass =
             copyText(text, trigger);
           }
         });
+
+        /* ---- Home-screen install ------------------------------------- */
+
+        var DISMISS_KEY = 'eys_essa_install_dismissed';
+        var banner = document.querySelector('[data-pwa-banner]');
+        var deferredPrompt = null;
+
+        function hideBanner() {
+          if (banner) banner.hidden = true;
+        }
+
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', function () {
+            // Explicit scope, matching the file's own directory. Registering a
+            // worker from anywhere else would widen this to the whole site.
+            navigator.serviceWorker.register('/essa/sw.js', { scope: '/essa/' }).catch(function () {
+              /* no worker, no install prompt — the page itself still works */
+            });
+          });
+        }
+
+        window.addEventListener('beforeinstallprompt', function (event) {
+          event.preventDefault();
+          deferredPrompt = event;
+          var dismissed = false;
+          try {
+            dismissed = localStorage.getItem(DISMISS_KEY) === '1';
+          } catch (err) {
+            dismissed = false;
+          }
+          if (!dismissed && banner) banner.hidden = false;
+        });
+
+        window.addEventListener('appinstalled', function () {
+          deferredPrompt = null;
+          hideBanner();
+        });
+
+        var installButton = document.querySelector('[data-pwa-install]');
+        if (installButton) {
+          installButton.addEventListener('click', async function () {
+            if (!deferredPrompt) {
+              hideBanner();
+              return;
+            }
+            hideBanner();
+            deferredPrompt.prompt();
+            try {
+              await deferredPrompt.userChoice;
+            } catch (err) {
+              /* dialog dismissed — nothing to do */
+            }
+            // A prompt can only be used once. Chrome fires a fresh
+            // beforeinstallprompt if he declines and comes back later.
+            deferredPrompt = null;
+          });
+        }
+
+        var dismissButton = document.querySelector('[data-pwa-dismiss]');
+        if (dismissButton) {
+          dismissButton.addEventListener('click', function () {
+            hideBanner();
+            try {
+              localStorage.setItem(DISMISS_KEY, '1');
+            } catch (err) {
+              /* private mode — it simply reappears next visit */
+            }
+          });
+        }
+
+        /* ---- Search ---------------------------------------------------- */
 
         var search = document.querySelector('[data-go-search]');
         var results = document.querySelector('[data-go-results]');
