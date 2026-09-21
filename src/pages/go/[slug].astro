@@ -141,7 +141,7 @@ const seo = {
             />
           </svg>
           <span class="text-[1.0625rem] font-bold leading-tight text-brand-black">
-            Opening your form in <span data-go-count>10</span>&hellip;
+            Loading your form&hellip;
           </span>
         </div>
 
@@ -172,7 +172,7 @@ const seo = {
         data-go-handoff
       >
         <span hidden data-go-handoff-text>
-          Taking you to the form in <span data-go-handoff-count>5 seconds</span>&hellip;
+          Opening your form in <span data-go-handoff-count>5</span>&hellip;
         </span>
       </p>
 
@@ -216,10 +216,11 @@ const seo = {
     /**
      * Open the Jobber form on its own after ten seconds, in two halves.
      *
-     *  0-5s   the clock box counts 10 down to 6 while the ring fills.
-     *  5-10s  the button takes the box's place and a line underneath says how
-     *         many seconds are left, so nobody is moved without warning and
-     *         anyone who wants to go now can just tap.
+     *  0-5s   "Loading your form…" and a filling ring. No number: a count
+     *         ticking down from 10 reads as a wait being imposed.
+     *  5-10s  the button takes the box's place and a line underneath counts
+     *         5 to 1, so nobody is moved without warning and anyone who wants
+     *         to go now can just tap.
      *  10s    the form opens, with the button already on screen behind it.
      *
      * Three rules this has to respect:
@@ -248,7 +249,6 @@ const seo = {
       var HANDOFF_AT = 5;
 
       var CANCEL_EVENTS = ['pointerdown', 'keydown', 'wheel', 'touchmove'];
-      var readout = countdown.querySelector('[data-go-count]');
       var handoffText = document.querySelector('[data-go-handoff-text]');
       var handoffCount = document.querySelector('[data-go-handoff-count]');
       var remaining = TOTAL_SECONDS;
@@ -276,18 +276,15 @@ const seo = {
 
       ticker = window.setInterval(function () {
         remaining -= 1;
-        if (remaining <= 0) return;
-        if (remaining > HANDOFF_AT) {
-          if (readout) readout.textContent = String(remaining);
-          return;
-        }
+        // First half says nothing about time — just "Loading your form…" and a
+        // filling ring. A number ticking down from 10 reads as a wait being
+        // imposed; the count only starts once the button is there to escape it.
+        if (remaining <= 0 || remaining > HANDOFF_AT) return;
         // Second half: the button is the thing on screen, the line below it
         // just says how long is left.
         countdown.hidden = true;
         cta.hidden = false;
-        if (handoffCount) {
-          handoffCount.textContent = remaining === 1 ? '1 second' : remaining + ' seconds';
-        }
+        if (handoffCount) handoffCount.textContent = String(remaining);
         if (handoffText) handoffText.hidden = false;
       }, 1000);
 
