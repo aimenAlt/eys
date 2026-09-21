@@ -141,7 +141,7 @@ const seo = {
             />
           </svg>
           <span class="text-[1.0625rem] font-bold leading-tight text-brand-black">
-            Opening your form in <span data-go-count>5</span>&hellip;
+            Opening your form in <span data-go-count>7</span>&hellip;
           </span>
         </div>
 
@@ -184,7 +184,7 @@ const seo = {
       }
     }
     .go-clock-sweep {
-      animation: go-clock-sweep 5s linear forwards;
+      animation: go-clock-sweep 7s linear forwards;
     }
     @media (prefers-reduced-motion: reduce) {
       .go-clock-sweep {
@@ -196,7 +196,7 @@ const seo = {
 
   <script is:inline>
     /**
-     * Open the Jobber form on its own after five seconds, and leave the button
+     * Open the Jobber form on its own after seven seconds, and leave the button
      * behind as the fallback when that does not happen.
      *
      * Three rules this has to respect:
@@ -222,7 +222,7 @@ const seo = {
 
       var CANCEL_EVENTS = ['pointerdown', 'keydown', 'wheel', 'touchmove'];
       var readout = countdown.querySelector('[data-go-count]');
-      var remaining = 5;
+      var remaining = 7;
       var ticker;
       var opener;
 
@@ -265,7 +265,7 @@ const seo = {
         window.setTimeout(function () {
           if (!document.hidden) window.location.assign(cta.href);
         }, 600);
-      }, 5000);
+      }, 7000);
 
       CANCEL_EVENTS.forEach(function (name) {
         window.addEventListener(name, cancel, { passive: true, capture: true });
