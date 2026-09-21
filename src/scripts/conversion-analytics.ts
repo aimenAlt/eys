@@ -38,6 +38,7 @@ function inferBookingType(href: string, link: HTMLAnchorElement): string {
   if (href.includes('4983259')) return 'handyman_to_do_list';
   if (href.includes('5067435')) return 'media_wall_estimate';
   if (href.includes('4985623')) return 'project_estimate';
+  if (href.includes('5201775')) return 'project_estimate_start';
   if (href.includes('4977896')) return 'tv_mounting';
   if (href.includes('5061244')) return 'high_ceiling_curtain';
   if (href.includes('5061268')) return 'regular_ceiling_curtain';

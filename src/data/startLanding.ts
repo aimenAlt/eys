@@ -19,7 +19,7 @@ import {
   googleReviews,
   jobberHandymanToDoListFormUrl,
   jobberOnlineBookingUrl,
-  jobberProjectEstimateFormUrl,
+  jobberStartProjectEstimateFormUrl,
   site,
 } from './business';
 import { curtainLanding, formatUsd as formatUsdWhole } from './curtainLanding';
@@ -196,9 +196,20 @@ export function startTodoListJobberUrl(): string | undefined {
   return jobberHandymanToDoListFormUrl();
 }
 
-/** Project-estimate Jobber URL, labelled `eys_form=project-estimate`. */
+/**
+ * Project-estimate Jobber URL for `/start/`, labelled
+ * `eys_form=project-estimate-start`.
+ *
+ * Deliberately a DIFFERENT Jobber form from the sitewide one. `/start/` is the
+ * flyer / magazine-ad QR landing page, and its leads were indistinguishable
+ * from sitewide estimate requests in GA4 because both forms and both
+ * confirmation pages were shared. This accessor and the `start-landing/*`
+ * components that call it are used by `/start/` and nothing else, so the
+ * override stays page-local: the homepage and the service pages keep
+ * `jobberProjectEstimateFormUrl()`.
+ */
 export function startProjectEstimateJobberUrl(): string | undefined {
-  return jobberProjectEstimateFormUrl();
+  return jobberStartProjectEstimateFormUrl();
 }
 
 /** TV-mounting Jobber URL, labelled `eys_form=tv-mounting-booking`. */

@@ -70,6 +70,14 @@ export const jobber = {
     'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/4983259/new' as string,
   projectEstimateFormUrl:
     'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/4985623/new' as string,
+  /**
+   * Project-estimate form used ONLY by the `/start/` print-QR landing page, so
+   * flyer and magazine-ad leads arrive on their own Jobber form and their own
+   * confirmation page instead of being mixed in with sitewide estimate requests.
+   * Every other page keeps `projectEstimateFormUrl` above.
+   */
+  startProjectEstimateFormUrl:
+    'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/5201775/new' as string,
   kitchenRemodelFormUrl:
     'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/5130707/new' as string,
   bathroomRemodelFormUrl:
@@ -158,6 +166,12 @@ export function jobberHandymanToDoListFormUrl(): string | undefined {
 export function jobberProjectEstimateFormUrl(): string | undefined {
   const url = business.jobber.projectEstimateFormUrl?.trim();
   return url ? withJobberFormId(url, 'project-estimate') : undefined;
+}
+
+/** `/start/` only — see `jobber.startProjectEstimateFormUrl`. */
+export function jobberStartProjectEstimateFormUrl(): string | undefined {
+  const url = business.jobber.startProjectEstimateFormUrl?.trim();
+  return url ? withJobberFormId(url, 'project-estimate-start') : undefined;
 }
 
 export function jobberKitchenRemodelFormUrl(): string | undefined {

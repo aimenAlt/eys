@@ -128,6 +128,29 @@ export const jobberConfirmations: readonly JobberConfirmation[] = [
     seoDescription: 'Thank you for submitting your project estimate request to Elevate Your Space Handyman.',
   },
   {
+    /**
+     * `/start/`'s own estimate confirmation. Same form of request as
+     * `project-estimate` above and deliberately the same wording, but a
+     * separate destination for the separate Jobber form the print-QR landing
+     * page submits to, so flyer and magazine-ad leads are countable on their
+     * own in GA4 rather than merged into sitewide estimate requests. `service`
+     * is distinct for the same reason — it is the GA4/Meta parameter and the
+     * per-session dedupe key.
+     */
+    slug: 'start',
+    type: 'request',
+    metaEvent: 'Lead',
+    analyticsEvent: 'lead_submit',
+    contentName: 'Project Estimate Request (Start Landing)',
+    contentCategory: 'Project Estimate',
+    service: 'project_estimate_start',
+    heading: 'Your Estimate Request Has Been Received',
+    message:
+      `Thank you for submitting your project details. We'll review the information provided and follow up regarding the next step for your estimate. If you'd like to reach us sooner, call ${site.phone}.`,
+    seoTitle: 'Estimate Request Received',
+    seoDescription: 'Thank you for submitting your project estimate request to Elevate Your Space Handyman.',
+  },
+  {
     slug: 'kitchen-remodel',
     type: 'request',
     metaEvent: 'Lead',
