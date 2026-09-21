@@ -141,7 +141,7 @@ const seo = {
             />
           </svg>
           <span class="text-[1.0625rem] font-bold leading-tight text-brand-black">
-            Opening your form in <span data-go-count>7</span>&hellip;
+            Opening your form in <span data-go-count>10</span>&hellip;
           </span>
         </div>
 
@@ -162,7 +162,21 @@ const seo = {
         </a>
       </div>
 
-      <p class="mt-4.5 text-center text-sm text-brand-muted">
+      <!--
+        Second half of the wait. The height is reserved from the start so that
+        revealing this at the five-second mark does not shove the call link
+        down under the reader's thumb; only the text inside appears.
+      -->
+      <p
+        class="mt-2 min-h-[1.125rem] text-center text-[0.8125rem] leading-[1.125rem] text-brand-muted"
+        data-go-handoff
+      >
+        <span hidden data-go-handoff-text>
+          Taking you to the form in <span data-go-handoff-count>5 seconds</span>&hellip;
+        </span>
+      </p>
+
+      <p class="mt-3 text-center text-sm text-brand-muted">
         <a
           href={`tel:+1${site.phoneTel}`}
           data-cta-location={goCtaLocation(entry.slug, 'call')}
@@ -183,8 +197,12 @@ const seo = {
         stroke-dashoffset: 62.83;
       }
     }
+    /*
+      Five seconds, not ten: the ring covers the first half of the wait and
+      finishes exactly as the button takes its place.
+    */
     .go-clock-sweep {
-      animation: go-clock-sweep 7s linear forwards;
+      animation: go-clock-sweep 5s linear forwards;
     }
     @media (prefers-reduced-motion: reduce) {
       .go-clock-sweep {
@@ -196,8 +214,13 @@ const seo = {
 
   <script is:inline>
     /**
-     * Open the Jobber form on its own after seven seconds, and leave the button
-     * behind as the fallback when that does not happen.
+     * Open the Jobber form on its own after ten seconds, in two halves.
+     *
+     *  0-5s   the clock box counts 10 down to 6 while the ring fills.
+     *  5-10s  the button takes the box's place and a line underneath says how
+     *         many seconds are left, so nobody is moved without warning and
+     *         anyone who wants to go now can just tap.
+     *  10s    the form opens, with the button already on screen behind it.
      *
      * Three rules this has to respect:
      *  - It fires `cta.click()`, never `location.href`. A real click is what the
@@ -220,15 +243,23 @@ const seo = {
         /* private mode — fall through and just run once for this page view */
       }
 
+      var TOTAL_SECONDS = 10;
+      /** When the button replaces the clock box and the warning line starts. */
+      var HANDOFF_AT = 5;
+
       var CANCEL_EVENTS = ['pointerdown', 'keydown', 'wheel', 'touchmove'];
       var readout = countdown.querySelector('[data-go-count]');
-      var remaining = 7;
+      var handoffText = document.querySelector('[data-go-handoff-text]');
+      var handoffCount = document.querySelector('[data-go-handoff-count]');
+      var remaining = TOTAL_SECONDS;
       var ticker;
       var opener;
 
+      /** Show the button and stop saying anything about a countdown. */
       function reveal() {
         countdown.hidden = true;
         cta.hidden = false;
+        if (handoffText) handoffText.hidden = true;
       }
 
       function cancel() {
@@ -245,7 +276,19 @@ const seo = {
 
       ticker = window.setInterval(function () {
         remaining -= 1;
-        if (remaining > 0 && readout) readout.textContent = String(remaining);
+        if (remaining <= 0) return;
+        if (remaining > HANDOFF_AT) {
+          if (readout) readout.textContent = String(remaining);
+          return;
+        }
+        // Second half: the button is the thing on screen, the line below it
+        // just says how long is left.
+        countdown.hidden = true;
+        cta.hidden = false;
+        if (handoffCount) {
+          handoffCount.textContent = remaining === 1 ? '1 second' : remaining + ' seconds';
+        }
+        if (handoffText) handoffText.hidden = false;
       }, 1000);
 
       opener = window.setTimeout(function () {
@@ -265,7 +308,7 @@ const seo = {
         window.setTimeout(function () {
           if (!document.hidden) window.location.assign(cta.href);
         }, 600);
-      }, 7000);
+      }, TOTAL_SECONDS * 1000);
 
       CANCEL_EVENTS.forEach(function (name) {
         window.addEventListener(name, cancel, { passive: true, capture: true });
