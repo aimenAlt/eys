@@ -65,6 +65,18 @@ export const socialProfiles = {
  * bathroomRemodelFormUrl: hosted Client Hub link for Bathroom Remodel Estimate Request
  * smallRepairVisitUrl: optional iframe/embed URL for Handyman To-Do List Visit page
  */
+/**
+ * Jobber Client Hub account id — the single hub every public request form on
+ * this site lives under. Exposed so a form id can be turned into a hosted URL
+ * without retyping the hub (see `jobberRequestFormUrl`).
+ */
+export const JOBBER_HUB_ID = 'd0bd2223-f10c-4cda-a73e-02a65e730a50';
+
+/** Hosted Client Hub URL for a public request form id. Never stamped — callers add `withJobberFormId`. */
+export function jobberRequestFormUrl(requestFormId: string): string {
+  return `https://clienthub.getjobber.com/hubs/${JOBBER_HUB_ID}/public/requests/${requestFormId}/new`;
+}
+
 export const jobber = {
   handymanToDoListFormUrl:
     'https://clienthub.getjobber.com/hubs/d0bd2223-f10c-4cda-a73e-02a65e730a50/public/requests/4983259/new' as string,

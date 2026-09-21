@@ -36,6 +36,11 @@ export default defineConfig({
         // appear here either. A noindex URL in a sitemap lowers trust in the
         // whole file.
         !page.includes('/start') &&
+        // Unlisted: /go/* handoff pages are texted to a client by hand and
+        // /eyad/ is an internal tool. Both are noindex, so neither belongs in
+        // the sitemap.
+        !page.includes('/go/') &&
+        !page.includes('/eyad/') &&
         !page.includes('/booking-confirmed') &&
         !page.includes('/request-confirmed'),
       // Google ignores lastmod it judges inaccurate. This is a static site:

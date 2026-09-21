@@ -1,0 +1,246 @@
+---
+import '../../styles/global.css';
+import SEOHead from '../../components/seo/SEOHead.astro';
+import { absoluteUrl } from '../../data/business';
+import { goLinksByGroup, goMessageText } from '../../data/goLinks';
+
+/**
+ * Eyad's private share page — the notes-app replacement.
+ *
+ * Deliberately does NOT use BaseLayout. BaseLayout is where gtag.js, the Ads
+ * tag, the Meta Pixel and conversion-analytics.ts load, and Eyad opens this
+ * page many times a day. Routing his own visits into GA4 would inflate every
+ * conversion rate on the site, so this page ships its own <html> shell with no
+ * analytics of any kind. Do not "tidy" it onto BaseLayout.
+ */
+
+const phoneLeads = goLinksByGroup('phone-leads');
+const searchable = goLinksByGroup('searchable');
+
+const card = (entry: (typeof phoneLeads)[number]) => ({
+  ...entry,
+  text: goMessageText(entry),
+  search: `${entry.label} ${entry.keywords}`.toLowerCase(),
+});
+
+const pinnedCards = phoneLeads.map(card);
+const searchableCards = searchable.map(card);
+
+const seo = {
+  title: 'Send a link — EYS internal',
+  description: 'Private share page: ready-made text messages for EYS request forms.',
+  canonical: absoluteUrl('/eyad/'),
+  noindex: true,
+};
+
+const labelClass = 'text-[1.0625rem] font-bold leading-snug text-brand-black';
+// `whitespace-pre-line` on purpose: Essa is looking at the literal message,
+// blank lines and all, so what he reads is what the client receives.
+const messageClass =
+  'mt-2 whitespace-pre-line rounded-lg bg-brand-lightbg px-3 py-2 text-[0.78125rem] leading-[1.5] text-brand-muted';
+const buttonRowClass = 'mt-2.5 grid grid-cols-2 gap-2';
+const shareButtonClass =
+  'min-h-[3rem] rounded-lg bg-brand-red px-3 text-[0.9375rem] font-bold text-white transition-colors hover:bg-brand-redhover active:bg-brand-redhover';
+const copyButtonClass =
+  'min-h-[3rem] rounded-lg border border-brand-line bg-white px-3 text-[0.9375rem] font-bold text-brand-charcoal transition-colors hover:border-brand-muted active:bg-brand-lightbg';
+---
+
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <SEOHead {...seo} />
+  </head>
+  <body class="bg-brand-lightbg font-sans text-brand-charcoal antialiased">
+    <main class="mx-auto max-w-lg px-4 pb-16 pt-6">
+      <h1 class="sr-only">Send a client a request-form link</h1>
+
+      <section aria-labelledby="eyad-phone-leads">
+        <h2
+          id="eyad-phone-leads"
+          class="flex items-center gap-2.5 text-[0.75rem] font-bold uppercase tracking-[0.14em] text-brand-muted"
+        >
+          <span class="h-1 w-8 rounded-full bg-brand-red" aria-hidden="true"></span>
+          Phone leads
+        </h2>
+
+        <div class="mt-3 space-y-2.5">
+          {
+            pinnedCards.map((entry) => (
+              <article
+                class="rounded-xl border border-brand-line border-l-[3px] border-l-brand-red bg-white p-3.5 shadow-card"
+                data-go-item
+                data-text={entry.text}
+              >
+                <h3 class={labelClass}>{entry.label}</h3>
+                <p class={messageClass}>{entry.text}</p>
+                <div class={buttonRowClass}>
+                  <button type="button" class={shareButtonClass} data-go-share>Share</button>
+                  <button type="button" class={copyButtonClass} data-go-copy>Copy</button>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="mt-8" aria-labelledby="eyad-other-links">
+        <h2
+          id="eyad-other-links"
+          class="flex items-center gap-2.5 text-[0.75rem] font-bold uppercase tracking-[0.14em] text-brand-muted"
+        >
+          <span class="h-1 w-8 rounded-full bg-brand-charcoal" aria-hidden="true"></span>
+          Other links
+        </h2>
+
+        <label class="sr-only" for="go-search">Search links</label>
+        <input
+          id="go-search"
+          type="search"
+          inputmode="search"
+          enterkeyhint="search"
+          autocomplete="off"
+          autocorrect="off"
+          spellcheck="false"
+          placeholder="Search — tv, curtains, bathroom…"
+          class="mt-3 min-h-[3rem] w-full rounded-lg border border-brand-line bg-white px-4 text-base text-brand-black placeholder:text-brand-muted focus:border-brand-red focus:outline-none"
+          data-go-search
+        />
+
+        <div class="mt-3 space-y-2.5" data-go-results>
+          {
+            searchableCards.map((entry) => (
+              <article
+                class="rounded-xl border border-brand-line bg-white p-3.5 shadow-card"
+                data-go-item
+                data-search={entry.search}
+                data-text={entry.text}
+              >
+                <h3 class={labelClass}>{entry.label}</h3>
+                <p class={messageClass}>{entry.text}</p>
+                <div class={buttonRowClass}>
+                  <button type="button" class={shareButtonClass} data-go-share>Share</button>
+                  <button type="button" class={copyButtonClass} data-go-copy>Copy</button>
+                </div>
+              </article>
+            ))
+          }
+          <p
+            class="rounded-xl border border-dashed border-brand-line px-4 py-6 text-center text-sm text-brand-muted"
+            data-go-empty
+            hidden
+          >
+            No link matches that.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <!--
+      is:inline so nothing here is bundled with the site's shared client
+      modules. This page must stay analytics-free.
+    -->
+    <script is:inline>
+      (function () {
+        var RESET_MS = 2000;
+
+        function flash(button, label) {
+          if (!button) return;
+          if (!button.dataset.idleLabel) button.dataset.idleLabel = button.textContent || 'Copy';
+          button.textContent = label;
+          window.clearTimeout(Number(button.dataset.resetTimer || 0));
+          button.dataset.resetTimer = String(
+            window.setTimeout(function () {
+              button.textContent = button.dataset.idleLabel;
+            }, RESET_MS),
+          );
+        }
+
+        /** execCommand path for Android WebViews and any non-secure context. */
+        function legacyCopy(text) {
+          var area = document.createElement('textarea');
+          area.value = text;
+          area.setAttribute('readonly', '');
+          area.style.position = 'fixed';
+          area.style.top = '0';
+          area.style.left = '0';
+          area.style.opacity = '0';
+          document.body.appendChild(area);
+          area.select();
+          area.setSelectionRange(0, text.length);
+          var ok = false;
+          try {
+            ok = document.execCommand('copy');
+          } catch (err) {
+            ok = false;
+          }
+          document.body.removeChild(area);
+          return ok;
+        }
+
+        async function copyText(text, button) {
+          var ok = false;
+          try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              await navigator.clipboard.writeText(text);
+              ok = true;
+            }
+          } catch (err) {
+            ok = false;
+          }
+          if (!ok) ok = legacyCopy(text);
+          flash(button, ok ? 'Copied ✓' : 'Copy failed');
+        }
+
+        async function shareText(text, copyButton) {
+          if (navigator.share) {
+            try {
+              // `text` only, never `url`: a `url` field is appended after the
+              // text by most share targets, which would put the link below the
+              // sign-off instead of in the middle of the message.
+              await navigator.share({ text: text });
+              return;
+            } catch (err) {
+              // The user closing the share sheet is not a failure.
+              if (err && (err.name === 'AbortError' || err.name === 'NotAllowedError')) return;
+            }
+          }
+          await copyText(text, copyButton);
+        }
+
+        document.addEventListener('click', function (event) {
+          var trigger = event.target.closest('[data-go-share], [data-go-copy]');
+          if (!trigger) return;
+          var item = trigger.closest('[data-go-item]');
+          if (!item) return;
+          var text = item.getAttribute('data-text') || '';
+          var copyButton = item.querySelector('[data-go-copy]');
+          if (trigger.hasAttribute('data-go-share')) {
+            shareText(text, copyButton);
+          } else {
+            copyText(text, copyButton);
+          }
+        });
+
+        var search = document.querySelector('[data-go-search]');
+        var results = document.querySelector('[data-go-results]');
+        var empty = document.querySelector('[data-go-empty]');
+        if (search && results) {
+          var items = Array.prototype.slice.call(results.querySelectorAll('[data-search]'));
+          search.addEventListener('input', function () {
+            var terms = search.value.toLowerCase().split(/\s+/).filter(Boolean);
+            var shown = 0;
+            items.forEach(function (item) {
+              var haystack = item.getAttribute('data-search') || '';
+              var match = terms.every(function (term) {
+                return haystack.indexOf(term) !== -1;
+              });
+              item.hidden = !match;
+              if (match) shown += 1;
+            });
+            if (empty) empty.hidden = shown !== 0;
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>

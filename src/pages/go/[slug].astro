@@ -1,0 +1,139 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {
+  absoluteUrl,
+  googleReviewCountDisplay,
+  googleReviews,
+  site,
+} from '../../data/business';
+import {
+  goCtaLocation,
+  goJobberUrl,
+  goLinks,
+  goPagePath,
+  type GoLink,
+} from '../../data/goLinks';
+
+/**
+ * Unlisted client handoff page. Essa texts `/go/<slug>/` after a phone call and
+ * the client lands here instead of on a bare clienthub.getjobber.com URL: one
+ * face, one review, one button.
+ *
+ * Deliberately has no header, nav, footer, sticky bar or second destination.
+ * The only two things a visitor can do is open the form or call. Anything added
+ * here competes with the single action the page exists for, and items 1-7 are
+ * sized to clear the fold on a 390x844 phone — measure before adding height.
+ */
+
+export function getStaticPaths() {
+  return goLinks.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+
+interface Props {
+  entry: GoLink;
+}
+
+const { entry } = Astro.props as Props;
+
+// Imported, never retyped: the same review record `/reviews/` renders.
+const review = await getEntry('reviews', 'jamal-ansari');
+if (!review) {
+  throw new Error('go/[slug]: review "jamal-ansari" is missing from src/content/reviews/.');
+}
+
+const rating = googleReviews.rating.toFixed(1);
+const reviewCount = googleReviewCountDisplay();
+const pageUrl = absoluteUrl(goPagePath(entry.slug));
+const jobberHref = goJobberUrl(entry);
+const ctaLocation = goCtaLocation(entry.slug);
+
+const portrait = '/images/team/essa-portrait.webp';
+const portraitAlt = 'Essa, owner of Elevate Your Space Handyman';
+
+// Unlisted: reached only from a text message. `follow` (not nofollow) matches
+// /start/ and /van/ — kept out of the index, not walled off.
+const seo = {
+  title: "Let's get your project started — EYS Handyman",
+  description: `From Essa, owner of Elevate Your Space Handyman · ★ ${rating} on Google`,
+  canonical: pageUrl,
+  // 1200x630 crop of the same photo — the card a text message or WhatsApp
+  // renders is his face, not a generic project shot.
+  ogImage: '/images/team/essa-og.jpg',
+  ogImageAlt: portraitAlt,
+  noindex: true,
+};
+---
+
+<BaseLayout seo={seo}>
+  <main id="main-content" class="min-h-screen bg-brand-lightbg">
+    <section
+      class="border-t-[3px] border-brand-red bg-brand-black px-5 pb-7 pt-7 text-white sm:px-6 sm:pb-8 sm:pt-8"
+    >
+      <div class="mx-auto flex max-w-lg flex-col gap-4 sm:flex-row sm:items-center sm:gap-5">
+        <img
+          src={portrait}
+          alt={portraitAlt}
+          width="512"
+          height="512"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          class="h-[7.5rem] w-[7.5rem] shrink-0 rounded-xl object-cover ring-1 ring-white/20 sm:h-32 sm:w-32"
+        />
+        <h1 class="text-[1.55rem] font-bold leading-[1.18] tracking-tight sm:text-[1.7rem]">
+          Hi, I&rsquo;m Essa &mdash; I own EYS, and I write every quote myself.
+        </h1>
+      </div>
+    </section>
+
+    <div class="mx-auto max-w-lg px-5 pb-14 pt-5 sm:px-6 sm:pt-7">
+      <figure
+        class="rounded-xl border border-brand-line border-l-[3px] border-l-brand-red bg-white p-4 shadow-card sm:p-5"
+      >
+        <blockquote class="text-[0.95rem] leading-relaxed text-brand-ink sm:text-base">
+          &ldquo;{review.data.text}&rdquo;
+        </blockquote>
+        <figcaption class="mt-3 text-[0.7rem] font-bold uppercase tracking-[0.1em] text-brand-muted">
+          {review.data.author} &middot; Google review
+        </figcaption>
+      </figure>
+
+      <p class="mt-3.5 flex flex-wrap items-baseline gap-x-1.5 text-[0.8125rem] font-semibold text-brand-muted">
+        <span class="text-[0.9375rem] leading-none text-brand-red" aria-hidden="true">★</span>
+        <span><span class="sr-only">Rated </span>{rating} &middot; {reviewCount} Google reviews &middot; Veteran-owned</span>
+      </p>
+
+      <p class="mt-4.5 text-[0.95rem] font-bold leading-snug text-brand-black sm:text-base">
+        Every quote is itemized &mdash; no surprise fees.
+      </p>
+
+      <p class="mt-1.5 text-[0.9375rem] leading-relaxed text-brand-muted">
+        {entry.next}
+      </p>
+
+      <!--
+        Plain same-tab anchor on purpose: the GA4 cross-domain linker only
+        decorates a click it can see, and `target="_blank"` loses the session.
+      -->
+      <a
+        href={jobberHref}
+        data-cta-location={ctaLocation}
+        data-booking-type={entry.bookingType}
+        class="mt-5 flex min-h-[3.5rem] w-full items-center justify-center rounded-lg bg-brand-red px-5 text-center text-[1.0625rem] font-bold leading-tight text-white shadow-card transition-colors hover:bg-brand-redhover focus-visible:bg-brand-redhover"
+      >
+        {entry.buttonLabel}
+      </a>
+
+      <p class="mt-4.5 text-center text-sm text-brand-muted">
+        <a
+          href={`tel:+1${site.phoneTel}`}
+          data-cta-location={goCtaLocation(entry.slug, 'call')}
+          class="font-semibold text-brand-charcoal underline decoration-brand-line underline-offset-4 transition-colors hover:text-brand-red hover:decoration-brand-red"
+        >
+          Rather talk? Call {site.phone}
+        </a>
+      </p>
+    </div>
+  </main>
+</BaseLayout>
