@@ -10,7 +10,7 @@
  * Bump CACHE whenever the precache list changes; `activate` deletes every other
  * cache this origin holds under the eys-essa- prefix.
  */
-const CACHE = 'eys-essa-v1';
+const CACHE = 'eys-essa-v2';
 const SCOPE_PATH = '/essa/';
 const PRECACHE = [
   '/essa/',
@@ -57,6 +57,9 @@ self.addEventListener('fetch', (event) => {
   // touch anything else even if that ever changes.
   if (url.origin !== self.location.origin) return;
   if (!url.pathname.startsWith(SCOPE_PATH)) return;
+  // The browser fetches the worker script itself outside this handler, on its
+  // own update schedule. Keeping a copy in here would only be dead weight.
+  if (url.pathname === '/essa/sw.js') return;
 
   // Network first, so a deployed change to the links or the messages reaches
   // him the next time he opens the app. The cache is the offline fallback,
@@ -73,7 +76,14 @@ self.addEventListener('fetch', (event) => {
       .catch(() =>
         caches.match(request).then((hit) => {
           if (hit) return hit;
-          if (request.mode === 'navigate') return caches.match('/essa/');
+          // `ignoreVary` matters here. Cloudflare returns the page with
+          // `Vary: accept-encoding`, and Cache API matching honours Vary — so
+          // a request whose encoding header differs at all from the one that
+          // was stored would miss and he would get a browser error page
+          // instead of his links. Offline, any cached copy beats none.
+          if (request.mode === 'navigate') {
+            return caches.match('/essa/', { ignoreVary: true });
+          }
           return Response.error();
         }),
       ),
