@@ -116,3 +116,8 @@
 # already texted. Link to the TARGET, never this source.
 /go/estimate/ /go/home-project/ 301
 /go/estimate /go/home-project/ 301
+
+# Essa's private share page moved to /essa/ — he goes by Essa, and the page
+# lives on his phone's home screen. Link to the TARGET, never this source.
+/eyad/ /essa/ 301
+/eyad /essa/ 301

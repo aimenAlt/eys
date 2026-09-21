@@ -5,7 +5,7 @@ import { withJobberFormId } from '../utils/utm';
  * Unlisted handoff links Essa texts to a client after a phone call.
  *
  * ONE array drives three things: the `/go/<slug>/` client pages, the private
- * `/eyad/` share page, and the exact text message he sends. Adding a form later
+ * `/essa/` share page, and the exact text message he sends. Adding a form later
  * is a single entry here — do not hand-write a Jobber URL, a page path or a
  * message anywhere else.
  *
@@ -27,9 +27,9 @@ export interface GoLink {
   slug: string;
   /** Jobber public request form id. */
   formId: string;
-  /** Owner-facing name on `/eyad/`. Never shown to a client. */
+  /** Owner-facing name on `/essa/`. Never shown to a client. */
   label: string;
-  /** Extra words the `/eyad/` search box matches, beyond the label. */
+  /** Extra words the `/essa/` search box matches, beyond the label. */
   keywords: string;
   /** Copy on the client page's primary button. */
   buttonLabel: string;
@@ -219,7 +219,7 @@ export function goCtaLocation(slug: string, suffix?: string): string {
 }
 
 /**
- * Row label on `/eyad/`. The section heading already says "Phone leads", so the
+ * Row label on `/essa/`. The section heading already says "Phone leads", so the
  * prefix is stripped: a row has one line of width and the distinguishing words
  * are at the end ("Commercial & large-scale"), not the start.
  */
