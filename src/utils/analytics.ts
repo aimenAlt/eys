@@ -97,7 +97,7 @@ export function resolveCtaLocation(element: Element): string {
   if (element.closest('footer')) return 'footer';
   if (element.closest('#mobile-menu')) return 'header_mobile';
   if (element.closest('header')) return 'header';
-  if (element.closest('[aria-label="Quick actions"]')) return 'mobile_sticky';
+  if (element.closest('[aria-label="Quick actions"]')) return 'sticky_mobile';
   return 'page';
 }
 

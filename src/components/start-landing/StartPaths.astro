@@ -41,6 +41,11 @@ const linkClass =
   'mt-3 inline-flex min-h-11 items-center text-sm font-bold text-brand-black underline-offset-4 hover:underline';
 ---
 
+<!--
+  The section-level `data-cta-location` is the fallback for the "See ... →"
+  detail links under each card. Each card's primary CTA carries its own
+  placement so the four booking paths report separately in GA4.
+-->
 <section
   id="start-paths"
   class="scroll-mt-24 bg-white px-4 py-12 sm:px-6 sm:py-16 lg:px-8"
@@ -81,7 +86,7 @@ const linkClass =
               anything that does not fit a category.
             </p>
             <div class="mt-auto pt-4">
-              <StartJobberLink service="project_estimate" placement="paths" featured>
+              <StartJobberLink service="project_estimate" placement="paths_general" featured>
                 Get a Free Quote
               </StartJobberLink>
               <a
@@ -126,7 +131,7 @@ const linkClass =
               for your room.
             </p>
             <div class="mt-auto pt-4">
-              <MediaWallEstimateLink placement="paths" class="w-full! py-3! sm:w-full!">
+              <MediaWallEstimateLink placement="paths_media_wall" class="w-full! py-3! sm:w-full!">
                 Get a Media Wall Quote
               </MediaWallEstimateLink>
               <a
@@ -161,7 +166,7 @@ const linkClass =
             </p>
             <p class={priceClass}>Rods installed from {rodFrom} · tracks from {trackFrom}</p>
             <div class="mt-auto pt-4">
-              <CurtainBookLink placement="paths" class="w-full! py-3! sm:w-full!">
+              <CurtainBookLink placement="paths_curtains" class="w-full! py-3! sm:w-full!">
                 Book a Curtain Install
               </CurtainBookLink>
               <a
@@ -195,7 +200,7 @@ const linkClass =
             </p>
             <p class={priceClass}>Starting at {todoFrom}</p>
             <div class="mt-auto pt-4">
-              <StartJobberLink service="todo_list" placement="paths" featured>
+              <StartJobberLink service="todo_list" placement="paths_todo" featured>
                 Book a Handyman Visit
               </StartJobberLink>
               <a

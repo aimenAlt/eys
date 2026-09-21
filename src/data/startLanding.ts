@@ -138,10 +138,20 @@ export const startLanding = {
 export type StartCtaPlacement =
   | 'header'
   | 'hero'
-  /** The two dark offer tiles inside the hero — clickable straight to a form. */
+  /**
+   * The two dark offer tiles inside the hero — clickable straight to a form.
+   * `hero_offer` is the retired shared tag, kept so historical GA4 data still
+   * resolves; the two tiles now report separately.
+   */
   | 'hero_offer'
+  | 'hero_offer_quote'
+  | 'hero_offer_todo'
   | 'sticky_mobile'
+  /** Section-level fallback for the chooser's detail links. */
   | 'paths'
+  /** One placement per chooser card so the four booking paths report apart. */
+  | 'paths_general'
+  | 'paths_todo'
   | 'process'
   | 'gallery'
   | 'final_cta'

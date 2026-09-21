@@ -1,13 +1,13 @@
 ---
 import StartCallLink from './StartCallLink.astro';
-import StartChooseLink from './StartChooseLink.astro';
+import StartJobberLink from './StartJobberLink.astro';
 ---
 
 <div
   id="start-sticky-bar"
   class="pointer-events-none fixed inset-x-0 bottom-0 z-40 translate-y-full opacity-0 transition-all duration-300 md:hidden"
   role="region"
-  aria-label="Call or choose a project"
+  aria-label="Call or request a quote"
   data-start-sticky
   hidden
 >
@@ -16,7 +16,20 @@ import StartChooseLink from './StartChooseLink.astro';
   >
     <div class="mx-auto flex max-w-6xl gap-3">
       <StartCallLink placement="sticky_mobile" variant="sticky">Call EYS</StartCallLink>
-      <StartChooseLink placement="sticky_mobile" variant="sticky">Choose a Project</StartChooseLink>
+      <!--
+        The bar only appears once the hero has scrolled past, so the visitor has
+        already seen the chooser. Sending them back to that menu cost a step —
+        this goes straight to the project-estimate form instead.
+      -->
+      <StartJobberLink
+        service="project_estimate"
+        placement="sticky_mobile"
+        variant="button"
+        featured
+        class="flex-1 px-3! text-sm!"
+      >
+        Get a Free Quote
+      </StartJobberLink>
     </div>
   </div>
 </div>

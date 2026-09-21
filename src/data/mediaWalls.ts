@@ -113,6 +113,7 @@ export type MediaWallCtaPlacement =
   | 'sticky_mobile'
   /** `/start/` chooser — MediaWallEstimateLink is reused there. */
   | 'paths'
+  | 'paths_media_wall'
   | 'proof'
   | 'process'
   | 'video_builtin'

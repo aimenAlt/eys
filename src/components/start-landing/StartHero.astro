@@ -1,9 +1,8 @@
 ---
-import { startLanding } from '../../data/startLanding';
+import { startLanding, todoListFromPrice } from '../../data/startLanding';
 import StartCallLink from './StartCallLink.astro';
 import StartChooseLink from './StartChooseLink.astro';
 import StartJobberLink from './StartJobberLink.astro';
-import MediaWallEstimateLink from '../media-wall-landing/MediaWallEstimateLink.astro';
 import { site } from '../../data/business';
 
 /**
@@ -25,6 +24,9 @@ import { site } from '../../data/business';
  */
 const heroVideo = startLanding.images.videos.builtIn;
 
+/** Read from the pricing module — never a hardcoded dollar figure. */
+const todoFrom = todoListFromPrice();
+
 /**
  * Both tiles are links straight into the matching Jobber form — they read as
  * offers, so leaving them inert wasted the two highest-contrast blocks in the
@@ -33,6 +35,12 @@ const heroVideo = startLanding.images.videos.builtIn;
  * The headline is the category and the eyebrow is the offer, not the other way
  * round: `Free Quote` and `Free Estimate` read as the same thing, so the line
  * that has to be scannable is the one that tells you which tile is yours.
+ *
+ * The second tile is the To-Do List visit, not media walls: /start/ now takes
+ * the majority of paid handyman clicks, whose best-performing ads sell exactly
+ * that ("Honey-Do Lists Done Right", the "Handyman To-Do List Visit" sitelink).
+ * Media walls have their own campaign and landing page, and keep their card in
+ * StartPaths — this is emphasis, not removal.
  */
 const offerCardClass =
   'block rounded-xl border border-white/35 bg-black/60 p-4 backdrop-blur-[2px] transition-colors hover:border-white/55 hover:bg-black/75 lg:border-white/25 lg:bg-white/5 lg:backdrop-blur-none lg:hover:border-white/45 lg:hover:bg-white/10';
@@ -106,7 +114,7 @@ const offerArrowClass = 'ml-1.5 text-brand-redondark';
       <div class="mt-7 grid gap-3 sm:grid-cols-2">
         <StartJobberLink
           service="project_estimate"
-          placement="hero_offer"
+          placement="hero_offer_quote"
           variant="bare"
           class={offerCardClass}
         >
@@ -116,15 +124,20 @@ const offerArrowClass = 'ml-1.5 text-brand-redondark';
           </p>
           <p class={offerCopyClass}>Repairs, upgrades, remodeling, and one-off work</p>
         </StartJobberLink>
-        <MediaWallEstimateLink placement="hero_offer" variant="bare" class={offerCardClass}>
-          <p class={offerEyebrowClass}>Free Design Consult</p>
+        <StartJobberLink
+          service="todo_list"
+          placement="hero_offer_todo"
+          variant="bare"
+          class={offerCardClass}
+        >
+          <p class={offerEyebrowClass}>From {todoFrom}</p>
           <p class={offerHeadlineClass}>
-            Media Walls<span class={offerArrowClass} aria-hidden="true">→</span>
+            To-Do List Visit<span class={offerArrowClass} aria-hidden="true">→</span>
           </p>
           <p class={offerCopyClass}>
-            Fireplace TV walls, slat walls, and entertainment centers
+            Several small repairs and installs, knocked out in one visit
           </p>
-        </MediaWallEstimateLink>
+        </StartJobberLink>
       </div>
 
       <div class="mt-6" data-start-hero-cta>
