@@ -75,11 +75,11 @@ export const GO_DEFAULT_BUTTON_LABEL = 'Continue to your request →';
 /** Signature appended to every texted message, on its own line. He goes by Essa. */
 export const GO_SIGN_OFF = '– Essa, EYS Handyman';
 
-export type GoToneId = 'answered' | 'missed' | 'cold';
+export type GoToneId = 'answered' | 'missed' | 'cold' | 'link';
 
 export interface GoTone {
   id: GoToneId;
-  /** Button label on `/essa/`. Short — three of them share one row on a phone. */
+  /** Button label on `/essa/`. Short — four of them share one row on a phone. */
   label: string;
   /** Opening sentence, ahead of the form's own body. */
   opener: string;
@@ -89,6 +89,14 @@ export interface GoTone {
    * asking for detail; after a call it would be redundant and faintly rude.
    */
   nudge?: string;
+  /**
+   * Send the bare URL and nothing else — no opener, no body, no sign-off.
+   * For when he is already mid-conversation and the message around the link
+   * would just be noise.
+   */
+  linkOnly?: boolean;
+  /** What the preview line shows when there is no opener to show. */
+  preview?: string;
 }
 
 /**
@@ -118,6 +126,13 @@ export const goTones: GoTone[] = [
     label: 'No contact',
     opener: 'Hi — Essa here with EYS Handyman in Katy.',
     nudge: 'Add as much detail as you can and I can get you an accurate quote.',
+  },
+  {
+    id: 'link',
+    label: 'Link only',
+    opener: '',
+    linkOnly: true,
+    preview: 'Just the link — no message, no sign-off.',
   },
 ];
 
@@ -378,6 +393,9 @@ export function goRowLabel(entry: GoLink): string {
  */
 export function goMessageText(entry: GoLink, toneId: GoToneId = GO_DEFAULT_TONE): string {
   const tone = goTone(toneId);
+  // Bare URL: he is already in the conversation and is just handing over the
+  // link, so there is nothing to wrap it in.
+  if (tone.linkOnly) return goShareUrl(entry.slug);
   const nudge = tone.nudge && !entry.booking ? ` ${tone.nudge}` : '';
   const message = `${tone.opener} ${entry.body}${nudge}`;
   return `${message}\n\n${goShareUrl(entry.slug)}\n\n${GO_SIGN_OFF}`;
