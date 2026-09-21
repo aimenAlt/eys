@@ -113,17 +113,54 @@ const seo = {
       </p>
 
       <!--
-        Plain same-tab anchor on purpose: the GA4 cross-domain linker only
-        decorates a click it can see, and `target="_blank"` loses the session.
+        The countdown and the button occupy the same 3.5rem box and swap in
+        place, so nothing on the page moves and the measured fold position is
+        the same whether JS runs or not. The button is what the HTML ships:
+        with JS off, or once the countdown has run, it is simply there.
       -->
-      <a
-        href={jobberHref}
-        data-cta-location={ctaLocation}
-        data-booking-type={entry.bookingType}
-        class="mt-5 flex min-h-[3.5rem] w-full items-center justify-center rounded-lg bg-brand-red px-5 text-center text-[1.0625rem] font-bold leading-tight text-white shadow-card transition-colors hover:bg-brand-redhover focus-visible:bg-brand-redhover"
-      >
-        {entry.buttonLabel}
-      </a>
+      <div class="mt-5 min-h-[3.5rem]">
+        <div
+          class="go-countdown flex min-h-[3.5rem] w-full items-center justify-center gap-2.5 rounded-lg border-2 border-brand-red bg-white px-5"
+          role="status"
+          data-go-countdown
+          hidden
+        >
+          <svg class="go-clock shrink-0" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" fill="none" stroke="#ececec" stroke-width="2.5" />
+            <circle
+              class="go-clock-sweep"
+              cx="12"
+              cy="12"
+              r="10"
+              fill="none"
+              stroke="#b00000"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-dasharray="62.83"
+              transform="rotate(-90 12 12)"
+            />
+          </svg>
+          <span class="text-[1.0625rem] font-bold leading-tight text-brand-black">
+            Opening your form in <span data-go-count>5</span>&hellip;
+          </span>
+        </div>
+
+        <!--
+          Plain same-tab anchor on purpose: the GA4 cross-domain linker only
+          decorates a click it can see, and `target="_blank"` loses the session.
+          The auto-open fires a real click on this element for the same reason —
+          `location.href = ...` would skip the linker and orphan the session.
+        -->
+        <a
+          href={jobberHref}
+          data-cta-location={ctaLocation}
+          data-booking-type={entry.bookingType}
+          data-go-cta
+          class="flex min-h-[3.5rem] w-full items-center justify-center rounded-lg bg-brand-red px-5 text-center text-[1.0625rem] font-bold leading-tight text-white shadow-card transition-colors hover:bg-brand-redhover focus-visible:bg-brand-redhover"
+        >
+          {entry.buttonLabel}
+        </a>
+      </div>
 
       <p class="mt-4.5 text-center text-sm text-brand-muted">
         <a
@@ -136,4 +173,103 @@ const seo = {
       </p>
     </div>
   </main>
+
+  <style>
+    @keyframes go-clock-sweep {
+      from {
+        stroke-dashoffset: 0;
+      }
+      to {
+        stroke-dashoffset: 62.83;
+      }
+    }
+    .go-clock-sweep {
+      animation: go-clock-sweep 5s linear forwards;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .go-clock-sweep {
+        animation: none;
+        stroke-dashoffset: 62.83;
+      }
+    }
+  </style>
+
+  <script is:inline>
+    /**
+     * Open the Jobber form on its own after five seconds, and leave the button
+     * behind as the fallback when that does not happen.
+     *
+     * Three rules this has to respect:
+     *  - It fires `cta.click()`, never `location.href`. A real click is what the
+     *    GA4 cross-domain linker listens for; a scripted assignment would send
+     *    the visitor to Jobber with no session and orphan the conversion.
+     *  - It runs once per visit. Coming BACK from Jobber must not bounce the
+     *    visitor straight out again, so the run is recorded in sessionStorage.
+     *  - Any deliberate interaction cancels it. Someone still reading the review
+     *    is not yanked away mid-sentence; they get the button instead.
+     */
+    (function () {
+      var countdown = document.querySelector('[data-go-countdown]');
+      var cta = document.querySelector('[data-go-cta]');
+      if (!countdown || !cta) return;
+
+      var STORAGE_KEY = 'eys_go_opened_' + window.location.pathname;
+      try {
+        if (sessionStorage.getItem(STORAGE_KEY) === '1') return;
+      } catch (err) {
+        /* private mode — fall through and just run once for this page view */
+      }
+
+      var CANCEL_EVENTS = ['pointerdown', 'keydown', 'wheel', 'touchmove'];
+      var readout = countdown.querySelector('[data-go-count]');
+      var remaining = 5;
+      var ticker;
+      var opener;
+
+      function reveal() {
+        countdown.hidden = true;
+        cta.hidden = false;
+      }
+
+      function cancel() {
+        window.clearInterval(ticker);
+        window.clearTimeout(opener);
+        CANCEL_EVENTS.forEach(function (name) {
+          window.removeEventListener(name, cancel, true);
+        });
+        reveal();
+      }
+
+      cta.hidden = true;
+      countdown.hidden = false;
+
+      ticker = window.setInterval(function () {
+        remaining -= 1;
+        if (remaining > 0 && readout) readout.textContent = String(remaining);
+      }, 1000);
+
+      opener = window.setTimeout(function () {
+        window.clearInterval(ticker);
+        CANCEL_EVENTS.forEach(function (name) {
+          window.removeEventListener(name, cancel, true);
+        });
+        try {
+          sessionStorage.setItem(STORAGE_KEY, '1');
+        } catch (err) {
+          /* ignore */
+        }
+        // Reveal the button BEFORE navigating, so it is already there if the
+        // click is blocked or the visitor comes straight back.
+        reveal();
+        cta.click();
+        window.setTimeout(function () {
+          if (!document.hidden) window.location.assign(cta.href);
+        }, 600);
+      }, 5000);
+
+      CANCEL_EVENTS.forEach(function (name) {
+        window.addEventListener(name, cancel, { passive: true, capture: true });
+      });
+    })();
+  </script>
 </BaseLayout>

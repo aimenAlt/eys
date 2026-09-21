@@ -28,7 +28,11 @@ export interface GoLink {
   /** Copy on the client page's primary button. */
   buttonLabel: string;
   group: GoLinkGroup;
-  /** The message Essa sends, above the link. Owner-approved copy — do not reword. */
+  /**
+   * The message Essa sends, above the link. Owner-approved copy.
+   * Never add a turnaround promise here ("same day", "within 24 hours"):
+   * say what happens next, never how fast it happens.
+   */
   message: string;
   /** Client-page line that says what the button opens. */
   next: string;
@@ -65,7 +69,7 @@ export const goLinks: GoLink[] = [
     buttonLabel: GO_DEFAULT_BUTTON_LABEL,
     group: 'phone-leads',
     message:
-      "Hey! Nice talking with you. Here's the link to send me what needs fixing or installing, plus a few photos — once it's in, I'll get your price together. I usually send quotes the same day.",
+      "Hey! Nice talking with you. Here's the link to send me what needs fixing or installing, plus a few photos — once it's in, I'll get your price together.",
     next: 'Next: a short form about the repair or installation you need.',
     bookingType: 'phone_lead_repair',
   },
@@ -89,7 +93,7 @@ export const goLinks: GoLink[] = [
     buttonLabel: GO_DEFAULT_BUTTON_LABEL,
     group: 'searchable',
     message:
-      "Hey! Nice talking with you. Here's the link for your estimate — add a few photos, and once it's in, I'll get your quote started. I usually send quotes the same day.",
+      "Hey! Nice talking with you. Here's the link for your estimate — add a few photos, and once it's in, I'll get your quote started.",
     next: 'Next: a short form about your project, with room for photos.',
     bookingType: 'project_estimate',
   },
@@ -125,7 +129,7 @@ export const goLinks: GoLink[] = [
     buttonLabel: GO_DEFAULT_BUTTON_LABEL,
     group: 'searchable',
     message:
-      "Hey! Nice talking with you. Here's the link for your TV mounting — once it's in, I'll get your quote started. I usually send quotes the same day.",
+      "Hey! Nice talking with you. Here's the link for your TV mounting — once it's in, I'll get your quote started.",
     next: 'Next: a short form about your TV mounting project.',
     bookingType: 'tv_mounting',
   },
@@ -137,7 +141,7 @@ export const goLinks: GoLink[] = [
     buttonLabel: GO_DEFAULT_BUTTON_LABEL,
     group: 'searchable',
     message:
-      "Hey! Nice talking with you. Here's the link for your high-ceiling curtains — once it's in, I'll get your quote started. I usually send quotes the same day.",
+      "Hey! Nice talking with you. Here's the link for your high-ceiling curtains — once it's in, I'll get your quote started.",
     next: 'Next: a short form about your high-ceiling curtains.',
     bookingType: 'high_ceiling_curtain',
   },
@@ -149,7 +153,7 @@ export const goLinks: GoLink[] = [
     buttonLabel: GO_DEFAULT_BUTTON_LABEL,
     group: 'searchable',
     message:
-      "Hey! Nice talking with you. Here's the link for your curtain installation — once it's in, I'll get your quote started. I usually send quotes the same day.",
+      "Hey! Nice talking with you. Here's the link for your curtain installation — once it's in, I'll get your quote started.",
     next: 'Next: a short form about your curtain installation.',
     bookingType: 'regular_ceiling_curtain',
   },
@@ -218,6 +222,15 @@ export function goJobberUrl(entry: GoLink): string {
 export function goCtaLocation(slug: string, suffix?: string): string {
   const base = `go_${slug.replace(/-/g, '_')}`;
   return suffix ? `${base}_${suffix}` : base;
+}
+
+/**
+ * Row label on `/eyad/`. The section heading already says "Phone leads", so the
+ * prefix is stripped: a row has one line of width and the distinguishing words
+ * are at the end ("Commercial & large-scale"), not the start.
+ */
+export function goRowLabel(entry: GoLink): string {
+  return entry.label.replace(/^Phone lead\s·\s/, '');
 }
 
 /** Exactly what the Share/Copy buttons put on the clipboard. */

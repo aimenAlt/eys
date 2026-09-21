@@ -2,29 +2,34 @@
 import '../../styles/global.css';
 import SEOHead from '../../components/seo/SEOHead.astro';
 import { absoluteUrl } from '../../data/business';
-import { goLinksByGroup, goMessageText } from '../../data/goLinks';
+import { goLinksByGroup, goMessageText, goRowLabel } from '../../data/goLinks';
 
 /**
- * Eyad's private share page — the notes-app replacement.
+ * Essa's private share page — the notes-app replacement.
  *
  * Deliberately does NOT use BaseLayout. BaseLayout is where gtag.js, the Ads
- * tag, the Meta Pixel and conversion-analytics.ts load, and Eyad opens this
+ * tag, the Meta Pixel and conversion-analytics.ts load, and Essa opens this
  * page many times a day. Routing his own visits into GA4 would inflate every
  * conversion rate on the site, so this page ships its own <html> shell with no
  * analytics of any kind. Do not "tidy" it onto BaseLayout.
+ *
+ * DENSITY IS THE FEATURE. The first version rendered each link as a card with
+ * the whole message printed inside it: twelve links became four screens of
+ * scrolling to reach the one he wanted. All twelve now fit on a 390x844 phone
+ * without scrolling — one row each, name on the left, Share and Copy on the
+ * right. The full message is not shown (it never changes, and he wrote it); it
+ * rides along in the row's `title` so a long-press still reveals it.
  */
 
-const phoneLeads = goLinksByGroup('phone-leads');
-const searchable = goLinksByGroup('searchable');
+const rows = (group: 'phone-leads' | 'searchable') =>
+  goLinksByGroup(group).map((entry) => ({
+    label: goRowLabel(entry),
+    text: goMessageText(entry),
+    search: `${entry.label} ${entry.keywords}`.toLowerCase(),
+  }));
 
-const card = (entry: (typeof phoneLeads)[number]) => ({
-  ...entry,
-  text: goMessageText(entry),
-  search: `${entry.label} ${entry.keywords}`.toLowerCase(),
-});
-
-const pinnedCards = phoneLeads.map(card);
-const searchableCards = searchable.map(card);
+const pinned = rows('phone-leads');
+const searchable = rows('searchable');
 
 const seo = {
   title: 'Send a link — EYS internal',
@@ -33,16 +38,16 @@ const seo = {
   noindex: true,
 };
 
-const labelClass = 'text-[1.0625rem] font-bold leading-snug text-brand-black';
-// `whitespace-pre-line` on purpose: Essa is looking at the literal message,
-// blank lines and all, so what he reads is what the client receives.
-const messageClass =
-  'mt-2 whitespace-pre-line rounded-lg bg-brand-lightbg px-3 py-2 text-[0.78125rem] leading-[1.5] text-brand-muted';
-const buttonRowClass = 'mt-2.5 grid grid-cols-2 gap-2';
-const shareButtonClass =
-  'min-h-[3rem] rounded-lg bg-brand-red px-3 text-[0.9375rem] font-bold text-white transition-colors hover:bg-brand-redhover active:bg-brand-redhover';
-const copyButtonClass =
-  'min-h-[3rem] rounded-lg border border-brand-line bg-white px-3 text-[0.9375rem] font-bold text-brand-charcoal transition-colors hover:border-brand-muted active:bg-brand-lightbg';
+const headingClass =
+  'flex items-center gap-2 text-[0.6875rem] font-bold uppercase tracking-[0.13em] text-brand-muted';
+const rowClass =
+  'flex items-center gap-1.5 rounded-lg border border-brand-line bg-white py-[3px] pl-3 pr-[3px]';
+const pinnedRowClass = `${rowClass} border-l-[3px] border-l-brand-red`;
+const nameClass = 'min-w-0 flex-1 truncate text-[0.875rem] font-bold text-brand-black';
+const shareClass =
+  'h-11 w-[4.25rem] shrink-0 rounded-md bg-brand-red text-[0.8125rem] font-bold text-white transition-colors active:bg-brand-redhover';
+const copyClass =
+  'h-11 w-[3.75rem] shrink-0 rounded-md border border-brand-line text-[0.8125rem] font-bold text-brand-charcoal transition-colors active:bg-brand-lightbg';
 ---
 
 <!doctype html>
@@ -51,44 +56,34 @@ const copyButtonClass =
     <SEOHead {...seo} />
   </head>
   <body class="bg-brand-lightbg font-sans text-brand-charcoal antialiased">
-    <main class="mx-auto max-w-lg px-4 pb-16 pt-6">
+    <main class="mx-auto max-w-lg px-3 pb-6 pt-3">
       <h1 class="sr-only">Send a client a request-form link</h1>
 
       <section aria-labelledby="eyad-phone-leads">
-        <h2
-          id="eyad-phone-leads"
-          class="flex items-center gap-2.5 text-[0.75rem] font-bold uppercase tracking-[0.14em] text-brand-muted"
-        >
-          <span class="h-1 w-8 rounded-full bg-brand-red" aria-hidden="true"></span>
+        <h2 id="eyad-phone-leads" class={headingClass}>
+          <span class="h-[3px] w-6 rounded-full bg-brand-red" aria-hidden="true"></span>
           Phone leads
         </h2>
-
-        <div class="mt-3 space-y-2.5">
+        <div class="mt-1.5 space-y-1.5">
           {
-            pinnedCards.map((entry) => (
-              <article
-                class="rounded-xl border border-brand-line border-l-[3px] border-l-brand-red bg-white p-3.5 shadow-card"
-                data-go-item
-                data-text={entry.text}
-              >
-                <h3 class={labelClass}>{entry.label}</h3>
-                <p class={messageClass}>{entry.text}</p>
-                <div class={buttonRowClass}>
-                  <button type="button" class={shareButtonClass} data-go-share>Share</button>
-                  <button type="button" class={copyButtonClass} data-go-copy>Copy</button>
-                </div>
-              </article>
+            pinned.map((row) => (
+              <div class={pinnedRowClass} data-go-item data-text={row.text} title={row.text}>
+                <span class={nameClass}>{row.label}</span>
+                <button type="button" class={shareClass} data-go-share aria-label={`Share ${row.label}`}>
+                  Share
+                </button>
+                <button type="button" class={copyClass} data-go-copy aria-label={`Copy ${row.label}`}>
+                  Copy
+                </button>
+              </div>
             ))
           }
         </div>
       </section>
 
-      <section class="mt-8" aria-labelledby="eyad-other-links">
-        <h2
-          id="eyad-other-links"
-          class="flex items-center gap-2.5 text-[0.75rem] font-bold uppercase tracking-[0.14em] text-brand-muted"
-        >
-          <span class="h-1 w-8 rounded-full bg-brand-charcoal" aria-hidden="true"></span>
+      <section class="mt-4" aria-labelledby="eyad-other-links">
+        <h2 id="eyad-other-links" class={headingClass}>
+          <span class="h-[3px] w-6 rounded-full bg-brand-charcoal" aria-hidden="true"></span>
           Other links
         </h2>
 
@@ -102,30 +97,32 @@ const copyButtonClass =
           autocorrect="off"
           spellcheck="false"
           placeholder="Search — tv, curtains, bathroom…"
-          class="mt-3 min-h-[3rem] w-full rounded-lg border border-brand-line bg-white px-4 text-base text-brand-black placeholder:text-brand-muted focus:border-brand-red focus:outline-none"
+          class="mt-1.5 h-11 w-full rounded-lg border border-brand-line bg-white px-3 text-[0.9375rem] text-brand-black placeholder:text-brand-muted focus:border-brand-red focus:outline-none"
           data-go-search
         />
 
-        <div class="mt-3 space-y-2.5" data-go-results>
+        <div class="mt-1.5 space-y-1.5" data-go-results>
           {
-            searchableCards.map((entry) => (
-              <article
-                class="rounded-xl border border-brand-line bg-white p-3.5 shadow-card"
+            searchable.map((row) => (
+              <div
+                class={rowClass}
                 data-go-item
-                data-search={entry.search}
-                data-text={entry.text}
+                data-search={row.search}
+                data-text={row.text}
+                title={row.text}
               >
-                <h3 class={labelClass}>{entry.label}</h3>
-                <p class={messageClass}>{entry.text}</p>
-                <div class={buttonRowClass}>
-                  <button type="button" class={shareButtonClass} data-go-share>Share</button>
-                  <button type="button" class={copyButtonClass} data-go-copy>Copy</button>
-                </div>
-              </article>
+                <span class={nameClass}>{row.label}</span>
+                <button type="button" class={shareClass} data-go-share aria-label={`Share ${row.label}`}>
+                  Share
+                </button>
+                <button type="button" class={copyClass} data-go-copy aria-label={`Copy ${row.label}`}>
+                  Copy
+                </button>
+              </div>
             ))
           }
           <p
-            class="rounded-xl border border-dashed border-brand-line px-4 py-6 text-center text-sm text-brand-muted"
+            class="rounded-lg border border-dashed border-brand-line px-3 py-4 text-center text-[0.8125rem] text-brand-muted"
             data-go-empty
             hidden
           >
@@ -141,16 +138,19 @@ const copyButtonClass =
     -->
     <script is:inline>
       (function () {
-        var RESET_MS = 2000;
+        var RESET_MS = 1600;
 
-        function flash(button, label) {
+        function flash(button, mark) {
           if (!button) return;
-          if (!button.dataset.idleLabel) button.dataset.idleLabel = button.textContent || 'Copy';
-          button.textContent = label;
+          if (!button.dataset.idleLabel) button.dataset.idleLabel = button.textContent || '';
+          button.textContent = mark;
+          var row = button.closest('[data-go-item]');
+          if (row) row.classList.add('ring-2', 'ring-brand-red');
           window.clearTimeout(Number(button.dataset.resetTimer || 0));
           button.dataset.resetTimer = String(
             window.setTimeout(function () {
               button.textContent = button.dataset.idleLabel;
+              if (row) row.classList.remove('ring-2', 'ring-brand-red');
             }, RESET_MS),
           );
         }
@@ -188,10 +188,10 @@ const copyButtonClass =
             ok = false;
           }
           if (!ok) ok = legacyCopy(text);
-          flash(button, ok ? 'Copied ✓' : 'Copy failed');
+          flash(button, ok ? '✓' : '✗');
         }
 
-        async function shareText(text, copyButton) {
+        async function shareText(text, button) {
           if (navigator.share) {
             try {
               // `text` only, never `url`: a `url` field is appended after the
@@ -204,7 +204,9 @@ const copyButtonClass =
               if (err && (err.name === 'AbortError' || err.name === 'NotAllowedError')) return;
             }
           }
-          await copyText(text, copyButton);
+          // Falls back on the button that was actually pressed, so the feedback
+          // lands where he tapped.
+          await copyText(text, button);
         }
 
         document.addEventListener('click', function (event) {
@@ -213,11 +215,10 @@ const copyButtonClass =
           var item = trigger.closest('[data-go-item]');
           if (!item) return;
           var text = item.getAttribute('data-text') || '';
-          var copyButton = item.querySelector('[data-go-copy]');
           if (trigger.hasAttribute('data-go-share')) {
-            shareText(text, copyButton);
+            shareText(text, trigger);
           } else {
-            copyText(text, copyButton);
+            copyText(text, trigger);
           }
         });
 
