@@ -6,6 +6,7 @@ import {
   telDigitsFromHref,
   trackEvent,
 } from '../utils/analytics';
+import { CONVERSION_CURRENCY, conversionValueUsd } from '../data/conversionValues';
 import { decorateJobberLinks } from './jobber-attribution';
 
 const JOBBER_HOST = 'getjobber.com';
@@ -93,6 +94,8 @@ function wireConversionClicks(): void {
             page_type: analyticsPageType(),
             cta_location: resolveCtaLocation(link),
             displayed_number: telDigitsFromHref(href),
+            value: conversionValueUsd(analyticsEvents.phoneClick),
+            currency: CONVERSION_CURRENCY,
           });
           return;
         }
@@ -128,13 +131,19 @@ function wireConversionClicks(): void {
             link.getAttribute('data-service-type') ??
             (bookingType.includes('curtain') ? bookingType : undefined);
 
+          // `page_type` joins the payload so the 13 Sep custom dimension can say
+          // which TEMPLATE produced a form click, not just which URL. Every other
+          // parameter here is a registered GA4 custom dimension — add, never rename.
           trackEvent(analyticsEvents.jobberBookingClick, {
             page_path: analyticsPagePath(),
+            page_type: analyticsPageType(),
             booking_type: bookingType,
             service_type: serviceType,
             placement,
             cta_location: placement,
             destination_host: destinationHost,
+            value: conversionValueUsd(analyticsEvents.jobberBookingClick),
+            currency: CONVERSION_CURRENCY,
           });
 
           // Distinct secondary funnel event for regular-ceiling curtain CTAs.
