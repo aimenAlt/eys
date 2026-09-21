@@ -136,7 +136,7 @@ const vendors = [
       where to read its own policy.
     </p>
     <div class="overflow-x-auto">
-      <table>
+      <table class="min-w-[40rem]">
         <thead>
           <tr>
             <th>Tool</th>
@@ -254,6 +254,32 @@ const vendors = [
       does not travel to other devices, so you will need to set it again on another browser.
     </p>
 
+    <div class="not-prose rounded-lg border border-neutral-300 bg-brand-lightbg p-5 sm:p-6">
+      <label class="flex items-start gap-3 cursor-pointer">
+        <input
+          type="checkbox"
+          data-privacy-optout
+          class="mt-1 h-5 w-5 shrink-0 accent-brand-red cursor-pointer"
+        />
+        <span class="text-base font-semibold text-brand-charcoal">
+          Turn off analytics and advertising cookies on this site.
+        </span>
+      </label>
+      <p data-privacy-status class="mt-3 text-sm text-neutral-600" aria-live="polite">
+        Checking your current setting&hellip;
+      </p>
+      <p data-privacy-gpc class="mt-3 text-sm text-neutral-600" hidden>
+        Your browser is already sending the Global Privacy Control signal, so advertising is off for
+        you here regardless of this setting. Tick the box to switch off plain visit counting too.
+      </p>
+      <noscript>
+        <p class="mt-3 text-sm text-neutral-600">
+          This toggle needs JavaScript. Blocking cookies in your browser settings has the same
+          effect.
+        </p>
+      </noscript>
+    </div>
+
     <h2>Your rights</h2>
     <p>
       If you live in Texas, the Texas Data Privacy and Security Act gives you the right to ask us
@@ -320,4 +346,8 @@ const vendors = [
       Phone <a href={`tel:${site.phoneTel}`}>{site.phone}</a>
     </p>
   </article>
+
+  <script>
+    import '../scripts/privacy-choices.ts';
+  </script>
 </ContentLayout>

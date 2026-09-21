@@ -52,6 +52,40 @@ const enableAnalytics = import.meta.env.PROD && (import.meta.env.BASE_URL || '/'
             window.gtag = gtag;
 
             if (location.hostname === 'www.eyshandyman.com') {
+              // Privacy choices. Read inline because consent has to be queued before
+              // gtag.js works through dataLayer, long before any module script runs.
+              // Same key and meaning as src/scripts/privacy-choices.ts - change both.
+              var eysOptedOut = false;
+              try {
+                eysOptedOut = localStorage.getItem('eys_privacy_optout') === '1';
+              } catch (err) {
+                eysOptedOut = false;
+              }
+              // GPC is an advertising signal, not a request to stop counting page
+              // views, so it denies the three ad keys and leaves analytics granted.
+              var eysGpc = navigator.globalPrivacyControl === true;
+
+              gtag('consent', 'default', {
+                ad_storage: 'granted',
+                ad_user_data: 'granted',
+                ad_personalization: 'granted',
+                analytics_storage: 'granted',
+              });
+              if (eysOptedOut) {
+                gtag('consent', 'update', {
+                  ad_storage: 'denied',
+                  ad_user_data: 'denied',
+                  ad_personalization: 'denied',
+                  analytics_storage: 'denied',
+                });
+              } else if (eysGpc) {
+                gtag('consent', 'update', {
+                  ad_storage: 'denied',
+                  ad_user_data: 'denied',
+                  ad_personalization: 'denied',
+                });
+              }
+
               var gtagScript = document.createElement('script');
               gtagScript.async = true;
               gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-9D5MCDT0L1';
@@ -65,24 +99,29 @@ const enableAnalytics = import.meta.env.PROD && (import.meta.env.BASE_URL || '/'
               // Ads ID last it got neither, so Jobber-side GA4 events arrive unattributed.
               gtag('config', 'G-9D5MCDT0L1');
 
-              !(function (f, b, e, v, n, t, s) {
-                if (f.fbq) return;
-                n = f.fbq = function () {
-                  n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
-                };
-                if (!f._fbq) f._fbq = n;
-                n.push = n;
-                n.loaded = !0;
-                n.version = '2.0';
-                n.queue = [];
-                t = b.createElement(e);
-                t.async = !0;
-                t.src = v;
-                s = b.getElementsByTagName(e)[0];
-                s.parentNode.insertBefore(t, s);
-              })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '691010400673866');
-              fbq('track', 'PageView');
+              // Opted out, by our toggle or by GPC: the pixel is never defined. Do not
+              // add a stub here - trackMetaEvent() already no-ops when fbq is absent,
+              // and a stub on the live host makes the real snippet bail out forever.
+              if (!eysOptedOut && !eysGpc) {
+                !(function (f, b, e, v, n, t, s) {
+                  if (f.fbq) return;
+                  n = f.fbq = function () {
+                    n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+                  };
+                  if (!f._fbq) f._fbq = n;
+                  n.push = n;
+                  n.loaded = !0;
+                  n.version = '2.0';
+                  n.queue = [];
+                  t = b.createElement(e);
+                  t.async = !0;
+                  t.src = v;
+                  s = b.getElementsByTagName(e)[0];
+                  s.parentNode.insertBefore(t, s);
+                })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+                fbq('init', '691010400673866');
+                fbq('track', 'PageView');
+              }
             } else {
               // Stub only off-production: the real Meta snippet above bails out on
               // `if (f.fbq) return;`, so this must never be defined on the live host.
