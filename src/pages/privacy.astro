@@ -5,8 +5,10 @@ import { breadcrumbList, webPage } from '../data/schema';
 
 const title = `Privacy Policy | ${site.name}`;
 const description =
-  'Privacy policy for Elevate Your Space Handyman — how we collect and use your information when you request an estimate.';
+  'How Elevate Your Space Handyman collects and uses information on this website — the tools we run, what our estimate forms collect, and how to turn advertising and analytics cookies off.';
 const canonical = absoluteUrl('/privacy/');
+
+const lastUpdated = 'September 2026';
 
 const schemaGraph = [
   webPage('Privacy Policy', canonical, description),
@@ -15,18 +17,307 @@ const schemaGraph = [
     { name: 'Privacy Policy', url: canonical },
   ]),
 ];
+
+/**
+ * Every third party that runs on this site. Keep this list honest — if a tag is
+ * added to BaseLayout or a component, it belongs here too.
+ */
+const vendors = [
+  {
+    name: 'Google Analytics 4',
+    does: 'Counts visits and page views, and records which buttons and phone links get used.',
+    purpose: 'Measurement',
+    links: [
+      { label: 'Google Privacy Policy', href: 'https://policies.google.com/privacy' },
+      { label: 'Google Analytics opt-out', href: 'https://tools.google.com/dlpage/gaoptout' },
+    ],
+  },
+  {
+    name: 'Google Ads (gtag)',
+    does: 'Tells us which Google ad a visit came from and whether it turned into a request.',
+    purpose: 'Advertising',
+    links: [
+      { label: 'How Google uses ads data', href: 'https://policies.google.com/technologies/ads' },
+      { label: 'Your Google ad settings', href: 'https://myadcenter.google.com/' },
+    ],
+  },
+  {
+    name: 'Meta Pixel',
+    does: 'Reports page views and form clicks back to Meta so we can measure and target Facebook and Instagram ads.',
+    purpose: 'Advertising',
+    links: [
+      { label: 'Meta Privacy Policy', href: 'https://www.facebook.com/privacy/policy/' },
+      { label: 'Your Meta ad settings', href: 'https://www.facebook.com/adpreferences/ad_settings' },
+    ],
+  },
+  {
+    name: 'Jobber',
+    does: 'Hosts our estimate and booking forms, and holds the customer records and invoices behind them.',
+    purpose: 'Forms and customer records',
+    links: [{ label: 'Jobber Privacy Policy', href: 'https://getjobber.com/privacy-policy/' }],
+  },
+  {
+    name: 'Google Maps',
+    does: 'Draws the service-area map embedded on our homepage.',
+    purpose: 'Map display',
+    links: [{ label: 'Google Privacy Policy', href: 'https://policies.google.com/privacy' }],
+  },
+  {
+    name: 'Cloudflare',
+    does: 'Hosts and delivers this website, and filters abusive traffic.',
+    purpose: 'Delivery and security',
+    links: [{ label: 'Cloudflare Privacy Policy', href: 'https://www.cloudflare.com/privacypolicy/' }],
+  },
+];
 ---
 
-<ContentLayout seo={{ title, description, canonical, noindex: true }} schemaGraph={schemaGraph}>
+<ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
   <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12 prose prose-gray">
     <h1>Privacy Policy</h1>
-    <p>Last updated: July 2026</p>
-    <p>Elevate Your Space Handyman ("EYS", "we", "us") respects your privacy. This policy describes how we collect and use information when you visit our website or contact us for services.</p>
-    <h2>Information we collect</h2>
-    <p>When you submit our contact form or request an estimate, we may collect your name, email address, phone number, project details, and any photos you provide.</p>
+    <p>Last updated: {lastUpdated}</p>
+
+    <p>
+      Elevate Your Space Handyman ("EYS", "we", "us") is a handyman and home-services business
+      working in Katy and the West Houston metro. This policy covers this website, eyshandyman.com:
+      what it collects, why, and what you can do about it.
+    </p>
+    <p>
+      One thing worth knowing up front. We do not run our own estimate or booking forms. When you
+      request an estimate or book a job, the button sends you to a form hosted by Jobber, the
+      field-service software we use to run the business. What you enter there is collected by Jobber
+      on our behalf, and Jobber's own privacy policy applies to those pages in addition to this one.
+    </p>
+
+    <h2>Information you give us</h2>
+    <p>You give us information when you contact us or fill out a request form. That is usually:</p>
+    <ul>
+      <li>Your name, email address and phone number.</li>
+      <li>The service address or property where the work would happen.</li>
+      <li>Project details — what you want done, sizes, materials, and any notes you add.</li>
+      <li>Photos you upload of the space or the problem.</li>
+      <li>Scheduling information, such as the date or arrival window you choose.</li>
+    </ul>
+    <p>
+      Those forms are hosted by Jobber and collect this information on our behalf. It lands in our
+      Jobber account, which is where we run quotes, jobs and invoices.
+    </p>
+    <p>
+      <strong>Payments.</strong> If you choose to pay an invoice online, your card details are
+      handled by Jobber's payment processor. We do not store full card numbers on this website.
+    </p>
+
+    <h2>Information collected automatically</h2>
+    <p>Like most websites, this one records some information as you browse:</p>
+    <ul>
+      <li>Your IP address.</li>
+      <li>Your browser and device type.</li>
+      <li>Which pages you viewed, and when.</li>
+      <li>The page or ad you arrived from (the referring URL).</li>
+      <li>
+        Campaign parameters carried in the link you clicked — the <code>utm_source</code>,
+        <code>utm_medium</code> and <code>utm_campaign</code> values, and the click IDs Google and
+        Meta add to their ad links.
+      </li>
+      <li>
+        Interactions on the page, such as tapping our phone number or clicking a request or booking
+        button.
+      </li>
+    </ul>
+    <p>
+      Campaign parameters are also kept in your browser's sessionStorage for the length of your
+      visit and added to the request-form link when you click through. That is how we can tell which
+      ad produced a real job rather than just a click. It is first-party, it holds no name or
+      contact details, and it clears when you close the tab.
+    </p>
+
+    <h2>Cookies, pixels and similar technologies</h2>
+    <p>
+      A short list of outside tools runs on this site. Here is every one of them, what it does, and
+      where to read its own policy.
+    </p>
+    <div class="overflow-x-auto">
+      <table>
+        <thead>
+          <tr>
+            <th>Tool</th>
+            <th>What it does</th>
+            <th>Used for</th>
+            <th>Their policy and controls</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            vendors.map((vendor) => (
+              <tr>
+                <th scope="row">{vendor.name}</th>
+                <td>{vendor.does}</td>
+                <td>{vendor.purpose}</td>
+                <td>
+                  {vendor.links.map((link, index) => (
+                    <>
+                      {index > 0 && <br />}
+                      <a href={link.href} target="_blank" rel="noopener noreferrer">
+                        {link.label}
+                      </a>
+                    </>
+                  ))}
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Google Analytics and Google Ads set cookies in your browser. The Meta Pixel sets cookies and
+      reports the page you viewed back to Meta. Google Maps loads only on the homepage, where the
+      map is. Cloudflare sits in front of every page because it serves them.
+    </p>
+
+    <h2>Advertising, and what counts as a "sale"</h2>
+    <p>
+      We advertise on Google and on Meta. To know whether those ads produce actual jobs — and not
+      just clicks — we share information about visits to this site with Google and Meta through the
+      tags listed above, and both companies may use it to target ads.
+    </p>
+    <p>
+      Some state privacy laws treat that kind of sharing as a "sale" of personal information, or as
+      "targeted advertising", even though no money changes hands. We would rather say so plainly
+      than argue the definition: we are paid nothing for the information, and we do not sell
+      personal information for money to anyone. If you would rather not be included, use
+      <a href="#your-privacy-choices">Your privacy choices</a> below to switch the tags off for this
+      browser, or use the per-company controls in the table above.
+    </p>
+
     <h2>How we use information</h2>
-    <p>We use your information to respond to inquiries, provide estimates, schedule services, and improve our customer experience. We do not sell your personal information.</p>
+    <ul>
+      <li>Answer your question or call you back.</li>
+      <li>Work out a price and put together an estimate.</li>
+      <li>Schedule the visit and do the work.</li>
+      <li>Invoice you and keep a record of the job for warranty and tax purposes.</li>
+      <li>Fix and improve this website.</li>
+      <li>Measure which ads and pages produce real jobs, so we spend on the ones that do.</li>
+    </ul>
+
+    <h2>Who we share it with</h2>
+    <ul>
+      <li>
+        The service providers in the table above, for the jobs described there — Jobber for forms
+        and customer records, Google and Meta for measurement and advertising, Cloudflare for
+        hosting.
+      </li>
+      <li>
+        Licensed trade partners or subcontractors, when a job includes work we coordinate rather
+        than perform ourselves, and then only the details they need to do it.
+      </li>
+      <li>Anyone we are required to share with by law, or in order to establish or defend a legal claim.</li>
+    </ul>
+    <p>
+      We do not sell personal information for money, and we do not share it with data brokers or
+      lead resellers.
+    </p>
+
+    <h2>Calls, texts and email</h2>
+    <p>
+      When you give us your phone number on a form or over the phone, you are asking us to get back
+      to you about that request — by phone, text or email. Message and data rates may apply. Reply
+      STOP to any text to stop receiving them, or tell us and we will stick to calls or email
+      instead.
+    </p>
+
+    <h2>Your choices</h2>
+    <ul>
+      <li>
+        <strong>Your browser.</strong> Every major browser can block or delete cookies. This site
+        works without them.
+      </li>
+      <li>
+        <strong>Per-company controls.</strong> The links in the table above go to Google's and
+        Meta's own opt-outs and ad settings, which apply everywhere, not just here.
+      </li>
+      <li>
+        <strong>This site.</strong> The toggle below turns off analytics and advertising on
+        eyshandyman.com for this browser.
+      </li>
+      <li>
+        <strong>Global Privacy Control.</strong> If your browser or a privacy extension sends the
+        GPC signal, we treat it as an opt-out of advertising: advertising cookies are switched off
+        and the Meta Pixel is not loaded for you. Plain visit counting stays on, because GPC is an
+        advertising signal rather than a request to stop counting page views. Use the toggle below
+        if you want that off as well.
+      </li>
+    </ul>
+
+    <h2 id="your-privacy-choices">Your privacy choices</h2>
+    <p>
+      This setting is stored in your browser, on this site only. It is not tied to your name and it
+      does not travel to other devices, so you will need to set it again on another browser.
+    </p>
+
+    <h2>Your rights</h2>
+    <p>
+      If you live in Texas, the Texas Data Privacy and Security Act gives you the right to ask us
+      to:
+    </p>
+    <ul>
+      <li>Confirm whether we hold personal data about you, and give you a copy of it.</li>
+      <li>Correct anything about you that is wrong.</li>
+      <li>Delete what we hold.</li>
+      <li>Hand over a portable copy you can take elsewhere.</li>
+      <li>
+        Stop using your data for targeted advertising, for a "sale", or for profiling that drives
+        decisions with a significant effect on you.
+      </li>
+    </ul>
+    <p>
+      Residents of other states with similar laws have comparable rights. We will honor any of
+      these requests from anyone who makes one, whether or not the law obliges us to.
+    </p>
+    <p>
+      To make a request, email <a href={`mailto:${site.email}`}>{site.email}</a> with "Privacy" in
+      the subject. Tell us what you want done, and the name, phone number or email address you used
+      with us so we can find the right records. We aim to answer within 45 days, and we will tell
+      you if we need longer and why.
+    </p>
+    <p>
+      If we turn a request down, you can appeal by replying to our answer. We will look at it again
+      and write back with the decision and the reason for it. If you are still not satisfied, you
+      can complain to the Texas Attorney General.
+    </p>
+
+    <h2>How long we keep it</h2>
+    <p>
+      We keep customer records — quotes, job notes, invoices and photos of work we performed — for
+      as long as we need them to look after you, and to meet tax, legal and warranty obligations.
+      Website analytics is kept on the retention schedules of the tools listed above. If you want
+      your information deleted, email <a href={`mailto:${site.email}`}>{site.email}</a>. We will
+      delete what we are not required to keep, and tell you what is left and why.
+    </p>
+
+    <h2>Security</h2>
+    <p>
+      We use reasonable safeguards to protect the information we hold, and we limit access to the
+      people who need it to do the work. No method of transmission over the internet, and no method
+      of electronic storage, is completely secure, so we cannot guarantee absolute security.
+    </p>
+
+    <h2>Children</h2>
+    <p>
+      This site is not directed to children under 13, and we do not knowingly collect information
+      from them. If you believe a child has given us information, email us and we will delete it.
+    </p>
+
+    <h2>Changes to this policy</h2>
+    <p>
+      If this policy changes, we will post the new version on this page and update the date at the
+      top.
+    </p>
+
     <h2>Contact</h2>
-    <p>Questions about this policy? Email us at <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+    <p>
+      Elevate Your Space Handyman — Katy and West Houston, Texas.<br />
+      Email <a href={`mailto:${site.email}`}>{site.email}</a><br />
+      Phone <a href={`tel:${site.phoneTel}`}>{site.phone}</a>
+    </p>
   </article>
 </ContentLayout>
