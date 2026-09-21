@@ -44,6 +44,17 @@ export interface GoLink {
   next: string;
   /** GA4 `booking_type` for the outbound click. */
   bookingType: string;
+  /**
+   * Which review the client page shows, as an id in `src/content/reviews/`.
+   * Omitted means `GO_DEFAULT_REVIEW` — a customer saying Essa told him the
+   * repair was under warranty rather than charging for it, which is the right
+   * note under "Every quote is itemized" on a page asking for a quote.
+   *
+   * Only set this where a review genuinely speaks to the work. A curtain
+   * customer on the curtain page is worth more than the default; a curtain
+   * customer on the kitchen page is worth less than nothing.
+   */
+  reviewId?: string;
 }
 
 /** Used unless an entry overrides it. */
@@ -51,6 +62,58 @@ export const GO_DEFAULT_BUTTON_LABEL = 'Continue to your request →';
 
 /** Signature appended to every texted message, on its own line. He goes by Essa. */
 export const GO_SIGN_OFF = '– Essa, EYS Handyman';
+
+/**
+ * Review shown when a form has no closely matching one — see `GoLink.reviewId`.
+ *
+ * Only five reviews are published in `src/content/reviews/`, against 162 on the
+ * Google profile, so most forms fall back to this. Import more and the matching
+ * below gets better for free.
+ */
+export const GO_DEFAULT_REVIEW = 'jamal-ansari';
+
+/**
+ * Longest review excerpt a `/go/` page shows, in characters.
+ *
+ * The page has one job and the button has to clear the fold on a 390x844
+ * phone. Full-length reviews run to five or six lines and pushed it as far as
+ * 712px. Around three lines keeps every page at the same height whichever
+ * review it draws.
+ */
+const GO_REVIEW_MAX_CHARS = 120;
+
+/**
+ * Trim a review to an excerpt, preferring a sentence boundary.
+ *
+ * Only ever shortens from the END, so the words shown are the customer's own,
+ * in their order — no re-ordering, no paraphrase, nothing that could flip the
+ * sense. A cut that lands on a full stop keeps its punctuation and reads as a
+ * complete thought; anything else falls back to a word boundary and an
+ * ellipsis. Either way the card links to the Google profile, so the whole
+ * review is one tap away.
+ */
+export function goReviewExcerpt(text: string, maxChars = GO_REVIEW_MAX_CHARS): string {
+  const clean = text.trim();
+  if (clean.length <= maxChars) return clean;
+
+  const cut = clean.slice(0, maxChars);
+
+  // A sentence ending late enough in the window reads better than an ellipsis.
+  const sentenceEnd = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('! '), cut.lastIndexOf('? '));
+  if (sentenceEnd > maxChars * 0.55) return cut.slice(0, sentenceEnd + 1);
+
+  const lastSpace = cut.lastIndexOf(' ');
+  const trimmed = (lastSpace > maxChars * 0.6 ? cut.slice(0, lastSpace) : cut).replace(
+    /[\s,;:.!?—-]+$/,
+    '',
+  );
+  return `${trimmed}…`;
+}
+
+/** True when the excerpt dropped something, so the page can invite the full read. */
+export function goReviewIsTrimmed(text: string, maxChars = GO_REVIEW_MAX_CHARS): boolean {
+  return text.trim().length > maxChars;
+}
 
 const BOOKING_BUTTON_LABEL = 'Continue to booking →';
 
@@ -78,6 +141,8 @@ export const goLinks: GoLink[] = [
       "Hey! Nice talking with you. Here's the link to send me what needs fixing or installing, plus a few photos — once it's in, I'll get your price together.",
     next: 'Next: a short form about the repair or installation you need.',
     bookingType: 'phone_lead_repair',
+    /** On time, clean workspace, fast and neat — a repair customer describing exactly this visit. */
+    reviewId: 'yong-sun',
   },
   {
     slug: 'commercial',
@@ -90,6 +155,10 @@ export const goLinks: GoLink[] = [
       "Hey! Nice talking with you. Here's the link to send me the property details and the scope you have in mind — once it's in, I'll start on your proposal.",
     next: 'Next: a short form about your commercial project.',
     bookingType: 'phone_lead_commercial',
+    // Jay Liang's review was tried here for the crew he turned up with, but the
+    // excerpt that fits cuts before that detail and what is left is about
+    // unloading U-Boxes — not a commercial property. Default until there is a
+    // real commercial review to import.
   },
   {
     slug: 'todo',
@@ -102,6 +171,8 @@ export const goLinks: GoLink[] = [
       "Hey! Nice talking with you. Here's the link to book your Handyman To-Do List visit — add your list so I know exactly what to bring.",
     next: 'Next: a short booking form for your Handyman To-Do List visit.',
     bookingType: 'handyman_to_do_list',
+    /** A list of small jobs done fast and neatly, which is what a To-Do List visit is. */
+    reviewId: 'yong-sun',
   },
   {
     slug: 'on-site',
@@ -114,6 +185,8 @@ export const goLinks: GoLink[] = [
       "Hey! Nice talking with you. Here's the link to book your free 30-minute on-site estimate — pick a time that works for you.",
     next: 'Next: a short booking form for your free on-site estimate.',
     bookingType: 'on_site_estimate',
+    /** "He arrived on time" is the promise a booked on-site slot makes. */
+    reviewId: 'yong-sun',
   },
   {
     slug: 'tv',
@@ -138,6 +211,8 @@ export const goLinks: GoLink[] = [
       "Hey! Nice talking with you. Here's the link for your high-ceiling curtains — once it's in, I'll get your quote started.",
     next: 'Next: a short form about your high-ceiling curtains.',
     bookingType: 'high_ceiling_curtain',
+    /** A curtain-installation customer, on the curtain page. */
+    reviewId: 'vanesa-morgia',
   },
   {
     slug: 'curtains',
@@ -150,6 +225,8 @@ export const goLinks: GoLink[] = [
       "Hey! Nice talking with you. Here's the link for your curtain installation — once it's in, I'll get your quote started.",
     next: 'Next: a short form about your curtain installation.',
     bookingType: 'regular_ceiling_curtain',
+    /** A curtain-installation customer, on the curtain page. */
+    reviewId: 'vanesa-morgia',
   },
   {
     slug: 'media-wall',
