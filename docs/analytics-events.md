@@ -17,6 +17,12 @@ send nothing.
   `booking_type`, `service_type`, `placement`, `destination_host`, `page_type`
   and `page_path` are registered GA4 custom dimensions. Renaming one silently
   empties a report. Adding a new parameter is safe.
+- **An event must be a GA4 key event BEFORE it can be imported into Google
+  Ads.** The Ads import dialog lists key events only — an ordinary event simply
+  does not appear there, which is why `jobber_booking_click` could not be found
+  for import until 21 Sep 2026. The cost of marking one is that it joins GA4's
+  own aggregate "key events" total, so that headline number mixes real leads
+  with outbound clicks: **read key events by event name, never the total.**
 - **Ads config stays before GA4 config** in BaseLayout. Jobber's work-request
   form reads the *last* `gtag('config', …)` in `dataLayer` to pick up
   `client_id`/`session_id`; with the Ads ID last, Jobber-side events arrive
@@ -47,14 +53,44 @@ send nothing.
 | `lead_submit` | `/request-confirmed/<slug>/` on load, once per slug per session — [`jobber-confirmation-tracking.ts`](../src/scripts/jobber-confirmation-tracking.ts) | `content_name`, `content_category`, `service`, `value`, `currency` | Yes | Yes |
 | `booking_complete` | `/booking-confirmed/<slug>/` on load, once per slug per session — same script | `content_name`, `content_category`, `service`, `value`, `currency` | Yes | Yes |
 | `generate_lead` | Jobber's own hosted form, after submit. Not our code. | Jobber's | Yes | Yes (unvalued Primary count) |
-| `jobber_booking_click` | Click on any outbound `getjobber.com` link, site-wide — [`conversion-analytics.ts`](../src/scripts/conversion-analytics.ts) | `page_path`, `page_type`, `booking_type`, `service_type`, `placement`, `cta_location`, `destination_host`, `value`, `currency` | Yes | Yes |
+| `jobber_booking_click` | Click on any outbound `getjobber.com` link, site-wide — [`conversion-analytics.ts`](../src/scripts/conversion-analytics.ts) | `page_path`, `page_type`, `booking_type`, `service_type`, `placement`, `cta_location`, `destination_host`, `value`, `currency` | Yes, **since 21 Sep 2026** | Yes — **Secondary**, see below |
 | `phone_click` | Click on any `tel:` link, site-wide — same script | `page_path`, `page_type`, `cta_location`, `displayed_number`, `value`, `currency` | Yes | Yes |
 
-`booking_type` is resolved from the link's `data-booking-type`, falling back to
-the Jobber request ID in the href (`inferBookingType`). Known IDs: `4983259`
-to-do list, `4985623` project estimate, `5201775` project estimate from
-`/start/`, `4977896` TV mounting, `5067435` media wall, `5061244` high-ceiling
-curtain, `5061268` regular-ceiling curtain.
+### `jobber_booking_click` in Google Ads
+
+This row was wrong until 21 Sep 2026: the file claimed the event was a GA4 key
+event and was imported into Ads, and neither was true. It could not have been —
+the Ads import dialog lists key events only, and the event was not marked as
+one, so it never appeared there.
+
+The true state as of **21 Sep 2026**:
+
+- Marked a **GA4 key event** on 21 Sep 2026, and only then could be imported.
+- Imported as the Ads conversion action **"EYSHandyman (web)
+  jobber_booking_click"**, category **Outbound click**.
+- **Secondary**, deliberately. It therefore reports in **"All conv." only,
+  never in "Conversions"**, and **never touches bidding** — it is a volume
+  signal about which CTAs get pressed, not a lead.
+- Value from GA4 with a **$45 fallback**, count **One**, **90-day** conversion
+  window.
+
+A click is not a lead. `lead_submit` and `booking_complete` are the events that
+mean someone actually reached us; keep those primary and keep this one out of
+the number anyone optimises against.
+
+### `booking_type`
+
+Resolved from the link's `data-booking-type`, falling back to the Jobber
+request ID in the href (`inferBookingType`). Known IDs: `4983259` to-do list,
+`4985623` project estimate, `5201775` project estimate from `/start/`,
+`4977896` TV mounting, `5067435` media wall, `5061244` high-ceiling curtain,
+`5061268` regular-ceiling curtain.
+
+`/van/` sets `data-booking-type` explicitly on its shortcut tiles. Since
+21 Sep 2026 the two curtain tiles send `high_ceiling_curtain` and
+`regular_ceiling_curtain` (with matching `service_type`) instead of both
+collapsing into `project_estimate`, so a curtain enquiry off the van is
+finally distinguishable from any other project.
 
 ## Engagement events
 
@@ -70,13 +106,30 @@ curtain, `5061268` regular-ceiling curtain.
 GA4's own `scroll` event still fires at 90%. `scroll_depth` deliberately stops
 at 75 so the two do not double-count.
 
+`internal_cta_click` is opt-in: a link sends nothing unless it carries
+`data-cta-id`. `cta_id` values in use:
+
+| `cta_id` | Where |
+| --- | --- |
+| `start_choose_project` | `/start/` — every "Choose a Project" placement |
+| `start_path_detail_*` | `/start/` path cards (general, media wall, high-ceiling curtains, to-do list) |
+| `start_general_contracting_*` | `/start/` remodeling / kitchen / bathroom links |
+| `start_services_strip_all`, `start_reviews_page`, `start_footer_nav` | `/start/` secondary navigation |
+| `van_choose_project` | `/van/` — the red "Choose My Project" button, in both the hero (`van_hero`) and the sticky bar (`van_sticky`) |
+
+`van_choose_project` was added on 21 Sep 2026. Both /van/ buttons rendered as
+bare anchors with no tracking attributes before that, so the most-pressed
+control on the page was invisible in GA4 — /van/ converts at 10.53% per
+session against paid search's 1.80%, and none of it was attributable to the
+button that drives it.
+
 ## Landing-page events
 
 | Event | Fires where | Parameters | GA4 key event | Imported into Ads |
 | --- | --- | --- | --- | --- |
 | `van_landing_view` | `/van/` on load — [`van-analytics.ts`](../src/scripts/van-analytics.ts) | `campaign`, `source`, `medium` | No | No |
 | `van_route_selected` | `/van/` click on `[data-van-route]` | `route` | No | No |
-| `van_project_selected` | `/van/` click on `[data-van-project]` | `project` | No | No |
+| `van_project_selected` | `/van/` click on `[data-van-project]` | `project` — `tv_mounting`, `high_ceiling_curtains`, `curtains_tracks`, `lighting_fans`, `drywall_painting`, `doors_cabinets`, `media_walls` | No | No |
 | `van_phone_clicked` | `/van/` click on `[data-van-phone]` | `placement` | No | No |
 | `van_reviews_clicked` | `/van/` click on the reviews link | — | No | No |
 | `regular_ceiling_booking_click` | Outbound Jobber click for regular-ceiling curtains (secondary funnel) | `page_path`, `service_type`, `placement` | No | No |

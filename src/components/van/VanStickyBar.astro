@@ -19,8 +19,15 @@ import { vanCampaign } from '../../data/vanCampaign';
     >
       Call EYS
     </a>
+    <!--
+      `data-cta-id` is what opts an internal link into `internal_cta_click` —
+      without it this button, the most-pressed control on the page, sent
+      nothing at all. Same id as the hero so the two placements aggregate.
+    -->
     <a
       href="#service-paths"
+      data-cta-id="van_choose_project"
+      data-cta-location="van_sticky"
       class="inline-flex min-h-12 flex-1 items-center justify-center rounded-md bg-brand-red px-3 py-3 text-center text-sm font-bold text-white hover:bg-brand-redhover"
     >
       Choose My Project

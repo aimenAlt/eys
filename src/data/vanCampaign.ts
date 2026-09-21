@@ -1,4 +1,5 @@
 import { business } from './business';
+import { highCeilingJobberUrl, regularCeilingJobberUrl } from './curtainLanding';
 import { mediaWallsLanding } from './mediaWalls';
 import { withVehicleWrapUtm } from '../utils/utm';
 
@@ -20,12 +21,25 @@ function attributed(raw: string | undefined, content: string): string | undefine
 /**
  * Van-page Jobber destinations built from raw hub URLs so vehicle-wrap UTMs
  * are not overwritten by the default website/referral getters.
+ *
+ * EVERY van destination must go through `attributed()`. A van-sourced lead that
+ * skips it lands in Jobber looking like ordinary website traffic, which is the
+ * whole thing this page exists to measure — so never point a van CTA at a
+ * shared component whose href comes from a plain getter.
+ *
+ * The two curtain entries are the exception in shape, not in rule: they are
+ * composed from the curtain getters rather than raw fields, so the
+ * `eys_form` label those URLs carry survives and `jobber_request_form_name`
+ * still populates. The helpers do not collide — `withJobberFormId` sets
+ * `eys_form`, `withVehicleWrapUtm` sets the `utm_*` keys.
  */
 export const vanDestinations = {
   handymanBooking: attributed(business.jobber.handymanToDoListFormUrl, 'todo-list'),
   photoEstimate: attributed(business.jobber.projectEstimateFormUrl, 'photo_estimate'),
   customProject: attributed(business.jobber.projectEstimateFormUrl, 'custom_project'),
   tvMounting: attributed(business.jobber.onlineBookingUrl, 'tv_mounting'),
+  highCeilingCurtains: attributed(highCeilingJobberUrl(), 'high_ceiling_curtains'),
+  curtainsTracks: attributed(regularCeilingJobberUrl(), 'curtains_tracks'),
 } as const;
 
 /**
@@ -136,6 +150,7 @@ export type VanRouteId = 'handyman_booking' | 'photo_estimate' | 'custom_project
 
 export type VanProjectId =
   | 'tv_mounting'
+  | 'high_ceiling_curtains'
   | 'curtains_tracks'
   | 'lighting_fans'
   | 'drywall_painting'

@@ -6,6 +6,8 @@ type ProjectShortcut = {
   label: string;
   href: string | undefined;
   bookingType: string;
+  /** Only where the job is a productised service with its own GA4 service_type. */
+  serviceType?: string;
 };
 
 /**
@@ -22,7 +24,27 @@ type ProjectShortcut = {
 const projects = (
   [
     { id: 'tv_mounting', label: 'TV Mounting', href: vanDestinations.tvMounting, bookingType: 'tv_mounting' },
-    { id: 'curtains_tracks', label: 'Curtains & Tracks', href: vanDestinations.photoEstimate, bookingType: 'project_estimate' },
+    /*
+     * Two curtain tiles, not one. A single generic tile pointed at the photo
+     * estimate form, so a curtain enquiry off the van was indistinguishable
+     * from any other project in Jobber and never reached the high-ceiling form
+     * at all — while the van parks in exactly the new-build streets with
+     * two-storey windows. Both go to their own productised form.
+     */
+    {
+      id: 'high_ceiling_curtains',
+      label: 'High-Ceiling Curtains',
+      href: vanDestinations.highCeilingCurtains,
+      bookingType: 'high_ceiling_curtain',
+      serviceType: 'high_ceiling_curtain',
+    },
+    {
+      id: 'curtains_tracks',
+      label: 'Curtains & Tracks',
+      href: vanDestinations.curtainsTracks,
+      bookingType: 'regular_ceiling_curtain',
+      serviceType: 'regular_ceiling_curtain',
+    },
     { id: 'lighting_fans', label: 'Lighting & Fans', href: vanDestinations.photoEstimate, bookingType: 'project_estimate' },
     { id: 'drywall_painting', label: 'Drywall & Painting', href: vanDestinations.photoEstimate, bookingType: 'project_estimate' },
     { id: 'doors_cabinets', label: 'Doors & Cabinets', href: vanDestinations.photoEstimate, bookingType: 'project_estimate' },
@@ -46,13 +68,14 @@ const projects = (
     <ul class="mt-5 grid grid-cols-2 gap-3" role="list">
       {
         projects.map((project) => (
-          <li class="flex">
+          <li class="flex [&:last-child:nth-child(odd)]:col-span-2">
             <a
               href={project.href}
               target="_blank"
               rel="noopener noreferrer"
               data-van-project={project.id}
               data-booking-type={project.bookingType}
+              data-service-type={project.serviceType}
               data-cta-location="van_popular_project"
               class="flex min-h-14 w-full items-center rounded-xl border border-brand-black/10 bg-white px-4 py-3 text-sm font-bold text-brand-black transition-colors hover:border-brand-red/50 hover:text-brand-red sm:text-base"
             >
@@ -63,9 +86,10 @@ const projects = (
       }
     </ul>
 
+    <!-- Covers BOTH curtain tiles: EYS installs, the customer supplies the hardware. -->
     <p class="mt-4 text-xs leading-relaxed text-brand-muted">
-      Curtains &amp; tracks is installation labor — rods, tracks and curtains are supplied by you and
-      need to be on site for the appointment.
+      Both curtain options are installation labor — rods, tracks and curtains are supplied by you
+      and need to be on site for the appointment.
     </p>
   </div>
 </section>

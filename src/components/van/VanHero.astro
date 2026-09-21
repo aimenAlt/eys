@@ -98,9 +98,18 @@ const gbpUrl = googleReviewProfileUrl();
       below, or call and we&rsquo;ll point you to the right one.
     </p>
 
-    <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+    <!--
+      `data-sticky-hero-cta` is the hook VanStickyBar observes to know the hero
+      has scrolled past. Without it the bar fell back to a fixed 600px scroll
+      threshold, which on this tall video hero could reveal the bar while the
+      hero was still on screen. HomeHero, LocalHero and ServiceHero all mark
+      their CTA row the same way.
+    -->
+    <div class="mt-6 flex flex-col gap-3 sm:flex-row" data-sticky-hero-cta>
       <a
         href="#service-paths"
+        data-cta-id="van_choose_project"
+        data-cta-location="van_hero"
         class="inline-flex min-h-12 items-center justify-center rounded-md bg-brand-red px-6 py-3 text-center text-base font-bold text-white transition-colors hover:bg-brand-redhover sm:px-7"
       >
         Choose My Project
