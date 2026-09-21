@@ -12,6 +12,12 @@ import { withJobberFormId } from '../utils/utm';
  * Form ids deliberately NOT in this file:
  *   5201775 — reserved for the `/start/` print-QR landing page.
  *   4372609, 4975089, 2019189 — legacy forms being retired.
+ *   4985623 — the SITEWIDE project-estimate form (`jobber.projectEstimateFormUrl`).
+ *     It asks the same thing as the `home-project` phone-lead form below, so
+ *     offering both here made Essa choose between duplicates on every call.
+ *     The website keeps using it; a texted handoff uses `home-project`, which
+ *     also keeps phone leads separable from web leads in Jobber and GA4.
+ *     `/go/estimate/` 301s to `/go/home-project/` in public/_redirects.
  */
 
 export type GoLinkGroup = 'phone-leads' | 'searchable';
@@ -84,18 +90,6 @@ export const goLinks: GoLink[] = [
       "Hey! Nice talking with you. Here's the link to send me the property details and the scope you have in mind — once it's in, I'll start on your proposal.",
     next: 'Next: a short form about your commercial project.',
     bookingType: 'phone_lead_commercial',
-  },
-  {
-    slug: 'estimate',
-    formId: '4985623',
-    label: 'Project estimate (photos)',
-    keywords: 'estimate quote photos pictures project request',
-    buttonLabel: GO_DEFAULT_BUTTON_LABEL,
-    group: 'searchable',
-    message:
-      "Hey! Nice talking with you. Here's the link for your estimate — add a few photos, and once it's in, I'll get your quote started.",
-    next: 'Next: a short form about your project, with room for photos.',
-    bookingType: 'project_estimate',
   },
   {
     slug: 'todo',

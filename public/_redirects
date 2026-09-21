@@ -109,3 +109,10 @@
 # asset still lands on a valid page. Link to the TARGET, never this source.
 /services/smart-home-installation/ /services/electrical-services/ 301
 /services/smart-home-installation /services/electrical-services/ 301
+
+# /go/estimate/ pointed at the SITEWIDE project-estimate form (4985623), which
+# asks the same thing as the home-project phone-lead form. Dropped so Essa is
+# not choosing between duplicates on /eyad/; redirected in case a link was
+# already texted. Link to the TARGET, never this source.
+/go/estimate/ /go/home-project/ 301
+/go/estimate /go/home-project/ 301
