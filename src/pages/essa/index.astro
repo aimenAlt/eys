@@ -282,11 +282,21 @@ const copyClass =
 
         if ('serviceWorker' in navigator) {
           window.addEventListener('load', function () {
-            // Explicit scope, matching the file's own directory. Registering a
-            // worker from anywhere else would widen this to the whole site.
-            navigator.serviceWorker.register('/essa/sw.js', { scope: '/essa/' }).catch(function () {
-              /* no worker, no install prompt — the page itself still works */
-            });
+            // `scope` is explicit and matches the file's own directory.
+            // Registering a worker from anywhere else would widen this to the
+            // whole site.
+            //
+            // `updateViaCache: 'none'` is what actually guarantees a new
+            // worker is picked up promptly. Cloudflare serves /essa/sw.js with
+            // a four-hour max-age, but the default ('imports') already
+            // bypasses the HTTP cache for the worker script itself; 'none'
+            // states that intent outright and keeps holding if this file ever
+            // grows an importScripts() call.
+            navigator.serviceWorker
+              .register('/essa/sw.js', { scope: '/essa/', updateViaCache: 'none' })
+              .catch(function () {
+                /* no worker, no install prompt — the page itself still works */
+              });
           });
         }
 

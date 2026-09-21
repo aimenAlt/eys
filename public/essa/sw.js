@@ -76,11 +76,12 @@ self.addEventListener('fetch', (event) => {
       .catch(() =>
         caches.match(request).then((hit) => {
           if (hit) return hit;
-          // `ignoreVary` matters here. Cloudflare returns the page with
-          // `Vary: accept-encoding`, and Cache API matching honours Vary — so
-          // a request whose encoding header differs at all from the one that
-          // was stored would miss and he would get a browser error page
-          // instead of his links. Offline, any cached copy beats none.
+          // Defensive: Cloudflare returns the page with
+          // `Vary: accept-encoding` and Cache API matching honours Vary, so a
+          // request whose encoding header differs from the stored one would
+          // miss and hand him a browser error page instead of his links. The
+          // same browser normally sends a consistent header, so this has not
+          // been seen to bite — but offline, any cached copy beats none.
           if (request.mode === 'navigate') {
             return caches.match('/essa/', { ignoreVary: true });
           }
