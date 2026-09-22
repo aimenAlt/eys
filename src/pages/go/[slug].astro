@@ -85,9 +85,18 @@ const seo = {
 <BaseLayout seo={seo}>
   <main id="main-content" class="min-h-screen bg-brand-lightbg">
     <section
-      class="border-t-[3px] border-brand-red bg-brand-black px-5 pb-7 pt-7 text-white sm:px-6 sm:pb-8 sm:pt-8"
+      class="border-t-[3px] border-brand-red bg-brand-black px-5 pb-5 pt-5 text-white sm:px-6 sm:pb-8 sm:pt-8"
     >
-      <div class="mx-auto flex max-w-lg flex-col gap-4 sm:flex-row sm:items-center sm:gap-5">
+      <!--
+        Centred and large on a phone: this page's whole argument is that a
+        named person is standing behind the quote, and a small avatar tucked
+        into a corner does not make that argument. Desktop keeps the
+        side-by-side row — mobile-first never means letting `sm` and up
+        regress.
+      -->
+      <div
+        class="mx-auto flex max-w-lg flex-col items-center gap-3.5 text-center sm:flex-row sm:items-center sm:gap-5 sm:text-left"
+      >
         <img
           src={portrait}
           alt={portraitAlt}
@@ -96,15 +105,15 @@ const seo = {
           loading="eager"
           fetchpriority="high"
           decoding="async"
-          class="h-[7.5rem] w-[7.5rem] shrink-0 rounded-xl object-cover ring-1 ring-white/20 sm:h-32 sm:w-32"
+          class="h-40 w-40 shrink-0 rounded-2xl object-cover ring-1 ring-white/20 sm:h-32 sm:w-32 sm:rounded-xl"
         />
-        <h1 class="text-[1.55rem] font-bold leading-[1.18] tracking-tight sm:text-[1.7rem]">
+        <h1 class="text-[1.45rem] font-bold leading-[1.2] tracking-tight sm:text-[1.7rem]">
           Hi, I&rsquo;m Essa &mdash; I own EYS, and I write every quote myself.
         </h1>
       </div>
     </section>
 
-    <div class="mx-auto max-w-lg px-5 pb-14 pt-5 sm:px-6 sm:pt-7">
+    <div class="mx-auto max-w-lg px-5 pb-14 pt-4 sm:px-6 sm:pt-7">
       <!--
         The whole card opens the Google profile, in a NEW tab: tapping it also
         cancels the auto-open, so sending them away in this tab would cost them
@@ -118,7 +127,7 @@ const seo = {
           target="_blank"
           rel="noopener noreferrer"
           data-cta-location={goCtaLocation(entry.slug, 'review')}
-          class="block rounded-xl p-4 transition-colors hover:bg-brand-lightbg sm:p-5"
+          class="block rounded-xl p-3.5 transition-colors hover:bg-brand-lightbg sm:p-5"
         >
           <blockquote class="text-[0.95rem] leading-relaxed text-brand-ink sm:text-base">
             &ldquo;{reviewText}&rdquo;
@@ -134,7 +143,7 @@ const seo = {
         </a>
       </figure>
 
-      <p class="mt-3.5 flex flex-wrap items-baseline gap-x-1.5 text-[0.8125rem] font-semibold text-brand-muted">
+      <p class="mt-3 flex flex-wrap items-baseline gap-x-1.5 text-[0.8125rem] font-semibold text-brand-muted">
         <span class="text-[0.9375rem] leading-none text-brand-red" aria-hidden="true">★</span>
         <span>
           <span class="sr-only">Rated </span>{rating} &middot;{' '}
@@ -150,7 +159,7 @@ const seo = {
         </span>
       </p>
 
-      <p class="mt-4.5 text-[0.95rem] font-bold leading-snug text-brand-black sm:text-base">
+      <p class="mt-4 text-[0.95rem] font-bold leading-snug text-brand-black sm:text-base">
         Every quote is itemized &mdash; no surprise fees.
       </p>
 
@@ -159,70 +168,56 @@ const seo = {
       </p>
 
       <!--
-        The countdown and the button occupy the same 3.5rem box and swap in
-        place, so nothing on the page moves and the measured fold position is
-        the same whether JS runs or not. The button is what the HTML ships:
-        with JS off, or once the countdown has run, it is simply there.
+        Plain same-tab anchor on purpose: the GA4 cross-domain linker only
+        decorates a click it can see, and `target="_blank"` loses the session.
+        The auto-open fires a real click on this element for the same reason —
+        `location.href = ...` would skip the linker and orphan the session.
       -->
-      <div class="mt-5 min-h-[3.5rem]">
-        <div
-          class="go-countdown flex min-h-[3.5rem] w-full items-center justify-center gap-2.5 rounded-lg border-2 border-brand-red bg-white px-5"
-          role="status"
-          data-go-countdown
-          hidden
-        >
-          <svg class="go-clock shrink-0" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="10" fill="none" stroke="#ececec" stroke-width="2.5" />
-            <circle
-              class="go-clock-sweep"
-              cx="12"
-              cy="12"
-              r="10"
-              fill="none"
-              stroke="#b00000"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-dasharray="62.83"
-              transform="rotate(-90 12 12)"
-            />
-          </svg>
-          <span class="text-[1.0625rem] font-bold leading-tight text-brand-black">
-            Loading your form&hellip;
-          </span>
-        </div>
-
-        <!--
-          Plain same-tab anchor on purpose: the GA4 cross-domain linker only
-          decorates a click it can see, and `target="_blank"` loses the session.
-          The auto-open fires a real click on this element for the same reason —
-          `location.href = ...` would skip the linker and orphan the session.
-        -->
-        <a
-          href={jobberHref}
-          data-cta-location={ctaLocation}
-          data-booking-type={entry.bookingType}
-          data-go-cta
-          class="flex min-h-[3.5rem] w-full items-center justify-center rounded-lg bg-brand-red px-5 text-center text-[1.0625rem] font-bold leading-tight text-white shadow-card transition-colors hover:bg-brand-redhover focus-visible:bg-brand-redhover"
-        >
-          {entry.buttonLabel}
-        </a>
-      </div>
+      <a
+        href={jobberHref}
+        data-cta-location={ctaLocation}
+        data-booking-type={entry.bookingType}
+        data-go-cta
+        class="mt-4 flex min-h-[3.5rem] w-full items-center justify-center rounded-lg bg-brand-red px-5 text-center text-[1.0625rem] font-bold leading-tight text-white shadow-card transition-colors hover:bg-brand-redhover focus-visible:bg-brand-redhover"
+      >
+        {entry.buttonLabel}
+      </a>
 
       <!--
-        Second half of the wait. The height is reserved from the start so that
-        revealing this at the five-second mark does not shove the call link
-        down under the reader's thumb; only the text inside appears.
+        The button is on screen from the first paint and the timer sits under
+        it, never in front of it. An earlier version withheld the button for
+        the first five seconds behind a "Loading your form…" panel, which is
+        precisely the shape of a scam interstitial — the visitor is made to
+        wait for something they could already have had. The countdown is a
+        courtesy now, not a gate: tap whenever, or let it open itself.
+
+        Height is reserved so that hiding the line on cancel moves nothing.
       -->
       <p
-        class="mt-2 min-h-[1.125rem] text-center text-[0.8125rem] leading-[1.125rem] text-brand-muted"
+        class="mt-2 flex min-h-[1.25rem] items-center justify-center gap-1.5 text-center text-[0.8125rem] leading-[1.25rem] text-brand-muted"
         data-go-handoff
       >
-        <span hidden data-go-handoff-text>
-          Opening your form in <span data-go-handoff-count>5</span>&hellip;
+        <span class="contents" hidden data-go-handoff-text>
+          <svg class="go-clock shrink-0" width="13" height="13" viewBox="0 0 14 14" aria-hidden="true">
+            <circle cx="7" cy="7" r="6" fill="none" stroke="#ececec" stroke-width="2" />
+            <circle
+              class="go-clock-sweep"
+              cx="7"
+              cy="7"
+              r="6"
+              fill="none"
+              stroke="#b00000"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-dasharray="37.7"
+              transform="rotate(-90 7 7)"
+            />
+          </svg>
+          <span>Opening your form in <span data-go-handoff-count>10</span>&hellip;</span>
         </span>
       </p>
 
-      <p class="mt-3 text-center text-sm text-brand-muted">
+      <p class="mt-2.5 text-center text-sm text-brand-muted">
         <a
           href={`tel:+1${site.phoneTel}`}
           data-cta-location={goCtaLocation(entry.slug, 'call')}
@@ -240,34 +235,30 @@ const seo = {
         stroke-dashoffset: 0;
       }
       to {
-        stroke-dashoffset: 62.83;
+        stroke-dashoffset: 37.7;
       }
     }
-    /*
-      Five seconds, not ten: the ring covers the first half of the wait and
-      finishes exactly as the button takes its place.
-    */
+    /* Runs the whole wait, alongside the number, under the button. */
     .go-clock-sweep {
-      animation: go-clock-sweep 5s linear forwards;
+      animation: go-clock-sweep 10s linear forwards;
     }
     @media (prefers-reduced-motion: reduce) {
       .go-clock-sweep {
         animation: none;
-        stroke-dashoffset: 62.83;
+        stroke-dashoffset: 37.7;
       }
     }
   </style>
 
   <script is:inline>
     /**
-     * Open the Jobber form on its own after ten seconds, in two halves.
+     * Open the Jobber form on its own after ten seconds.
      *
-     *  0-5s   "Loading your form…" and a filling ring. No number: a count
-     *         ticking down from 10 reads as a wait being imposed.
-     *  5-10s  the button takes the box's place and a line underneath counts
-     *         5 to 1, so nobody is moved without warning and anyone who wants
-     *         to go now can just tap.
-     *  10s    the form opens, with the button already on screen behind it.
+     * The button is never withheld. It is in the HTML, visible from first
+     * paint, and the countdown runs underneath it — tap whenever, or let it
+     * open itself. Do not go back to gating the button behind the timer: that
+     * is the shape of a scam interstitial, and this page is asking a stranger
+     * to trust a one-man business.
      *
      * Three rules this has to respect:
      *  - It fires `cta.click()`, never `location.href`. A real click is what the
@@ -279,9 +270,9 @@ const seo = {
      *    is not yanked away mid-sentence; they get the button instead.
      */
     (function () {
-      var countdown = document.querySelector('[data-go-countdown]');
       var cta = document.querySelector('[data-go-cta]');
-      if (!countdown || !cta) return;
+      var handoffText = document.querySelector('[data-go-handoff-text]');
+      if (!cta || !handoffText) return;
 
       var STORAGE_KEY = 'eys_go_opened_' + window.location.pathname;
       try {
@@ -291,21 +282,19 @@ const seo = {
       }
 
       var TOTAL_SECONDS = 10;
-      /** When the button replaces the clock box and the warning line starts. */
-      var HANDOFF_AT = 5;
 
       var CANCEL_EVENTS = ['pointerdown', 'keydown', 'wheel', 'touchmove'];
-      var handoffText = document.querySelector('[data-go-handoff-text]');
       var handoffCount = document.querySelector('[data-go-handoff-count]');
       var remaining = TOTAL_SECONDS;
       var ticker;
       var opener;
 
-      /** Show the button and stop saying anything about a countdown. */
+      /**
+       * Stop saying anything about a countdown. The button is untouched — it
+       * was never hidden, so there is nothing to restore.
+       */
       function reveal() {
-        countdown.hidden = true;
-        cta.hidden = false;
-        if (handoffText) handoffText.hidden = true;
+        handoffText.hidden = true;
       }
 
       function cancel() {
@@ -317,21 +306,14 @@ const seo = {
         reveal();
       }
 
-      cta.hidden = true;
-      countdown.hidden = false;
+      // The line is hidden in the HTML so that a visitor with no JS is never
+      // told about a redirect that will not happen.
+      handoffText.hidden = false;
 
       ticker = window.setInterval(function () {
         remaining -= 1;
-        // First half says nothing about time — just "Loading your form…" and a
-        // filling ring. A number ticking down from 10 reads as a wait being
-        // imposed; the count only starts once the button is there to escape it.
-        if (remaining <= 0 || remaining > HANDOFF_AT) return;
-        // Second half: the button is the thing on screen, the line below it
-        // just says how long is left.
-        countdown.hidden = true;
-        cta.hidden = false;
+        if (remaining <= 0) return;
         if (handoffCount) handoffCount.textContent = String(remaining);
-        if (handoffText) handoffText.hidden = false;
       }, 1000);
 
       opener = window.setTimeout(function () {
