@@ -1,5 +1,5 @@
 ---
-import { site } from '../../data/business';
+import { jobberProjectEstimateFormUrl, site } from '../../data/business';
 
 interface Props {
   heading?: string;
@@ -13,7 +13,7 @@ interface Props {
 const {
   heading = 'Discuss a Similar Project',
   body,
-  estimateHref = '/contact/',
+  estimateHref = jobberProjectEstimateFormUrl() ?? '/contact/',
   servicesHref = '/services/',
   compact = false,
   ctaLocation = 'gallery',

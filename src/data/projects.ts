@@ -4,6 +4,9 @@ import {
   type ProjectCategoryId,
   projectCategories,
 } from './projectCategories';
+import { jobberProjectEstimateFormUrl } from './business';
+import { mediaWallEstimateJobberUrl } from './mediaWalls';
+import { highCeilingJobberUrl, regularCeilingJobberUrl } from './curtainLanding';
 
 export type ProjectEntry = CollectionEntry<'projects'>;
 
@@ -105,6 +108,41 @@ export function projectLocationLabel(data: ProjectEntry['data']): string | undef
   if (data.city) return `${data.city}, Texas`;
   if (data.neighborhood) return data.neighborhood;
   return undefined;
+}
+
+export type ProjectEstimateRoute = {
+  href: string;
+  /** GA4 `service_type` to stamp on the CTA — omitted for the generic form, which needs none. */
+  serviceType?: string;
+};
+
+/**
+ * Jobber estimate/booking URL that matches a project's own service, where one
+ * clearly exists. Media-wall projects go to the Media Wall Design
+ * Consultation form; curtain-installation projects go to the matching
+ * high/regular-ceiling curtain booking form; everything else falls back to
+ * the sitewide project-estimate form. Used by the `/our-work/` project viewer
+ * dialog, which has no per-project page context of its own.
+ */
+export function projectEstimateRoute(data: ProjectEntry['data']): ProjectEstimateRoute {
+  const genericHref = jobberProjectEstimateFormUrl() ?? '/contact/';
+
+  if (data.category === 'tv-media-walls') {
+    return {
+      href: mediaWallEstimateJobberUrl() ?? genericHref,
+      serviceType: 'media_wall_estimate',
+    };
+  }
+
+  if (data.serviceUrl === '/services/curtain-installation/') {
+    const highCeiling = data.tags.includes('high-ceiling');
+    return {
+      href: (highCeiling ? highCeilingJobberUrl() : regularCeilingJobberUrl()) ?? genericHref,
+      serviceType: highCeiling ? 'high_ceiling_curtain' : 'regular_ceiling_curtain',
+    };
+  }
+
+  return { href: genericHref };
 }
 
 export type { ProjectCategoryId };

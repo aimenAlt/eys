@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import ProjectCard from './ProjectCard.astro';
+import { jobberProjectEstimateFormUrl } from '../../data/business';
 
 interface Props {
   projects: CollectionEntry<'projects'>[];
@@ -8,6 +9,7 @@ interface Props {
 }
 
 const { projects, initialCount = 12 } = Astro.props;
+const estimateUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
 ---
 
 <div data-project-grid>
@@ -48,8 +50,8 @@ const { projects, initialCount = 12 } = Astro.props;
         View All Projects
       </button>
       <a
-        href="/contact/"
-        data-cta-id="our_work_empty_state_contact"
+        href={estimateUrl}
+        data-cta-location="our_work_empty_state"
         class="inline-flex items-center border-2 border-brand-black px-6 py-3 rounded-md font-bold min-h-11"
       >
         Request an Estimate

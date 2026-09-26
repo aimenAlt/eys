@@ -1,7 +1,12 @@
 ---
 /**
- * Native dialog shell. Content is filled by project-gallery.ts from embedded JSON.
+ * Native dialog shell. Content is filled by project-gallery.ts from embedded JSON,
+ * including the estimate link's href/service-type — this file only sets the
+ * pre-JS default.
  */
+import { jobberProjectEstimateFormUrl } from '../../data/business';
+
+const estimateUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
 ---
 
 <dialog
@@ -67,7 +72,7 @@
 
       <div class="mt-6 flex flex-col sm:flex-row gap-3" data-dialog-actions>
         <a
-          href="/contact/"
+          href={estimateUrl}
           class="gradient-btn inline-flex items-center justify-center text-white px-6 py-3 rounded-md font-bold min-h-11"
           data-dialog-estimate
           data-gallery-cta="estimate"

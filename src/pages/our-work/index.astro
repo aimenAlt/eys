@@ -10,7 +10,7 @@ import ProjectFilters from '../../components/projects/ProjectFilters.astro';
 import ProjectGrid from '../../components/projects/ProjectGrid.astro';
 import ProjectDialog from '../../components/projects/ProjectDialog.astro';
 import ProjectCTA from '../../components/projects/ProjectCTA.astro';
-import { absoluteUrl, site } from '../../data/business';
+import { absoluteUrl, jobberProjectEstimateFormUrl, site } from '../../data/business';
 import { breadcrumbList, webPage } from '../../data/schema';
 import { contentMaxClass, contentPaddingClass } from '../../data/layout';
 import { projectCategoryLabel } from '../../data/projectCategories';
@@ -18,6 +18,7 @@ import {
   countByCategory,
   getFeaturedProjects,
   getLiveProjects,
+  projectEstimateRoute,
   projectHref,
   projectLocationLabel,
   visibleCategories,
@@ -26,8 +27,13 @@ import { imageOrPlaceholder } from '../../data/images';
 
 const projects = await getLiveProjects();
 const featured = getFeaturedProjects(projects, 6);
+const featuredSlugs = new Set(featured.map((entry) => entry.data.slug));
+// Featured section above already shows these — drop them from Browse so every
+// project appears once instead of twice on first load.
+const browseProjects = projects.filter((entry) => !featuredSlugs.has(entry.data.slug));
 const categories = visibleCategories(projects);
 const counts = countByCategory(projects);
+const heroEstimateUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
 
 const title = `Handyman Projects in Katy & Greater Houston | ${site.shortName} Handyman`;
 const description =
@@ -41,22 +47,27 @@ const crumbs = [
 
 const schemaGraph = [webPage(title, canonical, description), breadcrumbList(crumbs)];
 
-const galleryData = projects.map((entry) => ({
-  slug: entry.data.slug,
-  title: entry.data.title,
-  category: entry.data.category,
-  categoryLabel: projectCategoryLabel(entry.data.category),
-  location: projectLocationLabel(entry.data),
-  summary: entry.data.summary,
-  serviceUrl: entry.data.serviceUrl,
-  href: projectHref(entry.data.slug),
-  images: entry.data.images.map((img) => ({
-    src: imageOrPlaceholder(img.src),
-    alt: img.alt,
-    caption: img.caption,
-    stage: img.stage,
-  })),
-}));
+const galleryData = projects.map((entry) => {
+  const estimate = projectEstimateRoute(entry.data);
+  return {
+    slug: entry.data.slug,
+    title: entry.data.title,
+    category: entry.data.category,
+    categoryLabel: projectCategoryLabel(entry.data.category),
+    location: projectLocationLabel(entry.data),
+    summary: entry.data.summary,
+    serviceUrl: entry.data.serviceUrl,
+    href: projectHref(entry.data.slug),
+    estimateHref: estimate.href,
+    estimateServiceType: estimate.serviceType,
+    images: entry.data.images.map((img) => ({
+      src: imageOrPlaceholder(img.src),
+      alt: img.alt,
+      caption: img.caption,
+      stage: img.stage,
+    })),
+  };
+});
 ---
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
@@ -82,7 +93,7 @@ const galleryData = projects.map((entry) => ({
       <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
         <div class="flex flex-wrap gap-3">
           <a
-            href="/contact/"
+            href={heroEstimateUrl}
             class="gradient-btn inline-flex items-center justify-center text-white px-6 py-3 rounded-md font-bold shadow-lg min-h-11"
             data-gallery-cta="estimate"
             data-cta-location="our-work-hero"
@@ -122,7 +133,7 @@ const galleryData = projects.map((entry) => ({
         <div class="mb-8">
           <ProjectFilters categories={categories} counts={counts} />
         </div>
-        <ProjectGrid projects={projects} initialCount={12} />
+        <ProjectGrid projects={browseProjects} initialCount={12} />
       </div>
     </section>
 
@@ -136,7 +147,7 @@ const galleryData = projects.map((entry) => ({
       </div>
     </section>
 
-    <CTASection />
+    <CTASection ctaLocation="our_work_final_cta" />
   </article>
 
   <ProjectDialog />

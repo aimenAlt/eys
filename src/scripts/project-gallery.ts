@@ -16,6 +16,8 @@ type GalleryProject = {
   summary: string;
   serviceUrl?: string;
   href: string;
+  estimateHref: string;
+  estimateServiceType?: string;
   images: GalleryImage[];
 };
 
@@ -167,6 +169,7 @@ function initDialog(projects: GalleryProject[]) {
   const captionEl = dialog.querySelector<HTMLElement>('[data-dialog-caption]');
   const thumbsWrap = dialog.querySelector<HTMLElement>('[data-dialog-thumbs-wrap]');
   const thumbsEl = dialog.querySelector<HTMLElement>('[data-dialog-thumbs]');
+  const estimateLink = dialog.querySelector<HTMLAnchorElement>('[data-dialog-estimate]');
   const serviceLink = dialog.querySelector<HTMLAnchorElement>('[data-dialog-service]');
   const detailLink = dialog.querySelector<HTMLAnchorElement>('[data-dialog-detail]');
   const closeBtn = dialog.querySelector<HTMLButtonElement>('[data-dialog-close]');
@@ -231,6 +234,14 @@ function initDialog(projects: GalleryProject[]) {
       metaEl.textContent = `${loc}${project.categoryLabel}`;
     }
     if (summaryEl) summaryEl.textContent = project.summary;
+    if (estimateLink) {
+      estimateLink.href = project.estimateHref;
+      if (project.estimateServiceType) {
+        estimateLink.setAttribute('data-service-type', project.estimateServiceType);
+      } else {
+        estimateLink.removeAttribute('data-service-type');
+      }
+    }
     if (serviceLink) {
       if (project.serviceUrl) {
         serviceLink.href = project.serviceUrl;
