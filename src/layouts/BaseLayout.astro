@@ -135,6 +135,14 @@ const enableAnalytics = import.meta.env.PROD && (import.meta.env.BASE_URL || '/'
   <body
     class="font-sans text-brand-charcoal bg-brand-lightbg antialiased selection:bg-brand-red selection:text-white"
   >
+    <!--
+      Scripts that need to start fetching as early as possible - e.g.
+      VideoAutoplayScript, whose IntersectionObserver can miss an
+      already-in-view hero if the module is still loading when the visitor
+      scrolls. Rendering it here instead of at the end of the page gives the
+      browser's HTML parser a chance to discover and fetch it immediately.
+    -->
+    <slot name="early-scripts" />
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-brand-black focus:rounded-md focus:shadow-lg focus:ring-2 focus:ring-brand-red"
