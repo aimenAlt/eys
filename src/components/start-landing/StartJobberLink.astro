@@ -27,6 +27,10 @@ const {
 } = Astro.props;
 const href = startJobberUrl(service);
 
+// `project_estimate` service maps to Jobber form 5201775 (the /start/-specific
+// project-estimate form — see `startProjectEstimateJobberUrl`), so it must send
+// `project_estimate_start`, not the sitewide `project_estimate` value that
+// `inferBookingType()` would otherwise infer for the shared 4985623 form.
 const bookingType =
   service === 'todo_list'
     ? 'handyman_to_do_list'
@@ -34,7 +38,7 @@ const bookingType =
       ? 'tv_mounting'
       : service === 'custom_project'
         ? 'custom_project'
-        : 'project_estimate';
+        : 'project_estimate_start';
 ---
 
 {

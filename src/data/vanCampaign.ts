@@ -1,6 +1,6 @@
 import { business } from './business';
 import { highCeilingJobberUrl, regularCeilingJobberUrl } from './curtainLanding';
-import { mediaWallsLanding } from './mediaWalls';
+import { mediaWallEstimateJobberUrl, mediaWallsLanding } from './mediaWalls';
 import { withVehicleWrapUtm } from '../utils/utm';
 
 /** Campaign constants for the ProMaster rear QR landing page. */
@@ -27,16 +27,25 @@ function attributed(raw: string | undefined, content: string): string | undefine
  * whole thing this page exists to measure — so never point a van CTA at a
  * shared component whose href comes from a plain getter.
  *
- * The two curtain entries are the exception in shape, not in rule: they are
- * composed from the curtain getters rather than raw fields, so the
- * `eys_form` label those URLs carry survives and `jobber_request_form_name`
- * still populates. The helpers do not collide — `withJobberFormId` sets
+ * The curtain entries and `mediaWalls` are the exception in shape, not in
+ * rule: they are composed from getters (the curtain getters /
+ * `mediaWallEstimateJobberUrl()`) rather than raw fields, so the `eys_form`
+ * label those URLs carry survives and `jobber_request_form_name` still
+ * populates. The helpers do not collide — `withJobberFormId` sets
  * `eys_form`, `withVehicleWrapUtm` sets the `utm_*` keys.
+ *
+ * `mediaWalls` is deliberately separate from `customProject`: `customProject`
+ * still points at the general sitewide estimate form for `VanRemodeling.astro`
+ * and the "Request a Custom Project Estimate" card in `VanRouteCards.astro`,
+ * neither of which is media-wall-specific. Only CTAs that are actually about
+ * media walls (`VanMediaWalls.astro`, the Media Walls tile in
+ * `VanPopularProjects.astro`) use `mediaWalls`.
  */
 export const vanDestinations = {
   handymanBooking: attributed(business.jobber.handymanToDoListFormUrl, 'todo-list'),
   photoEstimate: attributed(business.jobber.projectEstimateFormUrl, 'photo_estimate'),
   customProject: attributed(business.jobber.projectEstimateFormUrl, 'custom_project'),
+  mediaWalls: attributed(mediaWallEstimateJobberUrl(), 'media_walls'),
   tvMounting: attributed(business.jobber.onlineBookingUrl, 'tv_mounting'),
   highCeilingCurtains: attributed(highCeilingJobberUrl(), 'high_ceiling_curtains'),
   curtainsTracks: attributed(regularCeilingJobberUrl(), 'curtains_tracks'),

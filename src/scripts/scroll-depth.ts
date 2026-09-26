@@ -1,7 +1,8 @@
 /**
- * Scroll-depth milestones for the two print-QR landing pages, `/start/` and
- * `/van/`. Imported by those two pages only — this is deliberately not
- * site-wide.
+ * Scroll-depth milestones for long, single-column, conversion-driven landing
+ * pages: `/`, `/start/`, `/van/`, `/curtain-installation/` and
+ * `/services/media-walls/`. Imported per page, explicitly — this is
+ * deliberately not wired site-wide from BaseLayout.
  *
  * GA4's built-in `scroll` event fires once, at 90%, which says whether someone
  * reached the bottom and nothing about where the rest of them stopped. These

@@ -28,6 +28,8 @@ type Pathway = {
   secondaryCtaLabel?: string;
   secondaryCtaHref?: string;
   analyticsId: string;
+  ctaLocation: string;
+  secondaryCtaLocation?: string;
   featured: boolean;
   orderClass: string;
 };
@@ -49,6 +51,7 @@ const pathways: Pathway[] = [
     ctaLabel: 'Request a Free Photo Estimate',
     ctaHref: customProjectUrl,
     analyticsId: 'photo-estimate',
+    ctaLocation: 'home_pathway_photo_estimate',
     featured: false,
     orderClass: 'order-1 md:order-1',
   },
@@ -72,6 +75,8 @@ const pathways: Pathway[] = [
     secondaryCtaLabel: 'See visit details',
     secondaryCtaHref: smallRepairVisitMeta.path,
     analyticsId: 'handyman-to-do-list',
+    ctaLocation: 'home_pathway_todo',
+    secondaryCtaLocation: 'home_pathway_todo_details',
     featured: false,
     orderClass: 'order-3 md:order-3',
   },
@@ -91,6 +96,7 @@ const pathways: Pathway[] = [
     ctaLabel: 'Discuss Your Custom Project',
     ctaHref: customProjectUrl,
     analyticsId: 'custom-project',
+    ctaLocation: 'home_pathway_custom_project',
     featured: true,
     orderClass: 'order-2 md:order-2',
   },
@@ -124,6 +130,8 @@ const pathways: Pathway[] = [
           secondaryCtaHref={pathway.secondaryCtaHref}
           featured={pathway.featured}
           analyticsId={pathway.analyticsId}
+          ctaLocation={pathway.ctaLocation}
+          secondaryCtaLocation={pathway.secondaryCtaLocation}
           orderClass={pathway.orderClass}
         />
       ))
@@ -144,6 +152,7 @@ const pathways: Pathway[] = [
       const id = link.getAttribute('data-pathway-cta') || 'unknown';
       trackEvent(analyticsEvents.pathwayCtaClick, {
         pathway_id: id,
+        cta_location: link.getAttribute('data-cta-location') || 'unknown',
         link_text: link.textContent?.trim() || '',
       });
     });

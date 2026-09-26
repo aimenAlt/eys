@@ -3,6 +3,7 @@ import {
   readAttributionParams,
   withAttributionParams,
   withJobberFormId,
+  withLandingPage,
 } from './utm.ts';
 
 const JOBBER =
@@ -142,6 +143,20 @@ for (const c of GBP_CAMPAIGNS) {
     );
   }
   assert.equal(parsed.searchParams.get('eys_form'), 'project-estimate');
+}
+
+// `eys_lp` rides alongside `eys_form` and real UTMs without colliding with either.
+{
+  const attribution = readAttributionParams('?utm_source=google&utm_medium=cpc');
+  const built = withLandingPage(withJobberFormId(JOBBER, 'high_ceiling'), '/services/tv-mounting/');
+  const final = new URL(withAttributionParams(built, attribution));
+
+  assert.equal(final.searchParams.get('eys_lp'), '/services/tv-mounting/');
+  assert.equal(final.searchParams.get('eys_form'), 'high_ceiling');
+  assert.equal(final.searchParams.get('utm_source'), 'google');
+
+  // An empty path is a no-op, not a query param with an empty value.
+  assert.equal(new URL(withLandingPage(JOBBER, '')).searchParams.has('eys_lp'), false);
 }
 
 console.log('utm.test.ts: all assertions passed');

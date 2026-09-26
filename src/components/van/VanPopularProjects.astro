@@ -48,7 +48,7 @@ const projects = (
     { id: 'lighting_fans', label: 'Lighting & Fans', href: vanDestinations.photoEstimate, bookingType: 'project_estimate' },
     { id: 'drywall_painting', label: 'Drywall & Painting', href: vanDestinations.photoEstimate, bookingType: 'project_estimate' },
     { id: 'doors_cabinets', label: 'Doors & Cabinets', href: vanDestinations.photoEstimate, bookingType: 'project_estimate' },
-    { id: 'media_walls', label: 'Media Walls', href: vanDestinations.customProject, bookingType: 'custom_project' },
+    { id: 'media_walls', label: 'Media Walls', href: vanDestinations.mediaWalls, bookingType: 'custom_project' },
   ] satisfies ProjectShortcut[]
 ).filter((project) => Boolean(project.href));
 ---

@@ -53,7 +53,7 @@ send nothing.
 | `lead_submit` | `/request-confirmed/<slug>/` on load, once per slug per session — [`jobber-confirmation-tracking.ts`](../src/scripts/jobber-confirmation-tracking.ts) | `content_name`, `content_category`, `service`, `value`, `currency` | Yes | Yes |
 | `booking_complete` | `/booking-confirmed/<slug>/` on load, once per slug per session — same script | `content_name`, `content_category`, `service`, `value`, `currency` | Yes | Yes |
 | `generate_lead` | Jobber's own hosted form, after submit. Not our code. | Jobber's | Yes | Yes (unvalued Primary count) |
-| `jobber_booking_click` | Click on any outbound `getjobber.com` link, site-wide — [`conversion-analytics.ts`](../src/scripts/conversion-analytics.ts) | `page_path`, `page_type`, `booking_type`, `service_type`, `placement`, `cta_location`, `destination_host`, `value`, `currency` | Yes, **since 21 Sep 2026** | Yes — **Secondary**, see below |
+| `jobber_booking_click` | Click on any outbound `getjobber.com` **booking-request** link (`/hubs/…/public/requests/…`), site-wide — [`conversion-analytics.ts`](../src/scripts/conversion-analytics.ts) | `page_path`, `page_type`, `booking_type`, `service_type`, `placement`, `cta_location`, `destination_host`, `value`, `currency`, `auto_redirect` (present only when `true`) | Yes, **since 21 Sep 2026** | Yes — **Secondary**, see below |
 | `phone_click` | Click on any `tel:` link, site-wide — same script | `page_path`, `page_type`, `cta_location`, `displayed_number`, `value`, `currency` | Yes | Yes |
 
 ### `jobber_booking_click` in Google Ads
@@ -99,7 +99,7 @@ finally distinguishable from any other project.
 | `email_click` | Click on any `mailto:` link, site-wide | `page_path`, `cta_location` | No | No |
 | `review_link_click` | Click on a Google review link (`maps.app.goo.gl`, `g.page`, or `data-track-review`) | `page_path`, `cta_location` | No | No |
 | `internal_cta_click` | Click on an internal CTA carrying an explicit `data-cta-id` (opt-in, so body and legal links stay out) | `page_path`, `page_type`, `cta_id`, `cta_location`, `cta_label`, `destination` | No | No |
-| `scroll_depth` | `/start/` and `/van/` only, once per milestone per page view — [`scroll-depth.ts`](../src/scripts/scroll-depth.ts) | `percent` (25 \| 50 \| 75), `page_type` | No | No |
+| `scroll_depth` | `/`, `/start/`, `/van/`, `/curtain-installation/` and `/services/media-walls/` only, once per milestone per page view — [`scroll-depth.ts`](../src/scripts/scroll-depth.ts) | `percent` (25 \| 50 \| 75), `page_type` | No | No |
 | `pathway_cta_click` | Homepage service-pathway cards — `ServicePathwaysSection.astro` | `page_path`, `cta_location` | No | No |
 | `jobber_form_fallback_click` | Small-repair request form's fallback link — `SmallRepairRequestForm.astro` | `cta_location` | No | No |
 
@@ -116,12 +116,25 @@ at 75 so the two do not double-count.
 | `start_general_contracting_*` | `/start/` remodeling / kitchen / bathroom links |
 | `start_services_strip_all`, `start_reviews_page`, `start_footer_nav` | `/start/` secondary navigation |
 | `van_choose_project` | `/van/` — the red "Choose My Project" button, in both the hero (`van_hero`) and the sticky bar (`van_sticky`) |
+| `nav_book` | Primary nav "Book" link — desktop header, mobile menu — [`src/data/navigation.ts`](../src/data/navigation.ts) |
+| `nav_contact` | Primary nav "Contact" link — desktop header, mobile menu, and the footer "Quick Links" Contact link — same source |
+| `home_reviews_contact` | Homepage reviews section, "Contact Us About Your Project" — `HomeReviewsSection.astro` |
+| `our_work_empty_state_contact` | `/our-work/` gallery, "Request an Estimate" in the empty-filter-results fallback — `ProjectGrid.astro` |
 
 `van_choose_project` was added on 21 Sep 2026. Both /van/ buttons rendered as
 bare anchors with no tracking attributes before that, so the most-pressed
 control on the page was invisible in GA4 — /van/ converts at 10.53% per
 session against paid search's 1.80%, and none of it was attributable to the
 button that drives it.
+
+`nav_book`, `nav_contact`, `home_reviews_contact` and
+`our_work_empty_state_contact` were added on 26 Sep 2026. The primary nav's
+Book/Contact links, the homepage reviews CTA, and the gallery's empty-state
+fallback link all pointed at `/contact/` (or `/book/`) with no `data-cta-id`,
+so none of them fired `internal_cta_click` — `cta_location` alone (`header`,
+`header_mobile`, `footer`, resolved automatically by `resolveCtaLocation`)
+still distinguishes desktop nav from mobile nav from footer for the shared
+`nav_book`/`nav_contact` ids, the same pattern `van_choose_project` uses.
 
 ## Landing-page events
 
@@ -166,11 +179,20 @@ weights only.
 
 Inbound UTMs and paid click IDs (`gclid`, `gbraid`, `wbraid`, `fbclid`) are read
 on arrival, held in `sessionStorage` under `eys_attribution_v1`, and appended to
-every outbound Jobber link by
-[`jobber-attribution.ts`](../src/scripts/jobber-attribution.ts).
+every outbound Jobber **booking-request** link (`/hubs/…/public/requests/…`) by
+[`jobber-attribution.ts`](../src/scripts/jobber-attribution.ts). Non-booking
+`getjobber.com` links — e.g. `/privacy/`'s link to Jobber's own privacy policy —
+are not matched, so they get no attribution params and fire no `jobber_booking_click`.
 
 Outbound Jobber links also carry `eys_form=<label>`, stamped by
 `withJobberFormId`. It is an internal label, **not** a UTM: stamping real UTMs
 on these links made GA4 record every Jobber-side `generate_lead` as
 "website / referral", burying the visitor's true source. GA4 ignores
 `eys_form`; it exists so a lead can be traced back to the form that produced it.
+
+Outbound Jobber links also carry `eys_lp=<path>`, stamped by `withLandingPage`.
+Same idea as `eys_form`, and also **not** a UTM: it is the path this browser
+session first landed on (recorded once in `sessionStorage`, alongside the
+attribution above, and left unchanged for the rest of the session), so a lead
+that came from a deep page can be traced back to the page the visit actually
+started on. GA4 ignores it.

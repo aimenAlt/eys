@@ -327,6 +327,10 @@ const seo = {
         // Reveal the button BEFORE navigating, so it is already there if the
         // click is blocked or the visitor comes straight back.
         reveal();
+        // Marks this click as the countdown's own, not the visitor's, so GA4 can
+        // tell them apart (see conversion-analytics.ts's jobber_booking_click
+        // handler). The click mechanism itself stays real — see the note above.
+        cta.setAttribute('data-auto-redirect', 'true');
         cta.click();
         window.setTimeout(function () {
           if (!document.hidden) window.location.assign(cta.href);

@@ -33,12 +33,12 @@ const simpleNavItems = mainNav.filter(
                 
                 <nav class="hidden lg:flex space-x-3 xl:space-x-6 items-center" aria-label="Primary">
                     {simpleNavItems.slice(0, 2).map((item) => (
-                        <NavLink href={item.href} label={item.label} class={desktopLinkClass} activeClass={desktopActiveClass} />
+                        <NavLink href={item.href} label={item.label} class={desktopLinkClass} activeClass={desktopActiveClass} ctaId={item.ctaId} />
                     ))}
                     <NavDropdown menu={navMenus.services} linkClass={desktopLinkClass} />
                     <NavLink href="/service-areas/" label="Service Areas" class={desktopLinkClass} activeClass={desktopActiveClass} />
                     {simpleNavItems.slice(2).map((item) => (
-                        <NavLink href={item.href} label={item.label} class={desktopLinkClass} activeClass={desktopActiveClass} />
+                        <NavLink href={item.href} label={item.label} class={desktopLinkClass} activeClass={desktopActiveClass} ctaId={item.ctaId} />
                     ))}
                     <NavLink href="/pricing/" label="Pricing" class={desktopLinkClass} activeClass={desktopActiveClass} />
                     <NavLink href="/reviews/" label="Reviews" class={desktopLinkClass} activeClass={desktopActiveClass} />
@@ -92,7 +92,7 @@ const simpleNavItems = mainNav.filter(
           class="px-2 pt-2 pb-[calc(5.5rem+env(safe-area-inset-bottom,0px))] space-y-1 sm:px-3"
         >
             {simpleNavItems.map((item) => (
-                <NavLink href={item.href} label={item.label} class={mobileLinkClass} closeMobileMenu />
+                <NavLink href={item.href} label={item.label} class={mobileLinkClass} closeMobileMenu ctaId={item.ctaId} />
             ))}
             <NavMobileAccordion menu={navMenus.services} mobileLinkClass={mobileLinkClass} />
             <NavLink href="/service-areas/" label="Service Areas" class={mobileLinkClass} closeMobileMenu />

@@ -1,26 +1,33 @@
 ---
-import { jobberProjectEstimateFormUrl } from '../../data/business';
+import { mediaWallEstimateJobberUrl } from '../../data/mediaWalls';
 import MediaWallEstimateLink from './MediaWallEstimateLink.astro';
 
 /**
  * Scope selector sitting directly under the hero.
  *
- * The page previously funnelled every visitor into the Media Wall Design
- * Consultation form regardless of what they actually wanted built. A shiplap
- * accent wall and a floor-to-ceiling fireplace build are not the same purchase,
- * and sending both to the same questionnaire loses the smaller one.
+ * Doors differentiate by SCOPE, never by price — no figure appears here, and
+ * `mediaWallPriceRange` stays null. Feature Wall and Built-In are finish
+ * carpentry; Full Media Wall adds fireplace integration and power behind the
+ * display.
  *
- * So the first two doors route to the general Project Estimate form and only
- * the third keeps the design-consultation form. Doors differentiate by SCOPE,
- * never by price — no figure appears here, and `mediaWallPriceRange` stays null.
+ * All three doors route to the same dedicated media-wall form
+ * (`mediaWallEstimateJobberUrl()`, form 5067435 — labelled "Media Wall Design
+ * Consultation" in `mediaWalls.ts`). The first two used to route to the
+ * general sitewide Project Estimate form instead, specifically so a smaller
+ * feature-wall enquiry wasn't run through the same consultation questionnaire
+ * as a full fireplace build; that routing was changed to send every media-wall
+ * lead through the one dedicated form. The doors still do the job of letting a
+ * visitor pick the scope closest to what they want, and each keeps its own
+ * `data-cta-location` (`doors_feature` / `doors_builtin` / `doors_full`) so GA4
+ * still tells the three apart even though the destination form no longer does.
  *
- * Attribution: `jobberProjectEstimateFormUrl()` stamps `eys_form=project-estimate`,
- * and inbound UTMs / click IDs are forwarded onto every `getjobber.com` anchor at
+ * Attribution: `mediaWallEstimateJobberUrl()` stamps `eys_form=media-wall`, and
+ * inbound UTMs / click IDs are forwarded onto every `getjobber.com` anchor at
  * runtime by `jobber-attribution.ts` (site-wide via conversion-analytics.ts), so
  * these links need no opt-in attribute to keep their attribution. GA4 booking type
  * is inferred from the form id in `conversion-analytics.ts` — no new event name.
  */
-const projectEstimateHref = jobberProjectEstimateFormUrl();
+const mediaWallHref = mediaWallEstimateJobberUrl();
 
 const doors = [
   {
@@ -66,9 +73,9 @@ const ctaClass =
             <h3 class="text-lg font-bold text-brand-black">{door.title}</h3>
             <p class="mt-3 text-sm leading-relaxed text-brand-charcoal sm:text-base">{door.body}</p>
             <div class="mt-auto">
-              {projectEstimateHref ? (
+              {mediaWallHref ? (
                 <a
-                  href={projectEstimateHref}
+                  href={mediaWallHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   data-cta-location={door.placement}

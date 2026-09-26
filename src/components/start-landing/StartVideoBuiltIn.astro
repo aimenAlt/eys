@@ -2,7 +2,7 @@
 import SiteImage from '../ui/SiteImage.astro';
 import { startLanding } from '../../data/startLanding';
 import { imageOrPlaceholder } from '../../data/images';
-import StartJobberLink from './StartJobberLink.astro';
+import MediaWallEstimateLink from '../media-wall-landing/MediaWallEstimateLink.astro';
 import StartVideoCaption from './StartVideoCaption.astro';
 
 /**
@@ -49,14 +49,13 @@ const still = {
         display niches — finished to look architectural, not bolted on.
       </p>
       <div class="mt-7">
-        <StartJobberLink
-          service="project_estimate"
+        <MediaWallEstimateLink
           placement="video_builtin"
-          featured
-          class="sm:w-auto"
+          variant="bare"
+          class="inline-flex min-h-12 w-full items-center justify-center rounded-md px-4 py-3 text-center text-base font-bold transition-colors bg-brand-red text-white hover:bg-brand-redhover sm:w-auto"
         >
           Request an Estimate
-        </StartJobberLink>
+        </MediaWallEstimateLink>
       </div>
     </div>
 

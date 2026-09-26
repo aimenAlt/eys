@@ -12,13 +12,20 @@ import { decorateJobberLinks } from './jobber-attribution';
 const JOBBER_HOST = 'getjobber.com';
 /** Cap on the free-text CTA label sent to GA4. Labels are static copy, never PII. */
 const CTA_LABEL_MAX = 100;
+/**
+ * Every real booking/estimate link is `/hubs/<hub-id>/public/requests/<form-id>/new`.
+ * Matching on host alone also caught `getjobber.com/privacy-policy/` (linked from
+ * `/privacy/`), which fired `jobber_booking_click` and got UTM/attribution params
+ * stamped on a page that books nothing.
+ */
+const JOBBER_BOOKING_PATH = /^\/hubs\/[^/]+\/public\/requests\//;
 
 function isJobberOutbound(href: string): boolean {
   try {
     const url = new URL(href, window.location.origin);
-    return url.hostname.includes(JOBBER_HOST);
+    return url.hostname.includes(JOBBER_HOST) && JOBBER_BOOKING_PATH.test(url.pathname);
   } catch {
-    return href.includes(JOBBER_HOST);
+    return href.includes(JOBBER_HOST) && href.includes('/public/requests/');
   }
 }
 
@@ -130,6 +137,9 @@ function wireConversionClicks(): void {
           const serviceType =
             link.getAttribute('data-service-type') ??
             (bookingType.includes('curtain') ? bookingType : undefined);
+          // Set by /go/[slug].astro on the CTA right before its post-countdown
+          // `cta.click()`, so this click can be told apart from a visitor-initiated one.
+          const autoRedirect = link.getAttribute('data-auto-redirect') === 'true';
 
           // `page_type` joins the payload so the 13 Sep custom dimension can say
           // which TEMPLATE produced a form click, not just which URL. Every other
@@ -144,6 +154,7 @@ function wireConversionClicks(): void {
             destination_host: destinationHost,
             value: conversionValueUsd(analyticsEvents.jobberBookingClick),
             currency: CONVERSION_CURRENCY,
+            auto_redirect: autoRedirect || undefined,
           });
 
           // Distinct secondary funnel event for regular-ceiling curtain CTAs.
@@ -158,16 +169,20 @@ function wireConversionClicks(): void {
             });
           }
 
-          // Distinct cross-sell event for Media Wall estimate requests from curtain LP.
+          // Distinct cross-sell event for Media Wall estimate requests. This CTA
+          // renders on several pages (curtain LP, /services/media-walls/, /start/,
+          // the homepage showcase, …) — source_page and placement must reflect
+          // where the click actually happened, not a value hardcoded for the
+          // curtain landing page alone.
           if (
             link.getAttribute('data-curtain-cta') === 'media_wall' ||
             bookingType === 'media_wall_estimate'
           ) {
             trackEvent(analyticsEvents.mediaWallRequestClick, {
               page_path: analyticsPagePath(),
-              source_page: 'curtain_installation',
+              source_page: analyticsPageType(),
               cross_sell: 'media_wall',
-              placement: 'lower_page',
+              placement,
               destination: 'jobber_request',
               cta_location: placement,
             });

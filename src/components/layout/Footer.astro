@@ -97,7 +97,11 @@ const socialLinks = [
                     <ul class="space-y-2 text-sm text-neutral-400">
                         {footerNav.map((item) => (
                             <li>
-                                <a href={withBase(item.href)} class="hover:text-brand-red transition-colors">{item.label}</a>
+                                <a
+                                  href={withBase(item.href)}
+                                  class="hover:text-brand-red transition-colors"
+                                  {...(item.ctaId ? { 'data-cta-id': item.ctaId } : {})}
+                                >{item.label}</a>
                             </li>
                         ))}
                     </ul>

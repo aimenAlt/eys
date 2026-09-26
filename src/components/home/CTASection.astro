@@ -3,6 +3,13 @@ import { homeImages, hasImage } from '../../data/images';
 import { jobberProjectEstimateFormUrl } from '../../data/business';
 import SiteImage from '../ui/SiteImage.astro';
 
+interface Props {
+  /** GA4 cta_location for the estimate CTA. Defaults to the homepage value so existing callers are unaffected. */
+  ctaLocation?: string;
+}
+
+const { ctaLocation = 'home_final_cta' } = Astro.props;
+
 const estimateUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
 ---
     <section class="relative py-20 bg-brand-black text-center">
@@ -16,7 +23,7 @@ const estimateUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
             <p class="text-neutral-300 mb-8 leading-relaxed text-sm md:text-base">
                 Ready to cross items off your home to-do list? Send us your project details or punch list for a clear estimate. We serve Katy and West Houston with careful preparation, floor protection, and clean completion.
             </p>
-            <a href={estimateUrl} data-booking-type="project_estimate" data-cta-location="home_final_cta" class="inline-block bg-brand-red text-white px-8 py-4 rounded-md font-bold hover:bg-brand-redhover transition-colors shadow-lg">
+            <a href={estimateUrl} data-booking-type="project_estimate" data-cta-location={ctaLocation} class="inline-block bg-brand-red text-white px-8 py-4 rounded-md font-bold hover:bg-brand-redhover transition-colors shadow-lg">
                 Request an Estimate
             </a>
         </div>

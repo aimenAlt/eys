@@ -59,12 +59,14 @@ const imageSrc = resolveCityHero(citySlug, heroImage);
         <div class="flex flex-col sm:flex-row gap-3" data-sticky-hero-cta>
           <a
             href="/contact/"
+            data-cta-location="local_hero_primary"
             class="inline-flex justify-center items-center bg-brand-red text-white px-6 py-3 rounded-md font-bold hover:bg-brand-redhover transition-colors"
           >
             Request an Estimate
           </a>
           <a
             href={`tel:${site.phoneTel}`}
+            data-cta-location="local_hero_phone"
             class="inline-flex justify-center items-center border-2 border-brand-black text-brand-black px-6 py-3 rounded-md font-bold hover:bg-brand-black hover:text-white transition-colors"
           >
             Call {site.phone}

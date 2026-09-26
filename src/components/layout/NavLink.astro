@@ -8,6 +8,8 @@ interface Props {
   class?: string;
   activeClass?: string;
   closeMobileMenu?: boolean;
+  /** Opt-in `data-cta-id` for `internal_cta_click` — see docs/analytics-events.md. */
+  ctaId?: string;
 }
 
 const {
@@ -16,6 +18,7 @@ const {
   class: className = '',
   activeClass = 'text-brand-red',
   closeMobileMenu = false,
+  ctaId,
 } = Astro.props;
 
 const pathname = Astro.url.pathname;
@@ -28,4 +31,5 @@ const resolvedHref = withBase(href);
   href={resolvedHref}
   class={classes}
   {...(closeMobileMenu ? { 'data-close-mobile-menu': '' } : {})}
+  {...(ctaId ? { 'data-cta-id': ctaId } : {})}
 >{label}</a>

@@ -137,6 +137,37 @@ export function withJobberFormId(url: string, formId: string): string {
   return trimmed.startsWith('/') ? path : path.replace(/^\//, '');
 }
 
+/**
+ * Tag an outbound Jobber link with the path this browser session first landed
+ * on (see `src/scripts/jobber-attribution.ts`).
+ *
+ * Deliberately NOT a UTM, for the same reason as `withJobberFormId` above: a
+ * `utm_*` name here would relabel the visitor's real channel in GA4/Jobber
+ * reporting. `eys_lp` is an internal label only, read manually — it lets a
+ * lead be traced back to the page that actually earned the click even when
+ * the request comes from deeper in the site than the landing page.
+ */
+export function withLandingPage(url: string, path: string): string {
+  const trimmed = url.trim();
+  if (!trimmed || !path.trim()) return trimmed;
+
+  const isAbsolute = /^https?:\/\//i.test(trimmed);
+  const base = isAbsolute ? undefined : 'https://eys.local';
+  let parsed: URL;
+  try {
+    parsed = new URL(trimmed, base);
+  } catch {
+    return trimmed;
+  }
+
+  parsed.searchParams.set('eys_lp', path.trim());
+
+  if (isAbsolute) return parsed.toString();
+
+  const outPath = `${parsed.pathname}${parsed.search}${parsed.hash}`;
+  return trimmed.startsWith('/') ? outPath : outPath.replace(/^\//, '');
+}
+
 /** UTMs for outbound Jobber links from the van QR landing page (`/van/`). */
 export function withVehicleWrapUtm(url: string, content?: string): string {
   return withUtm(url, {

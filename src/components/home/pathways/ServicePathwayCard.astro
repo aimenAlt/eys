@@ -14,6 +14,10 @@ interface Props {
   ctaExternal?: boolean;
   featured?: boolean;
   analyticsId: string;
+  /** GA4 cta_location for the primary CTA (read by resolveCtaLocation()). */
+  ctaLocation: string;
+  /** GA4 cta_location for the secondary CTA; falls back to ctaLocation. */
+  secondaryCtaLocation?: string;
   /** Tailwind order classes, e.g. "order-1 md:order-2" */
   orderClass?: string;
 }
@@ -31,6 +35,8 @@ const {
   ctaExternal = false,
   featured = false,
   analyticsId,
+  ctaLocation,
+  secondaryCtaLocation,
   orderClass = '',
 } = Astro.props;
 ---
@@ -75,6 +81,7 @@ const {
           : 'bg-brand-black text-white hover:bg-brand-charcoal',
       ]}
       data-pathway-cta={analyticsId}
+      data-cta-location={ctaLocation}
       {...(ctaExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
     >
       {ctaLabel}
@@ -85,6 +92,7 @@ const {
           href={secondaryCtaHref}
           class="block w-full text-center font-semibold py-2.5 px-4 rounded-md text-brand-black border border-brand-line hover:border-brand-black transition-colors"
           data-pathway-cta={`${analyticsId}-details`}
+          data-cta-location={secondaryCtaLocation ?? ctaLocation}
         >
           {secondaryCtaLabel}
         </a>

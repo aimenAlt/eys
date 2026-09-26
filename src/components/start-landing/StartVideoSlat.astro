@@ -1,6 +1,6 @@
 ---
 import { startLanding } from '../../data/startLanding';
-import StartJobberLink from './StartJobberLink.astro';
+import MediaWallEstimateLink from '../media-wall-landing/MediaWallEstimateLink.astro';
 import StartVideoCaption from './StartVideoCaption.astro';
 
 const video = startLanding.images.videos.slat;
@@ -29,9 +29,13 @@ const video = startLanding.images.videos.slat;
         that keep the entertainment wall sharp and intentional.
       </p>
       <div class="mt-7">
-        <StartJobberLink service="project_estimate" placement="video_slat" featured>
+        <MediaWallEstimateLink
+          placement="video_slat"
+          variant="bare"
+          class="inline-flex min-h-12 w-full items-center justify-center rounded-md px-4 py-3 text-center text-base font-bold transition-colors bg-brand-red text-white hover:bg-brand-redhover"
+        >
           Request an Estimate
-        </StartJobberLink>
+        </MediaWallEstimateLink>
       </div>
     </div>
 

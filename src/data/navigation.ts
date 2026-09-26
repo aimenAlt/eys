@@ -3,6 +3,8 @@ import { stripBasePath } from '../utils/paths';
 export type NavItem = {
   label: string;
   href: string;
+  /** Opt-in `data-cta-id` for `internal_cta_click` — see docs/analytics-events.md. */
+  ctaId?: string;
 };
 
 export const mainNav: NavItem[] = [
@@ -11,8 +13,8 @@ export const mainNav: NavItem[] = [
   { label: 'Services', href: '/services/' },
   { label: 'Our Work', href: '/our-work/' },
   { label: 'Service Areas', href: '/service-areas/' },
-  { label: 'Book', href: '/book/' },
-  { label: 'Contact', href: '/contact/' },
+  { label: 'Book', href: '/book/', ctaId: 'nav_book' },
+  { label: 'Contact', href: '/contact/', ctaId: 'nav_contact' },
 ];
 
 export const footerNav: NavItem[] = [
@@ -24,7 +26,7 @@ export const footerNav: NavItem[] = [
   { label: 'Pricing', href: '/pricing/' },
   { label: 'Reviews', href: '/reviews/' },
   { label: 'Blog', href: '/blog/' },
-  { label: 'Contact', href: '/contact/' },
+  { label: 'Contact', href: '/contact/', ctaId: 'nav_contact' },
   { label: 'Sitemap', href: '/sitemap/' },
 ];
 
