@@ -2,8 +2,16 @@
 /**
  * `/book/` hierarchy. The three paths used to be presented as equal-weight
  * cards, which asked visitors who had already decided to decide again — the
- * page averaged 0-4s engaged time. Project Estimate Request is now the
- * dominant, full-width choice; the fixed-scope forms stay available beneath it.
+ * page averaged 0-4s engaged time. Project Estimate Request was then made the
+ * dominant, full-width choice, with the fixed-scope forms beneath it.
+ *
+ * Reordered again 26 Sep 2026, reversing that: Jobber's quote history puts
+ * jobs under $750 (to-do list, TV mounting) at a 34-38% close rate, well
+ * above project-estimate requests generally, and this page's own non-bot
+ * traffic is small (~17 sessions), so the cost of testing a reorder is low —
+ * see docs/11-job-economics.md §6. Handyman To-Do List Visit is now the
+ * full-width "start here" card; TV mounting and the photo-estimate form
+ * follow, with the call option last.
  */
 import {
   jobberHandymanToDoListFormUrl,
@@ -11,23 +19,24 @@ import {
   jobberProjectEstimateFormUrl,
   site,
 } from '../../data/business';
+import { formatUsd, smallRepairPricing } from '../../data/pricing/todoList';
 
-const estimateUrl = jobberProjectEstimateFormUrl();
+const todoUrl = jobberHandymanToDoListFormUrl();
 
 const secondaryForms = [
-  {
-    title: 'Handyman To-Do List Visit',
-    description:
-      'Book a handyman to work through multiple small repairs, installations, and maintenance tasks in one visit.',
-    href: jobberHandymanToDoListFormUrl(),
-    bookingType: 'handyman_to_do_list',
-  },
   {
     title: 'Tell Us About Your TV Mounting Project',
     description:
       'Answer a few questions and upload photos so we can verify pricing and bring the right materials.',
     href: jobberOnlineBookingUrl(),
     bookingType: 'tv_mounting',
+  },
+  {
+    title: 'Project Estimate Request',
+    description:
+      'Tell us about your project and upload photos. We review the scope and return an itemized estimate — the right start for repairs, installations, carpentry and larger projects.',
+    href: jobberProjectEstimateFormUrl(),
+    bookingType: 'project_estimate',
   },
 ].filter((form) => Boolean(form.href));
 ---
@@ -38,19 +47,10 @@ const secondaryForms = [
       <h1 id="booking-options" class="text-4xl md:text-5xl font-extrabold text-brand-black mb-4">
         Book or Request Service
       </h1>
-      <p class="text-lg text-neutral-600 mb-4">
-        Start with a photo estimate from {site.name} in Katy and West Houston — or call and we will
-        sort the right path with you.
-      </p>
-      <p class="text-base text-neutral-700">
-        <a
-          href={`tel:${site.phoneTel}`}
-          data-cta-location="booking_path_phone"
-          class="inline-block py-1 font-bold text-brand-red hover:underline"
-        >
-          Call {site.phone}
-        </a>
-        <span class="text-neutral-500"> · open until 11:30 PM, 7 days</span>
+      <p class="text-lg text-neutral-600">
+        Book a Handyman To-Do List Visit or TV mounting instantly at a fixed price, or send photos
+        for a project estimate on repairs, installations and larger jobs from {site.name} in Katy
+        and West Houston.
       </p>
     </div>
 
@@ -58,34 +58,39 @@ const secondaryForms = [
       class="rounded-xl border border-neutral-200 border-l-4 border-l-brand-red bg-brand-lightbg p-6 md:p-8 mb-10"
     >
       <p class="text-xs font-bold uppercase tracking-widest text-brand-red mb-2">Start here</p>
-      <h2 class="text-2xl md:text-3xl font-bold text-brand-black mb-3">Project Estimate Request</h2>
+      <h2 class="text-2xl md:text-3xl font-bold text-brand-black mb-1">
+        Handyman To-Do List Visit
+      </h2>
+      <p class="text-sm font-bold text-brand-red mb-3">
+        Starting at {formatUsd(smallRepairPricing.oneHour)}
+        <span class="font-normal text-neutral-500">· 1-hour visit</span>
+      </p>
       <p class="text-neutral-600 mb-6 max-w-2xl leading-relaxed">
-        Tell us about your project and upload photos. We review the scope and return an itemized
-        estimate — this is the right start for repairs, installations, carpentry and larger projects.
+        Book a handyman to work through multiple small repairs, installations, and maintenance
+        tasks in one visit.
       </p>
       <a
-        href={estimateUrl ?? '/contact/'}
-        data-booking-type="project_estimate"
+        href={todoUrl ?? '/contact/'}
+        data-booking-type="handyman_to_do_list"
         data-cta-location="booking_path_primary"
         class="inline-flex w-full sm:w-auto justify-center items-center bg-brand-red text-white px-8 py-4 rounded-md font-bold text-base sm:text-lg shadow-lg hover:bg-brand-redhover transition-colors"
       >
-        Open the estimate form
+        Book a Handyman Visit
       </a>
     </div>
 
     {
       secondaryForms.length > 0 && (
-        <div>
-          <h2 class="text-lg font-bold text-brand-black mb-1">Know exactly what you need?</h2>
+        <div class="mb-10">
+          <h2 class="text-lg font-bold text-brand-black mb-1">Or start one of these</h2>
           <p class="text-sm text-neutral-600 mb-5">
-            These forms are for fixed-scope work you have already decided on.
+            TV mounting books instantly at a fixed price. Bigger or open-ended jobs go through a
+            photo estimate.
           </p>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             {secondaryForms.map((form) => (
               <a
                 href={form.href}
-                target="_blank"
-                rel="noopener noreferrer"
                 data-booking-type={form.bookingType}
                 data-cta-location="booking_path_selector"
                 class="block p-6 bg-white rounded-xl border border-neutral-200 hover:border-brand-red/30 hover:shadow-md transition-all"
@@ -98,5 +103,16 @@ const secondaryForms = [
         </div>
       )
     }
+
+    <p class="text-base text-neutral-700">
+      <a
+        href={`tel:${site.phoneTel}`}
+        data-cta-location="booking_path_phone"
+        class="inline-block py-1 font-bold text-brand-red hover:underline"
+      >
+        Call {site.phone}
+      </a>
+      <span class="text-neutral-500"> · open until 11:30 PM, 7 days</span>
+    </p>
   </div>
 </section>
