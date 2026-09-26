@@ -118,8 +118,6 @@ at 75 so the two do not double-count.
 | `van_choose_project` | `/van/` — the red "Choose My Project" button, in both the hero (`van_hero`) and the sticky bar (`van_sticky`) |
 | `nav_book` | Primary nav "Book" link — desktop header, mobile menu — [`src/data/navigation.ts`](../src/data/navigation.ts) |
 | `nav_contact` | Primary nav "Contact" link — desktop header, mobile menu, and the footer "Quick Links" Contact link — same source |
-| `home_reviews_contact` | Homepage reviews section, "Contact Us About Your Project" — `HomeReviewsSection.astro` |
-| `our_work_empty_state_contact` | `/our-work/` gallery, "Request an Estimate" in the empty-filter-results fallback — `ProjectGrid.astro` |
 
 `van_choose_project` was added on 21 Sep 2026. Both /van/ buttons rendered as
 bare anchors with no tracking attributes before that, so the most-pressed
@@ -127,14 +125,34 @@ control on the page was invisible in GA4 — /van/ converts at 10.53% per
 session against paid search's 1.80%, and none of it was attributable to the
 button that drives it.
 
-`nav_book`, `nav_contact`, `home_reviews_contact` and
-`our_work_empty_state_contact` were added on 26 Sep 2026. The primary nav's
-Book/Contact links, the homepage reviews CTA, and the gallery's empty-state
+`nav_book`, `nav_contact` and `our_work_empty_state_contact` were added on
+26 Sep 2026. The primary nav's Book/Contact links and the gallery's empty-state
 fallback link all pointed at `/contact/` (or `/book/`) with no `data-cta-id`,
 so none of them fired `internal_cta_click` — `cta_location` alone (`header`,
 `header_mobile`, `footer`, resolved automatically by `resolveCtaLocation`)
 still distinguishes desktop nav from mobile nav from footer for the shared
 `nav_book`/`nav_contact` ids, the same pattern `van_choose_project` uses.
+
+`home_reviews_contact` was briefly added the same day as a `data-cta-id` on
+the homepage reviews section's "Contact Us About Your Project" link, which
+pointed at `/contact/`. It is **not** a `cta_id` any more: that link now goes
+straight to the project-estimate Jobber form (`HomeReviewsSection.astro`), so
+it is outbound-Jobber traffic and fires `jobber_booking_click` (see below)
+with `booking_type: project_estimate` and `cta_location: home_reviews_contact`
+instead of `internal_cta_click`. The `cta_location` string was kept the same
+so the placement stays identifiable across the change; only the event that
+fires there changed.
+
+`our_work_empty_state_contact` was briefly a `data-cta-id` on the `/our-work/`
+gallery's "Request an Estimate" link in the empty-filter-results fallback
+(`ProjectGrid.astro`), which pointed at `/contact/`. It is **not** a `cta_id`
+any more, for the same reason as `home_reviews_contact` above: that link now
+goes straight to the project-estimate Jobber form, so it fires
+`jobber_booking_click` with `booking_type: project_estimate` and
+`cta_location: our_work_empty_state` instead of `internal_cta_click`. The link
+had no explicit `cta_location` before (it fell back to the generic `page`
+value), so `our_work_empty_state` is a new, more specific placement rather
+than a preserved one.
 
 ## Landing-page events
 

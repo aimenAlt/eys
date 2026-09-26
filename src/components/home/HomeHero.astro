@@ -10,6 +10,9 @@ import {
 import SiteImage from '../ui/SiteImage.astro';
 import { homeImageAlts, homeImages, imageOrPlaceholder } from '../../data/images';
 import { smallRepairVisitMeta } from '../../data/smallRepairVisitContent';
+import { formatUsd, smallRepairPricing } from '../../data/pricing/todoList';
+
+const toDoListStartingPrice = formatUsd(smallRepairPricing.oneHour);
 
 const heroSrc = imageOrPlaceholder(homeImages.hero);
 const toDoListUrl = jobberHandymanToDoListFormUrl() ?? smallRepairVisitMeta.path;
@@ -59,30 +62,33 @@ const reviewProof = `${googleReviews.rating.toFixed(1)} ★ · ${googleReviewCou
           room upgrades, and larger custom projects.
         </p>
         <div data-sticky-hero-cta>
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a
+              href={customProjectUrl}
+              data-booking-type="project_estimate"
+              data-cta-location="home_hero_primary"
+              class="inline-flex w-full sm:w-auto justify-center items-center bg-brand-red text-white border-2 border-brand-red px-7 py-4 rounded-md font-bold text-base sm:text-lg text-center shadow-lg hover:bg-brand-redhover hover:border-brand-redhover transition-all"
+            >
+              Send Photos for a Free Estimate
+            </a>
+            <a
+              href={toDoListUrl}
+              data-booking-type="handyman_to_do_list"
+              data-cta-location="home_hero_secondary"
+              class="inline-flex w-full sm:w-auto flex-col justify-center items-center bg-brand-black text-white border-2 border-brand-black px-7 py-4 rounded-md text-center shadow-lg hover:bg-brand-charcoal hover:border-brand-charcoal transition-all"
+            >
+              <span class="font-bold text-base sm:text-lg leading-tight">Book a Handyman To-Do List Visit</span>
+              <span class="text-xs sm:text-sm font-semibold text-white/75 mt-0.5">Starting at {toDoListStartingPrice}</span>
+            </a>
+          </div>
           <a
             href={customProjectUrl}
             data-booking-type="project_estimate"
-            data-cta-location="home_hero_primary"
-            class="inline-flex w-full sm:w-auto justify-center items-center bg-brand-red text-white border-2 border-brand-red px-7 py-4 rounded-md font-bold text-base sm:text-lg text-center shadow-lg hover:bg-brand-redhover hover:border-brand-redhover transition-all"
+            data-cta-location="home_hero_custom_project"
+            class="inline-block mt-3 py-1 text-white/90 text-sm font-semibold underline underline-offset-2 hover:text-white transition-colors [text-shadow:0_1px_8px_rgba(0,0,0,0.45)]"
           >
-            Request a Free Photo Estimate
+            Discuss Your Custom Project
           </a>
-          <div class="mt-3 flex flex-col sm:flex-row sm:items-center gap-x-5 gap-y-3">
-            <a
-              href={toDoListUrl}
-              data-cta-location="home_hero_secondary"
-              class="inline-flex w-full sm:w-auto justify-center items-center bg-transparent text-white border border-white/70 px-5 py-3 rounded-md font-semibold text-sm text-center hover:bg-white hover:text-brand-black transition-all"
-            >
-              Book a Handyman To-Do List Visit
-            </a>
-            <a
-              href={customProjectUrl}
-              data-cta-location="home_hero_custom_project"
-              class="inline-block py-1 text-white/90 text-sm font-semibold underline underline-offset-2 hover:text-white transition-colors [text-shadow:0_1px_8px_rgba(0,0,0,0.45)]"
-            >
-              Discuss Your Custom Project
-            </a>
-          </div>
         </div>
         <div
           class="mt-8 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm font-medium text-white/90 [text-shadow:0_1px_8px_rgba(0,0,0,0.45)]"
@@ -121,6 +127,16 @@ const reviewProof = `${googleReviews.rating.toFixed(1)} ★ · ${googleReviewCou
                 d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                 clip-rule="evenodd"></path></svg
             >
+            Insured
+          </span>
+          <span class="hidden sm:inline text-white/40">•</span>
+          <span class="flex items-center gap-1">
+            <svg class="w-5 h-5 text-brand-redondark" fill="currentColor" viewBox="0 0 20 20"
+              ><path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clip-rule="evenodd"></path></svg
+            >
             Clear Service Paths
           </span>
           <span class="hidden sm:inline text-white/40">•</span>
@@ -138,7 +154,7 @@ const reviewProof = `${googleReviews.rating.toFixed(1)} ★ · ${googleReviewCou
           </a>
         </div>
       </div>
-      <div id="estimate" class="lg:col-span-5 mt-12 lg:mt-0 scroll-mt-24">
+      <div id="estimate" class="hidden lg:block lg:col-span-5 mt-12 lg:mt-0 scroll-mt-24">
         <JobberRequestCard
           title="Get a clear estimate"
           minHeight="480px"

@@ -1,7 +1,12 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import BalancedGrid from '../ui/BalancedGrid.astro';
-import { googleReviewCountDisplay, googleReviewProfileUrl, googleReviews } from '../../data/business';
+import {
+  googleReviewCountDisplay,
+  googleReviewProfileUrl,
+  googleReviews,
+  jobberProjectEstimateFormUrl,
+} from '../../data/business';
 import { contentMaxClass, contentPaddingClass } from '../../data/layout';
 
 interface Props {
@@ -10,6 +15,7 @@ interface Props {
 
 const { reviews } = Astro.props;
 const gbpUrl = googleReviewProfileUrl();
+const estimateUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
 
 const featured = reviews.filter((r) => r.data.featured).slice(0, 3);
 const display = featured.length > 0 ? featured : reviews.slice(0, 3);
@@ -68,11 +74,12 @@ const reviewItems = display.map((entry) => ({
 
     <div class="mt-10 text-center">
       <a
-        href="/contact/"
-        data-cta-id="home_reviews_contact"
+        href={estimateUrl}
+        data-booking-type="project_estimate"
+        data-cta-location="home_reviews_contact"
         class="inline-block gradient-btn text-white px-8 py-3 rounded-md font-bold transition-all shadow-md"
       >
-        Contact Us About Your Project
+        Request a Free Estimate
       </a>
     </div>
   </div>

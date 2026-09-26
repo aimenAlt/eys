@@ -43,8 +43,9 @@ const { projectCount, publishedReviews, cityLinks, communityLinks } = Astro.prop
         </p>
         <p class="text-neutral-600 mb-4 leading-relaxed">
           Elevate Your Space Handyman gives Katy and West Houston homeowners one accountable point of
-          contact, then matches the work to the right service path: a free photo estimate, a reserved
-          Handyman To-Do List Visit, or a custom project estimate.
+          contact for everything from drywall patches and door installation to bathroom updates, cabinet
+          work, painting, flooring, and general home repair — with honest communication, clean
+          workmanship, and dependable results across Katy and surrounding West Houston communities.
         </p>
         <p class="text-neutral-600 mb-4 leading-relaxed">
           <strong class="text-brand-black">We finish what we start.</strong> A specialist usually
@@ -83,57 +84,31 @@ const { projectCount, publishedReviews, cityLinks, communityLinks } = Astro.prop
         />
       </div>
     </div>
-  </div>
-</section>
 
-<section class="py-12 md:py-14 bg-white border-t border-brand-line">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
-      <div class="lg:col-span-7">
-        <h2 class="text-2xl md:text-3xl font-bold text-brand-black mb-4">
-          Home Repair & Remodeling Across Katy &amp; West Houston
-        </h2>
-        <p class="text-neutral-600 leading-relaxed mb-4">
-          From drywall patches and door installation to bathroom updates, cabinet work, painting,
-          flooring, and general home repair, we focus on honest communication, clean workmanship, and
-          dependable results across Katy and surrounding West Houston communities.
-        </p>
-        <p class="text-neutral-600 leading-relaxed">
-          Start with the service path that fits your project — a photo estimate, a Handyman To-Do List Visit,
-          or a custom project discussion.
-        </p>
-      </div>
-      <aside class="lg:col-span-5 bg-brand-lightbg p-6 rounded-xl border border-brand-line">
-        <h3 class="font-bold text-brand-black mb-4">Popular services</h3>
-        <ul class="flex flex-col gap-3 text-sm text-neutral-700">
-          {
-            [
-              { label: 'Handyman To-Do List Visit', href: '/services/handyman-to-do-list/' },
-              { label: 'General handyman services', href: '/services/general-handyman-services/' },
-              { label: 'Media walls', href: '/services/media-walls/' },
-              { label: 'TV mounting', href: '/services/tv-mounting/' },
-              { label: 'Drywall repair', href: '/services/drywall-repair/' },
-              { label: 'Door installation', href: '/services/door-repair-installation/' },
-              { label: 'Bathroom remodeling', href: '/services/bathroom-remodeling/' },
-            ].map((item) => (
-              <li class="flex items-start gap-2.5">
-                <svg
-                  class="w-5 h-5 text-brand-red mt-0.5 flex-shrink-0"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                <a href={item.href} class="hover:text-brand-red transition-colors leading-snug">
-                  {item.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </aside>
+    <div class="mt-12 pt-10 border-t border-brand-line">
+      <h3 class="text-sm font-bold text-brand-black uppercase tracking-wide mb-4">Popular services</h3>
+      <ul class="flex flex-wrap gap-2.5">
+        {
+          [
+            { label: 'Handyman To-Do List Visit', href: '/services/handyman-to-do-list/' },
+            { label: 'General handyman services', href: '/services/general-handyman-services/' },
+            { label: 'Media walls', href: '/services/media-walls/' },
+            { label: 'TV mounting', href: '/services/tv-mounting/' },
+            { label: 'Drywall repair', href: '/services/drywall-repair/' },
+            { label: 'Door installation', href: '/services/door-repair-installation/' },
+            { label: 'Bathroom remodeling', href: '/services/bathroom-remodeling/' },
+          ].map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="inline-flex items-center gap-1.5 rounded-full border border-brand-line bg-brand-lightbg px-4 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:border-brand-red hover:text-brand-red"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </div>
 </section>
@@ -199,8 +174,6 @@ const { projectCount, publishedReviews, cityLinks, communityLinks } = Astro.prop
     </div>
   </div>
 </section>
-
-<InlineEstimateBand ctaLocation="home_midpage_2" />
 
 <HomeReviewsSection reviews={publishedReviews} />
 
