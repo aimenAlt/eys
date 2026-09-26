@@ -136,6 +136,16 @@ export const homeImages = {
   hero: '/images/home/hero.jpg',
   whoWeAre1: '/images/home/who-we-are-1.jpg',
   whoWeAre2: '/images/home/who-we-are-2.jpg',
+  /**
+   * who-we-are-1.jpg is byte-identical to hero.jpg (same kitchen photo, confirmed
+   * by SHA1) — the live homepage (HomeSmallRepairPage) uses this already-published
+   * project photo for its first "who we are" frame instead, so the kitchen shot
+   * does not appear twice on the page. who-we-are-1.jpg itself is left in place:
+   * the retired /home2/ preview (HomeCurrentPage) still renders it and is out of
+   * scope here.
+   */
+  whoWeAreCurtains:
+    '/images/projects/double-height-curtains/eys-fixture-installation-living-room-drapes-chandelier-after-p023-03.jpg',
   whyChooseUsBg: '/images/home/why-choose-us-bg.jpg',
   ctaBg: '/images/home/cta-bg.jpg',
 };
@@ -148,6 +158,8 @@ export const homeImageAlts = {
     'Finished two-tone kitchen with a sage green island, white upper cabinets, quartz counters, and gold fixtures',
   whoWeAre2:
     'Custom white window-seat built-in hutch with open shelving and drawer storage',
+  whoWeAreCurtains:
+    'Floor-to-ceiling sheer curtains and a large drum chandelier in a two-story living room',
 } as const;
 
 /** Default OG share image alt for pages without a page-specific photo. */

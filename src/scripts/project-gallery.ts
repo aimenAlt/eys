@@ -1,4 +1,5 @@
 import { analyticsEvents, trackEvent } from '../utils/analytics';
+import imageDerivatives from '../data/imageDerivatives.json';
 
 type GalleryImage = {
   src: string;
@@ -38,6 +39,22 @@ function readProjects(): GalleryProject[] {
   } catch {
     return [];
   }
+}
+
+/**
+ * Project photos are stored as full-resolution originals (some exceed 6MB) with
+ * WebP derivatives generated alongside them by `scripts/gen-image-derivatives.mjs`
+ * and recorded in `imageDerivatives.json`. Serve a size appropriate to where the
+ * photo renders in the dialog instead of the original: the largest generated
+ * tier for the main viewer, the smallest for the thumbnail strip. Falls back to
+ * the original path when no derivatives exist for it (e.g. already-small photos).
+ */
+function derivativeSrc(src: string, target: 'main' | 'thumb'): string {
+  const widths = (imageDerivatives as Record<string, number[]>)[src];
+  if (!widths || widths.length === 0) return src;
+  const sorted = [...widths].sort((a, b) => a - b);
+  const width = target === 'thumb' ? sorted[0] : sorted[sorted.length - 1];
+  return `${src.replace(/\.[^.]+$/, '')}-${width}w.webp`;
 }
 
 function setChipActive(btn: HTMLButtonElement, active: boolean) {
@@ -180,7 +197,7 @@ function initDialog(projects: GalleryProject[]) {
     if (!current || !imgEl) return;
     const photo = current.images[index];
     if (!photo) return;
-    imgEl.src = photo.src;
+    imgEl.src = derivativeSrc(photo.src, 'main');
     imgEl.alt = photo.alt;
     if (captionEl) captionEl.textContent = photo.caption || '';
     if (countEl) countEl.textContent = `Photo ${index + 1} of ${current.images.length}`;
@@ -209,7 +226,7 @@ function initDialog(projects: GalleryProject[]) {
       btn.className =
         'shrink-0 w-16 h-16 rounded-md overflow-hidden border border-brand-line focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-red';
       btn.setAttribute('aria-label', `View photo ${i + 1} of ${current!.images.length}`);
-      btn.innerHTML = `<img src="${photo.src}" alt="" width="64" height="64" class="w-full h-full object-cover" loading="lazy" />`;
+      btn.innerHTML = `<img src="${derivativeSrc(photo.src, 'thumb')}" alt="" width="64" height="64" class="w-full h-full object-cover" loading="lazy" />`;
       btn.addEventListener('click', () => {
         index = i;
         render();
