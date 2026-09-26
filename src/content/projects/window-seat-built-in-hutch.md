@@ -1,30 +1,34 @@
 ---
-title: "White Window-Seat Built-In with Matching Hutch"
+title: "Blue Kitchen Island with a Window-Seat Nook & Hutch"
 slug: "window-seat-built-in-hutch"
-category: "carpentry-built-ins"
+category: "kitchens-cabinetry"
 tags:
+  - "kitchen-island"
   - "built-ins"
   - "window-seat"
-  - "custom-carpentry"
 featured: false
 dateVerified: false
-summary: "Floor-to-ceiling custom window-seat storage with a matching glass-front hutch, built into a kitchen nook."
-result: "A built-in window seat with drawer storage below, flanked by matching cabinetry and a glass-front hutch, finished in white against a blue accent wall."
+summary: "A blue kitchen island paired with a built-in window-seat nook and a matching glass-front hutch."
+result: "A finished kitchen and breakfast nook: a blue island with granite counters, a white built-in window seat with drawer storage, and a matching glass-front hutch, all in one continuous room."
 serviceUrl: "/services/custom-carpentry/"
-leadImage: "/images/projects/window-seat-built-in-hutch/eys-custom-project-white-window-seat-built-in-hutch-after-p027-01.jpg"
-leadAlt: "White custom built-in window seat with drawers, flanked by tall cabinetry and a glass-front hutch against a blue wall"
+leadImage: "/images/projects/window-seat-built-in-hutch/eys-kitchen-repair-upgrades-blue-island-window-seat-cabinetry-after-p035-01.jpg"
+leadAlt: "Kitchen with a blue island with granite counters, opening onto a window-seat nook with a glass-front hutch"
 images:
+  - src: "/images/projects/window-seat-built-in-hutch/eys-kitchen-repair-upgrades-blue-island-window-seat-cabinetry-after-p035-01.jpg"
+    alt: "Kitchen with a blue island with granite counters, opening onto a window-seat nook with a glass-front hutch"
+    caption: "The blue island, seen from the kitchen looking toward the window-seat nook."
+    stage: "after"
   - src: "/images/projects/window-seat-built-in-hutch/eys-custom-project-white-window-seat-built-in-hutch-after-p027-01.jpg"
     alt: "White custom built-in window seat with drawers, flanked by tall cabinetry and a glass-front hutch against a blue wall"
-    caption: "Window seat, drawer storage, and a matching glass-front hutch built as one unit."
+    caption: "The window-seat bench and matching hutch, from inside the nook."
     stage: "after"
 publishable: true
 privacyReviewed: true
 published: true
-seoTitle: "Custom Window Seat & Built-In Hutch | EYS Handyman"
-metaDescription: "Custom window-seat storage and a matching built-in hutch, finished in white, by Elevate Your Space Handyman."
+seoTitle: "Kitchen Island & Window-Seat Built-In | EYS Handyman"
+metaDescription: "A blue kitchen island paired with a built-in window seat and matching hutch, by Elevate Your Space Handyman."
 ---
 
-This window-seat build ties a bay window into the room's storage instead of leaving it as dead space. A bench seat with drawer storage below sits under the window, flanked on one side by a tall glass-front hutch and on the other by matching upper and lower cabinetry — all finished in the same white to read as one continuous piece rather than three separate additions.
+This kitchen and its adjoining breakfast nook were finished as one continuous build. The island — blue cabinetry, granite counters, open shelving on one end — anchors the kitchen side. Step through to the nook and a window-seat bench with drawer storage below sits under the window, flanked by a matching glass-front hutch and tall cabinetry finished in the same white.
 
-The crown detail above the window and the corbels supporting it match the room's existing trim, so the built-in looks original to the house rather than added on. Browse more [custom carpentry](/services/custom-carpentry/) work in our [built-ins gallery](/our-work/?category=carpentry-built-ins).
+Every piece — island, bench, hutch — was built to read as part of one plan rather than separate additions bolted onto an existing room. Browse more [custom carpentry](/services/custom-carpentry/) work in our [built-ins gallery](/our-work/?category=carpentry-built-ins).
