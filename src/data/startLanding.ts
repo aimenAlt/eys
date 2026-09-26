@@ -25,6 +25,7 @@ import {
 import { curtainLanding, formatUsd as formatUsdWhole } from './curtainLanding';
 import { homeImageAlts, homeImages } from './images';
 import { mediaWallsLanding } from './mediaWalls';
+import { activeOffers, offers } from './offers';
 import { formatUsd as formatUsdExact, smallRepairPricing } from './pricing/todoList';
 
 export const startLanding = {
@@ -227,11 +228,39 @@ export function todoListFromPrice(): string {
   return formatUsdExact(smallRepairPricing.oneHour);
 }
 
+/**
+ * True while `offers.highCeilingCurtains` is one of the live offers — read
+ * through `activeOffers()` rather than the constant's own `.active` flag so
+ * this stays in step with whatever that function treats as active.
+ */
+function highCeilingCurtainOfferIsActive(): boolean {
+  return activeOffers().some((offer) => offer.id === offers.highCeilingCurtains.id);
+}
+
+/**
+ * Rods-installed starting price for the chooser card and FAQ copy. Shows the
+ * live `$200 off` offer price while it is active (see `offers.ts`), and falls
+ * back to the static list price automatically once the offer expires —
+ * neither figure is ever hand-typed here.
+ */
 export function curtainRodFromPrice(): string {
+  if (highCeilingCurtainOfferIsActive()) {
+    const rodRow = offers.highCeilingCurtains.rows.find(
+      (row) => row.label === curtainLanding.pricing.highCeiling.rod.label,
+    );
+    if (rodRow) return rodRow.nowFormatted;
+  }
   return formatUsdWhole(curtainLanding.pricing.highCeiling.rod.startingAt);
 }
 
+/** Tracks-installed starting price — same live-offer/fallback rule as above. */
 export function curtainTrackFromPrice(): string {
+  if (highCeilingCurtainOfferIsActive()) {
+    const trackRow = offers.highCeilingCurtains.rows.find(
+      (row) => row.label === curtainLanding.pricing.highCeiling.track.label,
+    );
+    if (trackRow) return trackRow.nowFormatted;
+  }
   return formatUsdWhole(curtainLanding.pricing.highCeiling.track.startingAt);
 }
 

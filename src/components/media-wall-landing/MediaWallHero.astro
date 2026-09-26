@@ -18,6 +18,19 @@ import MediaWallEstimateLink from './MediaWallEstimateLink.astro';
  * order, so the three text blocks are placed by explicit row rather than by
  * source order.
  *
+ * Re-examined for the Tier 3 lead-quality problem (8.2% key-event rate but
+ * $0 of $57k quoted has closed): the video stays ahead of the CTA/phone.
+ * Moving the CTA above the video would raise clicks, not close rate — this
+ * page's fault line is unqualified requests, not a CTA visibility problem,
+ * and the finished-build video is itself a scope/quality anchor that primes
+ * "this is a custom-carpentry project," not a $200 handyman call. What does
+ * move ahead of the video is the investment line below: a plain, non-numeric
+ * budget expectation, placed in this same heading block so it reads before
+ * the video and well before either Doors CTA. MediaWallTrustStrip also moved
+ * up a level, from after MediaWallDoors to directly after this hero, so the
+ * credibility bar is visible before a visitor commits to a door — see
+ * src/pages/services/media-walls/index.astro.
+ *
  * The section opts out of `mediaWallCrossSellView`: that event exists to count
  * media walls surfaced to visitors who arrived for something else, and a
  * visitor already on this page is not a cross-sell. Autoplay and pause-off-
@@ -49,6 +62,10 @@ const video = mediaWallsLanding.images.videos.builtIn;
       <p class="mt-3 max-w-xl text-base leading-relaxed text-white/85 sm:text-lg">
         Custom built-ins around your TV — fireplace built-ins, lit niches, shiplap and wood-slat
         feature walls, finished floating consoles. Some people call it a media wall. Same build.
+      </p>
+      <p class="mt-3 max-w-xl text-sm font-semibold text-white/90 sm:text-base">
+        Most media wall projects run into the thousands — send photos and we’ll follow up with a
+        written estimate.
       </p>
     </div>
 

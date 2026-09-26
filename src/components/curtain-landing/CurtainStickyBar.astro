@@ -1,8 +1,8 @@
 ---
-import { curtainLanding, formatUsd } from '../../data/curtainLanding';
+import { curtainOfferPrice } from '../../data/curtainLanding';
 import CurtainBookLink from './CurtainBookLink.astro';
 
-const fromPrice = formatUsd(curtainLanding.pricing.highCeiling.rod.startingAt);
+const rodPrice = curtainOfferPrice('rod');
 ---
 
 <div
@@ -19,7 +19,12 @@ const fromPrice = formatUsd(curtainLanding.pricing.highCeiling.rod.startingAt);
     <div class="mx-auto flex max-w-6xl items-center justify-between gap-3">
       <div class="min-w-0">
         <p class="truncate text-sm font-bold text-white">High-Ceiling Install</p>
-        <p class="text-xs text-white/70">From {fromPrice}</p>
+        <p class="text-xs text-white/70">
+          From {rodPrice.nowFormatted}
+          {rodPrice.wasFormatted && (
+            <span class="ml-1 text-white/40 line-through">{rodPrice.wasFormatted}</span>
+          )}
+        </p>
       </div>
       <CurtainBookLink placement="sticky_mobile" variant="sticky">
         Book

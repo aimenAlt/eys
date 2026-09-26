@@ -1,6 +1,6 @@
 ---
 import SiteImage from '../ui/SiteImage.astro';
-import { curtainLanding, formatUsd } from '../../data/curtainLanding';
+import { curtainLanding, curtainOfferPrice, formatUsd } from '../../data/curtainLanding';
 import { imageOrPlaceholder } from '../../data/images';
 import CurtainBookLink from './CurtainBookLink.astro';
 
@@ -8,6 +8,8 @@ const { pricing, images, highCeilingThresholdFt } = curtainLanding;
 const hc = pricing.highCeiling;
 const hero = images.hero;
 const heroSrc = imageOrPlaceholder(hero.src);
+const rodPrice = curtainOfferPrice('rod');
+const trackPrice = curtainOfferPrice('track');
 
 const pricingCardClass =
   'rounded-xl border border-white/20 bg-black/45 p-4 backdrop-blur-[2px] lg:border-white/15 lg:bg-white/5 lg:backdrop-blur-none';
@@ -57,8 +59,15 @@ const pricingCardClass =
       <div class="mt-7 grid gap-3 sm:grid-cols-2">
         <div class={pricingCardClass}>
           <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">Curtain Rod</p>
-          <p class="mt-2 text-2xl font-bold tracking-tight text-white">
-            Starting at {formatUsd(hc.rod.startingAt)}
+          <p class="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+            <span class="text-2xl font-bold tracking-tight text-white">
+              Starting at {rodPrice.nowFormatted}
+            </span>
+            {rodPrice.wasFormatted && (
+              <span class="text-sm font-semibold text-white/50 line-through">
+                {rodPrice.wasFormatted}
+              </span>
+            )}
           </p>
           <p class="mt-1 text-sm text-white/75">
             Up to {hc.rod.includedWindows} high-ceiling windows
@@ -72,8 +81,15 @@ const pricingCardClass =
         </div>
         <div class={pricingCardClass}>
           <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">Curtain Track</p>
-          <p class="mt-2 text-2xl font-bold tracking-tight text-white">
-            Starting at {formatUsd(hc.track.startingAt)}
+          <p class="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+            <span class="text-2xl font-bold tracking-tight text-white">
+              Starting at {trackPrice.nowFormatted}
+            </span>
+            {trackPrice.wasFormatted && (
+              <span class="text-sm font-semibold text-white/50 line-through">
+                {trackPrice.wasFormatted}
+              </span>
+            )}
           </p>
           <p class="mt-1 text-sm text-white/75">
             Up to {hc.track.includedWindows} high-ceiling windows

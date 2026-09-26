@@ -1,5 +1,7 @@
 import { withJobberFormId } from '../utils/utm';
 import { curtainPricing } from './pricing/curtains';
+import { site } from './business';
+import { activeOffers, offers } from './offers';
 /**
  * High-ceiling curtain installation Google Ads landing page (`/curtain-installation/`).
  *
@@ -170,7 +172,33 @@ export function formatUsd(amount: number): string {
   }).format(amount);
 }
 
-/** Conversion-focused FAQs (also used for FAQPage schema). Card-on-file policy omitted — no approved explanation in repo. */
+export type CurtainOfferPrice = {
+  /** Amount to lead with — the discounted price while the offer is active, list price otherwise. */
+  nowFormatted: string;
+  /** List price to render struck through. Present only while the offer is active. */
+  wasFormatted?: string;
+};
+
+/**
+ * Effective display price for a high-ceiling curtain product (rod or track) —
+ * the live offers.highCeilingCurtains price, with the list price to strike
+ * through, while that offer is active; the plain list price once it isn't.
+ *
+ * Every caller (hero, sticky bar, final CTA) goes through this one function,
+ * so ending the offer is still just flipping `active` to false in offers.ts
+ * (done once the endDate passes) — nothing here needs editing to match.
+ */
+export function curtainOfferPrice(product: 'rod' | 'track'): CurtainOfferPrice {
+  const item = curtainPricing.highCeiling[product];
+  const offer = offers.highCeilingCurtains;
+  if (activeOffers().includes(offer)) {
+    const row = offer.rows.find((candidate) => candidate.label === item.label);
+    if (row) return { nowFormatted: row.nowFormatted, wasFormatted: row.wasFormatted };
+  }
+  return { nowFormatted: formatUsd(item.startingAt) };
+}
+
+/** Conversion-focused FAQs (also used for FAQPage schema). */
 export function curtainFaqs() {
   const { pricing, highCeilingThresholdFt } = curtainLanding;
   const hc = pricing.highCeiling;
@@ -208,6 +236,18 @@ export function curtainFaqs() {
       question: 'Can I choose my installation time online?',
       answer:
         'Yes. Clicking the booking button opens the EYS Jobber booking experience, where available appointment times can be selected. Rod vs track is chosen inside that booking form.',
+    },
+    {
+      // Deliberately does not state when or whether the card is ever charged —
+      // that billing detail is not established anywhere in this repo, so this
+      // only explains what the step is and hands the anxious visitor a phone
+      // alternative. Do not add a "not charged until..." style claim here
+      // without confirming the real policy first.
+      question: 'Why do I need to leave a card on file to book online?',
+      answer:
+        `Leaving a card on file is how EYS's online booking system, Jobber, secures the appointment time you pick — it's a normal part of booking online, not a charge. ` +
+        `You'll enter it on Jobber's own secure booking page after you click Book, so EYS's website never sees or stores your card details. ` +
+        `Prefer not to enter a card online? Call ${site.phone} and we can get your installation booked over the phone instead.`,
     },
     {
       question: `What if my ceilings are ${highCeilingThresholdFt} ft or lower?`,

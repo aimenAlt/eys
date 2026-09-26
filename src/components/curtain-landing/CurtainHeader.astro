@@ -1,16 +1,28 @@
 ---
 import Logo from '../layout/Logo.astro';
 import CurtainBookLink from './CurtainBookLink.astro';
+import { site } from '../../data/business';
 ---
 
 <header class="sticky top-0 z-50 border-b border-white/10 bg-brand-black">
   <div class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
     <Logo class="shrink-0" />
-    <CurtainBookLink
-      placement="header"
-      class="!min-h-11 !w-auto !px-4 !py-2.5 !text-sm"
-    >
-      Book Installation
-    </CurtainBookLink>
+    <div class="flex shrink-0 items-center gap-2">
+      <a
+        href={`tel:${site.phoneTel}`}
+        data-cta-location="header"
+        class="inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-md border-2 border-white/30 px-3 py-2.5 text-sm font-bold text-white hover:border-white/60 hover:bg-white/5"
+        aria-label={`Call Elevate Your Space Handyman at ${site.phone}`}
+      >
+        <span class="sm:hidden">Call</span>
+        <span class="hidden sm:inline">Call {site.phone}</span>
+      </a>
+      <CurtainBookLink
+        placement="header"
+        class="!min-h-11 !w-auto !px-4 !py-2.5 !text-sm"
+      >
+        Book Installation
+      </CurtainBookLink>
+    </div>
   </div>
 </header>

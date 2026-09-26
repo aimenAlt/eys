@@ -1,9 +1,10 @@
 ---
-import { curtainLanding, formatUsd } from '../../data/curtainLanding';
+import { curtainLanding, curtainOfferPrice } from '../../data/curtainLanding';
 import CurtainBookLink from './CurtainBookLink.astro';
 
-const { pricing, highCeilingThresholdFt } = curtainLanding;
-const hc = pricing.highCeiling;
+const { highCeilingThresholdFt } = curtainLanding;
+const rodPrice = curtainOfferPrice('rod');
+const trackPrice = curtainOfferPrice('track');
 ---
 
 <section
@@ -24,11 +25,21 @@ const hc = pricing.highCeiling;
     <div class="mx-auto mt-8 grid max-w-lg gap-3 sm:grid-cols-2">
       <div class="rounded-xl border border-white/15 bg-white/5 px-4 py-4">
         <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">Rod Installation</p>
-        <p class="mt-2 text-xl font-bold">From {formatUsd(hc.rod.startingAt)}</p>
+        <p class="mt-2 flex flex-wrap items-baseline justify-center gap-x-2 gap-y-0.5">
+          <span class="text-xl font-bold">From {rodPrice.nowFormatted}</span>
+          {rodPrice.wasFormatted && (
+            <span class="text-sm text-white/50 line-through">{rodPrice.wasFormatted}</span>
+          )}
+        </p>
       </div>
       <div class="rounded-xl border border-white/15 bg-white/5 px-4 py-4">
         <p class="text-xs font-bold uppercase tracking-[0.12em] text-white/60">Track Installation</p>
-        <p class="mt-2 text-xl font-bold">From {formatUsd(hc.track.startingAt)}</p>
+        <p class="mt-2 flex flex-wrap items-baseline justify-center gap-x-2 gap-y-0.5">
+          <span class="text-xl font-bold">From {trackPrice.nowFormatted}</span>
+          {trackPrice.wasFormatted && (
+            <span class="text-sm text-white/50 line-through">{trackPrice.wasFormatted}</span>
+          )}
+        </p>
       </div>
     </div>
 

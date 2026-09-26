@@ -22,13 +22,21 @@ const closerSrc = imageOrPlaceholder(closer.src);
   aria-labelledby="start-final-heading"
 >
   <div class="absolute inset-0" aria-hidden="true">
+    <!--
+      This section has no max-width wrapper, so the frame really does render
+      edge-to-edge on mobile — 100vw there is correct. Past 768px it is still
+      full-bleed, but the image sits behind a heavy 78-92% black scrim and is
+      only ever a short strip, so there is no reason to fetch a resolution
+      past the site's own content cap (design system max width 1180-1280px)
+      just because a monitor is wider than that.
+    -->
     <SiteImage
       src={closerSrc}
       alt=""
       width={closer.width}
       height={closer.height}
       loading="lazy"
-      sizes="100vw"
+      sizes="(max-width: 768px) 100vw, 1200px"
       class="h-full w-full object-cover object-[center_30%]"
     />
     <div
