@@ -117,7 +117,7 @@ Older sections of [Cinco Ranch](/service-areas/katy/) throw nail pops and settli
 cracks along exterior walls after years of humidity and temperature swings.
 [Bridgeland](/service-areas/cypress/) and [Towne Lake](/service-areas/cypress/) are more
 often installer dings and TV-mount scars before a paint refresh.
-[Tamarron](/service-areas/katy/) and Fulshear new builds need small punch-list patches
+[Tamarron](/service-areas/katy/) and [Fulshear](/service-areas/fulshear/) new builds need small punch-list patches
 after furniture delivery and hanging day. Start from
 [Katy](/service-areas/katy/) or [Richmond](/service-areas/richmond/).
 

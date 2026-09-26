@@ -2,7 +2,7 @@
 title: "Interior Finish Work & Décor"
 slug: "flooring-and-decor"
 published: true
-seoTitle: "Interior Finish Work & Décor Installation | EYS"
+seoTitle: "Flooring, Décor & Interior Finish Work in Katy, TX | EYS"
 metaDescription: "Request trim, wall details, decorative installation and clearly scoped interior finish work for Katy and West Houston homes."
 heroTitle: "Interior Finish Work and Décor Installation"
 summary: "Trim, transitions, accent walls, décor mounting, and clearly scoped interior finish work — not full flooring replacement for every material and moisture scenario."
@@ -34,6 +34,12 @@ faqs:
     answer: "Yes. Trim removal, reinstall, and new baseboards are commonly bundled with flooring-adjacent finish projects."
   - question: "Can you add accent walls and décor details?"
     answer: "Absolutely. Board-and-batten, shiplap accents, and shelving are popular décor upgrades we handle."
+  - question: "Do you handle Cinco Ranch homes pairing new flooring with molding or chandelier updates?"
+    answer: "Yes. Cinco Ranch dining and living spaces frequently pair new flooring with molding and chandelier updates, and we handle that finish carpentry and mounting work once the flooring itself is in."
+  - question: "Can you fit transitions between different flooring types, like LVP to tile or existing hardwood?"
+    answer: "Yes. Transitions between LVP, tile, and existing hardwood are where DIY projects most often look unfinished. We cut and fit those edges carefully so doorways and hallways feel continuous rather than patched."
+  - question: "Will you move and protect furniture during the work?"
+    answer: "Yes. Furniture moving and protection is factored into every estimate, and we install with full area protection so adjacent rooms and finishes stay clean."
 ---
 Interior finish work only looks complete when the edges, transitions, and mounting details are done right. Elevate Your Space helps West Houston homeowners with clearly scoped trim, transitions, accent walls, and décor installs — the carpentry and mounting details that turn a delivery into a finished space.
 
@@ -50,7 +56,7 @@ Flooring-adjacent finish work, décor mounting, accent walls, board-and-batten d
 
 ## Local context
 
-Established Katy homes often need careful trim work around older casings when floors change. New Fulshear and [Sunterra](/service-areas/katy/) homes need décor and privacy installs quickly after furniture arrives. Richmond communities mix farmhouse décor ([Harvest Green](/service-areas/richmond/)) with resort-style [Aliana](/service-areas/richmond/) living — mounting and finish details should match that character. [Cinco Ranch](/service-areas/katy/) dining and living spaces frequently pair new floors with molding and chandelier updates.
+Established Katy homes often need careful trim work around older casings when floors change. New [Fulshear](/service-areas/fulshear/) and [Sunterra](/service-areas/katy/) homes need décor and privacy installs quickly after furniture arrives. Richmond communities mix farmhouse décor ([Harvest Green](/service-areas/richmond/)) with resort-style [Aliana](/service-areas/richmond/) living — mounting and finish details should match that character. [Cinco Ranch](/service-areas/katy/) dining and living spaces frequently pair new floors with molding and chandelier updates.
 
 ## Related services and inspiration
 
@@ -64,7 +70,6 @@ Room photos, product links, and notes about existing baseboards help. We return 
 
 We are a veteran-owned, owner-led handyman service based in the Katy and West Houston market. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task requires an appropriately qualified trade professional, we say so early so your project stays safe and on schedule.
 
-If your project is mostly trim, molding, or accent walls after floors are already in, we can often schedule faster than a specialty flooring contractor timeline. Send inspiration photos alongside room dimensions so the free estimate reflects both material and finish carpentry time.
-Transitions between LVP, tile, and existing hardwood are where DIY projects often look unfinished. We cut and fit those edges carefully so doorways and hallways feel continuous rather than patched.
+If your project is mostly trim, molding, or accent walls after floors are already in, we can often schedule faster than a specialty flooring contractor timeline. Transitions between LVP, tile, and existing hardwood are where DIY projects most often look unfinished — we cut and fit those edges carefully so doorways and hallways feel continuous rather than patched.
 
-Send photos whenever you can — clear pictures shorten the free estimate cycle and help us bring the right tools on day one.
+Send inspiration photos and room dimensions whenever you can. Clear pictures shorten the free estimate cycle, help us scope material and finish carpentry time accurately, and let us bring the right tools on day one.

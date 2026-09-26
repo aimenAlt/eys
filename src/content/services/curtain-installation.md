@@ -64,17 +64,11 @@ Many homeowners have us install rods and brackets first, then hang curtains when
 
 ## Local context
 
-[Sunterra](/service-areas/katy/) and [Jordan Ranch](/service-areas/fulshear/) move-ins often bundle curtains with [TV mounting](/services/tv-mounting/) and fans. Established [Cinco Ranch](/service-areas/katy/) homes may need hardware that clears older casing and high windows. [Bridgeland](/service-areas/cypress/) and [Cane Island](/service-areas/katy/) projects frequently involve taller ceilings and heavier treatments. In [Tamarron](/service-areas/katy/) and Towne Lake, privacy and sun control are common requests for west-facing rooms after furniture arrives.
-
-Double-height living rooms deserve special care — browse [double-height curtains](/our-work/double-height-curtains/) in our project gallery for an example of how tall installs come together, and see [high-ceiling curtain installation](/curtain-installation/) for that service and its pricing.
-
-## Free estimate and related services
-
-Share window photos, rod lengths, and whether drapes are already purchased. Curtain work sits under [installation and assembly](/services/installation-and-assembly/). Area starting points: [Katy](/service-areas/katy/) and [Fulshear](/service-areas/fulshear/). Pairing with [furniture assembly](/services/furniture-assembly/) is popular for full move-in days.
+[Sunterra](/service-areas/katy/) and [Jordan Ranch](/service-areas/fulshear/) move-ins are largely new construction from the past few years, so curtains go up early for privacy on fresh drywall — often bundled with a [TV mounting](/services/tv-mounting/) and fan-installation visit during the same move-in punch list. [Tamarron](/service-areas/katy/) production homes need the same post-closing treatment on standard builder window openings. Established [Cinco Ranch](/service-areas/katy/) homes, built anywhere from 1991 to 2015, more often need hardware that clears older casing and trim rather than a clean drywall surface. [Bridgeland](/service-areas/cypress/) and [Cane Island](/service-areas/katy/) luxury and semi-custom builds frequently pair curtain work with taller great-room windows and heavier drapery, where anchoring into structure matters more than in a standard bedroom. West-facing rooms on the water in [Towne Lake](/service-areas/cypress/) commonly want treatments that cut afternoon glare without losing the view.
 
 ## Ready for a free estimate?
 
-Looking for curtain rod installation in Katy or West Houston? Send window photos and hardware details. We return a free estimate, confirm anchoring approach, and schedule a clean install visit.
+Looking for curtain rod installation in Katy or West Houston? Share window photos, rod lengths, and whether drapes are already purchased, and we will confirm anchoring approach and schedule a clean install visit — clear photos shorten the free estimate cycle and help us bring the right tools on day one.
 
-Send photos whenever you can — clear pictures shorten the free estimate cycle and help us bring the right tools on day one.
+Curtain work sits under [installation and assembly](/services/installation-and-assembly/) and pairs well with [furniture assembly](/services/furniture-assembly/) on full move-in days — area starting points are [Katy](/service-areas/katy/) and [Fulshear](/service-areas/fulshear/). For a look at how a tall install comes together, browse [double-height curtains](/our-work/double-height-curtains/) in our project gallery, or see [high-ceiling curtain installation](/curtain-installation/) if your windows run two stories.
 

@@ -38,6 +38,10 @@ faqs:
     answer: "Yes. Pantry shelving, linen closets, and mudroom systems are common requests alongside bedroom closets."
   - question: "Is this the same as your custom carpentry service?"
     answer: "Not quite. This service covers wire and modular shelving systems built for organization. If you want fully custom, built-in cabinetry with a finished woodwork look, see custom carpentry — we'll point you to whichever fits your goal."
+  - question: "Do new-build homes in Sunterra and Tamarron need different closet work than older Katy homes?"
+    answer: "Usually, yes. New builds typically ship with a single wire shelf and rod, so most requests are straightforward reach-in upgrades right after closing, before the first round of moving boxes gets unpacked. In established Katy neighborhoods, closet requests are more often a resale refresh — replacing a dated or worn system before the home goes on the market."
+  - question: "Do you install closet and pantry systems in Fulshear and Cypress, or just Katy?"
+    answer: "Yes to both, along with Richmond. We install reach-in, pantry, and mudroom systems throughout Katy communities like Sunterra and Tamarron, in Fulshear, Cypress, and Richmond."
 ---
 
 Builder-basic wire shelving works fine for a season, but most closets outgrow it fast. Elevate Your Space installs reach-in closet systems, pantry and linen shelving, and mudroom organization across Katy and West Houston — wire, laminate, or wood, sized to the actual space instead of forced to fit a stock kit.

@@ -2,8 +2,8 @@
 title: "Electrical Services"
 slug: "electrical-services"
 published: true
-seoTitle: "Electrical Services in Katy & West Houston | EYS Handyman"
-metaDescription: "Electrical work in Katy and West Houston — fixtures, fans, outlets, switches, new circuits, and panel work. One call, one estimate, licensed electricians perform the electrical work."
+seoTitle: "Electrical Services in Katy, TX | EYS Handyman"
+metaDescription: "Electrical work in Katy, Cypress, Fulshear and Richmond — fixtures, fans, outlets, switches, new circuits, and panel work. Licensed electricians perform the electrical work."
 heroTitle: "Electrical Services in Katy & West Houston"
 summary: "EYS takes on electrical jobs of every size — fixtures and fans, outlets and switches, new circuits and panel work. Licensed electricians perform the electrical work; we scope it, quote it, and manage the schedule."
 heroImage: "/images/services/electrical.jpg"
@@ -44,8 +44,14 @@ faqs:
     answer: "Yes, we coordinate new circuits and panel work too. That work is performed by licensed electricians, as part of the same job and the same estimate."
   - question: "Can you install ceiling fans and light fixtures?"
     answer: "Yes, where an appropriate existing box and wiring are confirmed. That installation is performed by the licensed electrician brought onto the job. If conditions aren't suitable, we'll say so before anything is scheduled."
+  - question: "Do you handle electrical work outside Katy — Cypress, Fulshear, and Richmond too?"
+    answer: "Yes. We take electrical jobs across Katy, Cypress, Fulshear, Richmond and the surrounding West Houston communities — from established neighborhoods like Cinco Ranch and Pecan Grove to newer construction in Sunterra, Elyson, Cross Creek Ranch and Jordan Ranch. Send your address with the request so we can confirm travel and scope before quoting."
+  - question: "Is electrical work different in an established neighborhood versus a new-construction community?"
+    answer: "Usually, yes. In established neighborhoods such as Cinco Ranch and Pecan Grove, most calls are dated wiring, panel age, and code corrections. In newer communities such as Sunterra, Jordan Ranch and Cross Creek Ranch, most calls are fixture and fan installs on builder pre-wires, plus a new circuit or two for a garage, media wall, or home office the builder never ran. Licensed electricians perform the work either way, under the same one estimate."
+  - question: "Do electrical permits work the same way in every city you serve?"
+    answer: "No — it depends on which jurisdiction a project actually sits in. A Katy-area address can sit inside the City of Katy or in unincorporated Harris or Fort Bend County, and Fulshear, Cypress and Richmond addresses have their own rules for what triggers a permit. We identify what a project needs before pulling anything, and any permit is part of the estimate rather than an add-on afterward."
 ---
-EYS handles electrical work for homes in Katy and West Houston — fixture and fan installs, outlet and switch replacement, troubleshooting, new circuits, and panel work. Tell us what's going on and we'll give you one clear estimate for the whole job. **Licensed electricians perform the electrical work**, and we manage their scheduling so it stays one job with one point of contact. Elevate Your Space Handyman is not advertising as a licensed electrician or electrical contractor — we scope and manage the work, and licensed electricians perform the electrical work.
+EYS handles electrical work for homes across Katy, Cypress, Fulshear, Richmond and West Houston — fixture and fan installs, outlet and switch replacement, troubleshooting, new circuits, and panel work. Tell us what's going on and we'll give you one clear estimate for the whole job. **Licensed electricians perform the electrical work**, and we manage their scheduling so it stays one job with one point of contact. Elevate Your Space Handyman is not advertising as a licensed electrician or electrical contractor — we scope and manage the work, and licensed electricians perform the electrical work.
 
 ## Who does the work
 
@@ -59,13 +65,17 @@ You call one number, describe the problem, and get one estimate that covers the 
 
 ## Local examples
 
-See [vaulted crystal chandelier](/our-work/vaulted-crystal-chandelier/) for a high-ceiling fixture example from our gallery. Send your city and photos with the request so we can confirm travel and scope.
+See [vaulted crystal chandelier](/our-work/vaulted-crystal-chandelier/) for a high-ceiling fixture example from our gallery. We serve Katy, Cypress, Fulshear, Richmond and the surrounding communities — send your address and photos with the request so we can confirm travel and scope.
 
 ## Why homeowners call EYS for electrical work
 
 Elevate Your Space Handyman is veteran-owned, insured, and based in the Katy and West Houston market. Call us for electrical work the same way you'd call us for anything else on your list — we scope it, quote it, and manage it, and licensed electricians perform the electrical work.
 
 Electrical work is also a natural pairing with [painting](/services/painting/), [custom carpentry](/services/custom-carpentry/), and larger [whole-project remodeling](/services/whole-project-remodeling/) when a room is being refreshed as a whole.
+
+## Where we work
+
+Katy, Cypress, Fulshear, Richmond and the surrounding West Houston communities. New-construction electrical work is the norm in [Sunterra](/service-areas/katy/), [Elyson](/service-areas/katy/) and [Jordan Ranch](/service-areas/fulshear/) — fixture and fan installs on builder pre-wires, plus new circuits for a garage or media wall the builder never ran. In established [Cinco Ranch](/service-areas/katy/) and Pecan Grove homes, calls run more toward panel age, dated wiring and code corrections than new installs. [Bridgeland](/service-areas/cypress/) media walls and built-ins usually bring an outlet or circuit change along with the carpentry. Start from [Katy](/service-areas/katy/), [Cypress](/service-areas/cypress/), [Fulshear](/service-areas/fulshear/) or [Richmond](/service-areas/richmond/).
 
 ## Ready for a free estimate?
 

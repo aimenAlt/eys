@@ -36,6 +36,10 @@ faqs:
     answer: "Exterior door work is assessed case by case. Contact us with details."
   - question: "Do you offer free estimates for door repair?"
     answer: "Yes. Send photos of the door and a short description of the issue for a free estimate before we schedule."
+  - question: "Why does a door that was fine start sticking or misaligning again a few months later?"
+    answer: "Two things move door frames in this area: humidity swelling the wood itself, and expansive clay soil under the slab shifting slightly through wet and dry cycles. Neither one means the door or a past repair was done wrong — it's normal movement for this climate. If a door keeps drifting back out of alignment on roughly the same schedule, mention that when you contact us so we can look at the frame, not just the door."
+  - question: "Do you handle door repair in Fulshear and Cypress, or just Katy?"
+    answer: "Yes to both, along with Richmond. We repair and install doors throughout Katy, Fulshear communities like Tamarron and Jordan Ranch, Cypress neighborhoods including Bridgeland, and Richmond communities such as Veranda."
 ---
 
 Doors take daily abuse — humidity, settling slabs, kids, pets, and years of open-and-close cycles. Elevate Your Space repairs, aligns, and installs doors across Katy and West Houston so they close cleanly, latch securely, and look finished against your trim. If you need a handyman for sticky interior doors, misaligned hardware, or a new pre-hung swap, this is practical repair work that immediately improves how the house feels.

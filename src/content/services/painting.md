@@ -34,6 +34,10 @@ faqs:
     answer: "Cabinet painting is quoted separately. Contact us with photos for scope review."
   - question: "How do you protect floors?"
     answer: "We use drop cloths, tape, and shoe covers on every painting project."
+  - question: "Do new-construction homes in Fulshear and Sunterra need different prep than older Katy homes?"
+    answer: "Usually, yes. New builds typically have a single coat of builder-grade flat or eggshell straight over fresh drywall, so most of the work is priming and getting real coverage rather than fixing years of buildup. Homes in established Katy neighborhoods like Cinco Ranch usually carry multiple paint layers, nail pops, and old touch-up patches that need to be color-matched and blended before new paint goes on. We look at which one we're dealing with before we quote."
+  - question: "Do you paint in Cypress and Richmond, or only around Katy?"
+    answer: "Both, along with Fulshear. We paint interiors throughout Katy neighborhoods like Cinco Ranch and Sunterra, Fulshear, Richmond communities such as Harvest Green and Veranda, and Cypress neighborhoods including Bridgeland and Towne Lake."
 ---
 Interior painting is one of the fastest ways to make a West Houston home feel cared for — whether you are refreshing builder-beige walls in a new Fulshear home or modernizing a 1990s Katy living room that still shows original color choices. Elevate Your Space focuses on clean lines, careful prep, and full protection of floors and furniture.
 
@@ -54,7 +58,7 @@ Cabinet painting is quoted separately when scope warrants it; send photos so we 
 
 ## Local context
 
-New-construction communities in Fulshear and [Sunterra](/service-areas/katy/) often need personality on top of builder white. Maturing Katy homes more often need color modernization and repair blending after years of family life. Richmond's mix — agri-hood farmhouse aesthetics in [Harvest Green](/service-areas/richmond/), porch living in [Veranda](/service-areas/richmond/) — benefits from intentional accent choices that match how the home is used. Painting also pairs well with [custom carpentry](/services/custom-carpentry/) accent walls and molding projects.
+New-construction communities in [Fulshear](/service-areas/fulshear/) and [Sunterra](/service-areas/katy/) often need personality on top of builder white. Maturing Katy homes more often need color modernization and repair blending after years of family life. Richmond's mix — agri-hood farmhouse aesthetics in [Harvest Green](/service-areas/richmond/), porch living in [Veranda](/service-areas/richmond/) — benefits from intentional accent choices that match how the home is used. Painting also pairs well with [custom carpentry](/services/custom-carpentry/) accent walls and molding projects.
 
 ## Ready for a free estimate?
 

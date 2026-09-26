@@ -93,6 +93,13 @@ Fulshear buyers chose these communities for lifestyle — trails, farms, pools, 
 - **Precision installation** on new construction without damaging veneer, drywall, or flooring
 - **Clean workspaces** with shoe covers, drop cloths, and thorough cleanup
 
+### See our work
+
+Our [navy office built-ins and French doors](/our-work/navy-office-builtins/)
+project is an example of the built-in and trim carpentry we bring to Cross
+Creek Ranch and Jordan Ranch move-in punch lists. More in
+[carpentry and built-ins](/our-work/?category=carpentry-built-ins).
+
 ### Getting started in Fulshear
 
 Send your Fulshear address, closing date, photos, and project list through our [contact form](/contact/) or [book page](/book/). Elevate Your Space confirms availability and returns an itemized estimate.
