@@ -12,6 +12,9 @@ import { withJobberFormId } from '../utils/utm';
  * Form ids deliberately NOT in this file:
  *   5201775 — reserved for the `/start/` print-QR landing page.
  *   4372609, 4975089, 2019189 — legacy forms being retired.
+ *   5025076 — the free 30-minute on-site estimate. Retired 2026-09-26 (owner
+ *     direction: EYS no longer offers a bookable in-person estimate visit).
+ *     `/go/on-site/` 301s to `/go/home-project/` in public/_redirects.
  *   4985623 — the SITEWIDE project-estimate form (`jobber.projectEstimateFormUrl`).
  *     It asks the same thing as the `home-project` phone-lead form below, so
  *     offering both here made Essa choose between duplicates on every call.
@@ -252,21 +255,6 @@ export const goLinks: GoLink[] = [
     next: 'Next: a short booking form for your Handyman To-Do List visit.',
     bookingType: 'handyman_to_do_list',
     /** A list of small jobs done fast and neatly, which is what a To-Do List visit is. */
-    reviewId: 'yong-sun',
-  },
-  {
-    slug: 'on-site',
-    formId: '5025076',
-    label: 'Free on-site estimate',
-    keywords: 'walkthrough visit assessment on site in person come out free',
-    booking: true,
-    buttonLabel: BOOKING_BUTTON_LABEL,
-    group: 'searchable',
-    body:
-      "Here's the link to book your free 30-minute on-site estimate — pick a time that works for you.",
-    next: 'Next: a short booking form for your free on-site estimate.',
-    bookingType: 'on_site_estimate',
-    /** "He arrived on time" is the promise a booked on-site slot makes. */
     reviewId: 'yong-sun',
   },
   {

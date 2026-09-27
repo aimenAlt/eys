@@ -30,20 +30,6 @@ export interface JobberConfirmation {
 
 export const jobberConfirmations: readonly JobberConfirmation[] = [
   {
-    slug: 'on-site-estimate',
-    type: 'booking',
-    metaEvent: 'Schedule',
-    analyticsEvent: 'booking_complete',
-    contentName: 'Free 30-Minute On-Site Estimate',
-    contentCategory: 'On-Site Estimate',
-    service: 'on_site_estimate',
-    heading: 'Your On-Site Estimate Is Scheduled',
-    message:
-      "Your complimentary 30-minute on-site estimate has been scheduled with Elevate Your Space Handyman. We'll review the project details during your visit and follow up if anything else is needed beforehand.",
-    seoTitle: 'On-Site Estimate Scheduled',
-    seoDescription: 'Your complimentary 30-minute on-site estimate has been scheduled with Elevate Your Space Handyman.',
-  },
-  {
     slug: 'handyman-to-do-list',
     type: 'booking',
     metaEvent: 'Schedule',
