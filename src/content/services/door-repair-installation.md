@@ -2,8 +2,8 @@
 title: "Door Repair & Installation"
 slug: "door-repair-installation"
 published: true
-seoTitle: "Door Repair & Installation | Katy & West Houston | EYS"
-metaDescription: "Door repair and installation in Katy and West Houston. Interior doors, hardware, alignment, and pre-hung door swaps."
+seoTitle: "Door Repair & Installation | Katy & Fulshear | EYS"
+metaDescription: "Door repair and installation in Katy and Fulshear. Interior doors, hardware, alignment, and pre-hung door swaps."
 heroTitle: "Door Repair & Installation"
 summary: "Sticky doors, misaligned hardware, and new pre-hung door installation — adjusted and hung correctly."
 heroImage: "/images/services/door-install.jpg"
@@ -42,7 +42,7 @@ faqs:
     answer: "Yes to both, along with Richmond. We repair and install doors throughout Katy, Fulshear communities like Tamarron and Jordan Ranch, Cypress neighborhoods including Bridgeland, and Richmond communities such as Veranda."
 ---
 
-Doors take daily abuse — humidity, settling slabs, kids, pets, and years of open-and-close cycles. Elevate Your Space repairs, aligns, and installs doors across Katy and West Houston so they close cleanly, latch securely, and look finished against your trim. If you need a handyman for sticky interior doors, misaligned hardware, or a new pre-hung swap, this is practical repair work that immediately improves how the house feels.
+Doors take daily abuse — humidity, settling slabs, kids, pets, and years of open-and-close cycles. Elevate Your Space repairs, aligns, and installs doors across Katy, Fulshear and nearby cities so they close cleanly, latch securely, and look finished against your trim. If you need a handyman for sticky interior doors, misaligned hardware, or a new pre-hung swap, this is practical repair work that immediately improves how the house feels.
 
 ## Who calls us for doors
 
@@ -65,8 +65,8 @@ Gulf Coast humidity is tough on wood doors in [Cinco Ranch](/service-areas/katy/
 
 ## Free estimate and related pages
 
-Photos of the door (both sides if possible), notes about sticking or hardware issues, and whether you already purchased a replacement door help us quote accurately. Door work sits with our [repairs and maintenance](/services/repairs-and-maintenance/) services. Related pages: [custom carpentry](/services/custom-carpentry/) for casing or trim details, [drywall repair](/services/drywall-repair/) when hinge or strike work leaves wall scars, and the [Katy](/service-areas/katy/) area hub.
+Photos of the door (both sides if possible), notes about sticking or hardware issues, and whether you already purchased a replacement door help us quote accurately. Door work sits with our [repairs and maintenance](/services/repairs-and-maintenance/) services. Related pages: [custom carpentry](/services/custom-carpentry/) for casing or trim details, [drywall repair](/services/drywall-repair/) when hinge or strike work leaves wall scars, and the [Katy](/service-areas/katy/) and [Fulshear](/service-areas/fulshear/) area hubs.
 
 ## Ready for a free estimate?
 
-Looking for door repair or installation in Katy or West Houston? Send photos and a short description of the issue. We reply with a clear free estimate, explain what we can complete in one visit, and flag anything that needs specialized millwork or trade support.
+Got a door that sticks in a Katy summer or a Fulshear new build that needs its hardware sorted? Send photos and a short description of the issue. We reply with a clear free estimate, explain what we can complete in one visit, and flag anything that needs specialized millwork or trade support.

@@ -6,7 +6,7 @@ import ServiceTrustStrip from '../../components/seo/ServiceTrustStrip.astro';
 import BreadcrumbNav from '../../components/seo/BreadcrumbNav.astro';
 import InlineEstimateBand from '../../components/common/InlineEstimateBand.astro';
 import BalancedGrid from '../../components/ui/BalancedGrid.astro';
-import { absoluteUrl, site } from '../../data/business';
+import { absoluteUrl, localityShort, site } from '../../data/business';
 import { breadcrumbList, webPage } from '../../data/schema';
 import { contentMaxClass, contentPaddingClass } from '../../data/layout';
 
@@ -29,7 +29,7 @@ const postCards = posts.map((entry) => ({
 
 const title = `Blog | ${site.name}`;
 const description =
-  'Homeowner tips, project guides, and local handyman advice from Elevate Your Space Handyman in Katy and West Houston.';
+  `Homeowner tips, project guides, and local handyman advice from Elevate Your Space Handyman in ${localityShort('and')}.`;
 const canonical = absoluteUrl('/blog/');
 
 const schemaGraph = [
@@ -55,7 +55,7 @@ const schemaGraph = [
     <PageHero
       eyebrow="Homeowner Guides"
       title="Blog"
-      description="Practical advice on repairs, installations, and home improvements for Katy and West Houston homeowners."
+      description={`Practical advice on repairs, installations, and home improvements for homeowners in ${localityShort('and')}.`}
     />
 
     <ServiceTrustStrip />

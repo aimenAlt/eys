@@ -17,6 +17,7 @@ import {
   jobberHandymanToDoListFormUrl,
   jobberOnlineBookingUrl,
   jobberProjectEstimateFormUrl,
+  localityShort,
   site,
 } from '../../data/business';
 import { formatUsd, smallRepairPricing } from '../../data/pricing/todoList';
@@ -49,8 +50,8 @@ const secondaryForms = [
       </h1>
       <p class="text-lg text-neutral-600">
         Book a Handyman To-Do List Visit or TV mounting instantly at a fixed price, or send photos
-        for a project estimate on repairs, installations and larger jobs from {site.name} in Katy
-        and West Houston.
+        for a project estimate on repairs, installations and larger jobs from {site.name} in
+        {localityShort('and')}.
       </p>
     </div>
 

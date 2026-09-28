@@ -17,7 +17,7 @@ import CurtainSocialProof from '../../components/curtain-landing/CurtainSocialPr
 import CurtainStickyBar from '../../components/curtain-landing/CurtainStickyBar.astro';
 import CurtainTrustStrip from '../../components/curtain-landing/CurtainTrustStrip.astro';
 import CurtainWhy from '../../components/curtain-landing/CurtainWhy.astro';
-import { absoluteUrl } from '../../data/business';
+import { absoluteUrl, localityShort } from '../../data/business';
 import {
   curtainFaqs,
   curtainLanding,
@@ -41,7 +41,7 @@ const heroImage = curtainLanding.images.hero.src;
 const seo = {
   title: 'High Ceiling Curtain Installation in Katy, TX | EYS Handyman',
   description:
-    `Professional high-ceiling curtain rod and track installation in Katy and West Houston. ` +
+    `Professional high-ceiling curtain rod and track installation in ${localityShort('and')}. ` +
     `Rod installation from ${formatUsd(curtainLanding.pricing.highCeiling.rod.startingAt)}. ` +
     `Track installation from ${formatUsd(curtainLanding.pricing.highCeiling.track.startingAt)}. ` +
     `Book your installation online.`,
@@ -57,7 +57,7 @@ const schemaGraph = [
   {
     ...serviceSchema(
       'High Ceiling Curtain Installation',
-      'Professional high-ceiling curtain rod and ceiling-track installation for tall windows, vaulted spaces, and two-story rooms in Katy and West Houston.',
+      `Professional high-ceiling curtain rod and ceiling-track installation for tall windows, vaulted spaces, and two-story rooms in ${localityShort('and')}.`,
       pageUrl,
       heroImage,
     ),

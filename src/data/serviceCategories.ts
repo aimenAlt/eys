@@ -1,3 +1,4 @@
+import { localityShort } from './business';
 import { categoryHeroImages } from './images';
 
 export type ServiceCategoryItem = {
@@ -28,9 +29,9 @@ export const serviceCategories: ServiceCategory[] = [
     heroImage: categoryHeroImages['repairs-and-maintenance'] ?? '/images/categories/repairs-installs.jpg',
     heroImageAlt:
       'Finished living room with custom drapes and chandelier after handyman installation work',
-    seoTitle: 'Repairs & Maintenance | Katy & West Houston | Elevate Your Space',
+    seoTitle: `Repairs & Maintenance | ${localityShort('&')} | Elevate Your Space`,
     metaDescription:
-      'General handyman repairs, drywall repair, interior painting, fixture installation, and after-hours urgent repairs in Katy and West Houston.',
+      `General handyman repairs, drywall repair, interior painting, fixture installation, and after-hours urgent repairs in ${localityShort('and')}.`,
     ctaLabel: 'View Repair Services',
     items: [
       {
@@ -79,9 +80,9 @@ export const serviceCategories: ServiceCategory[] = [
     heroImage: categoryHeroImages['installation-and-assembly'] ?? '/images/categories/repairs-installs.jpg',
     heroImageAlt:
       'Living room drapes and chandelier installation completed by Elevate Your Space Handyman',
-    seoTitle: 'Installation & Assembly | Katy & West Houston | EYS',
+    seoTitle: `Installation & Assembly | ${localityShort('&')} | EYS`,
     metaDescription:
-      'Door installation, furniture assembly, TV mounting, ceiling fans, curtains, and cabinet installation in Katy and West Houston.',
+      `Door installation, furniture assembly, TV mounting, ceiling fans, curtains, and cabinet installation in ${localityShort('and')}.`,
     ctaLabel: 'View Installation Services',
     items: [
       {
@@ -136,9 +137,9 @@ export const serviceCategories: ServiceCategory[] = [
     heroImage: categoryHeroImages['remodeling-and-upgrades'] ?? '/images/categories/remodeling.jpg',
     heroImageAlt:
       'Blue kitchen island and window-seat cabinetry remodel with open living space beyond',
-    seoTitle: 'Home Upgrades & Custom Projects | Katy & West Houston | EYS',
+    seoTitle: `Home Upgrades & Custom Projects | ${localityShort('&')} | EYS`,
     metaDescription:
-      'Bathroom upgrades, kitchen upgrades, tile installation, whole-project remodeling, custom carpentry, outdoor carpentry, and wallpaper installation in Katy and West Houston.',
+      `Bathroom upgrades, kitchen upgrades, tile installation, whole-project remodeling, custom carpentry, outdoor carpentry, and wallpaper installation in ${localityShort('and')}.`,
     ctaLabel: 'View Upgrade Services',
     items: [
       {

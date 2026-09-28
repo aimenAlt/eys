@@ -15,7 +15,7 @@ import ServiceTermsSummary from '../../../components/services/small-repair/Servi
 import SmallRepairRequestForm from '../../../components/services/small-repair/SmallRepairRequestForm.astro';
 import SmallRepairOffer from '../../../components/services/small-repair/SmallRepairOffer.astro';
 import { getCollection } from 'astro:content';
-import { absoluteUrl } from '../../../data/business';
+import { absoluteUrl, localityShort } from '../../../data/business';
 import {
   breadcrumbList,
   canonicalBusinessNode,
@@ -106,7 +106,7 @@ const schemaGraph = [
     </div>
 
     <SmallRepairHero />
-    <ServiceTrustStrip locationName="Katy & West Houston" />
+    <ServiceTrustStrip locationName={localityShort('&')} />
     <SmallRepairOffer />
     <ServiceTermsSummary />
     <SmallRepairIncludes />
@@ -124,6 +124,6 @@ const schemaGraph = [
 
     <ServiceFAQ faqs={smallRepairFaqs} />
     <SmallRepairRequestForm />
-    <LocalAreaCTA locationName="Katy & West Houston" />
+    <LocalAreaCTA locationName={localityShort('&')} />
   </article>
 </ContentLayout>

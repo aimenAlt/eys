@@ -1,5 +1,5 @@
 ---
-import { googleReviewCountDisplay, googleReviewProfileUrl } from '../../data/business';
+import { googleReviewCountDisplay, googleReviewProfileUrl, localityShort } from '../../data/business';
 import { vanCampaign, vanImages } from '../../data/vanCampaign';
 
 /**
@@ -83,7 +83,7 @@ const gbpUrl = googleReviewProfileUrl();
         ) : (
           <>{googleReviewCountDisplay()} Google Reviews</>
         )
-      }{' '}· Katy &amp; West Houston
+      }{' '}· {localityShort('&')}
     </p>
     <h1
       id="van-hero-heading"
@@ -94,7 +94,7 @@ const gbpUrl = googleReviewProfileUrl();
     <p
       class="mt-3 max-w-xl text-base leading-relaxed text-white/90 [text-shadow:0_1px_12px_rgba(0,0,0,0.45)] sm:text-lg lg:text-white/85 lg:[text-shadow:none]"
     >
-      Repairs, installations, carpentry and full remodels across Katy and West Houston. Pick a path
+      Repairs, installations, carpentry and full remodels across Katy, Fulshear and nearby cities. Pick a path
       below, or call and we&rsquo;ll point you to the right one.
     </p>
 

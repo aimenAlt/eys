@@ -6,8 +6,8 @@
 title: "Smart Home Installation"
 slug: "smart-home-installation"
 published: false
-seoTitle: "Smart Home Installation | Katy & West Houston | EYS"
-metaDescription: "Video doorbell, smart lock, smart thermostat, and mesh Wi-Fi installation in Katy and West Houston — no unlicensed electrical work, clear scope every time."
+seoTitle: "Smart Home Installation | Katy & Fulshear | EYS"
+metaDescription: "Video doorbell, smart lock, smart thermostat, and mesh Wi-Fi installation in Katy and Fulshear — no unlicensed electrical work, clear scope every time."
 heroTitle: "Smart Home Installation — Safely Scoped, Clearly Explained"
 summary: "Video doorbells, smart locks, smart thermostats on existing wiring, smart switches on existing circuits, and mesh Wi-Fi placement — installed correctly, with clear limits on anything that touches wiring."
 heroImage: "/images/services/smart-home-installation.jpg"
@@ -46,7 +46,7 @@ faqs:
     answer: "Yes. We place access points for better whole-home coverage and can mount units cleanly out of sight."
 ---
 
-Video doorbells that drop Wi-Fi, cameras aimed at the wrong angle, smart locks that won't pair — a smart-home device is only as good as its installation. Elevate Your Space installs video doorbells, smart locks, smart thermostats, and mesh Wi-Fi across Katy and West Houston, with a clear line drawn around anything that touches your home's wiring.
+Video doorbells that drop Wi-Fi, cameras aimed at the wrong angle, smart locks that won't pair — a smart-home device is only as good as its installation. Elevate Your Space installs video doorbells, smart locks, smart thermostats, and mesh Wi-Fi for homes in Katy and Fulshear, with a clear line drawn around anything that touches your home's wiring.
 
 ## What's in scope — and what isn't
 
@@ -59,13 +59,13 @@ We install and configure devices on confirmed existing wiring and circuits: vide
 - Homeowners who bought devices online and need them mounted and paired correctly
 - Large-floor-plan owners whose Wi-Fi doesn't reach the back of the house or yard
 
-## Local examples across Katy and West Houston
+## Smart-home installs around Katy and Fulshear
 
-New-build move-in packages in Sunterra, Elyson, and Cane Island often bundle smart-lock and video-doorbell installs alongside [TV mounting](/services/tv-mounting/) and [furniture assembly](/services/furniture-assembly/) on the same visit. Large two-story floor plans common across these communities are also where mesh Wi-Fi placement matters most — a single router rarely reaches every room.
+New-build move-in packages in Sunterra, Elyson, Cane Island and Fulshear's Cross Creek Ranch often bundle smart-lock and video-doorbell installs alongside [TV mounting](/services/tv-mounting/) and [furniture assembly](/services/furniture-assembly/) on the same visit. Large two-story floor plans common across these communities are also where mesh Wi-Fi placement matters most — a single router rarely reaches every room.
 
 ## Related services and next steps
 
-For fixture and fan installation on existing wiring, see [electrical services](/services/electrical-services/). Upgrading door hardware alongside a new smart lock? See [door repair and installation](/services/door-repair-installation/). This service sits in [installation and assembly](/services/installation-and-assembly/). Serving homeowners across [Katy](/service-areas/katy/), [Cypress](/service-areas/cypress/), [Fulshear](/service-areas/fulshear/), and [Richmond](/service-areas/richmond/).
+For fixture and fan installation on existing wiring, see [electrical services](/services/electrical-services/). Upgrading door hardware alongside a new smart lock? See [door repair and installation](/services/door-repair-installation/). This service sits in [installation and assembly](/services/installation-and-assembly/). Serving homeowners across [Katy](/service-areas/katy/), [Fulshear](/service-areas/fulshear/), [Cypress](/service-areas/cypress/), and [Richmond](/service-areas/richmond/).
 
 ## Ready for a free estimate?
 

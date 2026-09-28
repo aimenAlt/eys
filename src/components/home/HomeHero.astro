@@ -5,6 +5,7 @@ import {
   googleReviewProfileUrl,
   googleReviews,
   jobberHandymanToDoListFormUrl,
+  localityShort,
   jobberProjectEstimateFormUrl,
 } from '../../data/business';
 import SiteImage from '../ui/SiteImage.astro';
@@ -48,12 +49,12 @@ const reviewProof = `${googleReviews.rating.toFixed(1)} ★ · ${googleReviewCou
         <span
           class="inline-block py-1 px-3 rounded-md bg-black/35 text-white text-xs font-bold tracking-wider mb-4 border border-white/30 uppercase backdrop-blur-[2px]"
         >
-          Veteran-Owned · Katy &amp; West Houston
+          Veteran-Owned · {localityShort('&')}
         </span>
         <h1
           class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight mb-4 [text-shadow:0_2px_24px_rgba(0,0,0,0.55)]"
         >
-          Handyman Services for Katy &amp; West Houston
+          Handyman Services for {localityShort('&')}
         </h1>
         <p
           class="text-lg text-white/95 mb-6 leading-relaxed max-w-2xl [text-shadow:0_1px_12px_rgba(0,0,0,0.5)]"
@@ -150,7 +151,7 @@ const reviewProof = `${googleReviews.rating.toFixed(1)} ★ · ${googleReviewCou
                 d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
                 clip-rule="evenodd"></path></svg
             >
-            Katy &amp; West Houston
+            {localityShort('&')}
           </a>
         </div>
       </div>

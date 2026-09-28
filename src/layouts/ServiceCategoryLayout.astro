@@ -7,7 +7,7 @@ import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
 import ServiceTrustStrip from '../components/seo/ServiceTrustStrip.astro';
 import InlineEstimateBand from '../components/common/InlineEstimateBand.astro';
 import BalancedGrid from '../components/ui/BalancedGrid.astro';
-import { absoluteUrl, resolveOgImage } from '../data/business';
+import { absoluteUrl, localityShort, resolveOgImage } from '../data/business';
 import { breadcrumbList, itemListSchema, webPage } from '../data/schema';
 import { contentMaxClass, contentPaddingClass } from '../data/layout';
 import type { ServiceCategory } from '../data/serviceCategories';
@@ -81,7 +81,7 @@ const schemaGraph = [
     <LocalHero
       heading={category.title}
       summary={category.summary}
-      locationLabel="Katy & West Houston"
+      locationLabel={localityShort('&')}
       heroImage={category.heroImage}
       heroImageAlt={category.heroImageAlt}
     />
@@ -101,7 +101,7 @@ const schemaGraph = [
 
       <section class="bg-white rounded-xl border border-neutral-200 p-6">
         <h2 class="text-lg font-bold text-brand-black mb-2">Explore other service categories</h2>
-        <p class="text-sm text-neutral-600 mb-4">Browse our full range of handyman services for Katy and West Houston.</p>
+        <p class="text-sm text-neutral-600 mb-4">Browse our full range of handyman services for homes in {localityShort('and')}.</p>
         <div class="flex flex-wrap gap-3">
           {
             serviceCategories
@@ -119,6 +119,6 @@ const schemaGraph = [
         </div>
       </section>
     </LocalLandingShell>
-    <LocalAreaCTA locationName="Katy & West Houston" />
+    <LocalAreaCTA locationName={localityShort('&')} />
   </article>
 </ContentLayout>

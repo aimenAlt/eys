@@ -12,12 +12,12 @@ import VanRouteCards from '../../components/van/VanRouteCards.astro';
 import VanStickyBar from '../../components/van/VanStickyBar.astro';
 import VideoAutoplayScript from '../../components/common/VideoAutoplayScript.astro';
 import VanTrust from '../../components/van/VanTrust.astro';
-import { site } from '../../data/business';
+import { localityShort, site } from '../../data/business';
 
 const seo = {
   title: 'Book or Request Service | Elevate Your Space Handyman',
   description:
-    'Book handyman service or request a project estimate from Elevate Your Space Handyman, serving Katy and West Houston.',
+    `Book handyman service or request a project estimate from Elevate Your Space Handyman, serving ${localityShort('and')}.`,
   canonical: `${site.url}/van/`,
   noindex: true,
 };

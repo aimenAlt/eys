@@ -9,6 +9,7 @@ import {
   googleReviewProfileUrl,
   jobberHandymanToDoListFormUrl,
   jobberProjectEstimateFormUrl,
+  localityShort,
 } from '../data/business';
 import { breadcrumbList, localBusinessForArea, webPage } from '../data/schema';
 import { contentMaxClass, contentPaddingClass } from '../data/layout';
@@ -16,7 +17,7 @@ import { formatUsd, smallRepairPricing } from '../data/pricing/todoList';
 
 const title = 'Contact Elevate Your Space Handyman | Katy, TX';
 const description =
-  'Call EYS or send photographs, measurements and project details for a handyman visit or custom estimate in Katy and West Houston.';
+  `Call EYS or send photographs, measurements and project details for a handyman visit or custom estimate in ${localityShort('and')}.`;
 const gbpUrl = googleReviewProfileUrl();
 const estimateUrl = jobberProjectEstimateFormUrl();
 const todoListUrl = jobberHandymanToDoListFormUrl();

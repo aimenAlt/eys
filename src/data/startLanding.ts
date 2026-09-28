@@ -20,6 +20,7 @@ import {
   jobberHandymanToDoListFormUrl,
   jobberOnlineBookingUrl,
   jobberStartProjectEstimateFormUrl,
+  localityShort,
   site,
 } from './business';
 import { curtainLanding, formatUsd as formatUsdWhole } from './curtainLanding';
@@ -32,14 +33,14 @@ export const startLanding = {
   path: '/start/',
 
   seo: {
-    title: 'Handyman in Katy & West Houston | Elevate Your Space Handyman',
+    title: `Handyman in ${localityShort('&')} | Elevate Your Space Handyman`,
     // Review rating, count and price all render from their single sources in
     // business.ts / smallRepairPricing.ts. Never hardcode a figure here.
     // Cinco Ranch is deliberate community-tier targeting, not drift — keep it.
     // Trimmed to ~145 chars for link previews; /start/ is noindexed, so this was
     // never a search-result truncation issue.
     description:
-      `Veteran-owned, insured handyman in Katy, Cinco Ranch and Cypress. ` +
+      `Veteran-owned, insured handyman in Katy, Fulshear, Cinco Ranch and Cypress. ` +
       `To-Do List visits from ${formatUsdWhole(smallRepairPricing.oneHour)} the first hour. ` +
       `Rated ${googleReviews.rating.toFixed(1)} from ${googleReviewCountDisplay()} Google reviews.`,
   },

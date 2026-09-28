@@ -3,8 +3,8 @@ title: "Ceiling Fan Installation"
 slug: "ceiling-fan-installation"
 published: true
 seoTitle: "Ceiling Fan Installation in Katy, TX | EYS Handyman"
-metaDescription: "Ceiling fan installation and replacement in Katy and West Houston. One estimate, one point of contact. Licensed electricians perform the electrical work."
-heroTitle: "Ceiling Fan Installation in Katy & West Houston"
+metaDescription: "Ceiling fan installation and replacement in Katy and Fulshear. One estimate, one point of contact. Licensed electricians perform the electrical work."
+heroTitle: "Ceiling Fan Installation in Katy & Fulshear"
 summary: "Fan replacement, builder pre-wires, high and sloped ceilings, and covered patios. We scope and manage the job; licensed electricians perform the electrical work."
 heroImage: "/images/services/ceiling-fan.jpg"
 heroImageAlt: "Ceiling fan and chandelier installed on a high vaulted living-room ceiling"
@@ -56,7 +56,7 @@ faqs:
 ---
 
 Airflow is not a luxury in a Gulf Coast house. Elevate Your Space handles ceiling fan
-installation and replacement across Katy and West Houston — new construction pre-wires,
+installation and replacement across Katy and Fulshear — new construction pre-wires,
 tired brass fixtures coming down, two-story rooms nobody wants to get a ladder into, and
 covered patios. You call one number and get one estimate for the whole job.
 
@@ -115,7 +115,7 @@ the cheaper fan reliably costs more.
 
 ## Where we work
 
-Katy, Cypress, Cinco Ranch, Fulshear, Richmond and the surrounding West Houston
+Katy, Fulshear, Cinco Ranch, Cypress, Richmond and the surrounding West Houston
 communities. New-build pre-wires are constant in [Sunterra](/service-areas/katy/),
 [Tamarron](/service-areas/katy/) and [Jordan Ranch](/service-areas/fulshear/). Higher
 ceilings and heavier fixtures come up most in [Bridgeland](/service-areas/cypress/) and

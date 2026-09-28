@@ -2,8 +2,8 @@
 title: "Babyproofing & Child Safety"
 slug: "babyproofing-child-safety"
 published: true
-seoTitle: "Babyproofing & Child Safety Installation | Katy & West Houston | EYS"
-metaDescription: "Furniture anti-tip anchoring, cabinet locks, outlet covers, and stair gate installation in Katy and West Houston. Safety upgrades, not medical claims — free consultation."
+seoTitle: "Babyproofing & Child Safety Installation | Katy & Fulshear | EYS"
+metaDescription: "Furniture anti-tip anchoring, cabinet locks, outlet covers, and stair gate installation in Katy and Fulshear. Safety upgrades, not medical claims — free consultation."
 heroTitle: "Babyproofing & Child Safety — A Layer of Protection, Done Right"
 summary: "Furniture and TV anti-tip anchoring, cabinet and drawer locks, outlet covers, and stair or doorway gate installation — mounted securely, not just stuck on with adhesive."
 heroImage: "/images/services/babyproofing-child-safety.jpg"
@@ -42,7 +42,7 @@ faqs:
     answer: "It depends on scope — a few anchored items take under an hour, while a full-home walkthrough with gates, locks, and anchoring is usually a longer scheduled visit."
 ---
 
-New parents preparing a nursery, grandparents childproofing before a visit, a newly mobile toddler who's suddenly into everything — Elevate Your Space installs the securely mounted safety layers that actually hold up across Katy and West Houston: anchored furniture, locked cabinets, covered outlets, and stair or doorway gates.
+New parents preparing a nursery, grandparents childproofing before a visit, a newly mobile toddler who's suddenly into everything — Elevate Your Space installs the securely mounted safety layers that actually hold up in homes across Katy and Fulshear: anchored furniture, locked cabinets, covered outlets, and stair or doorway gates.
 
 ## Who this service is for
 
@@ -55,13 +55,13 @@ New parents preparing a nursery, grandparents childproofing before a visit, a ne
 
 Furniture and TV anchoring go into wood studs whenever possible; where a stud isn't in the right spot, we use heavy-duty anchors rated for tip-over resistance — not an adhesive strap alone. Cabinet and drawer locks go on kitchen and bath cabinets and any appliance that needs one. Stair and doorway gates are hardware-mounted where security matters most, or pressure-mounted where that fits the location better — we'll explain the tradeoff before installing either. No part of this is presented as a guarantee against every accident; it's a real, securely mounted layer of protection, not a substitute for supervision.
 
-## Local examples across Katy and West Houston
+## Where babyproofing requests come from
 
 Young-family new-build communities like Elyson, [Sunterra](/service-areas/katy/), and [Cross Creek Ranch](/service-areas/fulshear/) see the most babyproofing requests, often timed around a new baby or a toddler's first steps. It's also common to pair babyproofing with a [furniture assembly](/services/furniture-assembly/) visit when a nursery is being set up from scratch — anchoring the new dresser or bookcase as it's assembled rather than as a separate trip.
 
 ## Related services and next steps
 
-Looking for bathroom safety upgrades too? See [grab bar installation](/services/grab-bar-installation/). Setting up a nursery from scratch? Pair with [furniture assembly](/services/furniture-assembly/). This service sits in [home upgrades and custom projects](/services/remodeling-and-upgrades/). Serving homeowners across [Katy](/service-areas/katy/), [Cypress](/service-areas/cypress/), and [Fulshear](/service-areas/fulshear/).
+Looking for bathroom safety upgrades too? See [grab bar installation](/services/grab-bar-installation/). Setting up a nursery from scratch? Pair with [furniture assembly](/services/furniture-assembly/). This service sits in [home upgrades and custom projects](/services/remodeling-and-upgrades/). Babyproofing visits are available in [Katy](/service-areas/katy/), [Fulshear](/service-areas/fulshear/), and [Cypress](/service-areas/cypress/).
 
 ## Ready for a free consultation?
 

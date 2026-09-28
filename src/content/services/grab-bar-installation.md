@@ -2,8 +2,8 @@
 title: "Grab Bar Installation"
 slug: "grab-bar-installation"
 published: true
-seoTitle: "Grab Bar Installation in Katy & West Houston | EYS"
-metaDescription: "Secure, stylish grab bar installation for showers, tubs, and toilets in Katy and West Houston. Veteran-owned, stud-anchored, free consultation."
+seoTitle: "Grab Bar Installation in Katy & Fulshear | EYS"
+metaDescription: "Secure, stylish grab bar installation for showers, tubs, and toilets in Katy and Fulshear. Veteran-owned, stud-anchored, free consultation."
 heroTitle: "Grab Bar Installation — Secure Support, Not a Hospital Look"
 summary: "Stud-anchored grab bars for showers, tubs, and toilets, installed in finishes that blend with your bathroom instead of announcing themselves."
 heroImage: "/images/services/grab-bar-installation.jpg"
@@ -42,7 +42,7 @@ faqs:
     answer: "Most single bars take roughly 30–45 minutes once we're on site; multiple bars are often completed in the same visit. Exact timing depends on wall surface and whether blocking is needed."
 ---
 
-Elevate Your Space installs grab bars for showers, tubs, and toilets throughout Katy, Cypress, Fulshear, Richmond, and West Houston. Whether you're helping a parent age in place, preparing for a return home after surgery, or getting ahead of a fall risk before it becomes one, we mount bars that hold real weight and finishes that fit your bathroom instead of standing out.
+Elevate Your Space installs grab bars for showers, tubs, and toilets throughout Katy, Fulshear, Cypress, Richmond, and West Houston. Whether you're helping a parent age in place, preparing for a return home after surgery, or getting ahead of a fall risk before it becomes one, we mount bars that hold real weight and finishes that fit your bathroom instead of standing out.
 
 ## Who this service is for
 
@@ -59,13 +59,13 @@ Many West Houston homes were built ten to thirty years ago, before bathroom safe
 
 Suction-cup and towel-bar hardware are not a substitute for a real grab bar. Every bar we install goes into wood studs where possible; where the layout doesn't line up, we add reinforced blocking or use heavy-duty anchors built for sustained body weight. On tile and stone we drill carefully with the right bits and seal around the penetration so moisture doesn't get behind the wall. On fiberglass and acrylic, which are more brittle, we take extra care with anchoring and have wall-repair materials on hand for any minor surface work. The result should look and feel like it was part of the original build — no visible wall damage, no wobble.
 
-## Local examples across Katy and West Houston
+## Grab bar installs around Katy and Fulshear
 
 In established Cinco Ranch and early Katy neighborhoods, we often add grab bars to bathrooms that haven't been touched since the home was built — usually alongside a vanity or fixture refresh. In [Bridgeland](/service-areas/cypress/) and Towne Lake, requests frequently come from adult children coordinating an upgrade for a parent's home remotely. In newer Fulshear and Richmond communities like [Jordan Ranch](/service-areas/fulshear/) and [Harvest Green](/service-areas/richmond/), we more often see proactive installs — homeowners adding bars before a scheduled surgery or before a parent moves in.
 
 ## Related services and next steps
 
-Grab bars often pair well with [bathroom upgrades](/services/bathroom-remodeling/) — vanity, fixture, and hardware work done in the same visit — or with [custom carpentry](/services/custom-carpentry/) if a wall needs blocking added ahead of installation. This service sits alongside [bathroom upgrades](/services/bathroom-remodeling/) in [home upgrades and custom projects](/services/remodeling-and-upgrades/). Serving homeowners across [Katy](/service-areas/katy/), [Cypress](/service-areas/cypress/), and [Richmond](/service-areas/richmond/).
+Grab bars often pair well with [bathroom upgrades](/services/bathroom-remodeling/) — vanity, fixture, and hardware work done in the same visit — or with [custom carpentry](/services/custom-carpentry/) if a wall needs blocking added ahead of installation. This service sits alongside [bathroom upgrades](/services/bathroom-remodeling/) in [home upgrades and custom projects](/services/remodeling-and-upgrades/). Serving homeowners across [Katy](/service-areas/katy/), [Fulshear](/service-areas/fulshear/), [Cypress](/service-areas/cypress/), and [Richmond](/service-areas/richmond/).
 
 ## Ready for a free consultation?
 

@@ -3,7 +3,7 @@ title: "Kitchen Upgrades"
 slug: "kitchen-remodeling"
 published: true
 seoTitle: "Kitchen Upgrades, Cabinetry & Finish Work | EYS"
-metaDescription: "Plan cabinet, shelving, trim, paint, hardware and coordinated kitchen improvements in Katy and West Houston. Regulated trade work requires appropriately qualified professionals where applicable."
+metaDescription: "Plan cabinet, shelving, trim, paint, hardware and coordinated kitchen improvements in Katy and Fulshear. Regulated trade work requires appropriately qualified professionals where applicable."
 heroTitle: "Kitchen Upgrades and Finish Work"
 summary: "Cabinet hardware, finish carpentry, fixture coordination, and punch-list improvements — with clear scope limits and disclosure when regulated trade work is required."
 heroImage: "/images/services/kitchen-remodel.jpg"
@@ -57,15 +57,15 @@ Projects often start with photos and a priority list — island refresh, hardwar
 
 ## Related services
 
-Kitchen work pairs naturally with [custom carpentry](/services/custom-carpentry/), [painting](/services/painting/), and [bathroom upgrades](/services/bathroom-remodeling/) when you are refreshing multiple rooms. This service sits in [home upgrades and custom projects](/services/remodeling-and-upgrades/). Serving homeowners across [Katy](/service-areas/katy/) and [Richmond](/service-areas/richmond/).
+Kitchen work pairs naturally with [custom carpentry](/services/custom-carpentry/), [painting](/services/painting/), and [bathroom upgrades](/services/bathroom-remodeling/) when you are refreshing multiple rooms. This service sits in [home upgrades and custom projects](/services/remodeling-and-upgrades/). Kitchen upgrades are available throughout [Katy](/service-areas/katy/), [Fulshear](/service-areas/fulshear/) and [Richmond](/service-areas/richmond/).
 
 ## Ready for a free estimate?
 
-Send kitchen photos and a priority list. We reply with a clear free estimate, explain what we can complete in one visit, and flag anything that requires an appropriately qualified trade professional. Looking for kitchen help in Katy or West Houston? Start from [contact](/contact/) or your [service area](/service-areas/) page.
+Send kitchen photos and a priority list. We reply with a clear free estimate, explain what we can complete in one visit, and flag anything that requires an appropriately qualified trade professional. Planning kitchen work in Katy or Fulshear? Start from [contact](/contact/) or your [service area](/service-areas/) page.
 
 ## Why homeowners choose Elevate Your Space
 
-We are a veteran-owned, owner-led handyman service based in the Katy and West Houston market. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task requires an appropriately qualified trade professional, we say so early so your project stays safe and on schedule.
+We are a veteran-owned, owner-led handyman service based right here in Katy. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task requires an appropriately qualified trade professional, we say so early so your project stays safe and on schedule.
 
 Hardware-only refreshes, island touch-ups, and lighting swaps are common entry points before a larger upgrade. We can start there, then expand scope once you see how the kitchen feels with updated finishes — still with a free estimate at each stage so costs stay transparent.
 If you already purchased cabinets, sinks, or lighting, include model photos in the estimate request. Customer-supplied materials are common, and we plan layout and fastening around what you already own.

@@ -2,8 +2,8 @@
 title: "Wallpaper & Accent Wall Installation"
 slug: "wallpaper-accent-wall-installation"
 published: true
-seoTitle: "Wallpaper & Accent Wall Installation | Katy & West Houston | EYS"
-metaDescription: "Wallpaper, peel-and-stick, and grasscloth installation for Katy and West Houston homes, with humidity-aware wall prep. Free estimate before we schedule."
+seoTitle: "Wallpaper & Accent Wall Installation | Katy & Fulshear | EYS"
+metaDescription: "Wallpaper, peel-and-stick, and grasscloth installation for Katy and Fulshear homes, with humidity-aware wall prep. Free estimate before we schedule."
 heroTitle: "Wallpaper Installation — Prepped for Gulf Coast Humidity"
 summary: "Traditional, peel-and-stick, and grasscloth wallpaper installed with the wall prep Gulf Coast humidity actually requires — plus accent-wall guidance if wallpaper isn't the right fit."
 heroImage: "/images/services/wallpaper-accent-wall-installation.jpg"
@@ -40,7 +40,7 @@ faqs:
     answer: "Yes. Wall photos, dimensions, and your wallpaper selection (or a note that you want guidance) are enough for a free estimate."
 ---
 
-Wallpaper is having a real moment again, but Houston's humidity is unforgiving of shortcuts — unsealed drywall, skipped priming, or paper hung straight onto a textured builder wall tends to bubble or lift within a season. Elevate Your Space installs wallpaper across Katy and West Houston with the prep that Gulf Coast conditions actually require, so it still looks right a year later.
+Wallpaper is having a real moment again, but Houston's humidity is unforgiving of shortcuts — unsealed drywall, skipped priming, or paper hung straight onto a textured builder wall tends to bubble or lift within a season. Elevate Your Space installs wallpaper in Katy and Fulshear homes with the prep that Gulf Coast conditions actually require, so it still looks right a year later.
 
 ## Who this service is for
 
@@ -51,15 +51,15 @@ Wallpaper is having a real moment again, but Houston's humidity is unforgiving o
 
 ## Wallpaper types we install
 
-Traditional pasted wallpaper, peel-and-stick, and grasscloth or other textured wallcoverings — each with different prep needs. Most Katy-area homes have textured builder walls that need to be floated smooth before any wallpaper goes up; new or patched drywall needs the right primer so the surface accepts adhesive evenly instead of absorbing it unevenly. We remove old wallpaper and repair the wall underneath when that's part of the job, rather than papering over a problem.
+Traditional pasted wallpaper, peel-and-stick, and grasscloth or other textured wallcoverings — each with different prep needs. Builder walls across Katy and Fulshear almost always carry a texture that has to be floated smooth before any wallpaper goes up; new or patched drywall needs the right primer so the surface accepts adhesive evenly instead of absorbing it unevenly. We remove old wallpaper and repair the wall underneath when that's part of the job, rather than papering over a problem.
 
-## Local examples across Katy and West Houston
+## Wallpaper projects around Katy and Fulshear
 
 Design-forward new builds in Cane Island and [Bridgeland](/service-areas/cypress/) are where we see the most feature-wallpaper requests, often alongside other finish work like [custom carpentry](/services/custom-carpentry/) or a [media wall](/services/media-walls/) in the same room. In [Fulshear](/service-areas/fulshear/) and [Richmond](/service-areas/richmond/), nursery and powder-room wallpaper are common as new-build families settle in and want one standout room without redoing the whole house.
 
 ## Related services and next steps
 
-Want a painted accent wall instead? See [painting](/services/painting/). Prefer board-and-batten, shiplap, or wood-slat? See [custom carpentry](/services/custom-carpentry/). If the wall is part of a larger room refresh that also needs carpentry, drywall, or licensed electrical, see [whole-project remodeling](/services/whole-project-remodeling/). This service sits in [home upgrades and custom projects](/services/remodeling-and-upgrades/). Serving homeowners across [Katy](/service-areas/katy/), [Cypress](/service-areas/cypress/), and [Fulshear](/service-areas/fulshear/).
+Want a painted accent wall instead? See [painting](/services/painting/). Prefer board-and-batten, shiplap, or wood-slat? See [custom carpentry](/services/custom-carpentry/). If the wall is part of a larger room refresh that also needs carpentry, drywall, or licensed electrical, see [whole-project remodeling](/services/whole-project-remodeling/). This service sits in [home upgrades and custom projects](/services/remodeling-and-upgrades/). We hang wallpaper for homeowners in [Katy](/service-areas/katy/), [Fulshear](/service-areas/fulshear/), and [Cypress](/service-areas/cypress/).
 
 ## Ready for a free estimate?
 

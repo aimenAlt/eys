@@ -1,6 +1,6 @@
 ---
 import StartChooseLink from './StartChooseLink.astro';
-import { site } from '../../data/business';
+import { localityShort, site } from '../../data/business';
 
 const steps = [
   {
@@ -16,7 +16,7 @@ const steps = [
   {
     number: '3',
     title: 'We Show Up and Finish Clean',
-    body: 'Veteran-owned, locally operated work in Katy and West Houston, with the home protected.',
+    body: `Veteran-owned, locally operated work in ${localityShort('and')}, with the home protected.`,
   },
 ] as const;
 ---

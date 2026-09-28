@@ -1,4 +1,5 @@
 ---
+import { localityShort } from '../../data/business';
 import MediaWallEstimateLink from './MediaWallEstimateLink.astro';
 ---
 
@@ -31,7 +32,7 @@ import MediaWallEstimateLink from './MediaWallEstimateLink.astro';
         Request a Media Wall Estimate
       </MediaWallEstimateLink>
       <p class="mt-4 max-w-md text-sm text-white/65">
-        Veteran-owned · Katy &amp; West Houston · Custom project estimates through Jobber
+        Veteran-owned · {localityShort('&')} · Custom project estimates through Jobber
       </p>
     </div>
   </div>

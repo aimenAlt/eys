@@ -2,7 +2,7 @@
 title: "Outdoor Carpentry"
 slug: "outdoor-carpentry"
 published: true
-seoTitle: "Fence Repair, Deck Repair & Pergolas | Katy & West Houston"
+seoTitle: "Fence Repair, Deck Repair & Pergolas | Katy & Fulshear"
 metaDescription: "Fence and gate repair, deck repair, pergolas, patio covers and privacy screens in Katy, Fulshear, Cypress and Richmond. We repair sections — you don't have to replace the whole fence."
 heroTitle: "Fence Repair, Deck Repair, Pergolas and Patio Covers"
 summary: "Exterior woodwork for West Houston backyards — fence and gate repair, deck board and railing work, pergolas, patio covers, and privacy screens. We fix sections instead of selling you a tear-out."
@@ -56,7 +56,7 @@ faqs:
     answer: "Yes, as part of a build or as its own job. New pressure-treated lumber needs to dry before it will take a finish, so staining is often scheduled as a return visit rather than done the same week — we will tell you which applies to your project instead of rushing a coat onto wet wood."
 ---
 
-Backyards in Katy and West Houston take a beating. Clay soil swells and shrinks against fence posts, straight-line winds find the weak run, and the deck the builder put in eight years ago now has three soft boards and a railing that moves. Elevate Your Space Handyman does the exterior woodwork side of that list — fence and gate repair, deck repair, pergolas, patio covers, and privacy screens — as measured carpentry rather than a tear-out-and-replace bid.
+Backyards in Katy and Fulshear take a beating. Clay soil swells and shrinks against fence posts, straight-line winds find the weak run, and the deck the builder put in eight years ago now has three soft boards and a railing that moves. Elevate Your Space Handyman does the exterior woodwork side of that list — fence and gate repair, deck repair, pergolas, patio covers, and privacy screens — as measured carpentry rather than a tear-out-and-replace bid.
 
 Outdoor work is one of the strongest parts of our business, and it is not because we chase full fence replacements. It is because we take the jobs in between: the single leaning section, the gate that drags, the deck that needs framing help before it needs boards, and the patio that needs a real structure built over it.
 

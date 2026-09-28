@@ -1,5 +1,10 @@
 ---
-import { googleReviewCountDisplay, googleReviewProfileUrl, googleReviews } from '../../data/business';
+import {
+  googleReviewCountDisplay,
+  googleReviewProfileUrl,
+  googleReviews,
+  localityMid,
+} from '../../data/business';
 
 const gbpUrl = googleReviewProfileUrl();
 const ratingLabel = googleReviews.rating.toFixed(1);
@@ -16,7 +21,7 @@ const reviewLabel = `${googleReviewCountDisplay()}`;
   >
     <li>Veteran-Owned</li>
     <li class="hidden text-brand-line sm:list-item" aria-hidden="true">|</li>
-    <li>Katy &amp; West Houston</li>
+    <li>{localityMid('&')}</li>
     <li class="hidden text-brand-line sm:list-item" aria-hidden="true">|</li>
     <li>Custom Built-Ins &amp; Media Walls</li>
     <li class="hidden text-brand-line sm:list-item" aria-hidden="true">|</li>

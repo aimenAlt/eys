@@ -1,4 +1,5 @@
 ---
+import { localityShort } from '../../data/business';
 import { curtainLanding, curtainOfferPrice } from '../../data/curtainLanding';
 import CurtainBookLink from './CurtainBookLink.astro';
 
@@ -58,7 +59,7 @@ const trackPrice = curtainOfferPrice('track');
         </CurtainBookLink>
       </p>
       <p class="mt-4 max-w-md text-sm text-white/65">
-        Veteran-owned · Katy &amp; West Houston · Secure online booking through Jobber
+        Veteran-owned · {localityShort('&')} · Secure online booking through Jobber
       </p>
     </div>
   </div>

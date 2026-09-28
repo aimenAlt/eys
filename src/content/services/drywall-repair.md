@@ -3,8 +3,8 @@ title: "Drywall Repair"
 slug: "drywall-repair"
 published: true
 seoTitle: "Drywall Repair in Katy, TX | Holes, Cracks & Texture Matching"
-metaDescription: "Drywall repair in Katy, Cypress, Fulshear and Richmond. Holes, nail pops, settling cracks and texture matching, finished so the patch does not show in daylight."
-heroTitle: "Drywall Repair in Katy & West Houston"
+metaDescription: "Drywall repair in Katy, Fulshear, Cypress and Richmond. Holes, nail pops, settling cracks and texture matching, finished so the patch does not show in daylight."
+heroTitle: "Drywall Repair in Katy & Fulshear"
 summary: "Holes, nail pops, settling cracks and water-stained ceilings — patched, textured and blended so the repair disappears instead of announcing itself."
 heroImage: "/images/services/drywall-repair.jpg"
 heroImageAlt: "Long hallway drywall taped and mudded during a large repair and finishing project"
@@ -49,7 +49,7 @@ faqs:
 ---
 
 From a doorknob through the hallway wall to the nail pops that reappear every spring,
-Elevate Your Space repairs drywall across Katy, Cypress, Cinco Ranch, Fulshear,
+Elevate Your Space repairs drywall across Katy, Fulshear, Cinco Ranch, Cypress,
 Richmond and West Houston. The standard we work to is simple: when the room is finished,
 you should not be able to find the repair from across it in daylight.
 

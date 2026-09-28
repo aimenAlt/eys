@@ -2,9 +2,9 @@
 title: "Cabinet Installation"
 slug: "cabinet-installation"
 published: true
-seoTitle: "Cabinet Installation in Katy & West Houston | Elevate Your Space"
-metaDescription: "Cabinet installation in Katy and West Houston. Vanities, shelving, built-ins, and store-bought cabinetry installed level and secure."
-heroTitle: "Cabinet Installation in Katy & West Houston"
+seoTitle: "Cabinet Installation in Katy & Fulshear | Elevate Your Space"
+metaDescription: "Cabinet installation in Katy and Fulshear. Vanities, shelving, built-ins, and store-bought cabinetry installed level and secure."
+heroTitle: "Cabinet Installation in Katy & Fulshear"
 summary: "Installation of cabinets, vanities, shelving, and built-ins with precise fit, level placement, and durable finishing."
 heroImage: "/images/services/cabinet-install.jpg"
 heroImageAlt: "Two-tone sage and white kitchen cabinets with quartz counters after installation"
@@ -38,7 +38,7 @@ faqs:
     answer: "Yes. Send cabinet photos, model numbers if purchased, and room details for a free estimate before we schedule."
 ---
 
-Cabinet installation and hardware work change how a kitchen or bath feels every single day. Elevate Your Space installs cabinets and premium hardware across Katy and West Houston with level runs, solid anchoring, and protection for surrounding finishes. If you need a handyman who treats veneers, floors, and adjacent trim with care — not a rushed “close enough” hang — this is the work we do constantly for local homeowners.
+Cabinet installation and hardware work change how a kitchen or bath feels every single day. Elevate Your Space installs cabinets and premium hardware in Katy, Fulshear and the surrounding cities with level runs, solid anchoring, and protection for surrounding finishes. If you need a handyman who treats veneers, floors, and adjacent trim with care — not a rushed “close enough” hang — this is the work we do constantly for local homeowners.
 
 ## Who this is for
 
@@ -65,4 +65,4 @@ Kitchen and cabinetry projects: [Our Work — kitchens & cabinetry](/our-work/?c
 
 ## Ready for a free estimate?
 
-Share cabinet photos, model numbers if purchased, and room measurements. We return a free estimate that covers quantity, wall conditions, and any coordination needed for counters or plumbing. Looking for cabinet installation in Katy or West Houston? Send details and we will outline a clear install plan before we schedule.
+Share cabinet photos, model numbers if purchased, and room measurements. We return a free estimate that covers quantity, wall conditions, and any coordination needed for counters or plumbing. Need cabinets installed anywhere from Katy out to Fulshear? Send details and we will outline a clear install plan before we schedule.

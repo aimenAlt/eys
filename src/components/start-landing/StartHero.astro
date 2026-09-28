@@ -3,7 +3,7 @@ import { startLanding, todoListFromPrice } from '../../data/startLanding';
 import StartCallLink from './StartCallLink.astro';
 import StartChooseLink from './StartChooseLink.astro';
 import StartJobberLink from './StartJobberLink.astro';
-import { site } from '../../data/business';
+import { localityShort, site } from '../../data/business';
 
 /**
  * The hero leads with footage of a finished media wall rather than a still,
@@ -96,13 +96,13 @@ const offerArrowClass = 'ml-1.5 text-brand-redondark';
   <div class="relative mx-auto grid max-w-6xl items-start gap-8 lg:grid-cols-2 lg:items-center lg:gap-12">
     <div>
       <p class="mb-3 text-[11px] font-bold uppercase tracking-[0.16em] text-brand-redondark sm:text-xs">
-        Veteran-Owned · Katy &amp; West Houston
+        Veteran-Owned · {localityShort('&')}
       </p>
       <h1
         id="start-hero-heading"
         class="text-3xl font-bold leading-tight tracking-tight [text-shadow:0_2px_18px_rgba(0,0,0,0.55)] sm:text-4xl lg:text-[2.75rem] lg:[text-shadow:none]"
       >
-        Handyman Service in Katy &amp; West Houston
+        Handyman Service in {localityShort('&')}
       </h1>
       <p
         class="mt-3 max-w-xl text-base leading-relaxed text-white/90 [text-shadow:0_1px_12px_rgba(0,0,0,0.45)] sm:text-lg lg:text-white/85 lg:[text-shadow:none]"

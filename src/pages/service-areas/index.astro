@@ -5,12 +5,21 @@ import BreadcrumbNav from '../../components/seo/BreadcrumbNav.astro';
 import ServiceTrustStrip from '../../components/seo/ServiceTrustStrip.astro';
 import BalancedGrid from '../../components/ui/BalancedGrid.astro';
 import LocalAreaCTA from '../../components/areas/local/LocalAreaCTA.astro';
-import { absoluteUrl, site } from '../../data/business';
+import { absoluteUrl, areaServedDisplay, localityShort, site } from '../../data/business';
 import { breadcrumbList, webPage } from '../../data/schema';
 import { contentMaxClass, contentPaddingClass } from '../../data/layout';
 
 const areas = await getCollection('serviceAreas', ({ data }) => data.published === true);
-areas.sort((a, b) => a.data.title.localeCompare(b.data.title));
+// Katy first (home base), Fulshear second (its default partner), the rest alphabetical.
+const leadAreas = ['katy', 'fulshear'];
+const leadRank = (slug: string) => {
+  const i = leadAreas.indexOf(slug);
+  return i === -1 ? leadAreas.length : i;
+};
+areas.sort(
+  (a, b) =>
+    leadRank(a.data.slug) - leadRank(b.data.slug) || a.data.title.localeCompare(b.data.title),
+);
 
 const areaCards = areas.map((entry) => ({
   title: entry.data.title,
@@ -21,8 +30,7 @@ const areaCards = areas.map((entry) => ({
 }));
 
 const title = `Service Areas | ${site.name}`;
-const description =
-  'Handyman service areas in Katy, West Houston, and surrounding cities.';
+const description = `Handyman service areas in ${areaServedDisplay()}, plus nearby master-planned communities.`;
 const canonical = absoluteUrl('/service-areas/');
 
 const schemaGraph = [
@@ -45,7 +53,7 @@ const schemaGraph = [
     />
     <h1 class="text-4xl md:text-5xl font-extrabold text-brand-black mb-6 mt-6">Service Areas</h1>
     <p class="text-lg text-neutral-600 mb-6 max-w-3xl">
-      Elevate Your Space Handyman serves homeowners throughout Katy and West Houston.
+      Elevate Your Space Handyman serves homeowners throughout {areaServedDisplay()}.
     </p>
     <div class="-mx-4 sm:-mx-6 lg:-mx-8 mb-10"><ServiceTrustStrip /></div>
     {
@@ -58,6 +66,6 @@ const schemaGraph = [
       )
     }
   </div>
-  <LocalAreaCTA locationName="Katy & West Houston" />
+  <LocalAreaCTA locationName={localityShort('&')} />
   </article>
 </ContentLayout>

@@ -2,8 +2,8 @@
 title: "Bathroom Upgrades"
 slug: "bathroom-remodeling"
 published: true
-seoTitle: "Bathroom Upgrades & Finish Improvements | Katy & West Houston | EYS"
-metaDescription: "Discuss vanities, trim, storage, hardware, wall finishes and coordinated bathroom improvements in Katy and West Houston. Regulated trade work requires appropriately qualified professionals where applicable."
+seoTitle: "Bathroom Upgrades & Finish Improvements | Katy & Fulshear | EYS"
+metaDescription: "Discuss vanities, trim, storage, hardware, wall finishes and coordinated bathroom improvements in Katy and Fulshear. Regulated trade work requires appropriately qualified professionals where applicable."
 heroTitle: "Bathroom Upgrades and Finish Improvements"
 summary: "Vanity installs, fixture swaps, hardware updates, and finish improvements — with clear scope limits and disclosure when regulated trade work is required."
 heroImage: "/images/services/bathroom-remodel.jpg"
@@ -37,7 +37,7 @@ faqs:
     answer: "Timeline depends on scope. Smaller refreshes may fit one visit; coordinated upgrades with trade partners are phased with a clear schedule."
 ---
 
-Elevate Your Space helps Katy and West Houston homeowners upgrade baths with vanity installs, fixture swaps, hardware refreshes, and punch-list finish work that improves daily use without weeks of disruption. This is a handyman upgrade service — not a full demolition-and-rebuild remodel. Where plumbing, waterproofing, or regulated electrical work is required, the scope must identify the appropriate qualified professional.
+Elevate Your Space helps homeowners in Katy and Fulshear upgrade baths with vanity installs, fixture swaps, hardware refreshes, and punch-list finish work that improves daily use without weeks of disruption. This is a handyman upgrade service — not a full demolition-and-rebuild remodel. Where plumbing, waterproofing, or regulated electrical work is required, the scope must identify the appropriate qualified professional.
 
 ## Who this service is for
 
@@ -56,14 +56,14 @@ Vanity installation, mirror mounting, faucet and fixture swaps, hardware updates
 
 A typical project starts with photos and a priority list, moves into a clear free estimate and sequence of work, then proceeds with protected floors, tidy staging, and a clean handoff. Smaller refreshes — vanity swaps, hardware, and fixture updates — often fit one coordinated visit. Larger coordinated upgrades are phased so you always know what happens next.
 
-## Local examples across Katy and West Houston
+## Bathroom projects around Katy and Fulshear
 
-Cinco Ranch and early Katy MPC baths often need vanity and hardware modernization that respects traditional suburban trim. Sunterra, [Tamarron](/service-areas/katy/), and Jordan Ranch buyers more often want finishing touches on brand-new baths so the room feels intentional from week one. [Harvest Green](/service-areas/richmond/) and [Veranda](/service-areas/richmond/) projects sometimes lean into farmhouse or porch-living aesthetics with fixtures and trim that match the rest of the home. In [Bridgeland](/service-areas/cypress/) and Towne Lake, we frequently see storage and lighting upgrades that keep busy family baths organized without full demolition.
+Cinco Ranch and early Katy MPC baths often need vanity and hardware modernization that respects traditional suburban trim. Buyers in Sunterra, [Tamarron](/service-areas/katy/), and Fulshear's Jordan Ranch more often want finishing touches on brand-new baths so the room feels intentional from week one. [Harvest Green](/service-areas/richmond/) and [Veranda](/service-areas/richmond/) projects sometimes lean into farmhouse or porch-living aesthetics with fixtures and trim that match the rest of the home. In [Bridgeland](/service-areas/cypress/) and Towne Lake, we frequently see storage and lighting upgrades that keep busy family baths organized without full demolition.
 
 ## Related services and next steps
 
-Bathroom work often pairs with [cabinet installation](/services/cabinet-installation/), [custom carpentry](/services/custom-carpentry/) for shelving or niches, [painting](/services/painting/) for a cohesive finish, and [grab bar installation](/services/grab-bar-installation/) for a safety upgrade in the same visit. This service sits in [home upgrades and custom projects](/services/remodeling-and-upgrades/). Serving homeowners across [Katy](/service-areas/katy/) and [Richmond](/service-areas/richmond/). Browse [our work](/our-work/) for finished project inspiration, or start from your local [service area](/service-areas/) page.
+Bathroom work often pairs with [cabinet installation](/services/cabinet-installation/), [custom carpentry](/services/custom-carpentry/) for shelving or niches, [painting](/services/painting/) for a cohesive finish, and [grab bar installation](/services/grab-bar-installation/) for a safety upgrade in the same visit. This service sits in [home upgrades and custom projects](/services/remodeling-and-upgrades/). Bathroom upgrades are available across [Katy](/service-areas/katy/), [Fulshear](/service-areas/fulshear/) and [Richmond](/service-areas/richmond/). Browse [our work](/our-work/) for finished project inspiration, or start from your local [service area](/service-areas/) page.
 
 ## Ready for a free estimate?
 
-Share photos of the bath, the vanity or fixtures you purchased (if any), and your priority list. We return a free estimate, explain what we can complete in one visit, and flag anything that requires an appropriately qualified trade professional. Looking for bathroom help in Katy or West Houston? Send details through our contact form and we will reply with a clear plan.
+Share photos of the bath, the vanity or fixtures you purchased (if any), and your priority list. We return a free estimate, explain what we can complete in one visit, and flag anything that requires an appropriately qualified trade professional. Looking for bathroom help in Katy or Fulshear? Send details through our contact form and we will reply with a clear plan.

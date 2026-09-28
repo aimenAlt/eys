@@ -2,8 +2,8 @@
 title: "Painting"
 slug: "painting"
 published: true
-seoTitle: "Interior Painting in Katy & West Houston | Elevate Your Space"
-metaDescription: "Interior painting and accent walls in Katy and West Houston. Clean, precise paint work with full protection of your floors and furniture."
+seoTitle: "Interior Painting in Katy & Fulshear | Elevate Your Space"
+metaDescription: "Interior painting and accent walls in Katy and Fulshear. Clean, precise paint work with full protection of your floors and furniture."
 heroTitle: "Interior Painting & Accent Walls"
 summary: "Accent walls, touch-ups, and interior painting with careful prep, clean lines, and full floor protection."
 heroImage: "/images/services/painting.jpg"
@@ -62,11 +62,11 @@ New-construction communities in [Fulshear](/service-areas/fulshear/) and [Sunter
 
 ## Ready for a free estimate?
 
-Share room photos, approximate sizes, and whether you already have paint selected. We return a free estimate and a clear plan for prep and schedule. Painting lives under [repairs and maintenance](/services/repairs-and-maintenance/). Explore nearby areas from [service areas](/service-areas/) or jump to [Cypress](/service-areas/cypress/) for Bridgeland and Towne Lake coverage. Looking for interior painting in Katy or West Houston? Send details through [contact](/contact/).
+Share room photos, approximate sizes, and whether you already have paint selected. We return a free estimate and a clear plan for prep and schedule. Painting lives under [repairs and maintenance](/services/repairs-and-maintenance/). Explore nearby areas from [service areas](/service-areas/) or jump to [Cypress](/service-areas/cypress/) for Bridgeland and Towne Lake coverage. Repainting a lived-in Katy room, or covering builder white in a Fulshear new build? Send details through [contact](/contact/).
 
 ## Why homeowners choose Elevate Your Space
 
-We are a veteran-owned, owner-led handyman service based in the Katy and West Houston market. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task needs a licensed trade partner, we say so early so your project stays safe and on schedule.
+We are a veteran-owned, owner-led handyman service based in Katy and working the surrounding cities. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task needs a licensed trade partner, we say so early so your project stays safe and on schedule.
 
 Accent walls behind beds, dining banquettes, or office built-ins are especially popular after [custom carpentry](/services/custom-carpentry/) or molding installs. Tell us sheen preferences for kids' rooms, kitchens, and baths so the finish matches daily use, not just the sample chip under showroom lights.
 We can often paint the same week as drywall patches when schedules align, which keeps color blends consistent. Ask about combining scopes when you send your free estimate request.

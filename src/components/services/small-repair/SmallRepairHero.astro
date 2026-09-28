@@ -5,7 +5,7 @@ import {
   smallRepairPricing,
 } from '../../../data/pricing/todoList';
 import { smallRepairVisitMeta } from '../../../data/smallRepairVisitContent';
-import { jobberHandymanToDoListFormUrl, site } from '../../../data/business';
+import { jobberHandymanToDoListFormUrl, localityShort, site } from '../../../data/business';
 import SiteImage from '../../ui/SiteImage.astro';
 import { resolveServiceHero } from '../../../data/images';
 
@@ -89,7 +89,7 @@ const bookUrl = jobberHandymanToDoListFormUrl();
           </a>
         </div>
         <p class="mt-4 text-sm text-neutral-500">
-          Serving Katy &amp; West Houston · <a
+          Serving {localityShort('&')} · <a
             href={`tel:${site.phoneTel}`}
             class="font-semibold text-brand-red hover:underline">{site.phone}</a
           >

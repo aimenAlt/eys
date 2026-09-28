@@ -3,8 +3,8 @@ title: "Custom Carpentry"
 slug: "custom-carpentry"
 published: true
 seoTitle: "Carpenter in Katy, TX | Built-Ins, Trim & Finish Carpentry"
-metaDescription: "Finish carpenter serving Katy, Cypress, Fulshear and Richmond. Built-ins, floating shelves, paneling and trim — including the one-wall jobs a cabinet shop will not take on."
-heroTitle: "Carpenter in Katy & West Houston"
+metaDescription: "Finish carpenter serving Katy, Fulshear, Cypress and Richmond. Built-ins, floating shelves, paneling and trim — including the one-wall jobs a cabinet shop will not take on."
+heroTitle: "Carpenter in Katy & Fulshear"
 summary: "Built-ins, floating shelves, wall paneling, trim and site-built woodwork — including the single-room jobs cabinet shops turn down."
 heroImage: "/images/services/custom-carpentry.jpg"
 heroImageAlt: "Floor-to-ceiling navy custom built-in office shelving and cabinets"
@@ -123,8 +123,8 @@ drywall and electrical get sequenced under a single estimate.
 
 ## Where we work
 
-Katy, Cypress, Cinco Ranch, Fulshear, Richmond and the surrounding West Houston
-communities. Newer floor plans in [Sunterra](/service-areas/katy/),
+Katy, Fulshear, Cinco Ranch, Cypress, Richmond and the West Houston communities
+around them. Newer floor plans in [Sunterra](/service-areas/katy/),
 [Tamarron](/service-areas/katy/) and [Jordan Ranch](/service-areas/fulshear/) usually
 need storage the builder never included. Established
 [Cinco Ranch](/service-areas/katy/) homes more often need carpentry that respects the

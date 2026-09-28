@@ -12,6 +12,7 @@ import HomeFAQ from './HomeFAQ.astro';
 import ServicePathwaysSection from './pathways/ServicePathwaysSection.astro';
 import SiteImage from '../ui/SiteImage.astro';
 import { homeFaqs } from '../../data/schema';
+import { areaServedDisplay } from '../../data/business';
 import { homeImageAlts, homeImages, imageOrPlaceholder, hasImage } from '../../data/images';
 
 interface Props {
@@ -43,10 +44,10 @@ const { projectCount, publishedReviews, cityLinks, communityLinks } = Astro.prop
           providers.
         </p>
         <p class="text-neutral-600 mb-4 leading-relaxed">
-          Elevate Your Space Handyman gives Katy and West Houston homeowners one accountable point of
+          Elevate Your Space Handyman gives households in Katy and Fulshear one accountable point of
           contact for everything from drywall patches and door installation to bathroom updates, cabinet
           work, painting, flooring, and general home repair — with honest communication, clean
-          workmanship, and dependable results across Katy and surrounding West Houston communities.
+          workmanship, and dependable results across {areaServedDisplay()}.
         </p>
         <p class="text-neutral-600 mb-4 leading-relaxed">
           <strong class="text-brand-black">We finish what we start.</strong> A specialist usually

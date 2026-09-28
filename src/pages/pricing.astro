@@ -6,7 +6,7 @@ import ServiceTrustStrip from '../components/seo/ServiceTrustStrip.astro';
 import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
 import CTASection from '../components/home/CTASection.astro';
 import BalancedGrid from '../components/ui/BalancedGrid.astro';
-import { absoluteUrl, site } from '../data/business';
+import { absoluteUrl, areaServedDisplay, site } from '../data/business';
 import { breadcrumbList, faqPage, webPage } from '../data/schema';
 import { contentMaxClass, contentPaddingClass } from '../data/layout';
 
@@ -103,7 +103,7 @@ const schemaGraph = [
               </li>
               <li class="flex items-start">
                 <span class="text-brand-red mr-2">•</span>
-                Travel within Katy and West Houston service areas
+                Travel within our service area: {areaServedDisplay()}
               </li>
             </ul>
           </div>

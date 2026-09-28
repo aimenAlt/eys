@@ -2,8 +2,8 @@
 title: "Picture Hanging & Floating Shelves"
 slug: "picture-hanging-floating-shelves"
 published: true
-seoTitle: "Picture Hanging & Floating Shelves | Katy & West Houston | EYS"
-metaDescription: "Picture, mirror, and floating shelf hanging in Katy and West Houston — level placement, secure anchoring, and a free estimate before we schedule."
+seoTitle: "Picture Hanging & Floating Shelves | Katy & Fulshear | EYS"
+metaDescription: "Picture, mirror, and floating shelf hanging in Katy and Fulshear — level placement, secure anchoring, and a free estimate before we schedule."
 heroTitle: "Picture Hanging & Floating Shelves"
 summary: "Level, securely anchored picture, mirror, and floating shelf installation — the small detail work that makes a room feel finished."
 heroImage: "/images/services/picture-hanging-floating-shelves.jpg"
@@ -40,7 +40,7 @@ faqs:
     answer: "General handyman covers picture hanging as part of a bundled punch-list visit. This page is for a focused picture-hanging or floating-shelf project on its own — book directly without bundling other repairs."
 ---
 
-A gallery wall no one wants to measure and level, a heavy mirror that shouldn't just hang on a nail, a floating shelf that needs to actually hold what you put on it — Elevate Your Space hangs pictures, mirrors, and shelves across Katy and West Houston with level placement and anchoring built for the load.
+A gallery wall no one wants to measure and level, a heavy mirror that shouldn't just hang on a nail, a floating shelf that needs to actually hold what you put on it — Elevate Your Space hangs pictures, mirrors, and shelves in homes across Katy and Fulshear with level placement and anchoring built for the load.
 
 ## Who this service is for
 
@@ -53,13 +53,13 @@ A gallery wall no one wants to measure and level, a heavy mirror that shouldn't 
 
 Single pictures, full gallery walls, heavy and oversized mirrors, and floating shelves. We anchor into studs wherever possible; where a stud isn't in the right spot, we use heavy-duty anchors rated for the item's weight — never a plain nail or a light-duty hook for anything with real weight behind it. For gallery walls, we plan spacing and levels before the first hole goes in the wall.
 
-## Local examples across Katy and West Houston
+## Wall-hanging requests around Katy and Fulshear
 
-Move-in decor finishing is common in Sunterra and Tamarron once furniture and boxes have cleared out and homeowners are ready for the walls. In Cane Island's higher-ceiling luxury builds, gallery walls and oversized art are frequent requests where reach and precise leveling both matter.
+Move-in decor finishing is common in Sunterra and Tamarron once furniture and boxes have cleared out and homeowners are ready for the walls. Fulshear new builds follow the same pattern, often starting with an entry mirror or a floating shelf on a wall the builder left bare. In Cane Island's higher-ceiling luxury builds, gallery walls and oversized art are frequent requests where reach and precise leveling both matter.
 
 ## Related services and next steps
 
-Prefer this bundled with other small repairs in one visit? See [general handyman services](/services/general-handyman-services/). Finishing a whole room? Pair with [curtain installation](/services/curtain-installation/) or [TV mounting](/services/tv-mounting/) for a full move-in day. This service sits in [installation and assembly](/services/installation-and-assembly/). Serving homeowners across [Katy](/service-areas/katy/), [Cypress](/service-areas/cypress/), and [Fulshear](/service-areas/fulshear/).
+Prefer this bundled with other small repairs in one visit? See [general handyman services](/services/general-handyman-services/). Finishing a whole room? Pair with [curtain installation](/services/curtain-installation/) or [TV mounting](/services/tv-mounting/) for a full move-in day. This service sits in [installation and assembly](/services/installation-and-assembly/). Wall-hanging visits cover [Katy](/service-areas/katy/), [Fulshear](/service-areas/fulshear/), and [Cypress](/service-areas/cypress/).
 
 ## Ready to book?
 

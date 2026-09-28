@@ -3,7 +3,7 @@ title: "Interior Finish Work & Décor"
 slug: "flooring-and-decor"
 published: true
 seoTitle: "Flooring, Décor & Interior Finish Work in Katy, TX | EYS"
-metaDescription: "Request trim, wall details, decorative installation and clearly scoped interior finish work for Katy and West Houston homes."
+metaDescription: "Request trim, wall details, decorative installation and clearly scoped interior finish work for Katy and Fulshear homes."
 heroTitle: "Interior Finish Work and Décor Installation"
 summary: "Trim, transitions, accent walls, décor mounting, and clearly scoped interior finish work — not full flooring replacement for every material and moisture scenario."
 heroImage: "/images/services/flooring.jpg"
@@ -60,15 +60,15 @@ Established Katy homes often need careful trim work around older casings when fl
 
 ## Related services and inspiration
 
-Interior finish work sits under [home upgrades and custom projects](/services/remodeling-and-upgrades/) and often pairs with [custom carpentry](/services/custom-carpentry/) and [painting](/services/painting/). Serving homeowners across [Katy](/service-areas/katy/) and [Richmond](/service-areas/richmond/). Browse [our work](/our-work/) for finished rooms that show how trim and décor complete a space.
+Interior finish work sits under [home upgrades and custom projects](/services/remodeling-and-upgrades/) and often pairs with [custom carpentry](/services/custom-carpentry/) and [painting](/services/painting/). Finish work is available for homes in [Katy](/service-areas/katy/), [Fulshear](/service-areas/fulshear/) and [Richmond](/service-areas/richmond/). Browse [our work](/our-work/) for finished rooms that show how trim and décor complete a space.
 
 ## Ready for a free estimate?
 
-Room photos, product links, and notes about existing baseboards help. We return a free estimate with a clear scope. Looking for interior finish help in Katy or West Houston? Start from [contact](/contact/) or [service areas](/service-areas/).
+Room photos, product links, and notes about existing baseboards help. We return a free estimate with a clear scope. Want trim and décor finished in a Katy or Fulshear home? Start from [contact](/contact/) or [service areas](/service-areas/).
 
 ## Why homeowners choose Elevate Your Space
 
-We are a veteran-owned, owner-led handyman service based in the Katy and West Houston market. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task requires an appropriately qualified trade professional, we say so early so your project stays safe and on schedule.
+We are a veteran-owned, owner-led handyman service based in Katy and working across the neighboring cities. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task requires an appropriately qualified trade professional, we say so early so your project stays safe and on schedule.
 
 If your project is mostly trim, molding, or accent walls after floors are already in, we can often schedule faster than a specialty flooring contractor timeline. Transitions between LVP, tile, and existing hardwood are where DIY projects most often look unfinished — we cut and fit those edges carefully so doorways and hallways feel continuous rather than patched.
 

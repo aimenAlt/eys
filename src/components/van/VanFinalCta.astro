@@ -1,4 +1,5 @@
 ---
+import { areaServedDisplay } from '../../data/business';
 import SiteImage from '../ui/SiteImage.astro';
 import { imageOrPlaceholder } from '../../data/images';
 import { vanCampaign, vanDestinations, vanImages } from '../../data/vanCampaign';
@@ -87,7 +88,7 @@ const closerSrc = imageOrPlaceholder(closer.src);
 
     <div class="border-t border-white/15 pt-6 lg:col-span-5 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
       <h3 class="text-lg font-bold tracking-tight text-white">
-        Serving Katy, Cypress, Fulshear, Richmond &amp; West Houston
+        Serving {areaServedDisplay()}
       </h3>
       <p class="mt-2 text-sm leading-relaxed text-white/75">
         Just outside the area, or not sure? Give us the address when you book or send photos and

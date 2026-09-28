@@ -3,7 +3,7 @@ title: "Whole-Project Remodeling"
 slug: "whole-project-remodeling"
 published: true
 seoTitle: "Whole-Project Remodeling & Multi-Trade Management | Katy | EYS"
-metaDescription: "One point of contact for multi-trade home projects in Katy and West Houston. In-house carpentry, coordinated drywall, and licensed electricians — managed start to finish."
+metaDescription: "One point of contact for multi-trade home projects in Katy and Fulshear. In-house carpentry, coordinated drywall, and licensed electricians — managed start to finish."
 heroTitle: "Whole-Project Remodeling — One Point of Contact, Start to Finish"
 summary: "Multi-trade projects run start to finish: in-house carpentry, a coordinated drywall trade, and licensed electricians brought in for regulated work — with one estimate and one person accountable."
 heroImage: "/images/services/whole-project-remodeling.jpg"
@@ -44,7 +44,7 @@ faqs:
 
 Most home projects that go badly do not fail on craftsmanship — they fail in the gaps between trades. The carpenter finishes and leaves. Three weeks later you find a drywall crew. They finish, and now you need an electrician who cannot come until the following week. Nobody owns the result, and every handoff is yours to manage.
 
-Elevate Your Space runs multi-trade projects differently across Katy and West Houston: Eyad does the carpentry himself, brings in the other trades, and manages the schedule from the first walkthrough to the last.
+Elevate Your Space runs multi-trade projects differently in Katy, Fulshear and the cities around them: Eyad does the carpentry himself, brings in the other trades, and manages the schedule from the first walkthrough to the last.
 
 ## Who this service is for
 

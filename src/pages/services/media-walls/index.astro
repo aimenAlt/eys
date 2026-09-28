@@ -17,7 +17,7 @@ import MediaWallVideoBuiltIn from '../../../components/media-wall-landing/MediaW
 import VideoAutoplayScript from '../../../components/common/VideoAutoplayScript.astro';
 import MediaWallVideoSlat from '../../../components/media-wall-landing/MediaWallVideoSlat.astro';
 import MediaWallWhy from '../../../components/media-wall-landing/MediaWallWhy.astro';
-import { absoluteUrl } from '../../../data/business';
+import { absoluteUrl, localityShort } from '../../../data/business';
 import { mediaWallFaqs, mediaWallsLanding } from '../../../data/mediaWalls';
 import {
   breadcrumbList,
@@ -42,7 +42,7 @@ const schemaGraph = [
   webPage(seo.title, pageUrl, seo.description, heroImage),
   serviceSchema(
     'Built-In Entertainment Centers & Custom Media Walls',
-    'Custom media walls, fireplace TV walls, wood-slat feature walls, and finished entertainment centers in Katy and West Houston.',
+    `Custom media walls, fireplace TV walls, wood-slat feature walls, and finished entertainment centers in ${localityShort('and')}.`,
     pageUrl,
     heroImage,
   ),

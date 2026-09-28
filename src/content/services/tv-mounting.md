@@ -2,8 +2,8 @@
 title: "TV Mounting"
 slug: "tv-mounting"
 published: true
-seoTitle: "TV Mounting in Katy & West Houston | EYS"
-metaDescription: "Request secure TV mounting, careful placement and visible-cable planning for living rooms, bedrooms and home offices across Katy and West Houston."
+seoTitle: "TV Mounting in Katy & Fulshear | EYS"
+metaDescription: "Request secure TV mounting, careful placement and visible-cable planning for living rooms, bedrooms and home offices across Katy and Fulshear."
 heroTitle: "Professional TV Mounting"
 summary: "Clean, secure TV mounting for living rooms, bedrooms, media rooms, and fireplace walls."
 heroImage: "/images/services/tv-mounting.jpg"
@@ -35,7 +35,7 @@ faqs:
   - question: "What size TVs do you mount?"
     answer: "We mount TVs of all sizes, from bedroom screens to large-format displays above fireplaces."
 ---
-Elevate Your Space provides clean, secure TV mounting throughout Katy, Cypress, Fulshear, Richmond, and West Houston. Whether you searched for a handyman for a living-room install or need a fireplace mount done without damaging premium stone, we treat walls and finishes with care — level placement, secure anchoring, and cleanup.
+Elevate Your Space provides clean, secure TV mounting throughout Katy, Fulshear, Cypress, Richmond, and West Houston. Whether you searched for a handyman for a living-room install or need a fireplace mount done without damaging premium stone, we treat walls and finishes with care — level placement, secure anchoring, and cleanup.
 
 ## Who this is for
 
@@ -51,7 +51,7 @@ Stud location or proper anchoring for the wall type, correct bracket selection (
 
 On install day we protect floors, mark carefully, cut only what is necessary for concealment, hang and level the display, and test tilt or articulation so you can use the TV immediately. Packaging and debris leave with us — your living room should look finished, not like a job site.
 
-## Local examples across West Houston
+## Local examples from Katy to Fulshear
 
 [Cinco Ranch](/service-areas/katy/) fireplace mounts above custom stone are a frequent request. [Bridgeland](/service-areas/cypress/) and Cane Island homes often need mounts that respect premium finishes and taller ceilings. Towne Lake and [Cross Creek Ranch](/service-areas/fulshear/) great rooms frequently pair a floor-to-ceiling stone fireplace with a two-story ceiling, which means masonry bits, heavy-duty anchors, and a plan for running cable cleanly to a mount that high. New builds need careful work on fresh drywall so the living room looks finished on day one. Richmond porch and patio living in [Veranda](/service-areas/richmond/) drives covered outdoor mounts when the structure and rating allow.
 
@@ -61,11 +61,11 @@ Browse related projects in our gallery: [marble & wood-slat feature wall](/our-w
 
 ## Ready for a free estimate?
 
-Send wall photos, TV size, and notes about stone vs drywall. Free estimates keep scoping clear so you know what is included before we schedule. Looking for TV mounting in Katy or West Houston? Start from [contact](/contact/) or your local [service area](/service-areas/) page and we will reply with a clear plan.
+Send wall photos, TV size, and notes about stone vs drywall. Free estimates keep scoping clear so you know what is included before we schedule. Mounting a screen in a Katy living room, or high above a stone fireplace in a Fulshear great room? Start from [contact](/contact/) or your local [service area](/service-areas/) page and we will reply with a clear plan.
 
 ## Why homeowners choose Elevate Your Space
 
-We are a veteran-owned, owner-led handyman service based in the Katy and West Houston market. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task needs a licensed trade partner, we say so early so your project stays safe and on schedule.
+We are a veteran-owned, owner-led handyman service based in Katy and serving the nearby cities. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task needs a licensed trade partner, we say so early so your project stays safe and on schedule.
 
 If you are also planning a feature wall, soundbar, or floating shelf package, mention it in the estimate request so we can align mounting heights and cable paths in one plan rather than revisiting the same wall twice.
 

@@ -1,5 +1,5 @@
 ---
-import { areaServedDisplay } from '../../data/business';
+import { areaServedDisplay, localityShort } from '../../data/business';
 
 interface CityLink {
   title: string;
@@ -24,7 +24,7 @@ const { cities, communities } = Astro.props;
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-start">
       <div class="mb-10 lg:mb-0">
-        <h2 class="text-3xl font-bold text-brand-black mb-4">Proudly serving Katy and West Houston</h2>
+        <h2 class="text-3xl font-bold text-brand-black mb-4">Proudly serving {localityShort('and')}</h2>
         <p class="text-neutral-600 mb-6">
           Elevate Your Space Handyman provides premium handyman services throughout {areaServedDisplay()}.
         </p>
@@ -71,7 +71,7 @@ const { cities, communities } = Astro.props;
           title="Katy TX service area map"
         ></iframe>
         <p class="sr-only">
-          Interactive map of our Katy and West Houston service area.
+          Interactive map of our service area around Katy and Fulshear.
         </p>
       </div>
     </div>

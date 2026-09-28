@@ -2,8 +2,8 @@
 title: "Furniture Assembly"
 slug: "furniture-assembly"
 published: true
-seoTitle: "Furniture Assembly in Katy & West Houston | Elevate Your Space"
-metaDescription: "Professional furniture assembly in Katy and West Houston. Beds, desks, patio sets, and IKEA-style furniture assembled correctly."
+seoTitle: "Furniture Assembly in Katy & Fulshear | Elevate Your Space"
+metaDescription: "Professional furniture assembly in Katy and Fulshear. Beds, desks, patio sets, and IKEA-style furniture assembled correctly."
 heroTitle: "Professional Furniture Assembly"
 summary: "Expert assembly of bedroom sets, office furniture, patio sets, and flat-pack furniture — structurally sound and done right."
 heroImage: "/images/services/furniture-assembly.jpg"
@@ -35,7 +35,7 @@ faqs:
   - question: "Will you haul away boxes?"
     answer: "We break down packaging and leave your space tidy. Haul-away can be discussed on request."
 ---
-Furniture assembly sounds simple until you are staring at fifty identical fasteners at 10 p.m. after a long move. Elevate Your Space assembles indoor and outdoor furniture across Katy and West Houston so pieces are square, stable, and ready to use — without the weekend lost to instructions and missing parts.
+Furniture assembly sounds simple until you are staring at fifty identical fasteners at 10 p.m. after a long move. Elevate Your Space assembles indoor and outdoor furniture in homes across Katy and Fulshear so pieces are square, stable, and ready to use — without the weekend lost to instructions and missing parts.
 
 ## Who this is for
 
@@ -51,7 +51,7 @@ Beds, dining tables, office desks, shelving units, outdoor patio sets, and many 
 
 ## Local lifestyle angle
 
-West Houston weekends are for trails, lagoon amenities, Boardwalk dinners, and kids' activities — not fighting hex keys on the garage floor. Bundling furniture assembly with [TV mounting](/services/tv-mounting/), [curtain installation](/services/curtain-installation/), or [ceiling fan installation](/services/ceiling-fan-installation/) is a popular move-in package. Many homeowners also combine assembly with a [Handyman To-Do List Visit](/services/handyman-to-do-list/) when several small tasks share the same day.
+Weekends around Katy and Fulshear are for trails, lagoon amenities, Boardwalk dinners, and kids' activities — not fighting hex keys on the garage floor. Bundling furniture assembly with [TV mounting](/services/tv-mounting/), [curtain installation](/services/curtain-installation/), or [ceiling fan installation](/services/ceiling-fan-installation/) is a popular move-in package. Many homeowners also combine assembly with a [Handyman To-Do List Visit](/services/handyman-to-do-list/) when several small tasks share the same day.
 
 ## How booking works
 
@@ -59,11 +59,11 @@ Tell us the piece count, brand or product links, and which rooms are involved. W
 
 ## Ready for a free estimate?
 
-Furniture assembly lives under [installation and assembly](/services/installation-and-assembly/). Start local from [Fulshear](/service-areas/fulshear/), [Cypress](/service-areas/cypress/), or [Katy](/service-areas/katy/). Looking for furniture assembly in West Houston? Send details through [contact](/contact/) and we will reply with a clear plan.
+Furniture assembly lives under [installation and assembly](/services/installation-and-assembly/). Start local from [Katy](/service-areas/katy/), [Fulshear](/service-areas/fulshear/), or [Cypress](/service-areas/cypress/). Closing on a new build in Cross Creek Ranch or Jordan Ranch in Fulshear, with a garage full of flat-pack boxes? Send details through [contact](/contact/) and we will reply with a clear plan.
 
 ## Why homeowners choose Elevate Your Space
 
-We are a veteran-owned, owner-led handyman service based in the Katy and West Houston market. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task needs a licensed trade partner, we say so early so your project stays safe and on schedule.
+We are a veteran-owned, owner-led handyman service based in Katy. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task needs a licensed trade partner, we say so early so your project stays safe and on schedule.
 
 Large patio sectionals and multi-box bedroom sets take longer than a single desk — we plan time blocks accordingly so hardware is fully seated and pieces do not rack or wobble. If you already have a Handyman To-Do List Visit booked, mention assembly items so we can advise whether they fit the reserved window.
 Wall-anchoring tall units is part of a safe assembly when kids or pets share the room. Mention flooring type (carpet, LVP, tile) so we protect surfaces while tipping pieces into place.

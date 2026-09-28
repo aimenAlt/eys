@@ -2,8 +2,8 @@
 title: "Media Walls"
 slug: "media-walls"
 published: false
-seoTitle: "Custom Media Walls in Katy & West Houston | EYS"
-metaDescription: "Custom media walls, slat feature walls, fireplace TV walls, and finished entertainment centers for Katy and West Houston homes. Request a project estimate."
+seoTitle: "Custom Media Walls in Katy & Fulshear | EYS"
+metaDescription: "Custom media walls, slat feature walls, fireplace TV walls, and finished entertainment centers for Katy and Fulshear homes. Request a project estimate."
 heroTitle: "Custom Media Walls"
 summary: "Feature walls and entertainment centers built around your TV — from lit niche built-ins and fireplace media walls to wood-slat accents and floating consoles."
 heroImage: "/images/services/media-walls.jpg"
@@ -38,7 +38,7 @@ faqs:
     answer: "Media walls are custom projects. Send photos and a short description of what you want; we review the scope and return next steps with a project estimate — not a one-size booking price."
 ---
 
-A media wall is one of the highest-impact upgrades in a West Houston living room — the place where TV, lighting, storage, and architecture meet. Elevate Your Space designs and builds custom media walls in Katy, Cypress, Fulshear, Richmond, and nearby communities, with the same finish standard we bring to [custom carpentry](/services/custom-carpentry/) and secure [TV mounting](/services/tv-mounting/).
+A media wall is one of the highest-impact upgrades in a West Houston living room — the place where TV, lighting, storage, and architecture meet. Elevate Your Space designs and builds custom media walls in Katy, Fulshear, Cypress, Richmond, and nearby communities, with the same finish standard we bring to [custom carpentry](/services/custom-carpentry/) and secure [TV mounting](/services/tv-mounting/).
 
 ## Who this is for
 
@@ -59,4 +59,4 @@ Tall great rooms in [Bridgeland](/service-areas/cypress/), [Cane Island](/servic
 
 ## Ready for a project estimate?
 
-Send a photo of the wall, approximate width and height, TV size if you have it, and any inspiration images. We will review the project and get back to you with the next step — materials, sequencing, and a clear estimate path for your home in Katy or West Houston.
+Send a photo of the wall, approximate width and height, TV size if you have it, and any inspiration images. We will review the project and get back to you with the next step — materials, sequencing, and a clear estimate path for your home, whether it sits in Katy, Fulshear or a city nearby.

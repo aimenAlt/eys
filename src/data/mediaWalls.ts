@@ -8,6 +8,7 @@
 
 import { withJobberFormId } from '../utils/utm';
 import { mediaWallPriceCopy } from './pricing/mediaWalls';
+import { areaServedDisplay, localityShort } from './business';
 
 export const mediaWallsLanding = {
   path: '/services/media-walls/',
@@ -19,7 +20,7 @@ export const mediaWallsLanding = {
   seo: {
     title: 'Built-In Entertainment Centers & Media Walls | Katy | EYS',
     description:
-      'Built-in entertainment centers, fireplace built-ins, slat and shiplap feature walls, and custom media walls in Katy & West Houston. Send photos for an estimate.',
+      `Built-in entertainment centers, fireplace built-ins, slat and shiplap feature walls, and custom media walls in ${localityShort('&')}. Send photos for an estimate.`,
   },
 
   images: {
@@ -177,9 +178,9 @@ export function mediaWallFaqs() {
         'Media walls are custom projects. Send photos and a short description of what you want; we review the scope and return next steps with a project estimate — not a one-size booking price.',
     },
     {
-      question: 'Do you serve Katy and West Houston?',
+      question: `Do you serve ${localityShort('and')}?`,
       answer:
-        'Yes. Elevate Your Space serves Katy, Cypress, Fulshear, Richmond, and nearby West Houston communities.',
+        `Yes. Elevate Your Space serves ${areaServedDisplay()}, including the master-planned neighborhoods in between.`,
     },
   ];
 }

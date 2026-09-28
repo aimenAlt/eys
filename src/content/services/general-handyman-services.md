@@ -2,8 +2,8 @@
 title: "General Handyman Services"
 slug: "general-handyman-services"
 published: true
-seoTitle: "General Handyman Services | Katy & West Houston | EYS"
-metaDescription: "Bundled punch-list handyman service in Katy and West Houston. Multiple repairs handled in one efficient visit."
+seoTitle: "General Handyman Services | Katy & Fulshear | EYS"
+metaDescription: "Bundled punch-list handyman service in Katy and Fulshear. Multiple repairs handled in one efficient visit."
 heroTitle: "General Handyman & Punch-List Services"
 summary: "Multiple small repairs and upgrades handled in one coordinated visit — the efficient choice for busy homeowners."
 heroImage: "/images/services/general-handyman.jpg"
@@ -59,11 +59,11 @@ Mature [Cinco Ranch](/service-areas/katy/) homes often need maintenance and mode
 
 ## Ready for a free estimate?
 
-Send your list and photos. We return a free estimate and recommend sequencing. Explore individual services from [all services](/services/), or browse [repairs and maintenance](/services/repairs-and-maintenance/). Looking for a handyman in West Houston? Start with a clear punch list and we will take it from there.
+Send your list and photos. We return a free estimate and recommend sequencing. Explore individual services from [all services](/services/), or browse [repairs and maintenance](/services/repairs-and-maintenance/). Whether the house is in Katy, Fulshear or elsewhere in West Houston, start with a clear punch list and we will take it from there.
 
 ## Why homeowners choose Elevate Your Space
 
-We are a veteran-owned, owner-led handyman service based in the Katy and West Houston market. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task needs a licensed trade partner, we say so early so your project stays safe and on schedule.
+We are a veteran-owned, owner-led handyman service based in Katy and serving the cities around it. That means clear communication, careful protection of your finishes, and a free estimate before work begins — not a vague “we will figure it out on site” visit. When a task needs a licensed trade partner, we say so early so your project stays safe and on schedule.
 
 Many clients keep a running note on their phone and send it before guests arrive or before listing photos. The sooner we see the full list, the better we can bundle tools and materials into one efficient visit instead of multiple trips.
 

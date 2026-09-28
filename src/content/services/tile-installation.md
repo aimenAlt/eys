@@ -3,7 +3,7 @@ title: "Tile Installation"
 slug: "tile-installation"
 published: true
 seoTitle: "Tile Installation — Backsplash, Shower & Floor Tile | Katy | EYS"
-metaDescription: "Finish tile work in Katy and West Houston — kitchen backsplashes, shower and tub surrounds, floor tile, accent tile, and grout and caulk renewal."
+metaDescription: "Finish tile work in Katy and Fulshear — kitchen backsplashes, shower and tub surrounds, floor tile, accent tile, and grout and caulk renewal."
 heroTitle: "Tile Installation — Backsplash, Surround, and Floor Tile"
 summary: "Finish tile work done properly: kitchen backsplashes, shower and tub surrounds, floor tile, accent walls, and grout and caulk renewal."
 heroImage: "/images/services/tile-installation.jpg"
@@ -42,7 +42,7 @@ faqs:
     answer: "Timing depends on size, tile, and pattern. Setting and grouting are separate stages with cure time between them, so most backsplashes span more than one visit even when the total labour is short."
 ---
 
-Tile is unforgiving work. Lippage between tiles, grout lines that wander, a cut edge left raw at a transition — every mistake stays visible for as long as the tile is on the wall. Elevate Your Space installs finish tile across Katy and West Houston: backsplashes, shower and tub surrounds, floor tile, and accent walls.
+Tile is unforgiving work. Lippage between tiles, grout lines that wander, a cut edge left raw at a transition — every mistake stays visible for as long as the tile is on the wall. Elevate Your Space installs finish tile for homeowners from Katy to Fulshear: backsplashes, shower and tub surrounds, floor tile, and accent walls.
 
 ## Who this service is for
 
@@ -61,7 +61,7 @@ Substrate is where tile jobs are won or lost. We prep the surface before anythin
 
 ## Local context
 
-Established [Cinco Ranch](/service-areas/katy/) and older Katy kitchens are the most common backsplash requests — it is one of the highest-impact changes available in a dated kitchen. Newer builds across [Cypress](/service-areas/cypress/) and [Fulshear](/service-areas/fulshear/) more often want an accent or feature wall the builder did not offer. Bathroom surrounds come up across every area we serve, usually alongside other [bathroom upgrades](/services/bathroom-remodeling/).
+Established [Cinco Ranch](/service-areas/katy/) and older Katy kitchens are the most common backsplash requests — it is one of the highest-impact changes available in a dated kitchen. Newer builds across [Fulshear](/service-areas/fulshear/) and [Cypress](/service-areas/cypress/) more often want an accent or feature wall the builder did not offer. Bathroom surrounds come up across every area we serve, usually alongside other [bathroom upgrades](/services/bathroom-remodeling/).
 
 ## Related services and next steps
 

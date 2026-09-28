@@ -1,6 +1,6 @@
 ---
 import { mediaWallsLanding } from '../../data/mediaWalls';
-import { site } from '../../data/business';
+import { localityShort, site } from '../../data/business';
 import MediaWallEstimateLink from './MediaWallEstimateLink.astro';
 
 /**
@@ -51,7 +51,7 @@ const video = mediaWallsLanding.images.videos.builtIn;
   >
     <div class="order-1 lg:col-start-1 lg:row-start-1">
       <p class="mb-3 text-[11px] font-bold uppercase tracking-[0.16em] text-brand-redondark sm:text-xs">
-        Katy &amp; West Houston
+        {localityShort('&')}
       </p>
       <h1
         id="media-wall-hero-heading"

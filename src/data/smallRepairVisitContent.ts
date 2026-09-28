@@ -1,4 +1,5 @@
 import type { FaqItem } from './schema';
+import { areaServedDisplay, localityShort } from './business';
 import {
   additionalTimeLabel,
   formatUsd,
@@ -9,8 +10,8 @@ import {
 export const handymanToDoListVisitName = 'Handyman To-Do List Visit' as const;
 
 export const smallRepairVisitMeta = {
-  title: 'Handyman To-Do List Visit | Katy & West Houston',
-  description: `Reserve a handyman for multiple smaller repairs, installations and maintenance tasks in one visit across Katy and West Houston. One hour ${formatUsd(smallRepairPricing.oneHour)}, two hours ${formatUsd(smallRepairPricing.twoHours)}, three hours ${formatUsd(smallRepairPricing.threeHours)}.`,
+  title: `Handyman To-Do List Visit | ${localityShort('&')}`,
+  description: `Reserve a handyman for multiple smaller repairs, installations and maintenance tasks in one visit across ${localityShort('and')}. One hour ${formatUsd(smallRepairPricing.oneHour)}, two hours ${formatUsd(smallRepairPricing.twoHours)}, three hours ${formatUsd(smallRepairPricing.threeHours)}.`,
   h1: 'Complete More of Your Home To-Do List in One Visit',
   heroEyebrow: 'Multiple Tasks. One Convenient Visit.',
   heroTitle: 'Complete More of Your Home To-Do List in One Visit',
@@ -142,7 +143,7 @@ export const smallRepairFaqs: FaqItem[] = [
   {
     question: 'What areas do you serve?',
     answer:
-      'We serve Katy and surrounding West Houston communities, including Cypress, Fulshear, Richmond, and nearby master-planned neighborhoods. Send your address if you need confirmation.',
+      `We serve ${areaServedDisplay()}, plus the master-planned neighborhoods nearby. Send your address if you need confirmation.`,
   },
   {
     question: 'Do I need to send photographs?',

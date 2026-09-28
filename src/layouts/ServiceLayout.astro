@@ -10,7 +10,7 @@ import ServiceFAQ from '../components/services/ServiceFAQ.astro';
 import ServiceAreaCrossLinks from '../components/services/ServiceAreaCrossLinks.astro';
 import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
 import InlineEstimateBand from '../components/common/InlineEstimateBand.astro';
-import { absoluteUrl, resolveOgImage } from '../data/business';
+import { absoluteUrl, localityShort, resolveOgImage } from '../data/business';
 import { resolveServiceHero } from '../data/images';
 import { getCategoryForServiceSlug } from '../data/serviceCategories';
 import { contentMaxClass, contentPaddingClass } from '../data/layout';
@@ -34,7 +34,7 @@ const pageUrl = absoluteUrl(`/services/${data.slug}/`);
 const parentCategory = getCategoryForServiceSlug(data.slug);
 const title = data.seoTitle ?? `${data.title} | Elevate Your Space Handyman`;
 const description =
-  data.metaDescription ?? data.summary ?? `Professional ${data.title} in Katy and West Houston.`;
+  data.metaDescription ?? data.summary ?? `Professional ${data.title} in ${localityShort('and')}.`;
 const heroSrc = resolveServiceHero(data.slug, data.heroImage);
 const ogImage = resolveOgImage(data.heroImage ?? heroSrc);
 const ogImageAlt = data.heroImageAlt;
@@ -108,6 +108,6 @@ const schemaGraph = [
     </section>
     <ServiceAreaCrossLinks communities={communityLinks} />
     <ServiceFAQ faqs={data.faqs} />
-    <LocalAreaCTA locationName="Katy & West Houston" />
+    <LocalAreaCTA locationName={localityShort('&')} />
   </article>
 </ContentLayout>

@@ -2,10 +2,10 @@
 title: "Curtain Installation"
 slug: "curtain-installation"
 published: true
-seoTitle: "Curtain & Drapery Rod Installation | Katy & West Houston"
-metaDescription: "Professional curtain rod and drapery hardware installation for standard-height windows in Katy and West Houston, with careful measurement, anchoring and alignment."
+seoTitle: "Curtain & Drapery Rod Installation | Katy & Fulshear"
+metaDescription: "Professional curtain rod and drapery hardware installation for standard-height windows in Katy and Fulshear, with careful measurement, anchoring and alignment."
 heroTitle: "Curtain and Drapery Rod Installation"
-summary: "Professional curtain rod, drapery hardware, and window treatment mounting for Katy and West Houston homeowners."
+summary: "Professional curtain rod, drapery hardware, and window treatment mounting for homeowners in Katy and Fulshear."
 heroImage: "/images/services/curtain-install.jpg"
 heroImageAlt: "Double-height sheer curtain panels hung on tall living-room windows"
 bookingType: "quote-request"
@@ -34,13 +34,13 @@ faqs:
     answer: "Yes. Many homeowners have us install rods and brackets first, then hang curtains when they arrive."
   - question: "Do you hang blinds or shades too?"
     answer: "We focus on rods and drapery hardware. Some shade and blind mounting projects overlap — send photos and we will confirm scope."
-  - question: "Do you serve Katy and West Houston for curtain installs?"
-    answer: "Yes. We install curtain rods and drapery hardware throughout Katy, Fulshear, Cypress, Richmond, and surrounding West Houston communities."
+  - question: "Do you serve Katy and Fulshear for curtain installs?"
+    answer: "Yes. We install curtain rods and drapery hardware throughout Katy, Fulshear, Cypress, Richmond, and West Houston."
   - question: "What about two-story or 18-foot windows?"
     answer: "High-ceiling work is a separate service with its own pricing, because it needs lifts, longer spans, and different hardware. See our high-ceiling curtain installation page for that scope and pricing."
 ---
 
-Curtains and drapery finish a room — privacy from the Texas sun, softer acoustics, and a polished look that builder blinds alone rarely deliver. Elevate Your Space installs curtain rods and hardware level and secure across Katy and West Houston. If you need a handyman who can hang heavy treatments on tall windows without cracked drywall or crooked brackets, this is everyday installation work we take seriously.
+Curtains and drapery finish a room — privacy from the Texas sun, softer acoustics, and a polished look that builder blinds alone rarely deliver. Elevate Your Space installs curtain rods and hardware level and secure in Katy, Fulshear and the cities around them. If you need a handyman who can hang heavy treatments on tall windows without cracked drywall or crooked brackets, this is everyday installation work we take seriously.
 
 ## Who this is for
 
@@ -68,7 +68,7 @@ Many homeowners have us install rods and brackets first, then hang curtains when
 
 ## Ready for a free estimate?
 
-Looking for curtain rod installation in Katy or West Houston? Share window photos, rod lengths, and whether drapes are already purchased, and we will confirm anchoring approach and schedule a clean install visit — clear photos shorten the free estimate cycle and help us bring the right tools on day one.
+Hanging rods in Katy, or dressing the taller great-room windows common in newer Fulshear homes? Share window photos, rod lengths, and whether drapes are already purchased, and we will confirm anchoring approach and schedule a clean install visit — clear photos shorten the free estimate cycle and help us bring the right tools on day one.
 
 Curtain work sits under [installation and assembly](/services/installation-and-assembly/) and pairs well with [furniture assembly](/services/furniture-assembly/) on full move-in days — area starting points are [Katy](/service-areas/katy/) and [Fulshear](/service-areas/fulshear/). For a look at how a tall install comes together, browse [double-height curtains](/our-work/double-height-curtains/) in our project gallery, or see [high-ceiling curtain installation](/curtain-installation/) if your windows run two stories.
 

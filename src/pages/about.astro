@@ -6,7 +6,7 @@ import BreadcrumbNav from '../components/seo/BreadcrumbNav.astro';
 import LocalAreaCTA from '../components/areas/local/LocalAreaCTA.astro';
 import BalancedGrid from '../components/ui/BalancedGrid.astro';
 import { getCollection } from 'astro:content';
-import { absoluteUrl, areaServedDisplay, site } from '../data/business';
+import { absoluteUrl, areaServedDisplay, localityShort, site } from '../data/business';
 import { breadcrumbList, canonicalBusinessNode, webPage } from '../data/schema';
 import { contentMaxClass, contentPaddingClass } from '../data/layout';
 
@@ -158,7 +158,7 @@ const schemaGraph = [
           We live and work in the communities we serve. That means our reputation is built one homeowner and one project at a time. We want customers to feel comfortable asking questions, understand what is being done, and know what to expect before work begins. Our military background is part of our foundation, but our work is what continues to earn the trust of local homeowners.
         </p>
         <p class="text-neutral-600 max-w-3xl leading-relaxed font-medium text-brand-black">
-          Veteran-owned. Locally operated. Proudly serving Katy and West Houston.
+          Veteran-owned. Locally operated. Proudly serving {localityShort('and')}.
         </p>
       </div>
     </section>
@@ -167,13 +167,13 @@ const schemaGraph = [
       <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
         <h2 class="text-3xl font-bold text-brand-black mb-4">Where we work</h2>
         <p class="text-neutral-600 mb-8 max-w-2xl">
-          We are based in Katy and serve homeowners across West Houston. Start with your city page or send your address for service confirmation.
+          We are based in Katy and serve homeowners in {areaServedDisplay()}. Start with your city page or send your address for service confirmation.
         </p>
         <BalancedGrid variant="card" items={areaCards} cols={3} gapClass="gap-6" />
         <a href="/service-areas/" class="inline-block mt-6 text-brand-red font-bold hover:underline">View all service areas &rarr;</a>
       </div>
     </section>
 
-    <LocalAreaCTA locationName="Katy & West Houston" />
+    <LocalAreaCTA locationName={localityShort('&')} />
   </article>
 </ContentLayout>

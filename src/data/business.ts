@@ -127,10 +127,16 @@ export const business = {
     zip: '77493',
     country: 'US',
     formatted: '1308 Ventura Crk Dr, Katy, TX 77493, United States',
-    /** Public-facing locality line (no street). */
-    publicLocality: 'Katy & West Houston, TX',
+    /** Public-facing locality line (no street). Derived from `localityShort()`. */
+    get publicLocality(): string {
+      return `${localityShort('&')}, TX`;
+    },
   },
-  areaServed: ['Katy', 'Cypress', 'Fulshear', 'Richmond', 'West Houston'],
+  /**
+   * Order matters: it drives JSON-LD `areaServed` and every "we serve" sentence.
+   * Katy first (home base), Fulshear second (Katy's default partner in copy).
+   */
+  areaServed: ['Katy', 'Fulshear', 'Cypress', 'Richmond', 'West Houston'],
   geo: {
     latitude: 29.7858,
     longitude: -95.8245,
@@ -158,6 +164,26 @@ export function areaServedDisplay(conjunction: 'and' | '&' = 'and'): string {
   const cities = business.areaServed;
   const last = cities[cities.length - 1];
   return `${cities.slice(0, -1).join(', ')}, ${conjunction} ${last}`;
+}
+
+/**
+ * SHORT locality line — the two lead cities of `areaServed`: "Katy & Fulshear"
+ * (or "Katy and Fulshear" in prose). Use this wherever copy names the home turf
+ * in two places, instead of retyping the pair.
+ */
+export function localityShort(conjunction: 'and' | '&' = '&'): string {
+  const [first, second] = business.areaServed;
+  return `${first} ${conjunction} ${second}`;
+}
+
+/**
+ * MID locality line — the SHORT pair plus Cinco Ranch: "Katy, Fulshear & Cinco
+ * Ranch". Cinco Ranch is a community inside Katy (community tier), which is why
+ * it is appended here and never added to `areaServed`.
+ */
+export function localityMid(conjunction: 'and' | '&' = '&'): string {
+  const [first, second] = business.areaServed;
+  return `${first}, ${second} ${conjunction} Cinco Ranch`;
 }
 
 export function googleReviewProfileUrl(): string | undefined {

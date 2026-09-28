@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import SEOHead, { type SeoProps } from '../components/seo/SEOHead.astro';
 import SchemaJsonLd from '../components/seo/SchemaJsonLd.astro';
-import { site } from '../data/business';
+import { localityShort, site } from '../data/business';
 import { wrapSchemaGraph } from '../data/schema';
 import inter400 from '@fontsource/inter/files/inter-latin-400-normal.woff2?url';
 import inter700 from '@fontsource/inter/files/inter-latin-700-normal.woff2?url';
@@ -13,9 +13,9 @@ interface Props {
 }
 
 const defaultSeo: SeoProps = {
-  title: 'Handyman Services in Katy & West Houston | EYS',
+  title: `Handyman Services in ${localityShort('&')} | EYS`,
   description:
-    'Veteran-owned handyman service for repairs, installations, punch lists, finish carpentry and home upgrades across Katy and West Houston. Choose a photo estimate, To-Do List Visit or custom project estimate.',
+    `Veteran-owned handyman service for repairs, installations, punch lists, finish carpentry and home upgrades across ${localityShort('and')}. Choose a photo estimate, To-Do List Visit or custom project estimate.`,
   canonical: site.url,
 };
 
