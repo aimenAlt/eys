@@ -10,9 +10,17 @@ interface Props {
   featuredPrimary?: boolean;
   priority?: boolean;
   hidden?: boolean;
+  /** Also shown in the Featured section above; Browse hides this copy under "All". */
+  inFeatured?: boolean;
 }
 
-const { project, featuredPrimary = false, priority = false, hidden = false } = Astro.props;
+const {
+  project,
+  featuredPrimary = false,
+  priority = false,
+  hidden = false,
+  inFeatured = false,
+} = Astro.props;
 const { data } = project;
 const href = projectHref(data.slug);
 const location = projectLocationLabel(data);
@@ -31,6 +39,7 @@ const categoryLabel = projectCategoryLabel(data.category);
   data-category={data.category}
   data-featured={data.featured ? 'true' : 'false'}
   data-slug={data.slug}
+  data-in-featured={inFeatured ? 'true' : undefined}
   hidden={hidden ? true : undefined}
 >
   <a

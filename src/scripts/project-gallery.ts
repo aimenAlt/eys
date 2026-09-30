@@ -74,7 +74,9 @@ function initFilters() {
 
   const chips = [...root.querySelectorAll<HTMLButtonElement>('[data-filter]')];
   const live = root.querySelector<HTMLElement>('[data-filter-live]');
-  const cards = [...document.querySelectorAll<HTMLElement>('[data-project-card]')];
+  // Scope to the Browse grid: the Featured section uses the same card markup
+  // and must not be hidden by filters or count toward the show-more limit.
+  const cards = [...grid.querySelectorAll<HTMLElement>('[data-project-card]')];
   const empty = grid.querySelector<HTMLElement>('[data-empty-state]');
   const showMoreWrap = grid.querySelector<HTMLElement>('[data-show-more-wrap]');
   const showMoreBtn = grid.querySelector<HTMLButtonElement>('[data-show-more]');
@@ -86,14 +88,14 @@ function initFilters() {
 
   function matchingCards(): HTMLElement[] {
     return cards.filter((card) => {
-      if (active === 'all') return true;
+      // Under "All", featured projects are already shown in the section above.
+      if (active === 'all') return card.dataset.inFeatured !== 'true';
       return card.dataset.category === active;
     });
   }
 
   function apply() {
     const matches = matchingCards();
-    // Featured first already in DOM order from server sort
     cards.forEach((card) => {
       card.classList.add('hidden');
       card.hidden = true;

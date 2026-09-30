@@ -27,10 +27,10 @@ import { imageOrPlaceholder } from '../../data/images';
 
 const projects = await getLiveProjects();
 const featured = getFeaturedProjects(projects, 6);
+// Featured section above already shows these. Browse still renders them so a
+// category filter lists every match, but hides them under "All" so nothing
+// appears twice on first load.
 const featuredSlugs = new Set(featured.map((entry) => entry.data.slug));
-// Featured section above already shows these — drop them from Browse so every
-// project appears once instead of twice on first load.
-const browseProjects = projects.filter((entry) => !featuredSlugs.has(entry.data.slug));
 const categories = visibleCategories(projects);
 const counts = countByCategory(projects);
 const heroEstimateUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
@@ -133,7 +133,7 @@ const galleryData = projects.map((entry) => {
         <div class="mb-8">
           <ProjectFilters categories={categories} counts={counts} />
         </div>
-        <ProjectGrid projects={browseProjects} initialCount={12} />
+        <ProjectGrid projects={projects} featuredSlugs={featuredSlugs} initialCount={12} />
       </div>
     </section>
 
