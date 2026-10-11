@@ -46,8 +46,7 @@ export const socialProfiles = {
   instagram: 'https://www.instagram.com/eys_handyman/',
   yelp: 'https://www.yelp.com/biz/elevate-your-space-handyman-katy',
   nextdoor: 'https://nextdoor.com/pages/eys-handyman-katy-tx/',
-  // TODO: add the TikTok profile URL. It belongs in sameAs as an independent
-  // corroborating signal, but the URL has not been supplied — do not guess it.
+  tiktok: 'https://www.tiktok.com/@eys.handyman',
 } as const;
 
 /**
@@ -105,6 +104,7 @@ function buildSameAs(): string[] {
     socialProfiles.instagram,
     socialProfiles.yelp,
     socialProfiles.nextdoor,
+    socialProfiles.tiktok,
   ];
   const gbp = googleReviews.profileUrl?.trim();
   if (gbp) links.unshift(gbp);
