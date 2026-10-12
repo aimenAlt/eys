@@ -72,3 +72,11 @@ in the DONE line so the Ads final URL can be switched (that switch is done in Go
 Shipped `https://www.eyshandyman.com/lp/built-ins-shelving-storage/`. This is the final URL to put
 in Google Ads for the "Built-Ins, Shelving & Storage" ad group. noindex,follow, self-canonical,
 not in the sitemap, `page_type=lp_landing`. Aimen: one `curl -sI` from the Mac to confirm the 200.
+
+## Live verification 2026-10-12
+From the Mac, curl against https://www.eyshandyman.com — PASS.
+- `/lp/built-ins-shelving-storage/` → 200; `<meta name="robots" content="noindex, follow">`;
+  canonical `https://www.eyshandyman.com/lp/built-ins-shelving-storage/`.
+- `tel:3468201629` with `data-cta-location="lp_hero_call"`; Jobber form 4985623 link with
+  `eys_form=project-estimate` and `data-cta-location="lp_hero_form"`.
+- `/sitemap-0.xml` contains no `/lp/` URL. No (718) number on the page.

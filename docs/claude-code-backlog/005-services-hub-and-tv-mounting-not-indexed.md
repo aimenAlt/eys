@@ -33,3 +33,7 @@ pending; commit the updated log json with the change.
 
 ## DONE 2026-10-12 248a414
 Footer links both URLs sitewide; both are pending in `docs/gsc-indexing-log.json`.
+
+## Live verification 2026-10-12
+From the Mac, curl against https://www.eyshandyman.com/about/ — PASS. 200; footer contains
+`href="/services/"` and `href="/services/tv-mounting/"`; no (718) number.

@@ -91,3 +91,19 @@ Cloudflare dashboard → eyshandyman.com zone:
    Then click "Validate fix" on the Redirect error report in Search Console.
 
 Status: **blocked on Aimen (Cloudflare dashboard)**. No repo commit for the fix itself; only this note.
+
+## Live verification 2026-10-12
+From the Mac, Googlebot UA, `curl -sIL ... | grep -iE '^(HTTP|location)'`:
+
+| URL | Hops | Result |
+|---|---|---|
+| `https://eyshandyman.com/book/` | 301 → `https://www.eyshandyman.com/book/` → 200 | pass |
+| `http://eyshandyman.com/book/` | 301 → `https://eyshandyman.com/book/` → 301 → `https://www.eyshandyman.com/book/` → 200 | **fail (2 redirects)** |
+| `https://eyshandyman.com/our-work/pergola-privacy-wall/` | 301 → `https://www.eyshandyman.com/our-work/pergola-privacy-wall/` → 200 | pass |
+| `https://eyshandyman.com/` | 301 → `https://www.eyshandyman.com/` → 200 | pass |
+| `https://eyshandyman.com/contact/?utm_source=test` | 301 → `https://www.eyshandyman.com/contact/?utm_source=test` → 200 | pass |
+
+Every https apex URL now 301s once to its www twin with path and query kept, then 200. The http apex
+URL still takes an extra http→https hop on the apex before the www redirect. That second hop means the
+single redirect in "Needs Aimen in Cloudflare" is not catching http apex yet (either the rule isn't in,
+or "Always Use HTTPS" runs first). No loop, ≤ 2 hops. Item stays open until the http chain is one hop.

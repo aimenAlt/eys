@@ -41,3 +41,7 @@ phone_click count vs the Oct 11 baseline above.
 ## DONE 2026-10-12 a22319c
 /start/ hero is phone-first. Measure on Nov 10 2026 against the Oct 11 baseline (4.4%
 jobber_booking_click, 0 generate_lead).
+
+## Live verification 2026-10-12
+From the Mac, curl against https://www.eyshandyman.com/start/ — PASS. 200; contains
+`start_hero_call` and `hero_offer_quote`; `noindex, follow` meta still present; no (718) number.

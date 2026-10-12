@@ -24,3 +24,9 @@ nothing here to edit in place. Run this item from a local Claude Code / Cowork s
 Mac; every number it needs is quoted above. One addition for that edit: the "Redirect error 37"
 line can say the fix is a Cloudflare Single Redirect that Aimen sets up (see 001 → "Needs Aimen
 in Cloudflare").
+
+## DONE 2026-10-12 (local file, no commit)
+Updated §1.5 of `Claude outputs/eys-seo-dominance-stage1-prompt.md` in place with every number above,
+the Redirect error 37 cause + pointer to 001's "Needs Aimen in Cloudflare", and a "Shipped Oct 12 2026"
+line (built-ins LP, /start/ hero, repairs + to-do-list hero CTAs, footer tv-mounting link). Header bumped
+to 2026-10-12 (rev c) with a changelog entry. Nothing else in the prompt changed. File stays untracked.

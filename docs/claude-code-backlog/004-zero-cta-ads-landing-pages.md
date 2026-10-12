@@ -38,3 +38,11 @@ Measurement date Nov 10 2026: both pages must show > 0 Jobber clicks on ≥ 10 s
 
 ## DONE 2026-10-12 71c1c23
 Both pages have tel: + Jobber in the hero. Measure Nov 10 2026: > 0 Jobber clicks on ≥ 10 sessions each.
+
+## Live verification 2026-10-12
+From the Mac, curl against https://www.eyshandyman.com — PASS.
+- `/services/repairs-and-maintenance/` → 200; `repairs_and_maintenance_hero_form` (getjobber.com,
+  form 4985623, `eys_form=project-estimate`) and `repairs_and_maintenance_hero_call` (`tel:3468201629`).
+- `/services/handyman-to-do-list/` → 200; `handyman_to_do_list_hero_call` (`tel:3468201629`) and
+  `handyman_to_do_list_hero_form` (form 4983259, `eys_form=todo-list`).
+- No (718) number on either page.
