@@ -28,7 +28,8 @@ const heroVideo = startLanding.images.videos.builtIn;
 const todoFrom = todoListFromPrice();
 
 /**
- * Both tiles are links straight into the matching Jobber form — they read as
+ * Since backlog 003 the quote tile is a plain button beside Call (phone first)
+ * and only the To-Do List tile remains as a tile. Tiles are links straight into the matching Jobber form — they read as
  * offers, so leaving them inert wasted the two highest-contrast blocks in the
  * hero. Hover/focus lift and the arrow in the headline signal that.
  *
@@ -54,6 +55,9 @@ const offerEyebrowClass =
 const offerHeadlineClass = 'mt-2 text-2xl font-bold tracking-tight text-white';
 const offerCopyClass = 'mt-1 text-sm text-white/90 lg:text-white/80';
 const offerArrowClass = 'ml-1.5 text-brand-redondark';
+/** Secondary to the call button beside it — same height, outlined. */
+const heroQuoteClass =
+  'inline-flex min-h-12 w-full items-center justify-center rounded-md border-2 border-white/85 bg-black/40 px-3 py-3 text-center text-sm font-bold text-white hover:bg-white hover:text-brand-black sm:text-base';
 ---
 
 <section
@@ -111,19 +115,26 @@ const offerArrowClass = 'ml-1.5 text-brand-redondark';
         repairs — call or choose a path to get started.
       </p>
 
-      <div class="mt-7 grid gap-3 sm:grid-cols-2">
+      <!--
+        Phone first (backlog 003): every paid Google lead in Aug 29–Oct 10 2026
+        arrived by phone, so Call leads and the existing project-estimate link
+        sits beside it. `data-start-hero-cta` is the StartStickyBar reveal hook.
+      -->
+      <div class="mt-6 grid grid-cols-2 gap-3 sm:max-w-md" data-start-hero-cta>
+        <StartCallLink placement="start_hero_call" variant="heroPrimary">
+          Call {site.phone}
+        </StartCallLink>
         <StartJobberLink
           service="project_estimate"
           placement="hero_offer_quote"
           variant="bare"
-          class={offerCardClass}
+          class={heroQuoteClass}
         >
-          <p class={offerEyebrowClass}>Free Quote</p>
-          <p class={offerHeadlineClass}>
-            Any Project<span class={offerArrowClass} aria-hidden="true">→</span>
-          </p>
-          <p class={offerCopyClass}>Repairs, upgrades, remodeling, and one-off work</p>
+          Get a Free Quote
         </StartJobberLink>
+      </div>
+
+      <div class="mt-4 sm:max-w-md">
         <StartJobberLink
           service="todo_list"
           placement="hero_offer_todo"
@@ -140,15 +151,9 @@ const offerArrowClass = 'ml-1.5 text-brand-redondark';
         </StartJobberLink>
       </div>
 
-      <div class="mt-6" data-start-hero-cta>
-        <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <StartCallLink placement="hero" variant="hero">Call {site.phone}</StartCallLink>
-          <StartChooseLink placement="hero" variant="hero">Choose a Project</StartChooseLink>
-        </div>
-        <p class="mt-3 max-w-md text-sm leading-relaxed text-white/80 lg:text-white/70">
-          Prefer to talk it through first? Call and we’ll point you to the right next step.
-        </p>
-      </div>
+      <p class="mt-4">
+        <StartChooseLink placement="hero" variant="text">See every project type ↓</StartChooseLink>
+      </p>
     </div>
 
     <figure class="relative mx-auto hidden w-full max-w-md overflow-hidden rounded-xl lg:block lg:max-w-none">

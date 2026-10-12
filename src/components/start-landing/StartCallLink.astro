@@ -3,7 +3,7 @@ import { site } from '../../data/business';
 import type { StartCtaPlacement } from '../../data/startLanding';
 
 interface Props {
-  variant?: 'header' | 'hero' | 'sticky' | 'final' | 'text';
+  variant?: 'header' | 'hero' | 'heroPrimary' | 'sticky' | 'final' | 'text';
   placement: StartCtaPlacement;
   class?: string;
 }
@@ -14,6 +14,9 @@ const variantClasses = {
   header:
     'inline-flex min-h-11 items-center justify-center rounded-md border border-white/40 px-4 py-2.5 text-sm font-bold text-white hover:border-white hover:bg-white/10',
   hero: 'inline-flex min-h-12 w-full items-center justify-center rounded-md border-2 border-white/85 bg-transparent px-5 py-3.5 text-center text-base font-bold text-white hover:bg-white hover:text-brand-black sm:w-auto',
+  /** Red, half-width beside the hero's quote link (backlog 003: phone first). */
+  heroPrimary:
+    'inline-flex min-h-12 w-full items-center justify-center rounded-md bg-brand-red px-3 py-3 text-center text-sm font-bold text-white shadow-lg shadow-black/30 hover:bg-brand-redhover sm:text-base',
   sticky:
     'inline-flex min-h-12 flex-1 items-center justify-center rounded-md border-2 border-white/85 bg-transparent text-white transition-colors hover:bg-white hover:text-brand-black px-3 py-3 text-center text-sm font-bold',
   final:

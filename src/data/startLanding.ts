@@ -140,6 +140,8 @@ export const startLanding = {
 export type StartCtaPlacement =
   | 'header'
   | 'hero'
+  /** Hero call button, primary since backlog 003 (phone-first). */
+  | 'start_hero_call'
   /**
    * The two dark offer tiles inside the hero — clickable straight to a form.
    * `hero_offer` is the retired shared tag, kept so historical GA4 data still
