@@ -1,14 +1,14 @@
 /**
- * Scroll-depth milestones for long, single-column, conversion-driven landing
- * pages: `/`, `/start/`, `/van/`, `/curtain-installation/` and
- * `/services/media-walls/`. Imported per page, explicitly — this is
- * deliberately not wired site-wide from BaseLayout.
+ * Scroll-depth milestones on every page. Imported once, site-wide, from
+ * BaseLayout's module script (backlog 007, Oct 2026). It began on five landing
+ * pages only (`/`, `/start/`, `/van/`, `/curtain-installation/`,
+ * `/services/media-walls/`), which left service and area pages unmeasured.
  *
  * GA4's built-in `scroll` event fires once, at 90%, which says whether someone
- * reached the bottom and nothing about where the rest of them stopped. These
- * pages are long, single-column and entirely conversion-driven, so knowing that
- * readers drop out between 25% and 50% is the difference between reordering a
- * section and rewriting it.
+ * reached the bottom and nothing about where the rest of them stopped. Knowing
+ * that readers drop out between 25% and 50% is the difference between
+ * reordering a section and rewriting it. `page_type` lets reports split the
+ * milestones by template.
  *
  * 25 / 50 / 75 only. A fourth milestone at 90% would double-count against GA4's
  * own scroll event.
