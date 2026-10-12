@@ -74,7 +74,8 @@ function initFilters() {
 
   const chips = [...root.querySelectorAll<HTMLButtonElement>('[data-filter]')];
   const live = root.querySelector<HTMLElement>('[data-filter-live]');
-  const cards = [...document.querySelectorAll<HTMLElement>('[data-project-card]')];
+  // Only the Browse grid filters; the Featured section above stays as-is.
+  const cards = [...grid.querySelectorAll<HTMLElement>('[data-project-card]')];
   const empty = grid.querySelector<HTMLElement>('[data-empty-state]');
   const showMoreWrap = grid.querySelector<HTMLElement>('[data-show-more-wrap]');
   const showMoreBtn = grid.querySelector<HTMLButtonElement>('[data-show-more]');
@@ -86,7 +87,7 @@ function initFilters() {
 
   function matchingCards(): HTMLElement[] {
     return cards.filter((card) => {
-      if (active === 'all') return true;
+      if (active === 'all') return card.dataset.shownAbove !== 'true';
       return card.dataset.category === active;
     });
   }

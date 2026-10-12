@@ -28,9 +28,9 @@ import { imageOrPlaceholder } from '../../data/images';
 const projects = await getLiveProjects();
 const featured = getFeaturedProjects(projects, 6);
 const featuredSlugs = new Set(featured.map((entry) => entry.data.slug));
-// Featured section above already shows these — drop them from Browse so every
-// project appears once instead of twice on first load.
-const browseProjects = projects.filter((entry) => !featuredSlugs.has(entry.data.slug));
+// Browse holds every project so each category chip's count matches its cards.
+// The "All" view skips the ones Featured already shows so nothing appears twice
+// on first load; picking a category shows all of its projects, featured included.
 const categories = visibleCategories(projects);
 const counts = countByCategory(projects);
 const heroEstimateUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
@@ -133,7 +133,7 @@ const galleryData = projects.map((entry) => {
         <div class="mb-8">
           <ProjectFilters categories={categories} counts={counts} />
         </div>
-        <ProjectGrid projects={browseProjects} initialCount={12} />
+        <ProjectGrid projects={projects} shownAbove={featuredSlugs} initialCount={12} />
       </div>
     </section>
 
