@@ -22,7 +22,7 @@ const gbpUrl = googleReviewProfileUrl();
 const reviewProof = `${googleReviews.rating.toFixed(1)} ★ · ${googleReviewCountDisplay()} Google reviews`;
 ---
 
-<section class="relative overflow-hidden bg-brand-black min-h-[min(78vh,760px)]">
+<section class="relative overflow-hidden bg-brand-black min-h-[min(78vh,760px)]" data-analytics-section="hero">
   <div class="absolute inset-0" aria-hidden="true">
     <SiteImage
       src={heroSrc}

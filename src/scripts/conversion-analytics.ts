@@ -9,6 +9,7 @@ import {
 import { CONVERSION_CURRENCY, conversionValueUsd } from '../data/conversionValues';
 import { decorateJobberLinks } from './jobber-attribution';
 import './clarity-tags';
+import './attention-analytics';
 
 const JOBBER_HOST = 'getjobber.com';
 /** Cap on the free-text CTA label sent to GA4. Labels are static copy, never PII. */
