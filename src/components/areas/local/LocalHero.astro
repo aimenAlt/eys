@@ -13,6 +13,13 @@ interface Props {
   heroImage?: string;
   heroImageAlt?: string;
   citySlug?: string;
+  /**
+   * Optional override for the primary button. Omitted everywhere except
+   * /services/repairs-and-maintenance/ (backlog 004), so every other page
+   * keeps `/contact/` + `local_hero_primary` / `local_hero_phone` unchanged.
+   */
+  primaryCta?: { href: string; bookingType?: string; ctaLocation: string };
+  phoneCtaLocation?: string;
 }
 
 const {
@@ -24,6 +31,8 @@ const {
   heroImage,
   heroImageAlt = 'Handyman services',
   citySlug,
+  primaryCta,
+  phoneCtaLocation = 'local_hero_phone',
 } = Astro.props;
 
 const imageSrc = resolveCityHero(citySlug, heroImage);
@@ -58,15 +67,16 @@ const imageSrc = resolveCityHero(citySlug, heroImage);
         }
         <div class="flex flex-col sm:flex-row gap-3" data-sticky-hero-cta>
           <a
-            href="/contact/"
-            data-cta-location="local_hero_primary"
+            href={primaryCta?.href ?? '/contact/'}
+            data-booking-type={primaryCta?.bookingType}
+            data-cta-location={primaryCta?.ctaLocation ?? 'local_hero_primary'}
             class="inline-flex justify-center items-center bg-brand-red text-white px-6 py-3 rounded-md font-bold hover:bg-brand-redhover transition-colors"
           >
             Request an Estimate
           </a>
           <a
             href={`tel:${site.phoneTel}`}
-            data-cta-location="local_hero_phone"
+            data-cta-location={phoneCtaLocation}
             class="inline-flex justify-center items-center border-2 border-brand-black text-brand-black px-6 py-3 rounded-md font-bold hover:bg-brand-black hover:text-white transition-colors"
           >
             Call {site.phone}

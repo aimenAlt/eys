@@ -2,10 +2,28 @@
 import { getCollection } from 'astro:content';
 import ServiceCategoryLayout from '../../../layouts/ServiceCategoryLayout.astro';
 import { getServiceCategory } from '../../../data/serviceCategories';
+import { jobberProjectEstimateFormUrl } from '../../../data/business';
 
 const category = getServiceCategory('repairs-and-maintenance')!;
 const services = await getCollection('services', ({ data }) => data.published === true);
 const publishedServiceSlugs = new Set(services.map((s) => s.data.slug));
+
+// Google Ads landing page for "Repairs & Upgrades" (backlog 004): the hero's
+// estimate button goes straight to the page's own Jobber form (the same one as
+// its mid-page band) instead of /contact/, so call + Jobber sit above the fold.
+const estimateUrl = jobberProjectEstimateFormUrl();
+const heroPrimaryCta = estimateUrl
+  ? {
+      href: estimateUrl,
+      bookingType: 'project_estimate',
+      ctaLocation: 'repairs_and_maintenance_hero_form',
+    }
+  : undefined;
 ---
 
-<ServiceCategoryLayout category={category} publishedServiceSlugs={publishedServiceSlugs} />
+<ServiceCategoryLayout
+  category={category}
+  publishedServiceSlugs={publishedServiceSlugs}
+  heroPrimaryCta={heroPrimaryCta}
+  heroPhoneCtaLocation="repairs_and_maintenance_hero_call"
+/>

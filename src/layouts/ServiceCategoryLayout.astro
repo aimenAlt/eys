@@ -17,9 +17,12 @@ import { isCustomServicePage } from '../data/sitePresentation';
 interface Props {
   category: ServiceCategory;
   publishedServiceSlugs: Set<string>;
+  /** Passed through to LocalHero; only repairs-and-maintenance sets it (backlog 004). */
+  heroPrimaryCta?: { href: string; bookingType?: string; ctaLocation: string };
+  heroPhoneCtaLocation?: string;
 }
 
-const { category, publishedServiceSlugs } = Astro.props;
+const { category, publishedServiceSlugs, heroPrimaryCta, heroPhoneCtaLocation } = Astro.props;
 const pageUrl = absoluteUrl(`/services/${category.slug}/`);
 const title = category.seoTitle;
 const description = category.metaDescription;
@@ -84,6 +87,8 @@ const schemaGraph = [
       locationLabel={localityShort('&')}
       heroImage={category.heroImage}
       heroImageAlt={category.heroImageAlt}
+      primaryCta={heroPrimaryCta}
+      phoneCtaLocation={heroPhoneCtaLocation}
     />
 
     <ServiceTrustStrip />

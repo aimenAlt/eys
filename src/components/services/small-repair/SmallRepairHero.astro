@@ -23,6 +23,31 @@ const bookUrl = jobberHandymanToDoListFormUrl();
         <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-black leading-tight tracking-tight mb-4">
           {smallRepairVisitMeta.heroTitle}
         </h1>
+        <!--
+          Compact call + book pair right under the H1 (backlog 004): the page's
+          first CTA used to sit below the fold on a 390px phone, and this is a
+          Google Ads sitelink landing page. Price from todoList.ts only.
+        -->
+        <div class="mb-5 grid grid-cols-2 gap-3 sm:max-w-md">
+          <a
+            href={`tel:${site.phoneTel}`}
+            data-cta-location="handyman_to_do_list_hero_call"
+            class="inline-flex min-h-12 items-center justify-center rounded-md bg-brand-red px-3 py-3 text-center text-sm font-bold text-white hover:bg-brand-redhover sm:text-base"
+            aria-label={`Call Elevate Your Space Handyman at ${site.phone}`}
+          >
+            Call {site.phone}
+          </a>
+          <a
+            href={bookUrl ?? '#book-visit'}
+            target={bookUrl ? '_blank' : undefined}
+            rel={bookUrl ? 'noopener noreferrer' : undefined}
+            data-booking-type="handyman_to_do_list"
+            data-cta-location="handyman_to_do_list_hero_form"
+            class="inline-flex min-h-12 items-center justify-center rounded-md border-2 border-brand-black px-3 py-3 text-center text-sm font-bold text-brand-black hover:bg-brand-black hover:text-white sm:text-base"
+          >
+            Book · from {formatUsd(smallRepairPricing.oneHour)}
+          </a>
+        </div>
         <p class="text-lg text-neutral-600 mb-6 leading-relaxed max-w-2xl">
           {smallRepairVisitMeta.heroSummary}
         </p>
