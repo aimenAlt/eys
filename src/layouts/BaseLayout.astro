@@ -99,6 +99,29 @@ const enableAnalytics = import.meta.env.PROD && (import.meta.env.BASE_URL || '/'
               // Ads ID last it got neither, so Jobber-side GA4 events arrive unattributed.
               gtag('config', 'G-9D5MCDT0L1');
 
+              // Microsoft Clarity (heatmaps + session replays), project "EYS Handyman
+              // website". Measurement, so it follows GA4's rule rather than the
+              // pixel's: our opt-out turns it off, GPC only denies its ad storage.
+              // Event mirroring and tags live in src/utils/analytics.ts and
+              // src/scripts/clarity-tags.ts; both no-op while window.clarity is absent.
+              if (!eysOptedOut) {
+                (function (c, l, a, r, i, t, y) {
+                  c[a] =
+                    c[a] ||
+                    function () {
+                      (c[a].q = c[a].q || []).push(arguments);
+                    };
+                  t = l.createElement(r);
+                  t.async = 1;
+                  t.src = 'https://www.clarity.ms/tag/' + i;
+                  y = l.getElementsByTagName(r)[0];
+                  y.parentNode.insertBefore(t, y);
+                })(window, document, 'clarity', 'script', 'ywlsbg76a7');
+                if (eysGpc) {
+                  clarity('consentv2', { ad_Storage: 'denied', analytics_Storage: 'granted' });
+                }
+              }
+
               // Opted out, by our toggle or by GPC: the pixel is never defined. Do not
               // add a stub here - trackMetaEvent() already no-ops when fbq is absent,
               // and a stub on the live host makes the real snippet bail out forever.

@@ -8,7 +8,7 @@ const description =
   'How Elevate Your Space Handyman collects and uses information on this website — the tools we run, what our estimate forms collect, and how to turn advertising and analytics cookies off.';
 const canonical = absoluteUrl('/privacy/');
 
-const lastUpdated = 'September 2026';
+const lastUpdated = 'October 2026';
 
 const schemaGraph = [
   webPage('Privacy Policy', canonical, description),
@@ -30,6 +30,15 @@ const vendors = [
     links: [
       { label: 'Google Privacy Policy', href: 'https://policies.google.com/privacy' },
       { label: 'Google Analytics opt-out', href: 'https://tools.google.com/dlpage/gaoptout' },
+    ],
+  },
+  {
+    name: 'Microsoft Clarity',
+    does: 'Records how visitors scroll and click (heatmaps and session replays) so we can see which parts of a page help. Anything typed is masked before it leaves your browser.',
+    purpose: 'Measurement',
+    links: [
+      { label: 'Microsoft Privacy Statement', href: 'https://privacy.microsoft.com/privacystatement' },
+      { label: 'Clarity terms of use', href: 'https://clarity.microsoft.com/terms' },
     ],
   },
   {
@@ -120,7 +129,7 @@ const vendors = [
       </li>
       <li>
         Interactions on the page, such as tapping our phone number or clicking a request or booking
-        button.
+        button, and how far down a page you scroll and where you click.
       </li>
     </ul>
     <p>
@@ -169,8 +178,9 @@ const vendors = [
       </table>
     </div>
     <p>
-      Google Analytics and Google Ads set cookies in your browser. The Meta Pixel sets cookies and
-      reports the page you viewed back to Meta. Google Maps loads only on the homepage, where the
+      Google Analytics and Google Ads set cookies in your browser. Microsoft Clarity sets cookies
+      and records scrolling and clicks on the page; anything typed is masked before it is sent. The
+      Meta Pixel sets cookies and reports the page you viewed back to Meta. Google Maps loads only on the homepage, where the
       map is. Cloudflare sits in front of every page because it serves them.
     </p>
 
@@ -203,8 +213,8 @@ const vendors = [
     <ul>
       <li>
         The service providers in the table above, for the jobs described there — Jobber for forms
-        and customer records, Google and Meta for measurement and advertising, Cloudflare for
-        hosting.
+        and customer records, Google and Meta for measurement and advertising, Microsoft for
+        measurement, Cloudflare for hosting.
       </li>
       <li>
         Licensed trade partners or subcontractors, when a job includes work we coordinate rather
@@ -237,14 +247,15 @@ const vendors = [
       </li>
       <li>
         <strong>This site.</strong> The toggle below turns off analytics and advertising on
-        eyshandyman.com for this browser.
+        eyshandyman.com for this browser, including Microsoft Clarity.
       </li>
       <li>
         <strong>Global Privacy Control.</strong> If your browser or a privacy extension sends the
         GPC signal, we treat it as an opt-out of advertising: advertising cookies are switched off
-        and the Meta Pixel is not loaded for you. Plain visit counting stays on, because GPC is an
-        advertising signal rather than a request to stop counting page views. Use the toggle below
-        if you want that off as well.
+        and the Meta Pixel is not loaded for you. Plain visit counting, including Microsoft Clarity
+        with its advertising storage switched off, stays on, because GPC is an advertising signal
+        rather than a request to stop counting page views. Use the toggle below if you want that off
+        as well.
       </li>
     </ul>
 

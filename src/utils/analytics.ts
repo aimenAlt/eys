@@ -7,8 +7,21 @@ declare global {
     gtag?: (...args: unknown[]) => void;
     dataLayer?: unknown[];
     fbq?: (...args: unknown[]) => void;
+    /** Microsoft Clarity — defined only on the live host and only when not opted out. */
+    clarity?: (...args: unknown[]) => void;
   }
 }
+
+/**
+ * Events whose Clarity recordings are always kept (`clarity('upgrade')`) — the
+ * sessions that reached a phone call, a Jobber form or a confirmed lead.
+ */
+const CLARITY_UPGRADE_EVENTS = new Set([
+  'phone_click',
+  'jobber_booking_click',
+  'lead_submit',
+  'booking_complete',
+]);
 
 /** Meta Pixel helper — safe no-op when pixel is unavailable (dev / preview). */
 export function trackMetaEvent(
@@ -26,6 +39,10 @@ export function trackEvent(eventName: string, params?: AnalyticsParams): void {
   if (typeof window === 'undefined') return;
   if (typeof window.gtag !== 'function') return;
   window.gtag('event', eventName, params ?? {});
+  // Clarity gets the event NAME only, so recordings can be filtered by it. Never
+  // forward params (they carry paths and phone digits) and never call 'identify'.
+  window.clarity?.('event', eventName);
+  if (CLARITY_UPGRADE_EVENTS.has(eventName)) window.clarity?.('upgrade', eventName);
 }
 
 /** GA4 event names — Plan 10 conversion scaffold + existing gallery/pathway events. */
