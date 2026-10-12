@@ -23,3 +23,21 @@ check + build clean; live page shows both buttons above the fold at 390px wide (
 screenshot/QA tooling if the repo has it, otherwise curl the HTML and assert both hrefs exist and the
 noindex meta is still present). Measurement date: Nov 10 2026 — `/start` jobber_booking_click rate and
 phone_click count vs the Oct 11 baseline above.
+
+## Decisions (Claude Code, 2026-10-12)
+- Hero: red **Call (346) 820-1629** (`start_hero_call`) and **Get a Free Quote** side by side. The
+  quote button is the same `/start/` project-estimate link (form 5201775,
+  `eys_form=project-estimate-start`, `booking_type=project_estimate_start`, `hero_offer_quote`);
+  it replaces the old "Any Project" tile. The To-Do List tile (From $175, from `todoList.ts`, still
+  `hero_offer_todo`) stays under the pair. "Choose a Project" became a small text link under it
+  ("See every project type ↓"); the chooser section itself is unchanged.
+- `StartStickyBar` already had the call button (`sticky_mobile`) and was not changed. Its reveal
+  hook `data-start-hero-cta` moved onto the new button row.
+- Header left unchanged (Call + Choose a Project), so the change stays small.
+- Live curl blocked from the cloud session (see 002). Verified on the build output: noindex meta
+  present; at 390×844 both buttons sit side by side with bottom edge at 367px; Deploy Cloudflare
+  run 136 succeeded.
+
+## DONE 2026-10-12 a22319c
+/start/ hero is phone-first. Measure on Nov 10 2026 against the Oct 11 baseline (4.4%
+jobber_booking_click, 0 generate_lead).

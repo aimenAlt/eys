@@ -47,3 +47,28 @@ Build ONE new noindex paid landing page at `/lp/built-ins-shelving-storage/` for
 is 200 with the noindex header/meta; the page is NOT in `dist/sitemap-0.xml`; on the live page both CTAs exist,
 the tel: link is the right number, and the Jobber link carries `eys_form`/`eys_lp`. Then write the final URL
 in the DONE line so the Ads final URL can be switched (that switch is done in Google Ads, not here).
+
+## Decisions (Claude Code, 2026-10-12)
+- No built-ins/carpentry review exists in `src/content/reviews/` (5 reviews: unloading, curtains,
+  cabinet warranty, general). The page shows Yong Sun's review (on-site workmanship: on time, clean,
+  neat). Swap it for a built-ins review once one is added to the collection.
+- Photos: navy office built-ins (hero) + under-stair curved shelving (finished and during install),
+  window seat & hutch, garage shelving & overhead rack. That's 5 real EYS photos, no stock.
+- Jobber link = sitewide `jobberProjectEstimateFormUrl()` (form 4985623, `eys_form=project-estimate`).
+  `eys_lp` is not in the static HTML; `jobber-attribution.ts` stamps it at runtime (verified in a
+  local browser: `eys_lp=/lp/built-ins-shelving-storage/`). The LP is separated in GA4 by
+  `page_type=lp_landing` and `cta_location` = `lp_hero_call` / `lp_hero_form` / `lp_final_*` /
+  `lp_header_call` / `sticky_mobile`.
+- Sticky bar: page-local copy of the `/start/` sticky-bar pattern, so it uses the sitewide estimate
+  form. `MobileStickyCTA` was not reused because it prints opening hours, which this page must not.
+  The footer is `StartFooter`, reused as-is.
+- Live curl was impossible from the cloud session (egress policy blocks eyshandyman.com and
+  *.pages.dev). Verified instead: Deploy Cloudflare run 135 succeeded on this commit, and the built
+  HTML (identical to what was deployed) has `noindex, follow`, a self-canonical, both CTAs,
+  `tel:3468201629`, and no `/lp/` URL in `sitemap-0.xml`. Phone check at 390×844: both buttons
+  above the fold (bottom edges 354px and 422px).
+
+## DONE 2026-10-12 3d7b132
+Shipped `https://www.eyshandyman.com/lp/built-ins-shelving-storage/`. This is the final URL to put
+in Google Ads for the "Built-Ins, Shelving & Storage" ad group. noindex,follow, self-canonical,
+not in the sitemap, `page_type=lp_landing`. Aimen: one `curl -sI` from the Mac to confirm the 200.

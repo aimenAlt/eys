@@ -18,3 +18,18 @@ then run the existing indexing queue script.
 ## Verification
 check + build clean; live footer HTML contains both hrefs; `docs/gsc-indexing-log.json` shows both URLs
 pending; commit the updated log json with the change.
+
+## Decisions (Claude Code, 2026-10-12)
+- Step 1 finding: nothing is JS-only. The header (2 links), footer Quick Links and homepage
+  already link `/services/` with plain `<a href>`. `/services/tv-mounting/` was linked as plain
+  HTML from the homepage, the services hub, installation-and-assembly and /sitemap/, but not from
+  the header or footer. Added one sitewide footer Quick Links entry, "TV Mounting", which the item
+  allows and its verification expects. No other nav changes.
+- Both URLs are in `dist/sitemap-0.xml`.
+- `gsc-indexing-log.mjs sync` had not run since Sep 13. This run added 19 new `/our-work/` URLs
+  and requeued 12 content-changed pages. `/services/` and `/services/tv-mounting/` are now
+  `pending`, tier 2, unchanged. No indexing was requested (that stays Aimen's click).
+- Live curl blocked from the cloud session (see 002); footer hrefs verified in the build output.
+
+## DONE 2026-10-12 248a414
+Footer links both URLs sitewide; both are pending in `docs/gsc-indexing-log.json`.

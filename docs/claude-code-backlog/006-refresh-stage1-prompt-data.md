@@ -16,3 +16,11 @@ Update IN PLACE (never fork) the data/current-state section of the living master
   service-areas/fulshear, media-walls, book. Not: `/services/`, `/services/tv-mounting/`.
 - Jobber ground truth (77 real requests in 43 days): TikTok 17, Google Maps 13, ChatGPT 6, Google Ads 4, LSA 4.
 Everything else in the prompt stays as it is.
+
+## Not done — needs the Mac (Claude Code, 2026-10-12)
+`Claude outputs/eys-seo-dominance-stage1-prompt.md` is untracked and lives only on Aimen's Mac.
+The cloud session's clone does not have it, and the item forbids committing it, so there is
+nothing here to edit in place. Run this item from a local Claude Code / Cowork session on the
+Mac; every number it needs is quoted above. One addition for that edit: the "Redirect error 37"
+line can say the fix is a Cloudflare Single Redirect that Aimen sets up (see 001 → "Needs Aimen
+in Cloudflare").

@@ -35,9 +35,9 @@ Created 2026-10-11 by Claude (Cowork) from the 43-day Ads/GA4/GSC/Jobber digest.
 ## Queue
 | # | Item | Status |
 |---|------|--------|
-| 001 | Apex-host "Redirect error" (37 URLs in Search Console) | open |
-| 002 | Paid landing page for built-ins, shelving & storage | open |
-| 003 | `/start/` paid landing page: phone-first, measured against the homepage | open |
-| 004 | Zero-CTA Ads landing pages: repairs-and-maintenance + handyman-to-do-list | open |
-| 005 | `/services/` hub and `/services/tv-mounting/` are not on Google | open |
-| 006 | Refresh the data section of `eys-seo-dominance-stage1-prompt.md` | open |
+| 001 | Apex-host "Redirect error" (37 URLs in Search Console) | blocked: needs Aimen in Cloudflare (rule written in item) |
+| 002 | Paid landing page for built-ins, shelving & storage | done 3d7b132 |
+| 003 | `/start/` paid landing page: phone-first, measured against the homepage | done a22319c |
+| 004 | Zero-CTA Ads landing pages: repairs-and-maintenance + handyman-to-do-list | done 71c1c23 |
+| 005 | `/services/` hub and `/services/tv-mounting/` are not on Google | done 248a414 |
+| 006 | Refresh the data section of `eys-seo-dominance-stage1-prompt.md` | open: run from the Mac (file is untracked) |
