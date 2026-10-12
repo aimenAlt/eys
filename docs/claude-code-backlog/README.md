@@ -43,3 +43,4 @@ Created 2026-10-11 by Claude (Cowork) from the 43-day Ads/GA4/GSC/Jobber digest.
 | 006 | Refresh the data section of `eys-seo-dominance-stage1-prompt.md` | done 2026-10-12 (local file, no commit) |
 | 007 | Microsoft Clarity + scroll_depth on every page (see what people do) | open |
 | 008 | Form leaks: to-do list booking 18→0, curtains 13→0 — request-first CTAs | open |
+| 009 | Engaged pages with no CTA path: /pricing/, gallery viewer, /about/, /services/, /service-areas/ | open |
