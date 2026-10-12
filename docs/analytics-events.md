@@ -5,18 +5,22 @@ carries. Reconstructing this from source cost real time, so keep it current:
 **if you add, move or re-parameterise an event, edit this file in the same
 commit.**
 
-GA4 property `G-9D5MCDT0L1`. Google Ads tag `AW-16988082106`. Both are
-initialised in [`src/layouts/BaseLayout.astro`](../src/layouts/BaseLayout.astro),
-behind a runtime host guard — nothing fires anywhere except
-`www.eyshandyman.com`, so dev, Cloudflare previews and the GitHub Pages preview
-send nothing.
+GA4 property `G-9D5MCDT0L1`. Google Ads tag `AW-16988082106`. Microsoft
+Clarity project `ywlsbg76a7`. All three are initialised in
+[`src/layouts/BaseLayout.astro`](../src/layouts/BaseLayout.astro), behind a
+runtime host guard — nothing fires anywhere except `www.eyshandyman.com`, so
+dev, Cloudflare previews and the GitHub Pages preview send nothing.
 
 ## Rules that reporting depends on
 
-- **Never rename or remove an event or a parameter.** `cta_location`,
-  `booking_type`, `service_type`, `placement`, `destination_host`, `page_type`
-  and `page_path` are registered GA4 custom dimensions. Renaming one silently
-  empties a report. Adding a new parameter is safe.
+- **Never rename or remove an event or a parameter.** Exactly these 13 are
+  registered GA4 custom dimensions (event scope, checked 12 Oct 2026):
+  `booking_type`, `cta_id`, `cta_location`, `filter_category`, `image_name`,
+  `jobber_request_form_name`, `section_id`, `page_type`, `placement`,
+  `project_slug`, `project_category`, `percent`, `service_type`. Renaming one
+  silently empties a report. `page_path` and `destination_host` are sent but
+  are **not** registered (this file wrongly said they were until 12 Oct 2026).
+  Adding a new parameter is safe.
 - **An event must be a GA4 key event BEFORE it can be imported into Google
   Ads.** The Ads import dialog lists key events only — an ordinary event simply
   does not appear there, which is why `jobber_booking_click` could not be found
@@ -34,7 +38,9 @@ send nothing.
   `/privacy/#your-privacy-choices`, or whose browser sends Global Privacy
   Control, has advertising consent denied and no Meta Pixel; an explicit opt-out
   denies `analytics_storage` too. Those visitors are absent from everything
-  below, by design.
+  below, by design. Clarity follows the GA4 rule: an explicit opt-out never
+  loads it; GPC still loads it (it is measurement) but with
+  `clarity('consentv2', { ad_Storage: 'denied', analytics_Storage: 'granted' })`.
 
 ## Conversion values
 
@@ -99,12 +105,31 @@ finally distinguishable from any other project.
 | `email_click` | Click on any `mailto:` link, site-wide | `page_path`, `cta_location` | No | No |
 | `review_link_click` | Click on a Google review link (`maps.app.goo.gl`, `g.page`, or `data-track-review`) | `page_path`, `cta_location` | No | No |
 | `internal_cta_click` | Click on an internal CTA carrying an explicit `data-cta-id` (opt-in, so body and legal links stay out) | `page_path`, `page_type`, `cta_id`, `cta_location`, `cta_label`, `destination` | No | No |
-| `scroll_depth` | `/`, `/start/`, `/van/`, `/curtain-installation/` and `/services/media-walls/` only, once per milestone per page view — [`scroll-depth.ts`](../src/scripts/scroll-depth.ts) | `percent` (25 \| 50 \| 75), `page_type` | No | No |
+| `scroll_depth` | Every page (site-wide from BaseLayout since 12 Oct 2026; five landing pages only before that), once per milestone per page view — [`scroll-depth.ts`](../src/scripts/scroll-depth.ts) | `percent` (25 \| 50 \| 75), `page_type` | No | No |
+| `section_view` | Every page: each top-level `<section>` (not nested, not in header/footer/nav, ≥120px tall), once per page view, after 1s continuously in view — [`attention-analytics.ts`](../src/scripts/attention-analytics.ts) | `section_id`, `section_index`, `page_type` | No | No |
+| `image_click` | Every page: click inside an `<img>`/`<picture>` rendered ≥48px wide — same script. Sent **in addition to** any event the click already fires (`jobber_booking_click`, gallery events) | `image_name`, `page_type`, `cta_location`, `in_link` (`"true"`/`"false"`) | No | No |
 | `pathway_cta_click` | Homepage service-pathway cards — `ServicePathwaysSection.astro` | `page_path`, `cta_location` | No | No |
 | `jobber_form_fallback_click` | Small-repair request form's fallback link — `SmallRepairRequestForm.astro` | `cta_location` | No | No |
 
 GA4's own `scroll` event still fires at 90%. `scroll_depth` deliberately stops
-at 75 so the two do not double-count.
+at 75 so the two do not double-count. On a page shorter than the viewport all
+three milestones fire on load — filter by `page_type` before reading drop-off.
+
+`section_view` counts a section as seen when 40% of it is visible, or — for a
+section taller than the viewport — when it fills half the viewport, for one
+continuous second. `section_id` is the section's `data-analytics-section`, else
+its `id`, else a slug of its first `h2`/`h3` (lowercase, `a-z0-9_`, max 40
+chars), else `section_<n>`. Hand-set ids exist only where the fallback was vague:
+`hero` (homepage, `/start/`, `/van/`, `/lp/built-ins-shelving-storage/`, the
+service template), `trust_bar` and `service_areas` (homepage),
+`included_services` and `body_content` (service template). Heading-derived ids
+change when the heading copy changes — compare across a copy edit by
+`section_index` too. `section_index` is the 1-based position among the page's
+top-level sections, counting short ones that never fire.
+
+`image_name` is the file basename with the extension, any `-480w`/`-1200w`
+width or `WxH` suffix, `@2x` and Astro content hash removed — e.g.
+`/images/services/media-walls/marble-wood-slat.jpg` → `marble-wood-slat`.
 
 `internal_cta_click` is opt-in: a link sends nothing unless it carries
 `data-cta-id`. `cta_id` values in use:
@@ -153,6 +178,30 @@ goes straight to the project-estimate Jobber form, so it fires
 had no explicit `cta_location` before (it fell back to the generic `page`
 value), so `our_work_empty_state` is a new, more specific placement rather
 than a preserved one.
+
+## Microsoft Clarity
+
+Project **"EYS Handyman website"**, id `ywlsbg76a7`, linked to GA4 and Google
+Ads in Clarity's settings. Masking is **Balanced** (anything typed is masked in
+the browser). Loaded async in BaseLayout after the GA4 config, live host only.
+
+- **Records** heatmaps and session replays: scrolling, clicks, page layout.
+- **Mirrored events.** `trackEvent()` ([`src/utils/analytics.ts`](../src/utils/analytics.ts))
+  sends every GA4 event NAME to Clarity as `clarity('event', name)`, so
+  recordings can be filtered by `phone_click`, `section_view` and the rest.
+  Parameters are never forwarded (they carry paths and phone digits), and
+  `clarity('identify')` is never called.
+- **Kept recordings.** `phone_click`, `jobber_booking_click`, `lead_submit` and
+  `booking_complete` also call `clarity('upgrade', name)`, so those sessions are
+  never dropped by Clarity's sampling.
+- **Tags**, set once per page by [`clarity-tags.ts`](../src/scripts/clarity-tags.ts):
+  `page_type` (same values as GA4), `landing_path` (the session's first landing
+  path, the same value as `eys_lp`), and `traffic` — `google_ads` (gclid,
+  gbraid, wbraid), `meta` (fbclid), `qr` (`utm_medium` containing "qr"), else
+  the `utm_source` value, else `none`. Read from the `eys_attribution_v1`
+  session, so the tag survives navigation inside the visit.
+- **Opt-out.** See the privacy rule at the top: opted-out visitors never load
+  Clarity; GPC visitors load it with ad storage denied. Disclosed on `/privacy/`.
 
 ## Landing-page events
 
