@@ -36,6 +36,8 @@ export default defineConfig({
         // appear here either. A noindex URL in a sitemap lowers trust in the
         // whole file.
         !page.includes('/start') &&
+        // Paid ad-group landing pages — noindex, Ads-only.
+        !page.includes('/lp/') &&
         // Unlisted: /go/* handoff pages are texted to a client by hand and
         // /essa/ is an internal tool. Both are noindex, so neither belongs in
         // the sitemap.

@@ -79,6 +79,8 @@ export function analyticsPageType(path = analyticsPagePath()): string {
   if (path === '/' || path.endsWith('/index.html')) return 'home';
   if (path.startsWith('/curtain-installation')) return 'curtain_landing';
   if (path.startsWith('/start')) return 'start_landing';
+  // Paid ad-group landing pages (noindex), e.g. /lp/built-ins-shelving-storage/.
+  if (path.startsWith('/lp/')) return 'lp_landing';
   // Unlisted handoff pages Essa texts after a phone call (src/data/goLinks.ts).
   if (path.startsWith('/go/')) return 'go_landing';
   if (path.startsWith('/services/')) return 'service';
