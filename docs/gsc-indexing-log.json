@@ -3,13 +3,14 @@
   "pages": [
     {
       "path": "/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 5,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-09-13",
       "last_requested_at": "2026-09-13",
       "times_requested": 1,
-      "content_hash": "1ed69b074956df6c"
+      "content_hash": "1ed69b074956df6c",
+      "last_content_change_detected_at": "2026-10-12"
     },
     {
       "path": "/about/",
@@ -169,23 +170,25 @@
     },
     {
       "path": "/reviews/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 3,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-09-13",
       "last_requested_at": "2026-09-13",
       "times_requested": 1,
-      "content_hash": "aa1956a0d79e1335"
+      "content_hash": "aa1956a0d79e1335",
+      "last_content_change_detected_at": "2026-10-12"
     },
     {
       "path": "/service-areas/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 1,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-28",
       "last_requested_at": "2026-09-13",
       "times_requested": 2,
-      "content_hash": "e7ab2fba1f083b1f"
+      "content_hash": "e7ab2fba1f083b1f",
+      "last_content_change_detected_at": "2026-10-12"
     },
     {
       "path": "/service-areas/cypress/",
@@ -255,13 +258,14 @@
     },
     {
       "path": "/service-areas/katy/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 1,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-28",
       "last_requested_at": "2026-09-13",
       "times_requested": 2,
-      "content_hash": "5ba583532b1cb7ba"
+      "content_hash": "5ba583532b1cb7ba",
+      "last_content_change_detected_at": "2026-10-12"
     },
     {
       "path": "/service-areas/katy/cane-island-handyman/",
@@ -375,13 +379,14 @@
     },
     {
       "path": "/services/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-28",
       "last_requested_at": "2026-09-13",
       "times_requested": 3,
-      "content_hash": "aa17256094c6276b"
+      "content_hash": "aa17256094c6276b",
+      "last_content_change_detected_at": "2026-10-12"
     },
     {
       "path": "/services/after-hours-repairs/",
@@ -429,13 +434,14 @@
     },
     {
       "path": "/services/ceiling-fan-installation/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-30",
       "last_requested_at": "2026-09-13",
       "times_requested": 2,
-      "content_hash": "7fe735010e15bacf"
+      "content_hash": "7fe735010e15bacf",
+      "last_content_change_detected_at": "2026-10-12"
     },
     {
       "path": "/services/closet-shelving-organization/",
@@ -461,13 +467,14 @@
     },
     {
       "path": "/services/custom-carpentry/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-30",
       "last_requested_at": "2026-09-13",
       "times_requested": 2,
-      "content_hash": "5928a3a374e86709"
+      "content_hash": "5928a3a374e86709",
+      "last_content_change_detected_at": "2026-10-12"
     },
     {
       "path": "/services/door-repair-installation/",
@@ -482,23 +489,25 @@
     },
     {
       "path": "/services/drywall-repair/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-30",
       "last_requested_at": "2026-09-13",
       "times_requested": 2,
-      "content_hash": "87fd827e509d187e"
+      "content_hash": "87fd827e509d187e",
+      "last_content_change_detected_at": "2026-10-12"
     },
     {
       "path": "/services/electrical-services/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-08-30",
       "last_requested_at": "2026-09-13",
       "times_requested": 2,
-      "content_hash": "d71bfb7b495ff145"
+      "content_hash": "d71bfb7b495ff145",
+      "last_content_change_detected_at": "2026-10-12"
     },
     {
       "path": "/services/flooring-and-decor/",
@@ -590,13 +599,14 @@
     },
     {
       "path": "/services/media-walls/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-09-02",
       "last_requested_at": "2026-09-13",
       "times_requested": 2,
-      "content_hash": "c30c91fa7ffc9bd4"
+      "content_hash": "c30c91fa7ffc9bd4",
+      "last_content_change_detected_at": "2026-10-12"
     },
     {
       "path": "/services/painting/",
@@ -633,13 +643,14 @@
     },
     {
       "path": "/services/repairs-and-maintenance/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-09-02",
       "last_requested_at": "2026-09-02",
       "times_requested": 1,
-      "content_hash": "eb494ea4436b75b6"
+      "content_hash": "eb494ea4436b75b6",
+      "last_content_change_detected_at": "2026-10-12"
     },
     {
       "path": "/services/smart-home-installation/",
@@ -664,13 +675,14 @@
     },
     {
       "path": "/services/tv-mounting/",
-      "status": "requested",
+      "status": "pending",
       "priority_tier": 2,
       "first_seen_at": "2026-08-28",
       "first_requested_at": "2026-09-13",
       "last_requested_at": "2026-09-13",
       "times_requested": 1,
-      "content_hash": "c39757b1d061b7a8"
+      "content_hash": "c39757b1d061b7a8",
+      "last_content_change_detected_at": "2026-10-12"
     },
     {
       "path": "/services/wallpaper-accent-wall-installation/",
@@ -719,7 +731,197 @@
       "last_requested_at": null,
       "times_requested": 0,
       "content_hash": null
+    },
+    {
+      "path": "/our-work/bedroom-picture-frame-wainscoting/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-10-12",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0,
+      "content_hash": null
+    },
+    {
+      "path": "/our-work/black-accent-wall-molding/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-10-12",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0,
+      "content_hash": null
+    },
+    {
+      "path": "/our-work/bowed-window-curtain-panels/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-10-12",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0,
+      "content_hash": null
+    },
+    {
+      "path": "/our-work/crystal-ring-pendant-chandelier/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-10-12",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0,
+      "content_hash": null
+    },
+    {
+      "path": "/our-work/garage-overhead-storage/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-10-12",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0,
+      "content_hash": null
+    },
+    {
+      "path": "/our-work/gray-curtains-crystal-chandelier-great-room/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-10-12",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0,
+      "content_hash": null
+    },
+    {
+      "path": "/our-work/gray-wainscoting-dining-chandelier/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-10-12",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0,
+      "content_hash": null
+    },
+    {
+      "path": "/our-work/kitchen-hallway-wall-paneling/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-10-12",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0,
+      "content_hash": null
+    },
+    {
+      "path": "/our-work/river-rock-walkway/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-10-12",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0,
+      "content_hash": null
+    },
+    {
+      "path": "/our-work/rotunda-candelabra-chandelier/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-10-12",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0,
+      "content_hash": null
+    },
+    {
+      "path": "/our-work/sage-green-kitchen-gold-fixtures/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-10-12",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0,
+      "content_hash": null
+    },
+    {
+      "path": "/our-work/staircase-globe-chandelier/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-10-12",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0,
+      "content_hash": null
+    },
+    {
+      "path": "/our-work/teal-curtains-dining-chandelier/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-10-12",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0,
+      "content_hash": null
+    },
+    {
+      "path": "/our-work/tiered-crystal-chandelier-vaulted-ceiling/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-10-12",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0,
+      "content_hash": null
+    },
+    {
+      "path": "/our-work/tv-niche-wall-linear-fireplace/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-10-12",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0,
+      "content_hash": null
+    },
+    {
+      "path": "/our-work/two-story-color-blocked-curtains/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-10-12",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0,
+      "content_hash": null
+    },
+    {
+      "path": "/our-work/two-tier-panel-wainscoting/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-10-12",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0,
+      "content_hash": null
+    },
+    {
+      "path": "/our-work/wagon-wheel-chandelier-foyer/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-10-12",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0,
+      "content_hash": null
+    },
+    {
+      "path": "/our-work/window-seat-built-in-hutch/",
+      "status": "pending",
+      "priority_tier": 4,
+      "first_seen_at": "2026-10-12",
+      "first_requested_at": null,
+      "last_requested_at": null,
+      "times_requested": 0,
+      "content_hash": null
     }
   ],
-  "updated_at": "2026-09-13T22:05:47.496Z"
+  "updated_at": "2026-10-12T03:58:10.797Z"
 }

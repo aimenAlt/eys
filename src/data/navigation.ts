@@ -21,6 +21,9 @@ export const footerNav: NavItem[] = [
   { label: 'Home', href: '/' },
   { label: 'About Us', href: '/about/' },
   { label: 'Services', href: '/services/' },
+  // Plain crawlable link sitewide (backlog 005): Search Console did not know
+  // /services/tv-mounting/ at all on Oct 9 2026.
+  { label: 'TV Mounting', href: '/services/tv-mounting/' },
   { label: 'Our Work', href: '/our-work/' },
   { label: 'Service Areas', href: '/service-areas/' },
   { label: 'Pricing', href: '/pricing/' },
