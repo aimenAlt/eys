@@ -1,7 +1,9 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
-/* Server code (Pages Functions) is not markup: keep its words out of the CSS. */
+/* AI-intake server code and its docs are not markup: keep their words out of the CSS. */
 @source not "../../functions";
+@source not "../../docs/ai-intake";
+@source not "../../docs/claude-code-backlog/010-ai-assistant-intake.md";
 
 /*
  * Only two Inter files (~48KB woff2 total). Medium/semibold/extrabold are
