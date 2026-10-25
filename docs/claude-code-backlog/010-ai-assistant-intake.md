@@ -57,3 +57,12 @@ Run 40240118332 uploaded the Functions bundle. Live curl on `https://www.eyshand
 `tools/call get_business_info` → phone, Katy-first areas, $175/$299/$399 blocks;
 `tools/call submit_service_request` (confirmed false) → `ready_to_submit`; modern `server/discover`
 → 2026-07-28 + instructions; GET → 405 `Allow: POST`; `/.well-known/openai-apps-challenge` → 404 (unset).
+
+## DONE 2026-10-25 82a41b9 + 7f76116 (push 4/5: llms.txt + privacy; Tailwind fix-forward)
+`/llms.txt` is an Astro endpoint built from `business.ts` (decision: the brief said
+`public/llms.txt`, but a static file would retype the phone and areas; same URL, derived
+content). Live: 200 `text/plain`, not in the sitemap; `/privacy/` carries the AI-assistant
+paragraph. Live comparison then showed `/`, `/book/`, `/start/` had gained an unused
+`.isolate{}` rule since push 2 — Tailwind v4 scans the whole repo and picked the word up from
+functions/ comments. 7f76116 adds `@source not "../../functions"`; after it those pages are
+byte-identical to the pre-intake baseline again (bar Cloudflare's email-obfuscation keys).

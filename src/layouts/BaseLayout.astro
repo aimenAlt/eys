@@ -177,5 +177,9 @@ const enableAnalytics = import.meta.env.PROD && (import.meta.env.BASE_URL || '/'
       import '../scripts/conversion-analytics.ts';
       import '../scripts/scroll-depth.ts';
     </script>
+    {/* WebMCP tools for in-browser AI agents; a no-op unless the browser supports it. */}
+    <script>
+      import '../scripts/webmcp.ts';
+    </script>
   </body>
 </html>
