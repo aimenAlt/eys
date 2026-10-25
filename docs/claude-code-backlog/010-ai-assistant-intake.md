@@ -36,3 +36,9 @@ state and the human steps are in `docs/ai-intake/STATUS.md`.
   reconnecting Jobber.
 - API version pinned to `2026-09-25`, the newest active version in Jobber's changelog on
   2026-10-25 (the brief's 2025-04-16 was the newest it knew of).
+
+## DONE 2026-10-25 fb1ed2a (push 1/5: deploy path + health)
+Both deploy jobs now check out the repo; the production log of run 40238078128 shows
+"✨ Compiled Worker successfully" and "✨ Uploading Functions bundle". Live `GET /api/ai/health` → 200
+(D1 already bound, everything else unset); `/`, `/book/`, `/start/`, `/sitemap-index.xml` identical
+to before apart from Cloudflare's per-request email-obfuscation keys.

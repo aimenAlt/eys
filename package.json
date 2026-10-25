@@ -14,11 +14,12 @@
     "preview": "astro preview",
     "bp": "astro build && astro preview",
     "check": "astro check",
-    "test": "node --experimental-strip-types src/utils/balancedGrid.test.ts && node --experimental-strip-types src/utils/utm.test.ts",
+    "test": "node --experimental-strip-types src/utils/balancedGrid.test.ts && node --experimental-strip-types src/utils/utm.test.ts && npm run test:functions",
     "astro": "astro",
     "screenshot": "node scripts/screenshot.mjs",
     "seo:crawl": "node scripts/seo-crawl.mjs",
-    "audit:capture": "node scripts/screenshot.mjs && node scripts/seo-crawl.mjs"
+    "audit:capture": "node scripts/screenshot.mjs && node scripts/seo-crawl.mjs",
+    "test:functions": "node --experimental-strip-types --no-warnings functions/_tests/validate.test.ts && node --experimental-strip-types --no-warnings functions/_tests/intake.test.ts && node --experimental-strip-types --no-warnings functions/_tests/jobber.test.ts && node --experimental-strip-types --no-warnings functions/_tests/drift.test.ts && node --experimental-strip-types --no-warnings functions/_tests/routes.test.ts"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
