@@ -66,3 +66,15 @@ paragraph. Live comparison then showed `/`, `/book/`, `/start/` had gained an un
 `.isolate{}` rule since push 2 — Tailwind v4 scans the whole repo and picked the word up from
 functions/ comments. 7f76116 adds `@source not "../../functions"`; after it those pages are
 byte-identical to the pre-intake baseline again (bar Cloudflare's email-obfuscation keys).
+
+## DONE 2026-10-25 cfd5b78 + 1abdd26 (push 5/5: WebMCP; Tailwind fix-forward)
+Registration shape confirmed from the WebML CG draft (20 Oct 2026) and Chrome's WebMCP docs
+(updated 16 Oct 2026): `document.modelContext.registerTool(tool)`; `navigator.modelContext` kept
+as the early-preview fallback. Astro inlines the module (2,205 B raw, 1,102 B gzipped); the
+analytics bundle is untouched. Live in the built-in browser with a stand-in `modelContext`: both
+tools registered and ran against the live API (validate-only); no request or console error on a
+normal load. The DONE note above then put the unused utility back (Tailwind also scans `docs/`),
+so 1abdd26 excludes only the new intake docs — excluding all of `docs/` would have dropped ~390 B
+of rules pages ship today. Live `/`, `/book/`, `/start/` = pre-intake HTML + the WebMCP script.
+Docs: `docs/ai-intake/README.md` (operating manual) and `docs/ai-intake/STATUS.md` (verified
+results, nine human steps, open risks). Intake stays validate-only until those steps are done.
