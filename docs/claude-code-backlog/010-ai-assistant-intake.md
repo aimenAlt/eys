@@ -42,3 +42,10 @@ Both deploy jobs now check out the repo; the production log of run 40238078128 s
 "✨ Compiled Worker successfully" and "✨ Uploading Functions bundle". Live `GET /api/ai/health` → 200
 (D1 already bound, everything else unset); `/`, `/book/`, `/start/`, `/sitemap-index.xml` identical
 to before apart from Cloudflare's per-request email-obfuscation keys.
+
+## DONE 2026-10-25 7d040a8 (push 2/5: core, JSON API, admin, tests)
+Run 40239634538 uploaded the Functions bundle. Live, in validate-only mode (nothing connected):
+`GET /api/ai/info` and `/api/ai/openapi.json` → 200 (operationIds getBusinessInfo /
+submitServiceRequest, `x-openai-isConsequential: true`); `POST /api/ai/service-requests` with
+`confirmed_by_customer: false` → `ready_to_submit`; with `true` → `unavailable` (kill switch off);
+`text/plain` → 415; admin connect form 200, probe/callback 503 not configured. No Jobber record.
