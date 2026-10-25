@@ -49,3 +49,11 @@ Run 40239634538 uploaded the Functions bundle. Live, in validate-only mode (noth
 submitServiceRequest, `x-openai-isConsequential: true`); `POST /api/ai/service-requests` with
 `confirmed_by_customer: false` → `ready_to_submit`; with `true` → `unavailable` (kill switch off);
 `text/plain` → 415; admin connect form 200, probe/callback 503 not configured. No Jobber record.
+
+## DONE 2026-10-25 e3f70c0 (push 3/5: MCP + OpenAI challenge)
+Run 40240118332 uploaded the Functions bundle. Live curl on `https://www.eyshandyman.com/mcp`:
+`initialize` (2025-06-18) → negotiated 2025-06-18 + instructions, no `Mcp-Session-Id`;
+`notifications/initialized` → 202 empty; `tools/list` → both tools with the required annotations;
+`tools/call get_business_info` → phone, Katy-first areas, $175/$299/$399 blocks;
+`tools/call submit_service_request` (confirmed false) → `ready_to_submit`; modern `server/discover`
+→ 2026-07-28 + instructions; GET → 405 `Allow: POST`; `/.well-known/openai-apps-challenge` → 404 (unset).
