@@ -29,3 +29,7 @@ pnpm-debug.log*
 CLAUDE.local.md
 .claude/settings.local.json
 
+
+# Cloudflare Pages Functions local secrets (wrangler pages dev)
+.dev.vars
+.dev.vars.*

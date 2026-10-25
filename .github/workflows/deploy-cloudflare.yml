@@ -71,6 +71,10 @@ jobs:
       # Prefer branch alias (dev.*.pages.dev); hash URLs are always noindex
       url: ${{ steps.deploy.outputs.pages-deployment-alias-url || steps.deploy.outputs.deployment-url }}
     steps:
+      # wrangler compiles ./functions (Pages Functions: /mcp, /api/ai/*) from
+      # the repo root at deploy time; without the checkout it ships static only.
+      - uses: actions/checkout@v4
+
       - uses: actions/download-artifact@v4
         with:
           name: site-dist
@@ -102,6 +106,10 @@ jobs:
       # Stable production hostname (not the per-deploy hash URL)
       url: https://eys-48z.pages.dev
     steps:
+      # wrangler compiles ./functions (Pages Functions: /mcp, /api/ai/*) from
+      # the repo root at deploy time; without the checkout it ships static only.
+      - uses: actions/checkout@v4
+
       - uses: actions/download-artifact@v4
         with:
           name: site-dist
