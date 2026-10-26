@@ -54,12 +54,6 @@ const estimateUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
   <article>
   <header class="eys-page-hero eys-on-dark">
   <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-8 md:pt-10']}>
-    <BreadcrumbNav
-      items={[
-        { name: 'Home', url: '/' },
-        { name: 'Services', url: '/services/' },
-      ]}
-    />
     <h1 class="eys-h1 mb-5 mt-8 max-w-4xl md:mt-12">Handyman Services for Repairs, Installations and Home Upgrades</h1>
     <p class="eys-page-hero-lede eys-body mb-8 max-w-3xl">
       Explore repair lists, installations, drywall, doors, TV mounting, curtains, carpentry and larger home upgrades for homes in {localityShort('and')}.
@@ -111,4 +105,11 @@ const estimateUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
   </div>
   <LocalAreaCTA locationName={localityShort('&')} />
   </article>
+  <BreadcrumbNav
+    slot="breadcrumbs"
+    items={[
+      { name: 'Home', url: '/' },
+      { name: 'Services', url: '/services/' },
+    ]}
+  />
 </ContentLayout>

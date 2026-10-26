@@ -46,14 +46,6 @@ const schemaGraph = [
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
   <article>
-    <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-8']}>
-      <BreadcrumbNav
-        items={[
-          { name: 'Home', url: '/' },
-          { name: 'About', url: '/about/' },
-        ]}
-      />
-    </div>
 
     <PageHero
       eyebrow="Our Story"
@@ -185,4 +177,11 @@ const schemaGraph = [
 
     <LocalAreaCTA locationName={localityShort('&')} />
   </article>
+  <BreadcrumbNav
+    slot="breadcrumbs"
+    items={[
+      { name: 'Home', url: '/' },
+      { name: 'About', url: '/about/' },
+    ]}
+  />
 </ContentLayout>

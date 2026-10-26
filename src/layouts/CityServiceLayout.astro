@@ -65,16 +65,6 @@ const schemaGraph = [
   schemaGraph={schemaGraph}
 >
   <article>
-    <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-8']}>
-      <BreadcrumbNav
-        items={[
-          { name: 'Home', url: '/' },
-          { name: 'Service Areas', url: '/service-areas/' },
-          { name: city.data.title, url: cityUrl },
-          { name: data.heroTitle, url: `/${data.legacySlug}/` },
-        ]}
-      />
-    </div>
 
     <LocalHero
       heading={data.heroTitle}
@@ -152,4 +142,13 @@ const schemaGraph = [
     </LocalLandingShell>
     <LocalAreaCTA locationName={city.data.title} />
   </article>
+  <BreadcrumbNav
+    slot="breadcrumbs"
+    items={[
+      { name: 'Home', url: '/' },
+      { name: 'Service Areas', url: '/service-areas/' },
+      { name: city.data.title, url: cityUrl },
+      { name: data.heroTitle, url: `/${data.legacySlug}/` },
+    ]}
+  />
 </ContentLayout>

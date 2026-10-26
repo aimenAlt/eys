@@ -36,14 +36,6 @@ const schemaGraph = [
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
   <article>
-    <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-8']}>
-      <BreadcrumbNav
-        items={[
-          { name: 'Home', url: '/' },
-          { name: 'Contact', url: '/contact/' },
-        ]}
-      />
-    </div>
 
     <PageHero
       title="Contact Elevate Your Space Handyman"
@@ -205,4 +197,11 @@ const schemaGraph = [
       </div>
     </section>
   </article>
+  <BreadcrumbNav
+    slot="breadcrumbs"
+    items={[
+      { name: 'Home', url: '/' },
+      { name: 'Contact', url: '/contact/' },
+    ]}
+  />
 </ContentLayout>

@@ -933,23 +933,10 @@ html[data-theme] { scroll-padding-top: 64px; }
   .eys-hero-btn:hover { transform: none; }
 }
 
-/* Breadcrumbs. Ink on light grounds; when the breadcrumb row sits directly
-   above an inner-page hero it joins the hero's navy ground (full-bleed). */
+/* Breadcrumbs: the strip above the footer (ContentLayout's "breadcrumbs" slot). */
 .eys-crumbs ol { color: var(--eys-ink-3); }
 .eys-crumbs [aria-current] { color: var(--eys-ink); }
 .eys-crumbs a:hover { color: var(--eys-accent-ink); }
-:has(> .eys-crumbs):has(+ .eys-page-hero) {
-  /* Full-bleed fill without clip-path (which left a hairline at the seam). */
-  border-image: linear-gradient(var(--eys-ground) 0 0) fill 0 / / 0 100vmax;
-  /* Keep the breadcrumb's bottom margin inside the navy row. */
-  display: flow-root;
-}
-:has(> .eys-crumbs):has(+ .eys-page-hero) .eys-crumbs ol { color: var(--eys-on-dark-3); }
-:has(> .eys-crumbs):has(+ .eys-page-hero) .eys-crumbs [aria-current] { color: var(--eys-on-dark); }
-:has(> .eys-crumbs):has(+ .eys-page-hero) .eys-crumbs a:hover { color: #ffffff; }
-.eys-page-hero .eys-crumbs ol { color: var(--eys-on-dark-3); }
-.eys-page-hero .eys-crumbs [aria-current] { color: var(--eys-on-dark); }
-.eys-page-hero .eys-crumbs a:hover { color: #ffffff; }
 
 /* List item card (checklists, price factors): the icon is centred on the text
    whether it runs one line or three; 15–16px ink text. */

@@ -53,14 +53,6 @@ const schemaGraph = [
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
   <article>
-    <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-8']}>
-      <BreadcrumbNav
-        items={[
-          { name: 'Home', url: '/' },
-          { name: 'Pricing', url: '/pricing/' },
-        ]}
-      />
-    </div>
 
     <PageHero
       eyebrow="Estimate Options"
@@ -140,4 +132,11 @@ const schemaGraph = [
 
     <CTASection ctaLocation="pricing_final_cta" />
   </article>
+  <BreadcrumbNav
+    slot="breadcrumbs"
+    items={[
+      { name: 'Home', url: '/' },
+      { name: 'Pricing', url: '/pricing/' },
+    ]}
+  />
 </ContentLayout>

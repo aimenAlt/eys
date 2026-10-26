@@ -63,15 +63,6 @@ const hasWorksheet =
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
   <article>
-    <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-8']}>
-      <BreadcrumbNav
-        items={[
-          { name: 'Home', url: '/' },
-          { name: 'Our Work', url: '/our-work/' },
-          { name: data.title, url: projectHref(data.slug) },
-        ]}
-      />
-    </div>
 
     <header class="eys-page-hero eys-on-dark">
       <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-10 md:pt-16']}>
@@ -344,4 +335,12 @@ const hasWorksheet =
 
     <CTASection />
   </article>
+  <BreadcrumbNav
+    slot="breadcrumbs"
+    items={[
+      { name: 'Home', url: '/' },
+      { name: 'Our Work', url: '/our-work/' },
+      { name: data.title, url: projectHref(data.slug) },
+    ]}
+  />
 </ContentLayout>

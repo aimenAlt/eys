@@ -95,15 +95,6 @@ const schemaGraph = [
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
   <article>
-    <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-8']}>
-      <BreadcrumbNav
-        items={[
-          { name: 'Home', url: '/' },
-          { name: 'Services', url: '/services/' },
-          { name: handymanToDoListVisitName, url: smallRepairVisitMeta.path },
-        ]}
-      />
-    </div>
 
     <SmallRepairHero />
     <ServiceTrustStrip locationName={localityShort('&')} />
@@ -126,4 +117,12 @@ const schemaGraph = [
     <SmallRepairRequestForm />
     <LocalAreaCTA locationName={localityShort('&')} />
   </article>
+  <BreadcrumbNav
+    slot="breadcrumbs"
+    items={[
+      { name: 'Home', url: '/' },
+      { name: 'Services', url: '/services/' },
+      { name: handymanToDoListVisitName, url: smallRepairVisitMeta.path },
+    ]}
+  />
 </ContentLayout>

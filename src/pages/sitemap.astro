@@ -27,12 +27,6 @@ const schemaGraph = [
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
   <article>
     <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'py-16']}>
-      <BreadcrumbNav
-        items={[
-          { name: 'Home', url: '/' },
-          { name: 'Sitemap', url: '/sitemap/' },
-        ]}
-      />
 
       <div class="-mx-4 sm:-mx-6 lg:-mx-8 mb-6"><ServiceTrustStrip /></div>
 
@@ -77,4 +71,11 @@ const schemaGraph = [
     </div>
     <InlineEstimateBand ctaLocation="sitemap_footer" />
   </article>
+  <BreadcrumbNav
+    slot="breadcrumbs"
+    items={[
+      { name: 'Home', url: '/' },
+      { name: 'Sitemap', url: '/sitemap/' },
+    ]}
+  />
 </ContentLayout>
