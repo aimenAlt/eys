@@ -47,6 +47,6 @@ Created 2026-10-11 by Claude (Cowork) from the 43-day Ads/GA4/GSC/Jobber digest.
 | 010 | AI-assistant intake: ChatGPT & co. submit a request straight into Jobber (`/mcp`, `/api/ai/*`) | done fb1ed2a 7d040a8 e3f70c0 82a41b9 cfd5b78 (fixes 7f76116 1abdd26), live-verified 2026-10-25 in validate-only mode; human steps in `docs/ai-intake/STATUS.md` |
 | 011 | Eyad and the EYS van first on the homepage and every Google Ads landing page (`VanBand`) | done da28752, live-verified 2026-10-26 |
 | 012 | Design-system foundation for the approved redesign: tokens, blue/black themes, Montserrat 800, buttons (no visible change) | done fa23430, live-verified 2026-10-26 |
-| 013 | Build the approved homepage redesign and the new site chrome at `/home2/` only | open |
+| 013 | Build the approved homepage redesign and the new site chrome at `/home2/` only | done 1eb5f72, live-verified 2026-10-26 |
 | 014 | Put the redesigned homepage live at "/" (gate: 013 live-verified) | open |
 | 015 | New header, footer and bottom bar on every ContentLayout page (gate: 014 live-verified) | open |
