@@ -21,8 +21,8 @@ export const site = {
  * Paste your GBP URL into profileUrl (e.g. https://g.page/...) — sameAs syncs automatically.
  */
 export const googleReviews = {
-  // Verified against live GBP knowledge panel 2026-09-13: 5.0 stars, 162 reviews.
-  count: 162,
+  // Count reported by Aimen 2026-10-26: 170+ reviews. Rating kept at 5.0 by standing owner decision.
+  count: 170,
   rating: 5.0,
   profileUrl: 'https://maps.app.goo.gl/GizAsdkXmcphcMAj6' as string,
 };
