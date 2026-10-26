@@ -96,7 +96,8 @@ code does not fill block the plan before any create; phone/email labels follow t
 secrets are trimmed. 73 functions tests. Live: health unchanged, connect 200 + CSP, POST 503 with
 no Location, probe/callback 503, `/mcp` initialize + tools/list unchanged, pages unchanged.
 
-## DONE 2026-10-26 push B (docs + privacy clause)
+## DONE 2026-10-26 26ed0ef (push B: docs + privacy clause)
 `docs/ai-intake/README.md` and `STATUS.md` gain who-does-what, the GitHub deploy path and the new
 connect steps; `/privacy/` now says "deletes them after 30 days" (cleanup runs when a confirmed
-request arrives). Live check recorded in `docs/ai-intake/STATUS.md`.
+request arrives). Run 40336382351. Live: privacy changed by that one word only, other pages
+unchanged, health unchanged; details in `docs/ai-intake/STATUS.md`.

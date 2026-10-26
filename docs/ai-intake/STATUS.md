@@ -44,7 +44,7 @@ Any push to `main` deploys production too.
 | Fix: keep the intake docs out of Tailwind's scan | 1abdd26 | [40241283820](https://github.com/aimenAlt/eys/actions/runs/40241283820) |
 | Docs: README, STATUS, close backlog 010 | e0b824d | [40241783013](https://github.com/aimenAlt/eys/actions/runs/40241783013) |
 | A. Link-based connect, schema report on connect, write pre-flight, trimmed secrets | 0ad96df | [40335591918](https://github.com/aimenAlt/eys/actions/runs/40335591918) |
-| B. Docs (roles, GitHub deploy path, connect steps) + privacy "after 30 days" | this commit | see VERIFIED |
+| B. Docs (roles, GitHub deploy path, connect steps) + privacy "after 30 days" | 26ed0ef | [40336382351](https://github.com/aimenAlt/eys/actions/runs/40336382351) |
 
 Every production deploy log shows `✨ Compiled Worker successfully` and
 `✨ Uploading Functions bundle`. `npm run check`, `npm run build` and `npm test` (73 functions
@@ -112,6 +112,14 @@ tests after Push A) were clean before each push.
   accepted page and its single link (state, S256 challenge, redirect_uri), the Connected page with
   the schema report, the report-failure page, the unchanged wrong-account page, a mocked unknown
   required field blocking the write with nothing created, enum label choice, and trimmed secrets.
+
+### Push B (26ed0ef, 2026-10-26)
+
+- `/privacy/` now reads "and deletes them after 30 days"; compared with the page fetched just
+  before the push, that one word is the only change. GA4 and Ads tags still present.
+- `/`, `/book/`, `/start/` = pre-intake HTML + the WebMCP script; a clean-checkout build of
+  26ed0ef had CSS identical to live for `/`, `/book/`, `/start/` and `/privacy/`.
+- `GET /api/ai/health` unchanged; `/api/admin/jobber/connect` → 200.
 
 ## NEEDS HUMAN (in order)
 
