@@ -5,7 +5,7 @@ import BreadcrumbNav from '../../components/seo/BreadcrumbNav.astro';
 import ServiceTrustStrip from '../../components/seo/ServiceTrustStrip.astro';
 import BalancedGrid from '../../components/ui/BalancedGrid.astro';
 import LocalAreaCTA from '../../components/areas/local/LocalAreaCTA.astro';
-import { absoluteUrl, areaServedDisplay, localityShort, site } from '../../data/business';
+import { absoluteUrl, areaServedDisplay, localityShort, site, jobberProjectEstimateFormUrl } from '../../data/business';
 import { breadcrumbList, webPage } from '../../data/schema';
 import { contentMaxClass, contentPaddingClass } from '../../data/layout';
 
@@ -40,6 +40,8 @@ const schemaGraph = [
     { name: 'Service Areas', url: canonical },
   ]),
 ];
+
+const estimateUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
 ---
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
@@ -55,6 +57,24 @@ const schemaGraph = [
     <p class="text-lg text-neutral-600 mb-6 max-w-3xl">
       Elevate Your Space Handyman serves homeowners throughout {areaServedDisplay()}.
     </p>
+    <!-- Estimate + call row (backlog 009): same markup as PageHero's optional `ctas` row. -->
+    <div class="mb-8 flex flex-col sm:flex-row gap-3" data-sticky-hero-cta>
+      <a
+        href={estimateUrl}
+        data-booking-type="project_estimate"
+        data-cta-location="service_areas_hero_form"
+        class="inline-flex justify-center items-center bg-brand-red text-white px-6 py-3 rounded-md font-bold hover:bg-brand-redhover transition-colors"
+      >
+        Send photos for a free estimate
+      </a>
+      <a
+        href={`tel:${site.phoneTel}`}
+        data-cta-location="service_areas_hero_call"
+        class="inline-flex justify-center items-center border-2 border-brand-black text-brand-black px-6 py-3 rounded-md font-bold hover:bg-brand-black hover:text-white transition-colors"
+      >
+        Call {site.phone}
+      </a>
+    </div>
     <div class="-mx-4 sm:-mx-6 lg:-mx-8 mb-10"><ServiceTrustStrip /></div>
     {
       areaCards.length > 0 ? (

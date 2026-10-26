@@ -19,6 +19,7 @@ type GalleryProject = {
   href: string;
   estimateHref: string;
   estimateServiceType?: string;
+  estimateBookingType?: string;
   images: GalleryImage[];
 };
 
@@ -258,6 +259,11 @@ function initDialog(projects: GalleryProject[]) {
         estimateLink.setAttribute('data-service-type', project.estimateServiceType);
       } else {
         estimateLink.removeAttribute('data-service-type');
+      }
+      if (project.estimateBookingType) {
+        estimateLink.setAttribute('data-booking-type', project.estimateBookingType);
+      } else {
+        estimateLink.removeAttribute('data-booking-type');
       }
     }
     if (serviceLink) {

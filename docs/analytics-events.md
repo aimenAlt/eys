@@ -340,6 +340,19 @@ CurtainBookLink (5061244) and the new `service_hero_booking` link on
 /services/curtain-installation/ (5061244, `data-curtain-cta="high_ceiling"`, so
 Meta `InitiateCheckout` still fires). New phone placement: `curtain_hero_call`.
 
+Hero estimate + call rows on engaged pages that had no action (backlog 009,
+26 Oct 2026), all to form 4985623 (`booking_type: project_estimate`) and
+`tel:3468201629`: `pricing_hero_form` / `pricing_hero_call`, `about_hero_form` /
+`about_hero_call`, `services_hub_hero_form` / `services_hub_hero_call`,
+`service_areas_hero_form` / `service_areas_hero_call`. /pricing/'s bottom
+`CTASection` now sends `pricing_final_cta` instead of the default
+`home_final_cta`. The /our-work/ viewer's "Request an Estimate"
+(`project-viewer`) now carries `data-booking-type="project_estimate"` when the
+project uses the generic estimate form; media-wall and curtain projects keep
+inferring their booking type from the form id. It already fired
+`jobber_booking_click` (every outbound Jobber link does) as well as
+`gallery_estimate_clicked`.
+
 Outbound Jobber links also carry `eys_lp=<path>`, stamped by `withLandingPage`.
 Same idea as `eys_form`, and also **not** a UTM: it is the path this browser
 session first landed on (recorded once in `sessionStorage`, alongside the

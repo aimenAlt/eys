@@ -25,3 +25,12 @@ No "licensed", no HOA mention, phone only (346) 820-1629, review count only via 
 ## Verification
 check + build clean; live HTML of the five pages contains the tel: link and the 4985623 link in the hero; at 390px the gallery dialog shows the estimate button without scrolling after opening any project card; GA4 Realtime shows `jobber_booking_click` with the new `cta_location` values.
 Measurement Nov 10 2026: `/pricing/` and `/our-work/` each show ≥ 3 Jobber clicks on ≥ 25 users; the other three show > 0.
+
+## Build notes (Claude Code, 26 Oct 2026)
+Decisions:
+- `PageHero` gained an optional `ctas` prop (no default) that renders the estimate + call row under the description; /pricing/ and /about/ pass it. /services/ and /service-areas/ have their H1 inline (no PageHero), so they carry the same markup inline under the intro paragraph. The buttons copy LocalHero's 003/004 pattern (red "Send photos for a free estimate" → 4985623, outline "Call (346) 820-1629"), and the row carries `data-sticky-hero-cta` so the phone bottom bar appears once it scrolls away (instead of the 600px fallback).
+- Gallery viewer: below 640px the dialog body becomes a flex column and the existing `data-dialog-actions` row takes `order-1`, so it sits directly under the photo, before the caption and thumbnails. One DOM; sm+ keeps the original order.
+- `data-booking-type="project_estimate"` is in the markup as asked, but the viewer's estimate link points at a different form per project (media wall 5067435, curtains 5061244/5061268, generic 4985623). A fixed `project_estimate` would mislabel the media-wall and curtain clicks, so `project-gallery.ts` keeps the attribute only for generic-form projects and removes it otherwise (booking type then comes from the form id, as before). The link already fired `jobber_booking_click` (every outbound Jobber link does); the item's premise that it only fired `gallery_estimate_clicked` did not hold.
+- /pricing/'s bottom CTASection now passes `ctaLocation="pricing_final_cta"`.
+
+Verification (local build): HTML changed on exactly /pricing/, /about/, /services/, /service-areas/ and /our-work/. At 390×844 the hero estimate and call buttons are above the fold on all four pages (bottoms 369–689px), hrefs are 4985623 and tel:3468201629. Opening 18 project cards in the /our-work/ viewer at 390×844: "Request an Estimate" is fully visible without scrolling every time (bottom 515–672px); `data-booking-type` is `project_estimate` on generic-form projects and absent on media-wall and curtain projects. No console errors.

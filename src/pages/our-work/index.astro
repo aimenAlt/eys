@@ -60,6 +60,8 @@ const galleryData = projects.map((entry) => {
     href: projectHref(entry.data.slug),
     estimateHref: estimate.href,
     estimateServiceType: estimate.serviceType,
+    // Generic estimate form only; media-wall and curtain forms keep inferring booking_type from the form id (backlog 009).
+    estimateBookingType: estimate.serviceType ? undefined : 'project_estimate',
     images: entry.data.images.map((img) => ({
       src: imageOrPlaceholder(img.src),
       alt: img.alt,
