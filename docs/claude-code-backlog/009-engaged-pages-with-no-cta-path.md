@@ -34,3 +34,7 @@ Decisions:
 - /pricing/'s bottom CTASection now passes `ctaLocation="pricing_final_cta"`.
 
 Verification (local build): HTML changed on exactly /pricing/, /about/, /services/, /service-areas/ and /our-work/. At 390×844 the hero estimate and call buttons are above the fold on all four pages (bottoms 369–689px), hrefs are 4985623 and tel:3468201629. Opening 18 project cards in the /our-work/ viewer at 390×844: "Request an Estimate" is fully visible without scrolling every time (bottom 515–672px); `data-booking-type` is `project_estimate` on generic-form projects and absent on media-wall and curtain projects. No console errors.
+
+## DONE 2026-10-26 8192ae4
+Estimate + call rows live under the hero on /pricing/, /about/, /services/ and /service-areas/; /pricing/'s bottom CTA reports `pricing_final_cta`; the /our-work/ viewer shows "Request an Estimate" right under the photo on phones.
+Live-verified with Playwright at 390×844 (no CTA clicked): all eight hero buttons above the fold with 4985623 / tel:3468201629 hrefs; 18 project cards opened in the live viewer, estimate button fully visible without scrolling every time, booking type correct per form; no console errors. GA4 Realtime not checked (would need a live Jobber click). Measurement Nov 10 as the item says.
