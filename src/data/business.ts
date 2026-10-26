@@ -136,7 +136,7 @@ export const business = {
    * Order matters: it drives JSON-LD `areaServed` and every "we serve" sentence.
    * Katy first (home base), Fulshear second (Katy's default partner in copy).
    */
-  areaServed: ['Katy', 'Fulshear', 'Cypress', 'Richmond', 'West Houston'],
+  areaServed: ['Katy', 'Fulshear', 'Cypress', 'Richmond', 'West Houston', 'Brookshire'],
   geo: {
     latitude: 29.7858,
     longitude: -95.8245,

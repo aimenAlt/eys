@@ -67,6 +67,7 @@ export const cityHeroImages: Record<string, string> = {
   fulshear: '/images/heroes/fulshear.jpg',
   richmond: '/images/heroes/richmond.jpg',
   'west-houston': '/images/heroes/west-houston.jpg',
+  brookshire: '/images/heroes/brookshire-tx.jpg',
 };
 
 /**
