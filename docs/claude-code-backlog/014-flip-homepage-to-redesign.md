@@ -40,3 +40,16 @@ Item 013 is DONE, and every one of 013's checks passes on the LIVE /home2/ today
 2. Confirm the old homepage is live again.
 3. Mark the item BLOCKED with the reason.
 4. Stop.
+
+## Build notes (Claude Code, 26 Oct 2026)
+Gate: 013 DONE (1eb5f72); all of 013's Playwright checks re-run against live https://www.eyshandyman.com/home2/ and ?theme=black at six widths on 26 Oct 2026, all pass.
+
+Decisions:
+- `src/pages/index.astro` keeps one `seo`, one `homePageSchema(homeFaqs)` and one `pageProps` for every variant; the redesign branch renders `BaseLayout theme={siteTheme}` + SiteHeader + HomeRedesignPage + SiteFooter + SiteBottomBar, the others keep the legacy chrome (and VanBand). HomeRedesignPage accepts `projectCount` / `publishedReviews` so all variants get the same props, and uses the city and community links.
+- /home2/ description: "Internal preview of the previous homepage. The live homepage is at the root URL."
+
+Pre-push comparison against the previous build of "/": title, meta description, canonical, robots ("index, follow, max-image-preview:large") and the JSON-LD graph (business node + FAQPage) are identical; one H1, identical text "Handyman Services for Katy & Fulshear"; all 5 homeFaqs questions are in the schema and in the visible FAQ.
+
+Internal links in `<main>` to /services/*, /service-areas/* and /our-work/*: 48 before, 55 after. Disappeared: only `/service-areas/` (the hub link that lived in the removed map section "Service Areas"; the header and footer still link it on every load of "/"). Added: /our-work/ and seven project pages (gallery tiles).
+
+All of 013's checks pass on the local build of "/" at 390, 768, 1024, 1180, 1280 and 1440 (the `?theme=black` switch exists only on the preview, so the black-theme check does not apply to "/").

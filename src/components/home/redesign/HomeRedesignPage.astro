@@ -18,6 +18,9 @@ import RedesignServiceAreas from './RedesignServiceAreas.astro';
 import RedesignClosingCta from './RedesignClosingCta.astro';
 
 interface Props {
+  /** Accepted so "/" passes every homepage variant the same data; the redesign does not use these two. */
+  projectCount?: number;
+  publishedReviews?: unknown[];
   cityLinks: { title: string; slug: string }[];
   communityLinks: { title: string; citySlug: string; slug: string }[];
 }

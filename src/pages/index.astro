@@ -4,6 +4,10 @@ import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import MobileStickyCTA from '../components/layout/MobileStickyCTA.astro';
 import VanBand from '../components/common/VanBand.astro';
+import SiteHeader from '../components/site/SiteHeader.astro';
+import SiteFooter from '../components/site/SiteFooter.astro';
+import SiteBottomBar from '../components/site/SiteBottomBar.astro';
+import HomeRedesignPage from '../components/home/redesign/HomeRedesignPage.astro';
 import HomeCurrentPage from '../components/home/HomeCurrentPage.astro';
 import HomeSmallRepairPage from '../components/home/HomeSmallRepairPage.astro';
 import { getCollection } from 'astro:content';
@@ -11,7 +15,7 @@ import { absoluteUrl, googleReviews } from '../data/business';
 import { defaultOgImageAlt } from '../data/images';
 import { homePageSchema, homeFaqs } from '../data/schema';
 import { buildNavMenus } from '../data/navMenus';
-import { homepageVariant } from '../data/sitePresentation';
+import { homepageVariant, siteTheme } from '../data/sitePresentation';
 
 const [publishedReviews, allServices, serviceAreas, communities] = await Promise.all([
   getCollection('reviews', ({ data }) => data.published === true),
@@ -42,10 +46,10 @@ const schemaGraph = homePageSchema(homeFaqs);
 
 /**
  * Eyad and the van lead the old homepage (backlog 011). The redesign (013/014)
- * already uses the same photo as its hero, so it never gets the band. Cast: the
- * 'redesign' variant is added to HomepageVariant by backlog 013.
+ * already uses the same photo as its hero, so it never gets the band.
  */
-const showVanBand = (homepageVariant as string) !== 'redesign';
+const isRedesign = homepageVariant === 'redesign';
+const showVanBand = !isRedesign;
 
 const pageProps = {
   projectCount: serviceAreas.length,
@@ -55,6 +59,17 @@ const pageProps = {
 };
 ---
 
+{
+  isRedesign ? (
+    <BaseLayout seo={seo} schemaGraph={schemaGraph} theme={siteTheme}>
+      <SiteHeader navMenus={navMenus} />
+      <main id="main-content">
+        <HomeRedesignPage {...pageProps} />
+      </main>
+      <SiteFooter />
+      <SiteBottomBar />
+    </BaseLayout>
+  ) : (
 <BaseLayout seo={seo} schemaGraph={schemaGraph}>
   <Header navMenus={navMenus} />
   <main id="main-content">
@@ -70,3 +85,5 @@ const pageProps = {
   <Footer />
   <MobileStickyCTA />
 </BaseLayout>
+  )
+}

@@ -9,7 +9,7 @@
 export type HomepageVariant = 'current' | 'small-repair' | 'redesign';
 
 /** Which homepage renders at `/`. Change only this value to switch. */
-export const homepageVariant: HomepageVariant = 'small-repair';
+export const homepageVariant: HomepageVariant = 'redesign';
 
 /**
  * Theme of the redesign system (backlog 012, docs/03-design-system.md). 'blue'

@@ -189,9 +189,22 @@ than a preserved one.
 
 ## Redesigned homepage and site chrome (backlog 013)
 
-Built on 26 Oct 2026 and rendered **only on `/home2/`** (noindex preview) until
-backlog 014 flips "/" to it; backlog 015 then puts the chrome on every
-ContentLayout page. No event or parameter was renamed: these are new
+Built on 26 Oct 2026 and rendered only on `/home2/` until backlog 014 flipped
+"/" to it the same day; backlog 015 then puts the chrome on every ContentLayout
+page.
+
+**Since the 014 flip (26 Oct 2026), "/" carries the redesign's placements.**
+- "/" no longer fires `pathway_cta_click`, `media_wall_cross_sell_view` or
+  `media_wall_request_click`: those sections are not on "/" any more. The events
+  still exist wherever their components are used.
+- These placements are no longer on "/": `home_hero_custom_project`,
+  `home_hero_card`, `home_midpage_1`, `home_reviews_contact`.
+- Kept on purpose, same strings: `home_hero_primary`, `home_hero_secondary`,
+  `home_hero_trust`, `home_reviews`, `trust_bar`, `home_final_cta`.
+- `section_view` ids on "/" are now the redesign's (below); compare across
+  26 Oct 2026 by `section_id`, not `section_index`.
+- /home2/ now previews the previous homepage (HomeSmallRepairPage with the
+  legacy chrome), noindex. No event or parameter was renamed: these are new
 `cta_location` values and section ids on the existing events.
 
 New `cta_location` values (`phone_click` for `tel:`, `jobber_booking_click` for Jobber links):

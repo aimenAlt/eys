@@ -122,7 +122,7 @@ Eyad-and-van photo.
 
 ## Migration status
 - **System:** tokens, themes, fonts, type and buttons shipped (backlog 012).
-- **Homepage + chrome:** built (backlog 013), rendered only on /home2/ until backlog 014 flips "/".
+- **Homepage:** live at "/" on the new system (blue theme, new chrome) since backlog 014, 26 Oct 2026. /home2/ previews the previous homepage.
 - **Legacy templates** (everything today) keep the old black/red look: `brand-*` tokens (`#b00000`,
   `#0a0a0a`), Inter only, `.gradient-btn`. They are migrated one template at a time and switch to
   `siteTheme` when they are.
