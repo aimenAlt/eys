@@ -254,3 +254,214 @@ details > summary::-webkit-details-marker {
     max-width: var(--uniform-tile-width);
   }
 }
+
+/* ==========================================================================
+ * Redesign system (backlog 012). Source of truth: docs/03-design-system.md.
+ *
+ * Scope rule: everything below is a NEW class, a custom property on :root, or
+ * a rule under [data-theme]. No element selectors, no edits to the legacy rules
+ * above — legacy pages render exactly as before until they are migrated.
+ * ========================================================================== */
+
+/* Montserrat 800 — display face of the redesign. Only the latin 800 file ships;
+   BaseLayout preloads it only on pages that pass a theme. */
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 800;
+  src: url("@fontsource/montserrat/files/montserrat-latin-800-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308,
+    U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Tokens — "blue" theme is the default. Gold is identical in both themes. */
+:root {
+  /* grounds */
+  --eys-ground: #002038;
+  --eys-panel: rgba(255, 255, 255, 0.07);
+  --eys-panel-line: rgba(255, 255, 255, 0.16);
+  --eys-line-dark: rgba(255, 255, 255, 0.12);
+  /* accents */
+  --eys-stripe: #e30b0b;
+  --eys-accent: #e30b0b;
+  --eys-accent-ink: #e30b0b;
+  /* gold CTA */
+  --eys-cta-bg: #fdb515;
+  --eys-cta-text: #002038;
+  --eys-cta-hover: #f0a500;
+  /* red button */
+  --eys-btn-red: #e30b0b;
+  --eys-btn-red-hover: #c40909;
+  /* navy button */
+  --eys-btn-std-bg: #002038;
+  --eys-btn-std-text: #ffffff;
+  --eys-btn-std-hover: #0a3556;
+  /* on dark grounds */
+  --eys-on-dark: #ffffff;
+  --eys-on-dark-2: #d5dee7;
+  --eys-on-dark-3: #b8c7d6;
+  --eys-outline-dark: rgba(255, 255, 255, 0.75);
+  /* on light grounds */
+  --eys-ink: #002038;
+  --eys-ink-2: #46596b;
+  --eys-ink-3: #5f6f7e;
+  --eys-rule: #d9e0e8;
+  --eys-white: #ffffff;
+  --eys-warm: #f6f4f0;
+  /* type */
+  --eys-font-display: "Montserrat", "Inter", sans-serif;
+}
+
+[data-theme="black"] {
+  --eys-ground: #0a0a0a;
+  --eys-panel: #1c1c1c;
+  --eys-panel-line: #1c1c1c;
+  --eys-stripe: #b00000;
+  --eys-accent: #ff3333;
+  --eys-accent-ink: #b00000;
+  --eys-btn-red: #b00000;
+  --eys-btn-red-hover: #8f0000;
+  --eys-on-dark-2: #c9c9c9;
+  --eys-on-dark-3: #b5b5b5;
+  --eys-ink: #0a0a0a;
+  --eys-ink-2: #5a5a5a;
+  --eys-ink-3: #6b6b6b;
+  --eys-rule: #e3e3e3;
+}
+
+/* Tailwind access: bg-eys-ground, text-eys-ink-2, border-eys-rule, font-display … */
+@theme inline {
+  --color-eys-ground: var(--eys-ground);
+  --color-eys-panel: var(--eys-panel);
+  --color-eys-panel-line: var(--eys-panel-line);
+  --color-eys-line-dark: var(--eys-line-dark);
+  --color-eys-stripe: var(--eys-stripe);
+  --color-eys-accent: var(--eys-accent);
+  --color-eys-accent-ink: var(--eys-accent-ink);
+  --color-eys-cta-bg: var(--eys-cta-bg);
+  --color-eys-cta-text: var(--eys-cta-text);
+  --color-eys-cta-hover: var(--eys-cta-hover);
+  --color-eys-btn-red: var(--eys-btn-red);
+  --color-eys-btn-red-hover: var(--eys-btn-red-hover);
+  --color-eys-btn-std-bg: var(--eys-btn-std-bg);
+  --color-eys-btn-std-text: var(--eys-btn-std-text);
+  --color-eys-btn-std-hover: var(--eys-btn-std-hover);
+  --color-eys-on-dark: var(--eys-on-dark);
+  --color-eys-on-dark-2: var(--eys-on-dark-2);
+  --color-eys-on-dark-3: var(--eys-on-dark-3);
+  --color-eys-outline-dark: var(--eys-outline-dark);
+  --color-eys-ink: var(--eys-ink);
+  --color-eys-ink-2: var(--eys-ink-2);
+  --color-eys-ink-3: var(--eys-ink-3);
+  --color-eys-rule: var(--eys-rule);
+  --color-eys-white: var(--eys-white);
+  --color-eys-warm: var(--eys-warm);
+  --font-display: var(--eys-font-display);
+}
+
+/* Display face. Never use font-extrabold for it: that utility is remapped to Inter 700. */
+.font-display {
+  font-family: var(--eys-font-display);
+  font-weight: 800;
+}
+
+/* Type scale (boards). Phone below 1024px, desktop from 1024px. */
+.eys-eyebrow {
+  font-family: var(--eys-font-display);
+  font-weight: 800;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.eys-h1 {
+  font-family: var(--eys-font-display);
+  font-weight: 800;
+  font-size: 36px;
+  line-height: 40px;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.eys-h2 {
+  font-family: var(--eys-font-display);
+  font-weight: 800;
+  font-size: 26px;
+  line-height: 30px;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.eys-h3 {
+  font-family: var(--eys-font-display);
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 26px;
+  text-wrap: balance;
+}
+.eys-figure {
+  font-family: var(--eys-font-display);
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 36px;
+  letter-spacing: -0.02em;
+}
+.eys-body {
+  font-size: 16px;
+  line-height: 24px;
+  text-wrap: pretty;
+}
+.eys-small-15 { font-size: 15px; line-height: 22px; text-wrap: pretty; }
+.eys-small-14 { font-size: 14px; line-height: 20px; text-wrap: pretty; }
+.eys-small-13 { font-size: 13px; line-height: 18px; text-wrap: pretty; }
+.eys-small-12 { font-size: 12px; line-height: 16px; text-wrap: pretty; }
+
+@media (min-width: 64rem) {
+  .eys-eyebrow { font-size: 12px; line-height: 16px; }
+  .eys-h1 { font-size: 48px; line-height: 52px; }
+  .eys-h2 { font-size: 32px; line-height: 36px; }
+  .eys-body { font-size: 17px; line-height: 26px; }
+}
+
+/* Buttons. Base: 52px, radius 6px, Inter 700 16px, gap 10px, nowrap.
+   Inline padding 0 28px; `.eys-btn--block` goes full width below 1024px. */
+.eys-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-sizing: border-box;
+  height: 52px;
+  padding: 0 28px;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.eys-btn > svg { flex: none; width: 18px; height: 18px; }
+.eys-btn:focus-visible {
+  outline: 2px solid var(--eys-ink);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+.eys-on-dark .eys-btn:focus-visible { outline-color: #ffffff; }
+@media (max-width: 63.999rem) {
+  .eys-btn--block { display: flex; width: 100%; }
+}
+.eys-btn--gold { background: var(--eys-cta-bg); color: var(--eys-cta-text); }
+.eys-btn--gold:hover { background: var(--eys-cta-hover); }
+.eys-btn--red { background: var(--eys-btn-red); color: #ffffff; }
+.eys-btn--red:hover { background: var(--eys-btn-red-hover); }
+.eys-btn--navy { background: var(--eys-btn-std-bg); color: var(--eys-btn-std-text); }
+.eys-btn--navy:hover { background: var(--eys-btn-std-hover); }
+.eys-btn--navy:focus-visible { outline-color: var(--eys-btn-std-bg); }
+.eys-btn--outline-light { border-color: var(--eys-outline-dark); color: var(--eys-on-dark); background: transparent; }
+.eys-btn--outline-light:hover { border-color: var(--eys-on-dark); }
+.eys-btn--outline-dark { border-color: var(--eys-ink); color: var(--eys-ink); background: transparent; }
+@media (prefers-reduced-motion: reduce) {
+  .eys-btn { transition: none; }
+}

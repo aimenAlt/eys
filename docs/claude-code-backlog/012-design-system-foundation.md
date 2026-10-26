@@ -101,3 +101,14 @@ Focus rings: 2px white with offset 2 on dark grounds, 2px ink on light grounds. 
 - check, `npm test` and build are all clean.
 - **No-change proof:** screenshot "/" and /services/tv-mounting/ at 390 and 1440 from this build and from the previous commit's build. They must be pixel-identical (or prove the same with a DOM plus computed-style diff).
 - Live "/" is unchanged after the deploy.
+
+## Build notes (Claude Code, 26 Oct 2026)
+Decisions:
+- Token names carry an `eys-` prefix (`--eys-ground`, … ; Tailwind `bg-eys-ground`) so they can never collide with Tailwind's own `--color-*` namespace or the legacy `brand-*` tokens. Values are exactly the item's.
+- `--font-display` in `@theme inline` gives the Tailwind `font-display` family utility; an unlayered `.font-display` rule adds weight 800, so the class alone means Montserrat 800.
+- Buttons are classes (`.eys-btn` + `--gold|--red|--navy|--outline-light|--outline-dark`, `.eys-btn--block` for full width below 1024px). Dark-ground focus rings come from an `.eys-on-dark` ancestor. The phone icon and a Button component come with their first use in 013.
+- Type classes `.eys-eyebrow/-h1/-h2/-h3/-figure/-body/-small-15…12`, breakpoint 1024px (64rem).
+- `BaseLayout` `theme` prop: `data-theme={theme}` (Astro drops the attribute when undefined) and a Montserrat preload only when a theme is passed.
+- `@fontsource/montserrat` ^5.3.0 added; only `montserrat-latin-800-normal.woff2` is referenced.
+
+No-change proof: built this commit and the previous one (da28752). Every one of the 114 pages has identical HTML once the inlined `<style>` blocks are removed (the stylesheet is the only difference). Full-page Playwright screenshots of "/" and /services/tv-mounting/ at 390×844 and 1440×900 are byte-identical PNGs between the two builds. `npm run check`, `npm test` and `npm run build` clean.

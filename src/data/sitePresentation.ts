@@ -7,6 +7,15 @@ export type HomepageVariant = 'current' | 'small-repair';
 /** Which homepage renders at `/`. Change only this value to switch. */
 export const homepageVariant: HomepageVariant = 'small-repair';
 
+/**
+ * Theme of the redesign system (backlog 012, docs/03-design-system.md). 'blue'
+ * is the approved default; 'black' swaps the dark grounds and the reds only.
+ * Read by pages that render through `BaseLayout theme={siteTheme}`; legacy
+ * pages pass no theme and keep the old black/red look until migrated.
+ */
+export type SiteTheme = 'blue' | 'black';
+export const siteTheme: SiteTheme = 'blue';
+
 /** Static service pages that are not content-collection entries (or supersede unpublished ones). */
 export const customServicePages = {
   'handyman-to-do-list': {

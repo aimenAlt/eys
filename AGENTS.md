@@ -37,24 +37,15 @@ Do not change public copy to **EYS Home Services** without explicit approval.
 9. Summarize what changed and what remains.
 
 ## Design doctrine
-Visual direction:
-- Premium local contractor.
-- Black/charcoal hero.
-- Red CTAs.
-- White/light body sections.
-- Silver/gray accents.
-- Angular, strong, structured layout.
-- Authentic project imagery.
-- Mobile-first CTAs.
-
-Avoid:
-- cheap handyman flyer aesthetic
-- cartoon icons
-- excessive gradients
-- busy backgrounds
-- cluttered cards
-- generic stock-photo dependency
-- gimmicky animations
+The approved redesign system is the source of truth: `docs/03-design-system.md`.
+- Two themes, one layout: dark blue (default, `siteTheme` in `src/data/sitePresentation.ts`) and black. Every colour is an `--eys-*` token; `[data-theme="black"]` swaps only the dark grounds and the reds. Gold never changes.
+- Type: Montserrat 800 for display (`.font-display`, `.eys-h1`…`.eys-figure`, never `font-extrabold`), Inter 400/700 for body.
+- Buttons: `.eys-btn` + one of gold / red / navy / outline-light / outline-dark.
+- The owner's button rule: exactly one gold button per screen — the header's top-right CTA (phone "Call", desktop "Get a Free Quote"; the phone bottom bar's "Call" replaces it while the bar shows). The other action is red (phone: form red, call outline; desktop: call red, form outline). Card booking buttons are navy. Gold never sits on a light ground.
+- Dark grounds only on header, hero, the owner band and footer; everything else white or warm.
+- Real project photos through SiteImage only. No cartoon icons, busy backgrounds, gradients or gimmicky animation.
+- New CSS goes on new classes or under `html[data-theme]` only; never edit the legacy rules.
+- Migration: pages that render through `BaseLayout theme=…` use the new system. Legacy templates keep the old black/red look (`brand-*` tokens, Inter only) until they are migrated one by one.
 
 ## SEO doctrine
 A daily automated task requests Google indexing for unindexed pages — see
