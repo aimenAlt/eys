@@ -5,6 +5,18 @@ request straight into EYS's Jobber **Requests**, the same place every web-form l
 backlog item 010 (`docs/claude-code-backlog/010-ai-assistant-intake.md`). Live state, what is
 verified and the remaining human steps are in [`STATUS.md`](./STATUS.md).
 
+## Who does what
+
+- **Claude Code** writes the code and these docs, pushes to `main` and checks the live site.
+- **Cowork (Claude)** works in the Cloudflare dashboard, the Jobber Developer Center and GitHub,
+  and reads the pages the owner lands on. It never types a credential into any field. On
+  2026-10-25 it bound the D1 database `eys-ai-intake` as `EYS_AI_DB` (Production), set the plain
+  variables `AI_INTAKE_ENABLED=false` and `AI_INTAKE_DAILY_CAP=20`, and created the Jobber app (in
+  Draft, named "EYS Request Intake"; any name works) with the callback URL, the Clients and
+  Requests read + write scopes only, and refresh-token rotation on.
+- **The owner (Aimen)** pastes the three secrets (`JOBBER_CLIENT_ID`, `JOBBER_CLIENT_SECRET`,
+  `AI_ADMIN_KEY`) into Cloudflare himself, and types the admin key into the connect form himself.
+
 ## How it works
 
 One core (`functions/_lib/intake.ts`), three doors:
@@ -22,6 +34,17 @@ All of it is Cloudflare **Pages Functions** in `functions/`, deployed by the nor
 workflow (the deploy jobs check out the repo so wrangler can compile `./functions`). No runtime
 dependencies, no Astro adapter, no `wrangler.toml`; bindings, secrets and vars live in the
 Cloudflare dashboard. Pages stay static.
+
+### Deploying after a variable change
+
+This is a Direct Upload Pages project, so the dashboard has no "Retry deployment"; the ⋯ menu on
+a deployment offers only **Delete deployment**, which must never be used. Variables and secrets
+only reach a deployment created after they were saved. To create one:
+
+GitHub → repo `aimenAlt/eys` → **Actions** → **Deploy Cloudflare** → **Run workflow** → Branch
+`main`, **Deploy target** = `production` (the dropdown defaults to `preview`, so change it) →
+**Run workflow**. Wait for the green run, then check `https://www.eyshandyman.com/api/ai/health`.
+Any push to `main` deploys production too.
 
 ### A request, step by step
 
@@ -136,7 +159,7 @@ without the API, makes no request on page load, sends no cookies, and is about 1
   OAuth states, and per-request metadata — an HMAC of the phone (sub-key derived from
   `AI_ADMIN_KEY` by a fixed label), ZIP, source, reference, request_id, status, timestamps — plus
   rate counters keyed by hashed IP/phone. Never names, addresses or job text. Rows older than 30
-  days are purged.
+  days are deleted by a cleanup that runs whenever a confirmed request arrives.
 - Logs carry only status, source, error class and reference, e.g.
   `{"evt":"ai_intake","status":"unavailable","source":"chatgpt","error_class":"jobber_throttled@plan","reference":null}`.
   See them in Cloudflare → Workers & Pages → eys → Deployments → (latest) → Functions → Real-time logs.
@@ -145,30 +168,49 @@ without the API, makes no request on page load, sends no cookies, and is about 1
 
 ## The kill switch
 
-Set `AI_INTAKE_ENABLED` to anything other than exactly `true` (for example `false`) in Cloudflare →
-Workers & Pages → eys → Settings → Variables and Secrets, then redeploy (Deployments → latest
-production deployment → ⋯ → Retry deployment, or push any commit). Every confirmed call then
-answers `unavailable` with the phone number; validation and `get_business_info` keep working.
-`GET /api/ai/health` shows `intake_enabled`.
+Set `AI_INTAKE_ENABLED` to anything other than exactly `true` (for example `false`; stray spaces
+also count as off) in Cloudflare → Workers & Pages → eys → Settings → Variables and Secrets, then
+deploy as above: GitHub → `aimenAlt/eys` → Actions → **Deploy Cloudflare** → Run workflow →
+Branch `main`, Deploy target `production` (not the default `preview`) → Run workflow, and wait for
+the green run. Never use "Delete deployment". Every confirmed call then answers `unavailable` with
+the phone number; validation and `get_business_info` keep working. `GET /api/ai/health` shows
+`intake_enabled`.
 
 ## Jobber connection
 
 - **Never press "Test in GraphiQL" on this app** in the Jobber Developer Center. It starts a new
   OAuth flow and invalidates this app's refresh token, which silently breaks the connection within
   the hour. Use the probe route instead.
-- Connect or reconnect: open `https://www.eyshandyman.com/api/admin/jobber/connect`, enter
-  `AI_ADMIN_KEY`, sign in to Jobber as the EYS admin and press **Allow Access**. The page must end
-  on "Jobber is connected to Elevate Your Space Handyman". A different account is refused and
-  nothing is saved (set `JOBBER_EXPECTED_ACCOUNT` only if the Jobber account is ever renamed).
-  Reconnect whenever health shows `token_status: "refresh_failed"`, after rotating
-  `JOBBER_CLIENT_SECRET`, after changing the app's scopes, or after rotating `AI_ADMIN_KEY`.
-- Probe (read-only, confirms the write shapes):
+- Connect or reconnect (the owner does this): open
+  `https://www.eyshandyman.com/api/admin/jobber/connect`, type `AI_ADMIN_KEY` and press **Check
+  key**. The "Key accepted" page has one link, **Continue to Jobber** (valid once, for 10 minutes);
+  follow it, sign in to Jobber as the EYS admin and press **Allow Access**. Jobber sends you back to
+  a page that says "Jobber is connected to Elevate Your Space Handyman". A different account is
+  refused and nothing is saved (set `JOBBER_EXPECTED_ACCOUNT` only if the Jobber account is ever
+  renamed). The Jobber app itself may carry any name. Reconnect whenever health shows
+  `token_status: "refresh_failed"`, after rotating `JOBBER_CLIENT_SECRET`, after changing the
+  app's scopes, or after rotating `AI_ADMIN_KEY`. (The connect step is a link rather than a
+  redirect because Chrome checks a page's form-action rule on every hop of a redirect that follows
+  a form post, and Jobber's sign-in may pass through hosts this page cannot list.)
+- **Schema report.** The Connected page itself shows a "Schema report": one summary line
+  (introspection on or off, API version, number of plan problems, number of plan warnings) and the
+  same JSON the probe route returns. "0 plan problems" is required before the kill switch is
+  turned on. If the report cannot be produced the page still says Connected and adds "Schema report
+  failed (<error class>)"; then use the probe route as a fallback:
   ```bash
   read -rs AI_ADMIN_KEY && curl -s -H "Authorization: Bearer $AI_ADMIN_KEY" https://www.eyshandyman.com/api/admin/jobber/probe
   ```
-  `plan_problems` must be `[]` before the kill switch is turned on. It lists `requestCreate`'s input
-  fields, the client and property create inputs, and every mutation with "Request" or "Note" in its
-  name.
+  The report lists `requestCreate`'s input fields, the client and property create inputs (with
+  enum values and required markers), and every mutation with "Request" or "Note" in its name.
+- **Pre-flight.** Before the first write, the code reads Jobber's schema and refuses (`schema`,
+  nothing created) if any required input the write path does not fill exists — for example
+  "RequestCreateInput.foo is required and not supplied". Phone and email `description` labels
+  follow the schema's enum (MAIN if listed, else MOBILE for phones / PERSONAL for emails, else
+  OTHER, else the first value) and are left out when the field does not exist.
+- Secrets are read through trimming helpers in `functions/_lib/env.ts`, so a pasted value with a
+  stray space or newline still works; the admin key's 16-character minimum applies after trimming,
+  and the typed key (form field or Bearer header) is trimmed too. `AI_INTAKE_ENABLED` is the
+  exception: only an exact `true` turns intake on.
 - Five wrong admin keys from one IP lock that IP out for the hour.
 - Tokens refresh under a D1 lock so only one Worker instance redeems a refresh token at a time; the
   rotated refresh token is saved before anything else. Pinned API version: `2026-09-25`.

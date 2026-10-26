@@ -1,11 +1,35 @@
 # AI-assistant intake — status
 
-Last updated 2026-10-25 by Claude Code. How it works and how to operate it: [`README.md`](./README.md).
+Last updated 2026-10-26 by Claude Code. How it works and how to operate it: [`README.md`](./README.md).
 
 **State right now:** everything is deployed and answering on www.eyshandyman.com in
-**validate-only** mode. Jobber is not connected and `AI_INTAKE_ENABLED` is not set, so no request
-can reach Jobber yet. No Jobber record was created during the build. Steps 1–6 under NEEDS HUMAN
+**validate-only** mode. The D1 database and the two plain variables are set, and the Jobber app
+exists, but the three secrets are not in Cloudflare yet and Jobber is not connected, so no request
+can reach Jobber. No Jobber record was created during the build. Steps 2–6 under NEEDS HUMAN
 switch it on.
+
+## Who does what
+
+- **Claude Code**: code, tests and these docs; pushes to `main` and checks the live site.
+- **Cowork (Claude)**: the Cloudflare dashboard, the Jobber Developer Center and GitHub Actions; it
+  reads the pages the owner lands on and never types a credential into any field. Done so far
+  (2026-10-25): D1 database `eys-ai-intake` bound as `EYS_AI_DB` (Production); plain variables
+  `AI_INTAKE_ENABLED=false` and `AI_INTAKE_DAILY_CAP=20`; the Jobber app "EYS Request Intake" in
+  Draft, with the callback URL, the Clients and Requests read + write scopes only, and
+  refresh-token rotation on.
+- **The owner (Aimen)**: pastes `JOBBER_CLIENT_ID`, `JOBBER_CLIENT_SECRET` and `AI_ADMIN_KEY` into
+  Cloudflare, and types the admin key into the connect form.
+
+## How to deploy after changing a variable or secret
+
+This Pages project is Direct Upload: there is no "Retry deployment", and the ⋯ menu on a
+deployment offers only **Delete deployment** — never use it. Variables and secrets only reach a
+deployment created after they were saved. Create one with:
+
+GitHub → repo `aimenAlt/eys` → **Actions** → **Deploy Cloudflare** → **Run workflow** → Branch
+`main`, **Deploy target** = `production` (the dropdown defaults to `preview`, so change it) →
+**Run workflow**. Wait for the green run, then check `https://www.eyshandyman.com/api/ai/health`.
+Any push to `main` deploys production too.
 
 ## DONE
 
@@ -18,10 +42,13 @@ switch it on.
 | Fix: keep `functions/` out of Tailwind's scan | 7f76116 | [40240602553](https://github.com/aimenAlt/eys/actions/runs/40240602553) |
 | 5. WebMCP tools in `BaseLayout` | cfd5b78 | [40240967387](https://github.com/aimenAlt/eys/actions/runs/40240967387) |
 | Fix: keep the intake docs out of Tailwind's scan | 1abdd26 | [40241283820](https://github.com/aimenAlt/eys/actions/runs/40241283820) |
+| Docs: README, STATUS, close backlog 010 | e0b824d | [40241783013](https://github.com/aimenAlt/eys/actions/runs/40241783013) |
+| A. Link-based connect, schema report on connect, write pre-flight, trimmed secrets | 0ad96df | [40335591918](https://github.com/aimenAlt/eys/actions/runs/40335591918) |
+| B. Docs (roles, GitHub deploy path, connect steps) + privacy "after 30 days" | this commit | see VERIFIED |
 
 Every production deploy log shows `✨ Compiled Worker successfully` and
-`✨ Uploading Functions bundle`. `npm run check`, `npm run build` and `npm test` (65 functions
-tests) were clean before each push.
+`✨ Uploading Functions bundle`. `npm run check`, `npm run build` and `npm test` (73 functions
+tests after Push A) were clean before each push.
 
 ## LIVE URLS
 
@@ -30,11 +57,13 @@ tests) were clean before each push.
   `https://www.eyshandyman.com/api/ai/info`, `https://www.eyshandyman.com/api/ai/openapi.json`
 - Health: `https://www.eyshandyman.com/api/ai/health`
 - Admin: `https://www.eyshandyman.com/api/admin/jobber/connect`, `/api/admin/jobber/callback`
-  (Jobber redirects here), `/api/admin/jobber/probe` (Bearer `AI_ADMIN_KEY`)
+  (Jobber redirects here), `/api/admin/jobber/probe` (Bearer `AI_ADMIN_KEY`, fallback only)
 - OpenAI domain check: `https://www.eyshandyman.com/.well-known/openai-apps-challenge` (404 until set)
 - `https://www.eyshandyman.com/llms.txt`
 
-## VERIFIED (live, 2026-10-25, curl unless noted)
+## VERIFIED (live, curl unless noted)
+
+### Pushes 1–5 and the docs commit (2026-10-25)
 
 - `GET /api/ai/health` → 200
   `{"ok":true,"intake_enabled":false,"configured":{"d1":true,"jobber_client":false,"jobber_secret":false,"admin_key":false},"jobber":{"connected":false,"account_name":null,"token_status":"not_connected"},"today_count":0}`.
@@ -58,57 +87,67 @@ tests) were clean before each push.
   instructions; GET → 405 `allow: POST`. `/mcp` answers directly (no redirect).
 - `/.well-known/openai-apps-challenge` → 404 (token unset). `/llms.txt` → 200 `text/plain`, not in
   the sitemap. `/privacy/` carries the AI-assistant paragraph.
-- Admin: `/api/admin/jobber/connect` → 200 password form; probe and callback → 503 "not configured"
-  (no admin key yet).
-- WebMCP (built-in browser, live homepage): this browser has no native `modelContext`, so a stand-in
-  was installed and the page's own inline script re-run. Both tools registered (`readOnlyHint` /
-  `consequentialHint`); `get_business_info` returned the phone; the submit tool (confirmed false)
-  returned `ready_to_submit`. A normal page load makes no `/api/` request and logs no console error.
-  Script size 2,205 bytes raw, 1,102 gzipped.
+- WebMCP (built-in browser, live homepage): no browser here supports `modelContext` natively, so a
+  stand-in was installed and the page's own inline script re-run. Both tools registered
+  (`readOnlyHint` / `consequentialHint`); `get_business_info` returned the phone; the submit tool
+  (confirmed false) returned `ready_to_submit`. A normal page load makes no `/api/` request and logs
+  no console error. Script size 2,205 bytes raw, 1,102 gzipped.
 - Nothing else on the site changed: live `/`, `/book/` and `/start/` are byte-identical to the
   pre-intake versions except for the added WebMCP script (compared ignoring build timestamps and
   Cloudflare's per-request email-obfuscation keys). GA4 `G-9D5MCDT0L1` and Ads `AW-16988082106`
   tags unchanged; the analytics bundle hash is unchanged.
 
+### Push A (0ad96df, 2026-10-26)
+
+- `GET /api/ai/health` unchanged: `d1` true, `jobber_client` / `jobber_secret` / `admin_key` false,
+  `intake_enabled` false.
+- `GET /api/admin/jobber/connect` → 200 with the password form ("Check key"); CSP now
+  `default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'`.
+  `POST` → 503 "missing its D1 database or admin key" with no `Location` header (no redirect).
+- `/api/admin/jobber/probe` → 503; `/api/admin/jobber/callback` → 503 (not configured).
+- `/mcp` `initialize` and `tools/list` unchanged (same version, server name, instructions and
+  annotations).
+- `/`, `/book/`, `/start/` = pre-intake HTML + the WebMCP script, nothing else.
+- The OAuth flow itself cannot run until the secrets exist. The unit tests cover it: the Key
+  accepted page and its single link (state, S256 challenge, redirect_uri), the Connected page with
+  the schema report, the report-failure page, the unchanged wrong-account page, a mocked unknown
+  required field blocking the write with nothing created, enum label choice, and trimmed secrets.
+
 ## NEEDS HUMAN (in order)
 
-1. **Create the Jobber app.** https://developer.getjobber.com → sign in to the Developer Center →
-   **Apps** → **New**:
-   - App name: `EYS AI Intake`
-   - Developer name: `Elevate Your Space Handyman`
-   - App description: `Private integration: lets AI assistants file service requests for Elevate Your Space Handyman customers.`
-   - Scopes: **Clients** read + write, **Requests** read + write. Nothing else.
-   - OAuth Callback URL: `https://www.eyshandyman.com/api/admin/jobber/callback`
-   - Refresh Token Rotation: leave **ON** (the default).
-   - Save and leave the app in **Draft**: a custom integration on EYS's own account needs no review
-     (Jobber allows Draft apps on up to 5 paying accounts).
-   - Copy the **Client ID** and **Client Secret** from the app's page in Manage Apps.
-   - **Never press "Test in GraphiQL" on this app** (it invalidates the refresh token).
-2. **Cloudflare variables.** Workers & Pages → **eys** → **Settings** → **Variables and Secrets**
-   (Production) → **Add**:
-   - `JOBBER_CLIENT_ID` — type Secret — the Client ID from step 1
-   - `JOBBER_CLIENT_SECRET` — type Secret — the Client Secret from step 1
-   - `AI_ADMIN_KEY` — type Secret — 40+ random characters (e.g. the output of
-     `openssl rand -base64 36`); keep it in the password manager. Under 16 characters counts as unset.
-   - `AI_INTAKE_ENABLED` — type Text — `false` for now
-   - `AI_INTAKE_DAILY_CAP` — type Text — `20`
-   - Leave `OPENAI_APPS_CHALLENGE_TOKEN` and `JOBBER_EXPECTED_ACCOUNT` unset.
-   - D1 binding `EYS_AI_DB` is already bound (Settings → **Bindings**); health shows `d1: true`.
-   - Then **Deployments** → latest Production deployment → **⋯** → **Retry deployment**
-     (variables only reach new deployments). Check `https://www.eyshandyman.com/api/ai/health`:
-     all four `configured` values `true`, `intake_enabled` `false`.
-3. **Connect Jobber.** Open `https://www.eyshandyman.com/api/admin/jobber/connect`, enter
-   `AI_ADMIN_KEY`, sign in to Jobber as the EYS admin and press **Allow Access**. The page must say
-   "Jobber is connected to Elevate Your Space Handyman". Health then shows
+1. **Jobber app — done by Cowork (2026-10-25).** Draft app "EYS Request Intake" (any name works),
+   OAuth Callback URL `https://www.eyshandyman.com/api/admin/jobber/callback`, scopes **Clients**
+   read + write and **Requests** read + write only, Refresh Token Rotation **ON**. It stays in Draft
+   (a custom integration on EYS's own account needs no review). **Never press "Test in GraphiQL"
+   on this app** (it invalidates the refresh token).
+2. **Secrets — the owner.** Cloudflare → Workers & Pages → **eys** → **Settings** → **Variables and
+   Secrets** (Production) → **Add**, type **Secret** for each:
+   - `JOBBER_CLIENT_ID` — from the Jobber app's page in the Developer Center (Manage Apps)
+   - `JOBBER_CLIENT_SECRET` — same page
+   - `AI_ADMIN_KEY` — 40+ random characters (e.g. the output of `openssl rand -base64 36`), kept in
+     the password manager. Under 16 characters (after trimming) counts as unset.
+   - Already set by Cowork: D1 binding `EYS_AI_DB`, `AI_INTAKE_ENABLED=false`,
+     `AI_INTAKE_DAILY_CAP=20`. Leave `OPENAI_APPS_CHALLENGE_TOKEN` and `JOBBER_EXPECTED_ACCOUNT` unset.
+   - Then deploy (Cowork can do this): GitHub → `aimenAlt/eys` → **Actions** → **Deploy Cloudflare**
+     → **Run workflow** → Branch `main`, **Deploy target** `production` (not the default `preview`)
+     → **Run workflow**; wait for the green run. Check
+     `https://www.eyshandyman.com/api/ai/health`: all four `configured` values `true`,
+     `intake_enabled` `false`.
+3. **Connect Jobber — the owner; Cowork reads the pages.** Open
+   `https://www.eyshandyman.com/api/admin/jobber/connect`, type `AI_ADMIN_KEY`, press **Check key**.
+   On "Key accepted", click **Continue to Jobber** (works once, for 10 minutes), sign in to Jobber
+   as the EYS admin and press **Allow Access**. Jobber returns to a page that says "Jobber is
+   connected to Elevate Your Space Handyman". Health then shows
    `"jobber":{"connected":true,"account_name":"Elevate Your Space Handyman","token_status":"valid"}`.
-4. **Probe the schema** (read-only):
+4. **Read the schema report — Cowork, on the Connected page itself.** Its summary line must read
+   `Introspection enabled · API version 2026-09-25 · 0 plan problems · …`. If plan problems is not
+   0, stop here with the kill switch off and hand the report to Claude Code (it holds schema names
+   only: no tokens, ids or customer data). Only if the page says "Schema report failed (…)", use
+   the fallback:
    ```bash
    read -rs AI_ADMIN_KEY && curl -s -H "Authorization: Bearer $AI_ADMIN_KEY" https://www.eyshandyman.com/api/admin/jobber/probe
    ```
-   Expect `"introspection":"enabled"` and `"plan_problems":[]`. If `plan_problems` is not empty,
-   stop here with the kill switch off and give the probe output to Claude Code (it contains no
-   tokens or customer data).
-5. **Keep assistants from being bot-challenged.** Cloudflare → the eyshandyman.com zone →
+5. **Keep assistants from being bot-challenged — Cowork.** Cloudflare → the eyshandyman.com zone →
    **Security**:
    - **Bots**: if **Bot Fight Mode** is on, turn it off — it cannot be skipped per path and can
      challenge ChatGPT's servers. (On Pro or higher, Super Bot Fight Mode is fine with the rule below.)
@@ -117,18 +156,21 @@ tests) were clean before each push.
      action **Skip**: all remaining custom rules, all Super Bot Fight Mode rules, and (under More
      components) Browser Integrity Check and Security Level. Order: first. Do **not** include
      `/api/admin/`.
-   - Today (2026-10-25) curl reaches every route without a challenge, so this is preventive.
-6. **Turn it on.** Set `AI_INTAKE_ENABLED` to `true` → Retry deployment → health shows
-   `"intake_enabled":true`.
-7. **One live test** with a phone number the tester owns (replace the three `<…>` values):
+   - On 2026-10-25/26 curl reached every route without a challenge, so this is preventive.
+6. **Turn it on — Cowork, after step 4 shows 0 plan problems.** Set `AI_INTAKE_ENABLED` to exactly
+   `true` (no spaces) → deploy via GitHub Actions as in step 2 (Deploy target `production`) → health
+   shows `"intake_enabled":true`.
+7. **One live test — the owner, or Cowork with the owner's go-ahead and a phone number the owner
+   owns** (replace the three `<…>` values):
    ```bash
    curl -s -X POST https://www.eyshandyman.com/api/ai/service-requests -H 'Content-Type: application/json' -d "{\"customer_name\":\"<First Last>\",\"phone\":\"<your phone>\",\"street_address\":\"<your street>\",\"city\":\"Katy\",\"state\":\"TX\",\"zip\":\"77494\",\"service_summary\":\"TEST - please archive\",\"job_details\":\"Test request from the AI intake set-up. Please archive.\",\"service_path\":\"not_sure\",\"consent_to_contact\":true,\"confirmed_by_customer\":true,\"source\":\"other\",\"request_id\":\"$(uuidgen | tr A-Z a-z)\"}"
    ```
    Expect `"status":"submitted"` with an `EYS-AI-…` reference. In Jobber → **Requests**, find
    `[AI assistant] TEST - please archive - Katy` with the note on it, then archive it. Note whether
    Jobber sent its usual new-request notification (see OPEN RISKS).
-8. **ChatGPT developer mode.** ChatGPT (web) → **Settings** → **Apps & Connectors** (labelled
-   **Apps** in newer builds) → **Advanced settings** → **Developer mode** on → back → **Create**:
+8. **ChatGPT developer mode — the owner (it is his ChatGPT account).** ChatGPT (web) → **Settings**
+   → **Apps & Connectors** (labelled **Apps** in newer builds) → **Advanced settings** →
+   **Developer mode** on → back → **Create**:
    - Name: `Elevate Your Space Handyman`
    - Description: `Send a service request to EYS in Katy, TX`
    - MCP Server URL: `https://www.eyshandyman.com/mcp`
@@ -137,18 +179,18 @@ tests) were clean before each push.
      mode and ask for help with a handyman job in Katy.
 9. **Optional, later — ChatGPT app directory.** When submitting the app in OpenAI's developer
    dashboard, put the domain-verification token in Cloudflare as `OPENAI_APPS_CHALLENGE_TOKEN`
-   (Text) → Retry deployment → confirm
+   (plain Text) → deploy via GitHub Actions as in step 2 (Deploy target `production`) → confirm
    `https://www.eyshandyman.com/.well-known/openai-apps-challenge` shows it. Listing URLs: website
    `https://www.eyshandyman.com/`, privacy `https://www.eyshandyman.com/privacy/`, terms
    `https://www.eyshandyman.com/terms/`.
 
 ## OPEN RISKS
 
-1. **requestCreate and note shapes are unconfirmed.** Jobber does not publish its mutation
-   reference. The write path reads the real schema by introspection and refuses to write if
-   anything it needs is missing, but only the probe (step 4) proves the shapes, and only the live
-   test (step 7) proves Jobber accepts them (for example, an extra required input field would
-   surface there as `jobber_graphql@request`).
+1. **Jobber input shapes.** Jobber does not publish its mutation reference. They are now checked
+   twice before any write: the pre-flight refuses (nothing created) if a required input the code
+   does not fill exists or a needed field is missing, and the schema report on the Connected page
+   (step 4) shows the real shapes on first connect. Only the live test (step 7) proves Jobber
+   accepts the values themselves.
 2. **Jobber notifications.** Requests created through the API may not trigger the "new request"
    email/push that Client Hub form submissions do. Until step 7 says otherwise, assume EYS has to
    look for them: search Requests for `[ChatGPT]` (or `[AI`), or rely on the new-requests routine.
@@ -157,9 +199,10 @@ tests) were clean before each push.
 4. **No photos.** Requests arrive without photos (the note says so); quoting may need a call.
 5. **Client matching depends on Jobber's search.** If Jobber's client search does not find a stored
    phone format, a returning customer gets a second client record instead of the existing one.
-6. **Partial writes.** If Jobber fails after creating a client or property but before the request,
-   that client/property stays in Jobber without a request (logged as `…@client` / `…@property`).
-   Failures after the request exists are stored as `unverified` and never resent.
+6. **Partial writes.** The pre-flight removes the schema causes; a Jobber outage between creating a
+   client/property and the request can still leave that client/property without a request (logged
+   as `…@client` / `…@property`). Failures after the request exists are stored as `unverified` and
+   never resent.
 7. **Rotating `AI_ADMIN_KEY`** makes the stored tokens unreadable (reconnect, step 3) and resets
    the duplicate and rate-limit history.
 8. **Abuse.** The endpoints are public with no auth. Limits cap the damage (5/hour/IP, 3/day/phone,
@@ -169,3 +212,5 @@ tests) were clean before each push.
 9. **Protocol churn.** MCP 2026-07-28 and WebMCP (a draft) are new. ChatGPT was not tested
    directly (step 8 is the first real client); WebMCP was tested with a stand-in because no browser
    here supports it natively.
+10. **Cleanup timing.** Rows older than 30 days are deleted when a confirmed request arrives, so on
+    a quiet month they can sit a little past 30 days (the privacy policy says "after 30 days").

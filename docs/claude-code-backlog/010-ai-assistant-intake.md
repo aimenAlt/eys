@@ -78,3 +78,25 @@ so 1abdd26 excludes only the new intake docs — excluding all of `docs/` would 
 of rules pages ship today. Live `/`, `/book/`, `/start/` = pre-intake HTML + the WebMCP script.
 Docs: `docs/ai-intake/README.md` (operating manual) and `docs/ai-intake/STATUS.md` (verified
 results, nine human steps, open risks). Intake stays validate-only until those steps are done.
+
+## Correction round 2026-10-26 (message 2 of 4)
+Cowork reviewed the library and the live site (no change needed there), bound D1 and set
+`AI_INTAKE_ENABLED=false` / `AI_INTAKE_DAILY_CAP=20`, and created the Draft Jobber app "EYS Request
+Intake". The owner pastes the three secrets and types the admin key; Cowork reads the pages.
+Deploying after a variable change: this is a Direct Upload project with no "Retry deployment"
+(the ⋯ menu only offers "Delete deployment" — never use it). Use GitHub → `aimenAlt/eys` →
+Actions → "Deploy Cloudflare" → Run workflow → Branch `main`, Deploy target `production` (default is
+`preview`) → Run workflow, wait for green, check `/api/ai/health`; any push to `main` also deploys.
+
+## DONE 2026-10-26 0ad96df (push A: connect link, schema report, pre-flight, trimmed secrets)
+Run 40335591918 uploaded the Functions bundle. Connect POST now answers "Key accepted" with one
+"Continue to Jobber" link (no redirect; admin CSP `form-action 'self'` only); the Connected page
+shows the probe's schema report (or "Schema report failed (<class>)"); required Jobber inputs the
+code does not fill block the plan before any create; phone/email labels follow the schema's enums;
+secrets are trimmed. 73 functions tests. Live: health unchanged, connect 200 + CSP, POST 503 with
+no Location, probe/callback 503, `/mcp` initialize + tools/list unchanged, pages unchanged.
+
+## DONE 2026-10-26 push B (docs + privacy clause)
+`docs/ai-intake/README.md` and `STATUS.md` gain who-does-what, the GitHub deploy path and the new
+connect steps; `/privacy/` now says "deletes them after 30 days" (cleanup runs when a confirmed
+request arrives). Live check recorded in `docs/ai-intake/STATUS.md`.
