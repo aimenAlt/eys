@@ -681,6 +681,15 @@ html[data-theme] { scroll-padding-top: 64px; }
 .eys-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
 .eys-hero-photo { position: relative; margin-left: -24px; margin-right: -24px; }
 .eys-hero-photo img { display: block; width: 100%; height: auto; }
+/* Phone: the photo melts into the navy over its lowest strip (grass and the
+   wheels only — the van's lettering and badges stay untouched). */
+.eys-hero-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, var(--eys-ground) 0%, transparent 10%, transparent 80%, var(--eys-ground) 100%);
+}
 .eys-hero-slash { display: none; }
 .eys-hero-copy { padding-top: 24px; }
 .eys-hero-review {
@@ -710,6 +719,7 @@ html[data-theme] { scroll-padding-top: 64px; }
     --cut: 56px;
   }
   .eys-hero-photo { clip-path: polygon(calc(var(--cut) + 16px) 0, 100% 0, 100% 100%, 16px 100%); }
+  .eys-hero-photo::after { content: none; }
   .eys-hero-photo img { width: 100%; height: 100%; }
   .eys-hero-slash {
     display: block;
@@ -764,7 +774,16 @@ html[data-theme] { scroll-padding-top: 64px; }
 .eys-owner-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
 .eys-owner-figure { position: relative; }
 .eys-owner-photo { margin: 28px -24px 0; height: 460px; overflow: hidden; }
+.eys-owner-photo { position: relative; }
 .eys-owner-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 66%; }
+/* Phone: the full-bleed photo eases in and out of the navy band. */
+.eys-owner-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, var(--eys-ground) 0%, transparent 14%, transparent 84%, var(--eys-ground) 100%);
+}
 .eys-owner-name { font-size: 44px; line-height: 46px; }
 @media (min-width: 64rem) {
   .eys-owner-grid {
@@ -787,6 +806,7 @@ html[data-theme] { scroll-padding-top: 64px; }
     clip-path: polygon(150px 0, 100% 0, 100% 100%, 0 100%);
   }
   .eys-owner-photo { margin: 0; height: 100%; }
+  .eys-owner-photo::after { content: none; }
   .eys-owner-photo img { object-position: 50% 72%; }
   .eys-owner-figure figcaption {
     position: absolute;
