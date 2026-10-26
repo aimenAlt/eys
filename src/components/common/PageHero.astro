@@ -13,7 +13,7 @@ interface Props {
    */
   ctas?: { formLocation: string; callLocation: string };
   /** Optional photo: the hero becomes copy | framed photo, like ServiceHero. */
-  image?: { src: string; alt: string; width: number; height: number; position?: string; aspect?: 'square' | 'landscape'; zoom?: number };
+  image?: { src: string; alt: string; width: number; height: number; position?: string; aspect?: 'square' | 'landscape' | 'portrait'; zoom?: number };
 }
 
 const { eyebrow, title, description, ctas, image } = Astro.props;
@@ -58,8 +58,8 @@ const estimateUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
     </div>
     {
       image && (
-        <div class="eys-page-hero-media">
-          <div class:list={['eys-page-hero-frame', image.aspect === 'square' ? 'aspect-square' : 'aspect-[4/3]']} style={`--pos:${image.position ?? '50% 50%'};--zoom:${image.zoom ?? 1}`}>
+        <div class:list={['eys-page-hero-media', image.aspect === 'portrait' && 'w-full lg:mx-auto lg:max-w-[440px]']}>
+          <div class:list={['eys-page-hero-frame', image.aspect === 'square' ? 'aspect-square' : image.aspect === 'portrait' ? 'aspect-[4/5]' : 'aspect-[4/3]']} style={`--pos:${image.position ?? '50% 50%'};--zoom:${image.zoom ?? 1}`}>
             <SiteImage
               src={image.src}
               alt={image.alt}
