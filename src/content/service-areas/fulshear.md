@@ -3,7 +3,7 @@ title: "Fulshear, TX"
 slug: "fulshear"
 published: true
 seoTitle: "Handyman Services in Fulshear, TX | EYS"
-metaDescription: "Elevate Your Space Handyman helps Fulshear homeowners with move-in upgrades and nature-forward living — TV mounting, garage storage, custom carpentry in Cross Creek Ranch and Jordan Ranch."
+metaDescription: "Fulshear handyman for move-in upgrades in Cross Creek Ranch and Jordan Ranch: TV mounting, garage storage and custom carpentry."
 heroTitle: "Handyman Services in Fulshear, TX"
 summary: "Elevate Your Space Handyman helps Fulshear homeowners finish new builds and organize active outdoor lifestyles — from move-in packages in Jordan Ranch to trail-ready garage storage in Cross Creek Ranch."
 heroImage: "/images/heroes/fulshear.jpg"

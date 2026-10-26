@@ -3,7 +3,7 @@ title: "Kitchen Upgrades"
 slug: "kitchen-remodeling"
 published: true
 seoTitle: "Kitchen Upgrades, Cabinetry & Finish Work | EYS"
-metaDescription: "Plan cabinet, shelving, trim, paint, hardware and coordinated kitchen improvements in Katy and Fulshear. Regulated trade work requires appropriately qualified professionals where applicable."
+metaDescription: "Kitchen upgrades in Katy and Fulshear: cabinets, shelving, trim, paint and hardware. Regulated trade work requires qualified professionals."
 heroTitle: "Kitchen Upgrades and Finish Work"
 summary: "Cabinet hardware, finish carpentry, fixture coordination, and punch-list improvements — with clear scope limits and disclosure when regulated trade work is required."
 heroImage: "/images/services/kitchen-remodel.jpg"

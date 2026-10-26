@@ -3,7 +3,7 @@ title: "Cypress, TX"
 slug: "cypress"
 published: true
 seoTitle: "Handyman Services in Cypress, TX | EYS"
-metaDescription: "Elevate Your Space Handyman serves Cypress homeowners in Bridgeland, Towne Lake, and established neighborhoods — custom carpentry, outdoor living upgrades, TV mounting, and punch-list work."
+metaDescription: "Cypress handyman for Bridgeland, Towne Lake and established neighborhoods: custom carpentry, outdoor living upgrades, TV mounting and punch-list work."
 heroTitle: "Handyman Services in Cypress, TX"
 summary: "Elevate Your Space Handyman serves Cypress homeowners across Howard Hughes master-planned communities and established Cy-Fair neighborhoods — with premium carpentry, lakeside patio work, and detail finishing matched to your home."
 heroImage: "/images/heroes/cypress.jpg"

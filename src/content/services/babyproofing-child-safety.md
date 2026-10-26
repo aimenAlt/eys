@@ -3,7 +3,7 @@ title: "Babyproofing & Child Safety"
 slug: "babyproofing-child-safety"
 published: true
 seoTitle: "Babyproofing & Child Safety Installation | Katy & Fulshear | EYS"
-metaDescription: "Furniture anti-tip anchoring, cabinet locks, outlet covers, and stair gate installation in Katy and Fulshear. Safety upgrades, not medical claims — free consultation."
+metaDescription: "Furniture anti-tip anchoring, cabinet locks, outlet covers and stair gates in Katy and Fulshear. Safety upgrades, not medical claims. Free consultation."
 heroTitle: "Babyproofing & Child Safety — A Layer of Protection, Done Right"
 summary: "Furniture and TV anti-tip anchoring, cabinet and drawer locks, outlet covers, and stair or doorway gate installation — mounted securely, not just stuck on with adhesive."
 heroImage: "/images/services/babyproofing-child-safety.jpg"

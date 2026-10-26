@@ -3,7 +3,7 @@ title: "Bathroom Upgrades"
 slug: "bathroom-remodeling"
 published: true
 seoTitle: "Bathroom Upgrades & Finish Improvements | Katy & Fulshear | EYS"
-metaDescription: "Discuss vanities, trim, storage, hardware, wall finishes and coordinated bathroom improvements in Katy and Fulshear. Regulated trade work requires appropriately qualified professionals where applicable."
+metaDescription: "Bathroom upgrades in Katy and Fulshear: vanities, trim, storage, hardware and wall finishes. Regulated trade work requires qualified professionals."
 heroTitle: "Bathroom Upgrades and Finish Improvements"
 summary: "Vanity installs, fixture swaps, hardware updates, and finish improvements — with clear scope limits and disclosure when regulated trade work is required."
 heroImage: "/images/services/bathroom-remodel.jpg"

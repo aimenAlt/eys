@@ -3,7 +3,7 @@ title: "West Houston, TX"
 slug: "west-houston"
 published: true
 seoTitle: "Handyman Services in West Houston, TX | EYS"
-metaDescription: "Elevate Your Space Handyman serves West Houston and Energy Corridor homeowners — punch-list visits, TV mounting, drywall repair, custom carpentry, and finish work with clear estimates."
+metaDescription: "West Houston and Energy Corridor handyman: punch-list visits, TV mounting, drywall repair, custom carpentry and finish work, with clear estimates."
 heroTitle: "Handyman Services in West Houston"
 summary: "Elevate Your Space Handyman serves West Houston and Energy Corridor professionals with efficient punch-list visits, installations, and finish work — scoped clearly and completed cleanly."
 heroImage: "/images/heroes/west-houston.jpg"

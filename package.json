@@ -9,6 +9,7 @@
     "dev": "astro dev",
     "prebuild": "node scripts/gen-image-derivatives.mjs",
     "build": "astro build",
+    "postbuild": "node scripts/check-seo.mjs",
     "images": "node scripts/gen-image-derivatives.mjs",
     "build:pages": "GITHUB_PAGES=true sh -c 'astro build && node scripts/prefix-pages-base.mjs'",
     "preview": "astro preview",

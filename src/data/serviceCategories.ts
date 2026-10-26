@@ -139,7 +139,7 @@ export const serviceCategories: ServiceCategory[] = [
       'Blue kitchen island and window-seat cabinetry remodel with open living space beyond',
     seoTitle: `Home Upgrades & Custom Projects | ${localityShort('&')} | EYS`,
     metaDescription:
-      `Bathroom upgrades, kitchen upgrades, tile installation, whole-project remodeling, custom carpentry, outdoor carpentry, and wallpaper installation in ${localityShort('and')}.`,
+      `Bathroom and kitchen upgrades, tile, whole-project remodeling, custom and outdoor carpentry, and wallpaper installation in ${localityShort('and')}.`,
     ctaLabel: 'View Upgrade Services',
     items: [
       {

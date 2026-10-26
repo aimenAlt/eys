@@ -3,7 +3,7 @@ title: "Brookshire, TX"
 slug: "brookshire"
 published: true
 seoTitle: "Handyman Services in Brookshire, TX | EYS"
-metaDescription: "Elevate Your Space Handyman serves Brookshire homeowners along I-10 west of Katy — TV mounting, repairs, carpentry, curtains and move-in punch lists in Willow Creek Farms and across 77423."
+metaDescription: "Brookshire handyman along I-10 west of Katy: TV mounting, repairs, carpentry, curtains and move-in punch lists in Willow Creek Farms and across 77423."
 heroTitle: "Handyman Services in Brookshire, TX"
 summary: "Elevate Your Space Handyman serves Brookshire homeowners seven miles west of Katy — from move-in punch lists in newer 77423 neighborhoods to repairs and carpentry in established homes along the I-10 corridor."
 heroImage: "/images/heroes/brookshire-tx.jpg"

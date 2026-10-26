@@ -3,7 +3,7 @@ title: "Richmond, TX"
 slug: "richmond"
 published: true
 seoTitle: "Handyman Services in Richmond, TX | EYS"
-metaDescription: "Elevate Your Space Handyman serves Richmond and Fort Bend County — resort-style upgrades in Aliana, agri-hood carpentry in Harvest Green, and porch living in Veranda."
+metaDescription: "Richmond and Fort Bend County handyman: resort-style upgrades in Aliana, agri-hood carpentry in Harvest Green and porch living in Veranda."
 heroTitle: "Handyman Services in Richmond, TX"
 summary: "Elevate Your Space Handyman serves Richmond's master-planned communities and established Fort Bend neighborhoods — from garage organization in Aliana to farmhouse trim in Harvest Green and porch upgrades in Veranda."
 heroImage: "/images/heroes/richmond.jpg"

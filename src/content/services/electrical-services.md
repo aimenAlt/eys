@@ -3,7 +3,7 @@ title: "Electrical Services"
 slug: "electrical-services"
 published: true
 seoTitle: "Electrical Services in Katy, TX | EYS Handyman"
-metaDescription: "Electrical work in Katy, Fulshear, Cypress and Richmond — fixtures, fans, outlets, switches, new circuits, and panel work. Licensed electricians perform the electrical work."
+metaDescription: "Electrical work in Katy & Fulshear: fixtures, fans, outlets, switches, new circuits and panel work. Licensed electricians perform the electrical work."
 heroTitle: "Electrical Services in Katy & Fulshear"
 summary: "EYS takes on electrical jobs of every size — fixtures and fans, outlets and switches, new circuits and panel work. Licensed electricians perform the electrical work; we scope it, quote it, and manage the schedule."
 heroImage: "/images/services/electrical.jpg"

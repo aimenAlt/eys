@@ -3,7 +3,7 @@ title: "Outdoor Carpentry"
 slug: "outdoor-carpentry"
 published: true
 seoTitle: "Fence Repair, Deck Repair & Pergolas | Katy & Fulshear"
-metaDescription: "Fence and gate repair, deck repair, pergolas, patio covers and privacy screens in Katy, Fulshear, Cypress and Richmond. We repair sections — you don't have to replace the whole fence."
+metaDescription: "Fence, gate and deck repair, pergolas, patio covers and privacy screens in Katy, Fulshear, Cypress & Richmond. Repair a section, not the whole fence."
 heroTitle: "Fence Repair, Deck Repair, Pergolas and Patio Covers"
 summary: "Exterior woodwork for West Houston backyards — fence and gate repair, deck board and railing work, pergolas, patio covers, and privacy screens. We fix sections instead of selling you a tear-out."
 heroImage: "/images/services/outdoor-carpentry.jpg"

@@ -3,7 +3,7 @@ title: "Custom Carpentry"
 slug: "custom-carpentry"
 published: true
 seoTitle: "Carpenter in Katy, TX | Built-Ins, Trim & Finish Carpentry"
-metaDescription: "Finish carpenter serving Katy, Fulshear, Cypress and Richmond. Built-ins, floating shelves, paneling and trim — including the one-wall jobs a cabinet shop will not take on."
+metaDescription: "Finish carpenter for Katy, Fulshear, Cypress & Richmond: built-ins, floating shelves, paneling and trim, including one-wall jobs cabinet shops won't take."
 heroTitle: "Carpenter in Katy & Fulshear"
 summary: "Built-ins, floating shelves, wall paneling, trim and site-built woodwork — including the single-room jobs cabinet shops turn down."
 heroImage: "/images/services/custom-carpentry.jpg"
