@@ -45,7 +45,7 @@ The approved redesign system is the source of truth: `docs/03-design-system.md`.
 - Dark grounds only on header, hero, the owner band and footer; everything else white or warm.
 - Real project photos through SiteImage only. No cartoon icons, busy backgrounds, gradients or gimmicky animation.
 - New CSS goes on new classes or under `html[data-theme]` only; never edit the legacy rules.
-- Migration: pages that render through `BaseLayout theme=…` use the new system. Legacy templates keep the old black/red look (`brand-*` tokens, Inter only) until they are migrated one by one.
+- Migration: the homepage is fully on the new system (blue). Every other standard page (ContentLayout) has the new header, footer and bottom bar on the black theme, but its body keeps the old black/red look (`brand-*` tokens, Inter only) until each template is migrated and switched to `siteTheme`. Own-chrome landing pages (/start/, /van/, /curtain-installation/, /services/media-walls/, /lp/, /go/, /essa/) are untouched.
 
 ## SEO doctrine
 A daily automated task requests Google indexing for unindexed pages — see
@@ -66,7 +66,7 @@ Every service/location/project page must have:
 - local/service relevance
 
 ## Core components
-Header, Footer, SiteHeader, SiteFooter, SiteBottomBar, Button (redesign `src/components/site/`), VanBand, Section, Hero, TrustBar, ServiceCard, ServiceGrid, ReviewCard, ProjectCard, ProjectGallery, BeforeAfter, AreaGrid, FAQAccordion, ProcessSteps, CTASection, BookingPathSelector, JobberEmbedWrapper, MobileStickyCTA, SEOHead, SchemaJsonLd.
+SiteHeader, SiteFooter, SiteBottomBar, Button (site chrome, `src/components/site/`; sitewide since backlog 015), VanBand, Section, Hero, TrustBar, ServiceCard, ServiceGrid, ReviewCard, ProjectCard, ProjectGallery, BeforeAfter, AreaGrid, FAQAccordion, ProcessSteps, CTASection, BookingPathSelector, JobberEmbedWrapper, SEOHead, SchemaJsonLd.
 
 ## CMS model
 Content lives in GitHub as Markdown/MDX/YAML/JSON through Pages CMS.

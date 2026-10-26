@@ -1,9 +1,9 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import type { SeoProps } from '../components/seo/SEOHead.astro';
-import Header from '../components/layout/Header.astro';
-import Footer from '../components/layout/Footer.astro';
-import MobileStickyCTA from '../components/layout/MobileStickyCTA.astro';
+import SiteHeader from '../components/site/SiteHeader.astro';
+import SiteFooter from '../components/site/SiteFooter.astro';
+import SiteBottomBar from '../components/site/SiteBottomBar.astro';
 import VanBand from '../components/common/VanBand.astro';
 import { isAdsLandingPage } from '../data/adsLandingPages';
 import { getCollection } from 'astro:content';
@@ -12,7 +12,7 @@ import { buildNavMenus } from '../data/navMenus';
 interface Props {
   seo: SeoProps;
   schemaGraph?: unknown[];
-  /** Hide the mobile sticky Call/Book bar (e.g. post-Jobber confirmation pages). */
+  /** Hide the phone bottom bar (e.g. post-Jobber confirmation pages). */
   hideMobileStickyCta?: boolean;
 }
 
@@ -30,12 +30,18 @@ const navMenus = buildNavMenus(services, serviceAreas, communities);
 const showVanBand = isAdsLandingPage(Astro.url.pathname);
 ---
 
-<BaseLayout seo={seo} schemaGraph={schemaGraph}>
-  <Header navMenus={navMenus} />
+<!--
+  New site chrome (backlog 015) on the "black" theme: these page bodies still
+  carry the legacy black heroes and #b00000 red buttons, so the chrome matches
+  them (black grounds, #B00000 red, same gold). Each template switches to
+  `siteTheme` when its body is redesigned.
+-->
+<BaseLayout seo={seo} schemaGraph={schemaGraph} theme="black">
+  <SiteHeader navMenus={navMenus} />
   <main id="main-content">
     {showVanBand && <VanBand />}
     <slot />
   </main>
-  <Footer />
-  {!hideMobileStickyCta && <MobileStickyCTA />}
+  <SiteFooter />
+  {!hideMobileStickyCta && <SiteBottomBar />}
 </BaseLayout>

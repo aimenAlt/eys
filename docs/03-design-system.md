@@ -123,7 +123,8 @@ Eyad-and-van photo.
 ## Migration status
 - **System:** tokens, themes, fonts, type and buttons shipped (backlog 012).
 - **Homepage:** live at "/" on the new system (blue theme, new chrome) since backlog 014, 26 Oct 2026. /home2/ previews the previous homepage.
-- **Legacy templates** (everything today) keep the old black/red look: `brand-*` tokens (`#b00000`,
+- **Site chrome:** live sitewide since backlog 015 (26 Oct 2026). ContentLayout renders SiteHeader, SiteFooter and SiteBottomBar with `theme="black"` so the chrome matches the legacy bodies (black grounds, #B00000 red, same gold); the legacy Header, Footer, MobileStickyCTA and Nav* components are deleted. Own-chrome landing pages keep their own headers.
+- **Legacy page bodies** (every ContentLayout template) keep the old black/red look: `brand-*` tokens (`#b00000`,
   `#0a0a0a`), Inter only, `.gradient-btn`. They are migrated one template at a time and switch to
   `siteTheme` when they are.
 

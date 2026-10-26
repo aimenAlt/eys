@@ -207,6 +207,21 @@ page.
   legacy chrome), noindex. No event or parameter was renamed: these are new
 `cta_location` values and section ids on the existing events.
 
+**Since backlog 015 (26 Oct 2026) the header, footer and bottom bar are sitewide**
+on every ContentLayout page (own-chrome landing pages keep their own):
+- `header_call` (phone/tablet gold Call) and `header_quote` (desktop gold
+  "Get a Free Quote") are new sitewide placements; `header` is now only the
+  desktop phone number.
+- The desktop header no longer has Home, Book or Contact links. Book and
+  Contact stay in the mobile menu (`header_mobile`) and the footer (`footer`),
+  so `nav_book` / `nav_contact` `internal_cta_click`s now come only from those
+  two placements.
+- The bottom bar (`sticky_mobile`) lost its "Open until 11:30 PM · 7 days"
+  caption; its second button is now "Free Quote" (still the project-estimate
+  form, `booking_type: project_estimate`), and its Call is gold.
+- The footer gained the email link and Book; the Google rating link has no
+  explicit `cta_location`, so it resolves to `footer` as before.
+
 New `cta_location` values (`phone_click` for `tel:`, `jobber_booking_click` for Jobber links):
 
 | `cta_location` | Element | Action |
