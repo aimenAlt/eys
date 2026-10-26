@@ -1,0 +1,107 @@
+---
+/**
+ * 3. START WITH ONE VISIT (warm). Three booking cards: phone stacks them,
+ * desktop uses three equal-height columns with the buttons pinned to the
+ * bottom. Prices come only from src/data/pricing/ and offers.ts.
+ */
+import SiteImage from '../../ui/SiteImage.astro';
+import Button from '../../site/Button.astro';
+import { jobberHandymanToDoListFormUrl, jobberOnlineBookingUrl, jobberProjectEstimateFormUrl } from '../../../data/business';
+import { formatUsd, smallRepairPricing } from '../../../data/pricing/todoList';
+import { activeOffers, offers } from '../../../data/offers';
+import { curtainOfferPrice, highCeilingJobberUrl } from '../../../data/curtainLanding';
+import { homeRedesignImages } from '../../../data/homeRedesign';
+import { projectImageInfo } from './projectImage';
+import { withBase } from '../../../utils/paths';
+
+const todoUrl = jobberHandymanToDoListFormUrl() ?? withBase('/book/');
+const tvUrl = jobberOnlineBookingUrl() ?? withBase('/book/');
+const curtainsUrl = highCeilingJobberUrl() ?? withBase('/curtain-installation/');
+const quoteUrl = jobberProjectEstimateFormUrl() ?? withBase('/contact/');
+
+const { todoVisit, tvCard, curtainsCard } = homeRedesignImages;
+const tvInfo = await projectImageInfo(tvCard.projectSlug, tvCard.src);
+const curtainsInfo = await projectImageInfo(curtainsCard.projectSlug, curtainsCard.src);
+
+// Curtains: the same prices the curtain page shows, through the same helper.
+const rod = curtainOfferPrice('rod');
+const track = curtainOfferPrice('track');
+const curtainOffer = offers.highCeilingCurtains;
+const offerActive = activeOffers().includes(curtainOffer);
+const offerRow = curtainOffer.rows[0];
+const offerAmount = formatUsd(offerRow.was - offerRow.now);
+const [y, m, d] = curtainOffer.endDate.split('-').map(Number);
+const offerEnd = new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('en-US', {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+
+const card = 'flex flex-col overflow-hidden rounded-[6px] border border-eys-rule bg-eys-white';
+const frame = 'h-[200px] overflow-hidden lg:h-[240px]';
+const img = 'block h-full w-full object-cover';
+const body = 'flex flex-1 flex-col px-5 pb-6 pt-5 lg:px-7 lg:pb-7 lg:pt-6';
+const cardSizes = '(min-width: 1024px) 440px, 100vw';
+---
+
+<section class="eys-section bg-eys-warm text-eys-ink" data-analytics-section="start_visit">
+  <div class="eys-container">
+    <div class="lg:flex lg:items-end lg:justify-between lg:gap-6">
+      <h2 class="eys-h2">Start with one visit</h2>
+      <p class="mt-2 text-sm leading-5 text-eys-ink-2 lg:mt-0 lg:text-[15px] lg:leading-[22px]">Three ways to book your first visit online.</p>
+    </div>
+
+    <div class="mt-6 grid grid-cols-1 gap-5 lg:mt-8 lg:grid-cols-3 lg:gap-6">
+      <article class={card}>
+        <div class={frame}>
+          <SiteImage src={todoVisit.src} alt={todoVisit.alt} width={todoVisit.width} height={todoVisit.height} sizes={cardSizes} class={`${img} object-[50%_40%]`} />
+        </div>
+        <div class={body}>
+          <h3 class="eys-h3">Handyman <span class="whitespace-nowrap">To-Do</span> List Visit</h3>
+          <div class="mt-3 flex items-baseline gap-2">
+            <span class="eys-figure">{formatUsd(smallRepairPricing.oneHour)}</span>
+            <span class="whitespace-nowrap text-base font-bold leading-6">1-hour visit</span>
+          </div>
+          <div class="mt-0.5 text-sm leading-5 text-eys-ink-2">
+            <span class="whitespace-nowrap">2-hour visit</span> {formatUsd(smallRepairPricing.twoHours)} · <span class="whitespace-nowrap">3-hour visit</span> {formatUsd(smallRepairPricing.threeHours)}
+          </div>
+          <p class="mb-0 mt-3 text-base leading-6 lg:mb-6">Bring your list. One visit.</p>
+          <Button href={todoUrl} variant="navy" class="mt-5 flex w-full lg:mt-auto" data-booking-type="handyman_to_do_list" data-cta-location="home_card_todo">Book a Visit</Button>
+        </div>
+      </article>
+
+      <article class={card}>
+        <div class={frame}>
+          <SiteImage src={tvCard.src} alt={tvInfo.alt} width={tvCard.width} height={tvCard.height} sizes={cardSizes} class={`${img} object-[50%_56%]`} />
+        </div>
+        <div class={body}>
+          <h3 class="eys-h3">TV Mounting</h3>
+          <div class="mt-3 flex h-9 items-center text-sm font-bold leading-5 text-eys-ink-2 lg:h-[58px]">Online booking · pick your time</div>
+          <p class="mb-0 mt-3 text-base leading-6 [text-wrap:pretty] lg:mb-6">Secure mounting on drywall, stone or tile, with <span class="whitespace-nowrap">wire-concealment</span> options.</p>
+          <Button href={tvUrl} variant="navy" class="mt-5 flex w-full lg:mt-auto" data-booking-type="tv_mounting" data-cta-location="home_card_tv">Book TV Mounting</Button>
+        </div>
+      </article>
+
+      <article class={card}>
+        <div class={frame}>
+          <SiteImage src={curtainsCard.src} alt={curtainsInfo.alt} width={curtainsCard.width} height={curtainsCard.height} sizes={cardSizes} class={img} />
+        </div>
+        <div class={body}>
+          <h3 class="eys-h3">High-Ceiling Curtains</h3>
+          <div class="mt-3 flex items-baseline gap-2">
+            <span class="eys-figure whitespace-nowrap">From {rod.nowFormatted}</span>
+            <span class="whitespace-nowrap text-sm leading-5 text-eys-ink-2">rods{rod.wasFormatted && <> · <s class="text-eys-ink-3">{rod.wasFormatted}</s></>}</span>
+          </div>
+          <div class="mt-0.5 text-sm leading-5 text-eys-ink-2">Tracks from {track.nowFormatted}{track.wasFormatted && <> · <s class="text-eys-ink-3">{track.wasFormatted}</s></>}</div>
+          {offerActive && <p class="mb-0 mt-3 text-base font-bold leading-6 text-eys-accent-ink lg:mb-6">{offerAmount} off through {offerEnd}.</p>}
+          <Button href={curtainsUrl} variant="navy" class="mt-5 flex w-full lg:mt-auto" data-booking-type="high_ceiling_curtain" data-service-type="high_ceiling_curtain" data-cta-location="home_card_curtains">See Times &amp; Book</Button>
+        </div>
+      </article>
+    </div>
+
+    <p class="mt-6 text-sm leading-5 text-eys-ink-2 [text-wrap:pretty] lg:text-[15px] lg:leading-[22px]">
+      Bigger project? <a href={quoteUrl} data-booking-type="project_estimate" data-cta-location="home_cards_project" class="eys-text-link font-bold text-eys-ink underline underline-offset-[3px]">Send photos</a> and we'll return an itemized estimate.
+    </p>
+  </div>
+</section>

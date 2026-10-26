@@ -2,7 +2,11 @@
  * Site presentation switches — flip deliberately in code review, not via env vars.
  * Preview route `/home2/` always shows the alternate (non-live) homepage variant.
  */
-export type HomepageVariant = 'current' | 'small-repair';
+/**
+ * 'redesign' = the approved Claude Design homepage (backlog 013), rendered with
+ * the new site chrome. /home2/ previews it until backlog 014 flips `/` to it.
+ */
+export type HomepageVariant = 'current' | 'small-repair' | 'redesign';
 
 /** Which homepage renders at `/`. Change only this value to switch. */
 export const homepageVariant: HomepageVariant = 'small-repair';

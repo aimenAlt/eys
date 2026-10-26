@@ -1,0 +1,39 @@
+---
+/**
+ * Redesigned homepage body (backlog 013, approved Claude Design Round 3.3).
+ * Sections in order; the page's chrome (SiteHeader, SiteFooter, SiteBottomBar)
+ * is rendered by the page file. Static content: src/data/homeRedesign.ts.
+ */
+import RedesignHero from './RedesignHero.astro';
+import RedesignTrustStrip from './RedesignTrustStrip.astro';
+import RedesignStartVisit from './RedesignStartVisit.astro';
+import RedesignOurWork from './RedesignOurWork.astro';
+import RedesignReviews from './RedesignReviews.astro';
+import RedesignOwner from './RedesignOwner.astro';
+import RedesignServices from './RedesignServices.astro';
+import RedesignAbout from './RedesignAbout.astro';
+import RedesignFaq from './RedesignFaq.astro';
+import RedesignHowItWorks from './RedesignHowItWorks.astro';
+import RedesignServiceAreas from './RedesignServiceAreas.astro';
+import RedesignClosingCta from './RedesignClosingCta.astro';
+
+interface Props {
+  cityLinks: { title: string; slug: string }[];
+  communityLinks: { title: string; citySlug: string; slug: string }[];
+}
+
+const { cityLinks, communityLinks } = Astro.props;
+---
+
+<RedesignHero />
+<RedesignTrustStrip />
+<RedesignStartVisit />
+<RedesignOurWork />
+<RedesignReviews />
+<RedesignOwner />
+<RedesignServices />
+<RedesignAbout />
+<RedesignFaq />
+<RedesignHowItWorks />
+<RedesignServiceAreas cityLinks={cityLinks} communityLinks={communityLinks} />
+<RedesignClosingCta />

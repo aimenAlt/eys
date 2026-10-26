@@ -1,0 +1,99 @@
+---
+/**
+ * Redesign phone bottom bar (board 2d; below 1024px only).
+ *
+ * Gold "Call" + red "Free Quote", equal widths, 56px plus the safe area.
+ * Progressive enhancement, same IntersectionObserver + `astro:page-load`
+ * approach as the legacy MobileStickyCTA:
+ * - shows once `[data-sticky-hero-cta]` is above the viewport (pages without
+ *   that hook fall back to 600px of scroll), hides while `[data-site-footer]`
+ *   is in view;
+ * - while it shows, the header's gold Call hides (`data-bar-active`, tabindex
+ *   -1, aria-hidden) so exactly one gold Call is on screen at any moment;
+ * - the hidden bar is not focusable; with no JS there is no bar and the header
+ *   Call always shows.
+ * Its space is reserved by the footer's bottom padding below 1024px — never by
+ * toggling body padding (that flips the footer observer and oscillates).
+ */
+import { jobberProjectEstimateFormUrl, site } from '../../data/business';
+import { withBase } from '../../utils/paths';
+import Button from './Button.astro';
+
+const quoteUrl = jobberProjectEstimateFormUrl() ?? withBase('/contact/');
+---
+
+<div class="eys-bottom-bar eys-on-dark" role="region" aria-label="Quick actions" data-mobile-sticky data-state="off" hidden>
+  <Button href={`tel:${site.phoneTel}`} variant="gold" phoneIcon data-cta-location="sticky_mobile">Call</Button>
+  <Button href={quoteUrl} variant="red" data-booking-type="project_estimate" data-cta-location="sticky_mobile">Free Quote</Button>
+</div>
+
+<script>
+  const FALLBACK_REVEAL_PX = 600;
+  const DESKTOP = window.matchMedia('(min-width: 1024px)');
+
+  function initBottomBar() {
+    const bar = document.querySelector<HTMLElement>('.eys-bottom-bar[data-mobile-sticky]');
+    if (!bar || bar.dataset.bound) return;
+    bar.dataset.bound = '1';
+    const headerCall = document.querySelector<HTMLElement>('[data-header-call]');
+    const heroCta = document.querySelector<HTMLElement>('[data-sticky-hero-cta]');
+    const footer = document.querySelector<HTMLElement>('[data-site-footer]');
+    const barLinks = [...bar.querySelectorAll<HTMLElement>('a')];
+
+    let heroPassed = false;
+    let footerVisible = false;
+
+    const sync = () => {
+      const show = heroPassed && !footerVisible && !DESKTOP.matches;
+      bar.hidden = !show;
+      bar.dataset.state = show ? 'on' : 'off';
+      bar.setAttribute('aria-hidden', show ? 'false' : 'true');
+      barLinks.forEach((a) => (show ? a.removeAttribute('tabindex') : a.setAttribute('tabindex', '-1')));
+      if (headerCall) {
+        headerCall.toggleAttribute('data-bar-active', show);
+        if (show) {
+          headerCall.setAttribute('tabindex', '-1');
+          headerCall.setAttribute('aria-hidden', 'true');
+        } else {
+          headerCall.removeAttribute('tabindex');
+          headerCall.removeAttribute('aria-hidden');
+        }
+      }
+    };
+
+    if (heroCta) {
+      new IntersectionObserver(
+        ([entry]) => {
+          heroPassed = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+          sync();
+        },
+        { threshold: 0 },
+      ).observe(heroCta);
+    } else {
+      const onScroll = () => {
+        const passed = window.scrollY > FALLBACK_REVEAL_PX;
+        if (passed === heroPassed) return;
+        heroPassed = passed;
+        sync();
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+
+    if (footer) {
+      new IntersectionObserver(
+        ([entry]) => {
+          footerVisible = entry.isIntersecting;
+          sync();
+        },
+        { threshold: 0 },
+      ).observe(footer);
+    }
+
+    DESKTOP.addEventListener('change', sync);
+    sync();
+  }
+
+  initBottomBar();
+  document.addEventListener('astro:page-load', initBottomBar);
+</script>

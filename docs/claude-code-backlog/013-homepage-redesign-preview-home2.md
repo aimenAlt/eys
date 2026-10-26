@@ -375,3 +375,22 @@ As described above.
 - It is not in sitemap-0.xml.
 - One phone render and one desktop render with Playwright, clicking nothing. **Never click a `tel:` or Jobber link on the live site: they fire Google Ads conversions.**
 - "/" is still the old homepage.
+
+## Build notes (Claude Code, 26 Oct 2026)
+Decisions the item left open:
+- **Structure.** Chrome in `src/components/site/` (SiteHeader, SiteFooter, SiteBottomBar, Button, PhoneIcon); page in `src/components/home/redesign/` (one component per section, `HomeRedesignPage` composes them); static content in `src/data/homeRedesign.ts`; social glyphs moved to `src/data/socialIcons.ts` (the legacy Footer keeps its inline copy until 015 removes it).
+- **CSS layering.** The redesign classes (012's type/button classes and 013's layout classes) live in `@layer components`, so Tailwind utilities on the same element still win (e.g. `hidden lg:inline-flex` on a Button). The focus-ring rules stay unlayered on purpose: the legacy unlayered `a:focus-visible` red ring would otherwise beat them. Preflight's `img { max-width: 100% }` needed `max-width: none` on the owner-band photo.
+- **One element per action.** Pairs that swap at 1024px use `.eys-cta-pair` with `data-cta-role="form|call"`: CSS sets red/outline and the order per breakpoint, so no button is duplicated.
+- **Header wordmark** shows from 1344px, not 1280: measured, it needs ~1332px with the nav, phone and gold button, so at 1280 it overflowed by ~52px even with tightened gaps. Below 1440 the header pads 32px; at 1440 it pads 56px as on 2b.
+- **Owner-band photo framing** reuses 2b's hero numbers (left −2.8%, width 138.9%, bottom −245/680 of the frame width) through container units, so the same framing holds at 1024, 1280 and 1440.
+- **About copy** is verbatim, but the live homepage loses the spaces around the "whole-project remodeling" link and after the two bold lead-ins (Astro collapses the line breaks: "See howwhole-project remodelingworks"). The redesign renders the intended spaces.
+- **Services**: on phone each card's service list collapses under a "N services" toggle (`.mobile-collapse`, hidden from 768px where the list is always open). **About**: paragraph 1 shows, the rest sits under "Read more" (`.seo-collapse` with a new `eys-seo-collapse` modifier for the ink colour).
+- **Trust strip** is a `<section>` (data-analytics-section `trust_bar`); one DOM, re-ordered with `lg:order-*` for the one-line desktop version.
+- **Hero LCP** uses the 768w WebP at most: the derivative script never makes a file at or above the original width, and the van photo is 1200px wide. Not changed (shared tooling).
+- **Rating.** Every rating reads `googleReviews.rating` (5.0) and every count `googleReviewCountDisplay()` (160+); `business.ts` untouched.
+- `/our-work/`: the only other HTML change is its gallery script's hash, because that bundle inlines `imageDerivatives.json`, which now lists the four new photos. Behaviour unchanged.
+
+Verification (local production build, Playwright, clicking no CTA):
+- No-change proof: every page except /home2/ and /our-work/ (bundle hash above) has identical HTML to the 012 build once the inlined `<style>` is removed; full-page screenshots of "/" and /services/tv-mounting/ at 390 and 1440 are byte-identical PNGs.
+- /home2/ and /home2/?theme=black at 390×844, 768×1024, 1024×768, 1180×800, 1280×800, 1440×900: no horizontal scroll; no wrapped button label, nav item or phone number (text-node line count); exactly one H1; hero photo 3:2 (±1px), never cover, nothing over it, fully visible, flush under the header below 1024 and the LCP element; at 390×844 the H1 and "Send Photos for a Free Estimate" are fully visible; exactly one visible gold element at the top, mid-page (bottom bar Call, header Call hidden) and at the footer (header Call back), one on desktop and no bar; every tel: is tel:3468201629; no 718 number; all 11 Jobber links hosted, no target, right request id per booking type, every CTA has a cta_location; no "HOA", no "licensed" outside "licensed electricians"; WebP from srcsets; no 4xx; no console errors; black theme changes the grounds (rgb(10,10,10)) and keeps gold identical. Mobile menu opens and closes on a link tap.
+- Boards: rendered 2a, 2b and 2d from the bundle (support.js) and compared side by side with full-page captures; layout, type, spacing, colours and copy match apart from the listed deviations.

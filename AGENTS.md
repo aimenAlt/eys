@@ -66,7 +66,7 @@ Every service/location/project page must have:
 - local/service relevance
 
 ## Core components
-Header, Footer, VanBand, Button, Section, Hero, TrustBar, ServiceCard, ServiceGrid, ReviewCard, ProjectCard, ProjectGallery, BeforeAfter, AreaGrid, FAQAccordion, ProcessSteps, CTASection, BookingPathSelector, JobberEmbedWrapper, MobileStickyCTA, SEOHead, SchemaJsonLd.
+Header, Footer, SiteHeader, SiteFooter, SiteBottomBar, Button (redesign `src/components/site/`), VanBand, Section, Hero, TrustBar, ServiceCard, ServiceGrid, ReviewCard, ProjectCard, ProjectGallery, BeforeAfter, AreaGrid, FAQAccordion, ProcessSteps, CTASection, BookingPathSelector, JobberEmbedWrapper, MobileStickyCTA, SEOHead, SchemaJsonLd.
 
 ## CMS model
 Content lives in GitHub as Markdown/MDX/YAML/JSON through Pages CMS.

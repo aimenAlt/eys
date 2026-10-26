@@ -1,20 +1,25 @@
 ---
 /**
- * Preview route for the previous homepage variant (HomeCurrentPage).
- * Open at /home2/ — noindex; canonical points to `/`.
+ * /home2/ — internal preview of the redesigned homepage (backlog 013) with the
+ * new site chrome. noindex, canonical "/", excluded from the sitemap.
+ * Backlog 014 flips "/" to this variant and turns /home2/ back into the
+ * preview of the non-live (old) homepage.
+ *
+ * `?theme=black` previews the black theme: a tiny inline script sets
+ * data-theme before first paint.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/layout/Header.astro';
-import Footer from '../components/layout/Footer.astro';
-import MobileStickyCTA from '../components/layout/MobileStickyCTA.astro';
-import HomeCurrentPage from '../components/home/HomeCurrentPage.astro';
+import SiteHeader from '../components/site/SiteHeader.astro';
+import SiteFooter from '../components/site/SiteFooter.astro';
+import SiteBottomBar from '../components/site/SiteBottomBar.astro';
+import HomeRedesignPage from '../components/home/redesign/HomeRedesignPage.astro';
 import { getCollection } from 'astro:content';
 import { absoluteUrl } from '../data/business';
 import { homePageSchema, homeFaqs } from '../data/schema';
 import { buildNavMenus } from '../data/navMenus';
+import { siteTheme } from '../data/sitePresentation';
 
-const [publishedReviews, allServices, serviceAreas, communities] = await Promise.all([
-  getCollection('reviews', ({ data }) => data.published === true),
+const [allServices, serviceAreas, communities] = await Promise.all([
   getCollection('services'),
   getCollection('serviceAreas', ({ data }) => data.published === true),
   getCollection('communities', ({ data }) => data.published === true),
@@ -30,9 +35,8 @@ const communityLinks = communities.map((c) => ({
 }));
 
 const seo = {
-  title: 'Classic Homepage Preview | Elevate Your Space',
-  description:
-    'Internal preview of the classic homepage layout. The live site homepage is at the root URL.',
+  title: 'Homepage Redesign Preview | Elevate Your Space',
+  description: 'Internal preview of the redesigned homepage. The live homepage is at the root URL.',
   canonical: absoluteUrl('/'),
   noindex: true,
 };
@@ -40,16 +44,14 @@ const seo = {
 const schemaGraph = homePageSchema(homeFaqs);
 ---
 
-<BaseLayout seo={seo} schemaGraph={schemaGraph}>
-  <Header navMenus={navMenus} />
+<BaseLayout seo={seo} schemaGraph={schemaGraph} theme={siteTheme}>
+  <script is:inline slot="early-scripts">
+    if (new URLSearchParams(location.search).get('theme') === 'black') document.documentElement.dataset.theme = 'black';
+  </script>
+  <SiteHeader navMenus={navMenus} />
   <main id="main-content">
-    <HomeCurrentPage
-      projectCount={communities.length}
-      publishedReviews={publishedReviews}
-      cityLinks={cityLinks}
-      communityLinks={communityLinks}
-    />
+    <HomeRedesignPage cityLinks={cityLinks} communityLinks={communityLinks} />
   </main>
-  <Footer />
-  <MobileStickyCTA />
+  <SiteFooter />
+  <SiteBottomBar />
 </BaseLayout>

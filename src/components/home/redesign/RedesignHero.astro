@@ -1,0 +1,86 @@
+---
+/**
+ * 1. HERO (backlog 013). One DOM: phone order = Eyad-and-van photo (first
+ * thing under the header, full-bleed 3:2), copy, CTAs, to-do link, review card;
+ * desktop = copy (with the review card under it) | photo, vertically centred.
+ * The photo is the page's LCP image: eager, fetchpriority high, never cropped,
+ * cover-fit or overlaid.
+ */
+import SiteImage from '../../ui/SiteImage.astro';
+import Button from '../../site/Button.astro';
+import {
+  googleReviewCountDisplay,
+  googleReviewProfileUrl,
+  googleReviews,
+  jobberHandymanToDoListFormUrl,
+  jobberProjectEstimateFormUrl,
+  localityShort,
+  site,
+} from '../../../data/business';
+import { vanEyadPhoto } from '../../../data/images';
+import { heroReview } from '../../../data/homeRedesign';
+import { formatUsd, smallRepairPricing } from '../../../data/pricing/todoList';
+import { keepTogether } from '../../../utils/nowrap';
+import { withBase } from '../../../utils/paths';
+
+const quoteUrl = jobberProjectEstimateFormUrl() ?? withBase('/contact/');
+const todoUrl = jobberHandymanToDoListFormUrl() ?? withBase('/book/');
+const reviewUrl = googleReviewProfileUrl();
+const locality = keepTogether(localityShort('&'));
+---
+
+<section class="eys-on-dark bg-eys-ground text-eys-on-dark lg:pt-14" data-analytics-section="hero">
+  <div class="eys-container">
+    <div class="eys-hero-grid">
+      <div class="eys-hero-photo">
+        <SiteImage
+          src={vanEyadPhoto.src}
+          alt={vanEyadPhoto.alt}
+          width={vanEyadPhoto.width}
+          height={vanEyadPhoto.height}
+          loading="eager"
+          fetchpriority="high"
+          sizes="(min-width: 1280px) min(680px, calc(100vw - 760px)), (min-width: 1024px) calc(50vw - 80px), 100vw"
+        />
+      </div>
+
+      <div class="eys-hero-copy">
+        <p class="eys-eyebrow text-eys-on-dark-3">Veteran-Owned · {locality}</p>
+        <h1 class="eys-h1 mt-3 text-eys-on-dark lg:mt-4">Handyman Services for {locality}</h1>
+        {
+          reviewUrl && (
+            <a
+              href={reviewUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-track-review
+              data-cta-location="home_hero_trust"
+              class="eys-text-link-dark mt-4 inline-flex items-center gap-2 whitespace-nowrap text-sm leading-5 text-eys-on-dark lg:text-[15px]"
+            ><span aria-hidden="true" class="text-base leading-5 lg:text-[17px]">★</span><span><strong>{googleReviews.rating.toFixed(1)}</strong> · {googleReviewCountDisplay()} Google reviews</span></a>
+          )
+        }
+        <p class="eys-body mt-4 max-w-[540px] text-eys-on-dark-2 lg:mt-5">
+          Send one project list. We handle everyday repairs, precise installations, finish carpentry, room upgrades, and larger custom projects.
+        </p>
+
+        <div class="eys-cta-pair eys-cta-pair--on-dark mt-6 lg:mt-8" data-sticky-hero-cta>
+          <Button href={quoteUrl} data-cta-role="form" data-booking-type="project_estimate" data-cta-location="home_hero_primary">Send Photos for a Free Estimate</Button>
+          <Button href={`tel:${site.phoneTel}`} phoneIcon data-cta-role="call" data-cta-location="home_hero_call">Call {site.phone}</Button>
+        </div>
+        <a
+          href={todoUrl}
+          data-booking-type="handyman_to_do_list"
+          data-cta-location="home_hero_secondary"
+          class="eys-text-link-dark mt-4 inline-block text-sm leading-5 text-eys-on-dark underline decoration-eys-outline-dark underline-offset-[3px] lg:text-[15px]"
+        >Book a Handyman <span class="whitespace-nowrap">To-Do</span> List Visit · From {formatUsd(smallRepairPricing.oneHour)}</a>
+
+        <figure class="mt-5 max-w-[540px] rounded-[6px] border border-eys-panel-line bg-eys-panel p-4 lg:mt-10 lg:p-5">
+          <div role="img" aria-label="Rated 5 out of 5" class="text-[13px] leading-4 tracking-[2px]">★★★★★</div>
+          <blockquote class="mt-2.5 text-sm leading-5 text-eys-on-dark [text-wrap:pretty] lg:text-[15px] lg:leading-[22px]">“{heroReview.quote}”</blockquote>
+          <figcaption class="mt-2 text-xs leading-4 text-eys-on-dark-3 lg:text-[13px] lg:leading-[18px]"><strong class="text-eys-on-dark">{heroReview.author}</strong> · Google review</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+  <div class="eys-stripe" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+</section>

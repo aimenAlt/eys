@@ -1,0 +1,28 @@
+---
+/**
+ * 9. FAQ (warm). Not on the boards: the existing `homeFaqs`, verbatim. It MUST
+ * stay — `homePageSchema(homeFaqs)` emits FAQPage schema for these questions.
+ */
+import { homeFaqs } from '../../../data/schema';
+---
+
+<section class="eys-section bg-eys-warm text-eys-ink" aria-labelledby="home-faq" data-analytics-section="faq">
+  <div class="eys-container">
+    <div class="max-w-[880px]">
+      <h2 id="home-faq" class="eys-h2">Frequently Asked Questions</h2>
+      <div class="mt-6 border-t border-eys-rule lg:mt-8">
+        {
+          homeFaqs.map((faq) => (
+            <details class="group border-b border-eys-rule">
+              <summary class="eys-text-link flex cursor-pointer items-start justify-between gap-4 py-5 font-display text-lg leading-6 [text-wrap:balance]">
+                <span>{faq.question}</span>
+                <svg class="mt-0.5 h-5 w-5 shrink-0 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+              </summary>
+              <p class="eys-body pb-5 text-eys-ink-2">{faq.answer}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

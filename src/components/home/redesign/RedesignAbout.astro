@@ -1,0 +1,67 @@
+---
+/**
+ * 8. ABOUT (white, #about). Not on the boards: the live #about copy, verbatim
+ * (towns from `localityShort` / `areaServedDisplay`). The section's two photos
+ * are dropped. On phone paragraph 1 shows and the rest collapses with the
+ * sanctioned `.seo-collapse` pattern (always open from 768px; text stays in the DOM).
+ */
+import { areaServedDisplay, localityShort } from '../../../data/business';
+import { popularServices } from '../../../data/homeRedesign';
+import { withBase } from '../../../utils/paths';
+
+const p = 'eys-body mt-4 text-eys-ink-2';
+---
+
+<section id="about" class="eys-section bg-eys-white text-eys-ink" data-analytics-section="about">
+  <div class="eys-container">
+    <div class="max-w-[880px]">
+      <h2 class="eys-h2">More Than an <span class="whitespace-nowrap">Odd-Job</span> Visit—Still the Handyman You Search For</h2>
+      <p class={p}>
+        Some homes need one repair. Others need a door adjusted, curtains installed, drywall patched,
+        a media wall finished, and a move-in list completed without coordinating several different
+        providers.
+      </p>
+      <details class="seo-collapse eys-seo-collapse">
+        <summary>Read more</summary>
+        <div class="seo-collapse-body">
+          <p class={p}>
+            Elevate Your Space Handyman gives households in {localityShort('and')} one accountable point of
+            contact for everything from drywall patches and door installation to bathroom updates, cabinet
+            work, painting, flooring, and general home repair — with honest communication, clean
+            workmanship, and dependable results across {areaServedDisplay()}.
+          </p>
+          <p class={p}>
+            <strong class="text-eys-ink">We finish what we start.</strong>{' '}A specialist usually
+            shows up, does one thing and leaves you to find the next trade. Eyad does the carpentry
+            himself and brings in the rest of the crew — a drywall trade, and licensed electricians for
+            regulated electrical work — then manages the schedule so you deal with one person from the
+            first walkthrough to the last. One written estimate, one point of contact, one final
+            walkthrough. See how{' '}
+            <a href={withBase('/services/whole-project-remodeling/')} class="eys-text-link font-bold text-eys-ink underline underline-offset-[3px]">whole-project remodeling</a>{' '}
+            works.
+          </p>
+          <p class={p}>
+            <strong class="text-eys-ink">And we answer the phone when you are actually home.</strong>{' '}
+            Reach us 5:00 AM to 11:30 PM, seven days a week — with same-night dispatch available for
+            urgent work at a late-hours rate. Most of the field closes at 5 PM.
+          </p>
+        </div>
+      </details>
+    </div>
+
+    <div class="mt-10 border-t border-eys-rule pt-8">
+      <h3 class="eys-eyebrow text-eys-ink-2">Popular services</h3>
+      <ul class="mt-4 flex flex-wrap gap-2.5">
+        {
+          popularServices.map((item) => (
+            <li>
+              <a href={withBase(item.href)} class="eys-text-link inline-flex items-center rounded-full border border-eys-rule px-4 py-2 text-sm font-bold text-eys-ink hover:border-eys-ink">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

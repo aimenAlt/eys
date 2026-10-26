@@ -1,0 +1,34 @@
+---
+/**
+ * 2. TRUST STRIP. Phone: two centred lines ("★ rating · Owner-led" /
+ * "Veteran-owned · Katy & Fulshear"); desktop: one line with " · " separators.
+ * One DOM in phone order; `lg:order-*` re-sequences it for desktop. Only the
+ * review figure links (Google profile).
+ */
+import { googleReviewCountDisplay, googleReviewProfileUrl, googleReviews, localityShort } from '../../../data/business';
+import { keepTogether } from '../../../utils/nowrap';
+
+const reviewUrl = googleReviewProfileUrl();
+const sep = 'px-2 text-eys-ink-3 lg:px-3.5';
+---
+
+<section class="border-b border-eys-rule bg-eys-white px-6 py-4 text-eys-ink lg:px-14 lg:py-[18px]" data-analytics-section="trust_bar" aria-label="Why homeowners choose EYS">
+  <p class="flex flex-wrap items-center justify-center text-[13px] leading-5 lg:flex-nowrap lg:text-[15px]">
+    {
+      reviewUrl ? (
+        <a href={reviewUrl} target="_blank" rel="noopener noreferrer" data-track-review data-cta-location="trust_bar" class="eys-text-link whitespace-nowrap lg:order-1">
+          <strong>★ {googleReviews.rating.toFixed(1)}</strong> · {googleReviewCountDisplay()} Google reviews
+        </a>
+      ) : (
+        <span class="whitespace-nowrap lg:order-1"><strong>★ {googleReviews.rating.toFixed(1)}</strong> · {googleReviewCountDisplay()} Google reviews</span>
+      )
+    }
+    <span class={`${sep} lg:order-2`} aria-hidden="true">·</span>
+    <span class="whitespace-nowrap lg:order-5">Owner-led: Eyad Essa</span>
+    <span class="h-0 basis-full lg:hidden" aria-hidden="true"></span>
+    <span class="whitespace-nowrap lg:order-3">Veteran-owned &amp; operated</span>
+    <span class={`${sep} lg:order-4`} aria-hidden="true">·</span>
+    <span class="whitespace-nowrap lg:order-7">{keepTogether(localityShort('&'))}</span>
+    <span class={`${sep} hidden lg:order-6 lg:inline`} aria-hidden="true">·</span>
+  </p>
+</section>

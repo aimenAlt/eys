@@ -98,8 +98,31 @@ Every photo goes through `SiteImage` with real width/height and `sizes` that mat
 Only the hero image is eager; everything below it lazy-loads. Never crop, cover-fit or overlay the
 Eyad-and-van photo.
 
+## Components (redesign)
+- **Site chrome** (`src/components/site/`): `SiteHeader` (sticky; phone: logo mark, gold Call, menu
+  button; desktop: logo + wordmark from 1344px, nav with the Services dropdown, phone number, gold
+  "Get a Free Quote"; mobile menu panel), `SiteFooter` (one DOM placed with grid areas: phone =
+  lockup, phone number, tagline, links, contact, socials; desktop = brand | links | links | contact),
+  `SiteBottomBar` (phone bar, gold Call + red Free Quote; shown after the hero CTAs, hidden at the
+  footer; hides the header Call while it shows).
+- **Button** (`Button.astro`): `.eys-btn` + variant; `phoneIcon` adds the 18px icon.
+- **CTA pair** (`.eys-cta-pair` + `--on-dark|--on-light`): two buttons tagged `data-cta-role="form|call"`
+  that swap style and order at 1024px (phone: form red first; desktop: call red first). One element each.
+- **Cards**: white, 1px rule border, radius 6px; booking cards end in a navy button pinned to the bottom.
+- **Gallery** (`.eys-gallery`): radius-4 tiles linking to project pages; phone 2 columns, desktop 3.
+- **Review card**: white (or panel on dark), five ink stars, quote, "Name · Google review".
+- **Stripe band** (`.eys-stripe`): the skewed red/white band under the hero, aria-hidden.
+
+## Homepage (redesign) section order
+`src/components/home/redesign/`, content in `src/data/homeRedesign.ts`:
+1. Hero (ground) — Eyad-and-van photo first on phone, right column on desktop · 2. Trust strip (white) ·
+3. Start with one visit (warm) · 4. Our Work (white) · 5. What customers say (warm) ·
+6. Who runs your project (ground) · 7. Services (warm) · 8. About (white) · 9. FAQ (warm) ·
+10. How it works (white) · 11. Service areas (warm) · 12. Closing CTA (white) · footer (ground).
+
 ## Migration status
-- **System:** tokens, themes, fonts, type and buttons shipped (backlog 012). No page uses them yet.
+- **System:** tokens, themes, fonts, type and buttons shipped (backlog 012).
+- **Homepage + chrome:** built (backlog 013), rendered only on /home2/ until backlog 014 flips "/".
 - **Legacy templates** (everything today) keep the old black/red look: `brand-*` tokens (`#b00000`,
   `#0a0a0a`), Inter only, `.gradient-btn`. They are migrated one template at a time and switch to
   `siteTheme` when they are.

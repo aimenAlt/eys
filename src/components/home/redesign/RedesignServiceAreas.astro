@@ -1,0 +1,64 @@
+---
+/**
+ * 11. SERVICE AREAS (warm). Cities from `business.areaServed` (no comma before
+ * "&"), each linked to its published city page; every published community,
+ * Cinco Ranch first, then grouped by city in areaServed order, alphabetical
+ * within each city. No map iframe.
+ */
+import { business } from '../../../data/business';
+import { withBase } from '../../../utils/paths';
+
+interface Props {
+  cityLinks: { title: string; slug: string }[];
+  communityLinks: { title: string; citySlug: string; slug: string }[];
+}
+
+const { cityLinks, communityLinks } = Astro.props;
+const citySlug = (name: string) => name.toLowerCase().replace(/\s+/g, '-');
+const publishedCities = new Set(cityLinks.map((c) => c.slug));
+const cities = business.areaServed.map((name) => ({ name, slug: citySlug(name), linked: publishedCities.has(citySlug(name)) }));
+
+const cityOrder = cities.map((c) => c.slug);
+const communities = [...communityLinks].sort((a, b) => {
+  const aCinco = a.title === 'Cinco Ranch' ? 0 : 1;
+  const bCinco = b.title === 'Cinco Ranch' ? 0 : 1;
+  if (aCinco !== bCinco) return aCinco - bCinco;
+  const byCity = cityOrder.indexOf(a.citySlug) - cityOrder.indexOf(b.citySlug);
+  return byCity !== 0 ? byCity : a.title.localeCompare(b.title);
+});
+const last = cities.length - 1;
+---
+
+<section class="eys-section bg-eys-warm text-eys-ink" data-analytics-section="service_areas">
+  <div class="eys-container">
+    <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start lg:gap-12 xl:grid-cols-[600px_minmax(0,1fr)]">
+      <div>
+        <h2 class="eys-h2">Service areas</h2>
+        <p class="mt-3 font-bold [text-wrap:pretty]">
+          {
+            cities.map((city, i) => {
+              const label = city.name.replace(' ', ' ');
+              const sepBefore = i === 0 ? '' : i === last ? ' & ' : ', ';
+              return (
+                <>
+                  {sepBefore}
+                  {city.linked ? <a href={withBase(`/service-areas/${city.slug}/`)} class="eys-text-link hover:underline">{label}</a> : label}
+                </>
+              );
+            })
+          }
+        </p>
+      </div>
+      <p class="mt-2 text-[15px] leading-6 text-eys-ink-2 [text-wrap:pretty] lg:mt-0 lg:text-base lg:leading-7">
+        {
+          communities.map((c, i) => (
+            <>
+              {i > 0 && ' · '}
+              <a href={withBase(`/service-areas/${c.citySlug}/${c.slug}/`)} class="eys-text-link whitespace-nowrap hover:underline">{c.title}</a>
+            </>
+          ))
+        }
+      </p>
+    </div>
+  </div>
+</section>

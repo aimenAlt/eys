@@ -187,6 +187,41 @@ had no explicit `cta_location` before (it fell back to the generic `page`
 value), so `our_work_empty_state` is a new, more specific placement rather
 than a preserved one.
 
+## Redesigned homepage and site chrome (backlog 013)
+
+Built on 26 Oct 2026 and rendered **only on `/home2/`** (noindex preview) until
+backlog 014 flips "/" to it; backlog 015 then puts the chrome on every
+ContentLayout page. No event or parameter was renamed: these are new
+`cta_location` values and section ids on the existing events.
+
+New `cta_location` values (`phone_click` for `tel:`, `jobber_booking_click` for Jobber links):
+
+| `cta_location` | Element | Action |
+|---|---|---|
+| `header_call` | Phone/tablet header, gold "Call" | `tel:` |
+| `header_quote` | Desktop header, gold "Get a Free Quote" | Jobber `project_estimate` |
+| `home_hero_call` | Hero "Call (346) 820-1629" | `tel:` |
+| `home_card_todo` | "Start with one visit" card, "Book a Visit" | Jobber `handyman_to_do_list` |
+| `home_card_tv` | Card, "Book TV Mounting" | Jobber `tv_mounting` |
+| `home_card_curtains` | Card, "See Times & Book" | Jobber `high_ceiling_curtain` |
+| `home_cards_project` | "Bigger project? Send photos" link | Jobber `project_estimate` |
+| `home_reviews_all` | "Read all 160+ reviews on Google →" | `review_link_click` |
+| `home_owner` | Owner band, "Get a Free Quote" and Call | Jobber `project_estimate` / `tel:` |
+
+Kept from the live homepage with the same meaning: `header` (desktop header
+phone number), `header_mobile` (mobile menu quote and call), `sticky_mobile`
+(bottom bar "Call" and "Free Quote"), `home_hero_primary` ("Send Photos for a
+Free Estimate"), `home_hero_secondary` (to-do list link), `home_hero_trust`
+(hero rating link), `trust_bar` (trust-strip review link), `home_reviews`
+(reviews-section rating link), `home_final_cta` (closing buttons), `footer`
+(fallback for footer links). `nav_book` / `nav_contact` keep their `data-cta-id`
+in the new mobile menu and footer.
+
+New `section_view` ids (`data-analytics-section`): `hero`, `trust_bar`,
+`start_visit`, `our_work`, `reviews`, `owner`, `services`, `about`, `faq`,
+`how_it_works`, `service_areas`, `closing_cta`. `trust_bar` is under 120px
+tall, so it never fires `section_view`.
+
 ## Microsoft Clarity
 
 Project **"EYS Handyman website"**, id `ywlsbg76a7`, linked to GA4 and Google

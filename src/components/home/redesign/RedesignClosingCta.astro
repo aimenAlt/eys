@@ -1,0 +1,25 @@
+---
+/**
+ * 12. CLOSING CTA (white). Phone: red "Get a Free Quote", then outline Call.
+ * Desktop: centred, red Call, then outline "Get a Free Quote".
+ */
+import Button from '../../site/Button.astro';
+import { jobberProjectEstimateFormUrl, site } from '../../../data/business';
+import { closingCopy } from '../../../data/homeRedesign';
+import { withBase } from '../../../utils/paths';
+
+const quoteUrl = jobberProjectEstimateFormUrl() ?? withBase('/contact/');
+---
+
+<section class="bg-eys-white pb-14 pt-12 text-eys-ink lg:py-20" data-analytics-section="closing_cta">
+  <div class="eys-container">
+    <div class="lg:mx-auto lg:max-w-[720px] lg:text-center">
+      <h2 class="eys-h2">Send one project list.</h2>
+      <p class="eys-body mt-3 text-eys-ink-2">{closingCopy}</p>
+      <div class="eys-cta-pair eys-cta-pair--on-light eys-cta-pair--center mt-6 lg:mt-7">
+        <Button href={quoteUrl} data-cta-role="form" data-booking-type="project_estimate" data-cta-location="home_final_cta">Get a Free Quote</Button>
+        <Button href={`tel:${site.phoneTel}`} phoneIcon data-cta-role="call" data-cta-location="home_final_cta">Call {site.phone}</Button>
+      </div>
+    </div>
+  </div>
+</section>

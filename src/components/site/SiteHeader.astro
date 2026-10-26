@@ -1,0 +1,196 @@
+---
+/**
+ * Redesign site header (backlog 013, boards 2a/2b/2d). Sticky, ground colour.
+ *
+ * Phone/tablet (<1024): logo mark, gold "Call" (hidden while the bottom bar
+ * shows — SiteBottomBar toggles `data-bar-active`), menu button.
+ * Desktop (≥1024): logo + wordmark (from 1344px, where it fits), nav, phone number, gold
+ * "Get a Free Quote". Exactly one gold button on screen at any width.
+ *
+ * Analytics hooks kept from the legacy header: a real <header>, and
+ * #mobile-menu / #mobile-menu-toggle / #mobile-menu-backdrop with
+ * [data-close-mobile-menu]. The menu and backdrop sit OUTSIDE the sticky header
+ * as siblings: a position:fixed element inside a position:sticky ancestor can
+ * anchor to the header's stuck offset instead of the viewport.
+ */
+import type { NavMenus } from '../../data/navMenus';
+import { jobberProjectEstimateFormUrl, site } from '../../data/business';
+import { isNavActive } from '../../data/navigation';
+import { withBase } from '../../utils/paths';
+import Button from './Button.astro';
+import PhoneIcon from './PhoneIcon.astro';
+
+interface Props {
+  navMenus: NavMenus;
+}
+
+const { navMenus } = Astro.props;
+const pathname = Astro.url.pathname;
+const quoteUrl = jobberProjectEstimateFormUrl() ?? withBase('/contact/');
+const tel = `tel:${site.phoneTel}`;
+
+const current = (href: string) => (isNavActive(href, pathname) ? 'page' : undefined);
+
+const desktopNav: { label: string; href: string; menu?: NavMenus['services'] }[] = [
+  { label: 'About', href: '/about/' },
+  { label: 'Services', href: '/services/', menu: navMenus.services },
+  { label: 'Service Areas', href: '/service-areas/' },
+  { label: 'Our Work', href: '/our-work/' },
+  { label: 'Pricing', href: '/pricing/' },
+  { label: 'Reviews', href: '/reviews/' },
+];
+
+const mobileNav: { label: string; href: string; ctaId?: string; menu?: NavMenus['services'] }[] = [
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about/' },
+  { label: 'Services', href: '/services/', menu: navMenus.services },
+  { label: 'Service Areas', href: '/service-areas/' },
+  { label: 'Our Work', href: '/our-work/' },
+  { label: 'Pricing', href: '/pricing/' },
+  { label: 'Reviews', href: '/reviews/' },
+  { label: 'Book', href: '/book/', ctaId: 'nav_book' },
+  { label: 'Contact', href: '/contact/', ctaId: 'nav_contact' },
+];
+---
+
+<header class="eys-header eys-on-dark sticky top-0 z-50 border-b border-eys-line-dark bg-eys-ground text-eys-on-dark" data-eys-header>
+  <div class="flex h-16 items-center justify-between pl-6 pr-3 lg:h-20 lg:justify-start lg:px-8 min-[90rem]:px-14">
+    <a href={withBase('/')} class="eys-nav-link flex h-12 shrink-0 items-center gap-3 text-eys-on-dark" aria-label="Elevate Your Space Handyman home">
+      <img src={withBase('/logos/logo-mark.webp')} alt="" width="140" height="192" class="h-9 w-auto lg:h-10" />
+      <span class="hidden items-center gap-2.5 whitespace-nowrap min-[84rem]:flex" aria-hidden="true">
+        <span class="font-display text-[15px] uppercase leading-5 tracking-[0.02em]">Elevate Your Space</span>
+        <span class="inline-block h-0.5 w-3.5 bg-eys-accent"></span>
+        <span class="font-display text-[10px] uppercase leading-5 tracking-[0.22em]">Handyman</span>
+      </span>
+    </a>
+
+    <nav class="ml-auto hidden items-center gap-5 text-[15px] leading-5 lg:flex xl:gap-7" aria-label="Primary">
+      {
+        desktopNav.map((item) =>
+          item.menu ? (
+            <div class="group/nav relative">
+              <a href={withBase(item.href)} class="eys-nav-link inline-flex items-center gap-1" aria-current={current(item.href)} aria-haspopup="true">
+                {item.label}
+                <svg class="h-4 w-4 opacity-70 transition-transform group-hover/nav:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+              </a>
+              <div class="invisible absolute left-0 top-full z-50 pt-3 opacity-0 transition-all group-focus-within/nav:visible group-focus-within/nav:opacity-100 group-hover/nav:visible group-hover/nav:opacity-100">
+                <div class="min-w-[280px] rounded-[6px] border border-eys-line-dark bg-eys-ground p-4 shadow-xl">
+                  <a href={withBase(item.menu.href)} class="eys-nav-link mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-eys-on-dark-3 hover:text-eys-on-dark">View all {item.menu.label} &rarr;</a>
+                  <ul class="space-y-1">
+                    {item.menu.children.map((child) => (
+                      <li><a href={withBase(child.href)} class="eys-nav-link block rounded px-2 py-2 text-[15px] hover:bg-eys-panel">{child.label}</a></li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <a href={withBase(item.href)} class="eys-nav-link" aria-current={current(item.href)}>{item.label}</a>
+          ),
+        )
+      }
+    </nav>
+
+    <a href={tel} data-cta-location="header" class="eys-nav-link ml-6 hidden items-center gap-2 font-display text-base leading-5 lg:inline-flex xl:ml-10">
+      <PhoneIcon />{site.phone}
+    </a>
+    <Button href={quoteUrl} variant="gold" class="ml-4 hidden h-12 px-[22px] lg:inline-flex xl:ml-6" data-booking-type="project_estimate" data-cta-location="header_quote">Get a Free Quote</Button>
+
+    <div class="flex items-center gap-1 lg:hidden">
+      <Button href={tel} variant="gold" phoneIcon class="eys-header-call h-12 gap-2 px-[18px]" data-header-call data-cta-location="header_call">Call</Button>
+      <button
+        type="button"
+        id="mobile-menu-toggle"
+        class="flex h-12 w-12 flex-col items-center justify-center gap-[5px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        aria-label="Menu"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+      >
+        <span class="block h-0.5 w-[22px] bg-eys-on-dark"></span>
+        <span class="block h-0.5 w-[22px] bg-eys-on-dark"></span>
+        <span class="block h-0.5 w-[22px] bg-eys-on-dark"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div id="mobile-menu-backdrop" class="fixed inset-x-0 bottom-0 top-16 z-40 hidden bg-black/40 lg:hidden" aria-hidden="true"></div>
+<div
+  id="mobile-menu"
+  class="eys-on-dark fixed inset-x-0 top-16 z-40 hidden max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-eys-line-dark bg-eys-ground text-eys-on-dark lg:hidden"
+>
+  <nav aria-label="Primary" class="px-6 pb-[calc(5.5rem+env(safe-area-inset-bottom,0px))] pt-2">
+    <ul class="divide-y divide-eys-line-dark text-lg leading-6">
+      {
+        mobileNav.map((item) => (
+          <li>
+            {item.menu ? (
+              <details class="group">
+                <summary class="flex cursor-pointer list-none items-center justify-between py-4">
+                  <span>{item.label}</span>
+                  <svg class="h-5 w-5 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                </summary>
+                <ul class="space-y-1 pb-4 pl-3 text-base">
+                  <li><a href={withBase(item.menu.href)} class="eys-nav-link block py-2 font-bold text-eys-on-dark" data-close-mobile-menu>View all {item.menu.label}</a></li>
+                  {item.menu.children.map((child) => (
+                    <li><a href={withBase(child.href)} class="eys-nav-link block py-2 text-eys-on-dark-2" data-close-mobile-menu>{child.label}</a></li>
+                  ))}
+                </ul>
+              </details>
+            ) : (
+              <a
+                href={withBase(item.href)}
+                class="eys-nav-link block py-4"
+                aria-current={current(item.href)}
+                data-close-mobile-menu
+                {...(item.ctaId ? { 'data-cta-id': item.ctaId } : {})}
+              >{item.label}</a>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+    <div class="mt-6 flex flex-col gap-3">
+      <Button href={quoteUrl} variant="red" block data-booking-type="project_estimate" data-cta-location="header_mobile">Get a Free Quote</Button>
+      <Button href={tel} variant="outline-light" phoneIcon block data-cta-location="header_mobile">Call {site.phone}</Button>
+    </div>
+  </nav>
+</div>
+
+<script>
+  function setMobileMenuOpen(open: boolean) {
+    const menu = document.getElementById('mobile-menu');
+    const backdrop = document.getElementById('mobile-menu-backdrop');
+    const toggle = document.getElementById('mobile-menu-toggle');
+    if (!menu || !toggle) return;
+    menu.classList.toggle('hidden', !open);
+    backdrop?.classList.toggle('hidden', !open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  function initSiteHeader() {
+    const toggle = document.getElementById('mobile-menu-toggle');
+    if (!toggle || toggle.dataset.bound) return;
+    toggle.dataset.bound = '1';
+    toggle.addEventListener('click', () => {
+      const menu = document.getElementById('mobile-menu');
+      if (menu) setMobileMenuOpen(menu.classList.contains('hidden'));
+    });
+    document.getElementById('mobile-menu-backdrop')?.addEventListener('click', () => setMobileMenuOpen(false));
+    document.getElementById('mobile-menu')?.addEventListener('click', (event) => {
+      const target = event.target;
+      if (target instanceof Element && target.closest('[data-close-mobile-menu]')) setMobileMenuOpen(false);
+    });
+
+    // Soft shadow once the page has scrolled under the sticky header.
+    const header = document.querySelector<HTMLElement>('[data-eys-header]');
+    if (header) {
+      const onScroll = () => header.toggleAttribute('data-scrolled', window.scrollY > 4);
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+  }
+
+  initSiteHeader();
+  document.addEventListener('astro:page-load', initSiteHeader);
+</script>

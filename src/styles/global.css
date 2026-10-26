@@ -360,6 +360,7 @@ details > summary::-webkit-details-marker {
   --font-display: var(--eys-font-display);
 }
 
+@layer components {
 /* Display face. Never use font-extrabold for it: that utility is remapped to Inter 700. */
 .font-display {
   font-family: var(--eys-font-display);
@@ -443,12 +444,6 @@ details > summary::-webkit-details-marker {
   transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 .eys-btn > svg { flex: none; width: 18px; height: 18px; }
-.eys-btn:focus-visible {
-  outline: 2px solid var(--eys-ink);
-  outline-offset: 2px;
-  border-radius: 6px;
-}
-.eys-on-dark .eys-btn:focus-visible { outline-color: #ffffff; }
 @media (max-width: 63.999rem) {
   .eys-btn--block { display: flex; width: 100%; }
 }
@@ -458,10 +453,268 @@ details > summary::-webkit-details-marker {
 .eys-btn--red:hover { background: var(--eys-btn-red-hover); }
 .eys-btn--navy { background: var(--eys-btn-std-bg); color: var(--eys-btn-std-text); }
 .eys-btn--navy:hover { background: var(--eys-btn-std-hover); }
-.eys-btn--navy:focus-visible { outline-color: var(--eys-btn-std-bg); }
 .eys-btn--outline-light { border-color: var(--eys-outline-dark); color: var(--eys-on-dark); background: transparent; }
 .eys-btn--outline-light:hover { border-color: var(--eys-on-dark); }
 .eys-btn--outline-dark { border-color: var(--eys-ink); color: var(--eys-ink); background: transparent; }
 @media (prefers-reduced-motion: reduce) {
   .eys-btn { transition: none; }
+}
+
+/* --------------------------------------------------------------------------
+ * Redesign layout (backlog 013): site chrome + homepage sections. New classes
+ * only; used by pages that render through `BaseLayout theme=…`.
+ * -------------------------------------------------------------------------- */
+
+/* The sticky header must not cover in-page anchor targets. */
+html[data-theme] { scroll-padding-top: 64px; }
+@media (min-width: 64rem) {
+  html[data-theme] { scroll-padding-top: 80px; }
+}
+
+/* Content capped at 1328px and centred; 24px sides on phone, 56px from 1024px. */
+.eys-container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+@media (min-width: 64rem) {
+  .eys-container { padding-left: 56px; padding-right: 56px; }
+}
+.eys-section { padding-top: 48px; padding-bottom: 48px; }
+@media (min-width: 64rem) {
+  .eys-section { padding-top: 72px; padding-bottom: 72px; }
+}
+
+/* Header */
+.eys-header { transition: box-shadow 0.2s ease; }
+.eys-header[data-scrolled] { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18); }
+.eys-nav-link { position: relative; white-space: nowrap; }
+.eys-nav-link[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  background: var(--eys-accent);
+}
+.eys-header-call { transition: opacity 0.2s ease, visibility 0.2s ease; }
+.eys-header-call[data-bar-active] { visibility: hidden; opacity: 0; }
+
+/* Phone bottom bar (2d) — below 1024px only, hidden until the hero CTAs scroll away. */
+.eys-bottom-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  box-sizing: content-box;
+  height: 44px;
+  padding: 6px 12px calc(6px + env(safe-area-inset-bottom, 0px));
+  background: var(--eys-ground);
+  border-top: 1px solid var(--eys-line-dark);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.25);
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+.eys-bottom-bar[hidden] { display: none; }
+.eys-bottom-bar[data-state="off"] { transform: translateY(100%); opacity: 0; pointer-events: none; }
+.eys-bottom-bar .eys-btn { flex: 1 1 0; height: 44px; padding: 0 12px; gap: 8px; }
+@media (min-width: 64rem) {
+  .eys-bottom-bar { display: none !important; }
+}
+
+/* Skewed stripe band (aria-hidden). */
+.eys-stripe {
+  position: relative;
+  height: 28px;
+  margin-top: 32px;
+  overflow: hidden;
+}
+.eys-stripe > span { position: absolute; transform: skewX(-40deg); }
+.eys-stripe > span:nth-child(1) { left: -12px; top: 6px; width: 62%; height: 8px; background: var(--eys-stripe); }
+.eys-stripe > span:nth-child(2) { left: calc(62% + 5px); right: -12px; top: 6px; height: 8px; background: #ffffff; }
+.eys-stripe > span:nth-child(3) { left: -12px; top: 18px; width: 54%; height: 3px; background: #ffffff; }
+.eys-stripe > span:nth-child(4) { left: calc(54% + 5px); right: -12px; top: 18px; height: 3px; background: var(--eys-stripe); }
+@media (min-width: 64rem) {
+  .eys-stripe { height: 40px; margin-top: 56px; }
+  .eys-stripe > span:nth-child(1) { left: -16px; top: 8px; width: 64%; height: 12px; }
+  .eys-stripe > span:nth-child(2) { left: calc(64% + 8px); right: -16px; top: 8px; height: 12px; }
+  .eys-stripe > span:nth-child(3) { left: -16px; top: 26px; width: 58%; height: 4px; }
+  .eys-stripe > span:nth-child(4) { left: calc(58% + 8px); right: -16px; top: 26px; height: 4px; }
+}
+
+/* Hero: one DOM, phone order = photo, copy; desktop = copy | photo. */
+.eys-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
+.eys-hero-photo { margin-left: -24px; margin-right: -24px; }
+.eys-hero-photo img { display: block; width: 100%; height: auto; }
+.eys-hero-copy { padding-top: 24px; }
+@media (min-width: 64rem) {
+  .eys-hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas: "copy photo";
+    column-gap: 48px;
+    align-items: center;
+  }
+  .eys-hero-photo { grid-area: photo; margin: 0; }
+  .eys-hero-photo img { border-radius: 6px; }
+  .eys-hero-copy { grid-area: copy; padding-top: 0; }
+}
+@media (min-width: 80rem) {
+  .eys-hero-grid { grid-template-columns: 600px minmax(0, 1fr); }
+}
+
+/* CTA pair that swaps style and order at 1024px (one element each, never duplicated).
+   Phone: form first (red), call second (outline). Desktop: call first (red), form second (outline). */
+.eys-cta-pair { display: flex; flex-direction: column; gap: 12px; }
+@media (min-width: 64rem) {
+  .eys-cta-pair { flex-direction: row; flex-wrap: wrap; }
+  .eys-cta-pair > [data-cta-role="call"] { order: -1; }
+}
+.eys-cta-pair--center { align-items: stretch; }
+@media (min-width: 64rem) {
+  .eys-cta-pair--center { justify-content: center; }
+}
+/* Phone: form = red, call = outline. Desktop: call = red, form = outline. Outline tone set per ground. */
+.eys-cta-pair > [data-cta-role="form"] { background: var(--eys-btn-red); color: #ffffff; border-color: transparent; }
+.eys-cta-pair > [data-cta-role="form"]:hover { background: var(--eys-btn-red-hover); }
+.eys-cta-pair > [data-cta-role="call"] { background: transparent; }
+.eys-cta-pair--on-dark > [data-cta-role="call"] { border-color: var(--eys-outline-dark); color: var(--eys-on-dark); }
+.eys-cta-pair--on-light > [data-cta-role="call"] { border-color: var(--eys-ink); color: var(--eys-ink); }
+@media (min-width: 64rem) {
+  .eys-cta-pair > [data-cta-role="call"] { background: var(--eys-btn-red); color: #ffffff; border-color: transparent; }
+  .eys-cta-pair > [data-cta-role="call"]:hover { background: var(--eys-btn-red-hover); }
+  .eys-cta-pair > [data-cta-role="form"] { background: transparent; }
+  .eys-cta-pair > [data-cta-role="form"]:hover { background: transparent; }
+  .eys-cta-pair--on-dark > [data-cta-role="form"] { border-color: var(--eys-outline-dark); color: var(--eys-on-dark); }
+  .eys-cta-pair--on-light > [data-cta-role="form"] { border-color: var(--eys-ink); color: var(--eys-ink); }
+}
+
+/* Owner band: phone = text, photo (full-bleed), caption, buttons; desktop = text+buttons | photo. */
+.eys-owner-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
+.eys-owner-photo { margin: 24px -24px 0; height: 440px; overflow: hidden; }
+.eys-owner-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; }
+@media (min-width: 64rem) {
+  .eys-owner-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas: "text figure" "ctas figure";
+    grid-template-rows: auto 1fr;
+    column-gap: 48px;
+    align-items: start;
+  }
+  .eys-owner-text { grid-area: text; align-self: end; }
+  .eys-owner-figure { grid-area: figure; align-self: center; }
+  .eys-owner-ctas { grid-area: ctas; }
+  .eys-owner-photo { margin: 0; height: 480px; border-radius: 6px; position: relative; container-type: inline-size; }
+  /* Frame tight on Eyad and the TV wall: 2b's hero framing (bottom -245px in a
+     680px frame) rescaled to the column width, so it holds from 1024 to 1440. */
+  .eys-owner-photo img {
+    position: absolute;
+    left: -2.8%;
+    bottom: calc(-245 / 680 * 100cqw);
+    width: 138.9%;
+    max-width: none;
+    height: auto;
+    object-fit: initial;
+  }
+}
+@media (min-width: 80rem) {
+  .eys-owner-grid { grid-template-columns: minmax(0, 1fr) 600px; }
+}
+
+/* Gallery: phone 2 cols (tile 1 full at 400px, tile 4 full at 300px, rest 200px);
+   desktop 3 cols (tile 1 spans two rows at 584px, rest 272px). */
+.eys-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; }
+.eys-gallery-frame { display: block; height: 200px; border-radius: 4px; overflow: hidden; }
+.eys-gallery-frame img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: var(--crop-phone, 50% 50%); }
+.eys-gallery > :nth-child(1) { grid-column: 1 / 3; }
+.eys-gallery > :nth-child(1) .eys-gallery-frame { height: 400px; }
+.eys-gallery > :nth-child(4) { grid-column: 1 / 3; }
+.eys-gallery > :nth-child(4) .eys-gallery-frame { height: 300px; }
+@media (min-width: 64rem) {
+  .eys-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .eys-gallery-frame { height: 272px; }
+  .eys-gallery-frame img { object-position: var(--crop-desktop, 50% 50%); }
+  .eys-gallery > :nth-child(1) { grid-column: auto; grid-row: 1 / 3; }
+  .eys-gallery > :nth-child(1) .eys-gallery-frame { height: 584px; }
+  .eys-gallery > :nth-child(4) { grid-column: auto; }
+  .eys-gallery > :nth-child(4) .eys-gallery-frame { height: 272px; }
+}
+.eys-gallery a:hover img { opacity: 0.92; }
+
+/* Footer grid. Phone order: brand, phone, tagline, links (2 cols), contact, social.
+   Desktop (2b): brand | links | links | contact, 1fr 200 200 280 from 1280px. */
+.eys-footer-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "brand" "phone" "tagline" "nav" "contact" "social";
+}
+.eys-footer-brand { grid-area: brand; }
+.eys-footer-phone { grid-area: phone; }
+.eys-footer-tagline { grid-area: tagline; }
+.eys-footer-nav {
+  grid-area: nav;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 16px;
+}
+.eys-footer-contact { grid-area: contact; }
+.eys-footer-social { grid-area: social; }
+@media (min-width: 64rem) {
+  .eys-footer-grid {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.3fr);
+    grid-template-areas: "brand nav1 nav2 phone" "brand nav1 nav2 contact" "social nav1 nav2 contact";
+    grid-template-rows: auto auto 1fr;
+    column-gap: 40px;
+  }
+  .eys-footer-tagline { display: none; }
+  .eys-footer-nav { display: contents; }
+  .eys-footer-nav > ul:first-child { grid-area: nav1; }
+  .eys-footer-nav > ul:last-child { grid-area: nav2; }
+}
+@media (min-width: 80rem) {
+  .eys-footer-grid { grid-template-columns: minmax(0, 1fr) 200px 200px 280px; column-gap: 48px; }
+}
+/* Reserve the bottom bar's space below 1024px (never toggle body padding). */
+.eys-footer { padding-bottom: calc(32px + 56px + env(safe-area-inset-bottom, 0px)); }
+@media (min-width: 64rem) {
+  .eys-footer { padding-bottom: 32px; }
+}
+}
+
+/* Focus rings for the redesign. Deliberately UNLAYERED (unlike the classes in
+   @layer components above): the legacy unlayered `a:focus-visible` red ring would
+   otherwise win over any layered rule. Dark grounds get white, light grounds ink. */
+.eys-btn:focus-visible {
+  outline: 2px solid var(--eys-ink);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+.eys-on-dark .eys-btn:focus-visible { outline-color: #ffffff; }
+.eys-btn--navy:focus-visible { outline-color: var(--eys-btn-std-bg); }
+.eys-nav-link:focus-visible,
+.eys-footer-link:focus-visible,
+.eys-text-link-dark:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.eys-text-link:focus-visible {
+  outline: 2px solid var(--eys-ink);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+/* `.seo-collapse` restyled for the redesign (the legacy rule colours the toggle
+   brand red). Unlayered so it outranks the legacy unlayered rule. */
+.seo-collapse.eys-seo-collapse > summary {
+  color: var(--eys-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  margin-top: 12px;
 }

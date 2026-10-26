@@ -1,0 +1,30 @@
+---
+/**
+ * Redesign button (docs/03-design-system.md, "Buttons"). Renders an <a> with
+ * `.eys-btn` + a variant. Every other attribute (data-cta-location,
+ * data-booking-type, data-cta-role, aria-*) passes straight through.
+ */
+import PhoneIcon from './PhoneIcon.astro';
+
+type Variant = 'gold' | 'red' | 'navy' | 'outline-light' | 'outline-dark';
+
+interface Props {
+  href: string;
+  /** Omit inside `.eys-cta-pair`: the pair sets the style per breakpoint from `data-cta-role`. */
+  variant?: Variant;
+  /** Leading 18px phone icon (call actions). */
+  phoneIcon?: boolean;
+  /** Full width below 1024px. */
+  block?: boolean;
+  class?: string;
+  [attr: string]: unknown;
+}
+
+const { href, variant, phoneIcon = false, block = false, class: className, ...attrs } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={['eys-btn', variant && `eys-btn--${variant}`, block && 'eys-btn--block', className]}
+  {...attrs}
+>{phoneIcon && <PhoneIcon />}<slot /></a>

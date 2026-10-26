@@ -1,0 +1,122 @@
+---
+/**
+ * Redesign site footer (backlog 013, boards 2a/2b plus items kept from the
+ * live footer: email, social icons, legal links, crawl links, Book).
+ *
+ * One DOM, placed with grid areas (global.css `.eys-footer-grid`):
+ * phone order = lockup, big phone number, "Veteran-owned & operated · Katy,
+ * Texas", two-column links, contact links, social icons; desktop = brand
+ * (lockup, blurb, socials) | links | links | contact.
+ *
+ * Analytics hooks: a real <footer> with `data-site-footer` and `id="contact"`;
+ * links fall back to the "footer" cta_location.
+ */
+import { footerNav, type NavItem } from '../../data/navigation';
+import { business, googleReviewCountDisplay, googleReviewProfileUrl, site } from '../../data/business';
+import { socialLinks } from '../../data/socialIcons';
+import { withBase } from '../../utils/paths';
+import { keepTogether } from '../../utils/nowrap';
+
+// Derived from footerNav (the legacy footer still reads it unchanged until 015):
+// "About" for "About Us", Book added after Reviews; TV Mounting, Blog and Sitemap
+// stay as crawl links (backlog 005).
+const links: NavItem[] = footerNav.flatMap((item) => {
+  const renamed = item.label === 'About Us' ? { ...item, label: 'About' } : item;
+  return item.href === '/reviews/' ? [renamed, { label: 'Book', href: '/book/', ctaId: 'nav_book' }] : [renamed];
+});
+const half = Math.ceil(links.length / 2);
+const columns = [links.slice(0, half), links.slice(half)];
+
+// "Katy, Fulshear, Cypress, Richmond & West Houston" — no comma before "&".
+const cities = business.areaServed;
+const areaLine = keepTogether(`${cities.slice(0, -1).join(', ')} & ${cities[cities.length - 1]}`);
+const reviewUrl = googleReviewProfileUrl();
+const year = new Date().getFullYear();
+---
+
+<footer id="contact" data-site-footer class="eys-footer eys-on-dark bg-eys-ground pt-10 text-eys-on-dark lg:pt-14">
+  <div class="eys-container">
+    <div class="eys-footer-grid">
+      <div class="eys-footer-brand">
+        <a href={withBase('/')} class="eys-footer-link flex items-center gap-3 whitespace-nowrap text-eys-on-dark" aria-label="Elevate Your Space Handyman home">
+          <img src={withBase('/logos/logo-mark.webp')} alt="" width="140" height="192" class="h-9 w-auto lg:h-10" loading="lazy" />
+          <span class="flex items-center gap-2 lg:gap-2.5" aria-hidden="true">
+            <span class="font-display text-[14px] uppercase leading-5 tracking-[0.02em] lg:text-[15px]">Elevate Your Space</span>
+            <span class="inline-block h-0.5 w-3 bg-eys-accent lg:w-3.5"></span>
+            <span class="font-display text-[10px] uppercase leading-5 tracking-[0.22em]">Handyman</span>
+          </span>
+        </a>
+        <p class="mt-4 hidden max-w-[380px] text-[15px] leading-[22px] text-eys-on-dark-2 [text-wrap:pretty] lg:block">
+          Veteran-owned &amp; operated handyman in Katy, Texas. Everyday repairs to custom media walls, <span class="whitespace-nowrap">built-ins</span> and curtains.
+        </p>
+      </div>
+
+      <div class="eys-footer-phone mt-5 lg:mt-0">
+        <a href={`tel:${site.phoneTel}`} class="eys-footer-link inline-block whitespace-nowrap font-display text-[20px] leading-[26px] text-eys-on-dark">{site.phone}</a>
+      </div>
+
+      <p class="eys-footer-tagline mt-1 text-sm leading-5 text-eys-on-dark-2">Veteran-owned &amp; operated · Katy, Texas</p>
+
+      <nav class="eys-footer-nav mt-6 border-t border-eys-line-dark pt-6 text-[15px] leading-5 lg:mt-0 lg:border-0 lg:pt-0" aria-label="Footer">
+        {
+          columns.map((column) => (
+            <ul class="flex flex-col gap-3">
+              {column.map((item) => (
+                <li>
+                  <a href={withBase(item.href)} class="eys-footer-link hover:underline" {...(item.ctaId ? { 'data-cta-id': item.ctaId } : {})}>
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ))
+        }
+      </nav>
+
+      <div class="eys-footer-contact mt-6 flex flex-col items-start gap-3 text-sm leading-5 lg:mt-3">
+        <a href={`mailto:${site.email}`} class="eys-footer-link text-eys-on-dark hover:underline">{site.email}</a>
+        {
+          reviewUrl && (
+            <a
+              href={reviewUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-track-review
+              class="eys-footer-link inline-flex items-center gap-2 whitespace-nowrap text-eys-on-dark"
+            ><span aria-hidden="true">★</span><span><strong>{business.googleReviews.rating.toFixed(1)}</strong> · {googleReviewCountDisplay()} Google reviews</span></a>
+          )
+        }
+        <p class="text-eys-on-dark-2">{areaLine}</p>
+      </div>
+
+      <div class="eys-footer-social mt-6 lg:mt-5">
+        <ul class="flex gap-2" aria-label="Social profiles">
+          {
+            socialLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Elevate Your Space Handyman on ${link.label}`}
+                  class="eys-footer-link flex h-10 w-10 items-center justify-center text-eys-on-dark-3 hover:text-eys-on-dark"
+                >
+                  <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={link.icon} /></svg>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-8 flex flex-col gap-3 border-t border-eys-line-dark pt-6 text-xs leading-[18px] text-eys-on-dark-3 lg:mt-10 lg:flex-row lg:items-center lg:justify-between">
+      <p>© {year} Elevate Your Space Handyman · eyshandyman.com</p>
+      <ul class="flex flex-wrap gap-x-5 gap-y-2">
+        <li><a href={withBase('/privacy/')} class="eys-footer-link hover:text-eys-on-dark">Privacy Policy</a></li>
+        <li><a href={withBase('/terms/')} class="eys-footer-link hover:text-eys-on-dark">Terms of Service</a></li>
+        <li><a href={withBase('/privacy/#your-privacy-choices')} class="eys-footer-link hover:text-eys-on-dark">Your Privacy Choices</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

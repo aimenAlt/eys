@@ -1,0 +1,52 @@
+---
+/**
+ * 6. WHO RUNS YOUR PROJECT (ground). No portrait: the hero photo already shows
+ * Eyad's face. Eyad-on-site photo in the slot the boards gave the van (the van
+ * moved to the hero). Phone order: text, photo (full-bleed 440px), caption,
+ * buttons; desktop: text and buttons | photo (600px column, 480px, framed tight
+ * on Eyad and the TV wall).
+ */
+import SiteImage from '../../ui/SiteImage.astro';
+import Button from '../../site/Button.astro';
+import { jobberProjectEstimateFormUrl, site } from '../../../data/business';
+import { homeRedesignImages } from '../../../data/homeRedesign';
+import { withBase } from '../../../utils/paths';
+
+const quoteUrl = jobberProjectEstimateFormUrl() ?? withBase('/contact/');
+const photo = homeRedesignImages.eyadOnSite;
+---
+
+<section class="eys-on-dark bg-eys-ground pb-12 pt-12 text-eys-on-dark lg:py-16" data-analytics-section="owner">
+  <div class="eys-container">
+    <div class="eys-owner-grid">
+      <div class="eys-owner-text">
+        <p class="eys-eyebrow text-eys-on-dark-3">Who runs your project</p>
+        <h2 class="eys-h2 mt-1.5 text-eys-on-dark lg:mt-3">Eyad Essa</h2>
+        <p class="mt-1 text-sm font-bold leading-5 lg:mt-2 lg:text-[17px] lg:leading-[26px]">Owner · U.S. military veteran</p>
+        <p class="eys-body mt-4 text-eys-on-dark-2 lg:mt-1">Your one point of contact on every project.</p>
+      </div>
+
+      <figure class="eys-owner-figure">
+        <div class="eys-owner-photo">
+          <SiteImage
+            src={photo.src}
+            alt={photo.alt}
+            width={photo.width}
+            height={photo.height}
+            sizes="(min-width: 1024px) 840px, 100vw"
+          />
+        </div>
+        <figcaption class="mt-2 text-[13px] leading-[18px] text-eys-on-dark-3 lg:mt-3 lg:text-sm lg:leading-5">
+          Eyad Essa on site · <a href={withBase('/services/media-walls/')} class="eys-text-link-dark hover:underline"><span class="whitespace-nowrap">Lit-niche</span> media wall with linear fireplace</a>
+        </figcaption>
+      </figure>
+
+      <div class="eys-owner-ctas">
+        <div class="eys-cta-pair eys-cta-pair--on-dark mt-6 lg:mt-8">
+          <Button href={quoteUrl} data-cta-role="form" data-booking-type="project_estimate" data-cta-location="home_owner">Get a Free Quote</Button>
+          <Button href={`tel:${site.phoneTel}`} phoneIcon data-cta-role="call" data-cta-location="home_owner">Call {site.phone}</Button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
