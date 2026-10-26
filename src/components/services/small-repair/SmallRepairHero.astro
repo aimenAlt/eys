@@ -8,9 +8,11 @@ import { smallRepairVisitMeta } from '../../../data/smallRepairVisitContent';
 import { jobberHandymanToDoListFormUrl, localityShort, site } from '../../../data/business';
 import SiteImage from '../../ui/SiteImage.astro';
 import { resolveServiceHero } from '../../../data/images';
+import { projectEstimateRequestUrl } from '../../../data/requestFirstCtas';
 
 const heroImage = resolveServiceHero('handyman-to-do-list');
 const bookUrl = jobberHandymanToDoListFormUrl();
+const requestUrl = projectEstimateRequestUrl('todo-list-request') ?? '/contact/';
 ---
 
 <section class="relative bg-white pt-12 pb-14 lg:pt-16 lg:pb-20 overflow-hidden">
@@ -24,30 +26,41 @@ const bookUrl = jobberHandymanToDoListFormUrl();
           {smallRepairVisitMeta.heroTitle}
         </h1>
         <!--
-          Compact call + book pair right under the H1 (backlog 004): the page's
-          first CTA used to sit below the fold on a 390px phone, and this is a
-          Google Ads sitelink landing page. Price from todoList.ts only.
+          Request-first pair right under the H1 (backlog 008, on top of 004's
+          above-the-fold pair): the slot-booking form leaked (18 opens, 0
+          submissions), so the primary action is the simple request form + Call;
+          booking a slot stays as the secondary link below. Prices from todoList.ts only.
         -->
-        <div class="mb-5 grid grid-cols-2 gap-3 sm:max-w-md">
+        <div class="mb-3 grid grid-cols-2 gap-3 sm:max-w-md">
+          <a
+            href={requestUrl}
+            data-booking-type="project_estimate"
+            data-cta-location="todo_hero_request"
+            class="inline-flex min-h-12 items-center justify-center rounded-md bg-brand-red px-3 py-3 text-center text-sm font-bold text-white hover:bg-brand-redhover sm:text-base"
+          >
+            Send your list, get a time
+          </a>
           <a
             href={`tel:${site.phoneTel}`}
             data-cta-location="handyman_to_do_list_hero_call"
-            class="inline-flex min-h-12 items-center justify-center rounded-md bg-brand-red px-3 py-3 text-center text-sm font-bold text-white hover:bg-brand-redhover sm:text-base"
+            class="inline-flex min-h-12 items-center justify-center rounded-md border-2 border-brand-black px-3 py-3 text-center text-sm font-bold text-brand-black hover:bg-brand-black hover:text-white sm:text-base"
             aria-label={`Call Elevate Your Space Handyman at ${site.phone}`}
           >
             Call {site.phone}
           </a>
+        </div>
+        <p class="mb-5 text-sm text-neutral-600">
+          Prefer to pick a slot?{' '}
           <a
             href={bookUrl ?? '#book-visit'}
             target={bookUrl ? '_blank' : undefined}
             rel={bookUrl ? 'noopener noreferrer' : undefined}
             data-booking-type="handyman_to_do_list"
             data-cta-location="handyman_to_do_list_hero_form"
-            class="inline-flex min-h-12 items-center justify-center rounded-md border-2 border-brand-black px-3 py-3 text-center text-sm font-bold text-brand-black hover:bg-brand-black hover:text-white sm:text-base"
-          >
-            Book · from {formatUsd(smallRepairPricing.oneHour)}
-          </a>
-        </div>
+            class="font-bold text-brand-red underline underline-offset-2 hover:text-brand-redhover"
+          >Book a 1- or 2-hour visit</a>{' '}
+          <span class="whitespace-nowrap">(from {formatUsd(smallRepairPricing.oneHour)})</span>
+        </p>
         <p class="text-lg text-neutral-600 mb-6 leading-relaxed max-w-2xl">
           {smallRepairVisitMeta.heroSummary}
         </p>

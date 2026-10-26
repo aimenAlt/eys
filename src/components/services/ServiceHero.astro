@@ -8,6 +8,8 @@ import {
 import SiteImage from '../ui/SiteImage.astro';
 import { imagePlaceholder, resolveServiceHero } from '../../data/images';
 import { contentMaxClass, contentPaddingClass } from '../../data/layout';
+import { projectEstimateRequestUrl, requestFirstServiceHero } from '../../data/requestFirstCtas';
+import { highCeilingJobberUrl } from '../../data/curtainLanding';
 
 interface ServiceData {
   heroTitle?: string;
@@ -106,6 +108,15 @@ function primaryCta(): CtaConfig {
 }
 
 const primary = primaryCta();
+
+/**
+ * Request-first override (backlog 008), opted into per slug in
+ * src/data/requestFirstCtas.ts — only /services/curtain-installation/ today.
+ * Every other service page renders exactly as before.
+ */
+const requestFirst = requestFirstServiceHero[service.slug];
+const requestFirstUrl = requestFirst ? projectEstimateRequestUrl(requestFirst.eysForm) ?? '/contact/' : undefined;
+const bookingSecondaryUrl = requestFirst ? highCeilingJobberUrl() : undefined;
 ---
 
 <section class="bg-white border-b border-neutral-200" aria-labelledby="service-hero" data-analytics-section="hero">
@@ -121,6 +132,16 @@ const primary = primaryCta();
           )
         }
         <div class="flex flex-col sm:flex-row gap-3" data-sticky-hero-cta>
+          {requestFirst ? (
+          <a
+            href={requestFirstUrl}
+            data-cta-location={requestFirst.ctaLocation}
+            data-booking-type="project_estimate"
+            class="gradient-btn text-white px-8 py-3 rounded-md font-bold text-center transition-all shadow-lg hover:shadow-xl"
+          >
+            {requestFirst.label}
+          </a>
+          ) : (
           <a
             href={primary.href}
             target={primary.external ? '_blank' : undefined}
@@ -133,6 +154,7 @@ const primary = primaryCta();
           >
             {primary.label}
           </a>
+          )}
           <a
             href={`tel:${site.phoneTel}`}
             class="inline-flex justify-center items-center border-2 border-brand-black text-brand-black px-8 py-3 rounded-md font-bold hover:bg-brand-black hover:text-white transition-all"
@@ -140,6 +162,22 @@ const primary = primaryCta();
             {service.secondaryCTA ?? `Call ${site.phone}`}
           </a>
         </div>
+        {
+          requestFirst && bookingSecondaryUrl && (
+            <p class="mt-4 text-sm text-neutral-600">
+              <a
+                href={bookingSecondaryUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-booking-type="high_ceiling_curtain"
+                data-service-type="high_ceiling_curtain"
+                data-curtain-cta="high_ceiling"
+                data-cta-location="service_hero_booking"
+                class="font-bold text-brand-red underline underline-offset-2 hover:text-brand-redhover"
+              >{requestFirst.secondaryLabel}</a>
+            </p>
+          )
+        }
       </div>
       <div class="relative rounded-2xl overflow-hidden shadow-card ring-1 ring-brand-line aspect-[4/3] bg-brand-lightbg">
         <SiteImage

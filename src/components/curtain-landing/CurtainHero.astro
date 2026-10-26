@@ -1,5 +1,6 @@
 ---
-import { localityShort } from '../../data/business';
+import { localityShort, site } from '../../data/business';
+import { projectEstimateRequestUrl } from '../../data/requestFirstCtas';
 import SiteImage from '../ui/SiteImage.astro';
 import { curtainLanding, curtainOfferPrice, formatUsd } from '../../data/curtainLanding';
 import { imageOrPlaceholder } from '../../data/images';
@@ -9,6 +10,7 @@ const { pricing, images, highCeilingThresholdFt } = curtainLanding;
 const hc = pricing.highCeiling;
 const hero = images.hero;
 const heroSrc = imageOrPlaceholder(hero.src);
+const curtainRequestUrl = projectEstimateRequestUrl('curtains-request') ?? '/contact/';
 const rodPrice = curtainOfferPrice('rod');
 const trackPrice = curtainOfferPrice('track');
 
@@ -104,12 +106,34 @@ const pricingCardClass =
         </div>
       </div>
 
+      <!--
+        Request-first (backlog 008): the high-ceiling booking form leaked (13
+        opens, 0 submissions), so the primary action is the simple photo request
+        + Call. Calendar booking stays as the secondary link, still a
+        CurtainBookLink so InitiateCheckout (curtain-attribution.ts) fires on it.
+      -->
       <div class="mt-6" data-curtain-hero-cta>
-        <CurtainBookLink placement="hero" class="shadow-lg shadow-black/30">
-          See Available Times &amp; Book
-        </CurtainBookLink>
-        <p class="mt-3 max-w-md text-sm leading-relaxed text-white/80 lg:text-white/70">
-          Choose your installation time and securely leave a card on file to complete your booking.
+        <div class="flex flex-col gap-3 sm:flex-row">
+          <a
+            href={curtainRequestUrl}
+            data-booking-type="project_estimate"
+            data-cta-location="curtain_hero_request"
+            class="inline-flex min-h-12 w-full items-center justify-center rounded-md bg-brand-red px-5 py-3.5 text-center text-base font-bold text-white shadow-lg shadow-black/30 hover:bg-brand-redhover sm:w-auto"
+          >
+            Send photos of your windows
+          </a>
+          <a
+            href={`tel:${site.phoneTel}`}
+            data-cta-location="curtain_hero_call"
+            class="inline-flex min-h-12 w-full items-center justify-center rounded-md border-2 border-white/85 px-5 py-3 text-center text-base font-bold text-white hover:bg-white hover:text-brand-black sm:w-auto"
+          >
+            Call {site.phone}
+          </a>
+        </div>
+        <p class="mt-4 max-w-md text-sm leading-relaxed text-white/80 lg:text-white/70">
+          Prefer to pick a time now?{' '}
+          <CurtainBookLink placement="hero" variant="text" class="!inline !min-h-0 !text-sm !text-white underline decoration-white/55 underline-offset-4 hover:!text-brand-redondark">See Available Times &amp; Book</CurtainBookLink>{' '}
+          — choose your installation time and securely leave a card on file to complete your booking.
         </p>
         <p class="mt-4 max-w-md text-sm font-bold leading-relaxed text-white">
           Already have your curtains, rods or tracks, and required hardware?

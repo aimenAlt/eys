@@ -328,6 +328,18 @@ on these links made GA4 record every Jobber-side `generate_lead` as
 "website / referral", burying the visitor's true source. GA4 ignores
 `eys_form`; it exists so a lead can be traced back to the form that produced it.
 
+Request-first hero CTAs (backlog 008, 26 Oct 2026) send people to the shared
+project-estimate form 4985623 with their own labels so the entry points stay
+separable: `eys_form=todo-list-request` (`/services/handyman-to-do-list/`,
+`cta_location: todo_hero_request`) and `eys_form=curtains-request`
+(`/curtain-installation/` and `/services/curtain-installation/`,
+`cta_location: curtain_hero_request`). Both fire `jobber_booking_click` with
+`booking_type: project_estimate`. The calendar forms stay as secondary links:
+`handyman_to_do_list_hero_form` (to-do, 4983259), the curtain landing's `hero`
+CurtainBookLink (5061244) and the new `service_hero_booking` link on
+/services/curtain-installation/ (5061244, `data-curtain-cta="high_ceiling"`, so
+Meta `InitiateCheckout` still fires). New phone placement: `curtain_hero_call`.
+
 Outbound Jobber links also carry `eys_lp=<path>`, stamped by `withLandingPage`.
 Same idea as `eys_form`, and also **not** a UTM: it is the path this browser
 session first landed on (recorded once in `sessionStorage`, alongside the
