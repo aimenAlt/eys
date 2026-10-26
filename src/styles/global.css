@@ -933,10 +933,13 @@ html[data-theme] { scroll-padding-top: 64px; }
   .eys-hero-btn:hover { transform: none; }
 }
 
-/* Breadcrumbs: the strip above the footer (ContentLayout's "breadcrumbs" slot). */
+/* Breadcrumbs: the first line of the footer (ContentLayout's "breadcrumbs" slot). */
 .eys-crumbs ol { color: var(--eys-ink-3); }
 .eys-crumbs [aria-current] { color: var(--eys-ink); }
 .eys-crumbs a:hover { color: var(--eys-accent-ink); }
+.eys-crumbs-strip .eys-crumbs ol { color: var(--eys-on-dark-3); }
+.eys-crumbs-strip .eys-crumbs [aria-current] { color: var(--eys-on-dark-2); }
+.eys-crumbs-strip .eys-crumbs a:hover { color: #ffffff; }
 
 /* List item card (checklists, price factors): the icon is centred on the text
    whether it runs one line or three; 15–16px ink text. */

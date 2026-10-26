@@ -42,11 +42,11 @@ const showVanBand = isAdsLandingPage(Astro.url.pathname);
     <slot />
   </main>
   {
-    /* Breadcrumbs sit in a quiet strip above the footer (Aimen, 26 Oct 2026),
-       not under the nav. BreadcrumbList schema is emitted separately. */
+    /* Breadcrumbs open the footer: same navy, dim text, no band of their own
+       (Aimen, 26 Oct 2026). BreadcrumbList schema is emitted separately. */
     Astro.slots.has('breadcrumbs') && (
-      <div class="border-t border-eys-rule bg-eys-warm">
-        <div class="eys-container py-4">
+      <div class="eys-crumbs-strip bg-eys-ground">
+        <div class="eys-container pt-8 lg:pt-10">
           <slot name="breadcrumbs" />
         </div>
       </div>
