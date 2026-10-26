@@ -29,12 +29,12 @@ const communities = [...communityLinks].sort((a, b) => {
 const last = cities.length - 1;
 ---
 
-<section class="eys-section bg-eys-warm text-eys-ink" data-analytics-section="service_areas">
+<section class="eys-section bg-eys-white text-eys-ink" data-analytics-section="service_areas">
   <div class="eys-container">
-    <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start lg:gap-12 xl:grid-cols-[600px_minmax(0,1fr)]">
+    <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-16 xl:grid-cols-[520px_minmax(0,1fr)]">
       <div>
-        <h2 class="eys-h2">Service areas</h2>
-        <p class="mt-3 font-bold [text-wrap:pretty]">
+        <h2 class="eys-h2 eys-barred">Service areas</h2>
+        <p class="mt-5 font-display text-lg leading-7 [text-wrap:pretty] lg:text-2xl lg:leading-9">
           {
             cities.map((city, i) => {
               const label = city.name.replace(' ', ' ');
@@ -49,16 +49,15 @@ const last = cities.length - 1;
           }
         </p>
       </div>
-      <p class="mt-2 text-[15px] leading-6 text-eys-ink-2 [text-wrap:pretty] lg:mt-0 lg:text-base lg:leading-7">
+      <ul class="mt-6 flex flex-wrap gap-2.5 lg:mt-2">
         {
           communities.map((c, i) => (
-            <>
-              {i > 0 && ' · '}
-              <a href={withBase(`/service-areas/${c.citySlug}/${c.slug}/`)} class="eys-text-link whitespace-nowrap hover:underline">{c.title}</a>
-            </>
+            <li class="eys-reveal" style={`--d:${Math.min(i, 12) * 0.03}s`}>
+              <a href={withBase(`/service-areas/${c.citySlug}/${c.slug}/`)} class="eys-text-link eys-pill whitespace-nowrap">{c.title}</a>
+            </li>
           ))
         }
-      </p>
+      </ul>
     </div>
   </div>
 </section>

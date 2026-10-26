@@ -9,18 +9,18 @@ import { googleReviewCountDisplay, googleReviewProfileUrl, googleReviews, locali
 import { keepTogether } from '../../../utils/nowrap';
 
 const reviewUrl = googleReviewProfileUrl();
-const sep = 'px-2 text-eys-ink-3 lg:px-3.5';
+const sep = 'px-2 text-eys-accent lg:px-5';
 ---
 
-<section class="border-b border-eys-rule bg-eys-white px-6 py-4 text-eys-ink lg:px-14 lg:py-[18px]" data-analytics-section="trust_bar" aria-label="Why homeowners choose EYS">
-  <p class="flex flex-wrap items-center justify-center text-[13px] leading-5 lg:flex-nowrap lg:text-[15px]">
+<section class="border-b border-eys-rule bg-eys-white px-6 py-5 text-eys-ink lg:px-14 lg:py-7" data-analytics-section="trust_bar" aria-label="Why homeowners choose EYS">
+  <p class="flex flex-wrap items-center justify-center gap-y-1 font-display text-[13px] leading-5 tracking-[-0.01em] lg:flex-nowrap lg:text-[17px] lg:leading-6">
     {
       reviewUrl ? (
         <a href={reviewUrl} target="_blank" rel="noopener noreferrer" data-track-review data-cta-location="trust_bar" class="eys-text-link whitespace-nowrap lg:order-1">
-          <strong>★ {googleReviews.rating.toFixed(1)}</strong> · {googleReviewCountDisplay()} Google reviews
+          <strong><span class="eys-stars--ink">★</span> {googleReviews.rating.toFixed(1)}</strong> · {googleReviewCountDisplay()} Google reviews
         </a>
       ) : (
-        <span class="whitespace-nowrap lg:order-1"><strong>★ {googleReviews.rating.toFixed(1)}</strong> · {googleReviewCountDisplay()} Google reviews</span>
+        <span class="whitespace-nowrap lg:order-1"><strong><span class="eys-stars--ink">★</span> {googleReviews.rating.toFixed(1)}</strong> · {googleReviewCountDisplay()} Google reviews</span>
       )
     }
     <span class={`${sep} lg:order-2`} aria-hidden="true">·</span>

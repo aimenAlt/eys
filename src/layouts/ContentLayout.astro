@@ -8,6 +8,7 @@ import VanBand from '../components/common/VanBand.astro';
 import { isAdsLandingPage } from '../data/adsLandingPages';
 import { getCollection } from 'astro:content';
 import { buildNavMenus } from '../data/navMenus';
+import { siteTheme } from '../data/sitePresentation';
 
 interface Props {
   seo: SeoProps;
@@ -31,12 +32,10 @@ const showVanBand = isAdsLandingPage(Astro.url.pathname);
 ---
 
 <!--
-  New site chrome (backlog 015) on the "black" theme: these page bodies still
-  carry the legacy black heroes and #b00000 red buttons, so the chrome matches
-  them (black grounds, #B00000 red, same gold). Each template switches to
-  `siteTheme` when its body is redesigned.
+  Every page renders on `siteTheme`. Legacy page bodies inherit the system
+  through the brand-* token re-map in global.css.
 -->
-<BaseLayout seo={seo} schemaGraph={schemaGraph} theme="black">
+<BaseLayout seo={seo} schemaGraph={schemaGraph} theme={siteTheme}>
   <SiteHeader navMenus={navMenus} />
   <main id="main-content">
     {showVanBand && <VanBand />}

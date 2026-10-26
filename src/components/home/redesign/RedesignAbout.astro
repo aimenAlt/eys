@@ -2,9 +2,10 @@
 /**
  * 8. ABOUT (white, #about). Not on the boards: the live #about copy, verbatim
  * (towns from `localityShort` / `areaServedDisplay`). The section's two photos
- * are dropped. On phone paragraph 1 shows and the rest collapses with the
+ * are decorative (empty alt), desktop only. On phone paragraph 1 shows and the rest collapses with the
  * sanctioned `.seo-collapse` pattern (always open from 768px; text stays in the DOM).
  */
+import SiteImage from '../../ui/SiteImage.astro';
 import { areaServedDisplay, localityShort } from '../../../data/business';
 import { popularServices } from '../../../data/homeRedesign';
 import { withBase } from '../../../utils/paths';
@@ -12,10 +13,11 @@ import { withBase } from '../../../utils/paths';
 const p = 'eys-body mt-4 text-eys-ink-2';
 ---
 
-<section id="about" class="eys-section bg-eys-white text-eys-ink" data-analytics-section="about">
+<section id="about" class="eys-section bg-eys-warm text-eys-ink" data-analytics-section="about">
   <div class="eys-container">
-    <div class="max-w-[880px]">
-      <h2 class="eys-h2">More Than an <span class="whitespace-nowrap">Odd-Job</span> Visit—Still the Handyman You Search For</h2>
+    <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:items-center lg:gap-20">
+    <div class="max-w-[720px]">
+      <h2 class="eys-h2 eys-barred">More Than an <span class="whitespace-nowrap">Odd-Job</span> Visit—Still the Handyman You Search For</h2>
       <p class={p}>
         Some homes need one repair. Others need a door adjusted, curtains installed, drywall patched,
         a media wall finished, and a move-in list completed without coordinating several different
@@ -48,14 +50,19 @@ const p = 'eys-body mt-4 text-eys-ink-2';
         </div>
       </details>
     </div>
+    <div class="eys-stack eys-reveal hidden lg:block" aria-hidden="true">
+      <div><SiteImage src="/images/home/why-choose-us-bg.jpg" alt="" width={1440} height={1920} sizes="560px" /></div>
+      <div><SiteImage src="/images/home/who-we-are-2.jpg" alt="" width={1050} height={1400} sizes="320px" /></div>
+    </div>
+    </div>
 
-    <div class="mt-10 border-t border-eys-rule pt-8">
+    <div class="mt-12 border-t border-eys-rule pt-8 lg:mt-16">
       <h3 class="eys-eyebrow text-eys-ink-2">Popular services</h3>
       <ul class="mt-4 flex flex-wrap gap-2.5">
         {
           popularServices.map((item) => (
             <li>
-              <a href={withBase(item.href)} class="eys-text-link inline-flex items-center rounded-full border border-eys-rule px-4 py-2 text-sm font-bold text-eys-ink hover:border-eys-ink">
+              <a href={withBase(item.href)} class="eys-text-link eys-pill">
                 {item.label}
               </a>
             </li>

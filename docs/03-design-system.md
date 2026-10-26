@@ -5,10 +5,41 @@ Code: tokens, fonts, type and button classes at the end of `src/styles/global.cs
 `siteTheme` in `src/data/sitePresentation.ts`; `BaseLayout theme=…` writes `data-theme` on `<html>`.
 
 ## Direction
-Premium local contractor: dark grounds on the header, hero, the "Who runs your project" band and
-the footer; everything else on white `#FFFFFF` or warm `#F6F4F0`. Real project photos, angular
-skewed red/white stripe, one gold button per screen. Not a flyer: no cartoon icons, busy
-backgrounds, gradients on surfaces or gimmicky animation.
+Premium local contractor, one system on every page. Navy grounds on the header, every hero, the
+showcase bands (homepage Our Work, the owner band), the photo closing CTA and the footer; white
+`#FFFFFF` or warm `#F6F4F0` between them. Real project photos, the angular skewed red/white stripe
+and red slash (from the van's livery), soft depth on cards, one gold button per screen. Not a
+flyer: no cartoon icons, busy backgrounds, gradient-filled buttons or looping animation. Subtle
+ambient light on navy heroes and a one-time fade-up on scroll (homepage) are allowed.
+
+## One system sitewide (26 Oct 2026)
+Every page renders through `BaseLayout theme={siteTheme}` (ContentLayout and the landing pages;
+only /essa/ and the /home2/ preview differ). Under `html[data-theme]`, `global.css` re-points the
+legacy tokens at this palette, so components that still use them render on the system without a
+rewrite:
+
+| Legacy token | Becomes |
+|---|---|
+| `brand-black` | `--eys-ground` (navy) |
+| `brand-charcoal` | `--eys-ground-2` (#0B2C48) |
+| `brand-red` / `-redhover` | `--eys-btn-red` / `-hover` |
+| `brand-ink` / `brand-muted` | `--eys-ink` / `--eys-ink-2` |
+| `brand-lightbg` / `brand-line` | `--eys-warm` / `--eys-rule` |
+| Tailwind `neutral-50…900` | navy-tinted greys |
+| `.gradient-btn` | flat red |
+| `.prose` colours | ink, red bullets and link underlines |
+
+Every `h1`–`h3` on a themed page is Montserrat 800 (base layer, so a font utility still wins).
+Inner-page heroes (`PageHero`, `ServiceHero`, `LocalHero`, `SmallRepairHero`, the project and blog
+headers, the /services/ and /service-areas/ hubs) use `.eys-page-hero`: navy with ambient light,
+`.eys-kicker` eyebrow, `.eys-h1`, `.eys-hero-btn--red|--outline`, the photo in
+`.eys-page-hero-media` (radius 14, red parallelogram behind it) and the stripe at the foot. A
+breadcrumb row directly above a hero joins its navy ground. `LocalAreaCTA` is the photo closing
+CTA (`.eys-closing`). Long-form bodies are capped at `max-w-3xl`.
+
+**Copy is never part of a redesign.** Before shipping, diff the built HTML of every page against
+the previous build: titles, descriptions, canonicals, robots, headings, words, links, alt text,
+JSON-LD and `data-cta-*` / `data-booking-type` attributes must be identical.
 
 ## Tokens
 Custom properties on `:root` (blue, the default) and overridden under `[data-theme="black"]`.
@@ -43,18 +74,21 @@ Phone below 1024px, desktop from 1024px. Headings use `text-wrap: balance`, para
 
 | Class | Font | Phone | Desktop | Tracking |
 |---|---|---|---|---|
-| `.eys-eyebrow` | Montserrat 800, uppercase | 11/16 | 12/16 | .14em |
-| `.eys-h1` | Montserrat 800 | 36/40 | 48/52 | -.02em |
-| `.eys-h2` | Montserrat 800 | 26/30 | 32/36 | -.01em |
-| `.eys-h3` | Montserrat 800 | 20/26 | 20/26 | — |
-| `.eys-figure` (big figure) | Montserrat 800 | 32/36 | 32/36 | -.02em |
-| `.eys-body` | Inter 400 | 16/24 | 17/26 | — |
+| `.eys-eyebrow` | Montserrat 800, uppercase | 11/16 | 12/16 | .16em |
+| `.eys-h1` | Montserrat 800 | 40/44 | 60/62, 68/70 from 1280 | -.025em |
+| `.eys-h2` | Montserrat 800 | 30/34 | 44/48 | -.02em |
+| `.eys-h3` | Montserrat 800 | 20/26 | 22/28 | -.01em |
+| `.eys-figure` (big figure) | Montserrat 800 | 34/38 | 40/44 | -.03em |
+| `.eys-body` | Inter 400 | 16/25 | 18/28 | — |
+
+`.eys-kicker` puts the skewed red bar before an eyebrow; `.eys-barred` puts it above a heading
+that has no eyebrow.
 | `.eys-small-15/14/13/12` | Inter | 15/22, 14/20, 13/18, 12/16 | same | — |
 
 ## Spacing, container, breakpoints
 - Breakpoints: phone < 768, tablet 768–1023, desktop ≥ 1024 (layout switch), wide ≥ 1280 (board columns).
 - Desktop content capped at 1328px and centred (56px side padding at 1440), backgrounds full-bleed.
-  Phone side padding 24px. Section padding 48px phone, 72px desktop.
+  Phone side padding 24px. Section padding 64px phone, 112px desktop.
 - From 1280px the boards' fixed columns apply (e.g. hero 600px | 1fr); 1024–1279 uses proportional versions.
 
 ## Buttons
@@ -108,25 +142,32 @@ Eyad-and-van photo.
 - **Button** (`Button.astro`): `.eys-btn` + variant; `phoneIcon` adds the 18px icon.
 - **CTA pair** (`.eys-cta-pair` + `--on-dark|--on-light`): two buttons tagged `data-cta-role="form|call"`
   that swap style and order at 1024px (phone: form red first; desktop: call red first). One element each.
-- **Cards**: white, 1px rule border, radius 6px; booking cards end in a navy button pinned to the bottom.
-- **Gallery** (`.eys-gallery`): radius-4 tiles linking to project pages; phone 2 columns, desktop 3.
-- **Review card**: white (or panel on dark), five ink stars, quote, "Name · Google review".
+- **Cards** (`.eys-card`): white, radius 14, soft navy shadow, lift and photo ease-in on hover;
+  booking cards end in a navy button pinned to the bottom.
+- **Gallery** (`.eys-gallery`, on navy): radius-10 tiles linking to project pages, caption on a
+  shade at the foot of each photo; phone 2 columns, desktop 3.
+- **Review card** (`.eys-quote`): white card with a large red quote mark and gold stars; the middle
+  one of three is navy and raised.
+- **Pills** (`.eys-pill`), **FAQ cards** (`.eys-faq-item`, plus turns to a red cross),
+  **steps** (`.eys-step-num`, outlined red numerals on a rule), **photo stack** (`.eys-stack`).
 - **Stripe band** (`.eys-stripe`): the skewed red/white band under the hero, aria-hidden.
 
 ## Homepage (redesign) section order
 `src/components/home/redesign/`, content in `src/data/homeRedesign.ts`:
-1. Hero (ground) — Eyad-and-van photo first on phone, right column on desktop · 2. Trust strip (white) ·
-3. Start with one visit (warm) · 4. Our Work (white) · 5. What customers say (warm) ·
-6. Who runs your project (ground) · 7. Services (warm) · 8. About (white) · 9. FAQ (warm) ·
-10. How it works (white) · 11. Service areas (warm) · 12. Closing CTA (white) · footer (ground).
+1. Hero (ground) — Eyad-and-van photo first on phone; on desktop an uncropped 3:2 slab bleeding off
+the right edge behind an angled red slash · 2. Trust strip (white) · 3. Start with one visit (warm) ·
+4. Our Work (ground) · 5. What customers say (warm) · 6. Who runs your project (ground, photo
+full-bleed right) · 7. Services (white, photo-topped cards) · 8. About (warm, photo stack) ·
+9. FAQ (white, two columns) · 10. How it works (warm) · 11. Service areas (white, pills) ·
+12. Closing CTA (photo under navy) · footer (ground). Section photos the copy does not describe
+are decorative (`alt=""`).
 
 ## Migration status
-- **System:** tokens, themes, fonts, type and buttons shipped (backlog 012).
-- **Homepage:** live at "/" on the new system (blue theme, new chrome) since backlog 014, 26 Oct 2026. /home2/ previews the previous homepage.
-- **Site chrome:** live sitewide since backlog 015 (26 Oct 2026). ContentLayout renders SiteHeader, SiteFooter and SiteBottomBar with `theme="black"` so the chrome matches the legacy bodies (black grounds, #B00000 red, same gold); the legacy Header, Footer, MobileStickyCTA and Nav* components are deleted. Own-chrome landing pages keep their own headers.
-- **Legacy page bodies** (every ContentLayout template) keep the old black/red look: `brand-*` tokens (`#b00000`,
-  `#0a0a0a`), Inter only, `.gradient-btn`. They are migrated one template at a time and switch to
-  `siteTheme` when they are.
+- **Done (26 Oct 2026):** every page is on the system — tokens re-mapped sitewide, every page on
+  `siteTheme`, all inner heroes and the shared closing CTA redesigned, homepage redesigned. /home2/
+  still previews the previous homepage on the black theme.
+- **Next, per template:** deeper body redesigns (cards, galleries) can move components off the
+  `brand-*` tokens onto `--eys-*` classes one at a time; the re-map keeps them consistent meanwhile.
 
 ## VanBand (Eyad and the EYS van first)
 `src/components/common/VanBand.astro`, backlog 011 (Aimen, 25–26 Oct 2026). The photo of

@@ -3,22 +3,28 @@
  * 9. FAQ (warm). Not on the boards: the existing `homeFaqs`, verbatim. It MUST
  * stay — `homePageSchema(homeFaqs)` emits FAQPage schema for these questions.
  */
+import SiteImage from '../../ui/SiteImage.astro';
 import { homeFaqs } from '../../../data/schema';
 ---
 
-<section class="eys-section bg-eys-warm text-eys-ink" aria-labelledby="home-faq" data-analytics-section="faq">
+<section class="eys-section bg-eys-white text-eys-ink" aria-labelledby="home-faq" data-analytics-section="faq">
   <div class="eys-container">
-    <div class="max-w-[880px]">
-      <h2 id="home-faq" class="eys-h2">Frequently Asked Questions</h2>
-      <div class="mt-6 border-t border-eys-rule lg:mt-8">
+    <div class="lg:grid lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-start lg:gap-20">
+      <div class="lg:sticky lg:top-28">
+        <h2 id="home-faq" class="eys-h2 eys-barred">Frequently Asked Questions</h2>
+        <div class="eys-card-media mt-10 hidden h-[360px] overflow-hidden rounded-[14px] shadow-[0_30px_60px_-28px_rgba(0,32,56,0.5)] lg:block" aria-hidden="true">
+          <SiteImage src="/images/services/curtain-install.jpg" alt="" width={1200} height={1600} sizes="480px" class="block h-full w-full object-cover object-[50%_45%]" />
+        </div>
+      </div>
+      <div class="mt-8 space-y-3 lg:mt-0">
         {
           homeFaqs.map((faq) => (
-            <details class="group border-b border-eys-rule">
-              <summary class="eys-text-link flex cursor-pointer items-start justify-between gap-4 py-5 font-display text-lg leading-6 [text-wrap:balance]">
+            <details class="eys-faq-item group">
+              <summary class="eys-text-link flex cursor-pointer items-center justify-between gap-4 px-5 py-5 font-display text-[17px] leading-6 [text-wrap:balance] lg:px-7 lg:py-6 lg:text-lg">
                 <span>{faq.question}</span>
-                <svg class="mt-0.5 h-5 w-5 shrink-0 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                <span class="eys-faq-plus" aria-hidden="true"></span>
               </summary>
-              <p class="eys-body pb-5 text-eys-ink-2">{faq.answer}</p>
+              <p class="eys-body px-5 pb-6 text-eys-ink-2 lg:px-7 lg:pb-7">{faq.answer}</p>
             </details>
           ))
         }

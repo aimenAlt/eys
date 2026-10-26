@@ -255,6 +255,7 @@ details > summary::-webkit-details-marker {
 :root {
   /* grounds */
   --eys-ground: #002038;
+  --eys-ground-2: #0b2c48;
   --eys-panel: rgba(255, 255, 255, 0.07);
   --eys-panel-line: rgba(255, 255, 255, 0.16);
   --eys-line-dark: rgba(255, 255, 255, 0.12);
@@ -291,6 +292,7 @@ details > summary::-webkit-details-marker {
 
 [data-theme="black"] {
   --eys-ground: #0a0a0a;
+  --eys-ground-2: #1c1c1c;
   --eys-panel: #1c1c1c;
   --eys-panel-line: #1c1c1c;
   --eys-stripe: #b00000;
@@ -304,6 +306,70 @@ details > summary::-webkit-details-marker {
   --eys-ink-2: #5a5a5a;
   --eys-ink-3: #6b6b6b;
   --eys-rule: #e3e3e3;
+}
+
+/*
+ * One system for every page. Pages rendered with a theme re-point the legacy
+ * `brand-*` tokens at the redesign palette, so every older component (hero,
+ * cards, CTAs, landing pages) picks up the same navy / red / warm grounds the
+ * homepage uses without a per-component rewrite. Utilities read these through
+ * var(), so opacity variants (bg-brand-black/45) follow too.
+ */
+html[data-theme] {
+  --color-brand-red: var(--eys-btn-red);
+  --color-brand-redhover: var(--eys-btn-red-hover);
+  --color-brand-redondark: #ff5c5c;
+  --color-brand-redsoft: #fdeceb;
+  --color-brand-black: var(--eys-ground);
+  --color-brand-charcoal: var(--eys-ground-2);
+  --color-brand-ink: var(--eys-ink);
+  --color-brand-muted: var(--eys-ink-2);
+  --color-brand-lightbg: var(--eys-warm);
+  --color-brand-line: var(--eys-rule);
+  --shadow-card: 0 1px 2px rgba(0, 32, 56, 0.06), 0 18px 40px -22px rgba(0, 32, 56, 0.32);
+  --shadow-cardhover: 0 2px 4px rgba(0, 32, 56, 0.06), 0 30px 60px -24px rgba(0, 32, 56, 0.42);
+}
+/* Tailwind's default neutral greys, pulled onto the system's navy-tinted greys. */
+html[data-theme] {
+  --color-neutral-50: #f8f9fb;
+  --color-neutral-100: #f1f3f6;
+  --color-neutral-200: #e2e7ee;
+  --color-neutral-300: #ccd5df;
+  --color-neutral-400: #93a1b0;
+  --color-neutral-500: #66788a;
+  --color-neutral-600: #46596b;
+  --color-neutral-700: #31455a;
+  --color-neutral-800: #1b3047;
+  --color-neutral-900: #0b2135;
+}
+/* Long-form copy (service, area and blog bodies) in the system's ink. */
+html[data-theme] .prose {
+  --tw-prose-body: var(--eys-ink-2);
+  --tw-prose-headings: var(--eys-ink);
+  --tw-prose-lead: var(--eys-ink-2);
+  --tw-prose-links: var(--eys-ink);
+  --tw-prose-bold: var(--eys-ink);
+  --tw-prose-counters: var(--eys-accent-ink);
+  --tw-prose-bullets: var(--eys-accent-ink);
+  --tw-prose-hr: var(--eys-rule);
+  --tw-prose-quotes: var(--eys-ink);
+  --tw-prose-quote-borders: var(--eys-accent-ink);
+}
+html[data-theme] .prose a { text-decoration-color: var(--eys-accent-ink); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+html[data-theme] .prose a:hover { color: var(--eys-accent-ink); }
+html[data-theme] .gradient-btn { background: var(--eys-btn-red); }
+html[data-theme] .gradient-btn:hover { background: var(--eys-btn-red-hover); }
+html[data-theme] body { background-color: var(--eys-white); color: var(--eys-ink); }
+
+/* Display face on every heading of a themed page. In the base layer, so a
+   heading that sets its own font utility still wins. */
+@layer base {
+  html[data-theme] :is(h1, h2, h3) {
+    font-family: var(--eys-font-display);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  html[data-theme] h1 { letter-spacing: -0.025em; }
 }
 
 /* Tailwind access: bg-eys-ground, text-eys-ink-2, border-eys-rule, font-display … */
@@ -349,23 +415,46 @@ details > summary::-webkit-details-marker {
   font-weight: 800;
   font-size: 11px;
   line-height: 16px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
+}
+/* Eyebrow with the brand's skewed red bar in front of it. */
+.eys-kicker { display: inline-flex; align-items: center; gap: 12px; }
+.eys-kicker::before {
+  content: "";
+  flex: none;
+  width: 28px;
+  height: 4px;
+  background: var(--eys-accent);
+  transform: skewX(-40deg);
+}
+/* Headings that have no eyebrow get the same bar above them. */
+.eys-barred::before {
+  content: "";
+  display: block;
+  width: 36px;
+  height: 5px;
+  margin-bottom: 18px;
+  background: var(--eys-accent);
+  transform: skewX(-40deg);
+}
+@media (min-width: 64rem) {
+  .eys-barred.eys-barred--center::before { margin-left: auto; margin-right: auto; }
 }
 .eys-h1 {
   font-family: var(--eys-font-display);
   font-weight: 800;
-  font-size: 36px;
-  line-height: 40px;
-  letter-spacing: -0.02em;
+  font-size: 40px;
+  line-height: 44px;
+  letter-spacing: -0.025em;
   text-wrap: balance;
 }
 .eys-h2 {
   font-family: var(--eys-font-display);
   font-weight: 800;
-  font-size: 26px;
-  line-height: 30px;
-  letter-spacing: -0.01em;
+  font-size: 30px;
+  line-height: 34px;
+  letter-spacing: -0.02em;
   text-wrap: balance;
 }
 .eys-h3 {
@@ -373,18 +462,19 @@ details > summary::-webkit-details-marker {
   font-weight: 800;
   font-size: 20px;
   line-height: 26px;
+  letter-spacing: -0.01em;
   text-wrap: balance;
 }
 .eys-figure {
   font-family: var(--eys-font-display);
   font-weight: 800;
-  font-size: 32px;
-  line-height: 36px;
-  letter-spacing: -0.02em;
+  font-size: 34px;
+  line-height: 38px;
+  letter-spacing: -0.03em;
 }
 .eys-body {
   font-size: 16px;
-  line-height: 24px;
+  line-height: 25px;
   text-wrap: pretty;
 }
 .eys-small-15 { font-size: 15px; line-height: 22px; text-wrap: pretty; }
@@ -394,9 +484,14 @@ details > summary::-webkit-details-marker {
 
 @media (min-width: 64rem) {
   .eys-eyebrow { font-size: 12px; line-height: 16px; }
-  .eys-h1 { font-size: 48px; line-height: 52px; }
-  .eys-h2 { font-size: 32px; line-height: 36px; }
-  .eys-body { font-size: 17px; line-height: 26px; }
+  .eys-h1 { font-size: 60px; line-height: 62px; }
+  .eys-h2 { font-size: 44px; line-height: 48px; }
+  .eys-h3 { font-size: 22px; line-height: 28px; }
+  .eys-figure { font-size: 40px; line-height: 44px; }
+  .eys-body { font-size: 18px; line-height: 28px; }
+}
+@media (min-width: 80rem) {
+  .eys-h1 { font-size: 68px; line-height: 70px; }
 }
 
 /* Buttons. Base: 52px, radius 6px, Inter 700 16px, gap 10px, nowrap.
@@ -417,8 +512,10 @@ details > summary::-webkit-details-marker {
   line-height: 20px;
   white-space: nowrap;
   text-decoration: none;
-  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
+.eys-btn:hover { transform: translateY(-2px); }
+.eys-btn--gold, .eys-btn--red, .eys-cta-pair > [data-cta-role] { box-shadow: 0 10px 24px -12px rgba(0, 0, 0, 0.45); }
 .eys-btn > svg { flex: none; width: 18px; height: 18px; }
 @media (max-width: 63.999rem) {
   .eys-btn--block { display: flex; width: 100%; }
@@ -434,6 +531,7 @@ details > summary::-webkit-details-marker {
 .eys-btn--outline-dark { border-color: var(--eys-ink); color: var(--eys-ink); background: transparent; }
 @media (prefers-reduced-motion: reduce) {
   .eys-btn { transition: none; }
+  .eys-btn:hover { transform: none; }
 }
 
 /* --------------------------------------------------------------------------
@@ -460,9 +558,9 @@ html[data-theme] { scroll-padding-top: 64px; }
 @media (min-width: 64rem) {
   .eys-container { padding-left: 56px; padding-right: 56px; }
 }
-.eys-section { padding-top: 48px; padding-bottom: 48px; }
+.eys-section { padding-top: 64px; padding-bottom: 64px; }
 @media (min-width: 64rem) {
-  .eys-section { padding-top: 72px; padding-bottom: 72px; }
+  .eys-section { padding-top: 112px; padding-bottom: 112px; }
 }
 
 /* Header */
@@ -535,25 +633,75 @@ html[data-theme] { scroll-padding-top: 64px; }
   .eys-stripe > span:nth-child(4) { left: calc(58% + 8px); right: -16px; top: 26px; height: 4px; }
 }
 
-/* Hero: one DOM, phone order = photo, copy; desktop = copy | photo. */
+/* Hero. Phone: photo first (full-bleed, natural 3:2), then copy. Desktop: copy
+   on the left; the photo is a 3:2 slab bleeding off the right edge with an
+   angled left edge and a red slash, like the van's livery. The Eyad-and-van
+   photo is never cropped, cover-fit or overlaid (backlog 011): the slab keeps
+   the photo's own aspect, and the angle only trims a sliver of sky and grass
+   at its far left, clear of Eyad and of every letter on the van. */
+.eys-hero { position: relative; overflow: hidden; isolation: isolate; }
+.eys-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(900px 600px at 0% 0%, rgba(255, 255, 255, 0.07), transparent 70%),
+    radial-gradient(700px 500px at 35% 110%, rgba(227, 11, 11, 0.10), transparent 70%);
+}
+.eys-hero-stage { position: relative; }
 .eys-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
-.eys-hero-photo { margin-left: -24px; margin-right: -24px; }
+.eys-hero-photo { position: relative; margin-left: -24px; margin-right: -24px; }
 .eys-hero-photo img { display: block; width: 100%; height: auto; }
+.eys-hero-slash { display: none; }
 .eys-hero-copy { padding-top: 24px; }
+.eys-hero-review {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.6);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.eys-stars { color: var(--eys-cta-bg); letter-spacing: 3px; }
+.eys-stars--ink { color: #e8a200; }
 @media (min-width: 64rem) {
-  .eys-hero-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-areas: "copy photo";
-    column-gap: 48px;
-    align-items: center;
+  .eys-hero .eys-stripe { margin-top: 0; }
+  .eys-hero-stage { --slab: calc(50vw - 8px); min-height: max(640px, calc(var(--slab) / 1.5)); display: flex; align-items: center; }
+  .eys-hero-stage > .eys-container { width: 100%; }
+  .eys-hero-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 48px; }
+  .eys-hero-copy { grid-column: 1; grid-row: 1; padding: 56px 0 64px; }
+  .eys-hero-photo, .eys-hero-slash {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: var(--slab);
+    aspect-ratio: 3 / 2;
+    margin: 0;
+    transform: translateY(-50%);
+    --cut: 56px;
   }
-  .eys-hero-photo { grid-area: photo; margin: 0; }
-  .eys-hero-photo img { border-radius: 6px; }
-  .eys-hero-copy { grid-area: copy; padding-top: 0; }
+  .eys-hero-photo { clip-path: polygon(calc(var(--cut) + 16px) 0, 100% 0, 100% 100%, 16px 100%); }
+  .eys-hero-photo img { width: 100%; height: 100%; }
+  .eys-hero-slash {
+    display: block;
+    background: var(--eys-stripe);
+    clip-path: polygon(var(--cut) 0, calc(var(--cut) + 10px) 0, 10px 100%, 0 100%);
+  }
 }
 @media (min-width: 80rem) {
+  /* The space right of the 600px copy column and its 48px gap (the container
+     centres above 1440px, hence the third term), capped at 54vw. */
+  .eys-hero-stage { --slab: min(54vw, calc(100vw - 704px), calc(50vw + 16px)); }
   .eys-hero-grid { grid-template-columns: 600px minmax(0, 1fr); }
 }
+/* Entrance: copy rises in once on load (never the photo, which is the LCP image). */
+@keyframes eys-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+.eys-rise { animation: eys-rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.eys-rise-2 { animation-delay: 0.08s; }
+.eys-rise-3 { animation-delay: 0.16s; }
+.eys-rise-4 { animation-delay: 0.24s; }
+.eys-rise-5 { animation-delay: 0.32s; }
 
 /* CTA pair that swaps style and order at 1024px (one element each, never duplicated).
    Phone: form first (red), call second (outline). Desktop: call first (red), form second (outline). */
@@ -581,57 +729,301 @@ html[data-theme] { scroll-padding-top: 64px; }
   .eys-cta-pair--on-light > [data-cta-role="form"] { border-color: var(--eys-ink); color: var(--eys-ink); }
 }
 
-/* Owner band: phone = text, photo (full-bleed), caption, buttons; desktop = text+buttons | photo. */
+/* Owner band: phone = text, photo (full-bleed), caption, buttons.
+   Desktop = text + buttons on the left; the photo fills the right half edge to
+   edge with the hero's angled edge, caption laid over its foot. */
+.eys-owner { position: relative; overflow: hidden; isolation: isolate; }
 .eys-owner-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
-.eys-owner-photo { margin: 24px -24px 0; height: 440px; overflow: hidden; }
-.eys-owner-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; }
+.eys-owner-figure { position: relative; }
+.eys-owner-photo { margin: 28px -24px 0; height: 460px; overflow: hidden; }
+.eys-owner-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 66%; }
+.eys-owner-name { font-size: 44px; line-height: 46px; }
 @media (min-width: 64rem) {
   .eys-owner-grid {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-areas: "text figure" "ctas figure";
+    grid-template-areas: "text ." "ctas .";
     grid-template-rows: auto 1fr;
     column-gap: 48px;
-    align-items: start;
+    min-height: 640px;
+    align-content: center;
   }
-  .eys-owner-text { grid-area: text; align-self: end; }
-  .eys-owner-figure { grid-area: figure; align-self: center; }
-  .eys-owner-ctas { grid-area: ctas; }
-  .eys-owner-photo { margin: 0; height: 480px; border-radius: 6px; position: relative; container-type: inline-size; }
-  /* Frame tight on Eyad and the TV wall: 2b's hero framing (bottom -245px in a
-     680px frame) rescaled to the column width, so it holds from 1024 to 1440. */
-  .eys-owner-photo img {
+  .eys-owner-text { grid-area: text; align-self: end; padding-top: 112px; }
+  .eys-owner-ctas { grid-area: ctas; padding-bottom: 112px; }
+  .eys-owner-figure {
     position: absolute;
-    left: -2.8%;
-    bottom: calc(-245 / 680 * 100cqw);
-    width: 138.9%;
-    max-width: none;
-    height: auto;
-    object-fit: initial;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 50%;
+    margin: 0;
+    clip-path: polygon(150px 0, 100% 0, 100% 100%, 0 100%);
   }
-}
-@media (min-width: 80rem) {
-  .eys-owner-grid { grid-template-columns: minmax(0, 1fr) 600px; }
+  .eys-owner-photo { margin: 0; height: 100%; }
+  .eys-owner-photo img { object-position: 50% 72%; }
+  .eys-owner-figure figcaption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 80px 40px 28px 120px;
+    text-align: right;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.7), transparent);
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .eys-owner-name { font-size: 72px; line-height: 74px; }
 }
 
-/* Gallery: phone 2 cols (tile 1 full at 400px, tile 4 full at 300px, rest 200px);
-   desktop 3 cols (tile 1 spans two rows at 584px, rest 272px). */
-.eys-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; }
-.eys-gallery-frame { display: block; height: 200px; border-radius: 4px; overflow: hidden; }
-.eys-gallery-frame img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: var(--crop-phone, 50% 50%); }
+/* Gallery (on the dark ground): phone 2 cols (tile 1 full at 400px, tile 4
+   full at 300px, rest 220px); desktop 3 cols (tile 1 spans two rows). Captions
+   sit on a shade at the foot of each photo; the photo eases in on hover. */
+.eys-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.eys-gallery figure { position: relative; margin: 0; height: 100%; }
+.eys-gallery-frame { display: block; height: 220px; border-radius: 10px; overflow: hidden; background: rgba(255, 255, 255, 0.05); }
+.eys-gallery-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--crop-phone, 50% 50%);
+  transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.eys-gallery figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 48px 12px 12px;
+  border-radius: 0 0 10px 10px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.78), transparent);
+  color: #ffffff;
+  font-weight: 700;
+}
+.eys-gallery figcaption .eys-gallery-town { color: rgba(255, 255, 255, 0.72); font-weight: 400; }
 .eys-gallery > :nth-child(1) { grid-column: 1 / 3; }
 .eys-gallery > :nth-child(1) .eys-gallery-frame { height: 400px; }
 .eys-gallery > :nth-child(4) { grid-column: 1 / 3; }
 .eys-gallery > :nth-child(4) .eys-gallery-frame { height: 300px; }
 @media (min-width: 64rem) {
-  .eys-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-  .eys-gallery-frame { height: 272px; }
+  .eys-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .eys-gallery-frame { height: 300px; }
   .eys-gallery-frame img { object-position: var(--crop-desktop, 50% 50%); }
   .eys-gallery > :nth-child(1) { grid-column: auto; grid-row: 1 / 3; }
-  .eys-gallery > :nth-child(1) .eys-gallery-frame { height: 584px; }
+  .eys-gallery > :nth-child(1) .eys-gallery-frame { height: 616px; }
   .eys-gallery > :nth-child(4) { grid-column: auto; }
-  .eys-gallery > :nth-child(4) .eys-gallery-frame { height: 272px; }
+  .eys-gallery > :nth-child(4) .eys-gallery-frame { height: 300px; }
+  .eys-gallery figcaption { padding: 64px 20px 18px; }
+  .eys-gallery figcaption > * { transition: transform 0.4s ease; }
+  .eys-gallery a:hover figcaption > * { transform: translateY(-4px); }
 }
-.eys-gallery a:hover img { opacity: 0.92; }
+.eys-gallery a:hover img { transform: scale(1.06); }
+
+/* Inner-page hero (PageHero, ServiceHero, LocalHero, project and blog heroes):
+   the homepage hero's language on one class — navy ground with ambient light,
+   white display headline, photo framed with an angular red accent, stripe foot. */
+.eys-page-hero { position: relative; overflow: hidden; isolation: isolate; background: var(--eys-ground); color: var(--eys-on-dark); }
+.eys-page-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(900px 600px at 0% 0%, rgba(255, 255, 255, 0.07), transparent 70%),
+    radial-gradient(700px 500px at 60% 120%, rgba(227, 11, 11, 0.12), transparent 70%);
+}
+.eys-page-hero h1 { color: var(--eys-on-dark); }
+.eys-page-hero .eys-page-hero-lede { color: var(--eys-on-dark-2); }
+.eys-page-hero-media { position: relative; }
+.eys-page-hero-media::before {
+  content: "";
+  position: absolute;
+  right: -14px;
+  bottom: -14px;
+  width: 55%;
+  height: 60%;
+  background: var(--eys-stripe);
+  clip-path: polygon(18% 0, 100% 0, 100% 100%, 0 100%);
+  border-radius: 0 0 14px 0;
+}
+.eys-page-hero-media > .eys-page-hero-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.7);
+  background: rgba(255, 255, 255, 0.05);
+}
+.eys-page-hero .eys-stripe { margin-top: 40px; }
+@media (min-width: 64rem) {
+  .eys-page-hero .eys-stripe { margin-top: 64px; }
+}
+/* Buttons inside legacy heroes, mapped onto the system's red / outline-light pair. */
+.eys-hero-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 28px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.2s ease;
+}
+.eys-hero-btn:hover { transform: translateY(-2px); }
+.eys-hero-btn--red { background: var(--eys-btn-red); color: #ffffff; box-shadow: 0 10px 24px -12px rgba(0, 0, 0, 0.55); }
+.eys-hero-btn--red:hover { background: var(--eys-btn-red-hover); }
+.eys-hero-btn--outline { border-color: var(--eys-outline-dark); color: var(--eys-on-dark); }
+.eys-hero-btn--outline:hover { border-color: #ffffff; background: rgba(255, 255, 255, 0.06); }
+@media (prefers-reduced-motion: reduce) {
+  .eys-hero-btn:hover { transform: none; }
+}
+
+/* Breadcrumbs. Ink on light grounds; when the breadcrumb row sits directly
+   above an inner-page hero it joins the hero's navy ground (full-bleed). */
+.eys-crumbs ol { color: var(--eys-ink-3); }
+.eys-crumbs [aria-current] { color: var(--eys-ink); }
+.eys-crumbs a:hover { color: var(--eys-accent-ink); }
+:has(> .eys-crumbs):has(+ .eys-page-hero) {
+  background: var(--eys-ground);
+  box-shadow: 0 0 0 100vmax var(--eys-ground);
+  clip-path: inset(0 -100vmax);
+  /* Keep the breadcrumb's bottom margin inside the navy row. */
+  display: flow-root;
+}
+:has(> .eys-crumbs):has(+ .eys-page-hero) .eys-crumbs ol { color: var(--eys-on-dark-3); }
+:has(> .eys-crumbs):has(+ .eys-page-hero) .eys-crumbs [aria-current] { color: var(--eys-on-dark); }
+:has(> .eys-crumbs):has(+ .eys-page-hero) .eys-crumbs a:hover { color: #ffffff; }
+.eys-page-hero .eys-crumbs ol { color: var(--eys-on-dark-3); }
+.eys-page-hero .eys-crumbs [aria-current] { color: var(--eys-on-dark); }
+.eys-page-hero .eys-crumbs a:hover { color: #ffffff; }
+
+/* Cards: soft depth, lift on hover, photo eases in. */
+.eys-card {
+  border-radius: 14px;
+  background: var(--eys-white);
+  box-shadow: 0 1px 2px rgba(0, 32, 56, 0.06), 0 18px 40px -22px rgba(0, 32, 56, 0.32);
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.35s ease;
+}
+.eys-card:hover { transform: translateY(-6px); box-shadow: 0 2px 4px rgba(0, 32, 56, 0.06), 0 30px 60px -24px rgba(0, 32, 56, 0.42); }
+.eys-card-media { overflow: hidden; }
+.eys-card-media img { transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.eys-card:hover .eys-card-media img { transform: scale(1.05); }
+
+/* Review cards: a large red quote mark behind the text; the middle one on navy. */
+.eys-quote { position: relative; overflow: hidden; }
+.eys-quote::before {
+  content: "\201C";
+  position: absolute;
+  top: -18px;
+  right: 18px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 160px;
+  line-height: 1;
+  color: var(--eys-accent);
+  opacity: 0.14;
+  pointer-events: none;
+}
+.eys-quote--dark { background: var(--eys-ground); color: var(--eys-on-dark); }
+.eys-quote--dark::before { opacity: 0.35; }
+@media (min-width: 64rem) {
+  .eys-quote--lift { transform: translateY(-16px); }
+  .eys-quote--lift:hover { transform: translateY(-22px); }
+}
+
+/* Service category lists: red tick bars; the long list runs in two columns on wide screens. */
+.eys-tick-list > li { position: relative; padding-left: 16px; }
+.eys-tick-list > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 3px;
+  height: 0.75em;
+  background: var(--eys-accent);
+  transform: skewX(-20deg);
+}
+@media (min-width: 80rem) {
+  .eys-tick-list--cols { columns: 2; column-gap: 24px; }
+  .eys-tick-list--cols > li { break-inside: avoid; }
+}
+.eys-arrow-link { display: inline-flex; align-items: center; gap: 8px; }
+.eys-arrow-link > span { transition: transform 0.25s ease; }
+.eys-arrow-link:hover > span { transform: translateX(4px); }
+
+/* Pills (popular services, communities). */
+.eys-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--eys-rule);
+  background: var(--eys-white);
+  padding: 9px 16px;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 700;
+  color: var(--eys-ink);
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.eys-pill:hover { background: var(--eys-ink); border-color: var(--eys-ink); color: #ffffff; transform: translateY(-1px); }
+
+/* About photo stack. */
+.eys-stack { position: relative; height: 560px; }
+.eys-stack > div { position: absolute; overflow: hidden; border-radius: 14px; box-shadow: 0 30px 60px -28px rgba(0, 32, 56, 0.5); }
+.eys-stack > div img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.eys-stack > div:nth-child(1) { top: 0; right: 0; width: 72%; height: 78%; }
+.eys-stack > div:nth-child(2) { bottom: 0; left: 0; width: 52%; height: 56%; border: 6px solid var(--eys-warm); }
+
+/* FAQ items as cards; the chevron becomes a plus that turns into a cross. */
+.eys-faq-item { border-radius: 12px; background: var(--eys-white); border: 1px solid var(--eys-rule); transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+.eys-faq-item[open] { border-color: transparent; box-shadow: 0 18px 40px -24px rgba(0, 32, 56, 0.35), inset 4px 0 0 var(--eys-accent); }
+.eys-faq-plus { position: relative; flex: none; width: 28px; height: 28px; border-radius: 999px; background: var(--eys-warm); transition: transform 0.3s ease, background-color 0.2s ease; }
+.eys-faq-plus::before, .eys-faq-plus::after { content: ""; position: absolute; left: 50%; top: 50%; width: 12px; height: 2px; margin: -1px 0 0 -6px; background: var(--eys-ink); }
+.eys-faq-plus::after { transform: rotate(90deg); }
+.eys-faq-item[open] .eys-faq-plus { transform: rotate(45deg); background: var(--eys-accent); }
+.eys-faq-item[open] .eys-faq-plus::before, .eys-faq-item[open] .eys-faq-plus::after { background: #ffffff; }
+
+/* How it works: big outlined numerals joined by a rule. */
+.eys-step-num {
+  font-family: var(--eys-font-display);
+  font-weight: 800;
+  font-size: 64px;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--eys-accent);
+}
+@media (min-width: 64rem) {
+  .eys-steps { position: relative; }
+  .eys-steps::before { content: ""; position: absolute; left: 0; right: 0; top: 48px; height: 2px; background: var(--eys-rule); }
+  .eys-step-num { font-size: 96px; background: var(--eys-warm); padding-right: 16px; display: inline-block; position: relative; }
+}
+
+/* Closing CTA on a full-bleed photo under a navy shade. */
+.eys-closing { position: relative; overflow: hidden; isolation: isolate; }
+.eys-closing-bg { position: absolute; inset: 0; z-index: -2; }
+.eys-closing-bg img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
+.eys-closing::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--eys-ground) 55%, transparent), color-mix(in srgb, var(--eys-ground) 90%, transparent));
+}
+
+/* Scroll reveal. Hidden only once the inline flag script confirms the observer
+   exists; never under reduced motion. Content is in the DOM either way. */
+@media (prefers-reduced-motion: no-preference) {
+  html.eys-reveal-on .eys-reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1); transition-delay: var(--d, 0s); }
+  html.eys-reveal-on .eys-reveal.is-in { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eys-rise { animation: none; }
+  .eys-card, .eys-card:hover, .eys-quote--lift, .eys-quote--lift:hover { transition: none; }
+  .eys-card:hover { transform: none; }
+  .eys-card:hover .eys-card-media img, .eys-gallery a:hover img { transform: none; }
+}
 
 /* Footer grid. Phone order: brand, phone, tagline, links (2 cols), contact, social.
    Desktop (2b): brand | links | links | contact, 1fr 200 200 280 from 1280px. */

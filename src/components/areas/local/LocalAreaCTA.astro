@@ -1,4 +1,5 @@
 ---
+import SiteImage from '../../ui/SiteImage.astro';
 import { jobberProjectEstimateFormUrl, site } from '../../../data/business';
 
 interface Props {
@@ -9,13 +10,17 @@ const { locationName } = Astro.props;
 const estimateUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
 ---
 
-<section class="bg-brand-black text-white border-t border-white/10" aria-labelledby="local-cta">
-  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-16 text-center">
-    <p class="text-brand-red text-xs font-bold uppercase tracking-widest mb-3">Next step</p>
-    <h2 id="local-cta" class="text-2xl md:text-3xl font-bold mb-4">
+<section class="eys-closing eys-on-dark text-white" aria-labelledby="local-cta">
+  <div class="eys-stripe !mt-0" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+  <div class="eys-closing-bg" aria-hidden="true">
+    <SiteImage src="/images/home/cta-bg.jpg" alt="" width={1440} height={1920} sizes="100vw" />
+  </div>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 md:pt-24 md:pb-28 text-center">
+    <p class="eys-eyebrow eys-kicker mb-5 text-eys-on-dark-2">Next step</p>
+    <h2 id="local-cta" class="eys-h2 mb-5 text-white">
       Ready to elevate your {locationName} home?
     </h2>
-    <p class="text-neutral-300 mb-8 text-sm md:text-base leading-relaxed">
+    <p class="eys-body text-eys-on-dark-2 mb-9">
       Send your project list or photos for a clear estimate. Careful preparation, dust control, and clean completion for {locationName} and the communities nearby.
     </p>
     <div class="flex flex-col sm:flex-row gap-3 justify-center">
@@ -23,14 +28,14 @@ const estimateUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
         href={estimateUrl}
         data-booking-type="project_estimate"
         data-cta-location="local_area_cta"
-        class="inline-flex justify-center items-center bg-brand-red text-white px-8 py-3.5 rounded-md font-bold hover:bg-brand-redhover transition-colors"
+        class="eys-hero-btn eys-hero-btn--red"
       >
         Request an Estimate
       </a>
       <a
         href={`tel:${site.phoneTel}`}
         data-cta-location="local_area_cta"
-        class="inline-flex justify-center items-center border-2 border-white/30 text-white px-8 py-3.5 rounded-md font-bold hover:border-white transition-colors"
+        class="eys-hero-btn eys-hero-btn--outline"
       >
         Call {site.phone}
       </a>

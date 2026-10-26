@@ -46,36 +46,41 @@ const estimateUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
 
 <ContentLayout seo={{ title, description, canonical }} schemaGraph={schemaGraph}>
   <article>
-  <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'py-10 md:py-12']}>
+  <header class="eys-page-hero eys-on-dark">
+  <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-8 md:pt-10']}>
     <BreadcrumbNav
       items={[
         { name: 'Home', url: '/' },
         { name: 'Service Areas', url: '/service-areas/' },
       ]}
     />
-    <h1 class="text-4xl md:text-5xl font-extrabold text-brand-black mb-6 mt-6">Service Areas</h1>
-    <p class="text-lg text-neutral-600 mb-6 max-w-3xl">
+    <h1 class="eys-h1 mb-5 mt-8 max-w-4xl md:mt-12">Service Areas</h1>
+    <p class="eys-page-hero-lede eys-body mb-8 max-w-3xl">
       Elevate Your Space Handyman serves homeowners throughout {areaServedDisplay()}.
     </p>
     <!-- Estimate + call row (backlog 009): same markup as PageHero's optional `ctas` row. -->
-    <div class="mb-8 flex flex-col sm:flex-row gap-3" data-sticky-hero-cta>
+    <div class="flex flex-col sm:flex-row gap-3" data-sticky-hero-cta>
       <a
         href={estimateUrl}
         data-booking-type="project_estimate"
         data-cta-location="service_areas_hero_form"
-        class="inline-flex justify-center items-center bg-brand-red text-white px-6 py-3 rounded-md font-bold hover:bg-brand-redhover transition-colors"
+        class="eys-hero-btn eys-hero-btn--red"
       >
         Send photos for a free estimate
       </a>
       <a
         href={`tel:${site.phoneTel}`}
         data-cta-location="service_areas_hero_call"
-        class="inline-flex justify-center items-center border-2 border-brand-black text-brand-black px-6 py-3 rounded-md font-bold hover:bg-brand-black hover:text-white transition-colors"
+        class="eys-hero-btn eys-hero-btn--outline"
       >
         Call {site.phone}
       </a>
     </div>
-    <div class="-mx-4 sm:-mx-6 lg:-mx-8 mb-10"><ServiceTrustStrip /></div>
+  </div>
+  <div class="eys-stripe" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+  </header>
+  <ServiceTrustStrip />
+  <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'py-12 md:py-16']}>
     {
       areaCards.length > 0 ? (
         <BalancedGrid variant="card" items={areaCards} cols={3} gapClass="gap-6" />

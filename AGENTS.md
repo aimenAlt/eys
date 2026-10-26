@@ -42,10 +42,11 @@ The approved redesign system is the source of truth: `docs/03-design-system.md`.
 - Type: Montserrat 800 for display (`.font-display`, `.eys-h1`…`.eys-figure`, never `font-extrabold`), Inter 400/700 for body.
 - Buttons: `.eys-btn` + one of gold / red / navy / outline-light / outline-dark.
 - The owner's button rule: exactly one gold button per screen — the header's top-right CTA (phone "Call", desktop "Get a Free Quote"; the phone bottom bar's "Call" replaces it while the bar shows). The other action is red (phone: form red, call outline; desktop: call red, form outline). Card booking buttons are navy. Gold never sits on a light ground.
-- Dark grounds only on header, hero, the owner band and footer; everything else white or warm.
-- Real project photos through SiteImage only. No cartoon icons, busy backgrounds, gradients or gimmicky animation.
-- New CSS goes on new classes or under `html[data-theme]` only; never edit the legacy rules.
-- Migration: the homepage is fully on the new system (blue). Every other standard page (ContentLayout) has the new header, footer and bottom bar on the black theme, but its body keeps the old black/red look (`brand-*` tokens, Inter only) until each template is migrated and switched to `siteTheme`. Own-chrome landing pages (/start/, /van/, /curtain-installation/, /services/media-walls/, /lp/, /go/, /essa/) are untouched.
+- One system on every page: every page renders on `siteTheme`, and under `html[data-theme]` the legacy `brand-*` and Tailwind `neutral-*` tokens are re-pointed at the `--eys-*` palette, so older components inherit it. Headings on themed pages are Montserrat 800.
+- Rhythm: navy for the header, every hero (`.eys-page-hero` on inner pages), showcase bands (homepage Our Work, owner band), the photo closing CTA (`.eys-closing`) and the footer; white or warm between them.
+- Depth and motion are part of the system: `.eys-card` (soft shadow, lift and photo ease on hover), the skewed red bar (`.eys-kicker`, `.eys-barred`), ambient light on navy heroes, one-time fade-up on scroll (`.eys-reveal`, homepage only, off under reduced motion). No cartoon icons, busy backgrounds, gradient-filled buttons or looping animation.
+- Real project photos through SiteImage only. Never crop, cover-fit or overlay the Eyad-and-van photo.
+- A redesign never changes copy: headings, words, links, alt text and schema stay byte-identical (verify with a built-HTML diff against the previous build).
 
 ## SEO doctrine
 A daily automated task requests Google indexing for unindexed pages — see

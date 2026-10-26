@@ -15,14 +15,14 @@ const bookUrl = jobberHandymanToDoListFormUrl();
 const requestUrl = projectEstimateRequestUrl('todo-list-request') ?? '/contact/';
 ---
 
-<section class="relative bg-white pt-12 pb-14 lg:pt-16 lg:pb-20 overflow-hidden">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<section class="eys-page-hero eys-on-dark">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 lg:pt-16">
     <div class="lg:grid lg:grid-cols-12 lg:gap-12 items-center">
       <div class="lg:col-span-7">
-        <p class="text-brand-red font-bold text-xs tracking-widest uppercase mb-3">
+        <p class="eys-eyebrow eys-kicker mb-4 text-eys-on-dark-2">
           {smallRepairVisitMeta.heroEyebrow}
         </p>
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-black leading-tight tracking-tight mb-4">
+        <h1 class="eys-h1 mb-6">
           {smallRepairVisitMeta.heroTitle}
         </h1>
         <!--
@@ -36,20 +36,20 @@ const requestUrl = projectEstimateRequestUrl('todo-list-request') ?? '/contact/'
             href={requestUrl}
             data-booking-type="project_estimate"
             data-cta-location="todo_hero_request"
-            class="inline-flex min-h-12 items-center justify-center rounded-md bg-brand-red px-3 py-3 text-center text-sm font-bold text-white hover:bg-brand-redhover sm:text-base"
+            class="eys-hero-btn eys-hero-btn--red !px-3 text-sm sm:text-base"
           >
             Send your list, get a time
           </a>
           <a
             href={`tel:${site.phoneTel}`}
             data-cta-location="handyman_to_do_list_hero_call"
-            class="inline-flex min-h-12 items-center justify-center rounded-md border-2 border-brand-black px-3 py-3 text-center text-sm font-bold text-brand-black hover:bg-brand-black hover:text-white sm:text-base"
+            class="eys-hero-btn eys-hero-btn--outline !px-3 text-sm sm:text-base"
             aria-label={`Call Elevate Your Space Handyman at ${site.phone}`}
           >
             Call {site.phone}
           </a>
         </div>
-        <p class="mb-5 text-sm text-neutral-600">
+        <p class="mb-5 text-sm text-eys-on-dark-2">
           Prefer to pick a slot?{' '}
           <a
             href={bookUrl ?? '#book-visit'}
@@ -57,45 +57,45 @@ const requestUrl = projectEstimateRequestUrl('todo-list-request') ?? '/contact/'
             rel={bookUrl ? 'noopener noreferrer' : undefined}
             data-booking-type="handyman_to_do_list"
             data-cta-location="handyman_to_do_list_hero_form"
-            class="font-bold text-brand-red underline underline-offset-2 hover:text-brand-redhover"
+            class="eys-text-link-dark font-bold text-eys-on-dark underline underline-offset-2"
           >Book a 1- or 2-hour visit</a>{' '}
           <span class="whitespace-nowrap">(from {formatUsd(smallRepairPricing.oneHour)})</span>
         </p>
-        <p class="text-lg text-neutral-600 mb-6 leading-relaxed max-w-2xl">
+        <p class="eys-page-hero-lede eys-body mb-6 max-w-2xl">
           {smallRepairVisitMeta.heroSummary}
         </p>
 
         <dl class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-          <div class="rounded-lg border border-brand-line bg-brand-lightbg p-4">
-            <dt class="text-xs font-bold uppercase tracking-wide text-brand-muted mb-1">
+          <div class="rounded-xl border border-eys-panel-line bg-eys-panel p-4">
+            <dt class="text-xs font-bold uppercase tracking-wide text-eys-on-dark-3 mb-1">
               Starting at
             </dt>
-            <dd class="text-xl font-extrabold text-brand-black">
+            <dd class="text-xl font-display text-eys-on-dark">
               {formatUsd(smallRepairPricing.oneHour)}
             </dd>
-            <dd class="text-xs text-neutral-500 mt-0.5">1-hour visit</dd>
+            <dd class="text-xs text-eys-on-dark-3 mt-0.5">1-hour visit</dd>
           </div>
-          <div class="rounded-lg border border-brand-line bg-brand-lightbg p-4">
-            <dt class="text-xs font-bold uppercase tracking-wide text-brand-muted mb-1">
+          <div class="rounded-xl border border-eys-panel-line bg-eys-panel p-4">
+            <dt class="text-xs font-bold uppercase tracking-wide text-eys-on-dark-3 mb-1">
               Two-hour visit
             </dt>
-            <dd class="text-xl font-extrabold text-brand-black">
+            <dd class="text-xl font-display text-eys-on-dark">
               {formatUsd(smallRepairPricing.twoHours)}
             </dd>
-            <dd class="text-xs text-neutral-500 mt-0.5">Most common for lists</dd>
+            <dd class="text-xs text-eys-on-dark-3 mt-0.5">Most common for lists</dd>
           </div>
-          <div class="rounded-lg border border-brand-line bg-brand-lightbg p-4">
-            <dt class="text-xs font-bold uppercase tracking-wide text-brand-muted mb-1">
+          <div class="rounded-xl border border-eys-panel-line bg-eys-panel p-4">
+            <dt class="text-xs font-bold uppercase tracking-wide text-eys-on-dark-3 mb-1">
               Additional time
             </dt>
-            <dd class="text-lg font-extrabold text-brand-black leading-snug">
+            <dd class="text-lg font-display text-eys-on-dark leading-snug">
               {additionalTimeLabel}
             </dd>
-            <dd class="text-xs text-neutral-500 mt-0.5">Beyond your booked visit length</dd>
+            <dd class="text-xs text-eys-on-dark-3 mt-0.5">Beyond your booked visit length</dd>
           </div>
         </dl>
 
-        <p class="text-sm text-neutral-600 mb-8 border-l-4 border-brand-red pl-4 leading-relaxed">
+        <p class="text-sm text-eys-on-dark-2 mb-8 border-l-4 border-eys-stripe pl-4 leading-relaxed">
           {smallRepairVisitMeta.qualification}
         </p>
 
@@ -106,14 +106,14 @@ const requestUrl = projectEstimateRequestUrl('todo-list-request') ?? '/contact/'
                 href={bookUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="gradient-btn text-white px-8 py-3.5 rounded-md font-bold text-center transition-all shadow-lg hover:shadow-xl"
+                class="eys-hero-btn eys-hero-btn--red"
               >
                 Book a Handyman Visit
               </a>
             ) : (
               <a
                 href="#book-visit"
-                class="gradient-btn text-white px-8 py-3.5 rounded-md font-bold text-center transition-all shadow-lg hover:shadow-xl"
+                class="eys-hero-btn eys-hero-btn--red"
               >
                 Book a Handyman Visit
               </a>
@@ -121,29 +121,32 @@ const requestUrl = projectEstimateRequestUrl('todo-list-request') ?? '/contact/'
           }
           <a
             href="#eligible-tasks"
-            class="bg-white text-brand-black border-2 border-brand-black px-8 py-3.5 rounded-md font-bold text-center hover:bg-brand-black hover:text-white transition-all"
+            class="eys-hero-btn eys-hero-btn--outline"
           >
             See Eligible Tasks
           </a>
         </div>
-        <p class="mt-4 text-sm text-neutral-500">
+        <p class="mt-4 text-sm text-eys-on-dark-3">
           Serving {localityShort('&')} · <a
             href={`tel:${site.phoneTel}`}
-            class="font-semibold text-brand-red hover:underline">{site.phone}</a
+            class="eys-text-link-dark font-semibold text-eys-on-dark hover:underline">{site.phone}</a
           >
         </p>
       </div>
       <div class="lg:col-span-5 mt-10 lg:mt-0">
+        <div class="eys-page-hero-media"><div class="eys-page-hero-frame">
         <SiteImage
           src={heroImage}
           alt="Handyman completing home to-do list tasks during a reserved visit in Katy, TX"
-          class="w-full h-72 sm:h-96 object-cover rounded-xl shadow-card border border-brand-line"
+          class="w-full h-72 sm:h-96 object-cover"
           sizes="(max-width: 1024px) 100vw, 500px"
           width={800}
           height={600}
           loading="eager"
         />
+        </div></div>
       </div>
     </div>
   </div>
+  <div class="eys-stripe" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
 </section>

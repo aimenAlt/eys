@@ -28,6 +28,12 @@ interface Props {
 const { cityLinks, communityLinks } = Astro.props;
 ---
 
+{/* Scroll reveal: flag set before the sections parse so nothing flashes. */}
+<script is:inline>
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('eys-reveal-on');
+  }
+</script>
 <RedesignHero />
 <RedesignTrustStrip />
 <RedesignStartVisit />
@@ -40,3 +46,35 @@ const { cityLinks, communityLinks } = Astro.props;
 <RedesignHowItWorks />
 <RedesignServiceAreas cityLinks={cityLinks} communityLinks={communityLinks} />
 <RedesignClosingCta />
+
+<script>
+  // Reveal each `.eys-reveal` block once its top reaches 92% of the viewport —
+  // or once it is above the viewport, so a fast fling or an anchor jump never
+  // leaves a section hidden — then drop the classes so hover transitions apply.
+  const root = document.documentElement;
+  if (root.classList.contains('eys-reveal-on')) {
+    let pending = [...document.querySelectorAll<HTMLElement>('.eys-reveal')];
+    let queued = false;
+    const check = () => {
+      queued = false;
+      const line = window.innerHeight * 0.92;
+      pending = pending.filter((el) => {
+        if (el.getBoundingClientRect().top > line) return true;
+        el.classList.add('is-in');
+        const delay = parseFloat(getComputedStyle(el).getPropertyValue('--d')) || 0;
+        window.setTimeout(() => el.classList.remove('eys-reveal', 'is-in'), 900 + delay * 1000);
+        return false;
+      });
+      if (!pending.length) window.removeEventListener('scroll', onScroll);
+    };
+    const onScroll = () => {
+      if (!queued) {
+        queued = true;
+        requestAnimationFrame(check);
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    check();
+  }
+</script>

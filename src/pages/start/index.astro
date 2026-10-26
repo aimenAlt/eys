@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteTheme } from '../../data/sitePresentation';
 import VanBand from '../../components/common/VanBand.astro';
 import StartFaq from '../../components/start-landing/StartFaq.astro';
 import StartFinalCta from '../../components/start-landing/StartFinalCta.astro';
@@ -54,7 +55,7 @@ const schemaGraph = [
 ].filter(Boolean);
 ---
 
-<BaseLayout seo={seo} schemaGraph={schemaGraph}>
+<BaseLayout seo={seo} schemaGraph={schemaGraph} theme={siteTheme}>
   <div class="start-landing min-h-screen bg-brand-lightbg text-brand-charcoal">
     <StartHeader />
     <main id="main-content">

@@ -1,48 +1,68 @@
 ---
 /**
- * 7. SERVICES (warm, #services). Not on the boards: the live ServiceGrid
- * content, restyled. On phone each category's service links collapse with the
- * sanctioned `.mobile-collapse` pattern (content stays in the DOM).
+ * 7. SERVICES (white, #services). The live ServiceGrid content, restyled as
+ * photo-topped cards. On phone each category's service links collapse with the
+ * sanctioned `.mobile-collapse` pattern (content stays in the DOM). The photos
+ * are decorative (empty alt): the copy is unchanged.
  */
+import SiteImage from '../../ui/SiteImage.astro';
 import { serviceCategories } from '../../../data/serviceCategories';
 import { localityShort } from '../../../data/business';
 import { withBase } from '../../../utils/paths';
+
+const categoryPhotos: Record<string, { src: string; width: number; height: number; crop: string }> = {
+  'repairs-and-maintenance': { src: '/images/services/after-hours-repairs.jpg', width: 1600, height: 1068, crop: '70% 40%' },
+  'installation-and-assembly': { src: '/images/services/electrical.jpg', width: 1200, height: 1600, crop: '50% 30%' },
+  'remodeling-and-upgrades': { src: '/images/services/whole-project-remodeling.jpg', width: 1600, height: 1200, crop: '50% 60%' },
+};
 ---
 
-<section id="services" class="eys-section bg-eys-warm text-eys-ink" data-analytics-section="services">
+<section id="services" class="eys-section bg-eys-white text-eys-ink" data-analytics-section="services">
   <div class="eys-container">
-    <p class="eys-eyebrow text-eys-ink-2">What We Offer</p>
-    <h2 class="eys-h2 mt-2">Our Services</h2>
-    <p class="eys-body mt-3 max-w-[720px] text-eys-ink-2">
+    <p class="eys-eyebrow eys-kicker text-eys-ink-2">What We Offer</p>
+    <h2 class="eys-h2 mt-4">Our Services</h2>
+    <p class="eys-body mt-4 max-w-[720px] text-eys-ink-2">
       Repairs, installations, finish carpentry, and home upgrades for houses in {localityShort('and')} — choose the service path that fits your project.
     </p>
 
-    <div class="mt-6 grid grid-cols-1 gap-5 lg:mt-8 lg:grid-cols-3 lg:gap-6">
+    <div class="mt-8 grid grid-cols-1 gap-6 lg:mt-12 lg:grid-cols-3 lg:gap-8">
       {
-        serviceCategories.map((category) => (
-          <article class="flex flex-col rounded-[6px] border border-eys-rule bg-eys-white p-5 lg:p-7">
-            <h3 class="eys-h3">{category.title}</h3>
-            <p class="mt-2 text-[15px] leading-[22px] text-eys-ink-2 [text-wrap:pretty]">{category.summary}</p>
-            <details class="mobile-collapse group mt-4">
-              <summary class="flex items-center justify-between border-t border-eys-rule pt-3 text-[15px] font-bold leading-[22px] md:hidden">
-                <span>{category.items.length} services</span>
-                <svg class="chev h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-              </summary>
-              <ul class="mobile-collapse-body mt-3 space-y-2 text-[15px] leading-[22px] md:mt-0">
-                {category.items.map((item) => (
-                  <li>
-                    {item.serviceSlug ? (
-                      <a href={withBase(`/services/${item.serviceSlug}/`)} class="eys-text-link hover:underline">{item.title}</a>
-                    ) : (
-                      <span>{item.title}</span>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </details>
-            <a href={withBase(`/services/${category.slug}/`)} class="eys-text-link mt-5 inline-block font-bold underline underline-offset-[3px] lg:mt-auto lg:pt-6">{category.ctaLabel} →</a>
-          </article>
-        ))
+        serviceCategories.map((category, i) => {
+          const photo = categoryPhotos[category.slug];
+          const long = category.items.length > 10;
+          return (
+            <article class="eys-card eys-reveal flex flex-col overflow-hidden" style={`--d:${i * 0.1}s`}>
+              {photo && (
+                <div class="eys-card-media relative h-[180px] lg:h-[200px]">
+                  <SiteImage src={photo.src} alt="" width={photo.width} height={photo.height} sizes="(min-width: 1024px) 440px, 100vw" class="block h-full w-full object-cover" />
+                  <span class="absolute inset-x-0 bottom-0 h-1.5 bg-eys-accent" aria-hidden="true" />
+                </div>
+              )}
+              <div class="flex flex-1 flex-col p-6 lg:p-8">
+                <h3 class="eys-h3">{category.title}</h3>
+                <p class="mt-2 text-[15px] leading-[22px] text-eys-ink-2 [text-wrap:pretty]">{category.summary}</p>
+                <details class="mobile-collapse group mt-5">
+                  <summary class="flex items-center justify-between border-t border-eys-rule pt-3 text-[15px] font-bold leading-[22px] md:hidden">
+                    <span>{category.items.length} services</span>
+                    <svg class="chev h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                  </summary>
+                  <ul class:list={['eys-tick-list mobile-collapse-body mt-3 space-y-2 text-[15px] leading-[22px] md:mt-0', long && 'eys-tick-list--cols']}>
+                    {category.items.map((item) => (
+                      <li>
+                        {item.serviceSlug ? (
+                          <a href={withBase(`/services/${item.serviceSlug}/`)} class="eys-text-link hover:underline">{item.title}</a>
+                        ) : (
+                          <span>{item.title}</span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+                <a href={withBase(`/services/${category.slug}/`)} class="eys-text-link eys-arrow-link mt-6 self-start font-bold underline underline-offset-[3px] lg:mt-auto lg:pt-8">{category.ctaLabel} <span aria-hidden="true">→</span></a>
+              </div>
+            </article>
+          );
+        })
       }
     </div>
   </div>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteTheme } from '../../data/sitePresentation';
 import CurtainFaq from '../../components/curtain-landing/CurtainFaq.astro';
 import CurtainFinalCta from '../../components/curtain-landing/CurtainFinalCta.astro';
 import CurtainFooter from '../../components/curtain-landing/CurtainFooter.astro';
@@ -84,7 +85,7 @@ const schemaGraph = [
 ].filter(Boolean);
 ---
 
-<BaseLayout seo={seo} schemaGraph={schemaGraph}>
+<BaseLayout seo={seo} schemaGraph={schemaGraph} theme={siteTheme}>
   <div class="curtain-landing min-h-screen bg-brand-lightbg text-brand-charcoal">
     <CurtainHeader />
     <main id="main-content">

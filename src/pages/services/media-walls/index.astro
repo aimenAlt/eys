@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { siteTheme } from '../../../data/sitePresentation';
 import VanBand from '../../../components/common/VanBand.astro';
 import MediaWallDoors from '../../../components/media-wall-landing/MediaWallDoors.astro';
 import MediaWallFaq from '../../../components/media-wall-landing/MediaWallFaq.astro';
@@ -56,7 +57,7 @@ const schemaGraph = [
 ].filter(Boolean);
 ---
 
-<BaseLayout seo={seo} schemaGraph={schemaGraph}>
+<BaseLayout seo={seo} schemaGraph={schemaGraph} theme={siteTheme}>
   <div class="media-wall-landing min-h-screen bg-brand-lightbg text-brand-charcoal">
     <MediaWallHeader />
     <main id="main-content">

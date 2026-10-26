@@ -19,20 +19,20 @@ const tiles = await Promise.all(
 );
 ---
 
-<section class="eys-section bg-eys-white text-eys-ink" data-analytics-section="our_work">
+<section class="eys-section eys-on-dark bg-eys-ground text-eys-on-dark" data-analytics-section="our_work">
   <div class="eys-container">
     <div class="lg:flex lg:items-end lg:justify-between lg:gap-6">
       <div>
-        <p class="eys-eyebrow text-eys-ink-2">Our Work</p>
-        <h2 class="eys-h2 mt-2">Real projects, real homes</h2>
+        <p class="eys-eyebrow eys-kicker text-eys-on-dark-2">Our Work</p>
+        <h2 class="eys-h2 mt-4 text-eys-on-dark">Real projects, real homes</h2>
       </div>
-      <p class="mt-2 text-sm leading-5 text-eys-ink-2 lg:mt-0 lg:text-[15px] lg:leading-[22px]">Katy, Fulshear and West&nbsp;Houston.</p>
+      <p class="mt-2 text-sm leading-5 text-eys-on-dark-2 lg:mt-0 lg:text-base lg:leading-6">Katy, Fulshear and West&nbsp;Houston.</p>
     </div>
 
-    <div class="eys-gallery mt-6 lg:mt-8">
+    <div class="eys-gallery mt-8 lg:mt-12">
       {
         tiles.map((tile, i) => (
-          <a href={withBase(tile.href)} class="eys-text-link block">
+          <a href={withBase(tile.href)} class="eys-text-link-dark eys-reveal block" style={`--d:${(i % 3) * 0.08}s`}>
             <figure>
               <span class="eys-gallery-frame" style={`--crop-phone:${tile.crop[0]};--crop-desktop:${tile.crop[1]}`}>
                 <SiteImage
@@ -43,14 +43,16 @@ const tiles = await Promise.all(
                   sizes={i === 0 || i === 3 ? '(min-width: 1024px) 440px, 100vw' : '(min-width: 1024px) 440px, 50vw'}
                 />
               </span>
-              <figcaption class="mt-2 text-[13px] leading-[18px] lg:text-sm lg:leading-5">
-                <span set:html={nowrapHyphens(tile.caption)} />
-                {tile.city && (
-                  <>
-                    <span class="hidden text-eys-ink-2 lg:inline">&nbsp;·&nbsp;</span>
-                    <span class="block text-eys-ink-2 lg:inline" set:html={tile.city.replace(' ', '&nbsp;')} />
-                  </>
-                )}
+              <figcaption class="text-[13px] leading-[18px] lg:text-[15px] lg:leading-5">
+                <span class="block">
+                  <span set:html={nowrapHyphens(tile.caption)} />
+                  {tile.city && (
+                    <>
+                      <span class="eys-gallery-town hidden lg:inline">&nbsp;·&nbsp;</span>
+                      <span class="eys-gallery-town block lg:inline" set:html={tile.city.replace(' ', '&nbsp;')} />
+                    </>
+                  )}
+                </span>
               </figcaption>
             </figure>
           </a>

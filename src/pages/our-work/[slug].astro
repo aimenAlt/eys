@@ -73,17 +73,17 @@ const hasWorksheet =
       />
     </div>
 
-    <header class="bg-brand-lightbg border-b border-neutral-200">
-      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'py-10 md:py-12']}>
-        <p class="text-brand-red font-bold text-sm tracking-widest uppercase mb-2">{categoryLabel}</p>
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-brand-black tracking-tight mb-3">
+    <header class="eys-page-hero eys-on-dark">
+      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-10 md:pt-16']}>
+        <p class="eys-eyebrow eys-kicker mb-4 text-eys-on-dark-2">{categoryLabel}</p>
+        <h1 class="eys-h1 mb-4 max-w-4xl">
           {h1}
         </h1>
         {
           location && (
-            <p class="text-lg text-neutral-600 mb-4">
+            <p class="eys-page-hero-lede eys-body mb-4">
               {data.locationUrl ? (
-                <a href={data.locationUrl} class="text-brand-red font-bold hover:underline">
+                <a href={data.locationUrl} class="eys-text-link-dark font-bold text-eys-on-dark underline decoration-eys-stripe decoration-2 underline-offset-4">
                   Handyman projects in {location}
                 </a>
               ) : (
@@ -92,8 +92,9 @@ const hasWorksheet =
             </p>
           )
         }
-        <p class="text-lg text-neutral-600 max-w-3xl leading-relaxed">{data.summary}</p>
+        <p class="eys-page-hero-lede eys-body max-w-3xl">{data.summary}</p>
       </div>
+      <div class="eys-stripe" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
     </header>
 
     <ServiceTrustStrip />

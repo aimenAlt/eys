@@ -51,27 +51,30 @@ const schemaGraph = [
       />
     </div>
 
-    <header class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <time datetime={data.publishedAt.toISOString()} class="text-sm text-brand-red font-bold uppercase tracking-wider">
+    <header class="eys-page-hero eys-on-dark mb-12">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 md:pt-16">
+      <time datetime={data.publishedAt.toISOString()} class="eys-eyebrow eys-kicker text-eys-on-dark-2">
         {publishedDate}
       </time>
-      <h1 class="text-4xl md:text-5xl font-extrabold text-brand-black mt-3 mb-4">{data.title}</h1>
+      <h1 class="eys-h1 mt-4 mb-5">{data.title}</h1>
       {
         data.summary && (
-          <p class="text-lg text-neutral-600 leading-relaxed">{data.summary}</p>
+          <p class="eys-page-hero-lede eys-body">{data.summary}</p>
         )
       }
       {
         data.tags && data.tags.length > 0 && (
           <ul class="flex flex-wrap gap-2 mt-6">
             {data.tags.map((tag) => (
-              <li class="text-xs font-medium bg-brand-lightbg text-neutral-700 px-3 py-1 rounded-full border border-neutral-200">
+              <li class="text-xs font-medium bg-eys-panel text-eys-on-dark-2 px-3 py-1 rounded-full border border-eys-panel-line">
                 {tag}
               </li>
             ))}
           </ul>
         )
       }
+      </div>
+      <div class="eys-stripe" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
     </header>
 
     <ServiceTrustStrip />

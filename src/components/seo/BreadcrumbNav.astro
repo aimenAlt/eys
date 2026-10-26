@@ -8,18 +8,18 @@ interface Props {
 const { items } = Astro.props;
 ---
 
-<nav aria-label="Breadcrumb" class="mb-6">
-  <ol class="flex flex-wrap items-center gap-2 text-sm text-neutral-500">
+<nav aria-label="Breadcrumb" class="eys-crumbs mb-6">
+  <ol class="flex flex-wrap items-center gap-2 text-sm">
     {
       items.map((item, index) => (
         <li class="flex items-center gap-2">
           {index > 0 && <span aria-hidden="true">/</span>}
           {index === items.length - 1 ? (
-            <span class="font-medium text-brand-charcoal" aria-current="page">
+            <span class="font-medium" aria-current="page">
               {item.name}
             </span>
           ) : (
-            <a href={item.url} class="hover:text-brand-red transition-colors">
+            <a href={item.url} class="transition-colors">
               {item.name}
             </a>
           )}

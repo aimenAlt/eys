@@ -21,6 +21,7 @@
  */
 import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteTheme } from '../../data/sitePresentation';
 import VanBand from '../../components/common/VanBand.astro';
 import Logo from '../../components/layout/Logo.astro';
 import SiteImage from '../../components/ui/SiteImage.astro';
@@ -147,7 +148,7 @@ const formSecondaryClass =
   'inline-flex min-h-12 w-full items-center justify-center rounded-md border-2 border-white/85 bg-transparent px-5 py-3.5 text-center text-base font-bold text-white hover:bg-white hover:text-brand-black sm:w-auto';
 ---
 
-<BaseLayout seo={seo} schemaGraph={schemaGraph}>
+<BaseLayout seo={seo} schemaGraph={schemaGraph} theme={siteTheme}>
   <div class="min-h-screen bg-brand-lightbg text-brand-charcoal">
     <header class="sticky top-0 z-50 border-b border-white/10 bg-brand-black">
       <div class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">

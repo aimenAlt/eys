@@ -119,16 +119,16 @@ const requestFirstUrl = requestFirst ? projectEstimateRequestUrl(requestFirst.ey
 const bookingSecondaryUrl = requestFirst ? highCeilingJobberUrl() : undefined;
 ---
 
-<section class="bg-white border-b border-neutral-200" aria-labelledby="service-hero" data-analytics-section="hero">
-  <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'py-10 md:py-12']}>
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+<section class="eys-page-hero eys-on-dark" aria-labelledby="service-hero" data-analytics-section="hero">
+  <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-10 md:pt-16']}>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
       <div>
-        <h1 id="service-hero" class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-brand-black mb-4 leading-tight">
+        <h1 id="service-hero" class="eys-h1 mb-5">
           {heading}
         </h1>
         {
           service.summary && (
-            <p class="text-lg text-neutral-600 leading-relaxed mb-6">{service.summary}</p>
+            <p class="eys-page-hero-lede eys-body mb-8">{service.summary}</p>
           )
         }
         <div class="flex flex-col sm:flex-row gap-3" data-sticky-hero-cta>
@@ -137,7 +137,7 @@ const bookingSecondaryUrl = requestFirst ? highCeilingJobberUrl() : undefined;
             href={requestFirstUrl}
             data-cta-location={requestFirst.ctaLocation}
             data-booking-type="project_estimate"
-            class="gradient-btn text-white px-8 py-3 rounded-md font-bold text-center transition-all shadow-lg hover:shadow-xl"
+            class="eys-hero-btn eys-hero-btn--red"
           >
             {requestFirst.label}
           </a>
@@ -150,21 +150,21 @@ const bookingSecondaryUrl = requestFirst ? highCeilingJobberUrl() : undefined;
             data-booking-type={primary.jobberService}
             data-service-type={primary.jobberService}
             data-curtain-cta={primary.jobberService}
-            class="gradient-btn text-white px-8 py-3 rounded-md font-bold text-center transition-all shadow-lg hover:shadow-xl"
+            class="eys-hero-btn eys-hero-btn--red"
           >
             {primary.label}
           </a>
           )}
           <a
             href={`tel:${site.phoneTel}`}
-            class="inline-flex justify-center items-center border-2 border-brand-black text-brand-black px-8 py-3 rounded-md font-bold hover:bg-brand-black hover:text-white transition-all"
+            class="eys-hero-btn eys-hero-btn--outline"
           >
             {service.secondaryCTA ?? `Call ${site.phone}`}
           </a>
         </div>
         {
           requestFirst && bookingSecondaryUrl && (
-            <p class="mt-4 text-sm text-neutral-600">
+            <p class="mt-4 text-sm text-eys-on-dark-2">
               <a
                 href={bookingSecondaryUrl}
                 target="_blank"
@@ -173,13 +173,13 @@ const bookingSecondaryUrl = requestFirst ? highCeilingJobberUrl() : undefined;
                 data-service-type="high_ceiling_curtain"
                 data-curtain-cta="high_ceiling"
                 data-cta-location="service_hero_booking"
-                class="font-bold text-brand-red underline underline-offset-2 hover:text-brand-redhover"
+                class="eys-text-link-dark font-bold text-eys-on-dark underline underline-offset-2"
               >{requestFirst.secondaryLabel}</a>
             </p>
           )
         }
       </div>
-      <div class="relative rounded-2xl overflow-hidden shadow-card ring-1 ring-brand-line aspect-[4/3] bg-brand-lightbg">
+      <div class="eys-page-hero-media"><div class="eys-page-hero-frame aspect-[4/3]">
         <SiteImage
           src={imageSrc}
           alt={imageAlt}
@@ -191,7 +191,8 @@ const bookingSecondaryUrl = requestFirst ? highCeilingJobberUrl() : undefined;
           width={800}
           height={600}
         />
-      </div>
+      </div></div>
     </div>
   </div>
+  <div class="eys-stripe" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
 </section>

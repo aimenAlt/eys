@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteTheme } from '../../data/sitePresentation';
 import VanFinalCta from '../../components/van/VanFinalCta.astro';
 import VanFooter from '../../components/van/VanFooter.astro';
 import VanHeader from '../../components/van/VanHeader.astro';
@@ -23,7 +24,7 @@ const seo = {
 };
 ---
 
-<BaseLayout seo={seo}>
+<BaseLayout seo={seo} theme={siteTheme}>
   <div class="van-landing min-h-screen bg-brand-lightbg text-brand-charcoal">
     <VanHeader />
     <main id="main-content">

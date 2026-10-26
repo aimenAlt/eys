@@ -38,30 +38,30 @@ const {
 const imageSrc = resolveCityHero(citySlug, heroImage);
 ---
 
-<section class="bg-white border-b border-neutral-200" aria-labelledby="local-hero">
-  <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'py-10 md:py-12']}>
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+<section class="eys-page-hero eys-on-dark" aria-labelledby="local-hero">
+  <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-10 md:pt-16']}>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
       <div>
         {
           locationLabel && (
-            <p class="text-xs font-bold uppercase tracking-widest text-brand-red mb-3">
+            <p class="eys-eyebrow eys-kicker mb-4 text-eys-on-dark-2">
               {locationLabel}
             </p>
           )
         }
-        <h1 id="local-hero" class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-brand-black mb-4 leading-tight">
+        <h1 id="local-hero" class="eys-h1 mb-5">
           {heading}
         </h1>
         {
           summary && (
-            <p class="text-lg text-neutral-600 leading-relaxed mb-6">{summary}</p>
+            <p class="eys-page-hero-lede eys-body mb-8">{summary}</p>
           )
         }
         {
           promoCode && promoOffer && (
-            <p class="inline-flex items-center gap-2 text-sm bg-brand-lightbg border border-brand-red/20 text-brand-black px-4 py-2 rounded-full mb-6">
-              <span class="font-bold text-brand-red">{promoCode}</span>
-              <span class="text-neutral-600">— {promoOffer}</span>
+            <p class="inline-flex items-center gap-2 text-sm bg-eys-panel border border-eys-panel-line text-eys-on-dark px-4 py-2 rounded-full mb-6">
+              <span class="font-bold text-eys-cta-bg">{promoCode}</span>
+              <span class="text-eys-on-dark-2">— {promoOffer}</span>
             </p>
           )
         }
@@ -70,20 +70,20 @@ const imageSrc = resolveCityHero(citySlug, heroImage);
             href={primaryCta?.href ?? '/contact/'}
             data-booking-type={primaryCta?.bookingType}
             data-cta-location={primaryCta?.ctaLocation ?? 'local_hero_primary'}
-            class="inline-flex justify-center items-center bg-brand-red text-white px-6 py-3 rounded-md font-bold hover:bg-brand-redhover transition-colors"
+            class="eys-hero-btn eys-hero-btn--red"
           >
             Request an Estimate
           </a>
           <a
             href={`tel:${site.phoneTel}`}
             data-cta-location={phoneCtaLocation}
-            class="inline-flex justify-center items-center border-2 border-brand-black text-brand-black px-6 py-3 rounded-md font-bold hover:bg-brand-black hover:text-white transition-colors"
+            class="eys-hero-btn eys-hero-btn--outline"
           >
             Call {site.phone}
           </a>
         </div>
       </div>
-      <div class="relative rounded-2xl overflow-hidden shadow-card ring-1 ring-brand-line aspect-[4/3] bg-brand-lightbg">
+      <div class="eys-page-hero-media"><div class="eys-page-hero-frame aspect-[4/3]">
         <SiteImage
           src={imageSrc}
           alt={heroImageAlt}
@@ -94,7 +94,8 @@ const imageSrc = resolveCityHero(citySlug, heroImage);
           width={800}
           height={600}
         />
-      </div>
+      </div></div>
     </div>
   </div>
+  <div class="eys-stripe" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
 </section>
