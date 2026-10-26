@@ -48,5 +48,5 @@ Created 2026-10-11 by Claude (Cowork) from the 43-day Ads/GA4/GSC/Jobber digest.
 | 011 | Eyad and the EYS van first on the homepage and every Google Ads landing page (`VanBand`) | done da28752, live-verified 2026-10-26 |
 | 012 | Design-system foundation for the approved redesign: tokens, blue/black themes, Montserrat 800, buttons (no visible change) | done fa23430, live-verified 2026-10-26 |
 | 013 | Build the approved homepage redesign and the new site chrome at `/home2/` only | done 1eb5f72, live-verified 2026-10-26 |
-| 014 | Put the redesigned homepage live at "/" (gate: 013 live-verified) | open |
+| 014 | Put the redesigned homepage live at "/" (gate: 013 live-verified) | done 1a19957, live-verified 2026-10-26 |
 | 015 | New header, footer and bottom bar on every ContentLayout page (gate: 014 live-verified) | open |

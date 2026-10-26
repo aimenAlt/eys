@@ -53,3 +53,7 @@ Pre-push comparison against the previous build of "/": title, meta description, 
 Internal links in `<main>` to /services/*, /service-areas/* and /our-work/*: 48 before, 55 after. Disappeared: only `/service-areas/` (the hub link that lived in the removed map section "Service Areas"; the header and footer still link it on every load of "/"). Added: /our-work/ and seven project pages (gallery tiles).
 
 All of 013's checks pass on the local build of "/" at 390, 768, 1024, 1180, 1280 and 1440 (the `?theme=black` switch exists only on the preview, so the black-theme check does not apply to "/").
+
+## DONE 2026-10-26 1a19957
+"/" renders the redesign (blue theme, new chrome); /home2/ previews the previous homepage ("Previous Homepage Preview | Elevate Your Space", noindex).
+Live-verified after the deploy, clicking nothing: title, meta description, canonical, robots and JSON-LD identical to the pre-flip live HTML; "/" still in sitemap-0.xml; one H1 "Handyman Services for Katy & Fulshear"; all 5 FAQ questions in schema and visible; gtag configs for G-9D5MCDT0L1 and AW-16988082106 present; every 013 check (gold count, bar and header Call, tel:, Jobber ids, 718, no-wrap/no-overflow, console) passes on live "/" at all six widths. Only `/service-areas/` left `<main>` (still in header and footer).
