@@ -78,13 +78,13 @@ const schemaGraph = [
           </div>
           <p class="text-sm text-neutral-600 mt-4">
             Or email
-            <a
+            <!--email_off--><a
               href={`mailto:${business.email}`}
               data-cta-location="contact_primary"
               class="font-bold text-brand-red hover:underline"
             >
               {business.email}
-            </a>.
+            </a><!--/email_off-->.
           </p>
         </div>
       </div>
@@ -153,12 +153,12 @@ const schemaGraph = [
               </svg>
               <div>
                 <p class="font-bold text-brand-black">Email</p>
-                <a
+                <!--email_off--><a
                   href={`mailto:${business.email}`}
                   class="text-neutral-600 hover:text-brand-red transition-colors"
                 >
                   {business.email}
-                </a>
+                </a><!--/email_off-->
               </div>
             </li>
             <li class="flex items-start">
