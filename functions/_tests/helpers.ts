@@ -74,9 +74,9 @@ export function createTestD1(): TestD1 {
 // ---------------------------------------------------------------------------
 
 const named = (kind: string, name: string): TypeRef => ({ kind, name, ofType: null });
-const nonNull = (type: TypeRef): TypeRef => ({ kind: 'NON_NULL', name: null, ofType: type });
+export const nonNull = (type: TypeRef): TypeRef => ({ kind: 'NON_NULL', name: null, ofType: type });
 const list = (type: TypeRef): TypeRef => ({ kind: 'LIST', name: null, ofType: type });
-const STRING = named('SCALAR', 'String');
+export const STRING = named('SCALAR', 'String');
 const ID = named('SCALAR', 'EncodedId');
 const BOOL = named('SCALAR', 'Boolean');
 const INT = named('SCALAR', 'Int');
@@ -92,8 +92,9 @@ interface FakeType {
   name: string;
   kind: string;
   fields: FakeField[] | null;
-  inputFields: { name: string; type: TypeRef }[] | null;
+  inputFields: { name: string; type: TypeRef; defaultValue?: string | null }[] | null;
   possibleTypes: { name: string }[] | null;
+  enumValues?: { name: string }[] | null;
 }
 
 const f = (name: string, type: TypeRef, args: [string, TypeRef][] = []): FakeField => ({
@@ -108,7 +109,15 @@ const objectType = (name: string, fields: FakeField[]): FakeType => ({
   inputFields: null,
   possibleTypes: null,
 });
-const inputType = (name: string, fields: [string, TypeRef][]): FakeType => ({
+export const enumType = (name: string, values: string[]): FakeType => ({
+  name,
+  kind: 'ENUM',
+  fields: null,
+  inputFields: null,
+  possibleTypes: null,
+  enumValues: values.map((value) => ({ name: value })),
+});
+export const inputType = (name: string, fields: [string, TypeRef][]): FakeType => ({
   name,
   kind: 'INPUT_OBJECT',
   fields: null,
@@ -174,6 +183,8 @@ export function jobberLikeSchema(): FakeSchema {
       ['primary', BOOL],
       ['smsAllowed', BOOL],
     ]),
+    enumType('PhoneNumberDescription', ['MAIN', 'MOBILE', 'WORK', 'HOME', 'FAX', 'OTHER']),
+    enumType('EmailDescription', ['MAIN', 'WORK', 'PERSONAL', 'OTHER']),
     inputType('EmailCreateAttributes', [
       ['address', nonNull(STRING)],
       ['description', named('ENUM', 'EmailDescription')],
@@ -266,6 +277,8 @@ export class FakeJobber {
   throttleNext = 0;
   unauthorizedNext = 0;
   userErrorsOn = new Set<string>();
+  /** Operations answered with HTTP 500. */
+  failOperations = new Set<string>();
   /** Title the fake stores instead of the one sent (to make read-back fail). */
   tamperTitle = false;
   private issued = 0;
@@ -347,6 +360,7 @@ export class FakeJobber {
     const variables = body.variables ?? {};
     this.operations.push(operation);
     this.variables.push(variables);
+    if (this.failOperations.has(operation)) return Response.json({ message: 'Internal error' }, { status: 500 });
     if (this.userErrorsOn.has(operation)) {
       const field = /\{\s*(\w+)\s*\(/.exec(body.query.slice(body.query.indexOf('{')))?.[1] ?? 'x';
       return Response.json({ data: { [field]: { userErrors: [{ message: 'Rejected by Jobber' }] } } });

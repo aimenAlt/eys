@@ -44,7 +44,7 @@ export function html(body: string, status = 200): Response {
     headers: withHeaders({
       'Content-Type': 'text/html; charset=utf-8',
       'Content-Security-Policy':
-        "default-src 'none'; style-src 'unsafe-inline'; form-action 'self' https://api.getjobber.com; frame-ancestors 'none'; base-uri 'none'",
+        "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'",
       'X-Frame-Options': 'DENY',
       'Referrer-Policy': 'no-referrer',
     }),

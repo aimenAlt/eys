@@ -1,5 +1,6 @@
 import type { D1Database, Env } from './types.ts';
 import { decryptSecret, encryptSecret, fromBase64url, randomToken } from './crypto.ts';
+import { jobberClientId, jobberClientSecret } from './env.ts';
 import { NOTE_HEADER } from './note.ts';
 import { formatPhone, normalizePhone, type CleanRequest } from './validate.ts';
 
@@ -202,8 +203,8 @@ async function requestTokens(
   previousRefresh?: string,
 ): Promise<TokenOutcome> {
   const body = new URLSearchParams({
-    client_id: deps.env.JOBBER_CLIENT_ID ?? '',
-    client_secret: deps.env.JOBBER_CLIENT_SECRET ?? '',
+    client_id: jobberClientId(deps.env) ?? '',
+    client_secret: jobberClientSecret(deps.env) ?? '',
     ...params,
   });
   let response: Response;
@@ -426,6 +427,8 @@ export interface TypeRef {
 interface ArgInfo {
   name: string;
   type: TypeRef;
+  /** GraphQL literal, or null when the argument / input field has no default. */
+  defaultValue?: string | null;
 }
 interface FieldInfo {
   name: string;
@@ -438,6 +441,7 @@ interface TypeInfo {
   fields: FieldInfo[] | null;
   inputFields: ArgInfo[] | null;
   possibleTypes: { name: string }[] | null;
+  enumValues?: { name: string }[] | null;
 }
 export interface SchemaSnapshot {
   queries: Map<string, FieldInfo>;
@@ -446,7 +450,7 @@ export interface SchemaSnapshot {
 }
 
 const TYPE_REF = 'kind name ofType { kind name ofType { kind name ofType { kind name ofType { kind name } } } }';
-const FIELD_SELECTION = `name args { name type { ${TYPE_REF} } } type { ${TYPE_REF} }`;
+const FIELD_SELECTION = `name args { name type { ${TYPE_REF} } defaultValue } type { ${TYPE_REF} }`;
 /** Object fields worth following when collecting types for the plan. */
 const FOLLOW_FIELDS = new Set(['address', 'properties', 'clientProperties', 'notes', 'nodes', 'phones', 'client', 'request', 'property']);
 const SEED_TYPES = ['Client', 'Property', 'Request', 'RequestNote'];
@@ -487,7 +491,7 @@ async function fetchTypes(deps: JobberDeps, names: string[]): Promise<TypeInfo[]
     const selections = batch
       .map(
         (name, index) =>
-          `t${index}: __type(name: "${name}") { name kind fields { ${FIELD_SELECTION} } inputFields { name type { ${TYPE_REF} } } possibleTypes { name } }`,
+          `t${index}: __type(name: "${name}") { name kind fields { ${FIELD_SELECTION} } inputFields { name type { ${TYPE_REF} } defaultValue } possibleTypes { name } enumValues { name } }`,
       )
       .join(' ');
     const data = await graphql<Record<string, TypeInfo | null>>(deps, `query EysSchemaTypes { ${selections} }`);
@@ -549,7 +553,7 @@ export async function introspect(
       snapshot.types.set(type.name, type);
       for (const input of type.inputFields ?? []) {
         const t = unwrap(input.type);
-        if (t.kind === 'INPUT_OBJECT' && !snapshot.types.has(t.name)) want.add(t.name);
+        if ((t.kind === 'INPUT_OBJECT' || t.kind === 'ENUM') && !snapshot.types.has(t.name)) want.add(t.name);
       }
       for (const field of type.fields ?? []) {
         const t = unwrap(field.type);
@@ -578,7 +582,15 @@ export interface JobberPlan {
   clientIdType: string;
   clientProperties: { field: string; connection: boolean; first: boolean } | null;
   propertyAddress: { street: string; zip: string };
-  clientCreate: MutationPlan & { smsAllowed: boolean; emails: boolean };
+  clientCreate: MutationPlan & {
+    smsAllowed: boolean;
+    emails: boolean;
+    /** Enum value for the phone's `description` label, or null to omit the field. */
+    phoneDescription: string | null;
+    phonePrimary: boolean;
+    emailDescription: string | null;
+    emailPrimary: boolean;
+  };
   propertyCreate: MutationPlan & {
     clientIdArg: string;
     clientIdType: string;
@@ -617,6 +629,10 @@ export const DEFAULT_PLAN: JobberPlan = {
     userErrors: true,
     smsAllowed: true,
     emails: true,
+    phoneDescription: 'MAIN',
+    phonePrimary: true,
+    emailDescription: 'MAIN',
+    emailPrimary: true,
   },
   propertyCreate: {
     mutation: 'propertyCreate',
@@ -666,6 +682,47 @@ function inputField(snapshot: SchemaSnapshot, typeName: string, field: string): 
 function isStringType(type: TypeRef): boolean {
   const t = unwrap(type);
   return t.kind === 'SCALAR' && t.name === 'String' && !t.list;
+}
+
+/** NON_NULL with no default: the API rejects a call that leaves it out. */
+function isRequired(field: ArgInfo): boolean {
+  return field.type.kind === 'NON_NULL' && (field.defaultValue === undefined || field.defaultValue === null);
+}
+
+/**
+ * Pre-flight: every required input field the write path does not fill is a
+ * problem, so getPlan refuses before the first client or property exists.
+ */
+function requireSupplied(s: SchemaSnapshot, typeName: string, supplied: string[], problems: string[]): void {
+  if (!typeName) return;
+  for (const field of inputFieldsOf(s, typeName)) {
+    if (isRequired(field) && !supplied.includes(field.name)) {
+      problems.push(`${typeName}.${field.name} is required and not supplied`);
+    }
+  }
+}
+
+function requireArgs(field: FieldInfo, supplied: string[], problems: string[]): void {
+  for (const arg of field.args ?? []) {
+    if (isRequired(arg) && !supplied.includes(arg.name)) {
+      problems.push(`${field.name}(${arg.name}) is required and not supplied`);
+    }
+  }
+}
+
+/**
+ * The enum value for a phone or email `description` label: the first of
+ * `preferred` the schema lists, else its first value. Null (omit the field)
+ * when there is no such field or it is not an enum.
+ */
+function chooseLabel(s: SchemaSnapshot, typeName: string, preferred: string[]): string | null {
+  const field = inputField(s, typeName, 'description');
+  if (!field) return null;
+  const t = unwrap(field.type);
+  if (t.kind !== 'ENUM') return null;
+  const values = (s.types.get(t.name)?.enumValues ?? []).map((v) => v.name);
+  if (values.length === 0) return null;
+  return preferred.find((v) => values.includes(v)) ?? values[0];
 }
 
 /** Reads the single INPUT_OBJECT argument of a mutation (conventionally `input`). */
@@ -719,6 +776,14 @@ export function buildPlan(snapshot: SchemaSnapshot | null): { plan: JobberPlan; 
   const clientInputType = clientInput ? unwrap(clientInput.type).name : '';
   const phonesInput = inputField(s, clientInputType, 'phones');
   const phoneType = phonesInput ? unwrap(phonesInput.type).name : '';
+  const emailsInput = inputField(s, clientInputType, 'emails');
+  const emailType = emailsInput ? unwrap(emailsInput.type).name : '';
+  const emails = Boolean(emailsInput && inputField(s, emailType, 'address'));
+  const phoneDescription = chooseLabel(s, phoneType, ['MAIN', 'MOBILE', 'OTHER']);
+  const emailDescription = chooseLabel(s, emailType, ['MAIN', 'PERSONAL', 'OTHER']);
+  const phonePrimary = Boolean(inputField(s, phoneType, 'primary'));
+  const emailPrimary = Boolean(inputField(s, emailType, 'primary'));
+  const smsAllowed = Boolean(inputField(s, phoneType, 'smsAllowed'));
   if (!clientCreateField || !clientInput) problems.push('mutation clientCreate(input) not found');
   else {
     for (const f of ['firstName', 'lastName', 'phones']) {
@@ -726,14 +791,42 @@ export function buildPlan(snapshot: SchemaSnapshot | null): { plan: JobberPlan; 
     }
     if (phonesInput && !inputField(s, phoneType, 'number')) problems.push(`${phoneType}.number not found`);
     if (!hasField(s, unwrap(clientCreateField.type).name, 'client')) problems.push('clientCreate payload has no client');
+    requireArgs(clientCreateField, [clientInput.name], problems);
+    requireSupplied(s, clientInputType, ['firstName', 'lastName', 'phones', ...(emails ? ['emails'] : [])], problems);
+    if (emails && emailsInput && isRequired(emailsInput)) {
+      problems.push(`${clientInputType}.emails is required but only supplied when the customer gives an email`);
+    }
+    requireSupplied(
+      s,
+      phoneType,
+      [
+        'number',
+        ...(phoneDescription ? ['description'] : []),
+        ...(phonePrimary ? ['primary'] : []),
+        ...(smsAllowed ? ['smsAllowed'] : []),
+      ],
+      problems,
+    );
+    if (emails) {
+      requireSupplied(
+        s,
+        emailType,
+        ['address', ...(emailDescription ? ['description'] : []), ...(emailPrimary ? ['primary'] : [])],
+        problems,
+      );
+    }
   }
   const clientCreate: JobberPlan['clientCreate'] = {
     mutation: 'clientCreate',
     inputArg: clientInput?.name ?? 'input',
     inputType: clientInput ? renderType(clientInput.type) : 'ClientCreateInput!',
     userErrors: clientCreateField ? hasField(s, unwrap(clientCreateField.type).name, 'userErrors') : true,
-    smsAllowed: Boolean(inputField(s, phoneType, 'smsAllowed')),
-    emails: Boolean(inputField(s, clientInputType, 'emails')),
+    smsAllowed,
+    emails,
+    phoneDescription,
+    phonePrimary,
+    emailDescription,
+    emailPrimary,
   };
 
   // propertyCreate.
@@ -758,6 +851,10 @@ export function buildPlan(snapshot: SchemaSnapshot | null): { plan: JobberPlan; 
       if (addressInput && !inputField(s, addressInputType, f)) problems.push(`${addressInputType}.${f} not found`);
     }
     if (!payload) problems.push('propertyCreate payload has no properties/property');
+    if (idArg && input) requireArgs(propertyField, [idArg.name, input.name], problems);
+    if (listField) requireSupplied(s, inputTypeName, [listField.name], problems);
+    requireSupplied(s, attrsType, ['address'], problems);
+    requireSupplied(s, addressInputType, ['street1', 'city', 'province', 'postalCode'], problems);
     propertyCreate = {
       mutation: 'propertyCreate',
       inputArg: input?.name ?? 'input',
@@ -787,6 +884,10 @@ export function buildPlan(snapshot: SchemaSnapshot | null): { plan: JobberPlan; 
       const f = inputField(s, requestInputType, name);
       return f ? isStringType(f.type) : false;
     }) ?? null;
+  if (requestField && requestInput) {
+    requireArgs(requestField, [requestInput.name], problems);
+    requireSupplied(s, requestInputType, ['clientId', 'propertyId', 'title', ...(detailsField ? [detailsField] : [])], problems);
+  }
   const requestCreate: JobberPlan['requestCreate'] = {
     mutation: 'requestCreate',
     inputArg: requestInput?.name ?? 'input',
@@ -797,6 +898,7 @@ export function buildPlan(snapshot: SchemaSnapshot | null): { plan: JobberPlan; 
 
   // Note on the request.
   let note: JobberPlan['note'] = null;
+  let noteProblems: string[] = [];
   for (const name of noteMutationCandidates(s.mutations)) {
     const field = s.mutations.get(name);
     if (!field) continue;
@@ -811,6 +913,13 @@ export function buildPlan(snapshot: SchemaSnapshot | null): { plan: JobberPlan; 
         return f ? isStringType(f.type) : false;
       });
       if (!textField) continue;
+      const gaps: string[] = [];
+      requireArgs(field, [idArg.name, input.name], gaps);
+      requireSupplied(s, inputTypeName, [textField], gaps);
+      if (gaps.length > 0) {
+        if (noteProblems.length === 0) noteProblems = gaps;
+        continue;
+      }
       note = {
         mutation: name,
         idArg: idArg.name,
@@ -824,6 +933,12 @@ export function buildPlan(snapshot: SchemaSnapshot | null): { plan: JobberPlan; 
     }
     const direct = field.args?.find((a) => TEXT_FIELDS.includes(a.name) && isStringType(a.type));
     if (direct) {
+      const gaps: string[] = [];
+      requireArgs(field, [idArg.name, direct.name], gaps);
+      if (gaps.length > 0) {
+        if (noteProblems.length === 0) noteProblems = gaps;
+        continue;
+      }
       note = {
         mutation: name,
         idArg: idArg.name,
@@ -836,7 +951,11 @@ export function buildPlan(snapshot: SchemaSnapshot | null): { plan: JobberPlan; 
       break;
     }
   }
-  if (!note && !detailsField) problems.push('no request note mutation and no details field: the job text could not be attached');
+  if (!note && !detailsField) {
+    problems.push('no request note mutation and no details field: the job text could not be attached', ...noteProblems);
+  } else if (!note && noteProblems.length > 0) {
+    warnings.push(`note mutation skipped (${noteProblems.join('; ')}): the job text goes in ${detailsField}`);
+  }
 
   // Read-back.
   const requestQuery = s.queries.get('request');
@@ -917,13 +1036,17 @@ export async function probeSchema(deps: JobberDeps) {
   const describeInput = (type: TypeRef, depth: number): unknown => {
     const t = unwrap(type);
     if (t.kind !== 'INPUT_OBJECT') return undefined;
-    return inputFieldsOf(snapshot, t.name).map((f) => ({
-      name: f.name,
-      type: renderType(f.type),
-      ...(depth > 0 && unwrap(f.type).kind === 'INPUT_OBJECT'
-        ? { input_fields: describeInput(f.type, depth - 1) }
-        : {}),
-    }));
+    return inputFieldsOf(snapshot, t.name).map((f) => {
+      const inner = unwrap(f.type);
+      const values = inner.kind === 'ENUM' ? snapshot.types.get(inner.name)?.enumValues : null;
+      return {
+        name: f.name,
+        type: renderType(f.type),
+        ...(isRequired(f) ? { required: true } : {}),
+        ...(values ? { enum_values: values.map((v) => v.name) } : {}),
+        ...(depth > 0 && inner.kind === 'INPUT_OBJECT' ? { input_fields: describeInput(f.type, depth - 1) } : {}),
+      };
+    });
   };
   const describe = (name: string) => {
     const field = snapshot.mutations.get(name);
@@ -1031,14 +1154,21 @@ async function findPropertyOnStreet(
 
 async function createClient(deps: JobberDeps, plan: JobberPlan, request: CleanRequest): Promise<string> {
   const c = plan.clientCreate;
-  const phone: Record<string, unknown> = { number: request.phoneDisplay, description: 'MAIN', primary: true };
+  const phone: Record<string, unknown> = { number: request.phoneDisplay };
+  if (c.phoneDescription) phone.description = c.phoneDescription;
+  if (c.phonePrimary) phone.primary = true;
   if (c.smsAllowed) phone.smsAllowed = request.contactPreference === 'text';
   const input: Record<string, unknown> = {
     firstName: request.firstName,
     lastName: request.lastName,
     phones: [phone],
   };
-  if (request.email && c.emails) input.emails = [{ address: request.email, description: 'MAIN', primary: true }];
+  if (request.email && c.emails) {
+    const email: Record<string, unknown> = { address: request.email };
+    if (c.emailDescription) email.description = c.emailDescription;
+    if (c.emailPrimary) email.primary = true;
+    input.emails = [email];
+  }
   const data = await graphql<{
     clientCreate?: { client?: { id: string } | null; userErrors?: { message?: string }[] | null };
   }>(

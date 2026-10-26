@@ -20,7 +20,8 @@ export async function checkAdminKey(env: Env, request: Request, presented: strin
   const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown';
   const counter = `adminfail:${await keyedHash(key, KEY_LABELS.ipHash, ip)}:${Math.floor(now / HOUR)}`;
   if ((await readCounter(db, counter)) >= MAX_ADMIN_FAILURES_PER_HOUR) return 'locked';
-  if (presented && (await timingSafeEqual(presented, key))) return 'ok';
+  const typed = presented.trim();
+  if (typed && (await timingSafeEqual(typed, key))) return 'ok';
   await bumpCounter(db, counter, HOUR, now);
   return 'bad_key';
 }
@@ -70,6 +71,8 @@ h1{font-size:1.4rem}label{display:block;font-weight:600;margin:1rem 0 .25rem}
 input{width:100%;box-sizing:border-box;padding:.6rem;font:inherit;border:1px solid #c7cbd1;border-radius:6px}
 button{margin-top:1rem;padding:.7rem 1.2rem;font:inherit;font-weight:700;color:#fff;background:#d62828;border:0;border-radius:6px;cursor:pointer}
 .muted{color:#5e6670;font-size:.9rem}
+h2{font-size:1.1rem;margin-top:2rem}
+pre{white-space:pre-wrap;word-break:break-word;font-size:12px;line-height:1.4;background:#f4f5f7;padding:1rem;border-radius:6px}
 </style>
 </head>
 <body>

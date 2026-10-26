@@ -24,6 +24,14 @@ function call(fn: PagesFunction<Env>, env: Env, path: string, init: RequestInit 
   return Promise.resolve(fn(context));
 }
 
+/** The "Continue to Jobber" link from the Key accepted page. */
+async function jobberLink(response: Response): Promise<URL> {
+  const page = await response.text();
+  const href = /<a href="([^"]+)" rel="noreferrer">Continue to Jobber<\/a>/.exec(page)?.[1];
+  assert.ok(href, 'Continue to Jobber link present');
+  return new URL(href.replace(/&amp;/g, '&'));
+}
+
 function assertApiHeaders(response: Response) {
   assert.equal(response.headers.get('Cache-Control'), 'no-store');
   assert.equal(response.headers.get('X-Robots-Tag'), 'noindex');
@@ -77,7 +85,10 @@ await check('connect: form never puts the key in a URL; 5 wrong keys per hour lo
   const page = await call(connect, h.env, '/api/admin/jobber/connect');
   const html = await page.text();
   assert.ok(html.includes('method="post"') && html.includes('type="password"'));
-  assert.ok(page.headers.get('Content-Security-Policy')?.includes("frame-ancestors 'none'"));
+  const csp = page.headers.get('Content-Security-Policy') ?? '';
+  assert.ok(csp.includes("frame-ancestors 'none'"));
+  assert.ok(csp.includes("form-action 'self';"), 'form-action is self only');
+  assert.ok(!csp.includes('getjobber'));
 
   const submit = (key: string, ip = '203.0.113.9') =>
     call(connect, h.env, '/api/admin/jobber/connect', {
@@ -87,9 +98,10 @@ await check('connect: form never puts the key in a URL; 5 wrong keys per hour lo
     });
   for (let i = 0; i < 5; i++) assert.equal((await submit('wrong-key')).status, 403);
   assert.equal((await submit(ADMIN_KEY)).status, 429, 'locked even with the right key');
-  const ok = await submit(ADMIN_KEY, '198.51.100.20');
-  assert.equal(ok.status, 302);
-  const location = new URL(ok.headers.get('Location') ?? '');
+  const ok = await submit(`  ${ADMIN_KEY} `, '198.51.100.20');
+  assert.equal(ok.status, 200, 'key accepted (typed key is trimmed)');
+  assert.equal(ok.headers.get('Location'), null, 'no redirect after the form post');
+  const location = await jobberLink(ok);
   assert.equal(location.origin + location.pathname, 'https://api.getjobber.com/api/oauth/authorize');
   assert.equal(location.searchParams.get('redirect_uri'), 'https://www.eyshandyman.com/api/admin/jobber/callback');
   assert.equal(location.searchParams.get('code_challenge_method'), 'S256');
@@ -104,7 +116,7 @@ async function startConnect(h: ReturnType<typeof harness>): Promise<string> {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({ key: ADMIN_KEY }).toString(),
   });
-  return new URL(response.headers.get('Location') ?? '').searchParams.get('state') ?? '';
+  return (await jobberLink(response)).searchParams.get('state') ?? '';
 }
 
 await check('callback: one-time state, account check, nothing saved for the wrong account', async () => {
@@ -115,7 +127,9 @@ await check('callback: one-time state, account check, nothing saved for the wron
     h.fake.accountName = 'Some Other Plumbing Co';
     const wrong = await call(callback, h.env, `/api/admin/jobber/callback?code=good-code&state=${await startConnect(h)}`);
     assert.equal(wrong.status, 403);
-    assert.ok((await wrong.text()).includes('Some Other Plumbing Co'));
+    const wrongPage = await wrong.text();
+    assert.ok(wrongPage.includes('Some Other Plumbing Co') && wrongPage.includes('Nothing was saved'));
+    assert.ok(!wrongPage.includes('Schema report'), 'no report for the wrong account');
     assert.equal((h.db.raw.prepare('SELECT COUNT(*) AS n FROM jobber_tokens').get() as { n: number }).n, 0);
 
     h.fake.accountName = 'Elevate Your Space Handyman';
@@ -123,7 +137,13 @@ await check('callback: one-time state, account check, nothing saved for the wron
     const good = await call(callback, h.env, `/api/admin/jobber/callback?code=good-code&state=${state}`);
     assert.equal(good.status, 200);
     const page = await good.text();
-    assert.ok(page.includes('Connected') && !page.includes('access-') && !page.includes('refresh-'));
+    assert.ok(page.includes('Jobber is connected to <strong>Elevate Your Space Handyman</strong>'));
+    assert.ok(page.includes('<h2>Schema report</h2>'));
+    assert.ok(page.includes('Introspection enabled · API version 2026-09-25 · 0 plan problems · 0 plan warnings'));
+    assert.ok(page.includes('<pre>{') && page.includes('&quot;request_create&quot;'), 'probe JSON, escaped');
+    for (const secret of ['access-', 'refresh-', 'client-id', 'client-secret', ADMIN_KEY, 'account-1', 'good-code', state]) {
+      assert.ok(!page.includes(secret), `connected page leaks ${secret}`);
+    }
     const healthBody = await (await call(health, h.env, '/api/ai/health')).json();
     assert.deepEqual(healthBody.jobber, { connected: true, account_name: 'Elevate Your Space Handyman', token_status: 'valid' });
 
@@ -135,12 +155,43 @@ await check('callback: one-time state, account check, nothing saved for the wron
     const renamed = await call(callback, h.env, `/api/admin/jobber/callback?code=good-code&state=${await startConnect(h)}`);
     assert.equal(renamed.status, 200, 'JOBBER_EXPECTED_ACCOUNT matches case-insensitively');
 
+    // Probe failure: still connected, report says why.
+    h.fake.failOperations.add('EysSchemaRoots');
+    const failed = await call(callback, h.env, `/api/admin/jobber/callback?code=good-code&state=${await startConnect(h)}`);
+    assert.equal(failed.status, 200);
+    const failedPage = await failed.text();
+    assert.ok(failedPage.includes('Jobber is connected to'));
+    assert.ok(failedPage.includes('Schema report failed (http).'));
+    h.fake.failOperations.clear();
+
     const probeDenied = await call(probe, h.env, '/api/admin/jobber/probe', { headers: { Authorization: 'Bearer nope' } });
     assert.equal(probeDenied.status, 401);
-    const probeOk = await call(probe, h.env, '/api/admin/jobber/probe', { headers: { Authorization: `Bearer ${ADMIN_KEY}` } });
+    const probeOk = await call(probe, h.env, '/api/admin/jobber/probe', { headers: { Authorization: `Bearer   ${ADMIN_KEY}  ` } });
     assert.equal(probeOk.status, 200);
     assert.equal((await probeOk.json()).introspection, 'enabled');
   } finally {
     globalThis.fetch = realFetch;
   }
+});
+
+await check('secrets are trimmed; the 16-character minimum applies after trimming', async () => {
+  const h = harness({
+    JOBBER_CLIENT_ID: '  client-id\n',
+    JOBBER_CLIENT_SECRET: '\tclient-secret ',
+    AI_ADMIN_KEY: ` ${ADMIN_KEY}\n`,
+  });
+  const body = await (await call(health, h.env, '/api/ai/health')).json();
+  assert.deepEqual(body.configured, { d1: true, jobber_client: true, jobber_secret: true, admin_key: true });
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = h.fake.fetch as typeof fetch;
+  try {
+    const connected = await call(callback, h.env, `/api/admin/jobber/callback?code=good-code&state=${await startConnect(h)}`);
+    assert.equal(connected.status, 200, 'the fake token endpoint only accepts the trimmed client id and secret');
+  } finally {
+    globalThis.fetch = realFetch;
+  }
+  const short = harness({ AI_ADMIN_KEY: '   fifteen-chars  ' });
+  assert.equal((await (await call(health, short.env, '/api/ai/health')).json()).configured.admin_key, false);
+  const blank = harness({ JOBBER_CLIENT_ID: '   ' });
+  assert.equal((await (await call(health, blank.env, '/api/ai/health')).json()).configured.jobber_client, false);
 });

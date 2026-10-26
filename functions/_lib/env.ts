@@ -28,17 +28,35 @@ export function dailyCap(env: Env): number {
   return Math.min(raw, MAX_DAILY_CAP);
 }
 
+/**
+ * Secrets are pasted into the dashboard by hand, so leading and trailing
+ * whitespace is trimmed before use. Always read them through these helpers.
+ */
+function secret(value: string | undefined): string | null {
+  const trimmed = (value ?? '').trim();
+  return trimmed === '' ? null : trimmed;
+}
+
+export function jobberClientId(env: Env): string | null {
+  return secret(env.JOBBER_CLIENT_ID);
+}
+
+export function jobberClientSecret(env: Env): string | null {
+  return secret(env.JOBBER_CLIENT_SECRET);
+}
+
+/** The 16-character minimum applies after trimming. */
 export function adminKey(env: Env): string | null {
-  const key = env.AI_ADMIN_KEY ?? '';
-  return key.length >= MIN_ADMIN_KEY_LENGTH ? key : null;
+  const key = secret(env.AI_ADMIN_KEY);
+  return key !== null && key.length >= MIN_ADMIN_KEY_LENGTH ? key : null;
 }
 
 /** Booleans only — health output must never carry a secret or its length. */
 export function configured(env: Env) {
   return {
     d1: Boolean(env.EYS_AI_DB),
-    jobber_client: Boolean(env.JOBBER_CLIENT_ID),
-    jobber_secret: Boolean(env.JOBBER_CLIENT_SECRET),
+    jobber_client: jobberClientId(env) !== null,
+    jobber_secret: jobberClientSecret(env) !== null,
     admin_key: adminKey(env) !== null,
   };
 }

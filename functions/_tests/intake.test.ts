@@ -4,7 +4,7 @@ import { saveConnection } from '../_lib/jobber.ts';
 import { ensureSchema, DAY, HOUR } from '../_lib/db.ts';
 import { NOTE_HEADER } from '../_lib/note.ts';
 import { healthReport } from '../_lib/health.ts';
-import { check, harness, validBody, type Harness } from './helpers.ts';
+import { check, harness, nonNull, STRING, validBody, type Harness } from './helpers.ts';
 
 /** A harness with a connected Jobber account (fresh tokens in D1). */
 async function connected(envOverrides = {}): Promise<Harness> {
@@ -64,7 +64,7 @@ await check('non-live hosts are validate-only even when confirmed', async () => 
 });
 
 await check('kill switch: AI_INTAKE_ENABLED not exactly "true" → unavailable, no writes', async () => {
-  for (const value of ['false', 'TRUE', '1', undefined]) {
+  for (const value of ['false', 'TRUE', '1', ' true', 'true\n', undefined]) {
     const h = await connected({ AI_INTAKE_ENABLED: value });
     const result = await submitServiceRequest(validBody(), h.intakeDeps());
     assert.equal(result.status, 'unavailable');
@@ -276,4 +276,25 @@ await check('rows older than 30 days are purged', async () => {
   await submitServiceRequest(validBody({ phone: '832-555-9901' }), h.intakeDeps());
   const refs = h.db.raw.prepare('SELECT COUNT(*) AS n FROM ai_requests').get() as { n: number };
   assert.equal(refs.n, 1);
+});
+
+await check('pre-flight: an unknown required Jobber input blocks the write and creates nothing', async () => {
+  const h = await connected();
+  h.fake.schema.types.get('RequestCreateInput')?.inputFields?.push({ name: 'foo', type: nonNull(STRING) });
+  const result = await submitServiceRequest(validBody(), h.intakeDeps());
+  assert.equal(result.status, 'unavailable');
+  assert.equal(h.logs.at(-1)?.error_class, 'jobber_schema@plan');
+  assert.equal(h.fake.clients.length, 0, 'no client');
+  assert.equal(h.fake.requests.length, 0, 'no request');
+  assert.ok(!h.fake.operations.some((op) => op.startsWith('EysCreate')), 'no create call at all');
+  const row = h.db.raw.prepare('SELECT status FROM ai_requests').get() as { status: string };
+  assert.equal(row.status, 'failed', 'free to retry once Jobber is fixed');
+});
+
+await check('padded Jobber credentials still refresh tokens and write', async () => {
+  const h = await connected({ JOBBER_CLIENT_ID: ' client-id ', JOBBER_CLIENT_SECRET: 'client-secret\n' });
+  h.clock.advance(2 * HOUR); // force a refresh with the padded credentials
+  const result = await submitServiceRequest(validBody(), h.intakeDeps());
+  assert.equal(result.status, 'submitted');
+  assert.deepEqual(h.fake.tokenCalls, ['refresh_token']);
 });

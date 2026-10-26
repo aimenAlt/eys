@@ -13,7 +13,8 @@ import {
 } from '../_lib/jobber.ts';
 import { ensureSchema, HOUR, MINUTE } from '../_lib/db.ts';
 import { healthReport } from '../_lib/health.ts';
-import { check, harness, type Harness } from './helpers.ts';
+import { submitServiceRequest } from '../_lib/intake.ts';
+import { check, enumType, harness, nonNull, STRING, validBody, type Harness } from './helpers.ts';
 
 async function withTokens(expiresIn: number): Promise<{ h: Harness; access: string; refresh: string }> {
   const h = harness();
@@ -189,4 +190,84 @@ await check('probe lists requestCreate, client/property inputs and every Request
   assert.deepEqual(related, ['jobCreateNote', 'requestCreate', 'requestCreateNote']);
   assert.deepEqual(probe.plan_problems, []);
   assert.ok(!JSON.stringify(probe).includes('access-'), 'no token in probe output');
+});
+
+await check('contact labels: MAIN when listed, else MOBILE / PERSONAL, else OTHER, else the first; omitted when absent', async () => {
+  const { h } = await withTokens(HOUR);
+  const types = h.fake.schema.types;
+  types.set('PhoneNumberDescription', enumType('PhoneNumberDescription', ['WORK', 'MOBILE', 'HOME']));
+  types.set('EmailDescription', enumType('EmailDescription', ['WORK', 'PERSONAL']));
+  let { plan } = buildPlan(await introspect(h.jobberDeps()));
+  assert.equal(plan.clientCreate.phoneDescription, 'MOBILE');
+  assert.equal(plan.clientCreate.emailDescription, 'PERSONAL');
+
+  types.set('PhoneNumberDescription', enumType('PhoneNumberDescription', ['WORK', 'OTHER']));
+  types.set('EmailDescription', enumType('EmailDescription', ['BUSINESS', 'HOME']));
+  ({ plan } = buildPlan(await introspect(h.jobberDeps())));
+  assert.equal(plan.clientCreate.phoneDescription, 'OTHER');
+  assert.equal(plan.clientCreate.emailDescription, 'BUSINESS', 'first value as the last resort');
+
+  const phone = types.get('PhoneNumberCreateAttributes');
+  if (phone?.inputFields) phone.inputFields = phone.inputFields.filter((f) => f.name !== 'description' && f.name !== 'primary');
+  ({ plan } = buildPlan(await introspect(h.jobberDeps())));
+  assert.equal(plan.clientCreate.phoneDescription, null);
+  assert.equal(plan.clientCreate.phonePrimary, false);
+});
+
+await check('the chosen label is what createClient sends; a missing field is left out', async () => {
+  const h = harness();
+  await ensureSchema(h.db);
+  const pair = h.fake.issue();
+  await saveConnection(h.jobberDeps(), { access: pair.access, refresh: pair.refresh, expiresAt: h.clock.now() + HOUR }, {
+    id: 'account-1',
+    name: 'Elevate Your Space Handyman',
+  });
+  h.fake.schema.types.set('PhoneNumberDescription', enumType('PhoneNumberDescription', ['MOBILE', 'WORK']));
+  const email = h.fake.schema.types.get('EmailCreateAttributes');
+  if (email?.inputFields) email.inputFields = email.inputFields.filter((f) => f.name !== 'description');
+  const result = await submitServiceRequest(validBody(), h.intakeDeps());
+  assert.equal(result.status, 'submitted');
+  assert.deepEqual(h.fake.clients[0].phones, [{ number: '(281) 555-2368', description: 'MOBILE', primary: true, smsAllowed: true }]);
+  assert.deepEqual(h.fake.clients[0].emails, [{ address: 'dana.whitfield@example.com', primary: true }]);
+});
+
+await check('pre-flight: an unknown required input or argument blocks the plan with a named problem', async () => {
+  const { h } = await withTokens(HOUR);
+  const request = h.fake.schema.types.get('RequestCreateInput');
+  request?.inputFields?.push({ name: 'foo', type: nonNull(STRING) });
+  request?.inputFields?.push({ name: 'withDefault', type: nonNull(STRING), defaultValue: '"x"' });
+  const address = h.fake.schema.types.get('AddressAttributes');
+  address?.inputFields?.push({ name: 'country', type: nonNull(STRING) });
+  const create = h.fake.schema.mutations.find((m) => m.name === 'clientCreate');
+  create?.args?.push({ name: 'dryRun', type: nonNull(STRING) });
+  const { problems } = buildPlan(await introspect(h.jobberDeps()));
+  assert.ok(problems.includes('RequestCreateInput.foo is required and not supplied'));
+  assert.ok(!problems.some((p) => p.includes('withDefault')), 'a default counts as supplied');
+  assert.ok(problems.includes('clientCreate(dryRun) is required and not supplied'));
+  assert.ok(problems.some((p) => p.startsWith('AddressAttributes.country')), JSON.stringify(problems));
+});
+
+await check('pre-flight: a note mutation needing unknown inputs is skipped for the details field', async () => {
+  const { h } = await withTokens(HOUR);
+  h.fake.schema.types.get('RequestCreateNoteInput')?.inputFields?.push({ name: 'visibility', type: nonNull(STRING) });
+  let { plan, problems } = buildPlan(await introspect(h.jobberDeps()));
+  assert.ok(problems.includes('no request note mutation and no details field: the job text could not be attached'));
+  assert.ok(problems.includes('RequestCreateNoteInput.visibility is required and not supplied'));
+  h.fake.schema.types.get('RequestCreateInput')?.inputFields?.push({ name: 'details', type: STRING });
+  let warnings: string[];
+  ({ plan, problems, warnings } = buildPlan(await introspect(h.jobberDeps())));
+  assert.deepEqual(problems, []);
+  assert.equal(plan.note, null);
+  assert.equal(plan.requestCreate.detailsField, 'details');
+  assert.ok(warnings.some((w) => w.startsWith('note mutation skipped')));
+});
+
+await check('probe shows enum values and marks required inputs', async () => {
+  const { h } = await withTokens(HOUR);
+  const probe = (await probeSchema(h.jobberDeps())) as Record<string, unknown>;
+  const client = probe.client_create as { args: { input_fields: { name: string; input_fields?: { name: string; enum_values?: string[]; required?: boolean }[] }[] }[] };
+  const phones = client.args[0].input_fields.find((f) => f.name === 'phones');
+  const description = phones?.input_fields?.find((f) => f.name === 'description');
+  assert.deepEqual(description?.enum_values, ['MAIN', 'MOBILE', 'WORK', 'HOME', 'FAX', 'OTHER']);
+  assert.equal(phones?.input_fields?.find((f) => f.name === 'number')?.required, true);
 });

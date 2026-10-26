@@ -13,7 +13,15 @@ import {
   releaseRequestId,
   setRequestStatus,
 } from './db.ts';
-import { adminKey, chicagoDay, dailyCap, intakeEnabled, isLiveHost } from './env.ts';
+import {
+  adminKey,
+  chicagoDay,
+  dailyCap,
+  intakeEnabled,
+  isLiveHost,
+  jobberClientId,
+  jobberClientSecret,
+} from './env.ts';
 import { JobberError, hasStoredTokens, writeServiceRequest, type WriteProgress } from './jobber.ts';
 import { buildNote, buildTitle } from './note.ts';
 import { mentionsElectrical, validateServiceRequest, type CleanRequest, type FieldError } from './validate.ts';
@@ -183,7 +191,7 @@ export async function submitServiceRequest(input: unknown, deps: IntakeDeps): Pr
   if (!intakeEnabled(env)) return fail('disabled');
   const key = adminKey(env);
   const db = env.EYS_AI_DB;
-  if (!db || !key || !env.JOBBER_CLIENT_ID || !env.JOBBER_CLIENT_SECRET) return fail('not_configured');
+  if (!db || !key || !jobberClientId(env) || !jobberClientSecret(env)) return fail('not_configured');
 
   try {
     await ensureSchema(db);
