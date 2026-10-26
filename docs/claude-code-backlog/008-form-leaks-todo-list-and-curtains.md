@@ -23,3 +23,7 @@ Decisions:
 - Only the heroes changed. The curtain landing's header "Book Installation", sticky "Book" and the offer/gallery/process/final booking buttons still go to 5061244 — the item scopes the change to the primary hero CTA; worth re-measuring before moving those too.
 
 Verification (local build): `<main>` changed on exactly these three pages out of 114; at 390×844 the new primary buttons and Call are above the fold (to-do 670px, curtain landing 736/800px, curtain service 489px); hrefs carry `eys_form=todo-list-request` / `curtains-request`, `data-booking-type="project_estimate"`; no console errors. The `_gl` linker param and GA4 Realtime check need a click on a live Jobber link, which counts as a Google Ads conversion, so they were not done; the linker config (`BaseLayout`) is unchanged and these are ordinary outbound Jobber links like the ones it already decorates.
+
+## DONE 2026-10-26 e7eacde
+Request-first hero CTAs live on /services/handyman-to-do-list/, /curtain-installation/ and /services/curtain-installation/; calendar booking kept as the secondary link.
+Live-verified with Playwright at 390×844, clicking nothing: new primary buttons and Call above the fold on all three pages; hrefs carry `eys_form=todo-list-request` / `eys_form=curtains-request` and `eys_lp`; `data-booking-type="project_estimate"`; every high-ceiling booking link still carries `data-curtain-cta="high_ceiling"`. GA4 Realtime / `_gl` not checked (would need a live Jobber click). Measurement Nov 10 as the item says.

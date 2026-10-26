@@ -42,7 +42,7 @@ Created 2026-10-11 by Claude (Cowork) from the 43-day Ads/GA4/GSC/Jobber digest.
 | 005 | `/services/` hub and `/services/tv-mounting/` are not on Google | done 248a414, live-verified 2026-10-12 |
 | 006 | Refresh the data section of `eys-seo-dominance-stage1-prompt.md` | done 2026-10-12 (local file, no commit) |
 | 007 | Microsoft Clarity + scroll_depth on every page (see what people do) | done a55efd7 c086ec5 a21022b, live-verified 2026-10-12 (superseded by the 12 Oct brief: + section_view, image_click) |
-| 008 | Form leaks: to-do list booking 18→0, curtains 13→0 — request-first CTAs | open |
+| 008 | Form leaks: to-do list booking 18→0, curtains 13→0 — request-first CTAs | done e7eacde, live-verified 2026-10-26 (measure Nov 10) |
 | 009 | Engaged pages with no CTA path: /pricing/, gallery viewer, /about/, /services/, /service-areas/ | open |
 | 010 | AI-assistant intake: ChatGPT & co. submit a request straight into Jobber (`/mcp`, `/api/ai/*`) | done fb1ed2a 7d040a8 e3f70c0 82a41b9 cfd5b78 (fixes 7f76116 1abdd26), live-verified 2026-10-25 in validate-only mode; human steps in `docs/ai-intake/STATUS.md` |
 | 011 | Eyad and the EYS van first on the homepage and every Google Ads landing page (`VanBand`) | done da28752, live-verified 2026-10-26 |
