@@ -112,3 +112,7 @@ Decisions:
 - `@fontsource/montserrat` ^5.3.0 added; only `montserrat-latin-800-normal.woff2` is referenced.
 
 No-change proof: built this commit and the previous one (da28752). Every one of the 114 pages has identical HTML once the inlined `<style>` blocks are removed (the stylesheet is the only difference). Full-page Playwright screenshots of "/" and /services/tv-mounting/ at 390×844 and 1440×900 are byte-identical PNGs between the two builds. `npm run check`, `npm test` and `npm run build` clean.
+
+## DONE 2026-10-26 fa23430
+Shipped the redesign foundation (tokens for both themes, Montserrat 800, type and button classes, `siteTheme`, `BaseLayout theme`, rewritten docs/03 and AGENTS.md design doctrine). No page uses it yet.
+Live-verified: https://www.eyshandyman.com/ matches the local build of fa23430 apart from Cloudflare's email obfuscation and the build timestamp; no `data-theme`, no Montserrat preload; the new tokens are present only in the inlined stylesheet.
