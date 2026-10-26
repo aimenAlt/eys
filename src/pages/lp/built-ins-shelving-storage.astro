@@ -21,6 +21,7 @@
  */
 import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import VanBand from '../../components/common/VanBand.astro';
 import Logo from '../../components/layout/Logo.astro';
 import SiteImage from '../../components/ui/SiteImage.astro';
 import StartFooter from '../../components/start-landing/StartFooter.astro';
@@ -175,6 +176,7 @@ const formSecondaryClass =
     </header>
 
     <main id="main-content">
+      <VanBand container="6xl" />
       <section
         class="bg-brand-black px-4 pb-10 pt-8 text-white sm:px-6 sm:pb-14 sm:pt-10 lg:px-8"
         aria-labelledby="lp-hero-heading"

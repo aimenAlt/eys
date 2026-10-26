@@ -122,7 +122,15 @@ its `id`, else a slug of its first `h2`/`h3` (lowercase, `a-z0-9_`, max 40
 chars), else `section_<n>`. Hand-set ids exist only where the fallback was vague:
 `hero` (homepage, `/start/`, `/van/`, `/lp/built-ins-shelving-storage/`, the
 service template), `trust_bar` and `service_areas` (homepage),
-`included_services` and `body_content` (service template). Heading-derived ids
+`included_services` and `body_content` (service template), and `van_band`
+(backlog 011, since 26 Oct 2026: the Eyad-and-the-van photo band that is the
+first section in `<main>` on the old homepage and on every Google Ads landing
+page listed in `src/data/adsLandingPages.ts` — /start/, /services/media-walls/,
+/lp/built-ins-shelving-storage/, /services/repairs-and-maintenance/,
+/services/limewash-walls/, /services/handyman-to-do-list/, /our-work/,
+/services/tv-mounting/ and /services/custom-carpentry/). On those pages every
+other section's `section_index` moved up by one on 26 Oct 2026, so compare
+across that date by `section_id`. Heading-derived ids
 change when the heading copy changes — compare across a copy edit by
 `section_index` too. `section_index` is the 1-based position among the page's
 top-level sections, counting short ones that never fire.

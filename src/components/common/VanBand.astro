@@ -1,0 +1,58 @@
+---
+/**
+ * VanBand — Eyad Essa in front of the EYS van, the first thing inside <main>
+ * on the homepage (old variant only) and on every Google Ads landing page
+ * (`src/data/adsLandingPages.ts`). Backlog 011.
+ *
+ * Phone/tablet (<1024): the photo alone, full-bleed at its natural 3:2, no text.
+ * Desktop (≥1024): a black band in the page hero's container — the photo at
+ * 390×260 beside three plain lines of owner copy (no heading tags, so each
+ * page's H1 stays its first heading). Nothing here is a link or a button.
+ *
+ * Never crop, cover-fit, blur or overlay the photo: every letter and badge on
+ * the van stays visible.
+ */
+import SiteImage from '../ui/SiteImage.astro';
+import { vanEyadPhoto } from '../../data/images';
+
+interface Props {
+  /** The page hero's container width: max-w-6xl on own-chrome pages, max-w-7xl on ContentLayout pages and "/". */
+  container?: '6xl' | '7xl';
+}
+
+const { container = '7xl' } = Astro.props;
+/**
+ * Match the hero's own box model so the photo lines up with the H1: the
+ * own-chrome heroes pad the section and centre a max-w-6xl box inside it;
+ * ContentLayout pages and "/" pad inside a max-w-7xl box.
+ */
+const sectionPad = container === '6xl' ? 'lg:px-8' : '';
+const innerClass = container === '6xl' ? 'lg:max-w-6xl' : 'lg:max-w-7xl lg:px-8';
+---
+
+<section
+  aria-label="Who runs your project"
+  data-analytics-section="van_band"
+  class:list={['lg:border-b lg:border-white/10 lg:bg-brand-black', sectionPad]}
+>
+  <div class:list={['lg:mx-auto lg:flex lg:items-center lg:gap-8 lg:py-6', innerClass]}>
+    <!-- Own box: SiteImage's <picture> is display:contents, so its <source> would otherwise become an empty flex item and pick up the gap. -->
+    <div class="lg:shrink-0">
+      <SiteImage
+        src={vanEyadPhoto.src}
+        alt={vanEyadPhoto.alt}
+        width={vanEyadPhoto.width}
+        height={vanEyadPhoto.height}
+        loading="eager"
+        fetchpriority="high"
+        sizes="(min-width: 1024px) 390px, 100vw"
+        class="block h-auto w-full lg:h-[260px] lg:w-[390px] lg:rounded-[6px]"
+      />
+    </div>
+    <div class="hidden lg:block">
+      <p class="text-xs font-bold uppercase tracking-[0.16em] text-brand-redondark">Who runs your project</p>
+      <p class="mt-2 text-[20px] font-bold leading-snug text-white">Eyad Essa · Owner · U.S. military veteran</p>
+      <p class="mt-1 text-base text-white/80">Your one point of contact on every project.</p>
+    </div>
+  </div>
+</section>

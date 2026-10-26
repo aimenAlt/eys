@@ -129,3 +129,28 @@ Build it as one new component (for example `src/components/common/VanBand.astro`
 ## Measurement (Cowork, 14 days after the deploy)
 - For each listed path, compare Ads conversions per click and GA4 key events per session over the 14 days before and the 14 days after.
 - If a page's rate falls by more than a third, with at least 60 sessions on each side, Cowork proposes moving the photo below that page's hero buttons.
+
+## Build notes (Claude Code, 26 Oct 2026)
+Decisions:
+- Wiring: `src/data/adsLandingPages.ts` (nine paths + `isAdsLandingPage`). ContentLayout renders the band when `Astro.url.pathname` is listed; /start/, /services/media-walls/ and /lp/built-ins-shelving-storage/ place `<VanBand container="6xl" />` in the page file; "/" renders it while `homepageVariant !== 'redesign'` (cast to string until 013 adds that variant to the type).
+- Shared constant: `vanEyadPhoto` in `src/data/images.ts` (src, 1200×800, alt).
+- Box model matches each hero so the photo lines up with the H1 at 1440: own-chrome pages pad the section and centre a max-w-6xl box (photo at x=144, same as the H1); ContentLayout pages and "/" use max-w-7xl with lg:px-8 inside (photo at x=112, same as the H1 and breadcrumb).
+- The photo sits in its own wrapper div: SiteImage's `<picture>` is `display: contents`, so its `<source>` otherwise became an empty flex item and pushed the photo 32px right through the gap.
+- `npm run images` made 480w and 768w WebP only (the original is 1200 wide and the script never upscales); phones at 2× get the 768w file.
+- No hero spacing fix was needed: every page that had fully visible hero buttons at 390×844 still does.
+
+Hero buttons at 390×844 (bottom edge of the hero CTA group, px from the top of the viewport; must be ≤ 844):
+
+| Page | Before | After | Visible after |
+|---|---|---|---|
+| / | 580 | 840 | yes |
+| /start/ | 367 | 627 | yes |
+| /lp/built-ins-shelving-storage/ | 422 | 682 | yes |
+| /services/repairs-and-maintenance/ | 485 | 745 | yes |
+| /services/handyman-to-do-list/ | 393 | 653 | yes |
+| /services/tv-mounting/ (not required) | 523 | 783 | yes |
+| /services/custom-carpentry/ (not required) | 580 | 840 | yes |
+| /services/limewash-walls/ (not required) | 647 | 907 | no (was visible; not in the required list) |
+| /services/media-walls/ (not required) | 1067 | 1327 | no (was already below the fold) |
+
+Local production build, Playwright at 390×844 and 1440×900 on all ten pages, clicking nothing: photo first in `<main>`, fully visible without scrolling, rendered 390×260 (3:2), object-fit `fill` (never cover), nothing on top of it (elementFromPoint at its centre is the img), served as WebP from the srcset; whole H1 visible at 390×844 on every page; no horizontal scroll; no console errors; sticky bars absent at the top and shown after 1400px on all ten pages. `<main>` HTML changed on exactly these ten pages out of 114 built pages; byte-identical on all others (incl. /home2/, /services/, /contact/, /pricing/, Katy, Cinco Ranch, a project page, /services/drywall-repair/, /van/, /curtain-installation/).

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import VanBand from '../../../components/common/VanBand.astro';
 import MediaWallDoors from '../../../components/media-wall-landing/MediaWallDoors.astro';
 import MediaWallFaq from '../../../components/media-wall-landing/MediaWallFaq.astro';
 import MediaWallFinalCta from '../../../components/media-wall-landing/MediaWallFinalCta.astro';
@@ -59,6 +60,7 @@ const schemaGraph = [
   <div class="media-wall-landing min-h-screen bg-brand-lightbg text-brand-charcoal">
     <MediaWallHeader />
     <main id="main-content">
+      <VanBand container="6xl" />
       <MediaWallHero />
       <MediaWallTrustStrip />
       <MediaWallDoors />

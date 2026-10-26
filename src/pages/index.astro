@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import MobileStickyCTA from '../components/layout/MobileStickyCTA.astro';
+import VanBand from '../components/common/VanBand.astro';
 import HomeCurrentPage from '../components/home/HomeCurrentPage.astro';
 import HomeSmallRepairPage from '../components/home/HomeSmallRepairPage.astro';
 import { getCollection } from 'astro:content';
@@ -39,6 +40,13 @@ const seo = {
 
 const schemaGraph = homePageSchema(homeFaqs);
 
+/**
+ * Eyad and the van lead the old homepage (backlog 011). The redesign (013/014)
+ * already uses the same photo as its hero, so it never gets the band. Cast: the
+ * 'redesign' variant is added to HomepageVariant by backlog 013.
+ */
+const showVanBand = (homepageVariant as string) !== 'redesign';
+
 const pageProps = {
   projectCount: serviceAreas.length,
   publishedReviews,
@@ -50,6 +58,7 @@ const pageProps = {
 <BaseLayout seo={seo} schemaGraph={schemaGraph}>
   <Header navMenus={navMenus} />
   <main id="main-content">
+    {showVanBand && <VanBand />}
     {
       homepageVariant === 'small-repair' ? (
         <HomeSmallRepairPage {...pageProps} />

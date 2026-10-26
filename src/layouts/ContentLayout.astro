@@ -4,6 +4,8 @@ import type { SeoProps } from '../components/seo/SEOHead.astro';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import MobileStickyCTA from '../components/layout/MobileStickyCTA.astro';
+import VanBand from '../components/common/VanBand.astro';
+import { isAdsLandingPage } from '../data/adsLandingPages';
 import { getCollection } from 'astro:content';
 import { buildNavMenus } from '../data/navMenus';
 
@@ -23,11 +25,15 @@ const [services, serviceAreas, communities] = await Promise.all([
 ]);
 
 const navMenus = buildNavMenus(services, serviceAreas, communities);
+
+/** Google Ads landing pages open with Eyad and the van (backlog 011). */
+const showVanBand = isAdsLandingPage(Astro.url.pathname);
 ---
 
 <BaseLayout seo={seo} schemaGraph={schemaGraph}>
   <Header navMenus={navMenus} />
   <main id="main-content">
+    {showVanBand && <VanBand />}
     <slot />
   </main>
   <Footer />

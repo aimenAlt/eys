@@ -69,3 +69,18 @@ Recommended labels:
 - Call Now
 - Schedule Assessment
 - Send Photos for Estimate
+
+## VanBand (Eyad and the EYS van first)
+`src/components/common/VanBand.astro`, backlog 011 (Aimen, 25–26 Oct 2026). The photo of
+Eyad in front of the wrapped EYS van (`vanEyadPhoto` in `src/data/images.ts`) is the first
+thing inside `<main>` on:
+- every Google Ads landing page in `src/data/adsLandingPages.ts` (ContentLayout renders it
+  for the ones it wraps; /start/, /services/media-walls/ and /lp/built-ins-shelving-storage/
+  place it in the page file), and
+- "/" while it shows the old homepage (never on /home2/, never in the redesign, whose hero
+  is the same photo).
+
+Phone/tablet (<1024): the photo alone, full-bleed at its natural 3:2, flush under the header.
+Desktop (≥1024): a black band in the hero's container — the photo at 390×260 (radius 6px)
+beside three plain lines of owner copy, no heading tags, nothing clickable. Never crop,
+cover-fit, blur or overlay the photo: every letter and badge on the van stays visible.
