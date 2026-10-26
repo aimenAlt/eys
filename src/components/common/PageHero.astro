@@ -1,4 +1,5 @@
 ---
+import SiteImage from '../ui/SiteImage.astro';
 import { contentMaxClass, contentPaddingClass } from '../../data/layout';
 import { jobberProjectEstimateFormUrl, site } from '../../data/business';
 
@@ -11,14 +12,18 @@ interface Props {
    * default: pages that do not pass it render exactly as before.
    */
   ctas?: { formLocation: string; callLocation: string };
+  /** Optional photo: the hero becomes copy | framed photo, like ServiceHero. */
+  image?: { src: string; alt: string; width: number; height: number; position?: string; aspect?: 'square' | 'landscape'; zoom?: number };
 }
 
-const { eyebrow, title, description, ctas } = Astro.props;
+const { eyebrow, title, description, ctas, image } = Astro.props;
 const estimateUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
 ---
 
 <section class="eys-page-hero eys-on-dark">
   <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-12 md:pt-20']}>
+    <div class:list={[image && 'grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16']}>
+    <div>
     {
       eyebrow && (
         <p class="eys-eyebrow eys-kicker mb-4 text-eys-on-dark-2">
@@ -28,6 +33,7 @@ const estimateUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
     }
     <h1 class="eys-h1 mb-5 max-w-4xl">{title}</h1>
     {description && <p class="eys-page-hero-lede eys-body max-w-3xl">{description}</p>}
+    {Astro.slots.has('default') && <div class="mt-8 flex flex-col gap-3 sm:flex-row"><slot /></div>}
     {
       ctas && (
         <div class="mt-8 flex flex-col sm:flex-row gap-3" data-sticky-hero-cta>
@@ -49,6 +55,26 @@ const estimateUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
         </div>
       )
     }
+    </div>
+    {
+      image && (
+        <div class="eys-page-hero-media">
+          <div class:list={['eys-page-hero-frame', image.aspect === 'square' ? 'aspect-square' : 'aspect-[4/3]']} style={`--pos:${image.position ?? '50% 50%'};--zoom:${image.zoom ?? 1}`}>
+            <SiteImage
+              src={image.src}
+              alt={image.alt}
+              width={image.width}
+              height={image.height}
+              loading="eager"
+              fetchpriority="high"
+              sizes="(max-width: 1024px) 100vw, 560px"
+              class="h-full w-full object-cover [object-position:var(--pos)] [scale:var(--zoom)] [transform-origin:var(--pos)]"
+            />
+          </div>
+        </div>
+      )
+    }
+    </div>
   </div>
   <div class="eys-stripe" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
 </section>

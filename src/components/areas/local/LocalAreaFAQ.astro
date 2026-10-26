@@ -11,22 +11,18 @@ const { faqs } = Astro.props;
 {
   faqs && faqs.length > 0 && (
     <section aria-labelledby="local-faq">
-      <p class="text-xs font-bold uppercase tracking-widest text-brand-red mb-2">FAQs</p>
-      <h2 id="local-faq" class="text-2xl md:text-3xl font-bold text-brand-black mb-6">
+      <p class="eys-eyebrow eys-kicker text-eys-ink-2 mb-2">FAQs</p>
+      <h2 id="local-faq" class="eys-h2 text-eys-ink mb-6">
         Frequently asked questions
       </h2>
       <div class="space-y-3">
         {faqs.map((faq) => (
-          <details class="bg-white rounded-xl border border-neutral-200 shadow-sm group">
-            <summary class="flex justify-between items-center font-bold p-5 focus:outline-none text-brand-black cursor-pointer list-none text-sm md:text-base">
+          <details class="eys-faq-item group">
+            <summary class="eys-text-link flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-5 text-left font-display text-[17px] leading-6 text-eys-ink [text-wrap:balance] lg:px-7 lg:py-6 lg:text-lg">
               {faq.question}
-              <span class="transition group-open:rotate-180 text-brand-red ml-4 flex-shrink-0">
-                <svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20">
-                  <path d="M6 9l6 6 6-6" />
-                </svg>
-              </span>
+              <span class="eys-faq-plus" aria-hidden="true"></span>
             </summary>
-            <div class="px-5 pb-5 text-neutral-600 text-sm leading-relaxed border-t border-neutral-100 pt-4">
+            <div class="eys-body px-5 pb-6 text-eys-ink-2 lg:px-7 lg:pb-7">
               <p>{faq.answer}</p>
             </div>
           </details>

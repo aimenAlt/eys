@@ -135,7 +135,7 @@ const linkAlignClass = textAlign === 'center' ? 'text-center' : 'text-left';
                     class="absolute inset-y-0 left-0 w-1 bg-brand-red opacity-0 transition-opacity group-hover:opacity-100"
                     aria-hidden="true"
                   />
-                  <span class="min-w-0 flex-1 text-sm leading-snug">{(item as BalancedLinkItem).title}</span>
+                  <span class="min-w-0 flex-1 text-[15px] leading-snug">{(item as BalancedLinkItem).title}</span>
                   <span
                     class="shrink-0 text-brand-red opacity-60 transition-all group-hover:translate-x-0.5 group-hover:opacity-100"
                     aria-hidden="true"
@@ -150,7 +150,7 @@ const linkAlignClass = textAlign === 'center' ? 'text-center' : 'text-left';
                 return (
                   <a
                     href={card.href}
-                    class="group relative block h-full overflow-hidden rounded-xl border border-brand-line bg-white shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-red/40 hover:shadow-cardhover text-left"
+                    class="eys-card group relative block h-full overflow-hidden text-left"
                   >
                     <span
                       class="absolute inset-y-0 left-0 w-1.5 bg-brand-red"
@@ -170,22 +170,22 @@ const linkAlignClass = textAlign === 'center' ? 'text-center' : 'text-left';
                     {card.eyebrow && (
                       <time
                         datetime={card.eyebrowDatetime}
-                        class="text-xs text-brand-red font-bold uppercase tracking-wider"
+                        class="eys-eyebrow eys-kicker text-eys-ink-2"
                       >
                         {card.eyebrow}
                       </time>
                     )}
-                    <HeadingTag class:list={['text-xl font-bold text-brand-black mb-2', card.eyebrow && 'mt-2']}>{card.title}</HeadingTag>
+                    <HeadingTag class:list={['eys-h3 text-eys-ink mb-2', card.eyebrow && 'mt-3']}>{card.title}</HeadingTag>
                     {card.description && (
-                      <p class="text-sm text-neutral-600 leading-relaxed flex-1">{card.description}</p>
+                      <p class="text-[15px] leading-[23px] text-eys-ink-2 flex-1">{card.description}</p>
                     )}
                     {card.footerText ? (
-                      <span class="mt-5 inline-flex w-fit items-center gap-1.5 rounded-md bg-brand-red px-3 py-1.5 text-sm font-bold text-white transition-colors group-hover:bg-brand-redhover">
+                      <span class="mt-6 inline-flex w-fit items-center gap-2 text-[15px] font-bold text-eys-ink underline decoration-eys-stripe decoration-2 underline-offset-4">
                         {card.footerText.replace(/\s*→\s*$/, '')}
                         <span aria-hidden="true">→</span>
                       </span>
                     ) : (
-                      <span class="mt-5 inline-flex w-fit items-center gap-1 text-sm font-bold text-brand-red opacity-80 group-hover:opacity-100">
+                      <span class="mt-6 inline-flex w-fit items-center gap-2 text-[15px] font-bold text-eys-ink underline decoration-eys-stripe decoration-2 underline-offset-4">
                         Learn more <span aria-hidden="true">→</span>
                       </span>
                     )}
@@ -194,20 +194,20 @@ const linkAlignClass = textAlign === 'center' ? 'text-center' : 'text-left';
                 );
               })()}
               {variant === 'value' && (
-                <div class="bg-white rounded-xl border border-neutral-200 p-6 shadow-sm h-full text-left">
-                  <h3 class="font-bold text-brand-black mb-3">{(item as BalancedValueItem).title}</h3>
-                  <p class="text-sm text-neutral-600 leading-relaxed">{(item as BalancedValueItem).body}</p>
+                <div class="eys-card h-full p-6 text-left lg:p-7">
+                  <h3 class="eys-h3 text-eys-ink mb-3">{(item as BalancedValueItem).title}</h3>
+                  <p class="text-[15px] leading-[23px] text-eys-ink-2">{(item as BalancedValueItem).body}</p>
                 </div>
               )}
               {variant === 'feature-card' && (
                 <a
                   href={(item as BalancedFeatureCardItem).href}
-                  class="block h-full bg-white rounded-xl border border-neutral-200 p-6 shadow-sm hover:border-brand-red/30 hover:shadow-md transition-all group text-left"
+                  class="eys-card block h-full p-6 group text-left lg:p-7"
                 >
-                  <div class="w-1 h-8 bg-brand-red rounded-full mb-3 group-hover:h-10 transition-all" aria-hidden="true" />
-                  <h3 class="font-bold text-brand-black mb-2 text-lg">{(item as BalancedFeatureCardItem).title}</h3>
-                  <p class="text-sm text-neutral-600 leading-relaxed mb-4">{(item as BalancedFeatureCardItem).description}</p>
-                  <span class="text-sm font-bold text-brand-red">{(item as BalancedFeatureCardItem).footerText}</span>
+                  <div class="mb-4 h-1 w-7 -skew-x-[40deg] bg-eys-accent transition-all group-hover:w-10" aria-hidden="true" />
+                  <h3 class="eys-h3 text-eys-ink mb-2">{(item as BalancedFeatureCardItem).title}</h3>
+                  <p class="text-[15px] leading-[23px] text-eys-ink-2 mb-5">{(item as BalancedFeatureCardItem).description}</p>
+                  <span class="text-[15px] font-bold text-eys-ink underline decoration-eys-stripe decoration-2 underline-offset-4">{(item as BalancedFeatureCardItem).footerText}</span>
                 </a>
               )}
               {variant === 'project' && (() => {
@@ -219,24 +219,24 @@ const linkAlignClass = textAlign === 'center' ? 'text-center' : 'text-left';
                 return (
                   <div class:list={['h-full rounded-xl border p-5', panelClass]}>
                     {project.accentBar && (
-                      <div class="w-1 h-8 bg-brand-red rounded-full mb-3" aria-hidden="true" />
+                      <div class="mb-4 h-1 w-7 -skew-x-[40deg] bg-eys-accent" aria-hidden="true" />
                     )}
-                    <h3 class="font-bold text-brand-black mb-2">{project.title}</h3>
-                    <p class="text-sm text-neutral-600 leading-relaxed">{project.body}</p>
+                    <h3 class="eys-h3 text-eys-ink mb-2">{project.title}</h3>
+                    <p class="text-[15px] leading-[23px] text-eys-ink-2">{project.body}</p>
                   </div>
                 );
               })()}
               {variant === 'review' && (() => {
                 const review = item as BalancedReviewItem;
                 return (
-                  <div class="h-full p-6 bg-brand-lightbg rounded-xl border border-neutral-200">
+                  <div class="eys-card eys-quote eys-quote--foot h-full p-6 lg:p-7">
                     <div class="flex items-center justify-between mb-3">
                       <p class="font-bold text-brand-black">{review.author}</p>
-                      <span class="text-brand-red text-sm" aria-label={`${review.rating} out of 5 stars`}>
+                      <span class="eys-stars eys-stars--ink text-sm" aria-label={`${review.rating} out of 5 stars`}>
                         {renderStars(review.rating)}
                       </span>
                     </div>
-                    <p class="text-neutral-600 text-sm leading-relaxed mb-4">{review.text}</p>
+                    <p class="relative text-[15px] leading-[24px] text-eys-ink-2 mb-4">{review.text}</p>
                     <div class="text-xs text-neutral-500 flex flex-wrap gap-x-3 gap-y-1">
                       <span>{review.source}</span>
                       <time datetime={review.date.toISOString()}>
@@ -252,9 +252,9 @@ const linkAlignClass = textAlign === 'center' ? 'text-center' : 'text-left';
                 );
               })()}
               {variant === 'checklist' && (
-                <div class="h-full flex items-start bg-white p-4 rounded-lg border border-neutral-100 shadow-sm">
+                <div class="eys-item h-full">
                   <svg
-                    class="w-5 h-5 text-brand-red mr-3 mt-0.5 flex-shrink-0"
+                    class="eys-item-icon"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -262,20 +262,20 @@ const linkAlignClass = textAlign === 'center' ? 'text-center' : 'text-left';
                   >
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                   </svg>
-                  <span class="text-neutral-700 text-sm">{(item as BalancedChecklistItem).text}</span>
+                  <span class="eys-item-text">{(item as BalancedChecklistItem).text}</span>
                 </div>
               )}
               {variant === 'step' && (() => {
                 const step = item as BalancedStepItem;
                 return (
-                  <div class="h-full bg-white p-6 rounded-xl border border-brand-line shadow-card hover:shadow-cardhover transition-shadow">
-                    <div class="flex items-center gap-3 mb-4">
-                      <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-red text-white font-extrabold text-lg" aria-hidden="true">
+                  <div class="eys-card flex h-full items-center gap-4 p-5 md:block md:p-6 lg:p-7">
+                    <div class="flex shrink-0 items-center gap-3 md:mb-5">
+                      <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-eys-btn-red font-display text-lg text-white" aria-hidden="true">
                         {String(step.step).padStart(2, '0')}
                       </span>
                       <span class="hidden md:block h-px flex-grow bg-brand-line" aria-hidden="true" />
                     </div>
-                    <p class="text-sm text-neutral-600 leading-relaxed">{step.body}</p>
+                    <p class="text-[15px] leading-[23px] text-eys-ink-2 lg:text-base lg:leading-6">{step.body}</p>
                   </div>
                 );
               })()}

@@ -34,7 +34,7 @@ const checklistItems = (items ?? []).map((text) => ({ text }));
   checklistItems.length > 0 &&
     (embedded ? (
       <section aria-labelledby="included" data-analytics-section="included_services">
-        <h2 id="included" class="text-2xl md:text-3xl font-bold text-brand-black mb-6">
+        <h2 id="included" class="eys-h2 text-eys-ink mb-6">
           {title}
         </h2>
         {note && <p class="mb-6 max-w-3xl text-base leading-relaxed text-brand-muted">{note}</p>}
@@ -43,8 +43,8 @@ const checklistItems = (items ?? []).map((text) => ({ text }));
     ) : (
       <section class="py-16 md:py-20 bg-brand-lightbg" aria-labelledby="included" data-analytics-section="included_services">
         <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
-          <p class="text-xs font-bold uppercase tracking-widest text-brand-red mb-2">{eyebrow}</p>
-          <h2 id="included" class="text-3xl md:text-4xl font-bold text-brand-black mb-8">
+          <p class="eys-eyebrow eys-kicker text-eys-ink-2 mb-2">{eyebrow}</p>
+          <h2 id="included" class="eys-h2 text-eys-ink mb-8">
             {title}
           </h2>
           {note && <p class="mt-4 mb-8 max-w-3xl text-base leading-relaxed text-brand-muted">{note}</p>}

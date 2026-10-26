@@ -4,14 +4,14 @@ import CurtainBookLink from './CurtainBookLink.astro';
 import { site } from '../../data/business';
 ---
 
-<header class="sticky top-0 z-50 border-b border-white/10 bg-brand-black">
-  <div class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+<header class="eys-header eys-on-dark sticky top-0 z-50 border-b border-eys-line-dark bg-eys-ground">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-3 h-16 px-4 sm:px-6 lg:h-20 lg:px-8">
     <Logo class="shrink-0" />
     <div class="flex shrink-0 items-center gap-2">
       <a
         href={`tel:${site.phoneTel}`}
         data-cta-location="header"
-        class="inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-md border-2 border-white/30 px-3 py-2.5 text-sm font-bold text-white hover:border-white/60 hover:bg-white/5"
+        class="eys-btn eys-btn--gold !h-11 !px-4 !text-sm"
         aria-label={`Call Elevate Your Space Handyman at ${site.phone}`}
       >
         <span class="sm:hidden">Call</span>

@@ -32,6 +32,7 @@ const tel = `tel:${site.phoneTel}`;
 const current = (href: string) => (isNavActive(href, pathname) ? 'page' : undefined);
 
 const desktopNav: { label: string; href: string; menu?: NavMenus['services'] }[] = [
+  { label: 'Home', href: '/' },
   { label: 'About', href: '/about/' },
   { label: 'Services', href: '/services/', menu: navMenus.services },
   { label: 'Service Areas', href: '/service-areas/' },
@@ -57,14 +58,14 @@ const mobileNav: { label: string; href: string; ctaId?: string; menu?: NavMenus[
   <div class="flex h-16 items-center justify-between pl-6 pr-3 lg:h-20 lg:justify-start lg:px-8 min-[90rem]:px-14">
     <a href={withBase('/')} class="eys-nav-link flex h-12 shrink-0 items-center gap-3 text-eys-on-dark" aria-label="Elevate Your Space Handyman home">
       <img src={withBase('/logos/logo-mark.webp')} alt="" width="140" height="192" class="h-9 w-auto lg:h-10" />
-      <span class="hidden items-center gap-2.5 whitespace-nowrap min-[84rem]:flex" aria-hidden="true">
+      <span class="hidden items-center gap-2.5 whitespace-nowrap min-[88rem]:flex" aria-hidden="true">
         <span class="font-display text-[15px] uppercase leading-5 tracking-[0.02em]">Elevate Your Space</span>
         <span class="inline-block h-0.5 w-3.5 bg-eys-accent"></span>
         <span class="font-display text-[10px] uppercase leading-5 tracking-[0.22em]">Handyman</span>
       </span>
     </a>
 
-    <nav class="ml-auto hidden items-center gap-5 text-[15px] leading-5 lg:flex xl:gap-7" aria-label="Primary">
+    <nav class="ml-auto hidden items-center gap-4 pl-6 text-[15px] leading-5 lg:flex xl:gap-6" aria-label="Primary">
       {
         desktopNav.map((item) =>
           item.menu ? (
@@ -91,7 +92,7 @@ const mobileNav: { label: string; href: string; ctaId?: string; menu?: NavMenus[
       }
     </nav>
 
-    <a href={tel} data-cta-location="header" class="eys-nav-link ml-6 hidden items-center gap-2 font-display text-base leading-5 lg:inline-flex xl:ml-10">
+    <a href={tel} data-cta-location="header" class="eys-nav-link ml-6 hidden items-center gap-2 font-display text-base leading-5 lg:inline-flex xl:ml-8">
       <PhoneIcon />{site.phone}
     </a>
     <Button href={quoteUrl} variant="gold" class="ml-4 hidden h-12 px-[22px] lg:inline-flex xl:ml-6" data-booking-type="project_estimate" data-cta-location="header_quote">Get a Free Quote</Button>

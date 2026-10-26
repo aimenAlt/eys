@@ -16,24 +16,24 @@ const { communities } = Astro.props;
 
 {
   communities.length > 0 && (
-    <section class="py-12 bg-brand-lightbg" aria-labelledby="service-areas-served">
+    <section class="py-14 md:py-20 bg-brand-lightbg" aria-labelledby="service-areas-served">
       <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
-        <h2 id="service-areas-served" class="text-2xl font-bold text-brand-black mb-4">
+        <h2 id="service-areas-served" class="eys-h2-sm text-eys-ink mb-4">
           Communities we serve
         </h2>
-        <p class="text-neutral-600 mb-6 text-sm">
+        <p class="eys-body text-eys-ink-2 mb-6 max-w-3xl">
           This service is available throughout {localityShort('and')}, including these master-planned communities:
         </p>
-        <ul class="flex flex-wrap gap-2">
+        <ul class="flex flex-wrap gap-2.5">
           {communities.map((c) => (
             <li>
-              <a href={c.href} class="inline-block px-3 py-1.5 bg-white border border-neutral-200 rounded-full text-sm font-medium text-brand-black hover:border-brand-red hover:text-brand-red transition-colors">
+              <a href={c.href} class="eys-pill">
                 {c.title}
               </a>
             </li>
           ))}
         </ul>
-        <a href="/service-areas/" class="inline-block mt-4 text-sm font-bold text-brand-red hover:underline">View all service areas &rarr;</a>
+        <a href="/service-areas/" class="eys-text-link mt-6 inline-block text-[15px] font-bold text-eys-ink underline decoration-eys-stripe decoration-2 underline-offset-4">View all service areas &rarr;</a>
       </div>
     </section>
   )

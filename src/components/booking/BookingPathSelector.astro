@@ -40,26 +40,33 @@ const secondaryForms = [
     bookingType: 'project_estimate',
   },
 ].filter((form) => Boolean(form.href));
+import ServiceTrustStrip from '../seo/ServiceTrustStrip.astro';
 ---
 
-<section class="py-10 md:py-12 bg-white" aria-labelledby="booking-options">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="max-w-3xl mb-8">
-      <h1 id="booking-options" class="text-4xl md:text-5xl font-extrabold text-brand-black mb-4">
+<header class="eys-page-hero eys-on-dark">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 md:pt-20">
+    <div class="max-w-3xl">
+      <h1 id="booking-options" class="eys-h1 mb-5">
         Book or Request Service
       </h1>
-      <p class="text-lg text-neutral-600">
+      <p class="eys-page-hero-lede eys-body">
         Book a Handyman To-Do List Visit or TV mounting instantly at a fixed price, or send photos
-        for a project estimate on repairs, installations and larger jobs from {site.name} in
+        for a project estimate on repairs, installations and larger jobs from {site.name} in{' '}
         {localityShort('and')}.
       </p>
     </div>
+  </div>
+  <div class="eys-stripe" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+</header>
+<ServiceTrustStrip />
+<section class="eys-section bg-white" aria-labelledby="booking-options">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
     <div
       class="rounded-xl border border-neutral-200 border-l-4 border-l-brand-red bg-brand-lightbg p-6 md:p-8 mb-10"
     >
-      <p class="text-xs font-bold uppercase tracking-widest text-brand-red mb-2">Start here</p>
-      <h2 class="text-2xl md:text-3xl font-bold text-brand-black mb-1">
+      <p class="eys-eyebrow eys-kicker text-eys-ink-2 mb-2">Start here</p>
+      <h2 class="eys-h2 text-eys-ink mb-1">
         Handyman To-Do List Visit
       </h2>
       <p class="text-sm font-bold text-brand-red mb-3">

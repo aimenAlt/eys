@@ -329,6 +329,13 @@ html[data-theme] {
   --shadow-card: 0 1px 2px rgba(0, 32, 56, 0.06), 0 18px 40px -22px rgba(0, 32, 56, 0.32);
   --shadow-cardhover: 0 2px 4px rgba(0, 32, 56, 0.06), 0 30px 60px -24px rgba(0, 32, 56, 0.42);
 }
+/* Small text one step up on themed pages (14px -> 15px): older card and body
+   copy used text-sm, which read small beside the display headings. */
+html[data-theme] {
+  --text-sm: 0.9375rem;
+  --text-sm--line-height: calc(1.4 / 0.9375);
+}
+
 /* Tailwind's default neutral greys, pulled onto the system's navy-tinted greys. */
 html[data-theme] {
   --color-neutral-50: #f8f9fb;
@@ -360,6 +367,14 @@ html[data-theme] .prose a:hover { color: var(--eys-accent-ink); }
 html[data-theme] .gradient-btn { background: var(--eys-btn-red); }
 html[data-theme] .gradient-btn:hover { background: var(--eys-btn-red-hover); }
 html[data-theme] body { background-color: var(--eys-white); color: var(--eys-ink); }
+/* Landing pages pad the body for their phone sticky bar; paint that strip
+   navy so it continues the footer instead of showing white under it. */
+html[data-theme] body:is(.lp-sticky-pad, .start-sticky-pad, .curtain-sticky-pad, .media-wall-sticky-pad) {
+  background-image: linear-gradient(var(--eys-ground), var(--eys-ground));
+  background-size: 100% calc(6.5rem + env(safe-area-inset-bottom));
+  background-position: bottom;
+  background-repeat: no-repeat;
+}
 
 /* Display face on every heading of a themed page. In the base layer, so a
    heading that sets its own font utility still wins. */
@@ -419,12 +434,15 @@ html[data-theme] body { background-color: var(--eys-white); color: var(--eys-ink
   text-transform: uppercase;
 }
 /* Eyebrow with the brand's skewed red bar in front of it. */
-.eys-kicker { display: inline-flex; align-items: center; gap: 12px; }
+/* The bar is an inline mark, not a flex item, so an eyebrow that mixes text
+   and links (the /van/ hero's) flows and wraps like ordinary text. */
 .eys-kicker::before {
   content: "";
-  flex: none;
+  display: inline-block;
   width: 28px;
   height: 4px;
+  margin-right: 12px;
+  vertical-align: 0.2em;
   background: var(--eys-accent);
   transform: skewX(-40deg);
 }
@@ -465,6 +483,15 @@ html[data-theme] body { background-color: var(--eys-white); color: var(--eys-ink
   letter-spacing: -0.01em;
   text-wrap: balance;
 }
+/* Sub-section heading (sidebars, cross-link blocks, cards that head a group). */
+.eys-h2-sm {
+  font-family: var(--eys-font-display);
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 28px;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
 .eys-figure {
   font-family: var(--eys-font-display);
   font-weight: 800;
@@ -487,6 +514,7 @@ html[data-theme] body { background-color: var(--eys-white); color: var(--eys-ink
   .eys-h1 { font-size: 60px; line-height: 62px; }
   .eys-h2 { font-size: 44px; line-height: 48px; }
   .eys-h3 { font-size: 22px; line-height: 28px; }
+  .eys-h2-sm { font-size: 28px; line-height: 34px; }
   .eys-figure { font-size: 40px; line-height: 44px; }
   .eys-body { font-size: 18px; line-height: 28px; }
 }
@@ -822,14 +850,16 @@ html[data-theme] { scroll-padding-top: 64px; }
    the homepage hero's language on one class — navy ground with ambient light,
    white display headline, photo framed with an angular red accent, stripe foot. */
 .eys-page-hero { position: relative; overflow: hidden; isolation: isolate; background: var(--eys-ground); color: var(--eys-on-dark); }
+/* Light pools low in the hero, never at its top edge, so a breadcrumb row
+   above it meets flat navy with no visible join. */
 .eys-page-hero::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(900px 600px at 0% 0%, rgba(255, 255, 255, 0.07), transparent 70%),
-    radial-gradient(700px 500px at 60% 120%, rgba(227, 11, 11, 0.12), transparent 70%);
+    radial-gradient(1000px 520px at 0% 100%, rgba(255, 255, 255, 0.06), transparent 70%),
+    radial-gradient(700px 500px at 70% 120%, rgba(227, 11, 11, 0.12), transparent 70%);
 }
 .eys-page-hero h1 { color: var(--eys-on-dark); }
 .eys-page-hero .eys-page-hero-lede { color: var(--eys-on-dark-2); }
@@ -887,9 +917,8 @@ html[data-theme] { scroll-padding-top: 64px; }
 .eys-crumbs [aria-current] { color: var(--eys-ink); }
 .eys-crumbs a:hover { color: var(--eys-accent-ink); }
 :has(> .eys-crumbs):has(+ .eys-page-hero) {
-  background: var(--eys-ground);
-  box-shadow: 0 0 0 100vmax var(--eys-ground);
-  clip-path: inset(0 -100vmax);
+  /* Full-bleed fill without clip-path (which left a hairline at the seam). */
+  border-image: linear-gradient(var(--eys-ground) 0 0) fill 0 / / 0 100vmax;
   /* Keep the breadcrumb's bottom margin inside the navy row. */
   display: flow-root;
 }
@@ -899,6 +928,48 @@ html[data-theme] { scroll-padding-top: 64px; }
 .eys-page-hero .eys-crumbs ol { color: var(--eys-on-dark-3); }
 .eys-page-hero .eys-crumbs [aria-current] { color: var(--eys-on-dark); }
 .eys-page-hero .eys-crumbs a:hover { color: #ffffff; }
+
+/* List item card (checklists, price factors): the icon is centred on the text
+   whether it runs one line or three; 15–16px ink text. */
+.eys-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 64px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1px solid var(--eys-rule);
+  background: var(--eys-white);
+  box-shadow: 0 1px 2px rgba(0, 32, 56, 0.04);
+}
+.eys-item-icon { flex: none; width: 22px; height: 22px; color: var(--eys-accent-ink); }
+.eys-item-badge {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: var(--eys-warm);
+  color: var(--eys-accent-ink);
+}
+.eys-item-badge > svg { width: 20px; height: 20px; }
+.eys-item-text { font-size: 15px; line-height: 22px; color: var(--eys-ink); text-wrap: pretty; }
+@media (min-width: 64rem) {
+  .eys-item { padding: 16px 20px; }
+  .eys-item-text { font-size: 16px; line-height: 24px; }
+}
+
+/* Wordmark beside the logo mark (landing-page headers, Logo.astro): the site
+   header's lockup — "ELEVATE YOUR SPACE — HANDYMAN" in Montserrat. */
+.eys-wordmark { display: flex; align-items: center; gap: 10px; white-space: nowrap; color: #ffffff; }
+.eys-wordmark-top { font-family: var(--eys-font-display); font-weight: 800; font-size: 14px; line-height: 20px; text-transform: uppercase; letter-spacing: 0.02em; }
+.eys-wordmark-sub { display: inline-flex; align-items: center; gap: 10px; font-family: var(--eys-font-display); font-weight: 800; font-size: 10px; line-height: 20px; text-transform: uppercase; letter-spacing: 0.22em; }
+.eys-wordmark-sub::before { content: ""; width: 14px; height: 2px; background: var(--eys-accent); }
+@media (min-width: 64rem) {
+  .eys-wordmark-top { font-size: 15px; }
+}
 
 /* Cards: soft depth, lift on hover, photo eases in. */
 .eys-card {
@@ -926,6 +997,8 @@ html[data-theme] { scroll-padding-top: 64px; }
   opacity: 0.14;
   pointer-events: none;
 }
+/* Cards whose star row sits top-right carry the mark in the bottom-right corner. */
+.eys-quote--foot::before { top: auto; bottom: -84px; }
 .eys-quote--dark { background: var(--eys-ground); color: var(--eys-on-dark); }
 .eys-quote--dark::before { opacity: 0.35; }
 @media (min-width: 64rem) {
@@ -979,7 +1052,7 @@ html[data-theme] { scroll-padding-top: 64px; }
 /* FAQ items as cards; the chevron becomes a plus that turns into a cross. */
 .eys-faq-item { border-radius: 12px; background: var(--eys-white); border: 1px solid var(--eys-rule); transition: border-color 0.2s ease, box-shadow 0.2s ease; }
 .eys-faq-item[open] { border-color: transparent; box-shadow: 0 18px 40px -24px rgba(0, 32, 56, 0.35), inset 4px 0 0 var(--eys-accent); }
-.eys-faq-plus { position: relative; flex: none; width: 28px; height: 28px; border-radius: 999px; background: var(--eys-warm); transition: transform 0.3s ease, background-color 0.2s ease; }
+.eys-faq-plus { position: relative; flex: none; width: 28px; height: 28px; font-size: 0; color: transparent; border-radius: 999px; background: var(--eys-warm); transition: transform 0.3s ease, background-color 0.2s ease; }
 .eys-faq-plus::before, .eys-faq-plus::after { content: ""; position: absolute; left: 50%; top: 50%; width: 12px; height: 2px; margin: -1px 0 0 -6px; background: var(--eys-ink); }
 .eys-faq-plus::after { transform: rotate(90deg); }
 .eys-faq-item[open] .eys-faq-plus { transform: rotate(45deg); background: var(--eys-accent); }

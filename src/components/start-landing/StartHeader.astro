@@ -27,8 +27,8 @@ const linkClass =
   'inline-flex min-h-11 items-center text-sm font-semibold text-white/75 hover:text-white';
 ---
 
-<header class="sticky top-0 z-50 border-b border-white/10 bg-brand-black">
-  <div class="relative mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+<header class="eys-header eys-on-dark sticky top-0 z-50 border-b border-eys-line-dark bg-eys-ground">
+  <div class="relative mx-auto flex max-w-6xl items-center justify-between gap-3 h-16 px-4 sm:px-6 lg:h-20 lg:px-8">
     <Logo class="shrink-0" />
 
     <nav class="hidden md:flex md:flex-1 md:items-center md:justify-center md:gap-6" aria-label="Site">
@@ -38,13 +38,14 @@ const linkClass =
     <div class="flex shrink-0 items-center gap-2">
       <details class="md:hidden" data-start-nav>
         <summary
-          class="flex min-h-11 min-w-11 cursor-pointer list-none items-center justify-center rounded-md border border-white/20 px-3 text-sm font-semibold text-white/75 hover:text-white [&::-webkit-details-marker]:hidden"
+          class="flex h-11 w-11 cursor-pointer list-none items-center justify-center text-white [&::-webkit-details-marker]:hidden"
           aria-label="Site navigation"
         >
-          Menu
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16" /></svg>
+          <span class="sr-only">Menu</span>
         </summary>
         <ul
-          class="absolute right-4 top-full z-50 mt-1 w-52 rounded-md border border-white/15 bg-brand-black p-2 shadow-lg sm:right-6"
+          class="absolute right-4 top-full z-50 mt-1 w-56 rounded-xl border border-eys-line-dark bg-eys-ground p-2 shadow-2xl sm:right-6"
           role="list"
         >
           {

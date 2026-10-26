@@ -179,7 +179,8 @@ thing inside `<main>` on:
 - "/" while it shows the old homepage (never on /home2/, never in the redesign, whose hero
   is the same photo).
 
-Phone/tablet (<1024): the photo alone, full-bleed at its natural 3:2, flush under the header.
-Desktop (≥1024): a black band in the hero's container — the photo at 390×260 (radius 6px)
-beside three plain lines of owner copy, no heading tags, nothing clickable. Never crop,
-cover-fit, blur or overlay the photo: every letter and badge on the van stays visible.
+A slim intro strip on every screen (Aimen, 26 Oct 2026: the van must not take the
+first screen; the hero and its video come first): the photo at its natural 3:2,
+132×88 on phone and 180×120 from 1024px, beside the "Who runs your project" lines
+(no heading tags, nothing clickable). Never crop, cover-fit, blur or overlay the
+photo: every letter and badge on the van stays visible.

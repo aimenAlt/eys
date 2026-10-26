@@ -87,30 +87,21 @@ const galleryData = projects.map((entry) => {
       eyebrow="Our Work"
       title="Recent Handyman Projects"
       description="Explore completed repairs, installations, carpentry, media walls and home-improvement projects from the handyman team serving Katy and Fulshear."
-    />
+    >
+      <a
+        href={heroEstimateUrl}
+        class="eys-hero-btn eys-hero-btn--red"
+        data-gallery-cta="estimate"
+        data-cta-location="our-work-hero"
+      >
+        Request an Estimate
+      </a>
+      <a href="/services/" class="eys-hero-btn eys-hero-btn--outline">
+        View Services
+      </a>
+    </PageHero>
 
     <ServiceTrustStrip />
-
-    <section class="bg-brand-lightbg border-b border-neutral-200 pb-10 -mt-2">
-      <div class:list={['mx-auto', contentMaxClass, contentPaddingClass]}>
-        <div class="flex flex-wrap gap-3">
-          <a
-            href={heroEstimateUrl}
-            class="gradient-btn inline-flex items-center justify-center text-white px-6 py-3 rounded-md font-bold shadow-lg min-h-11"
-            data-gallery-cta="estimate"
-            data-cta-location="our-work-hero"
-          >
-            Request an Estimate
-          </a>
-          <a
-            href="/services/"
-            class="inline-flex items-center justify-center border-2 border-brand-black text-brand-black px-6 py-3 rounded-md font-bold hover:bg-brand-black hover:text-white transition-colors min-h-11"
-          >
-            View Services
-          </a>
-        </div>
-      </div>
-    </section>
 
     <FeaturedProjects projects={featured} />
 

@@ -5,8 +5,8 @@ import { howItWorksSteps } from '../../../data/smallRepairVisitContent';
 <section id="how-it-works" class="py-16 md:py-20 bg-white" aria-labelledby="how-heading">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-12 max-w-2xl mx-auto">
-      <p class="text-brand-red font-bold text-xs tracking-widest uppercase mb-2">Process</p>
-      <h2 id="how-heading" class="text-3xl font-bold text-brand-black mb-3">How It Works</h2>
+      <p class="eys-eyebrow eys-kicker text-eys-ink-2 mb-2">Process</p>
+      <h2 id="how-heading" class="eys-h2 text-eys-ink mb-3">How It Works</h2>
       <p class="text-neutral-600">
         A straightforward path from your to-do list to a scheduled handyman visit.
       </p>
@@ -14,12 +14,12 @@ import { howItWorksSteps } from '../../../data/smallRepairVisitContent';
     <ol class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {
         howItWorksSteps.map((step, index) => (
-          <li class="bg-brand-lightbg rounded-xl border border-brand-line p-6 relative">
-            <span class="text-4xl font-extrabold text-neutral-200 absolute top-3 right-4" aria-hidden="true">
+          <li class="eys-card p-6 lg:p-7">
+            <span class="flex h-12 w-12 items-center justify-center rounded-full bg-eys-btn-red font-display text-lg text-white" aria-hidden="true">
               {String(index + 1).padStart(2, '0')}
             </span>
-            <h3 class="text-lg font-bold text-brand-black mb-2 relative z-10 mt-2">{step.title}</h3>
-            <p class="text-sm text-neutral-600 relative z-10 leading-relaxed">{step.description}</p>
+            <h3 class="eys-h3 mt-5 mb-2 text-eys-ink">{step.title}</h3>
+            <p class="text-[15px] leading-[23px] text-eys-ink-2">{step.description}</p>
           </li>
         ))
       }

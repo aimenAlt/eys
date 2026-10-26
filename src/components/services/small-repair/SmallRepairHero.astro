@@ -31,19 +31,19 @@ const requestUrl = projectEstimateRequestUrl('todo-list-request') ?? '/contact/'
           submissions), so the primary action is the simple request form + Call;
           booking a slot stays as the secondary link below. Prices from todoList.ts only.
         -->
-        <div class="mb-3 grid grid-cols-2 gap-3 sm:max-w-md">
+        <div class="mb-3 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
           <a
             href={requestUrl}
             data-booking-type="project_estimate"
             data-cta-location="todo_hero_request"
-            class="eys-hero-btn eys-hero-btn--red !px-3 text-sm sm:text-base"
+            class="eys-hero-btn eys-hero-btn--red !px-3 text-sm sm:!px-6 sm:text-base"
           >
             Send your list, get a time
           </a>
           <a
             href={`tel:${site.phoneTel}`}
             data-cta-location="handyman_to_do_list_hero_call"
-            class="eys-hero-btn eys-hero-btn--outline !px-3 text-sm sm:text-base"
+            class="eys-hero-btn eys-hero-btn--outline !px-3 text-sm sm:!px-6 sm:text-base"
             aria-label={`Call Elevate Your Space Handyman at ${site.phone}`}
           >
             Call {site.phone}

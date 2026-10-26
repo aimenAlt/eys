@@ -11,7 +11,7 @@ const { neighborhoods, localIntro } = Astro.props;
   (localIntro || (neighborhoods && neighborhoods.length > 0)) && (
     <section class="py-16 bg-brand-lightbg" aria-labelledby="neighborhoods">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 id="neighborhoods" class="text-3xl font-bold text-brand-black mb-6">
+        <h2 id="neighborhoods" class="eys-h2 text-eys-ink mb-6">
           Neighborhoods We Serve
         </h2>
         {localIntro && <p class="text-neutral-600 mb-8 max-w-3xl leading-relaxed">{localIntro}</p>}

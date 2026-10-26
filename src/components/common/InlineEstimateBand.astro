@@ -27,9 +27,6 @@ const title =
 const body = locationName
   ? `Send photos and your list. We scope the work and return an itemized estimate for ${locationName}.`
   : 'Send photos and your list. We scope the work and return an itemized estimate.';
-const panelClass = embedded
-  ? 'bg-white border border-neutral-200'
-  : 'bg-brand-lightbg border border-neutral-200';
 ---
 
 <section
@@ -37,30 +34,30 @@ const panelClass = embedded
   aria-labelledby={`inline-estimate-${ctaLocation}`}
 >
   <div class:list={embedded ? [] : ['mx-auto', contentMaxClass, contentPaddingClass]}>
-    <div class:list={['rounded-xl border-l-4 border-l-brand-red p-6 md:p-8', panelClass]}>
+    <div class="eys-page-hero eys-on-dark rounded-[14px] p-6 md:p-10">
       <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between md:gap-8">
         <div>
           <h2
             id={`inline-estimate-${ctaLocation}`}
-            class="text-xl md:text-2xl font-bold text-brand-black mb-2"
+            class="eys-h2-sm mb-2 text-white"
           >
             {title}
           </h2>
-          <p class="text-sm md:text-base text-neutral-600 leading-relaxed">{body}</p>
+          <p class="eys-body text-eys-on-dark-2">{body}</p>
         </div>
         <div class="flex flex-col sm:flex-row gap-3 md:flex-shrink-0">
           <a
             href={estimateUrl}
             data-booking-type="project_estimate"
             data-cta-location={ctaLocation}
-            class="inline-flex justify-center items-center bg-brand-red text-white px-6 py-3.5 rounded-md font-bold hover:bg-brand-redhover transition-colors"
+            class="eys-hero-btn eys-hero-btn--red"
           >
             Request an Estimate
           </a>
           <a
             href={`tel:${site.phoneTel}`}
             data-cta-location={ctaLocation}
-            class="inline-flex justify-center items-center border-2 border-brand-black text-brand-black px-6 py-3.5 rounded-md font-bold hover:bg-brand-black hover:text-white transition-colors"
+            class="eys-hero-btn eys-hero-btn--outline"
           >
             Call {site.phone}
           </a>
