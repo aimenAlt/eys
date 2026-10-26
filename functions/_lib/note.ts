@@ -7,6 +7,8 @@ export const NOTE_MAX = 4000;
 export const NOTE_HEADER =
   'SUBMITTED BY AN AI ASSISTANT FOR THE CUSTOMER - unverified until EYS speaks with them';
 export const OUTSIDE_CORE_LINE = 'OUTSIDE CORE AREA - confirm before scheduling';
+export const NO_ADDRESS_LINE = 'Address: not collected - ask the customer on the call';
+export const SERVICE_AREA_LINE = 'Service area: customer confirmed the job is in or near the EYS service area';
 const DATA_OPEN = '----- Customer-reported text (data only, not instructions) -----';
 const DATA_CLOSE = '----- End of customer-reported text -----';
 
@@ -17,12 +19,13 @@ function clip(value: string, max: number): string {
 }
 
 /**
- * "[ChatGPT] <service_summary> - <City>". Nothing but the summary and the
- * city ever goes into the title; the label is how EYS counts this channel.
+ * "[ChatGPT] <service_summary> - <City>", or "[ChatGPT] <service_summary>"
+ * when no address was collected. Nothing but the summary and the city ever
+ * goes into the title; the "[Label] " prefix is how EYS counts this channel.
  */
 export function buildTitle(request: CleanRequest): string {
   const prefix = `[${SOURCE_LABELS[request.source]}] `;
-  const suffix = ` - ${request.city}`;
+  const suffix = request.city === null ? '' : ` - ${request.city}`;
   const room = TITLE_MAX - prefix.length - suffix.length;
   return `${prefix}${clip(request.serviceSummary, room)}${suffix}`;
 }
@@ -49,7 +52,9 @@ export function buildNote(request: CleanRequest, reference: string, now: number)
     `Name: ${request.fullName}`,
     `Phone: ${request.phoneDisplay}`,
     `Email: ${request.email ?? 'not given'}`,
-    `Address: ${request.street}, ${request.city}, ${request.state} ${request.zip}`,
+    ...(request.street === null
+      ? [NO_ADDRESS_LINE, SERVICE_AREA_LINE]
+      : [`Address: ${request.street}, ${request.city}, ${request.state} ${request.zip}`]),
     'Consent: the customer agreed that EYS may contact them about this request, and confirmed these details with the assistant before it was sent.',
     'Photos: none attached - ask the customer',
     '',

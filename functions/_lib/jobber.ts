@@ -598,7 +598,15 @@ export interface JobberPlan {
     payloadField: string;
     payloadList: boolean;
   };
-  requestCreate: MutationPlan & { detailsField: string | null };
+  requestCreate: MutationPlan & {
+    detailsField: string | null;
+    /**
+     * RequestCreateInput.propertyId is non-null in the live schema (Jobber does
+     * not publish it): a request sent without an address then needs a
+     * placeholder property. Nullable: it is simply left out.
+     */
+    propertyIdRequired: boolean;
+  };
   note:
     | {
         mutation: string;
@@ -614,6 +622,12 @@ export interface JobberPlan {
     requestIdType: string;
     notes: { field: string; first: boolean; noteType: string; textField: string } | null;
   };
+  /**
+   * Why a request without an address cannot be written (the placeholder
+   * property would leave a required input empty). Empty when it can; never
+   * blocks requests that carry an address.
+   */
+  addressFreeProblems: string[];
 }
 
 export const DEFAULT_PLAN: JobberPlan = {
@@ -651,6 +665,7 @@ export const DEFAULT_PLAN: JobberPlan = {
     inputType: 'RequestCreateInput!',
     userErrors: true,
     detailsField: null,
+    propertyIdRequired: false,
   },
   note: {
     mutation: 'requestCreateNote',
@@ -665,6 +680,7 @@ export const DEFAULT_PLAN: JobberPlan = {
     requestIdType: 'EncodedId!',
     notes: { field: 'notes', first: true, noteType: 'RequestNote', textField: 'message' },
   },
+  addressFreeProblems: [],
 };
 
 function fieldsOf(snapshot: SchemaSnapshot, typeName: string): FieldInfo[] {
@@ -832,6 +848,7 @@ export function buildPlan(snapshot: SchemaSnapshot | null): { plan: JobberPlan; 
   // propertyCreate.
   const propertyField = s.mutations.get('propertyCreate');
   let propertyCreate: JobberPlan['propertyCreate'] = DEFAULT_PLAN.propertyCreate;
+  let addressInputType = '';
   if (!propertyField) problems.push('mutation propertyCreate not found');
   else {
     const idArg = propertyField.args?.find((a) => /client/i.test(a.name));
@@ -842,7 +859,7 @@ export function buildPlan(snapshot: SchemaSnapshot | null): { plan: JobberPlan; 
     );
     const attrsType = listField ? unwrap(listField.type).name : inputTypeName;
     const addressInput = inputField(s, attrsType, 'address');
-    const addressInputType = addressInput ? unwrap(addressInput.type).name : '';
+    addressInputType = addressInput ? unwrap(addressInput.type).name : '';
     const payloadType = unwrap(propertyField.type).name;
     const payload = fieldsOf(s, payloadType).find((f) => f.name === 'properties' || f.name === 'property');
     if (!idArg || !input) problems.push('propertyCreate(clientId, input) arguments not found');
@@ -884,9 +901,16 @@ export function buildPlan(snapshot: SchemaSnapshot | null): { plan: JobberPlan; 
       const f = inputField(s, requestInputType, name);
       return f ? isStringType(f.type) : false;
     }) ?? null;
+  const propertyIdInput = inputField(s, requestInputType, 'propertyId');
+  const propertyIdRequired = Boolean(propertyIdInput && isRequired(propertyIdInput));
   if (requestField && requestInput) {
     requireArgs(requestField, [requestInput.name], problems);
-    requireSupplied(s, requestInputType, ['clientId', 'propertyId', 'title', ...(detailsField ? [detailsField] : [])], problems);
+    requireSupplied(
+      s,
+      requestInputType,
+      ['clientId', ...(propertyIdRequired ? ['propertyId'] : []), 'title', ...(detailsField ? [detailsField] : [])],
+      problems,
+    );
   }
   const requestCreate: JobberPlan['requestCreate'] = {
     mutation: 'requestCreate',
@@ -894,7 +918,16 @@ export function buildPlan(snapshot: SchemaSnapshot | null): { plan: JobberPlan; 
     inputType: requestInput ? renderType(requestInput.type) : 'RequestCreateInput!',
     userErrors: requestField ? hasField(s, unwrap(requestField.type).name, 'userErrors') : true,
     detailsField,
+    propertyIdRequired,
   };
+
+  // Without an address and with propertyId required, the placeholder property
+  // fills only street1 and province.
+  const addressFreeProblems: string[] = [];
+  if (propertyIdRequired) requireSupplied(s, addressInputType, ['street1', 'province'], addressFreeProblems);
+  if (addressFreeProblems.length > 0) {
+    warnings.push(`requests without an address cannot be written: ${addressFreeProblems.join('; ')}`);
+  }
 
   // Note on the request.
   let note: JobberPlan['note'] = null;
@@ -995,6 +1028,7 @@ export function buildPlan(snapshot: SchemaSnapshot | null): { plan: JobberPlan; 
         requestIdType: requestIdArg ? renderType(requestIdArg.type) : 'EncodedId!',
         notes: notesReadback,
       },
+      addressFreeProblems,
     },
     problems,
     warnings,
@@ -1096,6 +1130,20 @@ export function normalizeStreet(value: string): string {
     .join(' ');
 }
 
+interface PropertyAddress {
+  street1: string;
+  city: string;
+  province: string;
+  postalCode: string;
+}
+interface PlaceholderAddress {
+  street1: string;
+  province: string;
+}
+
+/** Never a real-looking address: it tells whoever opens the request what to do. */
+export const PLACEHOLDER_ADDRESS: PlaceholderAddress = { street1: 'Address needed - ask on the call', province: 'TX' };
+
 function assertNoUserErrors(payload: { userErrors?: { message?: string }[] | null } | null | undefined): void {
   if (!payload) throw new JobberError('graphql');
   if (payload.userErrors && payload.userErrors.length > 0) throw new JobberError('user_errors');
@@ -1122,7 +1170,7 @@ async function findPropertyOnStreet(
   deps: JobberDeps,
   plan: JobberPlan,
   clientId: string,
-  request: CleanRequest,
+  address: PropertyAddress,
 ): Promise<string | null> {
   const props = plan.clientProperties;
   if (!props) return null;
@@ -1142,11 +1190,11 @@ async function findPropertyOnStreet(
     id: string;
     address?: Record<string, string | null> | null;
   }[];
-  const want = normalizeStreet(request.street);
+  const want = normalizeStreet(address.street1);
   for (const property of list) {
-    const address = property.address ?? {};
-    const sameStreet = normalizeStreet(address[street] ?? '') === want;
-    const sameZip = (address[zip] ?? '').slice(0, 5) === request.zip;
+    const found = property.address ?? {};
+    const sameStreet = normalizeStreet(found[street] ?? '') === want;
+    const sameZip = (found[zip] ?? '').slice(0, 5) === address.postalCode;
     if (sameStreet && sameZip) return property.id;
   }
   return null;
@@ -1186,12 +1234,10 @@ async function createProperty(
   deps: JobberDeps,
   plan: JobberPlan,
   clientId: string,
-  request: CleanRequest,
+  address: PropertyAddress | PlaceholderAddress,
 ): Promise<string> {
   const p = plan.propertyCreate;
-  const attributes = {
-    address: { street1: request.street, city: request.city, province: request.state, postalCode: request.zip },
-  };
+  const attributes = { address };
   const input = p.wrapper ? { [p.wrapper]: [attributes] } : attributes;
   const data = await graphql<{ propertyCreate?: Record<string, unknown> | null }>(
     deps,
@@ -1209,12 +1255,14 @@ async function createProperty(
 async function createRequest(
   deps: JobberDeps,
   plan: JobberPlan,
-  ids: { clientId: string; propertyId: string },
+  ids: { clientId: string; propertyId: string | null },
   title: string,
   note: string,
 ): Promise<string> {
   const r = plan.requestCreate;
-  const input: Record<string, unknown> = { clientId: ids.clientId, propertyId: ids.propertyId, title };
+  const input: Record<string, unknown> = { clientId: ids.clientId };
+  if (ids.propertyId !== null) input.propertyId = ids.propertyId;
+  input.title = title;
   if (r.detailsField) input[r.detailsField] = note;
   const data = await graphql<{
     requestCreate?: { request?: { id: string } | null; userErrors?: { message?: string }[] | null };
@@ -1271,10 +1319,11 @@ export interface WriteProgress {
 
 /**
  * (1) find the client by phone (verified digit-for-digit) or create one,
- * never editing an existing client; reuse or create the property;
- * (2) requestCreate; (3) attach the details note; (4) read it back.
- * `progress` records how far it got, so a failure after the request exists
- * is never retried into a duplicate.
+ * never editing an existing client; reuse or create the property (none for a
+ * request sent without an address, unless Jobber requires one: then a
+ * placeholder); (2) requestCreate; (3) attach the details note; (4) read it
+ * back. `progress` records how far it got, so a failure after the request
+ * exists is never retried into a duplicate.
  */
 export async function writeServiceRequest(
   deps: JobberDeps,
@@ -1285,20 +1334,26 @@ export async function writeServiceRequest(
 ): Promise<void> {
   progress.stage = 'plan';
   const plan = await getPlan(deps);
+  const address: PropertyAddress | null =
+    request.street !== null && request.city !== null && request.zip !== null
+      ? { street1: request.street, city: request.city, province: request.state, postalCode: request.zip }
+      : null;
+  // Refuse before anything exists in Jobber, like any other schema gap.
+  if (!address && plan.addressFreeProblems.length > 0) throw new JobberError('schema');
 
   progress.stage = 'client';
   let clientId = await findClientByPhone(deps, plan, request.phoneDigits);
   let propertyId: string | null = null;
   if (clientId) {
     progress.reusedClient = true;
-    propertyId = await findPropertyOnStreet(deps, plan, clientId, request);
+    if (address) propertyId = await findPropertyOnStreet(deps, plan, clientId, address);
   } else {
     clientId = await createClient(deps, plan, request);
   }
 
-  if (!propertyId) {
+  if (!propertyId && (address || plan.requestCreate.propertyIdRequired)) {
     progress.stage = 'property';
-    propertyId = await createProperty(deps, plan, clientId, request);
+    propertyId = await createProperty(deps, plan, clientId, address ?? PLACEHOLDER_ADDRESS);
     progress.createdProperty = true;
   }
 

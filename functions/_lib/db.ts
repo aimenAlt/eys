@@ -5,7 +5,8 @@ import type { D1Database } from './types.ts';
  * first time an isolate needs it, so no migration step exists.
  *
  * What is stored, deliberately: Jobber tokens (encrypted), one-time OAuth
- * states, and per-submission metadata — a keyed hash of the phone, the ZIP,
+ * states, and per-submission metadata — a keyed hash of the phone, the ZIP
+ * (or, for a request sent without an address, a keyed hash of its job text),
  * source, reference, request_id, status and timestamps — plus rate-limit
  * counters. Never names, addresses or job text. Rows older than 30 days are
  * purged.
@@ -28,6 +29,8 @@ const SCHEMA = [
     code_verifier TEXT NOT NULL,
     expires_at INTEGER NOT NULL
   )`,
+  // zip is the duplicate key next to phone_hash: the ZIP, or for a request
+  // sent without an address a keyed job-text hash (no schema change needed).
   `CREATE TABLE IF NOT EXISTS ai_requests (
     reference TEXT PRIMARY KEY,
     request_id TEXT UNIQUE,
@@ -109,6 +112,7 @@ export async function releaseRequestId(db: D1Database, requestId: string): Promi
   await db.prepare('UPDATE ai_requests SET request_id = NULL WHERE request_id = ?1').bind(requestId).run();
 }
 
+/** `zip` is the ZIP, or the job-text hash for a request sent without an address. */
 export async function findRecentDuplicate(
   db: D1Database,
   phoneHash: string,
@@ -130,6 +134,7 @@ export interface NewRequestRow {
   reference: string;
   requestId: string | null;
   phoneHash: string;
+  /** The ZIP, or the job-text hash for a request sent without an address. */
   zip: string;
   source: string;
   now: number;

@@ -77,7 +77,7 @@ const named = (kind: string, name: string): TypeRef => ({ kind, name, ofType: nu
 export const nonNull = (type: TypeRef): TypeRef => ({ kind: 'NON_NULL', name: null, ofType: type });
 const list = (type: TypeRef): TypeRef => ({ kind: 'LIST', name: null, ofType: type });
 export const STRING = named('SCALAR', 'String');
-const ID = named('SCALAR', 'EncodedId');
+export const ID = named('SCALAR', 'EncodedId');
 const BOOL = named('SCALAR', 'Boolean');
 const INT = named('SCALAR', 'Int');
 const obj = (name: string) => named('OBJECT', name);
@@ -248,12 +248,14 @@ interface FakeClient {
   lastName: string;
   phones: { number: string; smsAllowed?: boolean }[];
   emails: { address: string }[];
-  properties: { id: string; address: { street1: string; city: string; province: string; postalCode: string } }[];
+  /** city and postalCode are absent on a placeholder property. */
+  properties: { id: string; address: { street1: string; city?: string; province: string; postalCode?: string } }[];
 }
 interface FakeRequest {
   id: string;
   clientId: string;
-  propertyId: string;
+  /** Undefined when requestCreate was called without one. */
+  propertyId: string | undefined;
   title: string;
   notes: string[];
 }
@@ -282,6 +284,12 @@ export class FakeJobber {
   /** Title the fake stores instead of the one sent (to make read-back fail). */
   tamperTitle = false;
   private issued = 0;
+
+  /** The variables sent with the first call of an operation. */
+  variablesOf(operation: string): Record<string, unknown> | undefined {
+    const index = this.operations.indexOf(operation);
+    return index === -1 ? undefined : this.variables[index];
+  }
   private ids = 0;
 
   /** Issues a token pair the way Jobber would after a code exchange. */
@@ -417,7 +425,7 @@ export class FakeJobber {
         return { data: { propertyCreate: { properties: [{ id: property.id }], userErrors: [] } } };
       }
       case 'EysCreateRequest': {
-        const i = v.input as { clientId: string; propertyId: string; title: string };
+        const i = v.input as { clientId: string; propertyId?: string; title: string };
         const request: FakeRequest = {
           id: this.nextId('request'),
           clientId: i.clientId,
@@ -556,6 +564,12 @@ export function validBody(overrides: Record<string, unknown> = {}): Record<strin
     source: 'chatgpt',
     ...overrides,
   };
+}
+
+/** A complete body as the MCP tool sends it: no address, service area confirmed. */
+export function addressFreeBody(overrides: Record<string, unknown> = {}): Record<string, unknown> {
+  const { street_address: _s, city: _c, state: _st, zip: _z, ...rest } = validBody();
+  return { ...rest, service_area_confirmed: true, ...overrides };
 }
 
 export async function check(name: string, fn: () => Promise<void> | void): Promise<void> {

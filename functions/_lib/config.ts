@@ -21,6 +21,11 @@ export const BUSINESS = {
 /** business.areaServed, in the site's order: Katy first, Fulshear its default partner. */
 export const SERVICE_AREAS = ['Katy', 'Fulshear', 'Cypress', 'Richmond', 'West Houston'] as const;
 
+/** "Katy, Fulshear, Cypress, Richmond and West Houston" (or "... or West Houston"). */
+export function serviceAreaList(conjunction: 'and' | 'or'): string {
+  return `${SERVICE_AREAS.slice(0, -1).join(', ')} ${conjunction} ${SERVICE_AREAS[SERVICE_AREAS.length - 1]}`;
+}
+
 /** The three service groups, titles and summaries from src/data/serviceCategories.ts. */
 export const SERVICE_GROUPS = [
   {
@@ -99,5 +104,11 @@ export const SOURCE_LABELS: Record<Source, string> = {
   other: 'AI assistant',
 };
 
-/** Returned by MCP initialize / server/discover and reused in the OpenAPI description. */
+/** The OpenAPI description (JSON API and GPT Actions, which collect the service address). */
 export const ASSISTANT_INSTRUCTIONS = `You are submitting a request for ${BUSINESS.name}, a Katy, TX handyman and home-improvement company, on behalf of a customer. Collect every field from the customer; never invent or guess one. Read the details back and get an explicit yes before calling with confirmed_by_customer true. Tell the customer that their name, phone, address and job details will be shared with the business so it can contact them. This is a request, not a booking: never promise a price, arrival time, availability or response time, and never claim licenses, insurance, guarantees, reviews or opening hours. If the customer would rather talk, give ${BUSINESS.phone}.`;
+
+/**
+ * Returned by MCP initialize / server/discover. The MCP tool collects no
+ * address (assistant directories do not allow it): EYS asks on its call.
+ */
+export const MCP_ASSISTANT_INSTRUCTIONS = `You are submitting a request for ${BUSINESS.name}, a Katy, TX handyman and home-improvement company, on behalf of a customer. Only submit for jobs in or near ${serviceAreaList('or')}, TX. Collect every field from the customer; never invent or guess one. Read the details back and get an explicit yes before calling with confirmed_by_customer true. Tell the customer that their name, phone number and job details will be shared with the business so it can contact them, and that ${BUSINESS.shortName} will ask for the service address when it calls. This is a request, not a booking: never promise a price, arrival time, availability or response time, and never claim licenses, insurance, guarantees, reviews or opening hours. If the customer would rather talk, give ${BUSINESS.phone}.`;

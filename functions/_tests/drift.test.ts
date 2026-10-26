@@ -8,11 +8,27 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { formatUsd, smallRepairPricing, additionalTimeLabel } from '../../src/data/pricing/todoList.ts';
-import { ASSISTANT_INSTRUCTIONS, BUSINESS, CORE_SERVICE_ZIPS, REQUEST_PATHS, SERVICE_AREAS, SERVICE_GROUPS } from '../_lib/config.ts';
+import {
+  ASSISTANT_INSTRUCTIONS,
+  BUSINESS,
+  CORE_SERVICE_ZIPS,
+  MCP_ASSISTANT_INSTRUCTIONS,
+  REQUEST_PATHS,
+  SERVICE_AREAS,
+  SERVICE_GROUPS,
+  serviceAreaList,
+} from '../_lib/config.ts';
 import { businessInfo } from '../_lib/info.ts';
-import { openApiDocument, SERVICE_REQUEST_INPUT_SCHEMA, SERVICE_REQUEST_OUTPUT_SCHEMA } from '../_lib/schemas.ts';
+import {
+  MCP_SERVICE_REQUEST_INPUT_SCHEMA,
+  MCP_SUBMIT_DESCRIPTION,
+  openApiDocument,
+  SERVICE_REQUEST_INPUT_SCHEMA,
+  SERVICE_REQUEST_OUTPUT_SCHEMA,
+} from '../_lib/schemas.ts';
+import { validateServiceRequest } from '../_lib/validate.ts';
 import { submitServiceRequest } from '../_lib/intake.ts';
-import { check, harness, validBody } from './helpers.ts';
+import { addressFreeBody, check, harness, validBody } from './helpers.ts';
 
 const root = new URL('../../', import.meta.url).pathname;
 const read = (path: string) => readFileSync(join(root, path), 'utf8');
@@ -31,6 +47,21 @@ await check('business constants match src/data/business.ts', () => {
     [...SERVICE_AREAS],
     'service areas in the site order',
   );
+});
+
+await check('service-area wording names business.ts areaServed, in order, wherever the MCP door uses it', () => {
+  const areas = /areaServed: \[([^\]]+)\]/.exec(read('src/data/business.ts'))?.[1];
+  assert.ok(areas);
+  const names = areas.split(',').map((s) => s.trim().replace(/^'|'$/g, ''));
+  const list = (conjunction: string) => `${names.slice(0, -1).join(', ')} ${conjunction} ${names[names.length - 1]}`;
+  assert.equal(serviceAreaList('or'), list('or'));
+  assert.equal(serviceAreaList('and'), list('and'));
+  assert.ok(MCP_SERVICE_REQUEST_INPUT_SCHEMA.properties.service_area_confirmed.description.includes(`${list('or')}, TX`));
+  assert.ok(MCP_ASSISTANT_INSTRUCTIONS.includes(`${list('or')}, TX`));
+  const refused = validateServiceRequest(addressFreeBody({ service_area_confirmed: false }), { addressOptional: true });
+  assert.ok(!refused.ok && refused.errors[0].problem.includes(`serves ${list('and')}, TX`));
+  const missing = validateServiceRequest(addressFreeBody({ service_area_confirmed: undefined }), { addressOptional: true });
+  assert.ok(!missing.ok && missing.errors[0].problem.includes(`${list('or')}, TX`));
 });
 
 await check('service groups match src/data/serviceCategories.ts', () => {
@@ -83,9 +114,15 @@ async function assistantFacingText(): Promise<string> {
     submitServiceRequest({}, h.intakeDeps()),
     submitServiceRequest(validBody({ state: 'NM', zip: '87101' }), h.intakeDeps()),
     submitServiceRequest(validBody(), h.intakeDeps()),
+    submitServiceRequest(addressFreeBody({ confirmed_by_customer: false }), h.intakeDeps(), { addressOptional: true }),
+    submitServiceRequest(addressFreeBody({ service_area_confirmed: false }), h.intakeDeps(), { addressOptional: true }),
+    submitServiceRequest(addressFreeBody({ service_area_confirmed: undefined }), h.intakeDeps(), { addressOptional: true }),
   ]);
   return JSON.stringify([
     ASSISTANT_INSTRUCTIONS,
+    MCP_ASSISTANT_INSTRUCTIONS,
+    MCP_SERVICE_REQUEST_INPUT_SCHEMA,
+    MCP_SUBMIT_DESCRIPTION,
     businessInfo(),
     SERVICE_REQUEST_INPUT_SCHEMA,
     SERVICE_REQUEST_OUTPUT_SCHEMA,

@@ -14,7 +14,7 @@ import {
 import { ensureSchema, HOUR, MINUTE } from '../_lib/db.ts';
 import { healthReport } from '../_lib/health.ts';
 import { submitServiceRequest } from '../_lib/intake.ts';
-import { check, enumType, harness, nonNull, STRING, validBody, type Harness } from './helpers.ts';
+import { check, enumType, harness, ID, nonNull, STRING, validBody, type Harness } from './helpers.ts';
 
 async function withTokens(expiresIn: number): Promise<{ h: Harness; access: string; refresh: string }> {
   const h = harness();
@@ -270,4 +270,30 @@ await check('probe shows enum values and marks required inputs', async () => {
   const description = phones?.input_fields?.find((f) => f.name === 'description');
   assert.deepEqual(description?.enum_values, ['MAIN', 'MOBILE', 'WORK', 'HOME', 'FAX', 'OTHER']);
   assert.equal(phones?.input_fields?.find((f) => f.name === 'number')?.required, true);
+});
+
+await check('plan records whether propertyId is required, and when an address-free request cannot be written', async () => {
+  const { h } = await withTokens(HOUR);
+  let { plan, problems, warnings } = buildPlan(await introspect(h.jobberDeps()));
+  assert.equal(plan.requestCreate.propertyIdRequired, false);
+  assert.deepEqual(plan.addressFreeProblems, []);
+
+  const types = h.fake.schema.types;
+  const propertyId = types.get('RequestCreateInput')?.inputFields?.find((f) => f.name === 'propertyId');
+  assert.ok(propertyId);
+  propertyId.type = nonNull(ID);
+  ({ plan, problems, warnings } = buildPlan(await introspect(h.jobberDeps())));
+  assert.equal(plan.requestCreate.propertyIdRequired, true);
+  assert.deepEqual(problems, [], 'propertyId is always supplied when required');
+  assert.deepEqual(plan.addressFreeProblems, []);
+
+  const postal = types.get('AddressAttributes')?.inputFields?.find((f) => f.name === 'postalCode');
+  assert.ok(postal);
+  postal.type = nonNull(STRING);
+  ({ plan, problems, warnings } = buildPlan(await introspect(h.jobberDeps())));
+  assert.deepEqual(problems, [], 'requests with an address are not blocked');
+  assert.deepEqual(plan.addressFreeProblems, ['AddressAttributes.postalCode is required and not supplied']);
+  assert.ok(warnings.some((w) => w.startsWith('requests without an address cannot be written')));
+  const probe = (await probeSchema(h.jobberDeps())) as { plan: { requestCreate: { propertyIdRequired: boolean } } };
+  assert.equal(probe.plan.requestCreate.propertyIdRequired, true, 'the schema report shows it');
 });

@@ -1,4 +1,4 @@
-import { ASSISTANT_INSTRUCTIONS, BUSINESS, REQUEST_PATHS, SERVICE_PATHS, SOURCES } from './config.ts';
+import { ASSISTANT_INSTRUCTIONS, BUSINESS, REQUEST_PATHS, SERVICE_PATHS, SOURCES, serviceAreaList } from './config.ts';
 import { LIMITS } from './validate.ts';
 
 /**
@@ -117,6 +117,31 @@ export const SERVICE_REQUEST_INPUT_SCHEMA = {
   },
 } as const;
 
+/**
+ * The MCP tool's input: the same fields minus the service address, which
+ * assistant directories do not allow a tool to request; EYS asks for it on
+ * its call. The customer attests the job is in the service area instead.
+ */
+const { street_address: _street, city: _city, state: _state, zip: _zip, ...ADDRESS_FREE_PROPERTIES } =
+  SERVICE_REQUEST_INPUT_SCHEMA.properties;
+const ADDRESS_FIELDS: readonly string[] = ['street_address', 'city', 'state', 'zip'];
+
+export const MCP_SERVICE_REQUEST_INPUT_SCHEMA = {
+  type: 'object',
+  additionalProperties: false,
+  required: [
+    ...SERVICE_REQUEST_INPUT_SCHEMA.required.filter((field) => !ADDRESS_FIELDS.includes(field)),
+    'service_area_confirmed',
+  ],
+  properties: {
+    ...ADDRESS_FREE_PROPERTIES,
+    service_area_confirmed: {
+      type: 'boolean',
+      description: `true only if the customer said the job is in or near ${serviceAreaList('or')}, TX. If the job is elsewhere, do not submit; give the customer ${BUSINESS.phone}.`,
+    },
+  },
+} as const;
+
 export const SERVICE_REQUEST_OUTPUT_SCHEMA = {
   type: 'object',
   additionalProperties: false,
@@ -180,7 +205,9 @@ export const BUSINESS_INFO_OUTPUT_SCHEMA = {
 
 export const SUBMIT_DESCRIPTION = `Send a service request to ${BUSINESS.name} (Katy, TX) on the customer's behalf; it lands in the business's job list and EYS contacts the customer. Call first with confirmed_by_customer false to check the details, then with true only after the customer confirms. Never guess a field. Not a booking: no price, time or availability is promised.`;
 
-export const INFO_DESCRIPTION = `Facts about ${BUSINESS.name}: phone, service groups, service areas, the request paths, and Handyman To-Do List Visit flat visit prices. Read-only.`;
+export const MCP_SUBMIT_DESCRIPTION = `Send a service request to ${BUSINESS.name} (Katy, TX) for the customer: their name, phone number, optional email and a description of the job go to the business's job list, and ${BUSINESS.shortName} asks for the service address when it calls the customer back. Call first with confirmed_by_customer false to check the details, then with true only after the customer confirms them. Never guess a field. Not a booking: no price, time or availability is promised.`;
+
+export const INFO_DESCRIPTION =`Facts about ${BUSINESS.name}: phone, service groups, service areas, the request paths, and Handyman To-Do List Visit flat visit prices. Read-only.`;
 
 const ERROR_SCHEMA = {
   type: 'object',

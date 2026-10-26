@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import { handleMcp, LEGACY_VERSIONS, MODERN_VERSIONS } from '../_lib/mcp.ts';
-import { ASSISTANT_INSTRUCTIONS } from '../_lib/config.ts';
+import { MCP_ASSISTANT_INSTRUCTIONS } from '../_lib/config.ts';
 import { onRequest as challenge } from '../.well-known/openai-apps-challenge.ts';
 import type { Env, PagesContext } from '../_lib/types.ts';
-import { check, harness, validBody } from './helpers.ts';
+import { addressFreeBody, check, harness, validBody } from './helpers.ts';
 
 const URL_MCP = 'https://www.eyshandyman.com/mcp';
 const h = harness();
@@ -41,8 +41,10 @@ await check('legacy initialize negotiates the version and returns the instructio
   assert.equal(r.status, 200);
   assert.match(r.type ?? '', /^application\/json/);
   assert.equal(r.body.result.protocolVersion, '2025-06-18');
-  assert.equal(r.body.result.instructions, ASSISTANT_INSTRUCTIONS);
+  assert.equal(r.body.result.instructions, MCP_ASSISTANT_INSTRUCTIONS);
+  assert.match(r.body.result.instructions, /ask for the service address when it calls/);
   assert.deepEqual(r.body.result.capabilities, { tools: { listChanged: false } });
+  assert.equal(r.body.result.serverInfo.version, '1.1.0');
   const newer = await post({ jsonrpc: '2.0', id: 2, method: 'initialize', params: { protocolVersion: '2099-01-01' } });
   assert.equal(newer.body.result.protocolVersion, LEGACY_VERSIONS[0], 'unknown version → latest legacy');
 });
@@ -53,16 +55,40 @@ await check('notifications get 202 with no body', async () => {
   assert.equal(r.body, null);
 });
 
-await check('tools/list: two tools with the required annotations', async () => {
+await check('tools/list: two tools, exact annotations, an address-free submit schema', async () => {
   const r = await post({ jsonrpc: '2.0', id: 3, method: 'tools/list' }, { 'MCP-Protocol-Version': '2025-06-18' });
-  const tools = r.body.result.tools as { name: string; annotations: Record<string, boolean>; inputSchema: { required?: string[] } }[];
+  const tools = r.body.result.tools as {
+    name: string;
+    description: string;
+    annotations: Record<string, unknown>;
+    inputSchema: { required?: string[]; additionalProperties?: boolean; properties: Record<string, { type?: string; description?: string }> };
+  }[];
   assert.deepEqual(tools.map((t) => t.name), ['get_business_info', 'submit_service_request']);
-  assert.equal(tools[0].annotations.readOnlyHint, true);
-  assert.deepEqual(
-    { r: tools[1].annotations.readOnlyHint, d: tools[1].annotations.destructiveHint, i: tools[1].annotations.idempotentHint, o: tools[1].annotations.openWorldHint },
-    { r: false, d: false, i: true, o: true },
-  );
-  assert.ok(tools[1].inputSchema.required?.includes('confirmed_by_customer'));
+  assert.deepEqual(tools[0].annotations, {
+    title: 'Get business info',
+    readOnlyHint: true,
+    destructiveHint: false,
+    idempotentHint: true,
+    openWorldHint: false,
+  });
+  assert.deepEqual(tools[1].annotations, {
+    title: 'Submit a service request',
+    readOnlyHint: false,
+    destructiveHint: false,
+    idempotentHint: true,
+    openWorldHint: false,
+  });
+  const schema = tools[1].inputSchema;
+  assert.equal(schema.additionalProperties, false);
+  for (const field of ['street_address', 'city', 'state', 'zip']) {
+    assert.ok(!(field in schema.properties), `no ${field} property`);
+    assert.ok(!schema.required?.includes(field), `${field} not required`);
+  }
+  assert.equal(schema.properties.service_area_confirmed.type, 'boolean');
+  assert.ok(schema.required?.includes('service_area_confirmed'));
+  assert.ok(schema.required?.includes('confirmed_by_customer'));
+  assert.ok(!/street|zip|city/i.test(JSON.stringify(schema)), 'no address wording anywhere in the schema');
+  assert.match(tools[1].description, /asks for the service address when it calls/);
 });
 
 await check('tools/call: get_business_info and validate-only submit', async () => {
@@ -75,10 +101,28 @@ await check('tools/call: get_business_info and validate-only submit', async () =
     jsonrpc: '2.0',
     id: 5,
     method: 'tools/call',
-    params: { name: 'submit_service_request', arguments: validBody({ confirmed_by_customer: false }) },
+    params: { name: 'submit_service_request', arguments: addressFreeBody({ confirmed_by_customer: false }) },
   });
   assert.equal(ready.body.result.structuredContent.status, 'ready_to_submit');
   assert.equal(ready.body.result.isError, false);
+  assert.ok(ready.body.result.structuredContent.next_steps.some((s: string) => s.includes('ask for the service address')));
+
+  const withAddress = await post({
+    jsonrpc: '2.0',
+    id: 51,
+    method: 'tools/call',
+    params: { name: 'submit_service_request', arguments: validBody({ confirmed_by_customer: false }) },
+  });
+  assert.equal(withAddress.body.result.structuredContent.status, 'ready_to_submit', 'an address, if sent, is still checked and accepted');
+
+  const outside = await post({
+    jsonrpc: '2.0',
+    id: 52,
+    method: 'tools/call',
+    params: { name: 'submit_service_request', arguments: addressFreeBody({ service_area_confirmed: false, confirmed_by_customer: false }) },
+  });
+  assert.equal(outside.body.result.structuredContent.status, 'needs_changes');
+  assert.match(outside.body.result.structuredContent.message_for_customer, /serves Katy, Fulshear, Cypress, Richmond and West Houston, TX.*\(346\) 820-1629/);
 
   const empty = await post({ jsonrpc: '2.0', id: 6, method: 'tools/call', params: { name: 'submit_service_request' } });
   assert.equal(empty.body.result.structuredContent.status, 'needs_changes');
@@ -109,8 +153,9 @@ await check('modern: server/discover, header validation, unsupported version', a
   assert.equal(discover.status, 200);
   assert.equal(discover.body.result.resultType, 'complete');
   assert.deepEqual(discover.body.result.supportedVersions, [...MODERN_VERSIONS]);
-  assert.equal(discover.body.result.instructions, ASSISTANT_INSTRUCTIONS);
+  assert.equal(discover.body.result.instructions, MCP_ASSISTANT_INSTRUCTIONS);
   assert.equal(discover.body.result._meta['io.modelcontextprotocol/serverInfo'].name, 'eys-handyman');
+  assert.equal(discover.body.result._meta['io.modelcontextprotocol/serverInfo'].version, '1.1.0');
 
   const list = await post({ jsonrpc: '2.0', id: 'l1', method: 'tools/list', params: modernMeta() }, modernHeaders('tools/list'));
   assert.equal(list.body.result.resultType, 'complete');

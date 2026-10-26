@@ -1,13 +1,13 @@
-import { ASSISTANT_INSTRUCTIONS, BUSINESS } from './config.ts';
+import { BUSINESS, MCP_ASSISTANT_INSTRUCTIONS } from './config.ts';
 import { empty, json, readJsonBody } from './http.ts';
 import { businessInfo } from './info.ts';
 import { submitServiceRequest, type IntakeDeps } from './intake.ts';
 import {
   BUSINESS_INFO_OUTPUT_SCHEMA,
   INFO_DESCRIPTION,
-  SERVICE_REQUEST_INPUT_SCHEMA,
+  MCP_SERVICE_REQUEST_INPUT_SCHEMA,
+  MCP_SUBMIT_DESCRIPTION,
   SERVICE_REQUEST_OUTPUT_SCHEMA,
-  SUBMIT_DESCRIPTION,
 } from './schemas.ts';
 
 /**
@@ -21,6 +21,9 @@ import {
  * - Legacy clients (2025-11-25 and earlier — ChatGPT and most clients today)
  *   open with `initialize`; the version is negotiated and the instructions are
  *   returned there. No session id is ever minted.
+ *
+ * The submit tool asks for no address (assistant directories do not allow
+ * it); EYS collects it on its call. The JSON API and WebMCP keep theirs.
  */
 
 export const MODERN_VERSIONS = ['2026-07-28'] as const;
@@ -43,7 +46,7 @@ const ASSISTANT_ORIGINS = new Set([
 const SERVER_INFO = {
   name: 'eys-handyman',
   title: BUSINESS.name,
-  version: '1.0.0',
+  version: '1.1.0',
   websiteUrl: BUSINESS.website,
 };
 
@@ -75,15 +78,17 @@ export const TOOLS = [
   {
     name: 'submit_service_request',
     title: 'Submit a service request',
-    description: SUBMIT_DESCRIPTION,
-    inputSchema: SERVICE_REQUEST_INPUT_SCHEMA,
+    description: MCP_SUBMIT_DESCRIPTION,
+    inputSchema: MCP_SERVICE_REQUEST_INPUT_SCHEMA,
     outputSchema: SERVICE_REQUEST_OUTPUT_SCHEMA,
+    // openWorldHint false: it writes to one fixed, private job list, not to
+    // public or open-ended targets.
     annotations: {
       title: 'Submit a service request',
       readOnlyHint: false,
       destructiveHint: false,
       idempotentHint: true,
-      openWorldHint: true,
+      openWorldHint: false,
     },
   },
 ];
@@ -135,7 +140,7 @@ async function callTool(name: unknown, args: unknown, intake: IntakeDeps): Promi
     return { content: [{ type: 'text', text: JSON.stringify(info) }], structuredContent: info, isError: false };
   }
   if (name === 'submit_service_request') {
-    const outcome = await submitServiceRequest(isRecord(args) ? args : {}, intake);
+    const outcome = await submitServiceRequest(isRecord(args) ? args : {}, intake, { addressOptional: true });
     return {
       content: [{ type: 'text', text: JSON.stringify(outcome) }],
       structuredContent: outcome,
@@ -152,7 +157,7 @@ function initializeResult(params: Record<string, unknown>) {
     protocolVersion,
     capabilities: { tools: { listChanged: false } },
     serverInfo: SERVER_INFO,
-    instructions: ASSISTANT_INSTRUCTIONS,
+    instructions: MCP_ASSISTANT_INSTRUCTIONS,
   };
 }
 
@@ -222,7 +227,7 @@ async function modern(
           resultType: 'complete',
           supportedVersions: [...MODERN_VERSIONS],
           capabilities: { tools: { listChanged: false } },
-          instructions: ASSISTANT_INSTRUCTIONS,
+          instructions: MCP_ASSISTANT_INSTRUCTIONS,
           ttlMs: LIST_TTL_MS,
           cacheScope: 'public',
           _meta: meta,

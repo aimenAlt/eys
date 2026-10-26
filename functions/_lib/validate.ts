@@ -1,7 +1,9 @@
 import {
+  BUSINESS,
   CORE_SERVICE_ZIPS,
   SERVICE_PATHS,
   SOURCES,
+  serviceAreaList,
   type ServicePath,
   type Source,
 } from './config.ts';
@@ -26,10 +28,11 @@ export interface CleanRequest {
   /** (XXX) XXX-XXXX */
   phoneDisplay: string;
   email: string | null;
-  street: string;
-  city: string;
+  /** street, city and zip are null together: the MCP door collects no address. */
+  street: string | null;
+  city: string | null;
   state: 'TX';
-  zip: string;
+  zip: string | null;
   serviceSummary: string;
   jobDetails: string;
   servicePath: ServicePath;
@@ -38,13 +41,24 @@ export interface CleanRequest {
   confirmed: boolean;
   source: Source;
   requestId: string | null;
-  /** False for a Texas ZIP the site does not list: accepted, but flagged in the note. */
+  /**
+   * False for a Texas ZIP the site does not list: accepted, but flagged in the
+   * note. True without an address: the customer confirmed the service area.
+   */
   coreArea: boolean;
+}
+
+export interface ValidateOptions {
+  /**
+   * MCP door only: a request may come without any address field if the
+   * customer confirmed the job is in the service area (service_area_confirmed).
+   */
+  addressOptional?: boolean;
 }
 
 export type ValidationResult =
   | { ok: true; value: CleanRequest }
-  | { ok: false; errors: FieldError[]; outOfState: boolean; source: Source | null };
+  | { ok: false; errors: FieldError[]; outOfState: boolean; outsideArea: boolean; source: Source | null };
 
 export const LIMITS = {
   name: 80,
@@ -111,6 +125,7 @@ const PO_BOX = /\bp\.?\s*o\.?\s*box\b|\bpost\s+office\s+box\b/i;
 /** Texas ZIP prefixes: 750–799 plus 733 (Austin) and 885 (El Paso). */
 const TEXAS_ZIP = /^(?:7[5-9]\d{3}|733\d{2}|885\d{2})$/;
 const ELECTRICAL = /\b(?:electric\w*|wiring|rewir\w*|outlets?|breakers?|circuits?)\b/i;
+const ADDRESS_FIELDS = ['street_address', 'city', 'state', 'zip'] as const;
 
 export function mentionsElectrical(text: string): boolean {
   return ELECTRICAL.test(text);
@@ -120,16 +135,27 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
+/** A field the caller actually filled in (not absent, null or blank). */
+function given(value: unknown): boolean {
+  if (value === undefined || value === null) return false;
+  return typeof value !== 'string' || cleanText(value) !== '';
+}
+
 /**
  * Validates and normalises a submit_service_request body. Problems are
  * phrased for the assistant: what to ask the customer, never what to assume.
+ *
+ * With addressOptional, a body carrying any address field is validated
+ * exactly as without it; a body carrying none needs service_area_confirmed
+ * true instead. Without it, service_area_confirmed is ignored.
  */
-export function validateServiceRequest(input: unknown): ValidationResult {
+export function validateServiceRequest(input: unknown, options: ValidateOptions = {}): ValidationResult {
   if (!isRecord(input)) {
     return {
       ok: false,
       errors: [{ field: 'body', problem: 'Send a JSON object with the request fields.' }],
       outOfState: false,
+      outsideArea: false,
       source: null,
     };
   }
@@ -197,44 +223,63 @@ export function validateServiceRequest(input: unknown): ValidationResult {
     } else email = candidate;
   }
 
-  // Address.
-  const street = str('street_address');
-  if (required('street_address', street, 'Ask the customer for the street address where the work is.')) {
-    length('street_address', street, LIMITS.streetMin, LIMITS.street, 'the street address');
-    if (!/\d/.test(street) || !/\p{L}/u.test(street)) {
-      add('street_address', 'Needs a house number and street name. Ask the customer.');
-    } else if (PO_BOX.test(street)) {
-      add('street_address', 'Needs the street address where the work is, not a PO box.');
-    }
-  }
-
-  const city = str('city');
-  if (required('city', city, 'Ask the customer which city the job is in.')) {
-    length('city', city, LIMITS.cityMin, LIMITS.city, 'the city');
-    if (!CITY.test(city)) add('city', 'Use the city name only.');
-  }
-
+  // Address, or (MCP door, no address field at all) the customer's service-area answer.
+  const addressFree = options.addressOptional === true && !ADDRESS_FIELDS.some((field) => given(input[field]));
+  let street: string | null = null;
+  let city: string | null = null;
+  let zip: string | null = null;
   let outOfState = false;
-  const state = str('state');
-  if (required('state', state, 'Ask the customer which state the job is in.')) {
-    const s = state.replace(/[.\s]/g, '').toLowerCase();
-    if (s !== 'tx' && s !== 'texas') {
-      outOfState = true;
+  let outsideArea = false;
+  if (addressFree) {
+    if (input.service_area_confirmed === false) {
+      outsideArea = true;
       add(
-        'state',
-        'Elevate Your Space Handyman only takes requests for Texas addresses. Do not change this unless the customer gave the wrong state.',
+        'service_area_confirmed',
+        `${BUSINESS.name} serves ${serviceAreaList('and')}, TX. Tell the customer this request cannot be sent, and give them ${BUSINESS.phone}.`,
+      );
+    } else if (input.service_area_confirmed !== true) {
+      add(
+        'service_area_confirmed',
+        `Required. Ask the customer whether the job is in or near ${serviceAreaList('or')}, TX; send true only if they say it is.`,
       );
     }
-  }
+  } else {
+    street = str('street_address');
+    if (required('street_address', street, 'Ask the customer for the street address where the work is.')) {
+      length('street_address', street, LIMITS.streetMin, LIMITS.street, 'the street address');
+      if (!/\d/.test(street) || !/\p{L}/u.test(street)) {
+        add('street_address', 'Needs a house number and street name. Ask the customer.');
+      } else if (PO_BOX.test(street)) {
+        add('street_address', 'Needs the street address where the work is, not a PO box.');
+      }
+    }
 
-  let zip = '';
-  const rawZip = typeof input.zip === 'number' ? String(input.zip) : str('zip');
-  if (required('zip', rawZip, 'Ask the customer for the 5-digit ZIP code of the job address.')) {
-    const match = /^(\d{5})(?:-\d{4})?$/.exec(rawZip.replace(/\s/g, ''));
-    if (!match) add('zip', 'Must be a 5-digit ZIP code.');
-    else if (!outOfState && !TEXAS_ZIP.test(match[1])) {
-      add('zip', 'That is not a Texas ZIP code. Check it with the customer.');
-    } else zip = match[1];
+    city = str('city');
+    if (required('city', city, 'Ask the customer which city the job is in.')) {
+      length('city', city, LIMITS.cityMin, LIMITS.city, 'the city');
+      if (!CITY.test(city)) add('city', 'Use the city name only.');
+    }
+
+    const state = str('state');
+    if (required('state', state, 'Ask the customer which state the job is in.')) {
+      const s = state.replace(/[.\s]/g, '').toLowerCase();
+      if (s !== 'tx' && s !== 'texas') {
+        outOfState = true;
+        add(
+          'state',
+          'Elevate Your Space Handyman only takes requests for Texas addresses. Do not change this unless the customer gave the wrong state.',
+        );
+      }
+    }
+
+    const rawZip = typeof input.zip === 'number' ? String(input.zip) : str('zip');
+    if (required('zip', rawZip, 'Ask the customer for the 5-digit ZIP code of the job address.')) {
+      const match = /^(\d{5})(?:-\d{4})?$/.exec(rawZip.replace(/\s/g, ''));
+      if (!match) add('zip', 'Must be a 5-digit ZIP code.');
+      else if (!outOfState && !TEXAS_ZIP.test(match[1])) {
+        add('zip', 'That is not a Texas ZIP code. Check it with the customer.');
+      } else zip = match[1];
+    }
   }
 
   // The job.
@@ -290,8 +335,16 @@ export function validateServiceRequest(input: unknown): ValidationResult {
     } else add('request_id', 'Must be a UUID, or leave it out.');
   }
 
-  if (errors.length > 0 || !source || !servicePath || !name || !street || !city || !summary || !details) {
-    return { ok: false, errors, outOfState, source };
+  if (
+    errors.length > 0 ||
+    !source ||
+    !servicePath ||
+    !name ||
+    (!addressFree && (!street || !city || !zip)) ||
+    !summary ||
+    !details
+  ) {
+    return { ok: false, errors, outOfState, outsideArea, source };
   }
 
   return {
@@ -316,7 +369,7 @@ export function validateServiceRequest(input: unknown): ValidationResult {
       confirmed: input.confirmed_by_customer === true,
       source,
       requestId,
-      coreArea: (CORE_SERVICE_ZIPS as readonly string[]).includes(zip),
+      coreArea: zip === null || (CORE_SERVICE_ZIPS as readonly string[]).includes(zip),
     },
   };
 }

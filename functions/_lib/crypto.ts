@@ -13,6 +13,8 @@ const encoder = new TextEncoder();
 export const KEY_LABELS = {
   phoneHash: 'eys-ai-intake/phone-hash/v1',
   ipHash: 'eys-ai-intake/ip-hash/v1',
+  /** Duplicate key for a request sent without an address (its job text). */
+  jobHash: 'eys-ai-intake/job-hash/v1',
   tokenKey: 'eys-ai-intake/jobber-token-key/v1',
 } as const;
 
@@ -62,7 +64,7 @@ export async function deriveSubkey(adminKey: string, label: string): Promise<Byt
   return hmac(adminKey, label);
 }
 
-/** Keyed, non-reversible hash for phone numbers and IPs stored in D1. */
+/** Keyed, non-reversible hash for phone numbers, IPs and job text stored in D1. */
 export async function keyedHash(adminKey: string, label: string, value: string): Promise<string> {
   const subkey = await deriveSubkey(adminKey, label);
   return base64url(await hmac(subkey, value));

@@ -2,9 +2,9 @@ import assert from 'node:assert/strict';
 import { submitServiceRequest, type IntakeResult } from '../_lib/intake.ts';
 import { saveConnection } from '../_lib/jobber.ts';
 import { ensureSchema, DAY, HOUR } from '../_lib/db.ts';
-import { NOTE_HEADER } from '../_lib/note.ts';
+import { NO_ADDRESS_LINE, NOTE_HEADER } from '../_lib/note.ts';
 import { healthReport } from '../_lib/health.ts';
-import { check, harness, nonNull, STRING, validBody, type Harness } from './helpers.ts';
+import { addressFreeBody, check, harness, ID, nonNull, STRING, validBody, type Harness } from './helpers.ts';
 
 /** A harness with a connected Jobber account (fresh tokens in D1). */
 async function connected(envOverrides = {}): Promise<Harness> {
@@ -297,4 +297,116 @@ await check('padded Jobber credentials still refresh tokens and write', async ()
   const result = await submitServiceRequest(validBody(), h.intakeDeps());
   assert.equal(result.status, 'submitted');
   assert.deepEqual(h.fake.tokenCalls, ['refresh_token']);
+});
+
+const MCP = { addressOptional: true } as const;
+
+await check('address-free, propertyId nullable: client and request only, no propertyId sent', async () => {
+  const h = await connected();
+  const result = await submitServiceRequest(addressFreeBody(), h.intakeDeps(), MCP);
+  assert.equal(result.status, 'submitted', JSON.stringify(h.logs));
+  assertNoPii(result);
+  assert.match(result.message_for_customer, /ask for the service address when they call you/);
+  assert.ok(result.next_steps.some((s) => s.includes('will ask for the service address when it calls')));
+  assert.deepEqual(
+    h.fake.operations.filter((op) => !op.startsWith('EysSchema')),
+    ['EysFindClients', 'EysFindClients', 'EysCreateClient', 'EysCreateRequest', 'EysAddNote', 'EysVerifyRequest'],
+  );
+  const input = h.fake.variablesOf('EysCreateRequest')?.input as Record<string, unknown>;
+  assert.ok(!('propertyId' in input), 'propertyId left out');
+  assert.deepEqual(h.fake.clients[0].properties, []);
+  const [request] = h.fake.requests;
+  assert.equal(request.title, '[ChatGPT] Mount a 65-inch TV and hide the wires');
+  assert.ok(request.notes[0].includes(NO_ADDRESS_LINE));
+  // D1: the duplicate key is a keyed hash of the job text, never the text itself.
+  const row = h.db.raw.prepare('SELECT zip FROM ai_requests').get() as { zip: string };
+  assert.match(row.zip, /^[A-Za-z0-9_-]{43}$/);
+  const dump = JSON.stringify(h.db.raw.prepare('SELECT * FROM ai_requests').all()).toLowerCase();
+  assert.ok(!dump.includes('mount') && !dump.includes('drywall') && !dump.includes('2815552368'));
+});
+
+await check('address-free, existing client: reused and untouched, no property lookup or creation', async () => {
+  const h = await connected();
+  const existing = h.fake.addClient({
+    firstName: 'Dana',
+    lastName: 'W',
+    phones: [{ number: '281.555.2368' }],
+    properties: [{ id: 'property-old', address: { street1: '1 Other Rd', city: 'Katy', province: 'TX', postalCode: '77494' } }],
+  });
+  const result = await submitServiceRequest(addressFreeBody(), h.intakeDeps(), MCP);
+  assert.equal(result.status, 'submitted');
+  for (const op of ['EysCreateClient', 'EysClientProperties', 'EysCreateProperty']) {
+    assert.ok(!h.fake.operations.includes(op), `${op} not called`);
+  }
+  assert.equal(h.fake.requests[0].clientId, existing.id);
+  assert.equal(h.fake.requests[0].propertyId, undefined);
+  assert.equal(existing.lastName, 'W');
+  assert.equal(existing.properties.length, 1);
+});
+
+await check('address-free, propertyId non-null: one placeholder property, never a real-looking address', async () => {
+  const h = await connected();
+  const field = h.fake.schema.types.get('RequestCreateInput')?.inputFields?.find((f) => f.name === 'propertyId');
+  assert.ok(field);
+  field.type = nonNull(ID);
+  const result = await submitServiceRequest(addressFreeBody(), h.intakeDeps(), MCP);
+  assert.equal(result.status, 'submitted', JSON.stringify(h.logs));
+  const [client] = h.fake.clients;
+  assert.deepEqual(client.properties.map((p) => p.address), [{ street1: 'Address needed - ask on the call', province: 'TX' }]);
+  assert.equal(h.fake.requests[0].propertyId, client.properties[0].id);
+
+  // A request with an address still gets its real property.
+  const full = await submitServiceRequest(validBody({ phone: '832-555-4410' }), h.intakeDeps(), MCP);
+  assert.equal(full.status, 'submitted');
+  assert.equal(h.fake.clients[1].properties[0].address.street1, '2418 Cane Field Drive');
+});
+
+await check('address-free, propertyId non-null and no placeholder possible: refused before anything exists', async () => {
+  const h = await connected();
+  const types = h.fake.schema.types;
+  const field = types.get('RequestCreateInput')?.inputFields?.find((f) => f.name === 'propertyId');
+  const city = types.get('AddressAttributes')?.inputFields?.find((f) => f.name === 'city');
+  assert.ok(field && city);
+  field.type = nonNull(ID);
+  city.type = nonNull(STRING);
+  const result = await submitServiceRequest(addressFreeBody(), h.intakeDeps(), MCP);
+  assert.equal(result.status, 'unavailable');
+  assert.equal(h.logs.at(-1)?.error_class, 'jobber_schema@plan');
+  assert.ok(!h.fake.operations.some((op) => op.startsWith('EysCreate') || op === 'EysFindClients'));
+  // Requests that carry an address are not blocked.
+  assert.equal((await submitServiceRequest(validBody(), h.intakeDeps(), MCP)).status, 'submitted');
+});
+
+await check('address-free duplicates: same phone + same job within 48 h; a different job goes through', async () => {
+  const h = await connected();
+  const first = await submitServiceRequest(addressFreeBody(), h.intakeDeps(), MCP);
+  h.clock.advance(47 * HOUR);
+  const body = addressFreeBody();
+  const same = await submitServiceRequest(
+    { ...body, service_summary: String(body.service_summary).toUpperCase(), job_details: `  ${String(body.job_details).replace(/ /g, '   ')}  ` },
+    h.intakeDeps(),
+    MCP,
+  );
+  assert.equal(same.status, 'submitted');
+  assert.equal(same.reference, first.reference);
+  assert.match(same.message_for_customer, /already sent/);
+  assert.equal(h.logs.at(-1)?.error_class, 'duplicate_phone_job');
+  assert.equal(h.fake.requests.length, 1);
+
+  const other = await submitServiceRequest(
+    addressFreeBody({
+      service_summary: 'Fix a squeaky bedroom door',
+      job_details: 'The bedroom door squeaks every time it opens; the hinges may need oil or replacing.',
+    }),
+    h.intakeDeps(),
+    MCP,
+  );
+  assert.equal(other.status, 'submitted');
+  assert.notEqual(other.reference, first.reference);
+  assert.equal(h.fake.requests.length, 2);
+
+  // The same phone with an address is keyed by its ZIP, not the job text.
+  const withAddress = await submitServiceRequest(validBody(), h.intakeDeps(undefined, '198.51.100.9'), MCP);
+  assert.equal(withAddress.status, 'submitted');
+  assert.notEqual(withAddress.reference, first.reference);
 });

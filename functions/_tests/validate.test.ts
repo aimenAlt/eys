@@ -1,10 +1,22 @@
 import assert from 'node:assert/strict';
 import { cleanText, normalizePhone, validateServiceRequest } from '../_lib/validate.ts';
-import { buildNote, buildTitle, NOTE_HEADER, OUTSIDE_CORE_LINE, TITLE_MAX } from '../_lib/note.ts';
-import { check, validBody } from './helpers.ts';
+import {
+  buildNote,
+  buildTitle,
+  NO_ADDRESS_LINE,
+  NOTE_HEADER,
+  OUTSIDE_CORE_LINE,
+  SERVICE_AREA_LINE,
+  TITLE_MAX,
+} from '../_lib/note.ts';
+import { addressFreeBody, check, validBody } from './helpers.ts';
 
 const fields = (body: unknown) => {
   const result = validateServiceRequest(body);
+  return result.ok ? [] : result.errors.map((e) => e.field);
+};
+const mcpFields = (body: unknown) => {
+  const result = validateServiceRequest(body, { addressOptional: true });
   return result.ok ? [] : result.errors.map((e) => e.field);
 };
 
@@ -148,4 +160,76 @@ await check('note: header, facts, flagged area, delimited customer text', () => 
   const core = validateServiceRequest(validBody());
   assert.ok(core.ok);
   assert.ok(!buildNote(core.value, 'EYS-AI-AAAAA', Date.now()).includes(OUTSIDE_CORE_LINE));
+});
+
+await check('MCP door: no address + service area confirmed validates', () => {
+  const result = validateServiceRequest(addressFreeBody(), { addressOptional: true });
+  assert.ok(result.ok);
+  assert.equal(result.value.street, null);
+  assert.equal(result.value.city, null);
+  assert.equal(result.value.zip, null);
+  assert.equal(result.value.state, 'TX');
+  assert.equal(result.value.coreArea, true, 'the customer attested the area');
+  for (const blank of ['', '   ', null]) {
+    const blanks = { street_address: blank, city: blank, state: blank, zip: blank };
+    assert.deepEqual(mcpFields(addressFreeBody(blanks)), [], `blank address fields (${JSON.stringify(blank)}) count as absent`);
+  }
+});
+
+await check('MCP door: service_area_confirmed false refuses with the areas and the phone; missing asks', () => {
+  const outside = validateServiceRequest(addressFreeBody({ service_area_confirmed: false }), { addressOptional: true });
+  assert.equal(outside.ok, false);
+  if (outside.ok) return;
+  assert.equal(outside.outsideArea, true);
+  assert.deepEqual(outside.errors.map((e) => e.field), ['service_area_confirmed']);
+  assert.match(outside.errors[0].problem, /serves Katy, Fulshear, Cypress, Richmond and West Houston, TX/);
+  assert.match(outside.errors[0].problem, /cannot be sent.*\(346\) 820-1629/);
+
+  for (const value of [undefined, 'yes', 1]) {
+    const missing = validateServiceRequest(addressFreeBody({ service_area_confirmed: value }), { addressOptional: true });
+    assert.equal(missing.ok, false);
+    if (missing.ok) return;
+    assert.equal(missing.outsideArea, false);
+    assert.deepEqual(missing.errors.map((e) => e.field), ['service_area_confirmed']);
+    assert.match(missing.errors[0].problem, /^Required\. Ask the customer whether the job is in or near Katy, Fulshear, Cypress, Richmond or West Houston, TX/);
+  }
+});
+
+await check('MCP door: any address field means the full address rules apply unchanged', () => {
+  assert.deepEqual(mcpFields(addressFreeBody({ zip: '77494' })), ['street_address', 'city', 'state']);
+  assert.deepEqual(mcpFields(addressFreeBody({ state: 'TX', service_area_confirmed: false })), ['street_address', 'city', 'zip']);
+  assert.deepEqual(mcpFields(validBody()), [], 'a full address still validates');
+  assert.deepEqual(mcpFields(validBody({ service_area_confirmed: false })), [], 'and service_area_confirmed is then ignored');
+  const outOfState = validateServiceRequest(validBody({ state: 'LA', zip: '70112' }), { addressOptional: true });
+  assert.ok(!outOfState.ok && outOfState.outOfState);
+});
+
+await check('REST and WebMCP: no addressOptional → unchanged, service_area_confirmed ignored', () => {
+  assert.deepEqual(fields(addressFreeBody()), ['street_address', 'city', 'state', 'zip']);
+  assert.deepEqual(fields(validBody({ service_area_confirmed: false })), []);
+  const rest = validateServiceRequest(addressFreeBody());
+  const before = validateServiceRequest({ ...addressFreeBody(), service_area_confirmed: undefined });
+  assert.deepEqual(rest, before, 'byte-for-byte the same result');
+});
+
+await check('address-free title and note: no city suffix, "not collected" and the service-area line', () => {
+  const result = validateServiceRequest(addressFreeBody({ source: 'claude' }), { addressOptional: true });
+  assert.ok(result.ok);
+  assert.equal(buildTitle(result.value), '[Claude] Mount a 65-inch TV and hide the wires');
+  const long = validateServiceRequest(addressFreeBody({ service_summary: 'Patch '.repeat(20).trim() }), { addressOptional: true });
+  assert.ok(long.ok);
+  const title = buildTitle(long.value);
+  assert.ok(title.length <= TITLE_MAX && title.startsWith('[ChatGPT] Patch') && title.endsWith('…'));
+
+  const note = buildNote(result.value, 'EYS-AI-7K2QF', Date.UTC(2026, 9, 25, 21, 55));
+  const lines = note.split('\n');
+  assert.equal(lines[0], NOTE_HEADER);
+  assert.ok(lines.includes(NO_ADDRESS_LINE));
+  assert.equal(NO_ADDRESS_LINE, 'Address: not collected - ask the customer on the call');
+  assert.equal(lines[lines.indexOf(NO_ADDRESS_LINE) + 1], SERVICE_AREA_LINE);
+  assert.equal(SERVICE_AREA_LINE, 'Service area: customer confirmed the job is in or near the EYS service area');
+  assert.ok(!note.includes(OUTSIDE_CORE_LINE));
+  assert.ok(!note.includes('null'));
+  assert.ok(note.includes('Phone: (281) 555-2368'));
+  assert.ok(note.endsWith('----- End of customer-reported text -----'));
 });
