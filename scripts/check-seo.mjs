@@ -4,7 +4,8 @@
  * Webmaster Tools reports:
  *
  * - meta description missing, or shorter than 50 / longer than 160 characters
- *   (measured after decoding HTML entities, the way search engines count it).
+ *   (measured after decoding HTML entities, the way search engines count it);
+ * - any <img> with a missing or empty alt (Bing counts alt="" as missing).
  *
  * Pages whose meta robots contains "noindex" are skipped. Node built-ins only.
  *
@@ -72,6 +73,13 @@ for (const file of await htmlFiles(DIST)) {
     const length = decodeEntities(raw).trim().length;
     if (length < DESCRIPTION_MIN || length > DESCRIPTION_MAX) {
       problems.push(`${page}: meta description is ${length} characters (allowed ${DESCRIPTION_MIN}–${DESCRIPTION_MAX})`);
+    }
+  }
+
+  for (const tag of html.match(/<img\b[^>]*>/gi) ?? []) {
+    const alt = attr(tag, 'alt');
+    if (alt === undefined || decodeEntities(alt).trim() === '') {
+      problems.push(`${page}: <img src="${attr(tag, 'src') ?? '?'}"> has ${alt === undefined ? 'no' : 'an empty'} alt`);
     }
   }
 }

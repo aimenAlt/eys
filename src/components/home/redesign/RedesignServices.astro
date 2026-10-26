@@ -3,17 +3,17 @@
  * 7. SERVICES (white, #services). The live ServiceGrid content, restyled as
  * photo-topped cards. On phone each category's service links collapse with the
  * sanctioned `.mobile-collapse` pattern (content stays in the DOM). The photos
- * are decorative (empty alt): the copy is unchanged.
+ * carry short alt text describing what each photo shows.
  */
 import SiteImage from '../../ui/SiteImage.astro';
 import { serviceCategories } from '../../../data/serviceCategories';
 import { localityShort } from '../../../data/business';
 import { withBase } from '../../../utils/paths';
 
-const categoryPhotos: Record<string, { src: string; width: number; height: number; crop: string }> = {
-  'repairs-and-maintenance': { src: '/images/services/after-hours-repairs.jpg', width: 1600, height: 1068, crop: '70% 40%' },
-  'installation-and-assembly': { src: '/images/services/electrical.jpg', width: 1200, height: 1600, crop: '50% 30%' },
-  'remodeling-and-upgrades': { src: '/images/services/whole-project-remodeling.jpg', width: 1600, height: 1200, crop: '50% 60%' },
+const categoryPhotos: Record<string, { src: string; alt: string; width: number; height: number; crop: string }> = {
+  'repairs-and-maintenance': { src: '/images/services/after-hours-repairs.jpg', alt: 'Worker repairing a door frame under a bright work light', width: 1600, height: 1068, crop: '70% 40%' },
+  'installation-and-assembly': { src: '/images/services/electrical.jpg', alt: 'Cluster of glass globe pendant lights hanging over a curved staircase', width: 1200, height: 1600, crop: '50% 30%' },
+  'remodeling-and-upgrades': { src: '/images/services/whole-project-remodeling.jpg', alt: 'Kitchen with white upper cabinets, sage green lower cabinets, quartz counters and a gold faucet', width: 1600, height: 1200, crop: '50% 60%' },
 };
 ---
 
@@ -34,7 +34,7 @@ const categoryPhotos: Record<string, { src: string; width: number; height: numbe
             <article class="eys-card eys-reveal flex flex-col overflow-hidden" style={`--d:${i * 0.1}s`}>
               {photo && (
                 <div class="eys-card-media relative h-[180px] lg:h-[200px]">
-                  <SiteImage src={photo.src} alt="" width={photo.width} height={photo.height} sizes="(min-width: 1024px) 440px, 100vw" class="block h-full w-full object-cover" />
+                  <SiteImage src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} sizes="(min-width: 1024px) 440px, 100vw" class="block h-full w-full object-cover" />
                   <span class="absolute inset-x-0 bottom-0 h-1.5 bg-eys-accent" aria-hidden="true" />
                 </div>
               )}

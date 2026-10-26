@@ -26,7 +26,7 @@ const wordmarkVis = isFooter ? 'flex' : 'hidden xl:flex';
 >
   <img
     src={withBase('/logos/logo-mark.webp')}
-    alt=""
+    alt="Elevate Your Space Handyman"
     width="36"
     height="48"
     class:list={[markSize, 'shrink-0 transition-transform duration-200 group-hover:scale-105']}
@@ -34,7 +34,7 @@ const wordmarkVis = isFooter ? 'flex' : 'hidden xl:flex';
     decoding="async"
     fetchpriority={isFooter ? 'low' : 'high'}
   />
-  <span class:list={[wordmarkVis, 'eys-wordmark']}>
+  <span class:list={[wordmarkVis, 'eys-wordmark']} aria-hidden="true">
     <span class="eys-wordmark-top">
       Elevate Your Space
     </span>
