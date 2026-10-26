@@ -478,6 +478,15 @@ html[data-theme] { scroll-padding-top: 64px; }
   height: 2px;
   background: var(--eys-accent);
 }
+/* Phone menu: a full-width list, so the current page gets a red bar at its
+   start instead of the desktop underline (which read as a rule under the next row). */
+#mobile-menu .eys-nav-link[aria-current="page"]::after { content: none; }
+#mobile-menu .eys-nav-link[aria-current="page"] {
+  font-weight: 700;
+  color: #ffffff;
+  padding-left: 14px;
+  box-shadow: inset 4px 0 0 var(--eys-accent);
+}
 .eys-header-call { transition: opacity 0.2s ease, visibility 0.2s ease; }
 .eys-header-call[data-bar-active] { visibility: hidden; opacity: 0; }
 
