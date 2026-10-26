@@ -154,3 +154,7 @@ Hero buttons at 390×844 (bottom edge of the hero CTA group, px from the top of 
 | /services/media-walls/ (not required) | 1067 | 1327 | no (was already below the fold) |
 
 Local production build, Playwright at 390×844 and 1440×900 on all ten pages, clicking nothing: photo first in `<main>`, fully visible without scrolling, rendered 390×260 (3:2), object-fit `fill` (never cover), nothing on top of it (elementFromPoint at its centre is the img), served as WebP from the srcset; whole H1 visible at 390×844 on every page; no horizontal scroll; no console errors; sticky bars absent at the top and shown after 1400px on all ten pages. `<main>` HTML changed on exactly these ten pages out of 114 built pages; byte-identical on all others (incl. /home2/, /services/, /contact/, /pricing/, Katy, Cinco Ranch, a project page, /services/drywall-repair/, /van/, /curtain-installation/).
+
+## DONE 2026-10-26 da28752
+Shipped `VanBand` (Eyad in front of the EYS van) as the first section of `<main>` on "/" (old homepage) and the nine Ads landing pages from `src/data/adsLandingPages.ts`.
+Live-verified after the Cloudflare deploy: curl shows the band on all ten pages and on none of /home2/, /services/, /contact/, /van/, /curtain-installation/, /services/drywall-repair/; Playwright at 390×844 and 1440×900 on "/", /start/, /services/media-walls/ and /lp/built-ins-shelving-storage/ (no clicks): photo first, 3:2, fully visible, WebP, nothing over it, H1 and required hero buttons visible, no overflow, no console errors.
