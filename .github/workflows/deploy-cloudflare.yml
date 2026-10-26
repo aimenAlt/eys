@@ -115,6 +115,17 @@ jobs:
           name: site-dist
           path: dist
 
+      # IndexNow + honest sitemap <lastmod> (docs/indexnow.md). Node built-ins
+      # only, so no npm ci here. Both steps are continue-on-error: a failed
+      # ping or diff must never block or fail a deploy.
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: IndexNow prepare (diff pages, write manifest, set sitemap lastmod)
+        continue-on-error: true
+        run: node scripts/indexnow.mjs prepare
+
       - name: Deploy to Cloudflare Pages (production)
         id: deploy
         uses: cloudflare/wrangler-action@v3
@@ -123,6 +134,10 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           # Matches Pages "Production branch" = main → live production deployment
           command: pages deploy dist --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT || 'eys' }} --branch=main --commit-dirty=true
+
+      - name: IndexNow submit (added, changed and removed URLs)
+        continue-on-error: true
+        run: node scripts/indexnow.mjs submit
 
       - name: Production URLs
         run: |

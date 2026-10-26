@@ -39,7 +39,7 @@
  */
 import { readFile, writeFile, access } from 'node:fs/promises';
 import { join } from 'node:path';
-import { createHash } from 'node:crypto';
+import { extractMain, shortHash } from './lib/page-content.mjs';
 
 const ROOT = join(import.meta.dirname, '..');
 const LOG_PATH = join(ROOT, 'docs/gsc-indexing-log.json');
@@ -102,12 +102,8 @@ async function hashPageContent(pathname) {
   } catch {
     return null;
   }
-  const start = html.indexOf('<main');
-  const openEnd = start === -1 ? -1 : html.indexOf('>', start);
-  const closeTag = openEnd === -1 ? -1 : html.indexOf('</main>', openEnd);
-  if (start === -1 || openEnd === -1 || closeTag === -1) return null;
-  const main = html.slice(openEnd + 1, closeTag);
-  return createHash('sha256').update(main).digest('hex').slice(0, 16);
+  const main = extractMain(html);
+  return main === null ? null : shortHash(main);
 }
 
 function daysSince(dateStr) {
