@@ -164,17 +164,18 @@ export const homeImageAlts = {
 } as const;
 
 /**
- * Eyad Essa standing in front of the wrapped EYS van (backlog 011, Aimen 25–26 Oct
- * 2026: visitors see Eyad and the van first). One shared constant: `VanBand` and
- * the redesigned homepage hero (backlog 013) both read it, so a photo swap is one
- * edit here. Never crop it, cover-fit it, or put anything over it: every letter
- * and badge on the van must stay visible.
+ * Eyad Essa in his tool belt in front of the wrapped EYS van (backlog 011, Aimen
+ * 25–26 Oct 2026: visitors see Eyad and the van first; tool-belt version since
+ * 26 Oct 2026). One shared constant: `VanBand` and the redesigned homepage hero
+ * (backlog 013) both read it, so a photo swap is one edit here. Never crop it,
+ * cover-fit it, or put anything over it: every letter and badge on the van must
+ * stay visible.
  */
 export const vanEyadPhoto = {
-  src: '/images/home/eys-van-eyad.jpg',
+  src: '/images/home/eys-van-eyad-tool-belt.jpg',
   width: 1200,
   height: 800,
-  alt: 'Eyad Essa, owner of Elevate Your Space Handyman, in front of the EYS van with its lettering, phone number and badges',
+  alt: 'Eyad Essa, owner of Elevate Your Space Handyman, in his tool belt in front of the EYS van with its lettering, phone number and badges',
 } as const;
 
 /** Default OG share image alt for pages without a page-specific photo. */

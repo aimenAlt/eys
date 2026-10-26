@@ -665,8 +665,10 @@ html[data-theme] { scroll-padding-top: 64px; }
    on the left; the photo is a 3:2 slab bleeding off the right edge with an
    angled left edge and a red slash, like the van's livery. The Eyad-and-van
    photo is never cropped, cover-fit or overlaid (backlog 011): the slab keeps
-   the photo's own aspect, and the angle only trims a sliver of sky and grass
-   at its far left, clear of Eyad and of every letter on the van. */
+   the photo's own aspect, and the angle only trims a sliver at its far left:
+   sky, grass and part of Eyad's far-left arm in the tool-belt photo. His face,
+   the full phone number and every letter and badge on the van stay clear of it
+   at 1024, 1280 and 1440. */
 .eys-hero { position: relative; overflow: hidden; isolation: isolate; }
 .eys-hero::before {
   content: "";
