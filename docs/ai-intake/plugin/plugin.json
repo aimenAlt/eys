@@ -1,0 +1,92 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "eys-handyman",
+  "version": "1.0.0",
+  "description": "Learn about Elevate Your Space Handyman in Katy, TX and send the business a service request the customer has confirmed.",
+  "author": {
+    "name": "Elevate Your Space Handyman",
+    "url": "https://www.eyshandyman.com/"
+  },
+  "homepage": "https://www.eyshandyman.com/",
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Elevate Your Space Handyman",
+        "shortDescription": "Handyman requests in Katy, TX",
+        "longDescription": "Elevate Your Space Handyman is a veteran-owned, owner-led handyman company based in Katy, Texas. It serves homes in Katy, Fulshear, Cypress, Richmond and West Houston with repairs and maintenance, installation and assembly, and home upgrades and custom projects.\n\nWith this plugin, ChatGPT can explain the services, the areas served and the flat Handyman To-Do List Visit prices, and help you pick the right way to request work. When you are ready, ChatGPT checks your details, reads them back to you and, only after you confirm, sends a service request to the business. Elevate Your Space Handyman then calls you and asks for the service address.\n\nWhat is shared: your name, your phone number, your email address if you give one, and a description of the job. The request goes into the business's job list.\n\nGood to know: a request is not a booking. No price, arrival time or availability is promised, and nothing is bought or paid in ChatGPT. Requests are for jobs in or near Katy, Fulshear, Cypress, Richmond and West Houston, TX. Photos cannot be sent through ChatGPT; you can share them when the business gets in touch. To talk to someone instead, call (346) 820-1629.",
+        "developerName": "REPLACE_AT_UPLOAD",
+        "category": "REPLACE_AT_UPLOAD",
+        "websiteURL": "https://www.eyshandyman.com/",
+        "supportURL": "https://www.eyshandyman.com/contact/",
+        "privacyPolicyURL": "https://www.eyshandyman.com/privacy/",
+        "termsOfServiceURL": "https://www.eyshandyman.com/terms/",
+        "defaultPrompt": [
+          "I need a handyman in Katy to mount a TV and fix a squeaky door.",
+          "How much is a 2-hour handyman visit in Fulshear?",
+          "Send a handyman request for small repairs around my house."
+        ],
+        "brandColor": "#b00000",
+        "brandColorDark": "#ff3333",
+        "composerIcon": "./assets/icon.png",
+        "logo": "./assets/icon.png"
+      },
+      "review": {
+        "commerce": false,
+        "commerce_description": "Nothing is bought or paid in ChatGPT. The plugin only sends a service request to the business; the business follows up by phone.",
+        "demo_recording_url": "REPLACE_AT_UPLOAD",
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Asks what the business does.",
+              "prompt": "What does Elevate Your Space Handyman do, and which areas does it serve?",
+              "tools_triggered": "get_business_info",
+              "expected_behavior": "Answers from the tool: the service groups and the areas Katy, Fulshear, Cypress, Richmond and West Houston. Invents no hours, licenses, insurance, guarantees or reviews."
+            },
+            {
+              "description": "Asks about visit pricing.",
+              "prompt": "How much is a 2-hour handyman to-do list visit with Elevate Your Space Handyman?",
+              "tools_triggered": "get_business_info",
+              "expected_behavior": "Gives the flat two-hour visit price the tool returns, calls it a flat visit block (not an hourly rate) and says materials are additional."
+            },
+            {
+              "description": "Checks a request without sending it.",
+              "prompt": "I live in Katy and need a 65-inch TV mounted on my living room wall with the cords hidden. My name is Alex Tester, my number is 281-555-1234, you may call me. Please check the request but do not send it yet.",
+              "tools_triggered": "submit_service_request",
+              "expected_behavior": "Calls the tool with confirmed_by_customer false; the tool returns ready_to_submit; the assistant reads the details back and asks for a yes; nothing is sent."
+            },
+            {
+              "description": "Missing details are asked for, not guessed.",
+              "prompt": "Please send Elevate Your Space Handyman a request: my name is Sam, the bedroom door in my Fulshear home squeaks, you may call me on 281-555-1299. Check it first.",
+              "tools_triggered": "submit_service_request",
+              "expected_behavior": "The tool returns needs_changes for the missing last name; the assistant asks the customer for it instead of guessing."
+            },
+            {
+              "description": "Sends a confirmed request.",
+              "prompt": "Elevate Your Space Handyman, please send this request: my name is Alex Tester, phone 281-555-1234, the job is in Katy. Job: TEST - please archive - mount a TV and hide the cords. This is a test, nobody needs to call me. Yes, you may contact me by phone, the details are correct, send it.",
+              "tools_triggered": "submit_service_request",
+              "expected_behavior": "Sends with confirmed_by_customer true; the tool returns submitted with a reference like EYS-AI-XXXXX; the assistant gives the reference and (346) 820-1629 and promises no price or arrival time."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Unrelated local search.",
+              "prompt": "What's the best pizza place in Katy, Texas?"
+            },
+            {
+              "description": "General DIY question.",
+              "prompt": "Explain how to patch a small hole in drywall."
+            },
+            {
+              "description": "Unrelated travel planning.",
+              "prompt": "Plan a three-day trip to Austin."
+            }
+          ]
+        }
+      },
+      "publication": {
+        "countries": ["US"],
+        "release_notes": "Initial release: business info lookup and confirmed service-request submission for Elevate Your Space Handyman in Katy, TX."
+      }
+    }
+  }
+}

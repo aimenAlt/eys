@@ -2,11 +2,12 @@
 
 Last updated 2026-10-26 by Claude Code. How it works and how to operate it: [`README.md`](./README.md).
 
-**State right now:** everything is deployed and answering on www.eyshandyman.com in
-**validate-only** mode. The D1 database and the two plain variables are set, and the Jobber app
-exists, but the three secrets are not in Cloudflare yet and Jobber is not connected, so no request
-can reach Jobber. No Jobber record was created during the build. Steps 2–6 under NEEDS HUMAN
-switch it on.
+**State right now:** intake is **on** at www.eyshandyman.com and Jobber is connected. Two live test
+requests passed and were archived: Test 1 `EYS-AI-YVHV8` and Test 2 `EYS-AI-8WRZ4` (sent through
+ChatGPT). Since 7da13f1 the MCP tool asks for no address; the business asks for it on its call
+(OpenAI's plugin guidelines do not let a tool request one). The JSON API and WebMCP still take
+the full address. Next: refresh the tools in ChatGPT and send one address-free test (step 8),
+then the directory submission (step 9). The plugin package is in [`plugin/`](./plugin/).
 
 ## Who does what
 
@@ -45,10 +46,12 @@ Any push to `main` deploys production too.
 | Docs: README, STATUS, close backlog 010 | e0b824d | [40241783013](https://github.com/aimenAlt/eys/actions/runs/40241783013) |
 | A. Link-based connect, schema report on connect, write pre-flight, trimmed secrets | 0ad96df | [40335591918](https://github.com/aimenAlt/eys/actions/runs/40335591918) |
 | B. Docs (roles, GitHub deploy path, connect steps) + privacy "after 30 days" | 26ed0ef | [40336382351](https://github.com/aimenAlt/eys/actions/runs/40336382351) |
+| Directory 1. Address-free MCP submit tool, MCP server 1.1.0, privacy paragraph | 7da13f1 | [40351102414](https://github.com/aimenAlt/eys/actions/runs/40351102414) |
+| Directory 2. ChatGPT plugin package (`plugin/`) + these docs | commit "ai-intake: ChatGPT plugin package + docs" | its Deploy Cloudflare run |
 
 Every production deploy log shows `✨ Compiled Worker successfully` and
-`✨ Uploading Functions bundle`. `npm run check`, `npm run build` and `npm test` (73 functions
-tests after Push A) were clean before each push.
+`✨ Uploading Functions bundle`. `npm run check`, `npm run build` and `npm test` were clean
+before each push (73 functions tests after Push A, 85 after Directory 1, 93 after Directory 2).
 
 ## LIVE URLS
 
@@ -121,7 +124,41 @@ tests after Push A) were clean before each push.
   26ed0ef had CSS identical to live for `/`, `/book/`, `/start/` and `/privacy/`.
 - `GET /api/ai/health` unchanged; `/api/admin/jobber/connect` → 200.
 
+### Live tests (owner and Cowork, 2026-10-26)
+
+- Intake switched on; `GET /api/ai/health` → `intake_enabled` true, all four `configured` values
+  true, `jobber.connected` true, account "Elevate Your Space Handyman".
+- Test 1 `EYS-AI-YVHV8` passed and was archived in Jobber.
+- Test 2 `EYS-AI-8WRZ4`, sent through the ChatGPT custom MCP server (step 8), passed and was
+  archived. Both tests carried an address: they ran before 7da13f1.
+- Jobber emails contact@eyshandyman.com for requests created through the API, so AI requests get
+  the usual new-request notice.
+- Photos cannot be sent through this door; the note tells EYS to ask.
+
+### Directory 1 (7da13f1, 2026-10-26)
+
+- `/mcp` `initialize` → `serverInfo.version` `1.1.0` and the MCP instructions ("Only submit for
+  jobs in or near Katy, Fulshear, Cypress, Richmond or West Houston, TX", "will ask for the
+  service address when it calls").
+- `tools/list` → `submit_service_request` has no `street_address`, `city`, `state` or `zip`;
+  requires `service_area_confirmed` (boolean); `additionalProperties` false; annotations
+  `readOnlyHint` false, `destructiveHint` false, `idempotentHint` true, `openWorldHint` false.
+  `get_business_info`: `readOnlyHint` true, `openWorldHint` false.
+- `tools/call submit_service_request` without an address, `confirmed_by_customer` false →
+  `ready_to_submit`, `isError` false, next steps say the address is asked for on the call;
+  `service_area_confirmed` false → `needs_changes` naming the five areas and (346) 820-1629.
+- `POST /api/ai/service-requests` without an address → `needs_changes` for `street_address`,
+  `city`, `state`, `zip` (unchanged). `/api/ai/openapi.json` and `/api/ai/info` byte-identical to
+  the copies fetched before the push. Health still `intake_enabled` true.
+- `/privacy/`: only the AI-assistant paragraph changed; "Last updated: October 2026" kept; GA4 and
+  Ads tags present.
+- No call with `confirmed_by_customer` true was made on production.
+
 ## NEEDS HUMAN (in order)
+
+Steps 1–4, 6 and 7 are done (the secrets are in, Jobber is connected, intake is on, and the live
+tests could only succeed with 0 plan problems). Their instructions stay here for a reconnect or a
+re-test.
 
 1. **Jobber app — done by Cowork (2026-10-25).** Draft app "EYS Request Intake" (any name works),
    OAuth Callback URL `https://www.eyshandyman.com/api/admin/jobber/callback`, scopes **Clients**
@@ -176,35 +213,57 @@ tests after Push A) were clean before each push.
    Expect `"status":"submitted"` with an `EYS-AI-…` reference. In Jobber → **Requests**, find
    `[AI assistant] TEST - please archive - Katy` with the note on it, then archive it. Note whether
    Jobber sent its usual new-request notification (see OPEN RISKS).
-8. **ChatGPT developer mode — the owner (it is his ChatGPT account).** ChatGPT (web) → **Settings**
-   → **Apps & Connectors** (labelled **Apps** in newer builds) → **Advanced settings** →
-   **Developer mode** on → back → **Create**:
-   - Name: `Elevate Your Space Handyman`
-   - Description: `Send a service request to EYS in Katy, TX`
-   - MCP Server URL: `https://www.eyshandyman.com/mcp`
-   - Authentication: **No authentication**
-   - Tick "I trust this application" → **Create**. In a new chat, pick it under **+** → Developer
-     mode and ask for help with a handyman job in Katy.
-9. **Optional, later — ChatGPT app directory.** When submitting the app in OpenAI's developer
-   dashboard, put the domain-verification token in Cloudflare as `OPENAI_APPS_CHALLENGE_TOKEN`
-   (plain Text) → deploy via GitHub Actions as in step 2 (Deploy target `production`) → confirm
-   `https://www.eyshandyman.com/.well-known/openai-apps-challenge` shows it. Listing URLs: website
-   `https://www.eyshandyman.com/`, privacy `https://www.eyshandyman.com/privacy/`, terms
-   `https://www.eyshandyman.com/terms/`.
+8. **ChatGPT custom MCP server — the owner, in the owner's ChatGPT account. Done once (Test 2); the tools
+   changed in 7da13f1, so refresh them.** The October 2026 flow:
+   - [chatgpt.com/plugins](https://chatgpt.com/plugins) → **+** (Add) → **Add custom MCP server**.
+   - Name `Elevate Your Space Handyman`; description `Send a service request to EYS in Katy, TX`;
+     URL `https://www.eyshandyman.com/mcp`; authentication **None**.
+   - Tick the risk box ("I understand and want to continue") → **Create as a plugin** →
+     **Connect**.
+   - In a chat, type `@` in the chat box and pick it, then ask for help with a handyman job in Katy.
+   - After any tool change on the server (7da13f1 was one): the plugin → **Manage** → **Refresh
+     tools**, or ChatGPT keeps calling the old schema.
+   - Now: after **Refresh tools**, send one address-free test (a job in Katy, your own phone,
+     summary `TEST - please archive`). Expect a reference, a Jobber request titled
+     `[ChatGPT] TEST - please archive` with no city on the end, the note line
+     `Address: not collected - ask the customer on the call`, and either no property on the request
+     or, if Jobber requires one, a placeholder property `Address needed - ask on the call`. Archive
+     it. This is the first live run of the address-free write path.
+9. **ChatGPT plugin directory — the owner decides; Cowork can do the dashboard steps.** The package
+   and its own instructions are in [`plugin/`](./plugin/README.md).
+   1. Fill the three `REPLACE_AT_UPLOAD` values in `plugin/plugin.json` (developer name, category,
+      demo video link), zip the folder as `plugin/README.md` says and upload a draft at
+      [platform.openai.com/plugins](https://platform.openai.com/plugins).
+   2. Let the automated checks run (**Metadata & Skills**, then **MCPs** → **Connect**,
+      authentication **No authentication**) and fix any issues with a new ZIP.
+   3. Domain check: put the token the portal shows in Cloudflare as `OPENAI_APPS_CHALLENGE_TOKEN`
+      (type **Text**, not Secret) → deploy via GitHub Actions as in step 2 (Deploy target
+      `production`) → confirm `https://www.eyshandyman.com/.well-known/openai-apps-challenge` shows
+      exactly that token → finish **Connect** and wait for the tool scan.
+   4. Review details: the 5 positive and 3 negative test cases, the release notes and the demo link
+      come from the ZIP. Record the demo by running the test cases in ChatGPT. The server has no
+      sign-in, so no reviewer credentials; never put credentials or reviewer notes in the ZIP.
+   5. **Submit for review only with the owner's go-ahead.** Reviewers running positive case 5 send
+      a real request (`[ChatGPT] TEST - please archive`); archive it.
+   6. Once approved, **Publish plugin**. Later server-side tool changes are rescanned by OpenAI;
+      listing text, test cases or the icon need a new ZIP with a higher `version`.
 
 ## OPEN RISKS
 
-1. **Jobber input shapes.** Jobber does not publish its mutation reference. They are now checked
+1. **Jobber input shapes.** Jobber does not publish its mutation reference. They are checked
    twice before any write: the pre-flight refuses (nothing created) if a required input the code
    does not fill exists or a needed field is missing, and the schema report on the Connected page
-   (step 4) shows the real shapes on first connect. Only the live test (step 7) proves Jobber
-   accepts the values themselves.
-2. **Jobber notifications.** Requests created through the API may not trigger the "new request"
-   email/push that Client Hub form submissions do. Until step 7 says otherwise, assume EYS has to
-   look for them: search Requests for `[ChatGPT]` (or `[AI`), or rely on the new-requests routine.
+   (step 4) shows the real shapes. Tests 1 and 2 proved the with-address path. The address-free
+   path (since 7da13f1) leaves `propertyId` out of `requestCreate`, or, if the live schema makes it
+   non-null, creates one placeholder property (`Address needed - ask on the call`, TX); it has not
+   run against live Jobber yet (step 8's new test).
+2. **Jobber notifications — resolved.** Jobber emails contact@eyshandyman.com for requests created
+   through the API. Search Requests for `[ChatGPT]` (or `[AI`) to count the channel.
 3. **Bot protection on `/mcp` and `/api/ai/*`.** Unchallenged for curl today, but Bot Fight Mode or
    Browser Integrity Check could challenge an assistant's servers (step 5).
-4. **No photos.** Requests arrive without photos (the note says so); quoting may need a call.
+4. **No photos.** Photos cannot be sent through this door (confirmed in the live tests); the note
+   says so and quoting may need a call. MCP requests also arrive without an address, which EYS
+   asks for on its call.
 5. **Client matching depends on Jobber's search.** If Jobber's client search does not find a stored
    phone format, a returning customer gets a second client record instead of the existing one.
 6. **Partial writes.** The pre-flight removes the schema causes; a Jobber outage between creating a
@@ -217,8 +276,8 @@ tests after Push A) were clean before each push.
    20/day overall) but a determined sender rotating IPs and phone numbers could still file up to the
    daily cap of junk; the kill switch stops it. `today_count` counts attempts that passed the IP and
    phone limits, not only successes.
-9. **Protocol churn.** MCP 2026-07-28 and WebMCP (a draft) are new. ChatGPT was not tested
-   directly (step 8 is the first real client); WebMCP was tested with a stand-in because no browser
-   here supports it natively.
+9. **Protocol churn.** MCP 2026-07-28 and WebMCP (a draft) are new. ChatGPT worked end to end
+   (Test 2) but caches tool schemas until **Refresh tools**; WebMCP was tested with a stand-in
+   because no browser here supports it natively.
 10. **Cleanup timing.** Rows older than 30 days are deleted when a confirmed request arrives, so on
     a quiet month they can sit a little past 30 days (the privacy policy says "after 30 days").

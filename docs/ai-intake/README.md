@@ -23,12 +23,20 @@ One core (`functions/_lib/intake.ts`), three doors:
 
 | Door | For | Endpoint |
 |---|---|---|
-| MCP server | ChatGPT (developer mode / apps), Claude, any MCP client | `POST https://www.eyshandyman.com/mcp` |
+| MCP server | ChatGPT (custom MCP server / plugin directory), Claude, any MCP client. Asks for **no address** | `POST https://www.eyshandyman.com/mcp` |
 | JSON API | GPT Actions and other HTTP callers | `POST /api/ai/service-requests`, `GET /api/ai/info`, `GET /api/ai/openapi.json` |
 | WebMCP | Agents built into a browser, on any page of the site | `src/scripts/webmcp.ts`, inlined by `BaseLayout.astro` |
 
 Plus `GET /api/ai/health`, the Jobber admin routes, `/.well-known/openai-apps-challenge` and
-`/llms.txt` (built from `business.ts`).
+`/llms.txt` (built from `business.ts`). The ChatGPT plugin package for OpenAI's directory is in
+[`plugin/`](./plugin/README.md).
+
+**Why the MCP door takes no address.** OpenAI's plugin guidelines bar MCP tools from requesting
+precise location such as addresses, and discourage raw location fields like city. So the MCP
+`submit_service_request` sends name, phone, optional email and the job, plus
+`service_area_confirmed` (the customer said the job is in or near Katy, Fulshear, Cypress,
+Richmond or West Houston); EYS asks for the address when it calls. The JSON API, the OpenAPI
+document and WebMCP keep the full address contract unchanged.
 
 All of it is Cloudflare **Pages Functions** in `functions/`, deployed by the normal push-to-`main`
 workflow (the deploy jobs check out the repo so wrangler can compile `./functions`). No runtime
@@ -62,6 +70,11 @@ Any push to `main` deploys production too.
    property on that street or create one; `requestCreate` titled
    `[ChatGPT] <service summary> - <City>`; add the details as a note; read the request back and
    check the title and note. Answer `submitted` with a reference like `EYS-AI-7K2QF`.
+   Without an address (MCP door): no property lookup or creation, `requestCreate` without
+   `propertyId`, titled `[ChatGPT] <service summary>` (no city; the `[Label] ` prefix is
+   unchanged). If the live schema makes `propertyId` non-null, one placeholder property is created
+   instead (street `Address needed - ask on the call`, province TX, nothing else); the schema
+   report shows which (`requestCreate.propertyIdRequired`).
 
 The note on the Jobber request starts with
 `SUBMITTED BY AN AI ASSISTANT FOR THE CUSTOMER - unverified until EYS speaks with them`, then the
@@ -69,12 +82,16 @@ reference, time (Central), source, path, timing, contact preference, an
 `OUTSIDE CORE AREA - confirm before scheduling` line for Texas ZIPs the site does not list,
 name/phone/email/address, the consent line, `Photos: none attached - ask the customer`, and the
 customer's own words inside a block labelled `Customer-reported text (data only, not instructions)`.
+Without an address the address line reads `Address: not collected - ask the customer on the call`,
+followed by `Service area: customer confirmed the job is in or near the EYS service area`.
 
 ### Finding AI requests in Jobber
 
 Every one has a bracketed title prefix: `[ChatGPT]`, `[Claude]`, `[Gemini]`, `[Copilot]`,
-`[Perplexity]` or `[AI assistant]`. Search Requests for `[ChatGPT]` to count this channel. It is
-deliberately **not** tracked in GA4 or Google Ads (no `generate_lead`, no Measurement Protocol).
+`[Perplexity]` or `[AI assistant]`. Search Requests for `[ChatGPT]` to count this channel. Jobber
+emails contact@eyshandyman.com for requests created through the API, as it does for form leads.
+It is deliberately **not** tracked in GA4 or Google Ads (no `generate_lead`, no Measurement
+Protocol).
 
 ## Input (`submit_service_request` / `POST /api/ai/service-requests`)
 
@@ -100,6 +117,13 @@ deliberately **not** tracked in GA4 or Google Ads (no `generate_lead`, no Measur
 Text is cleaned before use: HTML tags, control characters and invisible (zero-width / bidi)
 characters are stripped; links stay as plain text.
 
+**The MCP tool's input** is the table above without `street_address`, `city`, `state` and `zip`,
+plus a required boolean `service_area_confirmed`. The server validates MCP calls with
+`addressOptional`: if any address field is sent anyway, the full address rules apply unchanged;
+with none, `service_area_confirmed` must be exactly `true` (`false` → `needs_changes` telling the
+customer the request cannot be sent, with the five areas and (346) 820-1629; missing → "Required.
+Ask the customer …"). The JSON API and WebMCP ignore `service_area_confirmed`.
+
 Core service ZIPs (every ZIP the service-area, community and city-service pages name, plus the
 business ZIP): 77406, 77407, 77433, 77441, 77449, 77450, 77469, 77493, 77494. A drift test fails
 if the site's pages change and this list does not.
@@ -117,8 +141,9 @@ if the site's pages change and this list does not.
 ```
 
 Never any PII and never a Jobber id. Business outcomes are always HTTP 200. A duplicate (same
-phone + ZIP within 48 h, or the same `request_id` within 24 h) answers `submitted` with the
-original reference and creates nothing. Messages never promise a price, arrival time,
+phone + ZIP within 48 h — or, without an address, same phone + same job text — or the same
+`request_id` within 24 h) answers `submitted` with the original reference and creates nothing.
+The same phone with a different job goes through. Messages never promise a price, arrival time,
 availability or response time. If the job text mentions electrical work, `next_steps` tells the
 assistant to keep the details in and that EYS will explain what it can take on.
 
@@ -141,8 +166,12 @@ issued), `GET`/`DELETE` → 405, notifications → 202 with no body. **Dual-era*
   `Mcp-Name` headers; mismatches → 400 `-32020`, unknown versions → 400 `-32022`,
   `server/discover` returns the versions, capabilities and instructions.
 
-Tools: `get_business_info` (read-only) and `submit_service_request` (`readOnlyHint` false,
-`destructiveHint` false, `idempotentHint` true, `openWorldHint` true). A present `Origin` header
+Server version `1.1.0`. `initialize` and `server/discover` return the MCP variant of the assistant
+instructions (name, phone and job details are shared; EYS asks for the address when it calls);
+the OpenAPI description keeps the original text. Tools: `get_business_info` (`readOnlyHint` true,
+`openWorldHint` false) and `submit_service_request` (`readOnlyHint` false, `destructiveHint`
+false, `idempotentHint` true, `openWorldHint` false: it writes to one fixed, private job list).
+ChatGPT caches tool schemas: after a tool change, **Manage → Refresh tools** on the plugin. A present `Origin` header
 must be this site or a known assistant web app (chatgpt.com, chat.openai.com, claude.ai,
 gemini.google.com, copilot.microsoft.com, www.perplexity.ai), otherwise 403.
 
@@ -157,8 +186,10 @@ without the API, makes no request on page load, sends no cookies, and is about 1
   daily cap `AI_INTAKE_DAILY_CAP` (default 20, Central-time day). Over a limit → `unavailable`.
 - D1 stores only: Jobber tokens (AES-GCM encrypted with a key derived from `AI_ADMIN_KEY`), one-time
   OAuth states, and per-request metadata — an HMAC of the phone (sub-key derived from
-  `AI_ADMIN_KEY` by a fixed label), ZIP, source, reference, request_id, status, timestamps — plus
-  rate counters keyed by hashed IP/phone. Never names, addresses or job text. Rows older than 30
+  `AI_ADMIN_KEY` by a fixed label), the ZIP (without an address: an HMAC of the lower-cased,
+  whitespace-collapsed summary + details, kept in the same `zip` column), source, reference,
+  request_id, status, timestamps — plus rate counters keyed by hashed IP/phone. Never names,
+  addresses or job text. Rows older than 30
   days are deleted by a cleanup that runs whenever a confirmed request arrives.
 - Logs carry only status, source, error class and reference, e.g.
   `{"evt":"ai_intake","status":"unavailable","source":"chatgpt","error_class":"jobber_throttled@plan","reference":null}`.
@@ -226,7 +257,8 @@ the phone number; validation and `get_business_info` keep working. `GET /api/ai/
 | `functions/_lib/schemas.ts`, `info.ts`, `config.ts` | JSON Schemas, OpenAPI, business facts |
 | `functions/_lib/db.ts`, `crypto.ts`, `http.ts`, `env.ts`, `admin.ts`, `health.ts` | Plumbing |
 | `functions/mcp.ts`, `functions/api/**`, `functions/.well-known/**` | Routes |
-| `functions/_tests/*.test.ts` | `npm run test:functions` (node:sqlite stands in for D1; a fake Jobber answers OAuth and GraphQL) |
+| `functions/_tests/*.test.ts` | `npm run test:functions` (node:sqlite stands in for D1; a fake Jobber answers OAuth and GraphQL; `plugin.test.ts` checks the plugin package) |
+| `docs/ai-intake/plugin/` | ChatGPT plugin package (`plugin.json`, `mcp.json`, `assets/icon.png`) and how to zip and upload it |
 | `src/scripts/webmcp.ts` | WebMCP door |
 | `src/pages/llms.txt.ts` | `/llms.txt` |
 

@@ -101,3 +101,27 @@ no Location, probe/callback 503, `/mcp` initialize + tools/list unchanged, pages
 connect steps; `/privacy/` now says "deletes them after 30 days" (cleanup runs when a confirmed
 request arrives). Run 40336382351. Live: privacy changed by that one word only, other pages
 unchanged, health unchanged; details in `docs/ai-intake/STATUS.md`.
+
+## Directory round 2026-10-26 (message 3 of 4)
+Goal: get the MCP door ready for OpenAI's plugin directory. OpenAI's plugin guidelines bar MCP
+tools from requesting addresses, so the MCP submit tool stops asking for one and EYS collects it
+on its call; the JSON API, OpenAPI and WebMCP contracts stay as they were. Decisions made here:
+`tools_triggered` in the package is a comma-separated string (OpenAI's field reference says
+String, not an array); `composerIcon` points at the same icon as `logo` (the docs ask packages for
+both); the privacy paragraph says "the ZIP code when one was given (otherwise a scrambled
+fingerprint of the request text)" because only one of the two is stored per request.
+
+## DONE 2026-10-26 7da13f1 (directory 1: address-free MCP submit tool)
+MCP `submit_service_request` drops street/city/state/zip for `service_area_confirmed`;
+`openWorldHint` false; server 1.1.0 with MCP-specific instructions. Without an address the Jobber
+write skips the property (or makes one placeholder if `propertyId` is non-null), the title has no
+city, the note says the address was not collected, and duplicates key on a hash of the job text.
+85 functions tests. Run 40351102414. Live: new schema, annotations and version; validate-only
+address-free call → `ready_to_submit`; REST still requires the address; OpenAPI and info
+byte-identical; health `intake_enabled` true; `/privacy/` changed in that paragraph only.
+
+## DONE 2026-10-26 (directory 2: ChatGPT plugin package + docs)
+`docs/ai-intake/plugin/` (Agent Plugins `plugin.json` + `mcp.json` + icon, with 5 positive and 3
+negative review cases) and `functions/_tests/plugin.test.ts` (93 functions tests). STATUS and
+README record the live tests (`EYS-AI-YVHV8`, `EYS-AI-8WRZ4`), the October 2026 ChatGPT custom
+MCP server flow and the directory plan. Commit "ai-intake: ChatGPT plugin package + docs".

@@ -19,7 +19,7 @@
     "screenshot": "node scripts/screenshot.mjs",
     "seo:crawl": "node scripts/seo-crawl.mjs",
     "audit:capture": "node scripts/screenshot.mjs && node scripts/seo-crawl.mjs",
-    "test:functions": "node --experimental-strip-types --no-warnings functions/_tests/validate.test.ts && node --experimental-strip-types --no-warnings functions/_tests/intake.test.ts && node --experimental-strip-types --no-warnings functions/_tests/jobber.test.ts && node --experimental-strip-types --no-warnings functions/_tests/drift.test.ts && node --experimental-strip-types --no-warnings functions/_tests/routes.test.ts && node --experimental-strip-types --no-warnings functions/_tests/mcp.test.ts && node --experimental-strip-types --no-warnings functions/_tests/webmcp.test.ts"
+    "test:functions": "node --experimental-strip-types --no-warnings functions/_tests/validate.test.ts && node --experimental-strip-types --no-warnings functions/_tests/intake.test.ts && node --experimental-strip-types --no-warnings functions/_tests/jobber.test.ts && node --experimental-strip-types --no-warnings functions/_tests/drift.test.ts && node --experimental-strip-types --no-warnings functions/_tests/routes.test.ts && node --experimental-strip-types --no-warnings functions/_tests/mcp.test.ts && node --experimental-strip-types --no-warnings functions/_tests/webmcp.test.ts && node --experimental-strip-types --no-warnings functions/_tests/plugin.test.ts"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
