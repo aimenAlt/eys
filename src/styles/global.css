@@ -908,6 +908,53 @@ html[data-theme] { scroll-padding-top: 64px; }
 @media (min-width: 64rem) {
   .eys-page-hero .eys-stripe { margin-top: 64px; }
 }
+/* Immersive hero (hub pages): the photo fills the hero behind the copy. Phone:
+   the photo shows in the upper part and the copy sits on a deep navy fade
+   below it. Desktop: the shade is deep behind the copy on the left and clears
+   toward the right so the photo carries the right half; soft fades top and
+   bottom. The photo settles in once from a slight zoom (off for reduced motion). */
+.eys-page-hero.eys-immersive::before { content: none; }
+.eys-immersive-media { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+.eys-immersive-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--pos, 50% 50%);
+  animation: eys-settle 1.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes eys-settle { from { transform: scale(1.07); } to { transform: none; } }
+.eys-immersive::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--eys-ground) 55%, transparent) 0%,
+    color-mix(in srgb, var(--eys-ground) 10%, transparent) 14%,
+    color-mix(in srgb, var(--eys-ground) 40%, transparent) 34%,
+    color-mix(in srgb, var(--eys-ground) 88%, transparent) 52%,
+    var(--eys-ground) 72%);
+}
+.eys-immersive-copy { padding-top: 230px; }
+@media (min-width: 64rem) {
+  .eys-immersive { min-height: 620px; display: flex; flex-direction: column; justify-content: flex-end; }
+  .eys-immersive::after {
+    background:
+      linear-gradient(90deg,
+        var(--eys-ground) 0%,
+        color-mix(in srgb, var(--eys-ground) 88%, transparent) 26%,
+        color-mix(in srgb, var(--eys-ground) 40%, transparent) 48%,
+        transparent 70%),
+      linear-gradient(180deg, color-mix(in srgb, var(--eys-ground) 45%, transparent) 0%, transparent 16%, transparent 82%, color-mix(in srgb, var(--eys-ground) 85%, transparent) 100%);
+  }
+  .eys-immersive-copy { width: 100%; padding-top: 120px; padding-bottom: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eys-immersive-media img { animation: none; }
+}
+
 /* Buttons inside legacy heroes, mapped onto the system's red / outline-light pair. */
 .eys-hero-btn {
   display: inline-flex;

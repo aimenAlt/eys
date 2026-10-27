@@ -51,11 +51,13 @@ import PageHero from '../../components/common/PageHero.astro';
       title="Service Areas"
       description={`Elevate Your Space Handyman serves homeowners throughout ${areaServedDisplay()}.`}
       ctas={{ formLocation: 'service_areas_hero_form', callLocation: 'service_areas_hero_call' }}
+      layout="immersive"
       image={{
-        src: '/images/heroes/katy.jpg',
-        alt: 'Katy, Texas welcome sign landmark',
-        width: 1600,
-        height: 1057,
+        src: '/images/cities/katy-silos.jpg',
+        alt: 'Grain silos and a metal barn beside the railroad tracks in Katy, Texas',
+        width: 6000,
+        height: 4000,
+        position: '60% 45%',
       }}
     />
   <ServiceTrustStrip />

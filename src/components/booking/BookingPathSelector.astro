@@ -44,10 +44,20 @@ import ServiceTrustStrip from '../seo/ServiceTrustStrip.astro';
 import SiteImage from '../ui/SiteImage.astro';
 ---
 
-<header class="eys-page-hero eys-on-dark">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 md:pt-20">
-    <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16">
-    <div class="max-w-3xl">
+<header class="eys-page-hero eys-on-dark eys-immersive">
+  <div class="eys-immersive-media" style="--pos:50% 40%">
+    <SiteImage
+      src="/images/projects/marble-wood-slat-feature-wall/eys-custom-project-living-room-marble-wood-slat-wall-after-p002-01.jpg"
+      alt="Tall living-room feature wall with marble-look tile flanked by dark vertical wood slats."
+      width={3000}
+      height={4000}
+      loading="eager"
+      fetchpriority="high"
+      sizes="100vw"
+    />
+  </div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 eys-immersive-copy">
+    <div class="max-w-[640px]">
       <h1 id="booking-options" class="eys-h1 mb-5">
         Book or Request Service
       </h1>
@@ -56,21 +66,6 @@ import SiteImage from '../ui/SiteImage.astro';
         for a project estimate on repairs, installations and larger jobs from {site.name} in{' '}
         {localityShort('and')}.
       </p>
-    </div>
-    <div class="eys-page-hero-media w-full lg:mx-auto lg:max-w-[440px]">
-      <div class="eys-page-hero-frame aspect-[4/5]">
-        <SiteImage
-          src="/images/projects/tv-niche-wall-linear-fireplace/eys-media-wall-lit-niche-tv-linear-fireplace-after-p039-01.jpg"
-          alt="Floor-to-ceiling media wall with backlit display niches, a mounted TV, and a linear electric fireplace below"
-          width={1200}
-          height={1600}
-          loading="eager"
-          fetchpriority="high"
-          sizes="(max-width: 1024px) 100vw, 440px"
-          class="h-full w-full object-cover object-[50%_45%]"
-        />
-      </div>
-    </div>
     </div>
   </div>
   <div class="eys-stripe" aria-hidden="true"><span></span><span></span><span></span><span></span></div>

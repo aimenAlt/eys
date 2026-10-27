@@ -14,16 +14,37 @@ interface Props {
   ctas?: { formLocation: string; callLocation: string };
   /** Optional photo: the hero becomes copy | framed photo, like ServiceHero. */
   image?: { src: string; alt: string; width: number; height: number; position?: string; aspect?: 'square' | 'landscape' | 'portrait'; zoom?: number };
+  /**
+   * 'framed' (default): copy | framed photo. 'immersive': the photo fills the
+   * hero behind the copy under a navy shade (hub pages).
+   */
+  layout?: 'framed' | 'immersive';
 }
 
-const { eyebrow, title, description, ctas, image } = Astro.props;
+const { eyebrow, title, description, ctas, image, layout = 'framed' } = Astro.props;
+const immersive = layout === 'immersive' && image;
 const estimateUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
 ---
 
-<section class="eys-page-hero eys-on-dark">
-  <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, 'pt-12 md:pt-20']}>
-    <div class:list={[image && 'grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16']}>
-    <div>
+<section class:list={['eys-page-hero eys-on-dark', immersive && 'eys-immersive']}>
+  {
+    immersive && image && (
+      <div class="eys-immersive-media" style={`--pos:${image.position ?? '50% 50%'}`}>
+        <SiteImage
+          src={image.src}
+          alt={image.alt}
+          width={image.width}
+          height={image.height}
+          loading="eager"
+          fetchpriority="high"
+          sizes="100vw"
+        />
+      </div>
+    )
+  }
+  <div class:list={['mx-auto', contentMaxClass, contentPaddingClass, immersive ? 'eys-immersive-copy' : 'pt-12 md:pt-20']}>
+    <div class:list={[image && !immersive && 'grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16']}>
+    <div class:list={[immersive && 'max-w-[640px]']}>
     {
       eyebrow && (
         <p class="eys-eyebrow eys-kicker mb-4 text-eys-on-dark-2">
@@ -57,7 +78,7 @@ const estimateUrl = jobberProjectEstimateFormUrl() ?? '/contact/';
     }
     </div>
     {
-      image && (
+      image && !immersive && (
         <div class:list={['eys-page-hero-media', image.aspect === 'portrait' && 'w-full lg:mx-auto lg:max-w-[440px]']}>
           <div class:list={['eys-page-hero-frame', image.aspect === 'square' ? 'aspect-square' : image.aspect === 'portrait' ? 'aspect-[4/5]' : 'aspect-[4/3]']} style={`--pos:${image.position ?? '50% 50%'};--zoom:${image.zoom ?? 1}`}>
             <SiteImage
