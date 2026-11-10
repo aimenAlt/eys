@@ -4,7 +4,8 @@ import { withJobberFormId } from '../utils/utm';
 /**
  * Unlisted handoff links Essa texts to a client after a phone call.
  *
- * ONE array drives three things: the `/go/<slug>/` client pages, the private
+ * ONE array drives four things: the `/go/<slug>/` client pages, the `/go/`
+ * service chooser (which only references entries here, by slug), the private
  * `/essa/` share page, and the exact text message he sends. Adding a form later
  * is a single entry here — do not hand-write a Jobber URL, a page path or a
  * message anywhere else.
@@ -358,6 +359,187 @@ export function goJobberUrl(entry: GoLink): string {
   return withJobberFormId(jobberRequestFormUrl(entry.formId), `go-${entry.slug}`);
 }
 
+/* ---------------------------------------------------------------------- */
+/* `/go/` — the service chooser                                           */
+/* ---------------------------------------------------------------------- */
+
+/**
+ * The one link that goes out when nobody knows the job yet: Quo's missed-call
+ * auto-replies, and Hamid or Essa texting someone who has not said what they
+ * need. Two taps at most, no free text, no AI — and every path ends on one of
+ * the `goLinks` forms above, so the chooser never has a destination of its own.
+ *
+ * Options reference `goLinks` by slug ONLY. `resolveGoChooser` fails the build
+ * on a slug that does not exist, so renaming or retiring a form above cannot
+ * leave the chooser pointing at nothing.
+ */
+export type GoChooserStepId = 'start' | 'fix' | 'project';
+
+export type GoChooserOption =
+  /** Swaps in another step, in place. */
+  | { label: string; step: Exclude<GoChooserStepId, 'start'> }
+  /** Goes straight to that `goLinks` entry's Jobber form. */
+  | { label: string; slug: string };
+
+export interface GoChooserStep {
+  id: GoChooserStepId;
+  heading: string;
+  options: GoChooserOption[];
+}
+
+export const GO_CHOOSER_PATH = '/go/';
+
+/** `start` is what the page opens on; the other steps are reached from it. */
+export const goChooserSteps: GoChooserStep[] = [
+  {
+    id: 'start',
+    heading: 'What can we help with?',
+    options: [
+      { label: 'Fix, install or mount something', step: 'fix' },
+      { label: 'A list of small jobs', slug: 'todo' },
+      { label: 'A bigger project', step: 'project' },
+      { label: 'A business or rental property', slug: 'commercial' },
+    ],
+  },
+  {
+    id: 'fix',
+    heading: 'What are we fixing or installing?',
+    options: [
+      { label: 'TV mounting', slug: 'tv' },
+      { label: 'Curtains, standard height', slug: 'curtains' },
+      { label: 'Curtains, high or two-story ceilings', slug: 'high-ceiling-curtains' },
+      { label: 'Something else', slug: 'repair' },
+    ],
+  },
+  {
+    id: 'project',
+    heading: 'What kind of project?',
+    options: [
+      { label: 'Media wall or feature wall', slug: 'media-wall' },
+      { label: 'Kitchen', slug: 'kitchen' },
+      { label: 'Bathroom', slug: 'bathroom' },
+      {
+        label: 'Something else: built-ins, accent walls, flooring and more',
+        slug: 'home-project',
+      },
+    ],
+  },
+];
+
+/**
+ * Forms the chooser must never reach — see the note at the top of this file.
+ * None of them is in `goLinks` today; this turns that convention into a build
+ * failure, because a wrong id here would go out in every missed-call text.
+ */
+const GO_CHOOSER_FORBIDDEN_FORM_IDS = new Set([
+  '5201775', // reserved for /start/
+  '4985623', // the sitewide project-estimate form
+  '4372609', // retired
+  '4975089', // retired
+  '2019189', // retired
+  '5025076', // retired on-site estimate
+]);
+
+export type GoChooserResolvedOption =
+  | { kind: 'step'; label: string; step: GoChooserStepId; ctaLocation: string }
+  | {
+      kind: 'form';
+      label: string;
+      entry: GoLink;
+      href: string;
+      ctaLocation: string;
+      bookingType: string;
+    };
+
+export interface GoChooserResolvedStep {
+  id: GoChooserStepId;
+  heading: string;
+  options: GoChooserResolvedOption[];
+}
+
+/**
+ * Outbound Jobber href for a chooser option: the same URL `goJobberUrl` builds
+ * for that entry, labelled `eys_form=go-chooser-<slug>` so a chooser lead can
+ * be told apart from one Essa texted directly.
+ */
+export function goChooserJobberUrl(entry: GoLink): string {
+  return withJobberFormId(jobberRequestFormUrl(entry.formId), `go-chooser-${entry.slug}`);
+}
+
+/** Every step with its options resolved against `goLinks`. Throws — failing the build — on a bad reference. */
+export function resolveGoChooser(): GoChooserResolvedStep[] {
+  const stepIds = new Set(goChooserSteps.map((step) => step.id));
+  if (!stepIds.has('start')) throw new Error('go/ chooser: there is no "start" step.');
+
+  return goChooserSteps.map((step) => ({
+    id: step.id,
+    heading: step.heading,
+    options: step.options.map((option): GoChooserResolvedOption => {
+      if ('step' in option) {
+        if (!stepIds.has(option.step)) {
+          throw new Error(
+            `go/ chooser: "${option.label}" opens step "${option.step}", which is not in goChooserSteps.`,
+          );
+        }
+        return {
+          kind: 'step',
+          label: option.label,
+          step: option.step,
+          ctaLocation: goCtaLocation(`chooser-${option.step}`),
+        };
+      }
+      const entry = goLinks.find((candidate) => candidate.slug === option.slug);
+      if (!entry) {
+        throw new Error(
+          `go/ chooser: "${option.label}" points at goLinks slug "${option.slug}", which does not exist in src/data/goLinks.ts.`,
+        );
+      }
+      if (GO_CHOOSER_FORBIDDEN_FORM_IDS.has(entry.formId)) {
+        throw new Error(
+          `go/ chooser: "${option.label}" resolves to Jobber form ${entry.formId}, which the chooser must never use.`,
+        );
+      }
+      return {
+        kind: 'form',
+        label: option.label,
+        entry,
+        href: goChooserJobberUrl(entry),
+        ctaLocation: goCtaLocation(`chooser-${entry.slug}`),
+        bookingType: entry.bookingType,
+      };
+    }),
+  }));
+}
+
+/** The chooser link that goes in a text — absolute, no query parameters. */
+export function goChooserShareUrl(): string {
+  return absoluteUrl(GO_CHOOSER_PATH);
+}
+
+/**
+ * The `/essa/` row for the chooser, pinned first under "Phone leads": for when
+ * he does not know the job yet either. It texts exactly like a `GoLink` (tone
+ * opener, body, detail nudge, link, sign-off) through `goMessageText`; only
+ * the link differs.
+ */
+export interface GoChooserShare {
+  label: string;
+  body: string;
+}
+
+export const goChooserShare: GoChooserShare = {
+  label: 'Let them pick (all services)',
+  body:
+    "Here's the link to send me your project details and a few photos — once it's in, I'll get your estimate started.",
+};
+
+/** Anything `/essa/` can text: one form's page, or the chooser. */
+export type GoShareable = GoLink | GoChooserShare;
+
+function goShareableUrl(entry: GoShareable): string {
+  return 'slug' in entry ? goShareUrl(entry.slug) : goChooserShareUrl();
+}
+
 /** GA4 `cta_location` — underscores, so `high-ceiling-curtains` reads `go_high_ceiling_curtains`. */
 export function goCtaLocation(slug: string, suffix?: string): string {
   const base = `go_${slug.replace(/-/g, '_')}`;
@@ -379,18 +561,20 @@ export function goRowLabel(entry: GoLink): string {
  * Shape is fixed and owner-approved: message, blank line, bare link, blank
  * line, sign-off. No query parameters on the link.
  */
-export function goMessageText(entry: GoLink, toneId: GoToneId = GO_DEFAULT_TONE): string {
+export function goMessageText(entry: GoShareable, toneId: GoToneId = GO_DEFAULT_TONE): string {
   const tone = goTone(toneId);
+  const url = goShareableUrl(entry);
   // Bare URL: he is already in the conversation and is just handing over the
   // link, so there is nothing to wrap it in.
-  if (tone.linkOnly) return goShareUrl(entry.slug);
-  const nudge = tone.nudge && !entry.booking ? ` ${tone.nudge}` : '';
+  if (tone.linkOnly) return url;
+  const booking = 'booking' in entry && entry.booking;
+  const nudge = tone.nudge && !booking ? ` ${tone.nudge}` : '';
   const message = `${tone.opener} ${entry.body}${nudge}`;
-  return `${message}\n\n${goShareUrl(entry.slug)}\n\n${GO_SIGN_OFF}`;
+  return `${message}\n\n${url}\n\n${GO_SIGN_OFF}`;
 }
 
 /** Every tone's text for one link, keyed by tone id — what `/essa/` renders. */
-export function goMessagesByTone(entry: GoLink): Record<GoToneId, string> {
+export function goMessagesByTone(entry: GoShareable): Record<GoToneId, string> {
   return Object.fromEntries(
     goTones.map((tone) => [tone.id, goMessageText(entry, tone.id)]),
   ) as Record<GoToneId, string>;

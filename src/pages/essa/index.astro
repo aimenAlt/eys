@@ -4,6 +4,7 @@ import SEOHead from '../../components/seo/SEOHead.astro';
 import { absoluteUrl } from '../../data/business';
 import {
   GO_DEFAULT_TONE,
+  goChooserShare,
   goLinksByGroup,
   goMessagesByTone,
   goRowLabel,
@@ -38,7 +39,12 @@ const rows = (group: 'phone-leads' | 'searchable') =>
     search: `${entry.label} ${entry.keywords}`.toLowerCase(),
   }));
 
-const pinned = rows('phone-leads');
+// The /go/ chooser leads the phone leads: for when he does not know the job
+// yet either. Same tones, same message shape, only the link differs.
+const pinned = [
+  { label: goChooserShare.label, texts: goMessagesByTone(goChooserShare), search: '' },
+  ...rows('phone-leads'),
+];
 const searchable = rows('searchable');
 
 const seo = {
@@ -204,8 +210,9 @@ const toneIdleClass = 'border-brand-line bg-white text-brand-charcoal';
       </section>
 
       <!--
-        Install prompt. Sits at the BOTTOM on purpose: the eleven rows are
-        sized to fit one 390x844 screen with ~95px to spare, and a banner above
+        Install prompt. Sits at the BOTTOM on purpose: the eleven rows (the
+        /go/ chooser included) fit one 390x844 screen with ~25px to spare
+        (measured 10 Nov 2026), and a banner above
         them would push the last link off. Hidden until Chrome actually offers
         `beforeinstallprompt`, so it never appears once the app is installed.
       -->

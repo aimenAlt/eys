@@ -149,6 +149,7 @@ width or `WxH` suffix, `@2x` and Astro content hash removed — e.g.
 | `start_general_contracting_*` | `/start/` remodeling / kitchen / bathroom links |
 | `start_services_strip_all`, `start_reviews_page`, `start_footer_nav` | `/start/` secondary navigation |
 | `van_choose_project` | `/van/` — the red "Choose My Project" button, in both the hero (`van_hero`) and the sticky bar (`van_sticky`) |
+| `go_chooser_step` | `/go/` service chooser — the two step-1 options that open a second step, told apart by `cta_location` (`go_chooser_fix`, `go_chooser_project`). The chooser's form options fire `jobber_booking_click` with `cta_location` `go_chooser_<slug>` and the entry's `booking_type`; its review and call links use `go_chooser_review`, `go_chooser_review_count` and `go_chooser_call` |
 | `nav_book` | Primary nav "Book" link — desktop header, mobile menu — [`src/data/navigation.ts`](../src/data/navigation.ts) |
 | `nav_contact` | Primary nav "Contact" link — desktop header, mobile menu, and the footer "Quick Links" Contact link — same source |
 
