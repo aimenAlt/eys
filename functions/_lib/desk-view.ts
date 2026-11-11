@@ -54,7 +54,7 @@ export function shortClientName(client: RawClientName | null | undefined): strin
 }
 
 export function fullClientName(client: RawClientName | null | undefined): string {
-  const full = [client?.firstName, client?.lastName].map((n) => (n ?? '').trim()).filter(Boolean).join(' ');
+  const full = [client?.firstName, client?.lastName].map((n) => displayFirstName(n)).filter(Boolean).join(' ');
   return full || (client?.name ?? client?.companyName ?? 'Unknown client');
 }
 

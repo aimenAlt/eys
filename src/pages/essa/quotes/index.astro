@@ -507,7 +507,7 @@ const seo = {
             header(c.name, true) +
             '<div class="mt-2 ' + card + ' p-3">' +
             '<p class="text-[1rem] font-bold text-brand-black">' + esc(q.title) + (q.number ? ' <span class="font-semibold text-brand-muted">#' + esc(q.number) + '</span>' : '') + '</p>' +
-            '<p class="text-[0.875rem] text-brand-muted">' + esc([c.city, (q.status || '').replace(/_/g, ' ')].filter(Boolean).join(' · ')) + '</p>' +
+            '<p class="text-[0.875rem] text-brand-muted">' + esc([c.city, ((data.desk && data.desk.jobber_status) || q.status || '').replace(/_/g, ' ')].filter(Boolean).join(' · ')) + '</p>' +
             (c.phone
               ? '<a href="tel:' + esc(c.phone) + '" class="mt-2 inline-flex h-10 items-center rounded-lg border border-brand-line px-3 text-[0.9375rem] font-bold text-brand-black">Call ' + esc(c.phoneDisplay) + '</a>'
               : '<p class="mt-2 text-[0.875rem] font-semibold text-brand-red">No US phone number on file</p>') +
@@ -676,6 +676,10 @@ const seo = {
           }
           if (action === 'hide') {
             location.hash = '#/';
+            return;
+          }
+          if (action === 'unhide') {
+            renderQuote(state.quote.quote.id);
             return;
           }
           if (done.desk) state.quote.desk = done.desk;

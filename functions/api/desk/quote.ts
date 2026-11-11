@@ -1,6 +1,8 @@
 import type { Env, PagesFunction } from '../../_lib/types.ts';
 import { deskAuth, quoteSendEnabled } from '../../_lib/desk-http.ts';
-import { deskQuote, findQLinkByQuote } from '../../_lib/desk-db.ts';
+import { findQLinkByQuote } from '../../_lib/desk-db.ts';
+import { availableActions, ensureDeskRow, reserveCode } from '../../_lib/desk-flow.ts';
+import { quoteTextMessage } from '../../_lib/quote-text.ts';
 import { deskJobberDeps, fetchClientHistory, fetchQuote, fetchRequest, quotesAccess, statusBranch } from '../../_lib/desk-jobber.ts';
 import { buildQuoteView } from '../../_lib/desk-view.ts';
 import { json, methodNotAllowed } from '../../_lib/http.ts';
@@ -30,7 +32,24 @@ export const onRequest: PagesFunction<Env> = async (context) => {
       clientId ? fetchClientHistory(j, clientId).catch(() => ({})) : Promise.resolve({}),
     ]);
     const branch = await statusBranch(j, schema);
-    const row = await deskQuote(db, id);
+    const view = buildQuoteView(quote, req, history);
+    let row = await ensureDeskRow(db, id, { clientId, number: view.number, first: view.client.first, title: view.title, status: view.status }, auth.now);
+    const actions = availableActions(row, view.status, branch, auth.now);
+    // The exact text for the confirm sheet, with the link it will carry.
+    let preview: { text: string; last4: string | null; problem: string | null } | null = null;
+    if (actions.approve) {
+      const code = await reserveCode(db, id, auth.now);
+      row = (await ensureDeskRow(db, id, {}, auth.now));
+      preview = {
+        text: quoteTextMessage(view.client.first, view.title, code),
+        last4: view.client.phone ? view.client.phone.slice(-4) : null,
+        problem: !view.client.phone
+          ? 'No US phone number on file'
+          : view.client.smsStopped
+            ? 'This customer stopped texts in Jobber'
+            : null,
+      };
+    }
     const changes = (
       await db
         .prepare('SELECT actor, note, at, jobber_note FROM desk_changes WHERE quote_id = ?1 ORDER BY at DESC LIMIT 20')
@@ -40,8 +59,10 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     const link = await findQLinkByQuote(db, id);
     return json({
       access,
-      quote: buildQuoteView(quote, req, history),
+      quote: view,
       desk: row,
+      actions,
+      preview,
       changes,
       introOpened: link?.opened_at ?? null,
       branch: { kind: branch.kind, label: branch.label },

@@ -1,6 +1,7 @@
 import type { Env, PagesFunction } from '../../_lib/types.ts';
 import { deskAuth, quoteSendEnabled } from '../../_lib/desk-http.ts';
 import { deskQuotes, findQLinkByQuote } from '../../_lib/desk-db.ts';
+import { flowDeps, refreshSent } from '../../_lib/desk-flow.ts';
 import { deskJobberDeps, listDraftQuotes, quotesAccess, statusBranch } from '../../_lib/desk-jobber.ts';
 import { buildList, sentItem, type DeskList, type SentItem } from '../../_lib/desk-view.ts';
 import { json, methodNotAllowed } from '../../_lib/http.ts';
@@ -20,7 +21,17 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   const db = env.EYS_AI_DB;
   if (!j || !db) return json({ error: 'not_configured' }, 503);
 
-  const rows = await deskQuotes(db);
+  let rows = await deskQuotes(db);
+  // Statuses for "Sent, waiting", and one more chance for any text still due.
+  const deps = flowDeps(env);
+  if (deps && rows.some((r) => r.state === 'approved')) {
+    try {
+      await refreshSent(deps, rows);
+      rows = await deskQuotes(db);
+    } catch {
+      // Jobber unavailable: show what D1 knows.
+    }
+  }
   const sent: SentItem[] = [];
   for (const row of rows.filter((r) => r.state === 'approved').sort((a, b) => (a.approved_at ?? 0) - (b.approved_at ?? 0))) {
     sent.push(sentItem(row, await findQLinkByQuote(db, row.quote_id)));

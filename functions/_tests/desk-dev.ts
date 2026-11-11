@@ -2,7 +2,7 @@
  * Local Quote Desk with fake Jobber and fake Quo, for UI work only.
  *
  *   npm run build   # once, for dist/
- *   node --experimental-strip-types --no-warnings functions/_tests/desk-dev.ts
+ *   node --experimental-strip-types --no-warnings functions/_tests/desk-dev.ts   (SEND=off to see "Texting is off")
  *   open http://localhost:8790/essa/quotes/   (PIN 4826 = Essa, 7391 = Aimen)
  *
  * Serves dist/ and runs the real desk and /q/ Functions against an in-memory
@@ -18,7 +18,7 @@ import { deskHarness } from './desk-helpers.ts';
 const PORT = Number(process.env.PORT ?? 8790);
 const DIST = new URL('../../dist/', import.meta.url).pathname;
 
-const h = await deskHarness({ QUOTE_SEND_ENABLED: process.env.SEND === 'on' ? 'true' : 'false', QUO_API_KEY: 'fake-quo-key' });
+const h = await deskHarness({ QUOTE_SEND_ENABLED: process.env.SEND === 'off' ? 'false' : 'true', QUO_API_KEY: 'fake-quo-key' });
 const day = 86_400_000;
 const ago = (days: number) => new Date(Date.now() - days * day).toISOString();
 const photo = (name: string) => ({ url: `/images/${name}`, thumbnailUrl: `/images/${name}`, fileName: name.split('/').pop(), contentType: 'image/jpeg' });
