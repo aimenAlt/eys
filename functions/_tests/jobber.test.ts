@@ -53,6 +53,11 @@ await check('expired access token refreshes and persists the rotated refresh tok
 
 await check('concurrent refresh: one isolate redeems, the other waits and re-reads', async () => {
   const { h } = await withTokens(-MINUTE);
+  // Backoff takes real time, as in production. With a zero-length sleep the
+  // losers could spend all their attempts while the winner's token
+  // encryption (crypto.subtle, off the main thread) was still running, and
+  // the test failed on a busy machine.
+  h.onSleep = () => new Promise((resolve) => setTimeout(resolve, 25));
   const [a, b, c] = await Promise.all([
     getAccessToken(h.jobberDeps()),
     getAccessToken(h.jobberDeps()),

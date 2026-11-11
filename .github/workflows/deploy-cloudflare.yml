@@ -48,6 +48,13 @@ jobs:
 
       - run: npm ci
 
+      # A red test stops the deploy: build, preview and production all wait on
+      # this job. Added 2026-11-11 after the functions drift tests had sat red
+      # on main for two weeks unnoticed (Brookshire missing from the AI-intake
+      # area list). About 20 seconds.
+      - name: Tests
+        run: npm test
+
       - name: Build
         env:
           # Preview builds stay out of Google; production build is indexable.
