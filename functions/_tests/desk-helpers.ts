@@ -57,7 +57,7 @@ export class FakeDeskJobber {
   requests = new Map<string, Record<string, unknown>>();
   operations: string[] = [];
   mutationCalls: { name: string; variables: Record<string, unknown> }[] = [];
-  notesAdded: { quoteId: string; message: string }[] = [];
+  notesAdded: { quoteId: string; message: string; pinned: boolean }[] = [];
   /** When true, quotesMarkAwaitingResponse succeeds but the status only flips on the next poll. */
   delayStatusFlip = false;
   pendingFlips: string[] = [];
@@ -173,7 +173,8 @@ export class FakeDeskJobber {
       }
       case 'EysDeskAddNote': {
         this.mutationCalls.push({ name: 'quoteCreateNote', variables: v });
-        this.notesAdded.push({ quoteId: String(v.id), message: String((v.input as { message?: string })?.message ?? '') });
+        const input = (v.input ?? {}) as { message?: string; pinned?: boolean };
+        this.notesAdded.push({ quoteId: String(v.id), message: String(input.message ?? ''), pinned: input.pinned === true });
         return Response.json({ data: { quoteCreateNote: { userErrors: [] } } });
       }
       default:

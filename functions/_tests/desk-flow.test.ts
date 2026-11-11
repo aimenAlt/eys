@@ -332,3 +332,48 @@ await check('actions need a same-origin JSON post from a signed-in phone', async
   assert.equal(anon.status, 401);
   assert.equal((await post(h, cookie, { id: 'q-1', action: 'delete' })).status, 400);
 });
+
+await check("Mark Awaiting Response, don't text: status moved, pinned 'not sent yet' note, no text ever on its own", async () => {
+  const { h, quo, cookie, route } = await setup();
+  h.jobber.addQuote({ id: 'q-12', title: 'Drywall patch' });
+  await withFetch(route, async () => {
+    const view = await (await h.call(quoteRoute, '/api/desk/quote?id=q-12', { cookie })).json();
+    assert.equal(view.actions.mark, true);
+    const body = await (await post(h, cookie, { id: 'q-12', action: 'mark' })).json();
+    assert.equal(body.desk.state, 'marked');
+    assert.equal(body.desk.approved_by, null, 'no desk approval');
+    assert.equal(body.desk.move_state, 'done');
+    assert.equal(h.jobber.quotes.get('q-12')!.quoteStatus, 'awaiting_response');
+    assert.equal(h.jobber.notesAdded.length, 1);
+    assert.match(h.jobber.notesAdded[0].message, /^Quote not sent yet\. Set to Awaiting Response from the Quote Desk \(Essa, .+\)\. The customer has not been texted or emailed\.$/);
+    assert.equal(h.jobber.notesAdded[0].pinned, true);
+    // Webhooks and polls never text a marked quote.
+    await deliver(h, 'QUOTE_UPDATE', 'q-12', '2026-11-11T19:00:00Z');
+    await post(h, cookie, { id: 'q-12', action: 'poll' });
+    assert.equal(quo.posts.length, 0);
+    // It shows on the desk, and "Send to Jennifer now" texts it once, with a follow-up note.
+    const later = await (await h.call(quoteRoute, '/api/desk/quote?id=q-12', { cookie })).json();
+    assert.equal(later.actions.approve, true);
+    assert.equal(later.actions.mark, false);
+    assert.ok(later.preview.text.includes('Your quote for the drywall patch is ready'));
+    const sent = await (await post(h, cookie, { id: 'q-12', action: 'approve' })).json();
+    assert.equal(sent.desk.text_state, 'sent');
+  });
+  assert.equal(quo.posts.length, 1);
+  assert.deepEqual(h.jobber.notesAdded.map((n) => n.message.split('.')[0]), ['Quote not sent yet', 'Quote texted to the customer from the Quote Desk (' + h.jobber.notesAdded[1].message.split('(')[1].split('.')[0]]);
+  assert.equal(h.jobber.mutationCalls.filter((c) => c.name === 'quotesMarkAwaitingResponse').length, 1, 'moved once');
+});
+
+await check("texting off: the approved quote gets one pinned 'not sent yet' note with the reason", async () => {
+  const { h, quo, cookie, route } = await setup({ QUOTE_SEND_ENABLED: undefined });
+  h.jobber.addQuote({ id: 'q-13' });
+  await withFetch(route, async () => {
+    await post(h, cookie, { id: 'q-13', action: 'approve' });
+    await post(h, cookie, { id: 'q-13', action: 'poll' });
+    await deliver(h, 'QUOTE_UPDATE', 'q-13', '2026-11-11T19:05:00Z');
+  });
+  assert.equal(quo.posts.length, 0);
+  assert.equal(h.jobber.notesAdded.length, 1, 'once, however many checks follow');
+  assert.ok(h.jobber.notesAdded[0].message.endsWith('has not been texted or emailed (Texting is off).'));
+  assert.equal(h.jobber.notesAdded[0].pinned, true);
+});

@@ -138,7 +138,7 @@ const seo = {
             '<h1 class="text-[1.35rem] font-bold text-brand-black">Quote Desk</h1>' +
             '<p class="mt-1 text-sm text-brand-muted">Enter your PIN</p>' +
             '<form class="mx-auto mt-5 max-w-[15rem]" data-login>' +
-            '<input type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="current-password" maxlength="12" ' +
+            '<input type="password" inputmode="numeric" autocomplete="current-password" maxlength="12" ' +
             'class="h-14 w-full rounded-lg border border-brand-line bg-white text-center text-2xl tracking-[0.4em] text-brand-black focus:border-brand-red focus:outline-none" ' +
             'aria-label="PIN" data-pin required />' +
             '<button type="submit" class="mt-3 ' + primaryBtn + '">Sign in</button>' +
@@ -270,6 +270,7 @@ const seo = {
               (list.drafts.length
                 ? '<div class="space-y-1.5">' + list.drafts.map(function (q) { return quoteRow(q); }).join('') + '</div>'
                 : '<p class="rounded-xl border border-dashed border-brand-line px-3 py-5 text-center text-sm text-brand-muted">Nothing to review.</p>') +
+              fold('Marked, not texted', list.marked, function (q) { return quoteRow(q, 'not texted'); }) +
               fold('Older drafts', list.older, function (q) { return quoteRow(q); }) +
               fold('Hidden', list.hidden, function (q) { return quoteRow(q, 'hidden'); });
           }
@@ -423,6 +424,21 @@ const seo = {
         /** Where this quote stands on the desk: approved, moved, texted. */
         function progressBlock(data) {
           var d = data.desk;
+          if (d && d.state === 'marked') {
+            var markedMoved = d.jobber_status === 'awaiting_response' || Boolean(d.awaiting_seen_at);
+            var markedHtml =
+              '<div class="mt-3 flex flex-wrap gap-1">' +
+              check(true, 'Marked, not texted') +
+              check(markedMoved, markedMoved ? 'Awaiting Response' : 'Waiting for Awaiting Response') +
+              '</div>';
+            if (d.move_error) markedHtml += '<p class="mt-1.5 text-[0.8125rem] font-semibold text-brand-red">' + esc(d.move_error) + '</p>';
+            if (data.actions && data.actions.manualStep && !markedMoved) {
+              markedHtml +=
+                '<p class="mt-2 text-[0.875rem] font-bold text-brand-black">Last step: tap More, then Mark as Awaiting Response</p>' +
+                '<a href="' + esc(safeUrl(data.quote.jobberWebUri)) + '" target="_blank" rel="noopener noreferrer" class="mt-1.5 ' + secondaryBtn + '">Open in Jobber</a>';
+            }
+            return markedHtml;
+          }
           if (!d || d.state !== 'approved') return '';
           var moved = d.jobber_status === 'awaiting_response' || Boolean(d.awaiting_seen_at);
           var rows = [];
@@ -451,7 +467,14 @@ const seo = {
           var q = data.quote;
           var html = '';
           if (acts.approve) {
-            html += '<button type="button" class="' + primaryBtn + '" data-act="approve">Looks good, send to ' + esc(q.client.first || 'client') + '</button>';
+            var marked = data.desk && data.desk.state === 'marked';
+            html +=
+              '<button type="button" class="' + primaryBtn + '" data-act="approve">' +
+              (marked ? 'Send to ' + esc(q.client.first || 'client') + ' now' : 'Looks good, send to ' + esc(q.client.first || 'client')) +
+              '</button>';
+          }
+          if (acts.mark) {
+            html += '<button type="button" class="mt-2 ' + secondaryBtn + '" data-act="mark">Mark Awaiting Response, don&rsquo;t text</button>';
           }
           if (acts.change) {
             html +=
@@ -560,6 +583,20 @@ const seo = {
           sheet.hidden = false;
         }
 
+        function openMarkSheet() {
+          var data = state.quote;
+          var q = data.quote;
+          var manual = data.branch && data.branch.kind === 'manual';
+          sheetBody.innerHTML =
+            '<p class="text-[1.05rem] font-bold text-brand-black">Mark Awaiting Response, don&rsquo;t text</p>' +
+            '<p class="mt-2 text-[0.9375rem] text-brand-charcoal">' + esc(q.client.name) + ' gets no text and no email. Jobber gets a pinned note: Quote not sent yet.</p>' +
+            '<p class="mt-1 text-[0.875rem] text-brand-muted">You can still text it later with Send now.</p>' +
+            (manual ? '<p class="mt-2 text-[0.875rem] font-bold text-brand-black">Last step: tap More, then Mark as Awaiting Response</p>' : '') +
+            '<button type="button" class="mt-4 ' + primaryBtn + '" data-sheet-mark>Mark it</button>' +
+            '<button type="button" class="mt-2 ' + secondaryBtn + '" data-sheet-cancel>Cancel</button>';
+          sheet.hidden = false;
+        }
+
         async function act(action, extra) {
           var data = state.quote;
           var body = Object.assign({ id: data.quote.id, action: action }, extra || {});
@@ -648,11 +685,27 @@ const seo = {
             }
             return;
           }
+          if (event.target.closest('[data-sheet-mark]')) {
+            var markBtn = event.target.closest('[data-sheet-mark]');
+            markBtn.disabled = true;
+            markBtn.textContent = 'Marking…';
+            var manualMark = state.quote.branch && state.quote.branch.kind === 'manual';
+            var markTab = manualMark && safeUrl(state.quote.quote.jobberWebUri) ? window.open(safeUrl(state.quote.quote.jobberWebUri), '_blank', 'noopener') : null;
+            var marked = await act('mark');
+            closeSheet();
+            if (!marked && markTab) markTab.close();
+            if (marked) renderQuote(state.quote.quote.id);
+            return;
+          }
           var trigger = event.target.closest('[data-act]');
           if (!trigger || !state.quote) return;
           var action = trigger.getAttribute('data-act');
           if (action === 'approve') {
             openApproveSheet();
+            return;
+          }
+          if (action === 'mark') {
+            openMarkSheet();
             return;
           }
           if (action === 'change') {

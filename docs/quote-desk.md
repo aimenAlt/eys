@@ -55,8 +55,8 @@ active.
 - **Manual.** If no such mutation is visible, the confirm sheet says "Last step: tap More, then Mark as Awaiting Response" and opens the quote in Jobber web. The webhook or the poll notices the flip and sends the text.
 - **Never used:** `workObjectSendSms`, `workObjectSendEmail`, or anything named send, email or sms. Those message the client from Jobber.
 
-The only Jobber writes are this one status move and `quoteCreateNote` for
-"Needs a change". The desk never sends via Jobber, approves, schedules,
+The only Jobber writes are this one status move and `quoteCreateNote` (for
+"Needs a change" and the "Quote not sent yet" and "Quote texted" notes). The desk never sends via Jobber, approves, schedules,
 invoices or collects money.
 
 ## What happens on "Looks good"
@@ -81,6 +81,7 @@ Guarantees:
 - **Unknown outcomes are not retried blind.** When the network drops or Quo returns a 5xx, the state becomes `unknown`. "Retry text" first looks in the Quo conversation for a text carrying that quote's link, and marks it sent if it finds one.
 - **Failures are retried only by Essa.** When Quo refuses the text (opted out, bad number, rate limit), the state becomes `failed` and the desk shows the reason. Only "Retry text" tries again; polls and webhooks never do.
 - **Old approvals wait.** A text goes out on its own only within a day of the tap. An older approval waits for "Retry text", so turning `QUOTE_SEND_ENABLED` on never sends a burst of old quotes.
+- **"Quote not sent yet" in Jobber.** A pinned note goes on the quote, once, whenever the desk leaves it in Awaiting Response without a text: Mark only, texting off, no phone, or a refused text. The reason goes in brackets. If the text goes out later, a second note says "Quote texted to the customer from the Quote Desk (<time>)."
 - **Blocks before anything is claimed:**
   - texting off, or no `QUO_API_KEY`;
   - no US phone number;
@@ -111,6 +112,14 @@ Source: `functions/_lib/quote-text.ts`.
 
 ### Other buttons
 
+- **Mark Awaiting Response, don't text** moves the quote to Awaiting Response
+  the same no-message way, but records no desk approval, so nothing ever
+  texts this customer on its own. It also adds a **pinned** internal note on
+  the quote in Jobber: "Quote not sent yet. Set to Awaiting Response from the
+  Quote Desk (Essa, <time>). The customer has not been texted or emailed."
+  - The quote moves to the desk's "Marked, not texted" fold.
+  - **Send to {first} now** texts it later. That tap is a normal approval.
+
 - **Needs a change** saves the note to `desk_changes` and adds it to the quote's internal notes in Jobber (`quoteCreateNote`) as "Needs a change (Essa, <time>, Quote Desk): …". The quote's status is not touched.
 - **Not sending** hides the draft. It can be undone from the "Hidden" fold with **Bring back**.
 
@@ -132,7 +141,7 @@ All tables are created lazily (`CREATE TABLE IF NOT EXISTS`) in `functions/_lib/
 | Table | Holds |
 | --- | --- |
 | `q_links` | One row per texted quote: code, quote and client IDs, first name, title, Client Hub link, review, created, served/opened/clicked counts and first times. |
-| `desk_quotes` | One row per quote the desk has looked at or acted on: state (`open`, `approved` or `hidden`), who approved or hid it and when, the status move (branch, state, error), the last Jobber status, Client Hub view and approval times, and the text (`text_state`, claim, number, body, Quo message ID and status, error, sent time, `q_code`). |
+| `desk_quotes` | One row per quote the desk has looked at or acted on: state (`open`, `approved`, `marked` or `hidden`), who approved or hid it and when, the status move (branch, state, error), the last Jobber status, Client Hub view and approval times, and the text (`text_state`, claim, number, body, Quo message ID and status, error, sent time, `q_code`). |
 | `desk_events` | Who did what, when. |
 | `desk_changes` | "Needs a change" notes and whether Jobber took them. |
 | `webhook_deliveries` | Delivery IDs already handled (Jobber: a hash of the body; Quo: `webhook-id`). |

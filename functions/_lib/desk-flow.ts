@@ -136,17 +136,26 @@ export async function moveToAwaiting(j: DeskJobber, branch: StatusBranch, quoteI
 export type NoteOutcome = 'added' | 'failed' | 'unsupported';
 
 /** quoteCreateNote(quoteId, input: {message}) when the schema has it. */
-export async function addQuoteNote(j: DeskJobber, schema: DeskSchema, quoteId: string, message: string): Promise<NoteOutcome> {
+export async function addQuoteNote(
+  j: DeskJobber,
+  schema: DeskSchema,
+  quoteId: string,
+  message: string,
+  pinned = false,
+): Promise<NoteOutcome> {
   const field = schema.mutations.quoteCreateNote;
   const inputType = field?.args.input;
   const idType = field?.args.quoteId;
-  if (!field || !inputType || !idType || !schema.types[inputType.replace(/[!\[\]]/g, '')]?.fields.message) return 'unsupported';
+  const input = schema.types[(inputType ?? '').replace(/[!\[\]]/g, '')];
+  if (!field || !inputType || !idType || !input?.fields.message) return 'unsupported';
   try {
     const payload = schema.types[field.type];
+    const value: Record<string, unknown> = { message };
+    if (pinned && input.fields.pinned) value.pinned = true;
     const data = await graphql<{ quoteCreateNote?: { userErrors?: { message?: string }[] | null } | null }>(
       j.deps,
       `mutation EysDeskAddNote($id: ${idType}, $input: ${inputType}) { quoteCreateNote(quoteId: $id, input: $input) { ${payload?.fields.userErrors ? 'userErrors { message }' : '__typename'} } }`,
-      { id: quoteId, input: { message } },
+      { id: quoteId, input: value },
     );
     if (!data.quoteCreateNote || (data.quoteCreateNote.userErrors?.length ?? 0) > 0) return 'failed';
     return 'added';
@@ -191,6 +200,14 @@ export async function approveQuote(deps: FlowDeps, actor: string, quoteId: strin
   await logDeskEvent(deps.db, { actor, action: 'approve', quoteId, now });
 
   // b. Move the status without Jobber messaging the client.
+  await moveStatus(deps, schema, quoteId, jobberStatus, now);
+
+  // c/d. If Jobber already says awaiting_response, the text goes now.
+  return { ok: true, row: await advance(deps, quoteId, 'approve', actor) };
+}
+
+/** Step b, shared by "Looks good" and "Mark Awaiting Response, don't text". */
+async function moveStatus(deps: FlowDeps, schema: DeskSchema, quoteId: string, jobberStatus: string, now: number): Promise<void> {
   const branch = pickStatusBranch(schema);
   if (jobberStatus === 'awaiting_response') {
     await touch(deps.db, quoteId, { move_branch: 'already', move_state: 'done', move_at: now }, now);
@@ -207,9 +224,90 @@ export async function approveQuote(deps: FlowDeps, actor: string, quoteId: strin
   } else {
     await touch(deps.db, quoteId, { move_branch: 'manual', move_state: 'manual', move_at: now }, now);
   }
+}
 
-  // c/d. If Jobber already says awaiting_response, the text goes now.
-  return { ok: true, row: await advance(deps, quoteId, 'approve', actor) };
+// ---------------------------------------------------------------------------
+// "Quote not sent yet" in Jobber
+//
+// Whenever the desk leaves a quote in Awaiting Response without the customer
+// having been texted (Mark only, texting off, no phone, a refused text), a
+// pinned note on the quote says so, once. If the text goes out later, a
+// second note says that.
+// ---------------------------------------------------------------------------
+
+async function hasEvent(db: D1Database, quoteId: string, action: string): Promise<boolean> {
+  const row = await db.prepare('SELECT 1 AS ok FROM desk_events WHERE quote_id = ?1 AND action = ?2 LIMIT 1').bind(quoteId, action).first();
+  return Boolean(row);
+}
+
+export async function noteNotSent(deps: FlowDeps, quoteId: string, actor: string, reason: string | null): Promise<void> {
+  if (await hasEvent(deps.db, quoteId, 'not_sent_note')) return;
+  const now = deps.now();
+  let outcome: NoteOutcome = 'unsupported';
+  try {
+    const { access, schema } = await quotesAccess(deps.jobber);
+    if (access === 'ok' && schema) {
+      const why = reason ? ` (${reason})` : '';
+      outcome = await addQuoteNote(
+        deps.jobber,
+        schema,
+        quoteId,
+        `Quote not sent yet. Set to Awaiting Response from the Quote Desk (${actor}, ${chicagoTimestamp(now)}). The customer has not been texted or emailed${why}.`,
+        true,
+      );
+    }
+  } catch {
+    outcome = 'failed';
+  }
+  await logDeskEvent(deps.db, { actor, action: 'not_sent_note', quoteId, detail: `jobber_note=${outcome}`, now });
+}
+
+async function noteSentLater(deps: FlowDeps, quoteId: string): Promise<void> {
+  if (!(await hasEvent(deps.db, quoteId, 'not_sent_note')) || (await hasEvent(deps.db, quoteId, 'sent_note'))) return;
+  const now = deps.now();
+  let outcome: NoteOutcome = 'unsupported';
+  try {
+    const { access, schema } = await quotesAccess(deps.jobber);
+    if (access === 'ok' && schema) {
+      outcome = await addQuoteNote(deps.jobber, schema, quoteId, `Quote texted to the customer from the Quote Desk (${chicagoTimestamp(now)}).`);
+    }
+  } catch {
+    outcome = 'failed';
+  }
+  await logDeskEvent(deps.db, { actor: 'system', action: 'sent_note', quoteId, detail: `jobber_note=${outcome}`, now });
+}
+
+/**
+ * "Mark Awaiting Response, don't text": the status move without the text.
+ * No desk approval is recorded, so nothing ever texts this customer unless
+ * Essa later taps "Send to {first} now" (which is a normal approval).
+ */
+export async function markOnly(deps: FlowDeps, actor: string, quoteId: string): Promise<ActionResult> {
+  const now = deps.now();
+  const { access, schema } = await quotesAccess(deps.jobber);
+  if (access !== 'ok' || !schema) return { ok: false, message: 'Jobber needs reconnecting for quotes', row: await deskQuote(deps.db, quoteId) };
+  const status = (await fetchQuoteStatuses(deps.jobber, [quoteId])).get(quoteId);
+  if (!status) return { ok: false, message: 'Jobber has no such quote', row: null };
+  const jobberStatus = (status.quoteStatus ?? '').toLowerCase();
+  if (jobberStatus !== 'draft') {
+    return { ok: false, message: `This quote is ${jobberStatus.replace(/_/g, ' ')} in Jobber`, row: await deskQuote(deps.db, quoteId) };
+  }
+  await ensureDeskRow(deps.db, quoteId, { clientId: status.client?.id, first: firstNameOf(status.client), title: status.title ?? null, status: jobberStatus }, now);
+  const claimed = await deps.db
+    .prepare(
+      `UPDATE desk_quotes SET state = 'marked', hidden_by = NULL, hidden_at = NULL, updated_at = ?2
+       WHERE quote_id = ?1 AND state IN ('open', 'hidden')`,
+    )
+    .bind(quoteId, now)
+    .run();
+  if ((claimed.meta.changes ?? 0) === 0) return { ok: false, message: 'This quote is already approved or marked', row: await deskQuote(deps.db, quoteId) };
+  await logDeskEvent(deps.db, { actor, action: 'mark_only', quoteId, now });
+  await moveStatus(deps, schema, quoteId, jobberStatus, now);
+  const row = await deskQuote(deps.db, quoteId);
+  if (row?.move_state === 'done') await noteNotSent(deps, quoteId, actor, null);
+  const fresh = (await fetchQuoteStatuses(deps.jobber, [quoteId])).get(quoteId);
+  if (fresh && row) await recordStatus(deps.db, row, fresh, now);
+  return { ok: true, row: await deskQuote(deps.db, quoteId) };
 }
 
 // ---------------------------------------------------------------------------
@@ -274,6 +372,7 @@ export async function advance(deps: FlowDeps, quoteId: string, source: AdvanceSo
   if (problem) {
     await touch(deps.db, quoteId, { text_error: problem }, now);
     if (problem !== row.text_error) await logDeskEvent(deps.db, { actor: 'system', action: 'text_blocked', quoteId, detail: problem, now });
+    await noteNotSent(deps, quoteId, row.approved_by ?? actor, problem);
     return deskQuote(deps.db, quoteId);
   }
   const phone = textablePhone(status.client?.phones) as { e164: string };
@@ -349,11 +448,13 @@ export async function advance(deps: FlowDeps, quoteId: string, source: AdvanceSo
   if (result.ok) {
     await touch(deps.db, quoteId, { text_state: 'sent', text_message_id: result.id, text_status: result.status, text_sent_at: now, text_to: phone.e164, text_body: body, q_code: link.code, text_error: null }, now);
     await logDeskEvent(deps.db, { actor, action: 'text_sent', quoteId, detail: `${source} ···${lastFour(phone.e164)} ${result.id}`, now });
+    await noteSentLater(deps, quoteId);
   } else {
     const state = result.definite ? 'failed' : 'unknown';
     const message = result.definite ? result.reason : `${result.reason}. Not sure the text went out; Retry checks Quo first.`;
     await touch(deps.db, quoteId, { text_state: state, text_error: message, text_to: phone.e164, text_body: body, q_code: link.code }, now);
     await logDeskEvent(deps.db, { actor, action: `text_${state}`, quoteId, detail: result.reason, now });
+    if (result.definite) await noteNotSent(deps, quoteId, row.approved_by ?? actor, result.reason);
   }
   return deskQuote(deps.db, quoteId);
 }
@@ -416,6 +517,8 @@ export async function requestChange(deps: FlowDeps, actor: string, quoteId: stri
 
 export interface DeskActions {
   approve: boolean;
+  /** "Mark Awaiting Response, don't text". */
+  mark: boolean;
   change: boolean;
   hide: boolean;
   unhide: boolean;
@@ -430,11 +533,12 @@ export function availableActions(row: DeskQuoteRow | null, jobberStatus: string 
   const staleClaim = row?.text_state === 'sending' && row.text_claimed_at !== null && now - row.text_claimed_at >= SEND_CLAIM_TTL;
   return {
     approve: !approved && state !== 'hidden' && (status === 'draft' || status === 'awaiting_response'),
+    mark: state === 'open' && status === 'draft',
     change: !approved && status === 'draft',
     hide: state === 'open' && status === 'draft',
     unhide: state === 'hidden',
     retry: approved && (row?.text_state === 'failed' || row?.text_state === 'unknown' || staleClaim || (row?.text_state === 'none' && Boolean(row?.text_error))),
-    manualStep: approved && (row?.move_state === 'manual' || row?.move_state === 'failed') && status !== 'awaiting_response',
+    manualStep: (approved || state === 'marked') && (row?.move_state === 'manual' || row?.move_state === 'failed') && status !== 'awaiting_response',
   };
 }
 

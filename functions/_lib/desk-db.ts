@@ -231,7 +231,8 @@ export interface DeskQuoteRow {
   quote_number: string | null;
   first_name: string | null;
   title: string | null;
-  state: 'open' | 'approved' | 'hidden';
+  /** marked = moved to Awaiting Response on purpose without a text. */
+  state: 'open' | 'approved' | 'hidden' | 'marked';
   approved_by: string | null;
   approved_at: number | null;
   hidden_by: string | null;

@@ -1,15 +1,16 @@
 import type { Env, PagesFunction } from '../../_lib/types.ts';
 import { deskAuth } from '../../_lib/desk-http.ts';
 import { deskQuote } from '../../_lib/desk-db.ts';
-import { advance, approveQuote, availableActions, cachedBranch, flowDeps, hideQuote, requestChange } from '../../_lib/desk-flow.ts';
+import { advance, approveQuote, availableActions, cachedBranch, flowDeps, hideQuote, markOnly, requestChange } from '../../_lib/desk-flow.ts';
 import { json, methodNotAllowed, readJsonBody } from '../../_lib/http.ts';
 import { JobberError } from '../../_lib/jobber.ts';
 
-const ACTIONS = new Set(['approve', 'change', 'hide', 'unhide', 'retry', 'poll']);
+const ACTIONS = new Set(['approve', 'mark', 'change', 'hide', 'unhide', 'retry', 'poll']);
 
 /**
  * POST /api/desk/action {id, action, note?}. approve = "Looks good" (approval,
- * status move, text); change = "Needs a change"; hide / unhide = "Not
+ * status move, text); mark = "Mark Awaiting Response, don't text" (status move
+ * and a pinned "not sent yet" note, no text); change = "Needs a change"; hide / unhide = "Not
  * sending" and back; retry = "Retry text"; poll = the 3-minute check after a
  * tap. Every action is logged with who did it.
  */
@@ -29,6 +30,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   try {
     let result: { ok: boolean; message?: string } = { ok: true };
     if (action === 'approve') result = await approveQuote(deps, auth.name, id);
+    else if (action === 'mark') result = await markOnly(deps, auth.name, id);
     else if (action === 'change') result = await requestChange(deps, auth.name, id, typeof value.note === 'string' ? value.note : '');
     else if (action === 'hide' || action === 'unhide') result = await hideQuote(deps, auth.name, id, action === 'hide');
     else await advance(deps, id, action === 'retry' ? 'retry' : 'poll', auth.name);

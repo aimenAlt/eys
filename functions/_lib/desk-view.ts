@@ -97,6 +97,8 @@ export interface DeskList {
   drafts: ListItem[];
   older: ListItem[];
   hidden: (ListItem & { hiddenBy: string | null; hiddenAt: number | null })[];
+  /** Moved to Awaiting Response on purpose without a text; from D1, since Jobber no longer lists them as drafts. */
+  marked: ListItem[];
 }
 
 function listItem(q: RawQuoteListItem, now: number): ListItem {
@@ -119,7 +121,18 @@ function listItem(q: RawQuoteListItem, now: number): ListItem {
  */
 export function buildList(drafts: RawQuoteListItem[], rows: DeskQuoteRow[], now: number): DeskList {
   const byId = new Map(rows.map((r) => [r.quote_id, r]));
-  const out: DeskList = { drafts: [], older: [], hidden: [] };
+  const out: DeskList = { drafts: [], older: [], hidden: [], marked: [] };
+  for (const row of rows.filter((r) => r.state === 'marked').sort((a, b) => b.updated_at - a.updated_at)) {
+    out.marked.push({
+      id: row.quote_id,
+      number: row.quote_number,
+      client: row.first_name ?? 'Client',
+      title: row.title ?? 'Quote',
+      total: null,
+      createdAt: null,
+      ageDays: null,
+    });
+  }
   for (const q of drafts) {
     if (isExcludedClient(q.client)) continue;
     const row = byId.get(q.id);
@@ -128,7 +141,7 @@ export function buildList(drafts: RawQuoteListItem[], rows: DeskQuoteRow[], now:
       out.hidden.push({ ...item, hiddenBy: row.hidden_by, hiddenAt: row.hidden_at });
       continue;
     }
-    if (row?.state === 'approved') continue;
+    if (row?.state === 'approved' || row?.state === 'marked') continue;
     if (item.createdAt !== null && now - item.createdAt > OLDER_DRAFT_AGE) out.older.push(item);
     else out.drafts.push(item);
   }
