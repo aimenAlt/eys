@@ -19,7 +19,7 @@ export const BUSINESS = {
 } as const;
 
 /** business.areaServed, in the site's order: Katy first, Fulshear its default partner. */
-export const SERVICE_AREAS = ['Katy', 'Fulshear', 'Cypress', 'Richmond', 'West Houston'] as const;
+export const SERVICE_AREAS = ['Katy', 'Fulshear', 'Cypress', 'Richmond', 'West Houston', 'Brookshire'] as const;
 
 /** "Katy, Fulshear, Cypress, Richmond and West Houston" (or "... or West Houston"). */
 export function serviceAreaList(conjunction: 'and' | 'or'): string {
@@ -82,6 +82,7 @@ export const REQUEST_PATHS: Record<ServicePath, { name: string; best_for: string
 export const CORE_SERVICE_ZIPS = [
   '77406',
   '77407',
+  '77423',
   '77433',
   '77441',
   '77449',

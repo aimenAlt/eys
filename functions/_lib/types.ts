@@ -29,8 +29,14 @@ export interface D1Database {
  * dashboard (never in the repo) and every route must degrade cleanly when one
  * is missing.
  */
+/** Pages' static-asset binding: fetches a built file without running Functions. */
+export interface AssetFetcher {
+  fetch(input: Request | string | URL, init?: RequestInit): Promise<Response>;
+}
+
 export interface Env {
   EYS_AI_DB?: D1Database;
+  ASSETS?: AssetFetcher;
   JOBBER_CLIENT_ID?: string;
   JOBBER_CLIENT_SECRET?: string;
   AI_ADMIN_KEY?: string;

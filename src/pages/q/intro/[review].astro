@@ -1,0 +1,69 @@
+---
+import { getEntry } from 'astro:content';
+import HandoffPage from '../../../components/go/HandoffPage.astro';
+import { googleReviews, site } from '../../../data/business';
+import { INTRO_REVIEW_IDS, INTRO_TOKENS } from '../../../../functions/_lib/intro';
+
+/**
+ * TEMPLATE for the `/q/<code>` quote intro, never a page anyone visits.
+ *
+ * Built once per review id with placeholder tokens where the customer's first
+ * name and Client Hub link go; functions/q/[[code]].ts fetches this file from
+ * the static assets and fills the tokens in per request. Requests for
+ * `/q/intro/...` themselves are caught by that same Function and get the
+ * phone-number page, so the raw template is never served.
+ *
+ * Copy rules (Aimen's, for anything a customer sees): short and plain, like
+ * Essa texting from the truck. No em or en dashes, no emoji, no prices, no
+ * hours, never "licensed", no new review claims. The two intro lines are
+ * owner-approved word for word.
+ */
+
+export function getStaticPaths() {
+  return INTRO_REVIEW_IDS.map((review) => ({ params: { review } }));
+}
+
+const { review: reviewId } = Astro.params as { review: string };
+const review = await getEntry('reviews', reviewId);
+if (!review) throw new Error(`q/intro: review "${reviewId}" is missing from src/content/reviews/.`);
+if (review.data.published !== true) throw new Error(`q/intro: review "${reviewId}" is not published.`);
+
+const rating = googleReviews.rating.toFixed(1);
+
+const seo = {
+  title: 'Your quote from EYS Handyman',
+  description: `From Essa, owner of Elevate Your Space Handyman · ★ ${rating} on Google`,
+  canonical: `${site.url}/q/${INTRO_TOKENS.code}`,
+  ogImage: '/images/team/essa-og.jpg',
+  ogImageAlt: 'Essa, owner of Elevate Your Space Handyman',
+  noindex: true,
+  nofollow: true,
+};
+---
+
+<HandoffPage
+  seo={seo}
+  review={review.data}
+  reviewCtaLocation="q_review"
+  reviewCountCtaLocation="q_review_count"
+  ctaHref={INTRO_TOKENS.hubUrl}
+  ctaLabel="View your quote"
+  ctaLocation="q_view_quote"
+  handoffNoun="your quote"
+  callLabel={`Questions? Call or text ${site.phone}`}
+  callCtaLocation="q_call"
+  maskHeadline
+>
+  <Fragment slot="headline">Hi {INTRO_TOKENS.first}, here&rsquo;s your quote.</Fragment>
+  <Fragment slot="intro">
+    <p>I own EYS and I write every quote myself.</p>
+    <p>
+      I got my start in construction in the U.S. military. That&rsquo;s where I learned to prepare and
+      do the work right, not just fast.
+    </p>
+  </Fragment>
+</HandoffPage>
+
+<script>
+  import '../../../scripts/quote-intro.ts';
+</script>

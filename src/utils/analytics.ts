@@ -85,6 +85,10 @@ export const analyticsEvents = {
   mediaWallCrossSellView: 'media_wall_cross_sell_view',
   /** Outbound Jobber request click from Media Wall cross-sell CTA. */
   mediaWallRequestClick: 'media_wall_request_click',
+  /** `/q/<code>` quote intro opened (its script ran, so not a link preview). */
+  quoteIntroView: 'quote_intro_view',
+  /** "View your quote" on the `/q/<code>` intro, pressed or auto-opened. */
+  quoteIntroClick: 'quote_intro_click',
 } as const;
 
 export function analyticsPagePath(): string {
@@ -100,6 +104,8 @@ export function analyticsPageType(path = analyticsPagePath()): string {
   if (path.startsWith('/lp/')) return 'lp_landing';
   // Unlisted handoff pages Essa texts after a phone call (src/data/goLinks.ts).
   if (path.startsWith('/go/')) return 'go_landing';
+  // Quote intro Essa's desk texts with each quote (functions/q/[[code]].ts).
+  if (path.startsWith('/q/')) return 'quote_intro';
   if (path.startsWith('/services/')) return 'service';
   if (path.startsWith('/service-areas/')) return 'service_area';
   if (path.startsWith('/blog/')) return 'blog';

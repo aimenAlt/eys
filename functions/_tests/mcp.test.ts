@@ -122,7 +122,7 @@ await check('tools/call: get_business_info and validate-only submit', async () =
     params: { name: 'submit_service_request', arguments: addressFreeBody({ service_area_confirmed: false, confirmed_by_customer: false }) },
   });
   assert.equal(outside.body.result.structuredContent.status, 'needs_changes');
-  assert.match(outside.body.result.structuredContent.message_for_customer, /serves Katy, Fulshear, Cypress, Richmond and West Houston, TX.*\(346\) 820-1629/);
+  assert.match(outside.body.result.structuredContent.message_for_customer, /serves Katy, Fulshear, Cypress, Richmond, West Houston and Brookshire, TX.*\(346\) 820-1629/);
 
   const empty = await post({ jsonrpc: '2.0', id: 6, method: 'tools/call', params: { name: 'submit_service_request' } });
   assert.equal(empty.body.result.structuredContent.status, 'needs_changes');

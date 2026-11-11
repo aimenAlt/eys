@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteTheme } from '../../data/sitePresentation';
+import { site } from '../../data/business';
+
+/**
+ * What a `/q/<code>` link shows when the code is unknown, mistyped or
+ * expired (functions/q/[[code]].ts serves this file with a 404). Just the
+ * way back to Essa: no prices, no hours, nothing else to read.
+ */
+const seo = {
+  title: 'EYS Handyman',
+  description: 'Call or text Elevate Your Space Handyman.',
+  canonical: `${site.url}/q/`,
+  ogImage: '/images/team/essa-og.jpg',
+  ogImageAlt: 'Essa, owner of Elevate Your Space Handyman',
+  noindex: true,
+  nofollow: true,
+};
+const buttonClass =
+  'flex min-h-[3.5rem] flex-1 items-center justify-center rounded-lg px-5 text-center text-[1.0625rem] font-bold leading-tight shadow-card transition-colors';
+---
+
+<BaseLayout seo={seo} theme={siteTheme}>
+  <main id="main-content" class="min-h-screen bg-brand-lightbg">
+    <section class="border-t-[3px] border-brand-red bg-brand-black px-5 pb-6 pt-6 text-white">
+      <div class="mx-auto flex max-w-lg flex-col items-center gap-3.5 text-center">
+        <img
+          src="/images/team/essa-portrait.webp"
+          alt="Essa, owner of Elevate Your Space Handyman"
+          width="512"
+          height="512"
+          loading="eager"
+          decoding="async"
+          class="h-28 w-28 shrink-0 rounded-2xl object-cover ring-1 ring-white/20"
+        />
+        <h1 class="text-[1.45rem] font-bold leading-[1.2] tracking-tight">This link isn&rsquo;t working.</h1>
+        <p class="text-[0.9375rem] leading-snug text-white/85">
+          Call or text {site.phone} and I&rsquo;ll send it again.
+        </p>
+      </div>
+    </section>
+    <div class="mx-auto flex max-w-lg gap-3 px-5 pt-5">
+      <a
+        href={`tel:+1${site.phoneTel}`}
+        data-cta-location="q_missing_call"
+        class:list={[buttonClass, 'bg-brand-red text-white hover:bg-brand-redhover']}
+      >
+        Call
+      </a>
+      <a
+        href={`sms:+1${site.phoneTel}`}
+        data-cta-location="q_missing_text"
+        class:list={[buttonClass, 'border border-brand-line bg-white text-brand-charcoal hover:bg-brand-lightbg']}
+      >
+        Text
+      </a>
+    </div>
+  </main>
+</BaseLayout>

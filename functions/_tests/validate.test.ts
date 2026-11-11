@@ -182,7 +182,7 @@ await check('MCP door: service_area_confirmed false refuses with the areas and t
   if (outside.ok) return;
   assert.equal(outside.outsideArea, true);
   assert.deepEqual(outside.errors.map((e) => e.field), ['service_area_confirmed']);
-  assert.match(outside.errors[0].problem, /serves Katy, Fulshear, Cypress, Richmond and West Houston, TX/);
+  assert.match(outside.errors[0].problem, /serves Katy, Fulshear, Cypress, Richmond, West Houston and Brookshire, TX/);
   assert.match(outside.errors[0].problem, /cannot be sent.*\(346\) 820-1629/);
 
   for (const value of [undefined, 'yes', 1]) {
@@ -191,7 +191,7 @@ await check('MCP door: service_area_confirmed false refuses with the areas and t
     if (missing.ok) return;
     assert.equal(missing.outsideArea, false);
     assert.deepEqual(missing.errors.map((e) => e.field), ['service_area_confirmed']);
-    assert.match(missing.errors[0].problem, /^Required\. Ask the customer whether the job is in or near Katy, Fulshear, Cypress, Richmond or West Houston, TX/);
+    assert.match(missing.errors[0].problem, /^Required\. Ask the customer whether the job is in or near Katy, Fulshear, Cypress, Richmond, West Houston or Brookshire, TX/);
   }
 });
 

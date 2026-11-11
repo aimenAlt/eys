@@ -110,6 +110,8 @@ finally distinguishable from any other project.
 | `image_click` | Every page: click inside an `<img>`/`<picture>` rendered ≥48px wide — same script. Sent **in addition to** any event the click already fires (`jobber_booking_click`, gallery events) | `image_name`, `page_type`, `cta_location`, `in_link` (`"true"`/`"false"`) | No | No |
 | `pathway_cta_click` | Homepage service-pathway cards — `ServicePathwaysSection.astro` | `page_path`, `cta_location` | No | No |
 | `jobber_form_fallback_click` | Small-repair request form's fallback link — `SmallRepairRequestForm.astro` | `cta_location` | No | No |
+| `quote_intro_view` | `/q/<code>` quote intro (the page Essa's Quote Desk texts with each quote) on load, once per page view — [`quote-intro.ts`](../src/scripts/quote-intro.ts). Link previews never run scripts, so this is a real open | `page_type` (`quote_intro`) | No | No |
+| `quote_intro_click` | "View your quote" on the `/q/<code>` intro, pressed or auto-opened after the 10-second countdown — same script. Not `jobber_booking_click`: the Client Hub quote link is not a request form | `page_type`, `cta_location` (`q_view_quote`), `auto_redirect` (present only when `true`) | No | No |
 
 GA4's own `scroll` event still fires at 90%. `scroll_depth` deliberately stops
 at 75 so the two do not double-count. On a page shorter than the viewport all

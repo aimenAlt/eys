@@ -44,6 +44,9 @@ export default defineConfig({
         // the sitemap.
         !page.includes('/go/') &&
         !page.includes('/essa/') &&
+        // /q/ is the per-customer quote intro (a Function fills a template)
+        // and its phone-number fallback. Private, noindex.
+        !page.includes('/q/') &&
         !page.includes('/booking-confirmed') &&
         !page.includes('/request-confirmed'),
       // The build stamps every URL with the build time as a fallback. On

@@ -1,0 +1,347 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { SeoProps } from '../seo/SEOHead.astro';
+import { siteTheme } from '../../data/sitePresentation';
+import { googleReviewCountDisplay, googleReviewProfileUrl, googleReviews, site } from '../../data/business';
+import { goReviewExcerpt, goReviewIsTrimmed } from '../../data/goLinks';
+
+/**
+ * "One face, one review, one button": the page shell shared by the `/go/<slug>/`
+ * form handoffs and the `/q/<code>` quote intro. Each caller supplies only
+ * what differs (headline, the lines around it, where the button goes and what
+ * it says); the portrait, review card, rating line, button, countdown and
+ * auto-open live here once, so the two pages cannot drift apart.
+ *
+ * Deliberately has no header, nav, footer, sticky bar or second destination.
+ * The only two things a visitor can do is press the button or call. Anything
+ * added here competes with the single action the page exists for, and the
+ * content is sized to clear the fold on a 390x844 phone — measure before
+ * adding height.
+ *
+ * Slots:
+ *  - `headline` (required): the h1's content.
+ *  - `intro` (optional): lines under the h1, inside the dark band.
+ *  - default (optional): lines between the rating line and the button.
+ */
+
+export interface HandoffReview {
+  author: string;
+  text: string;
+}
+
+interface Props {
+  seo: SeoProps;
+  review: HandoffReview;
+  /** `data-cta-location` for the review card and for the review-count link. */
+  reviewCtaLocation: string;
+  reviewCountCtaLocation: string;
+  ctaHref: string;
+  ctaLabel: string;
+  ctaLocation: string;
+  /** GA4 `booking_type`, for buttons that open a Jobber request form. */
+  bookingType?: string;
+  /** What the countdown says it is opening: "your form", "your quote". */
+  handoffNoun: string;
+  callLabel: string;
+  callCtaLocation: string;
+  /** Marks the headline for Clarity masking when it carries a customer's name. */
+  maskHeadline?: boolean;
+}
+
+const {
+  seo,
+  review,
+  reviewCtaLocation,
+  reviewCountCtaLocation,
+  ctaHref,
+  ctaLabel,
+  ctaLocation,
+  bookingType,
+  handoffNoun,
+  callLabel,
+  callCtaLocation,
+  maskHeadline = false,
+} = Astro.props as Props;
+
+const rating = googleReviews.rating.toFixed(1);
+const reviewCount = googleReviewCountDisplay();
+// Google publishes no stable per-review permalink, so this is the Business
+// Profile, where the review can be found and the rest of them read.
+const gbpUrl = googleReviewProfileUrl();
+const reviewText = goReviewExcerpt(review.text);
+const reviewTrimmed = goReviewIsTrimmed(review.text);
+const hasIntro = Astro.slots.has('intro');
+
+const portrait = '/images/team/essa-portrait.webp';
+const portraitAlt = 'Essa, owner of Elevate Your Space Handyman';
+const headlineClass = 'text-[1.45rem] font-bold leading-[1.2] tracking-tight sm:text-[1.7rem]';
+---
+
+<BaseLayout seo={seo} theme={siteTheme}>
+  <main id="main-content" class="min-h-screen bg-brand-lightbg">
+    <section
+      class="border-t-[3px] border-brand-red bg-brand-black px-5 pb-5 pt-5 text-white sm:px-6 sm:pb-8 sm:pt-8"
+    >
+      <!--
+        Centred and large on a phone: this page's whole argument is that a
+        named person is standing behind the quote, and a small avatar tucked
+        into a corner does not make that argument. Desktop keeps the
+        side-by-side row — mobile-first never means letting `sm` and up
+        regress.
+      -->
+      <div
+        class="mx-auto flex max-w-lg flex-col items-center gap-3.5 text-center sm:flex-row sm:items-center sm:gap-5 sm:text-left"
+      >
+        <img
+          src={portrait}
+          alt={portraitAlt}
+          width="512"
+          height="512"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          class="h-40 w-40 shrink-0 rounded-2xl object-cover ring-1 ring-white/20 sm:h-32 sm:w-32 sm:rounded-xl"
+        />
+        {
+          hasIntro ? (
+            <div class="min-w-0">
+              <h1 class={headlineClass} data-clarity-mask={maskHeadline ? 'true' : undefined}>
+                <slot name="headline" />
+              </h1>
+              <div class="mt-2 space-y-1.5 text-[0.9375rem] leading-snug text-white/85 sm:text-base">
+                <slot name="intro" />
+              </div>
+            </div>
+          ) : (
+            <h1 class={headlineClass} data-clarity-mask={maskHeadline ? 'true' : undefined}>
+              <slot name="headline" />
+            </h1>
+          )
+        }
+      </div>
+    </section>
+
+    <div class="mx-auto max-w-lg px-5 pb-14 pt-4 sm:px-6 sm:pt-7">
+      <!--
+        The whole card opens the Google profile, in a NEW tab: tapping it also
+        cancels the auto-open, so sending them away in this tab would cost them
+        the page. Excerpted, never reworded — see `goReviewExcerpt`.
+      -->
+      <figure
+        class="rounded-xl border border-brand-line border-l-[3px] border-l-brand-red bg-white shadow-card"
+      >
+        <a
+          href={gbpUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-cta-location={reviewCtaLocation}
+          class="block rounded-xl p-3.5 transition-colors hover:bg-brand-lightbg sm:p-5"
+        >
+          <blockquote class="text-[0.95rem] leading-relaxed text-brand-ink sm:text-base">
+            &ldquo;{reviewText}&rdquo;
+          </blockquote>
+          <figcaption
+            class="mt-3 flex flex-wrap items-center gap-x-1.5 text-[0.7rem] font-bold uppercase tracking-[0.1em] text-brand-muted"
+          >
+            <span>{review.author} &middot; Google review</span>
+            <span class="text-brand-red normal-case tracking-normal">
+              {reviewTrimmed ? 'Read it on Google →' : 'See on Google →'}
+            </span>
+          </figcaption>
+        </a>
+      </figure>
+
+      <p class="mt-3 flex flex-wrap items-baseline gap-x-1.5 text-[0.8125rem] font-semibold text-brand-muted">
+        <span class="text-[0.9375rem] leading-none text-brand-red" aria-hidden="true">★</span>
+        <span>
+          <span class="sr-only">Rated </span>{rating} &middot;{' '}
+          <a
+            href={gbpUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-cta-location={reviewCountCtaLocation}
+            class="underline decoration-brand-line underline-offset-2 hover:text-brand-red hover:decoration-brand-red"
+          >
+            {reviewCount} Google reviews
+          </a> &middot; Veteran-owned
+        </span>
+      </p>
+
+      <slot />
+
+      <!--
+        Plain same-tab anchor on purpose: the GA4 cross-domain linker only
+        decorates a click it can see, and `target="_blank"` loses the session.
+        The auto-open fires a real click on this element for the same reason —
+        `location.href = ...` would skip the linker and orphan the session.
+      -->
+      <a
+        href={ctaHref}
+        data-cta-location={ctaLocation}
+        data-booking-type={bookingType}
+        data-go-cta
+        class="mt-4 flex min-h-[3.5rem] w-full items-center justify-center rounded-lg bg-brand-red px-5 text-center text-[1.0625rem] font-bold leading-tight text-white shadow-card transition-colors hover:bg-brand-redhover focus-visible:bg-brand-redhover"
+      >
+        {ctaLabel}
+      </a>
+
+      <!--
+        The timer sits UNDER the button, never in front of it. Withholding the
+        CTA behind a countdown is the shape of a scam interstitial, and this
+        page is asking a stranger to trust a one-man business — see the script
+        below. The countdown is a courtesy, not a gate.
+
+        Height is reserved so that hiding the line on cancel moves nothing.
+      -->
+      <p
+        class="mt-2 flex min-h-[1.25rem] items-center justify-center gap-1.5 text-center text-[0.8125rem] leading-[1.25rem] text-brand-muted"
+        data-go-handoff
+      >
+        <span class="contents" hidden data-go-handoff-text>
+          <svg class="go-clock shrink-0" width="13" height="13" viewBox="0 0 14 14" aria-hidden="true">
+            <circle cx="7" cy="7" r="6" fill="none" stroke="#ececec" stroke-width="2" />
+            <circle
+              class="go-clock-sweep"
+              cx="7"
+              cy="7"
+              r="6"
+              fill="none"
+              stroke="#b00000"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-dasharray="37.7"
+              transform="rotate(-90 7 7)"
+            />
+          </svg>
+          <span>Opening {handoffNoun} in <span data-go-handoff-count>10</span>&hellip;</span>
+        </span>
+      </p>
+
+      <p class="mt-2.5 text-center text-sm text-brand-muted">
+        <a
+          href={`tel:+1${site.phoneTel}`}
+          data-cta-location={callCtaLocation}
+          class="font-semibold text-brand-charcoal underline decoration-brand-line underline-offset-4 transition-colors hover:text-brand-red hover:decoration-brand-red"
+        >
+          {callLabel}
+        </a>
+      </p>
+    </div>
+  </main>
+
+  <style>
+    @keyframes go-clock-sweep {
+      from {
+        stroke-dashoffset: 0;
+      }
+      to {
+        stroke-dashoffset: 37.7;
+      }
+    }
+    /* Runs the whole wait, alongside the number, under the button. */
+    .go-clock-sweep {
+      animation: go-clock-sweep 10s linear forwards;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .go-clock-sweep {
+        animation: none;
+        stroke-dashoffset: 37.7;
+      }
+    }
+  </style>
+
+  <script is:inline>
+    /**
+     * Open the button's destination on its own after ten seconds.
+     *
+     * The button is never withheld. It is in the HTML, visible from first
+     * paint, and the countdown runs underneath it — tap whenever, or let it
+     * open itself. Do not go back to gating the button behind the timer: that
+     * is the shape of a scam interstitial, and this page is asking a stranger
+     * to trust a one-man business.
+     *
+     * Three rules this has to respect:
+     *  - It fires `cta.click()`, never `location.href`. A real click is what the
+     *    GA4 cross-domain linker listens for; a scripted assignment would send
+     *    the visitor to Jobber with no session and orphan the conversion.
+     *  - It runs once per visit. Coming BACK from Jobber must not bounce the
+     *    visitor straight out again, so the run is recorded in sessionStorage.
+     *  - Any deliberate interaction cancels it. Someone still reading the review
+     *    is not yanked away mid-sentence; they get the button instead.
+     */
+    (function () {
+      var cta = document.querySelector('[data-go-cta]');
+      var handoffText = document.querySelector('[data-go-handoff-text]');
+      if (!cta || !handoffText) return;
+
+      var STORAGE_KEY = 'eys_go_opened_' + window.location.pathname;
+      try {
+        if (sessionStorage.getItem(STORAGE_KEY) === '1') return;
+      } catch (err) {
+        /* private mode — fall through and just run once for this page view */
+      }
+
+      var TOTAL_SECONDS = 10;
+
+      var CANCEL_EVENTS = ['pointerdown', 'keydown', 'wheel', 'touchmove'];
+      var handoffCount = document.querySelector('[data-go-handoff-count]');
+      var remaining = TOTAL_SECONDS;
+      var ticker;
+      var opener;
+
+      /**
+       * Stop saying anything about a countdown. The button is untouched — it
+       * was never hidden, so there is nothing to restore.
+       */
+      function reveal() {
+        handoffText.hidden = true;
+      }
+
+      function cancel() {
+        window.clearInterval(ticker);
+        window.clearTimeout(opener);
+        CANCEL_EVENTS.forEach(function (name) {
+          window.removeEventListener(name, cancel, true);
+        });
+        reveal();
+      }
+
+      // The line is hidden in the HTML so that a visitor with no JS is never
+      // told about a redirect that will not happen.
+      handoffText.hidden = false;
+
+      ticker = window.setInterval(function () {
+        remaining -= 1;
+        if (remaining <= 0) return;
+        if (handoffCount) handoffCount.textContent = String(remaining);
+      }, 1000);
+
+      opener = window.setTimeout(function () {
+        window.clearInterval(ticker);
+        CANCEL_EVENTS.forEach(function (name) {
+          window.removeEventListener(name, cancel, true);
+        });
+        try {
+          sessionStorage.setItem(STORAGE_KEY, '1');
+        } catch (err) {
+          /* ignore */
+        }
+        // Reveal the button BEFORE navigating, so it is already there if the
+        // click is blocked or the visitor comes straight back.
+        reveal();
+        // Marks this click as the countdown's own, not the visitor's, so GA4 can
+        // tell them apart (see conversion-analytics.ts's jobber_booking_click
+        // handler). The click mechanism itself stays real — see the note above.
+        cta.setAttribute('data-auto-redirect', 'true');
+        cta.click();
+        window.setTimeout(function () {
+          if (!document.hidden) window.location.assign(cta.href);
+        }, 600);
+      }, TOTAL_SECONDS * 1000);
+
+      CANCEL_EVENTS.forEach(function (name) {
+        window.addEventListener(name, cancel, { passive: true, capture: true });
+      });
+    })();
+  </script>
+</BaseLayout>
