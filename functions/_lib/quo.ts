@@ -144,7 +144,7 @@ export const QUO_SIGNATURE_TOLERANCE_MS = 5 * 60_000;
  * https://www.quo.com/docs/2026-03-30/webhooks-signature-validation.md
  */
 export async function verifyQuoSignature(
-  secret: string | undefined,
+  secret: string | null | undefined,
   request: Request,
   rawBody: string,
   now: number,

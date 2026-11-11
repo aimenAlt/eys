@@ -1,0 +1,10 @@
+# Scheduled Worker for the hang-up text queue. Deployed on 2026-11-11 through
+# the Cloudflare API with this same file and schedule; `npx wrangler deploy`
+# from this folder does the same thing.
+name = "eys-hangup-flush"
+main = "index.js"
+compatibility_date = "2026-11-01"
+workers_dev = false
+
+[triggers]
+crons = ["*/15 * * * *"]
