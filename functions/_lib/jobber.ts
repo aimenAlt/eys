@@ -34,7 +34,9 @@ export type JobberErrorClass =
   | 'graphql'
   | 'schema'
   | 'user_errors'
-  | 'verify';
+  | 'verify'
+  /** A field the token's scopes do not cover ("hidden due to permissions"). */
+  | 'scope';
 
 /** Carries a class only: Jobber messages can echo customer input, so they are never kept. */
 export class JobberError extends Error {
@@ -190,6 +192,23 @@ function jwtExpiry(token: string): number | null {
   }
 }
 
+/**
+ * The scopes a Jobber access token was granted, when the token says (its JWT
+ * `scope` / `scopes` claim). Null when it carries no such claim, so callers
+ * fall back to asking the API.
+ */
+export function jwtScopes(token: string): string[] | null {
+  try {
+    const payload = JSON.parse(new TextDecoder().decode(fromBase64url(token.split('.')[1] ?? ''))) as Record<string, unknown>;
+    const raw = payload.scope ?? payload.scopes;
+    if (typeof raw === 'string') return raw.split(/[\s,]+/).filter(Boolean);
+    if (Array.isArray(raw)) return raw.filter((v): v is string => typeof v === 'string');
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 /** expires_in when given, else the JWT's exp, else Jobber's documented 60 minutes. */
 export function accessExpiry(data: Record<string, unknown>, now: number): number {
   if (typeof data.expires_in === 'number' && data.expires_in > 0) return now + data.expires_in * 1000;
@@ -327,6 +346,14 @@ function isThrottled(error: GraphQLErrorShape): boolean {
   return error.extensions?.code === 'THROTTLED' || /throttl/i.test(error.message ?? '');
 }
 
+/**
+ * Jobber answers a field outside the app's scopes with HTTP 200 and "The field
+ * quotes on an object of type Query was hidden due to permissions" (no code).
+ */
+export function isPermissionError(error: GraphQLErrorShape): boolean {
+  return /hidden due to permissions|requires the \w+ scope|insufficient scope/i.test(error.message ?? '');
+}
+
 function isSchemaError(error: GraphQLErrorShape): boolean {
   if (error.extensions?.code && SCHEMA_ERROR_CODES.has(error.extensions.code)) return true;
   return /doesn't exist on type|isn't a defined input type|Unknown argument|is missing required arguments|has an invalid value|InputObject '.*' doesn't accept argument/i.test(
@@ -389,6 +416,7 @@ export async function graphql<T>(
       await deps.sleep(THROTTLE_WAIT);
       continue;
     }
+    if (errors.some(isPermissionError)) throw new JobberError('scope');
     if (errors.length > 0) throw new JobberError(errors.some(isSchemaError) ? 'schema' : 'graphql');
     if (body.data === undefined || body.data === null) throw new JobberError('graphql');
     return body.data;
@@ -424,18 +452,18 @@ export interface TypeRef {
   name: string | null;
   ofType: TypeRef | null;
 }
-interface ArgInfo {
+export interface ArgInfo {
   name: string;
   type: TypeRef;
   /** GraphQL literal, or null when the argument / input field has no default. */
   defaultValue?: string | null;
 }
-interface FieldInfo {
+export interface FieldInfo {
   name: string;
   args?: ArgInfo[];
   type: TypeRef;
 }
-interface TypeInfo {
+export interface TypeInfo {
   name: string;
   kind: string;
   fields: FieldInfo[] | null;
@@ -450,7 +478,7 @@ export interface SchemaSnapshot {
 }
 
 const TYPE_REF = 'kind name ofType { kind name ofType { kind name ofType { kind name ofType { kind name } } } }';
-const FIELD_SELECTION = `name args { name type { ${TYPE_REF} } defaultValue } type { ${TYPE_REF} }`;
+export const FIELD_SELECTION = `name args { name type { ${TYPE_REF} } defaultValue } type { ${TYPE_REF} }`;
 /** Object fields worth following when collecting types for the plan. */
 const FOLLOW_FIELDS = new Set(['address', 'properties', 'clientProperties', 'notes', 'nodes', 'phones', 'client', 'request', 'property']);
 const SEED_TYPES = ['Client', 'Property', 'Request', 'RequestNote'];
@@ -483,7 +511,7 @@ function noteMutationCandidates(mutations: Map<string, FieldInfo>): string[] {
   return [...exact, ...loose, ...prefixed];
 }
 
-async function fetchTypes(deps: JobberDeps, names: string[]): Promise<TypeInfo[]> {
+export async function fetchTypes(deps: JobberDeps, names: string[]): Promise<TypeInfo[]> {
   const safe = names.filter((n) => /^\w+$/.test(n));
   const out: TypeInfo[] = [];
   for (let i = 0; i < safe.length; i += 25) {

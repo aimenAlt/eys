@@ -1,0 +1,721 @@
+---
+import '../../../styles/global.css';
+import SEOHead from '../../../components/seo/SEOHead.astro';
+import { absoluteUrl } from '../../../data/business';
+
+/**
+ * Essa's Quote Desk: review a draft Jobber quote on the phone and tap
+ * "Looks good". Private: behind a PIN (DESK_PINS), noindex, no analytics.
+ *
+ * Like /essa/, this page does NOT use BaseLayout, so no GA4, Ads, Meta or
+ * Clarity ever loads here. It is a static shell: every quote, name and
+ * number comes from /api/desk/* behind the session cookie, so nothing
+ * private is in this file or in the /essa/ service worker's cache.
+ *
+ * Phone first (390x844). Routing is the URL hash: #/ for the list,
+ * #/q/<quote id> for one quote.
+ */
+const seo = {
+  title: 'Quote Desk · EYS internal',
+  description: 'Private: review draft Jobber quotes and send them.',
+  canonical: absoluteUrl('/essa/quotes/'),
+  noindex: true,
+  nofollow: true,
+};
+---
+
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <SEOHead {...seo} />
+    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="referrer" content="no-referrer" />
+  </head>
+  <body class="bg-brand-lightbg font-sans text-brand-charcoal antialiased">
+    <main class="mx-auto min-h-screen max-w-lg px-3 pb-24 pt-3" data-desk>
+      <p class="py-10 text-center text-sm text-brand-muted">Loading&hellip;</p>
+    </main>
+
+    <!-- Photo viewer. -->
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-3" data-desk-viewer hidden>
+      <img alt="" class="max-h-full max-w-full rounded-md object-contain" data-desk-viewer-img />
+    </div>
+
+    <!-- Confirm sheet. -->
+    <div class="fixed inset-0 z-40 flex items-end bg-black/50" data-desk-sheet hidden>
+      <div class="mx-auto w-full max-w-lg rounded-t-2xl bg-white p-4 pb-6 shadow-card" data-desk-sheet-body></div>
+    </div>
+
+    <script is:inline>
+      (function () {
+        var root = document.querySelector('[data-desk]');
+        var viewer = document.querySelector('[data-desk-viewer]');
+        var viewerImg = document.querySelector('[data-desk-viewer-img]');
+        var sheet = document.querySelector('[data-desk-sheet]');
+        var sheetBody = document.querySelector('[data-desk-sheet-body]');
+        var state = { me: null, home: null, quote: null, poll: null };
+
+        /* ---- helpers ------------------------------------------------- */
+
+        function esc(value) {
+          return String(value == null ? '' : value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+        }
+        var money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+        function usd(n) {
+          return typeof n === 'number' ? money.format(n) : '';
+        }
+        function age(days) {
+          if (days == null) return '';
+          if (days === 0) return 'today';
+          return days === 1 ? '1 day' : days + ' days';
+        }
+        function when(ms) {
+          if (!ms) return '';
+          return new Date(ms).toLocaleString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+          });
+        }
+        function qty(n) {
+          if (typeof n !== 'number') return '';
+          return Number.isInteger(n) ? String(n) : n.toFixed(2);
+        }
+        /** https links only (or this site's own, which the local fake desk uses). */
+        function safeUrl(url) {
+          try {
+            var u = new URL(url, location.href);
+            return u.protocol === 'https:' || u.origin === location.origin ? u.toString() : '';
+          } catch (err) {
+            return '';
+          }
+        }
+
+        async function api(path, body) {
+          var init = body
+            ? {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+                credentials: 'same-origin',
+              }
+            : { credentials: 'same-origin' };
+          var response = await fetch(path, init);
+          var data = {};
+          try {
+            data = await response.json();
+          } catch (err) {
+            data = {};
+          }
+          if (response.status === 401 && data.error === 'signed_out') {
+            state.me = null;
+            renderLogin();
+            throw new Error('signed_out');
+          }
+          data._status = response.status;
+          return data;
+        }
+
+        var card = 'rounded-xl border border-brand-line bg-white';
+        var h2 = 'mb-1.5 mt-5 flex items-center gap-2 text-[0.6875rem] font-bold uppercase tracking-[0.13em] text-brand-muted';
+        var bar = '<span class="h-[3px] w-6 rounded-full bg-brand-red" aria-hidden="true"></span>';
+        var primaryBtn =
+          'flex min-h-[3.25rem] w-full items-center justify-center rounded-lg bg-brand-red px-4 text-center text-[1rem] font-bold text-white shadow-card active:bg-brand-redhover disabled:opacity-50';
+        var secondaryBtn =
+          'flex min-h-[2.75rem] w-full items-center justify-center rounded-lg border border-brand-line bg-white px-4 text-center text-[0.9375rem] font-bold text-brand-charcoal active:bg-brand-lightbg disabled:opacity-50';
+
+        /* ---- login --------------------------------------------------- */
+
+        function renderLogin(message) {
+          root.innerHTML =
+            '<div class="pt-16 text-center">' +
+            '<h1 class="text-[1.35rem] font-bold text-brand-black">Quote Desk</h1>' +
+            '<p class="mt-1 text-sm text-brand-muted">Enter your PIN</p>' +
+            '<form class="mx-auto mt-5 max-w-[15rem]" data-login>' +
+            '<input type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="current-password" maxlength="12" ' +
+            'class="h-14 w-full rounded-lg border border-brand-line bg-white text-center text-2xl tracking-[0.4em] text-brand-black focus:border-brand-red focus:outline-none" ' +
+            'aria-label="PIN" data-pin required />' +
+            '<button type="submit" class="mt-3 ' + primaryBtn + '">Sign in</button>' +
+            '<p class="mt-3 min-h-[1.25rem] text-sm font-semibold text-brand-red" data-login-msg>' + esc(message || '') + '</p>' +
+            '</form></div>';
+          var form = root.querySelector('[data-login]');
+          var pin = root.querySelector('[data-pin]');
+          pin.focus();
+          form.addEventListener('submit', async function (event) {
+            event.preventDefault();
+            var msg = root.querySelector('[data-login-msg]');
+            msg.textContent = '';
+            var data;
+            try {
+              data = await api('/api/desk/login', { pin: pin.value });
+            } catch (err) {
+              msg.textContent = 'No connection. Try again.';
+              return;
+            }
+            if (data.signedIn) {
+              state.me = data.name;
+              route();
+              return;
+            }
+            pin.value = '';
+            if (data.error === 'locked') msg.textContent = 'Too many tries. Wait 15 minutes.';
+            else if (data.error === 'bad_pin')
+              msg.textContent = 'Wrong PIN. ' + data.triesLeft + (data.triesLeft === 1 ? ' try left.' : ' tries left.');
+            else msg.textContent = 'Desk is not set up yet.';
+          });
+        }
+
+        /* ---- home ---------------------------------------------------- */
+
+        function header(title, back) {
+          return (
+            '<div class="flex items-center gap-2">' +
+            (back
+              ? '<a href="#/" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-brand-line bg-white text-lg font-bold text-brand-charcoal" aria-label="Back">&larr;</a>'
+              : '') +
+            '<h1 class="min-w-0 flex-1 truncate text-[1.2rem] font-bold text-brand-black">' + esc(title) + '</h1>' +
+            '<button type="button" class="h-10 shrink-0 rounded-lg px-2 text-[0.8125rem] font-semibold text-brand-muted" data-logout>' +
+            esc(state.me || '') + ' &middot; Sign out</button>' +
+            '</div>'
+          );
+        }
+
+        function banner(access, error) {
+          if (access === 'needs_reconnect')
+            return '<div class="mt-3 rounded-xl border border-brand-red bg-white p-3 text-[0.9375rem] font-bold text-brand-red">Jobber needs reconnecting for quotes</div>';
+          if (access === 'not_connected')
+            return '<div class="mt-3 rounded-xl border border-brand-red bg-white p-3 text-[0.9375rem] font-bold text-brand-red">Jobber is not connected</div>';
+          if (access === 'error')
+            return '<div class="mt-3 rounded-xl border border-brand-red bg-white p-3 text-[0.9375rem] font-bold text-brand-red">Jobber did not answer (' + esc(error) + '). Pull down to try again.</div>';
+          return '';
+        }
+
+        function quoteRow(item, extra) {
+          return (
+            '<a href="#/q/' + encodeURIComponent(item.id) + '" class="' + card + ' flex items-center gap-3 px-3 py-2.5 active:bg-brand-lightbg">' +
+            '<span class="min-w-0 flex-1">' +
+            '<span class="block truncate text-[0.9375rem] font-bold text-brand-black">' + esc(item.client) + '</span>' +
+            '<span class="block truncate text-[0.8125rem] text-brand-muted">' + esc(item.title) + '</span>' +
+            '</span>' +
+            '<span class="shrink-0 text-right">' +
+            '<span class="block text-[0.9375rem] font-bold text-brand-black">' + esc(usd(item.total)) + '</span>' +
+            '<span class="block text-[0.75rem] text-brand-muted">' + esc(extra || age(item.ageDays)) + '</span>' +
+            '</span></a>'
+          );
+        }
+
+        function fold(label, items, render) {
+          if (!items || !items.length) return '';
+          return (
+            '<details class="mt-4"><summary class="cursor-pointer select-none text-[0.8125rem] font-bold text-brand-muted">' +
+            esc(label) + ' (' + items.length + ')</summary><div class="mt-1.5 space-y-1.5">' +
+            items.map(render).join('') + '</div></details>'
+          );
+        }
+
+        function check(on, label) {
+          return (
+            '<span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[0.6875rem] font-bold ' +
+            (on ? 'bg-brand-black text-white' : 'border border-brand-line text-brand-muted') + '">' +
+            (on ? '&#10003; ' : '') + esc(label) + '</span>'
+          );
+        }
+
+        function sentRow(item) {
+          var textLabel =
+            item.textState === 'sent' ? 'Sent' : item.textState === 'failed' ? 'Text failed' : item.textState === 'sending' ? 'Sending' : 'Not sent';
+          return (
+            '<a href="#/q/' + encodeURIComponent(item.id) + '" class="' + card + ' block px-3 py-2.5 active:bg-brand-lightbg">' +
+            '<span class="flex items-baseline gap-2"><span class="min-w-0 flex-1 truncate text-[0.9375rem] font-bold text-brand-black">' +
+            esc(item.client) + '</span><span class="shrink-0 text-[0.75rem] text-brand-muted">' + esc(when(item.sentAt)) + '</span></span>' +
+            '<span class="block truncate text-[0.8125rem] text-brand-muted">' + esc(item.title) + '</span>' +
+            '<span class="mt-1.5 flex flex-wrap gap-1">' +
+            check(item.textState === 'sent', textLabel) +
+            check(Boolean(item.openedIntro), 'Opened intro') +
+            check(Boolean(item.openedQuote), 'Opened quote') +
+            check(Boolean(item.approved), 'Approved') +
+            '</span></a>'
+          );
+        }
+
+        function footer(data) {
+          var bits = [];
+          if (data.branch) bits.push('Status move: ' + data.branch.label);
+          bits.push(data.sendEnabled ? 'Texting is on' : 'Texting is off');
+          return '<p class="mt-8 text-center text-[0.6875rem] leading-snug text-brand-muted">' + esc(bits.join(' · ')) + '</p>';
+        }
+
+        async function renderHome() {
+          stopPoll();
+          if (!state.home) root.innerHTML = header('Quotes to review') + '<p class="py-10 text-center text-sm text-brand-muted">Loading&hellip;</p>';
+          var data;
+          try {
+            data = await api('/api/desk/quotes');
+          } catch (err) {
+            if (err.message !== 'signed_out') root.innerHTML = header('Quotes to review') + banner('error', 'network');
+            return;
+          }
+          state.home = data;
+          var list = data.list;
+          var html = header('Quotes to review') + banner(data.access, data.error);
+          if (list) {
+            html +=
+              '<h2 class="' + h2 + '">' + bar + 'Drafts</h2>' +
+              (list.drafts.length
+                ? '<div class="space-y-1.5">' + list.drafts.map(function (q) { return quoteRow(q); }).join('') + '</div>'
+                : '<p class="rounded-xl border border-dashed border-brand-line px-3 py-5 text-center text-sm text-brand-muted">Nothing to review.</p>') +
+              fold('Older drafts', list.older, function (q) { return quoteRow(q); }) +
+              fold('Hidden', list.hidden, function (q) { return quoteRow(q, 'hidden'); });
+          }
+          if (data.sent && data.sent.length) {
+            html +=
+              '<h2 class="' + h2 + '"><span class="h-[3px] w-6 rounded-full bg-brand-charcoal" aria-hidden="true"></span>Sent, waiting</h2>' +
+              '<div class="space-y-1.5">' + data.sent.map(sentRow).join('') + '</div>';
+          }
+          html += footer(data);
+          root.innerHTML = html;
+          window.scrollTo(0, 0);
+        }
+
+        /* ---- one quote ----------------------------------------------- */
+
+        function section(title, body) {
+          if (!body) return '';
+          return '<h2 class="' + h2 + '">' + bar + esc(title) + '</h2>' + body;
+        }
+
+        function photos(list) {
+          if (!list || !list.length) return '';
+          var images = list.filter(function (f) { return f.image; });
+          var others = list.filter(function (f) { return !f.image; });
+          var html = '';
+          if (images.length) {
+            html +=
+              '<div class="grid grid-cols-3 gap-1.5">' +
+              images
+                .map(function (f) {
+                  var src = safeUrl(f.thumbnailUrl || f.url);
+                  var full = safeUrl(f.url);
+                  if (!src || !full) return '';
+                  return (
+                    '<button type="button" class="aspect-square overflow-hidden rounded-lg border border-brand-line bg-white" data-photo="' + esc(full) + '">' +
+                    '<img src="' + esc(src) + '" alt="' + esc(f.fileName || 'Photo') + '" loading="lazy" class="h-full w-full object-cover" /></button>'
+                  );
+                })
+                .join('') +
+              '</div>';
+          }
+          if (others.length) {
+            html +=
+              '<ul class="mt-1.5 space-y-1">' +
+              others
+                .map(function (f) {
+                  var href = safeUrl(f.url);
+                  return href
+                    ? '<li><a href="' + esc(href) + '" target="_blank" rel="noopener noreferrer" class="text-[0.875rem] font-semibold text-brand-red underline">' + esc(f.fileName || 'File') + '</a></li>'
+                    : '';
+                })
+                .join('') +
+              '</ul>';
+          }
+          return html;
+        }
+
+        function multiline(text) {
+          return esc(text).replace(/\n/g, '<br>');
+        }
+
+        function quoteBlock(q) {
+          var lines = q.lines
+            .map(function (l) {
+              if (l.textOnly) {
+                return (
+                  '<li class="border-b border-brand-line py-2 last:border-0">' +
+                  '<p class="text-[0.9375rem] font-bold text-brand-black">' + esc(l.name) + '</p>' +
+                  (l.description ? '<p class="mt-0.5 text-[0.8125rem] text-brand-muted">' + multiline(l.description) + '</p>' : '') +
+                  '</li>'
+                );
+              }
+              return (
+                '<li class="border-b border-brand-line py-2 last:border-0">' +
+                '<div class="flex items-baseline gap-2"><p class="min-w-0 flex-1 text-[0.9375rem] font-bold text-brand-black">' + esc(l.name) +
+                (l.optional ? ' <span class="text-[0.75rem] font-semibold text-brand-muted">(optional)</span>' : '') +
+                '</p><p class="shrink-0 text-[0.9375rem] font-bold text-brand-black">' + esc(usd(l.total)) + '</p></div>' +
+                (l.description ? '<p class="mt-0.5 text-[0.8125rem] text-brand-muted">' + multiline(l.description) + '</p>' : '') +
+                '<p class="mt-0.5 text-[0.75rem] text-brand-muted">' + esc(qty(l.quantity)) + ' &times; ' + esc(usd(l.unitPrice)) + '</p>' +
+                '</li>'
+              );
+            })
+            .join('');
+          function amountRow(label, value, strong) {
+            if (typeof value !== 'number' || (value === 0 && !strong)) return '';
+            return (
+              '<div class="flex justify-between ' + (strong ? 'pt-1 text-[1rem] font-bold text-brand-black' : 'text-[0.875rem] text-brand-charcoal') + '">' +
+              '<span>' + esc(label) + '</span><span>' + esc(usd(value)) + '</span></div>'
+            );
+          }
+          var a = q.amounts;
+          return (
+            '<div class="' + card + ' p-3">' +
+            '<ul>' + lines + '</ul>' +
+            '<div class="mt-2 space-y-0.5 border-t border-brand-black pt-2">' +
+            amountRow('Subtotal', a.subtotal) +
+            (typeof a.discount === 'number' && a.discount > 0 ? amountRow('Discount', -a.discount) : '') +
+            amountRow('Tax', a.tax) +
+            amountRow('Total', a.total, true) +
+            amountRow('Deposit required', a.deposit) +
+            '</div>' +
+            (q.message ? '<p class="mt-3 border-t border-brand-line pt-2 text-[0.875rem] text-brand-charcoal">' + multiline(q.message) + '</p>' : '') +
+            (q.disclaimer ? '<p class="mt-2 text-[0.75rem] text-brand-muted">' + multiline(q.disclaimer) + '</p>' : '') +
+            '</div>'
+          );
+        }
+
+        function requestBlock(r) {
+          if (!r.available && !r.id) return '<p class="text-sm text-brand-muted">No request linked to this quote.</p>';
+          var html = '';
+          if (r.answers.length) {
+            html +=
+              '<dl class="' + card + ' divide-y divide-brand-line">' +
+              r.answers
+                .map(function (a) {
+                  return (
+                    '<div class="px-3 py-2"><dt class="text-[0.75rem] font-bold text-brand-muted">' + esc(a.label) + '</dt>' +
+                    '<dd class="text-[0.9375rem] text-brand-black">' + multiline(a.answer) + '</dd></div>'
+                  );
+                })
+                .join('') +
+              '</dl>';
+          }
+          if (r.instructions) html += '<p class="mt-2 ' + card + ' px-3 py-2 text-[0.9375rem]">' + multiline(r.instructions) + '</p>';
+          r.notes.forEach(function (n) {
+            html += '<p class="mt-2 ' + card + ' px-3 py-2 text-[0.9375rem]">' + multiline(n) + '</p>';
+          });
+          if (!html) html = '<p class="text-sm text-brand-muted">' + (r.available ? 'No details on the request.' : 'Request details unavailable.') + '</p>';
+          if (r.photos.length) html += '<div class="mt-2">' + photos(r.photos) + '</div>';
+          return html;
+        }
+
+        function historyBlock(list) {
+          if (!list.length) return '';
+          return (
+            '<ul class="' + card + ' divide-y divide-brand-line">' +
+            list
+              .map(function (h) {
+                return (
+                  '<li class="flex items-baseline gap-2 px-3 py-2 text-[0.8125rem]">' +
+                  '<span class="w-14 shrink-0 font-bold uppercase text-brand-muted">' + esc(h.kind) + '</span>' +
+                  '<span class="min-w-0 flex-1 truncate text-brand-black">' + esc(h.title) + '</span>' +
+                  '<span class="shrink-0 text-brand-muted">' + esc([usd(h.total), (h.status || '').replace(/_/g, ' ')].filter(Boolean).join(' · ')) + '</span></li>'
+                );
+              })
+              .join('') +
+            '</ul>'
+          );
+        }
+
+        /** Where this quote stands on the desk: approved, moved, texted. */
+        function progressBlock(data) {
+          var d = data.desk;
+          if (!d || d.state !== 'approved') return '';
+          var moved = d.jobber_status === 'awaiting_response' || Boolean(d.awaiting_seen_at);
+          var rows = [];
+          rows.push(check(true, 'Approved by ' + (d.approved_by || '')));
+          rows.push(check(moved, moved ? 'Awaiting Response' : 'Waiting for Awaiting Response'));
+          var text = d.text_state === 'sent' ? 'Text sent' : d.text_state === 'failed' ? 'Text failed' : d.text_state === 'sending' ? 'Sending text' : 'Text not sent';
+          rows.push(check(d.text_state === 'sent', text));
+          if (data.introOpened) rows.push(check(true, 'Opened intro'));
+          if (d.hub_viewed_at) rows.push(check(true, 'Opened quote'));
+          var html = '<div class="mt-3 flex flex-wrap gap-1">' + rows.join('') + '</div>';
+          if (d.text_error) html += '<p class="mt-1.5 text-[0.8125rem] font-semibold text-brand-red">' + esc(d.text_error) + '</p>';
+          if (d.move_error) html += '<p class="mt-1.5 text-[0.8125rem] font-semibold text-brand-red">' + esc(d.move_error) + '</p>';
+          if (data.actions && data.actions.retry)
+            html += '<button type="button" class="mt-2 ' + secondaryBtn + '" data-act="retry">Retry text</button>';
+          if (data.actions && data.actions.manualStep && !moved) {
+            html +=
+              '<p class="mt-2 text-[0.875rem] font-bold text-brand-black">Last step: tap More, then Mark as Awaiting Response</p>' +
+              '<a href="' + esc(safeUrl(data.quote.jobberWebUri)) + '" target="_blank" rel="noopener noreferrer" class="mt-1.5 ' + secondaryBtn + '">Open in Jobber</a>';
+          }
+          return html;
+        }
+
+        function actionsBlock(data) {
+          var acts = data.actions;
+          if (!acts) return '';
+          var q = data.quote;
+          var html = '';
+          if (acts.approve) {
+            html += '<button type="button" class="' + primaryBtn + '" data-act="approve">Looks good, send to ' + esc(q.client.first || 'client') + '</button>';
+          }
+          if (acts.change) {
+            html +=
+              '<details class="mt-2" data-change><summary class="' + secondaryBtn + ' cursor-pointer list-none">Needs a change</summary>' +
+              '<textarea rows="3" maxlength="1000" class="mt-2 w-full rounded-lg border border-brand-line bg-white p-2.5 text-[0.9375rem] focus:border-brand-red focus:outline-none" placeholder="What needs to change?" data-change-text></textarea>' +
+              '<button type="button" class="mt-1.5 ' + secondaryBtn + '" data-act="change">Save note</button></details>';
+          }
+          if (acts.hide) html += '<button type="button" class="mt-2 ' + secondaryBtn + '" data-act="hide">Not sending</button>';
+          if (acts.unhide) html += '<button type="button" class="mt-2 ' + secondaryBtn + '" data-act="unhide">Bring back</button>';
+          if (data.changes && data.changes.length) {
+            html +=
+              '<ul class="mt-3 space-y-1">' +
+              data.changes
+                .map(function (c) {
+                  return (
+                    '<li class="rounded-lg bg-white px-3 py-2 text-[0.8125rem]"><span class="font-bold">' + esc(c.actor) + ', ' + esc(when(c.at)) + ':</span> ' + esc(c.note) +
+                    (c.jobber_note === 'added' ? ' <span class="text-brand-muted">(in Jobber notes)</span>' : '') + '</li>'
+                  );
+                })
+                .join('') +
+              '</ul>';
+          }
+          return html ? '<div class="mt-5">' + html + '</div>' : '';
+        }
+
+        async function renderQuote(id) {
+          root.innerHTML = header('Quote', true) + '<p class="py-10 text-center text-sm text-brand-muted">Loading&hellip;</p>';
+          var data;
+          try {
+            data = await api('/api/desk/quote?id=' + encodeURIComponent(id));
+          } catch (err) {
+            if (err.message !== 'signed_out') root.innerHTML = header('Quote', true) + banner('error', 'network');
+            return;
+          }
+          if (data.access && data.access !== 'ok') {
+            root.innerHTML = header('Quote', true) + banner(data.access);
+            return;
+          }
+          if (!data.quote) {
+            root.innerHTML = header('Quote', true) + banner('error', data.errorClass || data.error || 'unknown');
+            return;
+          }
+          state.quote = data;
+          drawQuote();
+          if (data.desk && data.desk.state === 'approved' && data.desk.text_state !== 'sent') startPoll(id);
+        }
+
+        function drawQuote() {
+          var data = state.quote;
+          var q = data.quote;
+          var c = q.client;
+          var html =
+            header(c.name, true) +
+            '<div class="mt-2 ' + card + ' p-3">' +
+            '<p class="text-[1rem] font-bold text-brand-black">' + esc(q.title) + (q.number ? ' <span class="font-semibold text-brand-muted">#' + esc(q.number) + '</span>' : '') + '</p>' +
+            '<p class="text-[0.875rem] text-brand-muted">' + esc([c.city, (q.status || '').replace(/_/g, ' ')].filter(Boolean).join(' · ')) + '</p>' +
+            (c.phone
+              ? '<a href="tel:' + esc(c.phone) + '" class="mt-2 inline-flex h-10 items-center rounded-lg border border-brand-line px-3 text-[0.9375rem] font-bold text-brand-black">Call ' + esc(c.phoneDisplay) + '</a>'
+              : '<p class="mt-2 text-[0.875rem] font-semibold text-brand-red">No US phone number on file</p>') +
+            progressBlock(data) +
+            '</div>' +
+            section('The request', requestBlock(q.request)) +
+            section('The quote, as ' + (c.first || 'the client') + ' sees it', quoteBlock(q)) +
+            section('Quote attachments', photos(q.attachments)) +
+            (q.privateNote.length
+              ? '<h2 class="' + h2 + '">' + bar + 'Private, only you see this</h2>' +
+                q.privateNote
+                  .map(function (n) {
+                    return '<p class="mb-1.5 rounded-xl border border-dashed border-brand-charcoal bg-[#fffbea] px-3 py-2 text-[0.9375rem] text-brand-black">' + multiline(n) + '</p>';
+                  })
+                  .join('')
+              : '') +
+            (safeUrl(q.jobberWebUri)
+              ? '<a href="' + esc(safeUrl(q.jobberWebUri)) + '" target="_blank" rel="noopener noreferrer" class="mt-4 ' + secondaryBtn + '">Edit in Jobber</a>'
+              : '') +
+            actionsBlock(data) +
+            section('Earlier with ' + (c.first || 'this client'), historyBlock(q.history)) +
+            footer(data);
+          root.innerHTML = html;
+        }
+
+        /* ---- actions (sheet, poll) ----------------------------------- */
+
+        function closeSheet() {
+          sheet.hidden = true;
+          sheetBody.innerHTML = '';
+        }
+
+        function openApproveSheet() {
+          var data = state.quote;
+          var q = data.quote;
+          var preview = data.preview || {};
+          var manual = data.branch && data.branch.kind === 'manual';
+          var html =
+            '<p class="text-[0.75rem] font-bold uppercase tracking-[0.1em] text-brand-muted">Send to</p>' +
+            '<p class="text-[1.05rem] font-bold text-brand-black">' + esc(q.client.name) + ' &middot;&middot;&middot;' + esc(preview.last4 || '') + '</p>' +
+            '<p class="mt-1 text-[0.9375rem] text-brand-charcoal">Total ' + esc(usd(q.amounts.total)) + '</p>' +
+            '<p class="mt-3 text-[0.75rem] font-bold uppercase tracking-[0.1em] text-brand-muted">The text</p>' +
+            '<p class="mt-1 whitespace-pre-wrap rounded-2xl rounded-bl-sm bg-brand-lightbg px-3 py-2 text-[0.9375rem] text-brand-black">' + esc(preview.text || '') + '</p>' +
+            (data.sendEnabled ? '' : '<p class="mt-2 text-[0.875rem] font-bold text-brand-red">Texting is off</p>') +
+            (preview.problem ? '<p class="mt-2 text-[0.875rem] font-bold text-brand-red">' + esc(preview.problem) + '</p>' : '') +
+            (manual ? '<p class="mt-2 text-[0.875rem] font-bold text-brand-black">Last step: tap More, then Mark as Awaiting Response</p>' : '') +
+            '<button type="button" class="mt-4 ' + primaryBtn + '" data-sheet-send' + (preview.problem ? ' disabled' : '') + '>Send</button>' +
+            '<button type="button" class="mt-2 ' + secondaryBtn + '" data-sheet-cancel>Cancel</button>';
+          sheetBody.innerHTML = html;
+          sheet.hidden = false;
+        }
+
+        async function act(action, extra) {
+          var data = state.quote;
+          var body = Object.assign({ id: data.quote.id, action: action }, extra || {});
+          var result;
+          try {
+            result = await api('/api/desk/action', body);
+          } catch (err) {
+            if (err.message !== 'signed_out') alert('No connection. Nothing was changed.');
+            return null;
+          }
+          if (result.error) {
+            alert(result.message || result.error);
+            return null;
+          }
+          return result;
+        }
+
+        function stopPoll() {
+          if (state.poll) window.clearInterval(state.poll.timer);
+          state.poll = null;
+        }
+
+        /** Three minutes of checking after the tap, backing up the Jobber webhook. */
+        function startPoll(id) {
+          stopPoll();
+          var until = Date.now() + 3 * 60 * 1000;
+          state.poll = {
+            timer: window.setInterval(async function () {
+              if (Date.now() > until || !state.quote || state.quote.quote.id !== id) {
+                stopPoll();
+                return;
+              }
+              var result;
+              try {
+                result = await api('/api/desk/action', { id: id, action: 'poll' });
+              } catch (err) {
+                return;
+              }
+              if (result && result.desk) {
+                state.quote.desk = result.desk;
+                state.quote.actions = result.actions || state.quote.actions;
+                drawQuote();
+                if (result.desk.text_state === 'sent' || result.desk.text_state === 'failed') stopPoll();
+              }
+            }, 6000),
+          };
+        }
+
+        document.addEventListener('click', async function (event) {
+          var photo = event.target.closest('[data-photo]');
+          if (photo) {
+            viewerImg.src = photo.getAttribute('data-photo');
+            viewer.hidden = false;
+            return;
+          }
+          if (event.target.closest('[data-desk-viewer]')) {
+            viewer.hidden = true;
+            viewerImg.removeAttribute('src');
+            return;
+          }
+          if (event.target.closest('[data-logout]')) {
+            await api('/api/desk/logout', {}).catch(function () {});
+            state.me = null;
+            renderLogin();
+            return;
+          }
+          if (event.target.closest('[data-sheet-cancel]') || event.target === sheet) {
+            closeSheet();
+            return;
+          }
+          if (event.target.closest('[data-sheet-send]')) {
+            var send = event.target.closest('[data-sheet-send]');
+            send.disabled = true;
+            send.textContent = 'Sending…';
+            var manual = state.quote.branch && state.quote.branch.kind === 'manual';
+            // Opened in the tap itself, so the browser does not block it.
+            var jobberTab = manual && safeUrl(state.quote.quote.jobberWebUri) ? window.open(safeUrl(state.quote.quote.jobberWebUri), '_blank', 'noopener') : null;
+            var result = await act('approve');
+            closeSheet();
+            if (!result && jobberTab) jobberTab.close();
+            if (result) {
+              state.quote.desk = result.desk;
+              state.quote.actions = result.actions;
+              drawQuote();
+              startPoll(state.quote.quote.id);
+            }
+            return;
+          }
+          var trigger = event.target.closest('[data-act]');
+          if (!trigger || !state.quote) return;
+          var action = trigger.getAttribute('data-act');
+          if (action === 'approve') {
+            openApproveSheet();
+            return;
+          }
+          if (action === 'change') {
+            var box = root.querySelector('[data-change-text]');
+            var note = box ? box.value.trim() : '';
+            if (!note) {
+              if (box) box.focus();
+              return;
+            }
+            trigger.disabled = true;
+            var changed = await act('change', { note: note });
+            if (changed) renderQuote(state.quote.quote.id);
+            else trigger.disabled = false;
+            return;
+          }
+          trigger.disabled = true;
+          var done = await act(action);
+          if (!done) {
+            trigger.disabled = false;
+            return;
+          }
+          if (action === 'hide') {
+            location.hash = '#/';
+            return;
+          }
+          if (done.desk) state.quote.desk = done.desk;
+          if (done.actions) state.quote.actions = done.actions;
+          drawQuote();
+          if (action === 'retry') startPoll(state.quote.quote.id);
+        });
+
+        /* ---- routing ------------------------------------------------- */
+
+        function route() {
+          closeSheet();
+          if (!state.me) return;
+          var match = /^#\/q\/(.+)$/.exec(location.hash);
+          if (match) renderQuote(decodeURIComponent(match[1]));
+          else renderHome();
+        }
+
+        window.addEventListener('hashchange', route);
+
+        (async function start() {
+          var data;
+          try {
+            data = await api('/api/desk/session');
+          } catch (err) {
+            root.innerHTML = '<p class="py-10 text-center text-sm text-brand-red">No connection. Reload to try again.</p>';
+            return;
+          }
+          if (!data.configured) {
+            root.innerHTML = '<p class="py-10 text-center text-sm text-brand-muted">The desk is not set up yet (DESK_PINS).</p>';
+            return;
+          }
+          if (!data.signedIn) {
+            renderLogin();
+            return;
+          }
+          state.me = data.name;
+          route();
+        })();
+      })();
+    </script>
+  </body>
+</html>

@@ -44,6 +44,18 @@ export interface Env {
   AI_INTAKE_DAILY_CAP?: string;
   OPENAI_APPS_CHALLENGE_TOKEN?: string;
   JOBBER_EXPECTED_ACCOUNT?: string;
+  /** Quote Desk logins, "name:pin,name:pin". */
+  DESK_PINS?: string;
+  /** "true" lets the desk text customers through Quo. Anything else: texting is off. */
+  QUOTE_SEND_ENABLED?: string;
+  /** Quo (formerly OpenPhone) API key. */
+  QUO_API_KEY?: string;
+  /** Signing secret Quo returned when the call webhook was created (whsec_...). */
+  QUO_WEBHOOK_SECRET?: string;
+  /** "true" turns on the text to callers who hang up on Sona. */
+  HANGUP_TEXT_ENABLED?: string;
+  /** Comma-separated E.164 numbers that never get the hang-up text. */
+  HANGUP_SKIP_NUMBERS?: string;
 }
 
 export interface PagesContext<E = Env> {

@@ -89,6 +89,17 @@ const toneIdleClass = 'border-brand-line bg-white text-brand-charcoal';
       <h1 class="sr-only">Send a client a request-form link</h1>
 
       <!--
+        Essa's Quote Desk (/essa/quotes/): drafts waiting for his "Looks good".
+        First on the page because a draft waiting on him is money waiting.
+      -->
+      <a
+        href="/essa/quotes/"
+        class="mb-2 flex h-10 items-center justify-center gap-2 rounded-lg bg-brand-black text-[0.875rem] font-bold text-white active:bg-brand-charcoal"
+      >
+        Quotes to review <span aria-hidden="true">&rarr;</span>
+      </a>
+
+      <!--
         Who he is texting, chosen once for the whole page rather than per row —
         eleven rows times three buttons would not fit a phone, and he knows the
         situation before he knows which form he wants.
@@ -212,7 +223,8 @@ const toneIdleClass = 'border-brand-line bg-white text-brand-charcoal';
       <!--
         Install prompt. Sits at the BOTTOM on purpose: the eleven rows (the
         /go/ chooser included) fit one 390x844 screen with ~25px to spare
-        (measured 10 Nov 2026), and a banner above
+        (measured 10 Nov 2026; the Quotes to review button added on 11 Nov
+        2026 takes 48px of that and more), and a banner above
         them would push the last link off. Hidden until Chrome actually offers
         `beforeinstallprompt`, so it never appears once the app is installed.
       -->
