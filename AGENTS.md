@@ -74,6 +74,9 @@ Content lives in GitHub as Markdown/MDX/YAML/JSON through Pages CMS.
 Cloudflare stores heavy project/job images.
 Content files store image URLs + alt text + captions + metadata.
 
+## Quoting docs are private
+`docs/quoting/` (quoting rules, learning log, job notes) is its own private repo, `aimenAlt/eys-quoting`, checked out in place. This public repo ignores it: never `git add` it here. Commit quoting changes inside `docs/quoting/` to its own repo.
+
 ## Safety
 Do not delete content, rewrite strategy, or restructure routing broadly unless asked.
 Create incremental, reviewable commits.
