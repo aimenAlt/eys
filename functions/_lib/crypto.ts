@@ -16,6 +16,12 @@ export const KEY_LABELS = {
   /** Duplicate key for a request sent without an address (its job text). */
   jobHash: 'eys-ai-intake/job-hash/v1',
   tokenKey: 'eys-ai-intake/jobber-token-key/v1',
+  /**
+   * The quoting routine's bearer key for POST /api/admin/jobber/request-photos
+   * only. Owners derive the same value with openssl (master-guide §6.2), so
+   * the label must never change without updating that one-liner.
+   */
+  photosKey: 'eys/jobber-request-photos/v1',
 } as const;
 
 function utf8(value: string): Bytes {

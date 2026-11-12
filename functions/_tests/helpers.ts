@@ -283,6 +283,8 @@ export class FakeJobber {
   failOperations = new Set<string>();
   /** Title the fake stores instead of the one sent (to make read-back fail). */
   tamperTitle = false;
+  /** Operations a test answers itself: name → GraphQL response body. */
+  handlers = new Map<string, (query: string, variables: Record<string, unknown>) => unknown>();
   private issued = 0;
 
   /** The variables sent with the first call of an operation. */
@@ -377,6 +379,8 @@ export class FakeJobber {
   }
 
   private answer(operation: string, query: string, v: Record<string, unknown>): unknown {
+    const handler = this.handlers.get(operation);
+    if (handler) return handler(query, v);
     switch (operation) {
       case 'EysSchemaRoots':
         if (!this.introspection) return { errors: [{ message: 'Introspection is not allowed' }] };

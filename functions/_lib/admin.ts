@@ -11,8 +11,16 @@ export type AdminCheck = 'ok' | 'bad_key' | 'locked' | 'not_configured';
 /**
  * Admin key check for the Jobber connect / probe routes: constant-time, and
  * at most five wrong keys per hour per IP (counted in D1 by keyed IP hash).
+ * `alsoAccept` adds narrower keys derived from the admin key for one route
+ * (the quoting routine's photos key); wrong ones share the same lockout.
  */
-export async function checkAdminKey(env: Env, request: Request, presented: string, now: number): Promise<AdminCheck> {
+export async function checkAdminKey(
+  env: Env,
+  request: Request,
+  presented: string,
+  now: number,
+  alsoAccept: (adminKey: string) => Promise<string[]> = async () => [],
+): Promise<AdminCheck> {
   const key = adminKey(env);
   const db = env.EYS_AI_DB;
   if (!key || !db) return 'not_configured';
@@ -21,7 +29,11 @@ export async function checkAdminKey(env: Env, request: Request, presented: strin
   const counter = `adminfail:${await keyedHash(key, KEY_LABELS.ipHash, ip)}:${Math.floor(now / HOUR)}`;
   if ((await readCounter(db, counter)) >= MAX_ADMIN_FAILURES_PER_HOUR) return 'locked';
   const typed = presented.trim();
-  if (typed && (await timingSafeEqual(typed, key))) return 'ok';
+  if (typed) {
+    for (const accepted of [key, ...(await alsoAccept(key))]) {
+      if (await timingSafeEqual(typed, accepted)) return 'ok';
+    }
+  }
   await bumpCounter(db, counter, HOUR, now);
   return 'bad_key';
 }
