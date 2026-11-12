@@ -33,3 +33,7 @@ CLAUDE.local.md
 # Cloudflare Pages Functions local secrets (wrangler pages dev)
 .dev.vars
 .dev.vars.*
+
+# Quoting rules, learning log and job notes: private repo aimenAlt/eys-quoting,
+# checked out in place here so every path keeps working. Never track it in this public repo.
+docs/quoting/

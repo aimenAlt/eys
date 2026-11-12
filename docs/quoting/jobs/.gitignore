@@ -1,4 +1,0 @@
-# Customer job notes stay local — never commit them.
-*
-!.gitignore
-!README.md
