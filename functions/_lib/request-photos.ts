@@ -51,7 +51,7 @@ export interface PhotosResult {
   body: Record<string, unknown>;
 }
 
-/** HMAC-SHA256(AI_ADMIN_KEY, label) as base64url: accepted by this route only. */
+/** HMAC-SHA256(AI_ADMIN_KEY, label) as base64url: the routine's key, accepted by its photos and request-read routes only. */
 export async function photosKey(adminKey: string): Promise<string> {
   return base64url(await deriveSubkey(adminKey, KEY_LABELS.photosKey));
 }

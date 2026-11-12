@@ -250,6 +250,29 @@ function answerText(item: Obj): string | null {
   return names.length ? names.join(', ') : null;
 }
 
+/** The customer's form answers (the web request page's Overview), blank items dropped. */
+export function formAnswers(request: Obj | null | undefined): { section: string | null; label: string; answer: string }[] {
+  const answers: { section: string | null; label: string; answer: string }[] = [];
+  for (const section of nodes(obj(obj(request?.requestDetails)?.form)?.sections)) {
+    for (const item of nodes(section.items)) {
+      const label = str(item.label);
+      const answer = answerText(item);
+      if (label && answer) answers.push({ section: str(section.label), label, answer });
+    }
+  }
+  return answers;
+}
+
+/** The request's notes (RequestNote only; untyped nodes count as notes). */
+export function requestNoteNodes(request: Obj | null | undefined): Obj[] {
+  return nodes(request?.notes).filter((n) => !n.__typename || n.__typename === 'RequestNote');
+}
+
+/** Every file on the request: its own attachments, then each note's, each URL once. */
+export function requestFiles(request: Obj | null | undefined): FileView[] {
+  return files(request?.noteAttachments, ...requestNoteNodes(request).map((n) => n.fileAttachments));
+}
+
 /** Quote attachments minus the ones already shown with the request (Jobber copies them over). */
 function withoutDuplicates(list: FileView[], shown: FileView[]): FileView[] {
   const seen = new Set(shown.map((f) => f.fileName).filter(Boolean));
@@ -299,15 +322,9 @@ export function buildQuoteView(
   const phone = textablePhone(Array.isArray(client.phones) ? (client.phones as RawPhone[]) : []);
   const city = str(obj(obj(quote.property)?.address)?.city) ?? str(obj(client.billingAddress)?.city);
 
-  const answers: QuoteView['request']['answers'] = [];
-  for (const section of nodes(obj(obj(request?.requestDetails)?.form)?.sections)) {
-    for (const item of nodes(section.items)) {
-      const label = str(item.label);
-      const answer = answerText(item);
-      if (label && answer) answers.push({ section: str(section.label), label, answer });
-    }
-  }
-  const requestNotes = nodes(request?.notes);
+  const answers = formAnswers(request);
+  const requestNotes = requestNoteNodes(request);
+  const requestPhotos = requestFiles(request);
   const quoteNotes = nodes(quote.notes).filter((n) => !n.__typename || n.__typename === 'QuoteNote');
 
   const lines = nodes(obj(quote.lineItems)?.nodes ?? quote.lineItems)
@@ -376,7 +393,7 @@ export function buildQuoteView(
       answers,
       notes: requestNotes.map((n) => str(n.message)).filter((m): m is string => m !== null),
       instructions: str(obj(request?.assessment)?.instructions),
-      photos: files(request?.noteAttachments, ...requestNotes.map((n) => n.fileAttachments)),
+      photos: requestPhotos,
       available: request !== null,
       linked: options.requestLinked ?? obj(quote.request) !== null,
       createdAt: time(request?.createdAt),
@@ -390,10 +407,7 @@ export function buildQuoteView(
       deposit: num(amounts.depositAmount),
     },
     clientNote: clientNoteOf(quote.message),
-    attachments: withoutDuplicates(
-      files(quote.noteAttachments, ...quoteNotes.map((n) => n.fileAttachments)),
-      files(request?.noteAttachments, ...requestNotes.map((n) => n.fileAttachments)),
-    ),
+    attachments: withoutDuplicates(files(quote.noteAttachments, ...quoteNotes.map((n) => n.fileAttachments)), requestPhotos),
     privateNote: quoteNotes.map((n) => str(n.message)).filter((m): m is string => m !== null),
     history: historyRows,
   };

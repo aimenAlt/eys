@@ -262,10 +262,12 @@ await check('the overnight queue also flushes on the next webhook and on the sch
   const s = await setup();
   s.clock.t = NIGHT;
   await handleCall(s.deps, sonaCall(s, 'AC12'));
-  // The routes run on the real clock: move the due time into the past.
-  s.db.raw.prepare('UPDATE hangup_queue SET due_at = ?').run(Date.now() - 1000);
-  const realNow = Date.now;
+  // The routes read Date.now, which is pinned to the morning below: make the
+  // text due just before it (from the real clock, this test broke once the
+  // real date passed that morning).
   const morning = Date.UTC(2026, 10, 12, 15, 30, 0); // 9:30 AM CST
+  s.db.raw.prepare('UPDATE hangup_queue SET due_at = ?').run(morning - 1000);
+  const realNow = Date.now;
   Date.now = () => morning;
   try {
     await withFetch(s.quo.fetch, async () => {
