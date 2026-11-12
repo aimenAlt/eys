@@ -129,6 +129,10 @@ const seo = {
           'flex min-h-[3.25rem] w-full items-center justify-center rounded-lg bg-brand-red px-4 text-center text-[1rem] font-bold text-white shadow-card active:bg-brand-redhover disabled:opacity-50';
         var secondaryBtn =
           'flex min-h-[2.75rem] w-full items-center justify-center rounded-lg border border-brand-line bg-white px-4 text-center text-[0.9375rem] font-bold text-brand-charcoal active:bg-brand-lightbg disabled:opacity-50';
+        /* The action grid: two buttons a row. */
+        var cellBase = 'flex min-h-[3rem] w-full items-center justify-center rounded-lg px-2 py-1.5 text-center text-[0.875rem] font-bold leading-tight disabled:opacity-50';
+        var cellPrimary = cellBase + ' bg-brand-red text-white shadow-card active:bg-brand-redhover';
+        var cellSecondary = cellBase + ' border border-brand-line bg-white text-brand-charcoal active:bg-brand-lightbg';
 
         /* ---- login --------------------------------------------------- */
 
@@ -300,9 +304,12 @@ const seo = {
 
         /* ---- one quote ----------------------------------------------- */
 
-        function section(title, body) {
+        function section(title, body, aside) {
           if (!body) return '';
-          return '<h2 class="' + h2 + '">' + bar + esc(title) + '</h2>' + body;
+          if (!aside) return '<h2 class="' + h2 + '">' + bar + esc(title) + '</h2>' + body;
+          return (
+            '<div class="mb-1.5 mt-5 flex items-center justify-between gap-3"><h2 class="' + h2.replace('mb-1.5 mt-5 ', '') + ' min-w-0">' + bar + '<span class="text-balance">' + esc(title) + '</span></h2>' + aside + '</div>' + body
+          );
         }
 
         function photos(list) {
@@ -501,24 +508,28 @@ const seo = {
           if (!acts) return '';
           var q = data.quote;
           var html = '';
+          var cells = [];
           if (acts.approve) {
             var marked = data.desk && data.desk.state === 'marked';
-            html +=
-              '<button type="button" class="' + primaryBtn + '" data-act="approve">' +
-              (marked ? 'Send to ' + esc(q.client.first || 'client') + ' now' : 'Looks good, send to ' + esc(q.client.first || 'client')) +
-              '</button>';
+            cells.push(
+              '<button type="button" class="' + cellPrimary + '" data-act="approve">' +
+                (marked ? 'Send to ' + esc(q.client.first || 'client') + ' now' : 'Looks good, send to ' + esc(q.client.first || 'client')) +
+                '</button>',
+            );
           }
-          if (acts.mark) {
-            html += '<button type="button" class="mt-2 ' + secondaryBtn + '" data-act="mark">Mark Awaiting Response, don&rsquo;t text</button>';
-          }
+          if (acts.mark) cells.push('<button type="button" class="' + cellSecondary + '" data-act="mark">Mark Awaiting Response, don&rsquo;t text</button>');
+          if (acts.change) cells.push('<button type="button" class="' + cellSecondary + '" data-change-toggle aria-expanded="false">Needs a change</button>');
+          if (acts.hide) cells.push('<button type="button" class="' + cellSecondary + '" data-act="hide">Not sending</button>');
+          if (acts.unhide) cells.push('<button type="button" class="' + cellSecondary + '" data-act="unhide">Bring back</button>');
+          // A lone last button takes the full row.
+          if (cells.length % 2 === 1) cells[cells.length - 1] = cells[cells.length - 1].replace('class="', 'class="col-span-2 ');
+          if (cells.length) html += '<div class="grid grid-cols-2 gap-2">' + cells.join('') + '</div>';
           if (acts.change) {
             html +=
-              '<details class="mt-2" data-change><summary class="' + secondaryBtn + ' cursor-pointer list-none">Needs a change</summary>' +
-              '<textarea rows="3" maxlength="1000" class="mt-2 w-full rounded-lg border border-brand-line bg-white p-2.5 text-[0.9375rem] focus:border-brand-red focus:outline-none" placeholder="What needs to change?" data-change-text></textarea>' +
-              '<button type="button" class="mt-1.5 ' + secondaryBtn + '" data-act="change">Save note</button></details>';
+              '<div class="mt-2" data-change hidden>' +
+              '<textarea rows="3" maxlength="1000" class="w-full rounded-lg border border-brand-line bg-white p-2.5 text-[0.9375rem] focus:border-brand-red focus:outline-none" placeholder="What needs to change? Goes in Jobber as a note on this quote." data-change-text></textarea>' +
+              '<button type="button" class="mt-1.5 ' + secondaryBtn + '" data-act="change">Save note</button></div>';
           }
-          if (acts.hide) html += '<button type="button" class="mt-2 ' + secondaryBtn + '" data-act="hide">Not sending</button>';
-          if (acts.unhide) html += '<button type="button" class="mt-2 ' + secondaryBtn + '" data-act="unhide">Bring back</button>';
           if (data.changes && data.changes.length) {
             html +=
               '<ul class="mt-3 space-y-1">' +
@@ -622,8 +633,16 @@ const seo = {
             progressBlock(data) +
             '</div>' +
             section('The request', requestBlock(q.request)) +
-            section('The quote, as ' + (c.first || 'the client') + ' sees it', quoteBlock(q)) +
+            section(
+              'The quote, as ' + (c.first || 'the client') + ' sees it',
+              quoteBlock(q),
+              safeUrl(q.jobberWebUri)
+                ? '<a href="' + esc(safeUrl(q.jobberWebUri)) + '" target="_blank" rel="noopener noreferrer" class="inline-flex h-8 shrink-0 items-center gap-1 rounded-full border border-brand-line bg-white px-3 text-[0.75rem] font-bold text-brand-charcoal active:bg-brand-lightbg">' +
+                  'Edit in Jobber<svg aria-hidden="true" viewBox="0 0 20 20" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13 13 7M8 7h5v5"/></svg></a>'
+                : '',
+            ) +
             section('Quote attachments', photos(q.attachments)) +
+            actionsBlock(data) +
             (q.privateNote.length
               ? '<h2 class="' + h2 + '">' + bar + 'Private, only you see this</h2>' +
                 q.privateNote
@@ -632,10 +651,6 @@ const seo = {
                   })
                   .join('')
               : '') +
-            (safeUrl(q.jobberWebUri)
-              ? '<a href="' + esc(safeUrl(q.jobberWebUri)) + '" target="_blank" rel="noopener noreferrer" class="mt-4 ' + secondaryBtn + '">Edit in Jobber</a>'
-              : '') +
-            actionsBlock(data) +
             section('Earlier with ' + (c.first || 'this client'), historyBlock(q.history)) +
             footer(data);
           root.innerHTML = html;
@@ -781,6 +796,18 @@ const seo = {
             closeSheet();
             if (!marked && markTab) markTab.close();
             if (marked) renderQuote(state.quote.quote.id);
+            return;
+          }
+          var toggle = event.target.closest('[data-change-toggle]');
+          if (toggle) {
+            var panel = root.querySelector('[data-change]');
+            if (!panel) return;
+            panel.hidden = !panel.hidden;
+            toggle.setAttribute('aria-expanded', String(!panel.hidden));
+            if (!panel.hidden) {
+              var area = panel.querySelector('[data-change-text]');
+              if (area) area.focus();
+            }
             return;
           }
           var trigger = event.target.closest('[data-act]');
