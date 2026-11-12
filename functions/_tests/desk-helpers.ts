@@ -62,6 +62,8 @@ export class FakeDeskJobber {
   operations: string[] = [];
   mutationCalls: { name: string; variables: Record<string, unknown> }[] = [];
   notesAdded: { quoteId: string; message: string; pinned: boolean }[] = [];
+  /** When set, quoteCreateNote from the routine's note route answers with this user error. */
+  rejectNoteMessage: string | null = null;
   /** When true, quotesMarkAwaitingResponse succeeds but the status only flips on the next poll. */
   delayStatusFlip = false;
   pendingFlips: string[] = [];
@@ -224,6 +226,17 @@ export class FakeDeskJobber {
         const input = (v.input ?? {}) as { message?: string; pinned?: boolean };
         this.notesAdded.push({ quoteId: String(v.id), message: String(input.message ?? ''), pinned: input.pinned === true });
         return Response.json({ data: { quoteCreateNote: { userErrors: [] } } });
+      }
+      case 'EysRoutineQuoteNote': {
+        this.mutationCalls.push({ name: 'quoteCreateNote', variables: v });
+        if (this.rejectNoteMessage) {
+          return Response.json({ data: { quoteCreateNote: { quoteNote: null, userErrors: [{ message: this.rejectNoteMessage }] } } });
+        }
+        const input = (v.input ?? {}) as { message?: string };
+        const q = this.quotes.get(String(v.id));
+        const note = { __typename: 'QuoteNote', id: `note-r${this.mutationCalls.length}`, message: String(input.message ?? ''), createdAt: '2026-11-12T20:00:00Z', pinned: false };
+        if (q) q.notes.nodes.unshift(note);
+        return Response.json({ data: { quoteCreateNote: { quoteNote: { id: note.id }, userErrors: [] } } });
       }
       default:
         return Response.json({ errors: [{ message: `unknown operation ${operation}` }] });

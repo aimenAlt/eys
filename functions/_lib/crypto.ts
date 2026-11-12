@@ -17,8 +17,9 @@ export const KEY_LABELS = {
   jobHash: 'eys-ai-intake/job-hash/v1',
   tokenKey: 'eys-ai-intake/jobber-token-key/v1',
   /**
-   * The quoting routine's bearer key for its two routes only: POST
-   * /api/admin/jobber/request-photos and GET /api/admin/jobber/request. Owners
+   * The quoting routine's bearer key for its three routes only: POST
+   * /api/admin/jobber/request-photos, GET /api/admin/jobber/request and POST
+   * /api/admin/jobber/quote-note. Owners
    * derive the same value with openssl into a local key file (master-guide
    * §6.2), so the label must never change without updating that one-liner.
    */
