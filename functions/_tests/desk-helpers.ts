@@ -55,6 +55,10 @@ export class FakeDeskJobber {
   visibleMutations = new Set(['quotesMarkAwaitingResponse', 'quoteCreateNote', 'quoteEdit', 'requestCreate', 'clientCreate', 'propertyCreate']);
   quotes = new Map<string, FakeQuote>();
   requests = new Map<string, Record<string, unknown>>();
+  /** Requests a client has in Jobber besides the ones quotes link to (client id -> request ids). */
+  clientRequests = new Map<string, string[]>();
+  /** When false, the one-call quote bundle is refused (as Jobber does over its query cost budget). */
+  bundleAllowed = true;
   operations: string[] = [];
   mutationCalls: { name: string; variables: Record<string, unknown> }[] = [];
   notesAdded: { quoteId: string; message: string; pinned: boolean }[] = [];
@@ -133,6 +137,30 @@ export class FakeDeskJobber {
       case 'EysDeskQuote':
         if (!this.quotesScope) return this.hidden();
         return Response.json({ data: { quote: this.quotes.get(String(v.id)) ?? null } });
+      case 'EysDeskQuoteBundle': {
+        if (!this.quotesScope) return this.hidden();
+        if (!this.bundleAllowed) return Response.json({ data: null, errors: [{ message: 'Query cost exceeds the maximum allowed' }] });
+        const q = this.quotes.get(String(v.id));
+        if (!q) return Response.json({ data: { quote: null } });
+        const clientQuotes = [...this.quotes.values()]
+          .filter((other) => other.client.id === q.client.id)
+          .map((other) => ({ id: other.id, title: other.title, quoteStatus: other.quoteStatus, amounts: { total: other.amounts.total } }));
+        const requestIds = [...(this.clientRequests.get(q.client.id) ?? []), ...(q.request ? [q.request.id] : [])];
+        return Response.json({
+          data: {
+            quote: {
+              ...q,
+              request: q.request ? (this.requests.get(q.request.id) ?? { id: q.request.id }) : null,
+              client: {
+                ...q.client,
+                quotes: { nodes: clientQuotes },
+                requests: { nodes: requestIds.map((id) => ({ id, createdAt: (this.requests.get(id)?.createdAt as string | undefined) ?? null })) },
+                jobs: { nodes: [] },
+              },
+            },
+          },
+        });
+      }
       case 'EysDeskRequest':
         return Response.json({ data: { request: this.requests.get(String(v.id)) ?? null } });
       case 'EysDeskHistory':

@@ -8,9 +8,9 @@ import { onRequest as session } from '../api/desk/session.ts';
 import { onRequest as quotes } from '../api/desk/quotes.ts';
 import { onRequest as quote } from '../api/desk/quote.ts';
 import { MAX_PIN_FAILURES, PIN_WINDOW, parsePins, verifySession, issueSession } from '../_lib/desk-auth.ts';
-import { prune, type DeskSchema } from '../_lib/desk-schema.ts';
-import { pickStatusBranch } from '../_lib/desk-jobber.ts';
-import { buildList, isExcludedClient, shortClientName } from '../_lib/desk-view.ts';
+import { deskSchema, prune, type DeskSchema } from '../_lib/desk-schema.ts';
+import { WISH_LISTS, pickStatusBranch } from '../_lib/desk-jobber.ts';
+import { buildList, clientNoteOf, isExcludedClient, shortClientName } from '../_lib/desk-view.ts';
 import type { DeskQuoteRow } from '../_lib/desk-db.ts';
 import { check } from './helpers.ts';
 import { deskHarness, jwt, withFetch } from './desk-helpers.ts';
@@ -173,6 +173,115 @@ await check('quote screen: request answers, photos, the quote as the client sees
   assert.deepEqual(q.privateNote, ['Margin note: 2 hrs labor']);
   assert.ok(q.jobberWebUri.startsWith('https://'));
   assert.ok(Array.isArray(q.history), 'history still loads when the jobs scope is missing');
+});
+
+const ESTIMATE_BOILERPLATE =
+  '_______________________________________________\n' +
+  'Estimate Disclaimer: This quote is based on the information, measurements, plans, and reference images currently provided. Final pricing and scope are subject to change following an on-site inspection.\n\n' +
+  '_______________________________________________\n\nClient Notes:';
+
+await check('client note: the estimate boilerplate and an empty "Client Notes:" heading are dropped, real notes kept', () => {
+  assert.equal(clientNoteOf(ESTIMATE_BOILERPLATE), null);
+  assert.equal(
+    clientNoteOf(ESTIMATE_BOILERPLATE + '\nPrice based on about 175 sq ft of vinyl plank.\nTile instead is $13/sq ft.'),
+    'Price based on about 175 sq ft of vinyl plank.\nTile instead is $13/sq ft.',
+  );
+  assert.equal(clientNoteOf('Client Notes: Bring the paint.'), 'Bring the paint.');
+  assert.equal(clientNoteOf('Thanks for having us out.'), 'Thanks for having us out.');
+  assert.equal(clientNoteOf(null), null);
+});
+
+await check('quote screen: one Jobber call, no contract text, only the real client note', async () => {
+  const h = await deskHarness();
+  h.jobber.addQuote({
+    id: 'q-1',
+    message: ESTIMATE_BOILERPLATE + '\nFinal price once we have your square footage.',
+    contractDisclaimer: 'TERMS AND CONDITIONS '.repeat(200),
+  } as never);
+  h.jobber.requests.set('request-1', { id: 'request-1', title: 'Floors', notes: { nodes: [] }, noteAttachments: { nodes: [] } });
+  const cookie = await h.cookie();
+  await withFetch(h.jobber.fetch, () => h.call(quotes, '/api/desk/quotes', { cookie }));
+  h.jobber.operations.length = 0;
+  const response = await withFetch(h.jobber.fetch, () => h.call(quote, '/api/desk/quote?id=q-1', { cookie }));
+  const body = await response.json();
+  assert.deepEqual(h.jobber.operations, ['EysDeskQuoteBundle'], 'quote, request and history in a single call');
+  assert.equal(body.quote.clientNote, 'Final price once we have your square footage.');
+  assert.ok(!('disclaimer' in body.quote), 'the contract never reaches the desk');
+  assert.ok(!JSON.stringify(body).includes('TERMS AND CONDITIONS'));
+  assert.ok(!JSON.stringify(body).includes('Estimate Disclaimer'));
+  assert.equal(body.quote.request.available, true);
+  assert.equal(body.quote.request.linked, true);
+  assert.match(response.headers.get('Server-Timing') ?? '', /jobber;dur=\d+/);
+});
+
+await check('quote screen: bundle refused, the separate calls still give the request', async () => {
+  const h = await deskHarness();
+  h.jobber.bundleAllowed = false;
+  h.jobber.addQuote({ id: 'q-1' });
+  h.jobber.requests.set('request-1', {
+    id: 'request-1',
+    title: 'TV Mounting',
+    notes: { nodes: [] },
+    noteAttachments: { nodes: [{ url: 'https://files.example/wall.jpg', thumbnailUrl: null, fileName: 'wall.jpg', contentType: 'image/jpeg' }] },
+  });
+  const cookie = await h.cookie();
+  const body = await (await withFetch(h.jobber.fetch, () => h.call(quote, '/api/desk/quote?id=q-1', { cookie }))).json();
+  assert.ok(h.jobber.operations.includes('EysDeskQuote') && h.jobber.operations.includes('EysDeskRequest'));
+  assert.equal(body.quote.request.available, true);
+  assert.equal(body.quote.request.photos.length, 1);
+});
+
+await check('quote screen: a quote with no request shows the client\'s latest request, marked as not linked', async () => {
+  const h = await deskHarness();
+  h.jobber.addQuote({ id: 'q-1', request: null });
+  h.jobber.requests.set('r-old', { id: 'r-old', title: 'Old', createdAt: '2026-09-01T10:00:00Z', notes: { nodes: [] }, noteAttachments: { nodes: [] } });
+  h.jobber.requests.set('r-new', {
+    id: 'r-new',
+    title: 'Water damage',
+    createdAt: '2026-10-20T10:00:00Z',
+    notes: { nodes: [{ __typename: 'RequestNote', message: 'Floors first please' }] },
+    noteAttachments: { nodes: [{ url: 'https://files.example/floor.jpg', thumbnailUrl: null, fileName: 'floor.jpg', contentType: 'image/jpeg' }] },
+  });
+  h.jobber.clientRequests.set('client-1', ['r-old', 'r-new']);
+  const cookie = await h.cookie();
+  const body = await (await withFetch(h.jobber.fetch, () => h.call(quote, '/api/desk/quote?id=q-1', { cookie }))).json();
+  const r = body.quote.request;
+  assert.equal(r.available, true);
+  assert.equal(r.linked, false);
+  assert.equal(r.id, 'r-new', 'the newest one');
+  assert.deepEqual(r.notes, ['Floors first please']);
+  assert.equal(r.photos[0].fileName, 'floor.jpg');
+});
+
+await check('quote screen: photos Jobber copied from the request onto the quote are shown once', async () => {
+  const h = await deskHarness();
+  const wall = { url: 'https://files.example/wall.jpg', thumbnailUrl: null, fileName: 'wall.jpg', contentType: 'image/jpeg' };
+  const plan = { url: 'https://files.example/plan.pdf', thumbnailUrl: null, fileName: 'plan.pdf', contentType: 'application/pdf' };
+  h.jobber.addQuote({ id: 'q-1', noteAttachments: { nodes: [{ ...wall, url: 'https://files.example/copy/wall.jpg' }, plan] } } as never);
+  h.jobber.requests.set('request-1', { id: 'request-1', notes: { nodes: [] }, noteAttachments: { nodes: [wall] } });
+  const cookie = await h.cookie();
+  const body = await (await withFetch(h.jobber.fetch, () => h.call(quote, '/api/desk/quote?id=q-1', { cookie }))).json();
+  assert.deepEqual(body.quote.request.photos.map((f: { fileName: string }) => f.fileName), ['wall.jpg']);
+  assert.deepEqual(body.quote.attachments.map((f: { fileName: string }) => f.fileName), ['plan.pdf']);
+});
+
+await check('schema snapshot past 12 hours: served at once, refreshed in the background', async () => {
+  const h = await deskHarness();
+  const cookie = await h.cookie();
+  await withFetch(h.jobber.fetch, () => h.call(quotes, '/api/desk/quotes', { cookie }));
+  const row = await h.db.prepare("SELECT value FROM desk_kv WHERE key = 'jobber_schema'").first<{ value: string }>();
+  const snapshot = JSON.parse(row!.value) as DeskSchema;
+  snapshot.fetchedAt -= 13 * 3_600_000;
+  await h.db.prepare("UPDATE desk_kv SET value = ?1 WHERE key = 'jobber_schema'").bind(JSON.stringify(snapshot)).run();
+  h.jobber.operations.length = 0;
+  const background: Promise<unknown>[] = [];
+  const served = await withFetch(h.jobber.fetch, () => deskSchema({ ...h.deps(), now: () => Date.now() }, h.db as never, WISH_LISTS, false, (p) => background.push(p)));
+  assert.equal(served.fetchedAt, snapshot.fetchedAt, 'the old snapshot, without waiting');
+  assert.deepEqual(h.jobber.operations, [], 'no Jobber call before answering');
+  assert.equal(background.length, 1);
+  await withFetch(h.jobber.fetch, () => background[0]);
+  const after = JSON.parse((await h.db.prepare("SELECT value FROM desk_kv WHERE key = 'jobber_schema'").first<{ value: string }>())!.value) as DeskSchema;
+  assert.ok(after.fetchedAt > snapshot.fetchedAt, 'refreshed for the next request');
 });
 
 await check('schema pruning: fields, fragments and arguments the schema lacks are dropped', () => {

@@ -42,6 +42,13 @@ How the desk session works:
 - A login is allowed at most 5 wrong PINs per 15 minutes per IP (`rate_counters`, keyed IP hash).
 - Every action is logged in `desk_events` with who did it and when: login, approve, the status move, text sent or failed, change, hide, unhide, and webhook.
 
+## The quote screen
+
+- **One Jobber call.** `GET /api/desk/quote` asks for the quote, its request in full and the client's earlier quotes, requests and jobs in a single nested query (`EysDeskQuoteBundle`). If Jobber refuses it (query cost, a hidden field), it falls back to separate calls. Connection pages are kept small (15 form sections, 40 items, 15 notes) so the query stays well inside Jobber's cost budget.
+- **Request first.** The request's answers, notes and photos come before the quote. Long notes (call transcripts) show their start with "Show all". A quote made without a request (an email, a call) shows the client's latest request, with a note saying it isn't linked.
+- **No contract.** The contract text and the "Estimate Disclaimer" boilerplate are never sent to the desk. Only the quote's own client note (what follows "Client Notes:") shows, as "Note on the quote". Photos Jobber copied from the request onto the quote show once.
+- **Speed.** The schema snapshot is read once per request. After 12 hours it is served as is and refreshed after the response (`waitUntil`), so nobody waits for the walk. The page preloads the first three drafts and any quote on touch, keeps loaded quotes in memory (never in storage), and shows them at once while refreshing. Both desk routes send a `Server-Timing` header (`access`, `jobber`, `db`).
+
 ## The status branch
 
 The desk never moves a quote any way that messages the client. It reads the

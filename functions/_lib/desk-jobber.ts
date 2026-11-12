@@ -43,12 +43,11 @@ const QUOTE_SEL: Sel = {
   clientHubUri: true,
   clientHubViewedAt: true,
   message: true,
-  contractDisclaimer: true,
   amounts: {
     sel: { subtotal: true, discountAmount: true, taxAmount: true, total: true, depositAmount: true, outstandingDepositAmount: true },
   },
   lineItems: {
-    args: { first: '100' },
+    args: { first: '60' },
     sel: {
       nodes: {
         sel: {
@@ -80,7 +79,7 @@ const QUOTE_SEL: Sel = {
   property: { sel: { address: { sel: { city: true } } } },
   request: { sel: { id: true } },
   notes: {
-    args: { first: '30' },
+    args: { first: '15' },
     sel: {
       nodes: {
         sel: {
@@ -91,14 +90,14 @@ const QUOTE_SEL: Sel = {
               message: true,
               createdAt: true,
               pinned: true,
-              fileAttachments: { args: { first: '20' }, sel: { nodes: { sel: FILES } } },
+              fileAttachments: { args: { first: '10' }, sel: { nodes: { sel: FILES } } },
             },
           },
         },
       },
     },
   },
-  noteAttachments: { args: { first: '50' }, sel: { nodes: { sel: FILES } } },
+  noteAttachments: { args: { first: '30' }, sel: { nodes: { sel: FILES } } },
 };
 
 const REQUEST_SEL: Sel = {
@@ -112,13 +111,13 @@ const REQUEST_SEL: Sel = {
       form: {
         sel: {
           sections: {
-            args: { first: '30' },
+            args: { first: '15' },
             sel: {
               nodes: {
                 sel: {
                   label: true,
                   items: {
-                    args: { first: '60' },
+                    args: { first: '40' },
                     sel: {
                       nodes: {
                         sel: {
@@ -144,31 +143,41 @@ const REQUEST_SEL: Sel = {
   },
   assessment: { sel: { instructions: true } },
   notes: {
-    args: { first: '30' },
+    args: { first: '15' },
     sel: {
       nodes: {
         sel: {
           __typename: true,
           '...RequestNote': {
-            sel: { message: true, createdAt: true, fileAttachments: { args: { first: '30' }, sel: { nodes: { sel: FILES } } } },
+            sel: { message: true, createdAt: true, fileAttachments: { args: { first: '20' }, sel: { nodes: { sel: FILES } } } },
           },
         },
       },
     },
   },
-  noteAttachments: { args: { first: '60' }, sel: { nodes: { sel: FILES } } },
+  noteAttachments: { args: { first: '40' }, sel: { nodes: { sel: FILES } } },
 };
 
 const HISTORY_SEL: Sel = {
   quotes: {
-    args: { first: '20' },
+    args: { first: '10' },
     sel: { nodes: { sel: { id: true, quoteNumber: true, title: true, quoteStatus: true, createdAt: true, amounts: { sel: { total: true } } } } },
   },
-  requests: { args: { first: '20' }, sel: { nodes: { sel: { id: true, title: true, requestStatus: true, createdAt: true } } } },
+  requests: { args: { first: '10' }, sel: { nodes: { sel: { id: true, title: true, requestStatus: true, createdAt: true } } } },
 };
 
 const JOBS_SEL: Sel = {
-  jobs: { args: { first: '20' }, sel: { nodes: { sel: { id: true, jobNumber: true, title: true, jobStatus: true, total: true, createdAt: true } } } },
+  jobs: { args: { first: '10' }, sel: { nodes: { sel: { id: true, jobNumber: true, title: true, jobStatus: true, total: true, createdAt: true } } } },
+};
+
+/**
+ * The quote screen in one call: the quote, its request in full, and the
+ * client's earlier quotes, requests and jobs, all nested under the quote.
+ */
+const BUNDLE_SEL: Sel = {
+  ...QUOTE_SEL,
+  request: { sel: REQUEST_SEL },
+  client: { sel: { ...(QUOTE_SEL.client as { sel: Sel }).sel, ...HISTORY_SEL, ...JOBS_SEL } },
 };
 
 const STATUS_SEL: Sel = {
@@ -207,14 +216,19 @@ export type QuotesAccess = 'not_connected' | 'needs_reconnect' | 'ok';
 export interface DeskJobber {
   deps: JobberDeps;
   db: D1Database;
+  /** The request's waitUntil: lets a stale schema snapshot refresh after the response. */
+  waitUntil?: (promise: Promise<unknown>) => void;
+  /** The snapshot this request already loaded, so D1 is read and parsed once per request. */
+  schema?: DeskSchema;
 }
 
-export function deskJobberDeps(env: Env): DeskJobber | null {
+export function deskJobberDeps(env: Env, waitUntil?: (promise: Promise<unknown>) => void): DeskJobber | null {
   const key = adminKey(env);
   const db = env.EYS_AI_DB;
   if (!key || !db) return null;
   return {
     db,
+    waitUntil,
     deps: {
       env,
       db,
@@ -227,7 +241,9 @@ export function deskJobberDeps(env: Env): DeskJobber | null {
 }
 
 async function schemaFor(j: DeskJobber, force = false): Promise<DeskSchema> {
-  return deskSchema(j.deps, j.db, WISH_LISTS, force);
+  if (!force && j.schema) return j.schema;
+  j.schema = await deskSchema(j.deps, j.db, WISH_LISTS, force, j.waitUntil);
+  return j.schema;
 }
 
 /**
@@ -413,25 +429,100 @@ export async function fetchRequest(j: DeskJobber, id: string): Promise<Record<st
   return data?.request ?? null;
 }
 
+export interface QuoteBundle {
+  quote: Record<string, unknown>;
+  request: Record<string, unknown> | null;
+  /** False when the quote has no request in Jobber and `request` is the client's latest one. */
+  requestLinked: boolean;
+  history: Record<string, unknown>;
+}
+
+type Obj = Record<string, unknown>;
+
+function asObj(value: unknown): Obj | null {
+  return value && typeof value === 'object' && !Array.isArray(value) ? (value as Obj) : null;
+}
+
+/** The client's newest request, for a quote that was made without one (an email, a call). */
+function latestRequestId(history: Obj): string | null {
+  const list = (asObj(history.requests)?.nodes as unknown[] | undefined) ?? [];
+  const newest = list
+    .map(asObj)
+    .filter((r): r is Obj => r !== null && typeof r.id === 'string')
+    .sort((a, b) => String(b.createdAt ?? '').localeCompare(String(a.createdAt ?? '')))[0];
+  return newest ? String(newest.id) : null;
+}
+
+/**
+ * Everything the quote screen needs, in one Jobber call (BUNDLE_SEL). If that
+ * call is refused (query cost, a hidden field), it falls back to the quote,
+ * request and history as separate calls. A quote with no request shows the
+ * client's latest request instead, marked as not linked.
+ */
+export async function fetchQuoteBundle(j: DeskJobber, id: string): Promise<QuoteBundle | null> {
+  let bundle: QuoteBundle | null = null;
+  try {
+    const data = await run<{ quote?: Obj | null }>(j, (schema) => {
+      if (!schema.queries.quote) return null;
+      const selection = prune(schema, schema.queries.quote.type, BUNDLE_SEL);
+      return { query: `query EysDeskQuoteBundle($id: ${idType(schema, 'quote')}) { quote(id: $id) { ${selection} } }`, variables: { id } };
+    });
+    const quote = data?.quote ?? null;
+    if (!quote) return null;
+    const client = asObj(quote.client) ?? {};
+    const request = asObj(quote.request);
+    bundle = {
+      quote,
+      request: request && Object.keys(request).some((k) => k !== 'id') ? request : null,
+      requestLinked: request !== null,
+      history: { quotes: client.quotes, requests: client.requests, jobs: client.jobs },
+    };
+    // Linked, but the nested request came back empty: read it on its own.
+    if (request && !bundle.request && typeof request.id === 'string') {
+      bundle.request = await fetchRequest(j, request.id).catch(() => null);
+    }
+  } catch (error) {
+    if (!(error instanceof JobberError && ['graphql', 'scope', 'throttled'].includes(error.errorClass))) throw error;
+    const quote = await fetchQuote(j, id);
+    if (!quote) return null;
+    const requestId = asObj(quote.request)?.id;
+    const clientId = asObj(quote.client)?.id;
+    const [request, history] = await Promise.all([
+      typeof requestId === 'string' ? fetchRequest(j, requestId).catch(() => null) : Promise.resolve(null),
+      typeof clientId === 'string' ? fetchClientHistory(j, clientId).catch(() => ({})) : Promise.resolve({}),
+    ]);
+    bundle = { quote, request, requestLinked: typeof requestId === 'string', history };
+  }
+  if (!bundle.requestLinked) {
+    const fallbackId = latestRequestId(bundle.history);
+    if (fallbackId) bundle.request = await fetchRequest(j, fallbackId).catch(() => null);
+  }
+  return bundle;
+}
+
 /** Earlier quotes and requests, then jobs on their own: the jobs scope is not one this app asks for. */
 export async function fetchClientHistory(j: DeskJobber, clientId: string): Promise<Record<string, unknown>> {
   const out: Record<string, unknown> = {};
-  for (const sel of [HISTORY_SEL, JOBS_SEL]) {
-    try {
-      const data = await run<{ client?: Record<string, unknown> | null }>(j, (schema) => {
-        if (!schema.queries.client) return null;
-        const selection = prune(schema, schema.queries.client.type, sel);
-        if (!selection) return null;
-        return {
-          query: `query EysDeskHistory($id: ${idType(schema, 'client')}) { client(id: $id) { ${selection} } }`,
-          variables: { id: clientId },
-        };
-      });
-      Object.assign(out, data?.client ?? {});
-    } catch (error) {
-      if (!(error instanceof JobberError && (error.errorClass === 'scope' || error.errorClass === 'graphql'))) throw error;
-    }
-  }
+  const parts = await Promise.all(
+    [HISTORY_SEL, JOBS_SEL].map(async (sel) => {
+      try {
+        const data = await run<{ client?: Record<string, unknown> | null }>(j, (schema) => {
+          if (!schema.queries.client) return null;
+          const selection = prune(schema, schema.queries.client.type, sel);
+          if (!selection) return null;
+          return {
+            query: `query EysDeskHistory($id: ${idType(schema, 'client')}) { client(id: $id) { ${selection} } }`,
+            variables: { id: clientId },
+          };
+        });
+        return data?.client ?? {};
+      } catch (error) {
+        if (!(error instanceof JobberError && (error.errorClass === 'scope' || error.errorClass === 'graphql'))) throw error;
+        return {};
+      }
+    }),
+  );
+  for (const part of parts) Object.assign(out, part);
   return out;
 }
 

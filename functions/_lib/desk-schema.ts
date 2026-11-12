@@ -1,6 +1,6 @@
 import type { D1Database } from './types.ts';
 import { FIELD_SELECTION, JobberError, fetchTypes, graphql, renderType, unwrap, type FieldInfo, type JobberDeps, type TypeInfo } from './jobber.ts';
-import { HOUR } from './db.ts';
+import { DAY, HOUR } from './db.ts';
 import { kvGet, kvSet } from './desk-db.ts';
 
 /**
@@ -38,6 +38,8 @@ export interface DeskSchema {
 
 const KV_KEY = 'jobber_schema';
 const SCHEMA_TTL = 12 * HOUR;
+/** Past the TTL a snapshot is still served (and refreshed in the background) for up to this long. */
+const SCHEMA_STALE_MAX = 7 * DAY;
 
 /** Types every desk query starts from; anything below them is discovered by walking the wish lists. */
 const SEED_TYPES = [
@@ -184,23 +186,48 @@ export async function introspectDesk(deps: JobberDeps, wishLists: { root: string
   return schema;
 }
 
+/** One background refresh at a time per isolate. */
+let refreshing: Promise<DeskSchema> | null = null;
+
+async function refreshSchema(deps: JobberDeps, db: D1Database, wishLists: { root: string; sel: Sel }[]): Promise<DeskSchema> {
+  const fresh = await introspectDesk(deps, wishLists);
+  await kvSet(db, KV_KEY, fresh, deps.now());
+  return fresh;
+}
+
 /**
- * The cached snapshot, refreshed after 12 hours or on demand (a query that
- * came back with a schema error). "Introspect once, cache the result in D1."
+ * The cached snapshot. "Introspect once, cache the result in D1."
+ *
+ * After 12 hours it is refreshed, but nobody waits for that: with
+ * `background` (the request's waitUntil) the old snapshot is served and the
+ * walk (up to 15 Jobber calls) runs after the response. Only a missing or
+ * week-old snapshot, or `force` (a query that came back with a schema error),
+ * makes the caller wait.
  */
 export async function deskSchema(
   deps: JobberDeps,
   db: D1Database,
   wishLists: { root: string; sel: Sel }[],
   force = false,
+  background?: (promise: Promise<unknown>) => void,
 ): Promise<DeskSchema> {
   if (!force) {
     const cached = await kvGet<DeskSchema>(db, KV_KEY);
-    if (cached && cached.fetchedAt + SCHEMA_TTL > deps.now()) return cached;
+    if (cached) {
+      const age = deps.now() - cached.fetchedAt;
+      if (age < SCHEMA_TTL) return cached;
+      if (background && age < SCHEMA_STALE_MAX) {
+        if (!refreshing) {
+          refreshing = refreshSchema(deps, db, wishLists).finally(() => {
+            refreshing = null;
+          });
+          background(refreshing.catch(() => undefined));
+        }
+        return cached;
+      }
+    }
   }
-  const fresh = await introspectDesk(deps, wishLists);
-  await kvSet(db, KV_KEY, fresh, deps.now());
-  return fresh;
+  return refreshSchema(deps, db, wishLists);
 }
 
 export async function forgetDeskSchema(db: D1Database): Promise<void> {

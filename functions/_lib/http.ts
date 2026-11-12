@@ -99,3 +99,27 @@ export async function readJsonBody(request: Request, maxBytes = MAX_BODY_BYTES):
     return { ok: false, status: 400, error: 'Body is not valid JSON.' };
   }
 }
+
+/**
+ * A `Server-Timing` header for a route: `mark(name)` closes a step, `apply`
+ * adds the header (`access;dur=120, jobber;dur=480, ...`). Durations only:
+ * nothing about the request or its data.
+ */
+export function serverTiming(now: () => number = () => Date.now()): {
+  mark(name: string): void;
+  apply(response: Response): Response;
+} {
+  let last = now();
+  const steps: string[] = [];
+  return {
+    mark(name: string) {
+      const t = now();
+      steps.push(`${name};dur=${t - last}`);
+      last = t;
+    },
+    apply(response: Response) {
+      if (steps.length) response.headers.set('Server-Timing', steps.join(', '));
+      return response;
+    },
+  };
+}

@@ -206,6 +206,9 @@ export interface QuoteView {
     instructions: string | null;
     photos: FileView[];
     available: boolean;
+    /** False when the quote has no request in Jobber and this is the client's latest one. */
+    linked: boolean;
+    createdAt: number | null;
   };
   lines: {
     name: string;
@@ -223,8 +226,8 @@ export interface QuoteView {
     total: number | null;
     deposit: number | null;
   };
-  message: string | null;
-  disclaimer: string | null;
+  /** The quote-specific note to the client, without the boilerplate disclaimer or the contract. */
+  clientNote: string | null;
   attachments: FileView[];
   privateNote: string[];
   history: { kind: 'quote' | 'request' | 'job'; id: string; title: string; total: number | null; status: string | null; createdAt: number | null }[];
@@ -246,10 +249,50 @@ function answerText(item: Obj): string | null {
   return names.length ? names.join(', ') : null;
 }
 
+/** Quote attachments minus the ones already shown with the request (Jobber copies them over). */
+function withoutDuplicates(list: FileView[], shown: FileView[]): FileView[] {
+  const seen = new Set(shown.map((f) => f.fileName).filter(Boolean));
+  return list.filter((f) => !f.fileName || !seen.has(f.fileName));
+}
+
+/**
+ * The part of a quote's client message worth reading on the desk. EYS quotes
+ * carry the same "Estimate Disclaimer" paragraph between underscore rules, then
+ * a "Client Notes:" heading; only what follows (if anything) is specific to
+ * this quote. The contract text is never shown on the desk.
+ */
+export function clientNoteOf(message: unknown): string | null {
+  const text = str(message);
+  if (!text) return null;
+  const kept: string[] = [];
+  let skipping = false;
+  for (const raw of text.replace(/\r\n?/g, '\n').split('\n')) {
+    const line = raw.trim();
+    if (/^[_\-=\s]{5,}$/.test(line)) {
+      skipping = false;
+      continue;
+    }
+    if (/^estimate disclaimer\b/i.test(line)) {
+      skipping = true;
+      continue;
+    }
+    if (skipping) {
+      if (line === '') skipping = false;
+      continue;
+    }
+    if (/^client notes?\s*:?$/i.test(line)) continue;
+    const heading = /^client notes?\s*:\s*(.+)$/i.exec(line);
+    kept.push(heading ? heading[1] : raw.trimEnd());
+  }
+  const out = kept.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+  return out === '' ? null : out;
+}
+
 export function buildQuoteView(
   quote: Obj,
   request: Obj | null,
   history: Obj,
+  options: { requestLinked?: boolean } = {},
 ): QuoteView {
   const client = obj(quote.client) ?? {};
   const phone = textablePhone(Array.isArray(client.phones) ? (client.phones as RawPhone[]) : []);
@@ -333,6 +376,8 @@ export function buildQuoteView(
       instructions: str(obj(request?.assessment)?.instructions),
       photos: files(request?.noteAttachments, ...requestNotes.map((n) => n.fileAttachments)),
       available: request !== null,
+      linked: options.requestLinked ?? obj(quote.request) !== null,
+      createdAt: time(request?.createdAt),
     },
     lines,
     amounts: {
@@ -342,9 +387,11 @@ export function buildQuoteView(
       total: num(amounts.total),
       deposit: num(amounts.depositAmount),
     },
-    message: str(quote.message),
-    disclaimer: str(quote.contractDisclaimer),
-    attachments: files(quote.noteAttachments, ...quoteNotes.map((n) => n.fileAttachments)),
+    clientNote: clientNoteOf(quote.message),
+    attachments: withoutDuplicates(
+      files(quote.noteAttachments, ...quoteNotes.map((n) => n.fileAttachments)),
+      files(request?.noteAttachments, ...requestNotes.map((n) => n.fileAttachments)),
+    ),
     privateNote: quoteNotes.map((n) => str(n.message)).filter((m): m is string => m !== null),
     history: historyRows,
   };

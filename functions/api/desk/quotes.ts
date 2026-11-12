@@ -4,7 +4,7 @@ import { deskQuotes, findQLinkByQuote } from '../../_lib/desk-db.ts';
 import { flowDeps, refreshSent } from '../../_lib/desk-flow.ts';
 import { deskJobberDeps, listDraftQuotes, quotesAccess, statusBranch } from '../../_lib/desk-jobber.ts';
 import { buildList, sentItem, type DeskList, type SentItem } from '../../_lib/desk-view.ts';
-import { json, methodNotAllowed } from '../../_lib/http.ts';
+import { json, methodNotAllowed, serverTiming } from '../../_lib/http.ts';
 import { JobberError } from '../../_lib/jobber.ts';
 
 /**
@@ -17,7 +17,8 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   const auth = await deskAuth(context);
   if (!auth.ok) return auth.response;
   const { env } = context;
-  const j = deskJobberDeps(env);
+  const j = deskJobberDeps(env, (promise) => context.waitUntil(promise));
+  const timing = serverTiming();
   const db = env.EYS_AI_DB;
   if (!j || !db) return json({ error: 'not_configured' }, 503);
 
@@ -36,6 +37,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   for (const row of rows.filter((r) => r.state === 'approved').sort((a, b) => (a.approved_at ?? 0) - (b.approved_at ?? 0))) {
     sent.push(sentItem(row, await findQLinkByQuote(db, row.quote_id)));
   }
+  timing.mark('db');
 
   let list: DeskList | null = null;
   let access: string;
@@ -47,7 +49,9 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     if (result.access === 'ok' && result.schema) {
       const picked = await statusBranch(j, result.schema);
       branch = { kind: picked.kind, label: picked.label };
+      timing.mark('access');
       list = buildList(await listDraftQuotes(j), rows, auth.now);
+      timing.mark('jobber');
     }
   } catch (caught) {
     if (caught instanceof JobberError && caught.errorClass === 'scope') access = 'needs_reconnect';
@@ -57,7 +61,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     }
   }
 
-  return json({
+  return timing.apply(json({
     name: auth.name,
     access,
     error,
@@ -66,5 +70,5 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     branch,
     sendEnabled: quoteSendEnabled(env),
     quoConfigured: Boolean(env.QUO_API_KEY?.trim()),
-  });
+  }));
 };

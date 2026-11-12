@@ -38,8 +38,28 @@ h.jobber.addQuote({
     ],
   },
   request: { id: 'request-c' },
+  // What real EYS quotes carry: the boilerplate, a real note, and a long contract.
+  message:
+    '__________________________________________\nEstimate Disclaimer: This quote is based on the information, measurements, plans, and reference images currently provided.\n\n__________________________________________\n\nClient Notes:\nPrice assumes the rods are already on site.',
+  contractDisclaimer: 'CONTRACT TERMS. '.repeat(300),
+} as never);
+h.jobber.addQuote({ id: 'q-fence', title: 'Project Quote', createdAt: ago(9), request: null, client: { id: 'client-f', firstName: 'marcus', lastName: 'Webb', name: 'Marcus Webb', phones: [{ number: '713-555-0110', primary: true, smsAllowed: true }] } });
+// q-fence came in by phone: no request on the quote, but Marcus has one from later.
+h.jobber.requests.set('request-f', {
+  id: 'request-f',
+  title: 'Quo Request',
+  createdAt: ago(5),
+  notes: {
+    nodes: [
+      {
+        __typename: 'RequestNote',
+        message: 'Call Transcript\n' + Array.from({ length: 40 }, (_, i) => (i % 2 ? '[EYS]: Mhmm, sure thing.' : '[+17135550110]: I need the back fence fixed, a few boards are loose.')).join('\n'),
+      },
+    ],
+  },
+  noteAttachments: { nodes: [photo('services/media-walls/marble-wood-slat.jpg')] },
 });
-h.jobber.addQuote({ id: 'q-fence', title: 'Project Quote', createdAt: ago(9), client: { id: 'client-f', firstName: 'marcus', lastName: 'Webb', name: 'Marcus Webb', phones: [{ number: '713-555-0110', primary: true, smsAllowed: true }] } });
+h.jobber.clientRequests.set('client-f', ['request-f']);
 h.jobber.addQuote({ id: 'q-old', title: 'Bathroom vanity swap', createdAt: ago(41) });
 h.jobber.requests.set('request-c', {
   id: 'request-c',
