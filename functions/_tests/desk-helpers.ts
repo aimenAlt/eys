@@ -52,7 +52,7 @@ export interface FakeQuote {
 export class FakeDeskJobber {
   quotesScope = true;
   /** Mutation names the token can see. */
-  visibleMutations = new Set(['quotesMarkAwaitingResponse', 'quoteCreateNote', 'quoteEdit', 'requestCreate', 'clientCreate', 'propertyCreate']);
+  visibleMutations = new Set(['quotesMarkAwaitingResponse', 'quoteCreateNote', 'quoteEdit', 'quoteEditLineItems', 'quoteArchive', 'requestCreate', 'clientCreate', 'propertyCreate']);
   quotes = new Map<string, FakeQuote>();
   requests = new Map<string, Record<string, unknown>>();
   /** Requests a client has in Jobber besides the ones quotes link to (client id -> request ids). */
@@ -86,8 +86,8 @@ export class FakeDeskJobber {
       },
       lineItems: {
         nodes: [
-          { name: 'TV mounting', description: 'Mount a 65 inch TV on drywall', quantity: 1, unitPrice: 400, totalPrice: 400, textOnly: false, optional: false, sortOrder: 1 },
-          { name: 'Card Fee', description: '3%', quantity: 1, unitPrice: 12, totalPrice: 12, textOnly: false, optional: false, sortOrder: 2 },
+          { id: `line-${n}-1`, name: 'TV mounting', description: 'Mount a 65 inch TV on drywall', quantity: 1, unitPrice: 400, totalPrice: 400, textOnly: false, optional: false, sortOrder: 1 },
+          { id: `line-${n}-2`, name: 'Card Fee', description: '3%', quantity: 1, unitPrice: 12, totalPrice: 12, textOnly: false, optional: false, sortOrder: 2 },
         ],
       },
       notes: { nodes: [{ __typename: 'QuoteNote', id: 'note-1', message: 'Margin note: 2 hrs labor', createdAt: '2026-11-10T15:00:00Z' }] },
@@ -198,6 +198,26 @@ export class FakeDeskJobber {
           }
         }
         return Response.json({ data: { quotesMarkAwaitingResponse: { userErrors: [] } } });
+      }
+      case 'EysDeskLines': {
+        const q = this.quotes.get(String(v.id));
+        return Response.json({ data: { quote: q ? { quoteStatus: q.quoteStatus, lineItems: q.lineItems } : null } });
+      }
+      case 'EysDeskEditLines': {
+        this.mutationCalls.push({ name: 'quoteEditLineItems', variables: v });
+        const q = this.quotes.get(String(v.quote));
+        for (const edit of (v.lines as Record<string, unknown>[]) ?? []) {
+          const line = q?.lineItems.nodes.find((l) => l.id === edit.lineItemId);
+          if (!line) return Response.json({ data: { quoteEditLineItems: { userErrors: [{ message: 'Line item not found' }] } } });
+          Object.assign(line, edit);
+        }
+        return Response.json({ data: { quoteEditLineItems: { userErrors: [] } } });
+      }
+      case 'EysDeskArchive': {
+        this.mutationCalls.push({ name: 'quoteArchive', variables: v });
+        const q = this.quotes.get(String(v.id));
+        if (q) q.quoteStatus = 'archived';
+        return Response.json({ data: { quoteArchive: { userErrors: [] } } });
       }
       case 'EysDeskAddNote': {
         this.mutationCalls.push({ name: 'quoteCreateNote', variables: v });

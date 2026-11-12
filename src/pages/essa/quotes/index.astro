@@ -349,18 +349,35 @@ const seo = {
           return html;
         }
 
+        /** Escaped text with line breaks, and http(s) links made tappable. */
         function multiline(text) {
-          return esc(text).replace(/\n/g, '<br>');
+          return esc(text)
+            .replace(/https?:\/\/[^\s<]+/g, function (url) {
+              var trail = (url.match(/[.,;:!?)\]]+$/) || [''])[0];
+              var href = trail ? url.slice(0, url.length - trail.length) : url;
+              return (
+                '<a href="' + href + '" target="_blank" rel="noopener noreferrer" class="break-all font-semibold text-brand-red underline underline-offset-2">' +
+                href + '</a>' + trail
+              );
+            })
+            .replace(/\n/g, '<br>');
         }
 
-        function quoteBlock(q) {
+        function editLink(l, i, editable) {
+          return editable && l.id
+            ? '<button type="button" class="mt-1 text-[0.8125rem] font-bold text-brand-red underline underline-offset-2" data-edit-line="' + i + '">Edit</button>'
+            : '';
+        }
+
+        function quoteBlock(q, editable) {
           var lines = q.lines
-            .map(function (l) {
+            .map(function (l, i) {
               if (l.textOnly) {
                 return (
                   '<li class="border-b border-brand-line py-2 last:border-0">' +
                   '<p class="text-[0.9375rem] font-bold text-brand-black">' + esc(l.name) + '</p>' +
                   (l.description ? '<p class="mt-0.5 text-[0.8125rem] text-brand-muted">' + multiline(l.description) + '</p>' : '') +
+                  editLink(l, i, editable) +
                   '</li>'
                 );
               }
@@ -371,6 +388,7 @@ const seo = {
                 '</p><p class="shrink-0 text-[0.9375rem] font-bold text-brand-black">' + esc(usd(l.total)) + '</p></div>' +
                 (l.description ? '<p class="mt-0.5 text-[0.8125rem] text-brand-muted">' + multiline(l.description) + '</p>' : '') +
                 '<p class="mt-0.5 text-[0.75rem] text-brand-muted">' + esc(qty(l.quantity)) + ' &times; ' + esc(usd(l.unitPrice)) + '</p>' +
+                editLink(l, i, editable) +
                 '</li>'
               );
             })
@@ -519,7 +537,7 @@ const seo = {
           }
           if (acts.mark) cells.push('<button type="button" class="' + cellSecondary + '" data-act="mark">Mark Awaiting Response, don&rsquo;t text</button>');
           if (acts.change) cells.push('<button type="button" class="' + cellSecondary + '" data-change-toggle aria-expanded="false">Needs a change</button>');
-          if (acts.hide) cells.push('<button type="button" class="' + cellSecondary + '" data-act="hide">Not sending</button>');
+          if (acts.archive) cells.push('<button type="button" class="' + cellSecondary + '" data-act="archive">Archive</button>');
           if (acts.unhide) cells.push('<button type="button" class="' + cellSecondary + '" data-act="unhide">Bring back</button>');
           // A lone last button takes the full row.
           if (cells.length % 2 === 1) cells[cells.length - 1] = cells[cells.length - 1].replace('class="', 'class="col-span-2 ');
@@ -635,7 +653,7 @@ const seo = {
             section('The request', requestBlock(q.request)) +
             section(
               'The quote, as ' + (c.first || 'the client') + ' sees it',
-              quoteBlock(q),
+              quoteBlock(q, Boolean(data.actions && data.actions.edit)),
               safeUrl(q.jobberWebUri)
                 ? '<a href="' + esc(safeUrl(q.jobberWebUri)) + '" target="_blank" rel="noopener noreferrer" class="inline-flex h-8 shrink-0 items-center gap-1 rounded-full bg-[var(--eys-btn-std-bg)] px-3 text-[0.75rem] font-bold text-[var(--eys-btn-std-text)] shadow-card active:bg-[var(--eys-btn-std-hover)]">' +
                   'Edit in Jobber<svg aria-hidden="true" viewBox="0 0 20 20" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13 13 7M8 7h5v5"/></svg></a>'
@@ -746,7 +764,72 @@ const seo = {
           };
         }
 
+        /* ---- line editor -------------------------------------------- */
+
+        function lineEditor(l, i) {
+          var price = typeof l.unitPrice === 'number' ? String(Math.round(l.unitPrice * 100) / 100) : '';
+          return (
+            '<li class="border-b border-brand-line py-2 last:border-0" data-line-editor="' + i + '">' +
+            '<p class="text-[0.9375rem] font-bold text-brand-black">' + esc(l.name) + '</p>' +
+            '<label class="mt-1.5 block text-[0.75rem] font-bold text-brand-muted" for="edit-desc-' + i + '">Description</label>' +
+            '<textarea id="edit-desc-' + i + '" rows="5" maxlength="2000" class="mt-0.5 w-full rounded-lg border border-brand-line bg-white p-2.5 text-[0.875rem] leading-snug focus:border-brand-red focus:outline-none" data-edit-desc>' + esc(l.description || '') + '</textarea>' +
+            (l.textOnly
+              ? ''
+              : '<label class="mt-1.5 block text-[0.75rem] font-bold text-brand-muted" for="edit-price-' + i + '">Price' + (l.quantity && l.quantity !== 1 ? ' each' : '') + '</label>' +
+                '<div class="mt-0.5 flex items-center gap-2"><span class="text-[1rem] font-bold">$</span>' +
+                '<input id="edit-price-' + i + '" type="text" inputmode="decimal" autocomplete="off" value="' + esc(price) + '" class="h-11 w-32 rounded-lg border border-brand-line bg-white px-2.5 text-[1rem] font-bold focus:border-brand-red focus:outline-none" data-edit-price data-qty="' + esc(String(l.quantity || 1)) + '" />' +
+                (l.quantity && l.quantity !== 1 ? '<span class="text-[0.8125rem] text-brand-muted">&times; ' + esc(qty(l.quantity)) + ' = <span data-edit-total>' + esc(usd(l.total)) + '</span></span>' : '') +
+                '</div>') +
+            '<div class="mt-2.5 grid grid-cols-2 gap-2">' +
+            '<button type="button" class="' + cellSecondary + '" data-edit-cancel>Cancel</button>' +
+            '<button type="button" class="' + cellPrimary + '" data-edit-save="' + i + '">Save</button>' +
+            '</div></li>'
+          );
+        }
+
+        document.addEventListener('input', function (event) {
+          var input = event.target.closest && event.target.closest('[data-edit-price]');
+          if (!input) return;
+          var total = input.parentElement.querySelector('[data-edit-total]');
+          var n = Number(String(input.value).replace(/[$,\s]/g, ''));
+          if (total && isFinite(n)) total.textContent = usd(n * Number(input.getAttribute('data-qty') || 1));
+        });
+
         document.addEventListener('click', async function (event) {
+          var openEdit = event.target.closest('[data-edit-line]');
+          if (openEdit && state.quote) {
+            var index = Number(openEdit.getAttribute('data-edit-line'));
+            var line = state.quote.quote.lines[index];
+            var li = openEdit.closest('li');
+            if (!line || !li) return;
+            li.outerHTML = lineEditor(line, index);
+            var box = root.querySelector('[data-line-editor="' + index + '"] [data-edit-desc]');
+            if (box) box.focus();
+            return;
+          }
+          if (event.target.closest('[data-edit-cancel]')) {
+            drawQuote();
+            return;
+          }
+          var saveEdit = event.target.closest('[data-edit-save]');
+          if (saveEdit && state.quote) {
+            var at = Number(saveEdit.getAttribute('data-edit-save'));
+            var target = state.quote.quote.lines[at];
+            var editor = root.querySelector('[data-line-editor="' + at + '"]');
+            if (!target || !editor) return;
+            var change = { id: target.id, description: editor.querySelector('[data-edit-desc]').value };
+            var priceBox = editor.querySelector('[data-edit-price]');
+            if (priceBox) change.unitPrice = priceBox.value;
+            saveEdit.disabled = true;
+            saveEdit.textContent = 'Saving…';
+            var saved = await act('edit', { lines: [change] });
+            if (saved) renderQuote(state.quote.quote.id);
+            else {
+              saveEdit.disabled = false;
+              saveEdit.textContent = 'Save';
+            }
+            return;
+          }
           var photo = event.target.closest('[data-photo]');
           if (photo) {
             viewerImg.src = photo.getAttribute('data-photo');
@@ -834,13 +917,14 @@ const seo = {
             else trigger.disabled = false;
             return;
           }
+          if (action === 'archive' && !window.confirm('Archive this quote in Jobber? It leaves the desk. To undo, open it in Jobber and tap Unarchive.')) return;
           trigger.disabled = true;
           var done = await act(action);
           if (!done) {
             trigger.disabled = false;
             return;
           }
-          if (action === 'hide') {
+          if (action === 'hide' || action === 'archive') {
             location.hash = '#/';
             return;
           }

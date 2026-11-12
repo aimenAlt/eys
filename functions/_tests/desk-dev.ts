@@ -53,7 +53,7 @@ h.jobber.requests.set('request-f', {
     nodes: [
       {
         __typename: 'RequestNote',
-        message: 'Call Transcript\n' + Array.from({ length: 40 }, (_, i) => (i % 2 ? '[EYS]: Mhmm, sure thing.' : '[+17135550110]: I need the back fence fixed, a few boards are loose.')).join('\n'),
+        message: 'Call Transcript\nhttps://my.quo.com/inbox/PNeiWaFK2n/c/CNtest?at=ACtest\n\n' + Array.from({ length: 40 }, (_, i) => (i % 2 ? '[EYS]: Mhmm, sure thing.' : '[+17135550110]: I need the back fence fixed, a few boards are loose.')).join('\n'),
       },
     ],
   },

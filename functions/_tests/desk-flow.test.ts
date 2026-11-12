@@ -377,3 +377,63 @@ await check("texting off: the approved quote gets one pinned 'not sent yet' note
   assert.ok(h.jobber.notesAdded[0].message.endsWith('has not been texted or emailed (Texting is off).'));
   assert.equal(h.jobber.notesAdded[0].pinned, true);
 });
+
+await check('edit a line: only the changed fields go to Jobber, with a note saying who changed what', async () => {
+  const { h, cookie, route } = await setup();
+  h.jobber.addQuote({ id: 'q-e1' });
+  await withFetch(route, async () => {
+    const response = await post(h, cookie, { id: 'q-e1', action: 'edit', lines: [{ id: 'line-1-1', description: 'Mount a 75 inch TV on drywall, wires hidden', unitPrice: '$450' }] });
+    assert.equal(response.status, 200);
+  });
+  const call = h.jobber.mutationCalls.find((c) => c.name === 'quoteEditLineItems');
+  assert.deepEqual(call?.variables.lines, [{ lineItemId: 'line-1-1', description: 'Mount a 75 inch TV on drywall, wires hidden', unitPrice: 450, totalPrice: 450 }]);
+  const line = h.jobber.quotes.get('q-e1')!.lineItems.nodes[0];
+  assert.equal(line.unitPrice, 450);
+  assert.match(h.jobber.notesAdded[0].message, /^Edited on the Quote Desk \(Essa, .+\): TV mounting: \$400\.00 to \$450\.00, description changed\.$/);
+  const events = h.db.raw.prepare("SELECT action FROM desk_events WHERE quote_id = 'q-e1'").all() as { action: string }[];
+  assert.ok(events.some((e) => e.action === 'edit'));
+});
+
+await check('edit a line: nothing changed means no Jobber write', async () => {
+  const { h, cookie, route } = await setup();
+  h.jobber.addQuote({ id: 'q-e2' });
+  await withFetch(route, () => post(h, cookie, { id: 'q-e2', action: 'edit', lines: [{ id: 'line-1-1', description: 'Mount a 65 inch TV on drywall', unitPrice: 400 }] }));
+  assert.equal(h.jobber.mutationCalls.filter((c) => c.name === 'quoteEditLineItems').length, 0);
+  assert.equal(h.jobber.notesAdded.length, 0);
+});
+
+await check('edit a line: refused for "licensed", HOA, a bad price, a sent quote or an approved one', async () => {
+  const { h, cookie, route } = await setup();
+  h.jobber.addQuote({ id: 'q-e3' });
+  h.jobber.addQuote({ id: 'q-e4', quoteStatus: 'awaiting_response' });
+  const refusedWith = async (id: string, line: Record<string, unknown>) => {
+    const response = await withFetch(route, () => post(h, cookie, { id, action: 'edit', lines: [line] }));
+    assert.equal(response.status, 409);
+    return (await response.json()).message as string;
+  };
+  assert.match(await refusedWith('q-e3', { id: 'line-1-1', description: 'Done by our licensed crew' }), /licensed/);
+  assert.match(await refusedWith('q-e3', { id: 'line-1-1', description: 'Meets HOA rules' }), /HOA/);
+  assert.match(await refusedWith('q-e3', { id: 'line-1-1', unitPrice: -5 }), /price/);
+  assert.match(await refusedWith('q-e4', { id: 'line-2-1', unitPrice: 300 }), /Only a draft/);
+  assert.equal(h.jobber.mutationCalls.filter((c) => c.name === 'quoteEditLineItems').length, 0);
+});
+
+await check('Archive: Jobber archives the draft, it leaves the desk list, an approved one stays', async () => {
+  const { h, cookie, route } = await setup();
+  h.jobber.addQuote({ id: 'q-a1' });
+  h.jobber.addQuote({ id: 'q-a2' });
+  await withFetch(route, async () => {
+    const response = await post(h, cookie, { id: 'q-a1', action: 'archive' });
+    assert.equal(response.status, 200);
+  });
+  assert.deepEqual(h.jobber.mutationCalls.filter((c) => c.name === 'quoteArchive').map((c) => c.variables.id), ['q-a1']);
+  assert.equal(h.jobber.quotes.get('q-a1')!.quoteStatus, 'archived');
+  const row = await deskQuote(h.db as never, 'q-a1');
+  assert.equal(row?.state, 'hidden');
+  const events = h.db.raw.prepare("SELECT action, actor FROM desk_events WHERE quote_id = 'q-a1'").all() as { action: string; actor: string }[];
+  assert.ok(events.some((e) => e.action === 'archive' && e.actor === 'Essa'));
+  await withFetch(route, () => post(h, cookie, { id: 'q-a2', action: 'approve' }));
+  const refused = await withFetch(route, () => post(h, cookie, { id: 'q-a2', action: 'archive' }));
+  assert.equal(refused.status, 409);
+  assert.equal(h.jobber.mutationCalls.filter((c) => c.name === 'quoteArchive').length, 1);
+});

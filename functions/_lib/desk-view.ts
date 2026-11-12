@@ -211,6 +211,7 @@ export interface QuoteView {
     createdAt: number | null;
   };
   lines: {
+    id: string | null;
     name: string;
     description: string | null;
     quantity: number | null;
@@ -312,6 +313,7 @@ export function buildQuoteView(
   const lines = nodes(obj(quote.lineItems)?.nodes ?? quote.lineItems)
     .sort((a, b) => (num(a.sortOrder) ?? 0) - (num(b.sortOrder) ?? 0))
     .map((l) => ({
+      id: str(l.id),
       name: str(l.name) ?? '',
       description: str(l.description),
       quantity: num(l.quantity),

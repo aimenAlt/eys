@@ -11,7 +11,10 @@ import {
   type DeskQuoteRow,
 } from './desk-db.ts';
 import {
+  archiveJobberQuote,
   deskJobberDeps,
+  editQuoteLineItems,
+  fetchLineItems,
   fetchQuoteStatuses,
   pickStatusBranch,
   quotesAccess,
@@ -515,6 +518,148 @@ export async function requestChange(deps: FlowDeps, actor: string, quoteId: stri
 // What the quote screen may offer
 // ---------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
+// Edit a line's description and price
+// ---------------------------------------------------------------------------
+
+export interface LineEdit {
+  id: string;
+  description?: string;
+  unitPrice?: number;
+  totalPrice?: number;
+}
+
+export const MAX_LINE_DESCRIPTION = 2000;
+export const MAX_LINE_PRICE = 250_000;
+
+/** Words a customer must never see on an EYS quote. */
+const FORBIDDEN_ON_QUOTES: [RegExp, string][] = [
+  [/\blicen[cs]ed?\b/i, 'EYS can\u2019t say \u201clicensed\u201d on a quote.'],
+  [/\bHOA\b|home ?owners'? association/i, 'No HOA mention on a quote.'],
+];
+
+/** The edits from the desk, checked; a string is the reason they were refused. */
+export function parseLineEdits(raw: unknown): LineEdit[] | string {
+  if (!Array.isArray(raw) || raw.length === 0 || raw.length > 60) return 'Nothing to save.';
+  const out: LineEdit[] = [];
+  for (const item of raw) {
+    const v = (item ?? {}) as { id?: unknown; description?: unknown; unitPrice?: unknown };
+    if (typeof v.id !== 'string' || v.id.trim() === '' || v.id.length > 200) return 'Nothing to save.';
+    const edit: LineEdit = { id: v.id.trim() };
+    if (v.description !== undefined) {
+      if (typeof v.description !== 'string') return 'The description must be text.';
+      const text = v.description.replace(/\r\n?/g, '\n').trim();
+      if (text === '') return 'The description can\u2019t be empty.';
+      if (text.length > MAX_LINE_DESCRIPTION) return `Keep the description under ${MAX_LINE_DESCRIPTION} characters.`;
+      for (const [pattern, message] of FORBIDDEN_ON_QUOTES) if (pattern.test(text)) return message;
+      edit.description = text;
+    }
+    if (v.unitPrice !== undefined) {
+      const price = typeof v.unitPrice === 'number' ? v.unitPrice : Number(String(v.unitPrice).replace(/[$,\s]/g, ''));
+      if (!Number.isFinite(price) || price < 0 || price > MAX_LINE_PRICE) return 'Enter a price between $0 and $250,000.';
+      edit.unitPrice = Math.round(price * 100) / 100;
+    }
+    out.push(edit);
+  }
+  return out;
+}
+
+function money(n: number): string {
+  return `$${n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+/**
+ * "Edit" on a line: new description and/or unit price, on a draft that hasn't
+ * been approved on the desk. Only what changed is sent to Jobber
+ * (quoteEditLineItems), then a note on the quote says who changed what.
+ */
+export async function editLines(deps: FlowDeps, actor: string, quoteId: string, raw: unknown): Promise<ActionResult> {
+  const now = deps.now();
+  const parsed = parseLineEdits(raw);
+  let row = await deskQuote(deps.db, quoteId);
+  if (typeof parsed === 'string') return { ok: false, message: parsed, row };
+  if (row?.state === 'approved') return { ok: false, message: 'Already approved here. Change it in Jobber if it must change.', row };
+  const { access, schema } = await quotesAccess(deps.jobber);
+  if (access !== 'ok' || !schema) return { ok: false, message: 'Jobber needs reconnecting for quotes', row };
+  const current = await fetchLineItems(deps.jobber, quoteId);
+  if (!current) return { ok: false, message: 'Quote not found in Jobber.', row };
+  if ((current.status ?? '').toLowerCase() !== 'draft') return { ok: false, message: 'Only a draft can be edited here. Use Edit in Jobber.', row };
+
+  const changes: LineEdit[] = [];
+  const summary: string[] = [];
+  for (const edit of parsed) {
+    const line = current.lines.find((l) => l.id === edit.id);
+    if (!line) return { ok: false, message: 'That line is no longer on the quote. Reload and try again.', row };
+    const change: LineEdit = { id: edit.id };
+    const said: string[] = [];
+    if (edit.unitPrice !== undefined && !line.textOnly && edit.unitPrice !== (line.unitPrice ?? null)) {
+      change.unitPrice = edit.unitPrice;
+      change.totalPrice = Math.round((line.quantity ?? 1) * edit.unitPrice * 100) / 100;
+      said.push(`${money(line.unitPrice ?? 0)} to ${money(edit.unitPrice)}${(line.quantity ?? 1) !== 1 ? ' each' : ''}`);
+    }
+    if (edit.description !== undefined && edit.description !== (line.description ?? '').trim()) {
+      change.description = edit.description;
+      said.push('description changed');
+    }
+    if (said.length) {
+      changes.push(change);
+      summary.push(`${line.name ?? 'Line'}: ${said.join(', ')}`);
+    }
+  }
+  if (changes.length === 0) return { ok: true, row };
+
+  const outcome = await editQuoteLineItems(deps.jobber, schema, quoteId, changes);
+  if (!outcome.ok) {
+    await logDeskEvent(deps.db, { actor, action: 'edit_failed', quoteId, detail: outcome.message ?? outcome.reason, now });
+    return {
+      ok: false,
+      message:
+        outcome.reason === 'unsupported'
+          ? 'Jobber doesn\u2019t allow editing lines from here. Use Edit in Jobber.'
+          : `Jobber refused the change${outcome.message ? `: ${outcome.message}` : ''}. Nothing changed.`,
+      row,
+    };
+  }
+  const text = summary.join('; ');
+  await addQuoteNote(deps.jobber, schema, quoteId, `Edited on the Quote Desk (${actor}, ${chicagoTimestamp(now)}): ${text}.`);
+  await logDeskEvent(deps.db, { actor, action: 'edit', quoteId, detail: text.slice(0, 500), now });
+  row = await deskQuote(deps.db, quoteId);
+  return { ok: true, row };
+}
+
+/**
+ * "Archive": Jobber's own Archive on a draft that hasn't been approved here.
+ * The quote leaves the desk (it is no longer a draft). The token can't
+ * unarchive, so undoing it is Unarchive in Jobber web.
+ */
+export async function archiveQuote(deps: FlowDeps, actor: string, quoteId: string): Promise<ActionResult> {
+  const now = deps.now();
+  let row = await deskQuote(deps.db, quoteId);
+  if (row?.state === 'approved') return { ok: false, message: 'Already approved here, so it stays.', row };
+  const { access, schema } = await quotesAccess(deps.jobber);
+  if (access !== 'ok' || !schema) return { ok: false, message: 'Jobber needs reconnecting for quotes', row };
+  const current = await fetchLineItems(deps.jobber, quoteId);
+  if (!current) return { ok: false, message: 'Quote not found in Jobber.', row };
+  if ((current.status ?? '').toLowerCase() !== 'draft') return { ok: false, message: 'Only a draft can be archived here. Use Edit in Jobber.', row };
+  const outcome = await archiveJobberQuote(deps.jobber, schema, quoteId);
+  if (!outcome.ok) {
+    await logDeskEvent(deps.db, { actor, action: 'archive_failed', quoteId, detail: outcome.message ?? outcome.reason, now });
+    return {
+      ok: false,
+      message: outcome.reason === 'unsupported' ? 'Jobber doesn\u2019t allow archiving from here. Use Edit in Jobber.' : `Jobber refused${outcome.message ? `: ${outcome.message}` : ''}. Nothing changed.`,
+      row,
+    };
+  }
+  await ensureDeskRow(deps.db, quoteId, { status: 'archived' }, now);
+  await deps.db
+    .prepare("UPDATE desk_quotes SET state = 'hidden', hidden_by = ?2, hidden_at = ?3, jobber_status = 'archived', updated_at = ?3 WHERE quote_id = ?1")
+    .bind(quoteId, actor, now)
+    .run();
+  await logDeskEvent(deps.db, { actor, action: 'archive', quoteId, now });
+  row = await deskQuote(deps.db, quoteId);
+  return { ok: true, row };
+}
+
 export interface DeskActions {
   approve: boolean;
   /** "Mark Awaiting Response, don't text". */
@@ -524,6 +669,10 @@ export interface DeskActions {
   unhide: boolean;
   retry: boolean;
   manualStep: boolean;
+  /** Edit a line's description and price (drafts not yet approved). */
+  edit: boolean;
+  /** Archive the quote in Jobber (replaces "Not sending"). */
+  archive: boolean;
 }
 
 export function availableActions(row: DeskQuoteRow | null, jobberStatus: string | null, _branch: StatusBranch | null, now: number): DeskActions {
@@ -539,6 +688,8 @@ export function availableActions(row: DeskQuoteRow | null, jobberStatus: string 
     unhide: state === 'hidden',
     retry: approved && (row?.text_state === 'failed' || row?.text_state === 'unknown' || staleClaim || (row?.text_state === 'none' && Boolean(row?.text_error))),
     manualStep: (approved || state === 'marked') && (row?.move_state === 'manual' || row?.move_state === 'failed') && status !== 'awaiting_response',
+    edit: !approved && status === 'draft',
+    archive: !approved && state !== 'marked' && status === 'draft',
   };
 }
 

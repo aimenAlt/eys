@@ -54,6 +54,9 @@ const SEED_TYPES = [
   'QuotesMarkAwaitingResponsePayload',
   'QuoteCreateNotePayload',
   'QuoteCreateNoteInput',
+  'QuoteEditLineItemAttributes',
+  'QuoteEditLineItemsPayload',
+  'QuoteArchivePayload',
   'PageInfo',
 ];
 
@@ -228,6 +231,21 @@ export async function deskSchema(
     }
   }
   return refreshSchema(deps, db, wishLists);
+}
+
+/**
+ * Types a snapshot taken before they were seeded (an input type for a new
+ * action): fetched once, added to the snapshot and saved, so the next request
+ * has them without a full walk.
+ */
+export async function ensureDeskTypes(deps: JobberDeps, db: D1Database, schema: DeskSchema, names: string[]): Promise<DeskSchema> {
+  const missing = names.filter((n) => n && !schema.types[n]);
+  if (missing.length === 0) return schema;
+  const found = await fetchTypes(deps, missing);
+  if (found.length === 0) return schema;
+  for (const info of found) schema.types[info.name] = compactType(info);
+  await kvSet(db, KV_KEY, schema, deps.now());
+  return schema;
 }
 
 export async function forgetDeskSchema(db: D1Database): Promise<void> {

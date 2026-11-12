@@ -1,26 +1,27 @@
 import type { Env, PagesFunction } from '../../_lib/types.ts';
 import { deskAuth } from '../../_lib/desk-http.ts';
 import { deskQuote } from '../../_lib/desk-db.ts';
-import { advance, approveQuote, availableActions, cachedBranch, flowDeps, hideQuote, markOnly, requestChange } from '../../_lib/desk-flow.ts';
+import { advance, approveQuote, archiveQuote, availableActions, cachedBranch, editLines, flowDeps, hideQuote, markOnly, requestChange } from '../../_lib/desk-flow.ts';
 import { json, methodNotAllowed, readJsonBody } from '../../_lib/http.ts';
 import { JobberError } from '../../_lib/jobber.ts';
 
-const ACTIONS = new Set(['approve', 'mark', 'change', 'hide', 'unhide', 'retry', 'poll']);
+const ACTIONS = new Set(['approve', 'mark', 'change', 'hide', 'unhide', 'retry', 'poll', 'edit', 'archive']);
 
 /**
  * POST /api/desk/action {id, action, note?}. approve = "Looks good" (approval,
  * status move, text); mark = "Mark Awaiting Response, don't text" (status move
  * and a pinned "not sent yet" note, no text); change = "Needs a change"; hide / unhide = "Not
  * sending" and back; retry = "Retry text"; poll = the 3-minute check after a
- * tap. Every action is logged with who did it.
+ * tap; edit = a line's description and price ({lines: [{id, description, unitPrice}]}).
+ * Every action is logged with who did it.
  */
 export const onRequest: PagesFunction<Env> = async (context) => {
   if (context.request.method !== 'POST') return methodNotAllowed(['POST']);
   const auth = await deskAuth(context, true);
   if (!auth.ok) return auth.response;
-  const body = await readJsonBody(context.request, 4096);
+  const body = await readJsonBody(context.request, 16 * 1024);
   if (!body.ok) return json({ error: 'bad_request' }, body.status);
-  const value = body.value as { id?: unknown; action?: unknown; note?: unknown };
+  const value = body.value as { id?: unknown; action?: unknown; note?: unknown; lines?: unknown };
   const id = typeof value.id === 'string' ? value.id.trim() : '';
   const action = typeof value.action === 'string' ? value.action : '';
   if (!id || id.length > 200 || !ACTIONS.has(action)) return json({ error: 'bad_request' }, 400);
@@ -33,6 +34,8 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     else if (action === 'mark') result = await markOnly(deps, auth.name, id);
     else if (action === 'change') result = await requestChange(deps, auth.name, id, typeof value.note === 'string' ? value.note : '');
     else if (action === 'hide' || action === 'unhide') result = await hideQuote(deps, auth.name, id, action === 'hide');
+    else if (action === 'edit') result = await editLines(deps, auth.name, id, value.lines);
+    else if (action === 'archive') result = await archiveQuote(deps, auth.name, id);
     else await advance(deps, id, action === 'retry' ? 'retry' : 'poll', auth.name);
     const row = await deskQuote(deps.db, id);
     const branch = await cachedBranch(deps.db);

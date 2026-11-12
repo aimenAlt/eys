@@ -2,7 +2,7 @@ import type { D1Database, Env } from './types.ts';
 import { DAY } from './db.ts';
 import { adminKey } from './env.ts';
 import { JobberError, getAccessToken, graphql, hasStoredTokens, jwtScopes, type JobberDeps } from './jobber.ts';
-import { deskSchema, forgetDeskSchema, prune, type DeskSchema, type Sel } from './desk-schema.ts';
+import { deskSchema, ensureDeskTypes, forgetDeskSchema, prune, type DeskSchema, type Sel } from './desk-schema.ts';
 import { kvGet, kvSet } from './desk-db.ts';
 
 /**
@@ -51,6 +51,7 @@ const QUOTE_SEL: Sel = {
     sel: {
       nodes: {
         sel: {
+          id: true,
           name: true,
           description: true,
           quantity: true,
@@ -524,6 +525,92 @@ export async function fetchClientHistory(j: DeskJobber, clientId: string): Promi
   );
   for (const part of parts) Object.assign(out, part);
   return out;
+}
+
+export interface RawLineItem {
+  id: string;
+  name?: string | null;
+  description?: string | null;
+  unitPrice?: number | null;
+  quantity?: number | null;
+  textOnly?: boolean | null;
+}
+
+/** A quote's status and line items, for checking an edit before it is made. */
+export async function fetchLineItems(j: DeskJobber, quoteId: string): Promise<{ status: string | null; lines: RawLineItem[] } | null> {
+  const data = await run<{ quote?: { quoteStatus?: string | null; lineItems?: { nodes?: RawLineItem[] } | null } | null }>(j, (schema) => {
+    if (!schema.queries.quote) return null;
+    const selection = prune(schema, schema.queries.quote.type, {
+      quoteStatus: true,
+      lineItems: { args: { first: '60' }, sel: { nodes: { sel: { id: true, name: true, description: true, unitPrice: true, quantity: true, textOnly: true } } } },
+    });
+    return { query: `query EysDeskLines($id: ${idType(schema, 'quote')}) { quote(id: $id) { ${selection} } }`, variables: { id: quoteId } };
+  });
+  if (!data?.quote) return null;
+  return { status: data.quote.quoteStatus ?? null, lines: data.quote.lineItems?.nodes ?? [] };
+}
+
+export type LineEditOutcome = { ok: true } | { ok: false; reason: 'unsupported' | 'failed'; message?: string };
+
+/**
+ * quoteEditLineItems(quoteId, lineItems: [{lineItemId, description, unitPrice}]).
+ * Field names come from the live input type, so a renamed field shows as
+ * 'unsupported' instead of a broken call.
+ */
+export async function editQuoteLineItems(
+  j: DeskJobber,
+  schema: DeskSchema,
+  quoteId: string,
+  edits: { id: string; description?: string; unitPrice?: number; totalPrice?: number }[],
+): Promise<LineEditOutcome> {
+  const field = schema.mutations.quoteEditLineItems;
+  if (!field) return { ok: false, reason: 'unsupported' };
+  const listArg = Object.keys(field.args).find((a) => /lineItems?/i.test(a));
+  const idArg = Object.keys(field.args).find((a) => /quoteId|^id$/i.test(a));
+  if (!listArg || !idArg) return { ok: false, reason: 'unsupported' };
+  const inputName = field.args[listArg].replace(/[!\[\]]/g, '');
+  await ensureDeskTypes(j.deps, j.db, schema, [inputName, field.type]);
+  const input = schema.types[inputName];
+  const idField = input && ['lineItemId', 'id'].find((f) => input.fields[f]);
+  if (!input || !idField || !input.fields.description || !input.fields.unitPrice) return { ok: false, reason: 'unsupported' };
+  const payload = schema.types[field.type];
+  const lines = edits.map((e) => {
+    const value: Record<string, unknown> = { [idField]: e.id };
+    if (e.description !== undefined) value.description = e.description;
+    if (e.unitPrice !== undefined) value.unitPrice = e.unitPrice;
+    // Keep the line total in step with the new price.
+    if (e.totalPrice !== undefined && input.fields.totalPrice) value.totalPrice = e.totalPrice;
+    return value;
+  });
+  const data = await graphql<Record<string, { userErrors?: { message?: string }[] | null } | null>>(
+    j.deps,
+    `mutation EysDeskEditLines($quote: ${field.args[idArg]}, $lines: ${field.args[listArg]}) { quoteEditLineItems(${idArg}: $quote, ${listArg}: $lines) { ${payload?.fields.userErrors ? 'userErrors { message }' : '__typename'} } }`,
+    { quote: quoteId, lines },
+  );
+  const result = data.quoteEditLineItems;
+  if (!result) return { ok: false, reason: 'failed' };
+  const problem = result.userErrors?.find((e) => e?.message)?.message;
+  if (problem) return { ok: false, reason: 'failed', message: problem.slice(0, 200) };
+  return { ok: true };
+}
+
+/** quoteArchive(id): Jobber's own Archive. Undone only in Jobber web (Unarchive). */
+export async function archiveJobberQuote(j: DeskJobber, schema: DeskSchema, quoteId: string): Promise<LineEditOutcome> {
+  const field = schema.mutations.quoteArchive;
+  const idArg = field && Object.keys(field.args).find((a) => /^id$|quoteId/i.test(a));
+  if (!field || !idArg) return { ok: false, reason: 'unsupported' };
+  await ensureDeskTypes(j.deps, j.db, schema, [field.type]);
+  const payload = schema.types[field.type];
+  const data = await graphql<Record<string, { userErrors?: { message?: string }[] | null } | null>>(
+    j.deps,
+    `mutation EysDeskArchive($id: ${field.args[idArg]}) { quoteArchive(${idArg}: $id) { ${payload?.fields.userErrors ? 'userErrors { message }' : '__typename'} } }`,
+    { id: quoteId },
+  );
+  const result = data.quoteArchive;
+  if (!result) return { ok: false, reason: 'failed' };
+  const problem = result.userErrors?.find((e) => e?.message)?.message;
+  if (problem) return { ok: false, reason: 'failed', message: problem.slice(0, 200) };
+  return { ok: true };
 }
 
 export interface RawQuoteStatus {

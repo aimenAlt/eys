@@ -49,6 +49,12 @@ How the desk session works:
 - **No contract.** The contract text and the "Estimate Disclaimer" boilerplate are never sent to the desk. Only the quote's own client note (what follows "Client Notes:") shows, as "Note on the quote". Photos Jobber copied from the request onto the quote show once.
 - **Speed.** The schema snapshot is read once per request. After 12 hours it is served as is and refreshed after the response (`waitUntil`), so nobody waits for the walk. The page preloads the first three drafts and any quote on touch, keeps loaded quotes in memory (never in storage), and shows them at once while refreshing. Both desk routes send a `Server-Timing` header (`access`, `jobber`, `db`).
 
+## Editing and archiving
+
+- **Edit a line.** "Edit" under any line of a draft opens its description and price. Save sends only what changed to Jobber (`quoteEditLineItems`, the price with its matching line total), then adds a note on the quote such as "Edited on the Quote Desk (Essa, Nov 12 9:14 AM): Gravel Fire Pit Pad: $1,600.00 to $1,500.00". Refused for "licensed" or an HOA mention, a price outside $0 to $250,000, a quote that isn't a draft, or one already approved on the desk.
+- **Archive.** Replaces "Not sending". After a confirm it runs Jobber's own Archive (`quoteArchive`) on a draft that hasn't been approved here, so the quote leaves the desk. The app's token has no unarchive, so undo it in Jobber web (Unarchive).
+- Links in request notes, answers and descriptions are tappable.
+
 ## The status branch
 
 The desk never moves a quote any way that messages the client. It reads the
@@ -62,8 +68,8 @@ active.
 - **Manual.** If no such mutation is visible, the confirm sheet says "Last step: tap More, then Mark as Awaiting Response" and opens the quote in Jobber web. The webhook or the poll notices the flip and sends the text.
 - **Never used:** `workObjectSendSms`, `workObjectSendEmail`, or anything named send, email or sms. Those message the client from Jobber.
 
-The only Jobber writes are this one status move and `quoteCreateNote` (for
-"Needs a change" and the "Quote not sent yet" and "Quote texted" notes). The desk never sends via Jobber, approves, schedules,
+The only Jobber writes are this one status move, `quoteCreateNote` (for
+"Needs a change", the "Quote not sent yet", "Quote texted" and "Edited" notes), a line's description and price (`quoteEditLineItems`, Aimen's request 2026-11-11) and Archive (`quoteArchive`). The desk never sends via Jobber, approves, schedules,
 invoices or collects money.
 
 ## What happens on "Looks good"
