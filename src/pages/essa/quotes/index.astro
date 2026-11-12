@@ -637,7 +637,7 @@ const seo = {
               'The quote, as ' + (c.first || 'the client') + ' sees it',
               quoteBlock(q),
               safeUrl(q.jobberWebUri)
-                ? '<a href="' + esc(safeUrl(q.jobberWebUri)) + '" target="_blank" rel="noopener noreferrer" class="inline-flex h-8 shrink-0 items-center gap-1 rounded-full border border-brand-line bg-white px-3 text-[0.75rem] font-bold text-brand-charcoal active:bg-brand-lightbg">' +
+                ? '<a href="' + esc(safeUrl(q.jobberWebUri)) + '" target="_blank" rel="noopener noreferrer" class="inline-flex h-8 shrink-0 items-center gap-1 rounded-full bg-[var(--eys-btn-std-bg)] px-3 text-[0.75rem] font-bold text-[var(--eys-btn-std-text)] shadow-card active:bg-[var(--eys-btn-std-hover)]">' +
                   'Edit in Jobber<svg aria-hidden="true" viewBox="0 0 20 20" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13 13 7M8 7h5v5"/></svg></a>'
                 : '',
             ) +
