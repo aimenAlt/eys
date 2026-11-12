@@ -36,31 +36,33 @@ Past mistakes and their fixes are not repeated here. They live in two places:
 
 Read both before every quote and every routine run.
 
-## Daily request routine (scheduled task "Morning Jobber check + auto-quote new requests")
+## New-request routine (scheduled task "EYS new requests: quote or call")
 
-Standing instruction from Aimen, 2026-10-15: the morning check does not stop at a report. It finds every new request without a quote and quotes each one.
+Since 2026-10-25 the routine lives in two account skills:
 
-1. **Mac online?** `get_device_info` + list this repo. If unreachable, push "Mac offline, check skipped" and stop.
-2. **Read the rules and the learnings BEFORE any quoting:** this README, ALL of `learning-log.md` (every *standing* entry and every entry for comparable work), `master-guide.md`  or the identical project doc `quoting/EYS-Quoting-Guide.md`. Every quoting subagent must read the same files itself before touching Jobber or SimplyWise, and its brief must tell it to. Applying past lessons is the point of the system: quotes get more accurate over time.
-2b. **Learn from past quotes' outcomes.** Open https://secure.getjobber.com/quotes and check the drafts listed in the learning log since the last run. Note any that Eyad or Aimen changed (price, scope, line items), sent, approved, or that were lost or archived. For each change, add a dated learning-log entry with the original price vs the final one, what changed and the lesson. Confirmed standing rules also go into master-guide, then re-sync the project doc.
-3. **Find requests** at https://secure.getjobber.com/requests in your own Chrome tab. Logged out: push "Jobber logged out, log in and reply go" and stop (never type passwords). Take every request without a quote that is **up to 7 days old**: status New, plus Assessment complete / Overdue / Unscheduled (`?status=assessment_completed`, `overdue`, `unscheduled`). Older requests are ignored (Aimen, 2026-10-15). Skip test/self requests.
-4. **Check for existing quotes:** `https://secure.getjobber.com/quotes?q=<name>`, read by screenshot (text extraction can't read that table), plus the request page. Same surname, different client does not count.
-5. **Quote each one with its own subagent**, all launched in parallel. Each agent:
-   - reads this folder and the project guide first;
-   - opens its OWN Jobber and SimplyWise tabs, records the tab IDs in its job note, never touches another agent's tabs, stops typing if focus jumps, never creates a duplicate quote;
-   - personally inspects every photo and does its own takeoff (materials, dimensions, installed vs purchase quantities, waste, confidence) before SimplyWise, estimating sizes from photo references (doors ~80 in, outlets, ceiling height, TV and tile sizes) and the request text;
-   - **thin detail is not a reason to stop:** makes labeled assumptions, carries allowances, still saves the draft, and puts a clear WARNING in Eyad's internal note and the report listing what to confirm with the customer;
-   - **uploads the actual-site request photos to SimplyWise** (open each Jobber photo full size, screenshot it, attach it with the Chrome upload_image tool, or upload the original file). Never upload AI-generated, inspiration or product images: SimplyWise can't tell "make it look like this" from "this is the current state". Describe those in the brief as inspiration instead. A photo that can't be uploaded (HEIC, broken) gets noted in the job note;
-   - gives SimplyWise all the necessary info: the full request text, the takeoff numbers, what's customer-supplied, and which areas are in or out of scope;
-   - runs SimplyWise in one pass, audits it (units, quantities, hours, duplicates, strip the 20% markup), researches prices independently;
-   - prices to-do lists with the live To-Do List Visit tiers. Handyman-level electrical and plumbing (fixtures, switches, floodlights, mirror wiring, faucets, supply lines) is priced as normal EYS work, the way Eyad quotes it. Work beyond that (panels, new circuits, gas) is left out in a few plain words or flagged in Eyad's internal note, never with "licensed" wording;
-   - **runs a final market sanity check on the end price before saving:** would a normal Katy/Houston homeowner pay this for this type of job? Compare it with typical installed prices for the same scope (per SF, per item, per visit), and compare it with what the customer actually asked for. Don't inflate a one-line request into extra areas or premium scope; price what was asked as the main item and offer anything else as an optional add-on. If the price lands above the typical range, cut hours or scope or justify it in Eyad's note;
-   - saves a linked, unsent Draft (Large Project template above $700, Card Fee 3.0% once, **customer text short in Eyad's style; see master-guide §10**, full internal note read back), writes `jobs/<job-id>.md` and a learning-log entry, closes its tabs.
-6. **Recheck every draft (mandatory second pass).** Each saved quote gets a second-pass review before the run counts it as done, by a fresh reviewer agent or the same agent after saving. Re-read the request and the photos, then check: is the main item only what was asked? Do the hours fit the task count? Are unit prices right (per SF vs per case)? Does the total match what Katy/Houston homeowners typically pay for this type of job (per unit and overall)? Is the customer text short, in Eyad's style, with no repetition and no "licensed"? Fix anything off in the same draft (never a new quote), reload and read back. On Oct 15 this second pass took Champion from $1,905 to $922, Frank from $4,017 to $3,193 and Jade from $1,803 to $1,442.
-7. **Record learnings (mandatory, every run).** Each agent writes its job note and a learning-log entry covering what was hard, what SimplyWise got wrong, what the recheck changed and why. The coordinator then re-reads the learning log, merges duplicates, and promotes any repeated or confirmed lesson to master-guide (bump the version, re-sync the project doc). Follow "How to record an update". Never start another lessons list.
-8. **Report:** one push notification (`<routine_summary>`) with count of new requests and drafts saved, then per request: name, one-line scope, quote # and all-in total, warnings and blockers. Nothing new: end quietly.
+- **`eys-new-requests`** (the coordinator) adds texted photos to requests (master-guide §6.2), finds new requests, decides quote, call or wait (master-guide §6.3), creates Hamid's Quo call tasks, launches one quoting agent per ready request, checks the drafts and reports.
+- **`eys-quote`** quotes one request through a verified, unsent draft.
 
-Never send, email, text, approve, schedule, invoice, archive or collect in this routine.
+The scheduled task runs the coordinator at 8:34 am, 12:34 pm and 4:34 pm Central. The old task "Morning Jobber request check" is retired; it had no Jobber or Quo connector attached.
+
+**Short version, for a session without those skills:**
+
+1. Mac, Jobber and Quo connectors, and Chrome reachable? If not, report it and stop.
+2. Find requests with `search_requests` (new, assessment_completed, overdue, unscheduled; last 21 days). Skip test or self requests and requests that already have a quote (except those on `waiting` in `jobs/_routine-state.json`). A note such as "I'm handling it" or "don't contact" is for Hamid: no call task for that customer, but still quote the request when it's ready.
+3. For each one, read the web request page, every photo, the notes, and the customer's Quo calls and texts (`fetch-call-transcripts` / `fetch-messages` with their phone). Every transcribed Quo call becomes a `Quo Request` with only the transcript (Aimen, 2026-11-11): read the transcript and the caller's texts, which may carry photos and scope, and scan the Quo inbox for texters or missed callers with no request (master-guide §4.1).
+3b. **Texted photos, every run (Aimen, 2026-11-10 and 2026-11-11).** Scan each Quo inbox's messages since `last_inbox_scan` in `jobs/_routine-state.json` (`fetch-messages` with only `inboxPhoneNumber` and `createdAfter`). Add every texted photo (`media:` lines) to that customer's Jobber request: upload the images through the browser, or save a note listing the links if the upload fails (master-guide §6.2). The Jobber connector can't write notes or files.
+4. Decide with master-guide §6.3 (2026-11-11): **no quote without an actual-site photo and the key measurement** (the size or count the price scales with; a guess like an assumed 175 SF doesn't count).
+   - Ready: quote it (master-guide §5), one subagent per request, with labeled assumptions and WARNINGs for anything else. When the draft still rests on a big assumption, also one Quo confirm task for Hamid.
+   - The customer said they'll send the photos or numbers: WAIT. Add the request to `waiting` in `_routine-state.json`, no task. After 3 days, or the day they named if later, it becomes CALL FIRST.
+   - Otherwise CALL FIRST: one Quo task for Hamid whose title ends `(req <number>)`, listing which photos and which measurement to get.
+   - Aimen can override for one request ("quote it anyway").
+   - Check `list-tasks` first so you never create a duplicate.
+4b. Follow up every request with a routine task or on `waiting`: new texts, photos or a real call since then means attach the photos, decide again, and quote when ready.
+5. Report once.
+
+**Browser fallback** (only when the Jobber connector still won't load after RefreshMcpTools, ListConnectors and one retry about 30 s later): read https://secure.getjobber.com/requests sorted by newest first; check each request page's "Used for Quote #" line for an existing quote; read the Quotes list rows with JS over `a[href*="/quotes/"]` (text extraction can't read that table; master-guide §4.2). If Jobber is logged out, push "Jobber logged out, log in and reply go" and stop. Never type a password, and never report "connector disabled" when the task lists the connector.
+
+Never send, email, text, call, approve, schedule, invoice, archive or collect in this routine.
 
 ## Where things go
 
