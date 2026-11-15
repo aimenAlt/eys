@@ -1,19 +1,20 @@
 import type { Env, PagesFunction } from '../../_lib/types.ts';
 import { deskAuth } from '../../_lib/desk-http.ts';
 import { deskQuote } from '../../_lib/desk-db.ts';
-import { advance, approveQuote, archiveQuote, availableActions, cachedBranch, editLines, flowDeps, hideQuote, markOnly, requestChange } from '../../_lib/desk-flow.ts';
+import { advance, approveQuote, archiveQuote, availableActions, cachedBranch, editLines, flowDeps, hideQuote, markOnly, requestChange, resendLink } from '../../_lib/desk-flow.ts';
 import { json, methodNotAllowed, readJsonBody } from '../../_lib/http.ts';
 import { JobberError } from '../../_lib/jobber.ts';
 
-const ACTIONS = new Set(['approve', 'mark', 'change', 'hide', 'unhide', 'retry', 'poll', 'edit', 'archive']);
+const ACTIONS = new Set(['approve', 'mark', 'change', 'hide', 'unhide', 'retry', 'poll', 'edit', 'archive', 'resend']);
 
 /**
  * POST /api/desk/action {id, action, note?}. approve = "Looks good" (approval,
  * status move, text); mark = "Mark Awaiting Response, don't text" (status move
  * and a pinned "not sent yet" note, no text); change = "Needs a change"; hide / unhide = "Not
  * sending" and back; retry = "Retry text"; poll = the 3-minute check after a
- * tap; edit = a line's description and price ({lines: [{id, description, unitPrice}]}).
- * Every action is logged with who did it.
+ * tap; edit = a line's description and price ({lines: [{id, description, unitPrice}]});
+ * resend = "Resend link" (the same text and /q/ link again, on this tap only:
+ * never from poll, the list or a webhook). Every action is logged with who did it.
  */
 export const onRequest: PagesFunction<Env> = async (context) => {
   if (context.request.method !== 'POST') return methodNotAllowed(['POST']);
@@ -36,6 +37,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     else if (action === 'hide' || action === 'unhide') result = await hideQuote(deps, auth.name, id, action === 'hide');
     else if (action === 'edit') result = await editLines(deps, auth.name, id, value.lines);
     else if (action === 'archive') result = await archiveQuote(deps, auth.name, id);
+    else if (action === 'resend') result = await resendLink(deps, auth.name, id);
     else await advance(deps, id, action === 'retry' ? 'retry' : 'poll', auth.name);
     const row = await deskQuote(deps.db, id);
     const branch = await cachedBranch(deps.db);

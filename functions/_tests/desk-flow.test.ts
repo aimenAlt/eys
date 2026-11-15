@@ -437,3 +437,175 @@ await check('Archive: Jobber archives the draft, it leaves the desk list, an app
   assert.equal(refused.status, 409);
   assert.equal(h.jobber.mutationCalls.filter((c) => c.name === 'quoteArchive').length, 1);
 });
+
+// ---------------------------------------------------------------------------
+// "Resend link"
+// ---------------------------------------------------------------------------
+
+const MIN = 60_000;
+
+/** A quote approved and texted once; returns its code. */
+async function sentQuote(h: DeskHarness, cookie: string, id: string): Promise<string> {
+  h.jobber.addQuote({ id, title: 'TV Mounting' });
+  const body = await (await post(h, cookie, { id, action: 'approve' })).json();
+  assert.equal(body.desk.text_state, 'sent');
+  return body.desk.q_code as string;
+}
+
+/** Moves the last text 11 minutes into the past, so the 10-minute gap is open. */
+function ageLastText(h: DeskHarness, id: string, ms = 11 * MIN): void {
+  h.db.raw.prepare('UPDATE desk_quotes SET text_sent_at = text_sent_at - ? WHERE quote_id = ?').run(ms, id);
+}
+
+await check('resend: the same text and code again, one Quo call, a Jobber note, logged with who and the last 4', async () => {
+  const { h, quo, cookie, route } = await setup();
+  await withFetch(route, async () => {
+    const code = await sentQuote(h, cookie, 'q-r1');
+    ageLastText(h, 'q-r1');
+    const view = await (await h.call(quoteRoute, '/api/desk/quote?id=q-r1', { cookie })).json();
+    assert.equal(view.actions.resend, true);
+    assert.equal(view.actions.approve, false);
+    assert.equal(view.resend.text, quo.posts[0].content, 'the sheet shows the very same text');
+    assert.equal(view.resend.last4, '0142');
+    assert.equal(view.resend.problem, null);
+    assert.equal(view.resend.count, 0);
+    const before = h.jobber.notesAdded.length;
+    const response = await post(h, cookie, { id: 'q-r1', action: 'resend' });
+    assert.equal(response.status, 200);
+    const body = await response.json();
+    assert.equal(quo.posts.length, 2, 'exactly one more Quo call');
+    assert.equal(quo.posts[1].content, quo.posts[0].content);
+    assert.ok(quo.posts[1].content.includes(`/q/${code}`), 'same /q/ code');
+    assert.equal(quo.posts[1].from, 'PNeiWaFK2n');
+    assert.deepEqual(quo.posts[1].to, ['+12815550142']);
+    assert.equal(body.desk.text_message_id, 'AC2');
+    assert.equal(body.desk.text_state, 'sent');
+    assert.ok(Date.now() - body.desk.text_sent_at < MIN, 'text_sent_at is the resend');
+    assert.equal(h.jobber.notesAdded.length, before + 1);
+    assert.match(h.jobber.notesAdded.at(-1)!.message, /^Quote link re-sent to the customer from the Quote Desk \(Essa, .+\)\.$/);
+    assert.equal(h.jobber.notesAdded.at(-1)!.pinned, false);
+    const event = h.db.raw.prepare("SELECT actor, detail FROM desk_events WHERE quote_id = 'q-r1' AND action = 'text_resent'").get() as { actor: string; detail: string };
+    assert.equal(event.actor, 'Essa');
+    assert.match(event.detail, /^···0142 AC2 jobber_note=added$/);
+    assert.equal(h.db.raw.prepare('SELECT COUNT(*) AS n FROM q_links').get()!.n, 1, 'no new link');
+  });
+});
+
+await check('resend: two taps at once still make one Quo call; a second tap within 10 minutes is refused', async () => {
+  const { h, quo, cookie, route } = await setup();
+  await withFetch(route, async () => {
+    await sentQuote(h, cookie, 'q-r2');
+    // Right after the first text: the gap is closed.
+    const early = await post(h, cookie, { id: 'q-r2', action: 'resend' });
+    assert.equal(early.status, 409);
+    assert.equal((await early.json()).message, 'The link went out less than 10 minutes ago. Try again later');
+    assert.equal(quo.posts.length, 1);
+    ageLastText(h, 'q-r2');
+    const both = await Promise.all([post(h, cookie, { id: 'q-r2', action: 'resend' }), post(h, cookie, { id: 'q-r2', action: 'resend' })]);
+    assert.deepEqual(both.map((r) => r.status).sort(), [200, 409]);
+    assert.equal(quo.posts.length, 2, 'one Quo call for two taps');
+    const again = await post(h, cookie, { id: 'q-r2', action: 'resend' });
+    assert.equal(again.status, 409);
+    assert.equal(quo.posts.length, 2);
+    // Polls, webhooks and Retry never resend.
+    ageLastText(h, 'q-r2');
+    await post(h, cookie, { id: 'q-r2', action: 'poll' });
+    await post(h, cookie, { id: 'q-r2', action: 'retry' });
+    await deliver(h, 'QUOTE_UPDATE', 'q-r2', '2026-11-15T18:00:00Z');
+    assert.equal(quo.posts.length, 2);
+  });
+});
+
+await check('resend: at most 5, then refused with a plain message', async () => {
+  const { h, quo, cookie, route } = await setup();
+  await withFetch(route, async () => {
+    await sentQuote(h, cookie, 'q-r3');
+    for (let i = 0; i < 5; i++) {
+      ageLastText(h, 'q-r3');
+      assert.equal((await post(h, cookie, { id: 'q-r3', action: 'resend' })).status, 200, `resend ${i + 1}`);
+    }
+    ageLastText(h, 'q-r3');
+    const view = await (await h.call(quoteRoute, '/api/desk/quote?id=q-r3', { cookie })).json();
+    assert.equal(view.resend.count, 5);
+    assert.equal(view.resend.problem, 'The link was already re-sent 5 times');
+    const sixth = await post(h, cookie, { id: 'q-r3', action: 'resend' });
+    assert.equal(sixth.status, 409);
+    assert.equal((await sixth.json()).message, 'The link was already re-sent 5 times');
+  });
+  assert.equal(quo.posts.length, 6, 'the first text and five resends');
+});
+
+await check('resend: refused with no Quo call when texting is off, no US phone, texts stopped, not awaiting, or never texted', async () => {
+  const { h, quo, cookie, route } = await setup();
+  const refusal = async (id: string) => {
+    const response = await post(h, cookie, { id, action: 'resend' });
+    assert.equal(response.status, 409, id);
+    return (await response.json()).message as string;
+  };
+  await withFetch(route, async () => {
+    for (const id of ['q-r4', 'q-r5', 'q-r6', 'q-r7']) {
+      await sentQuote(h, cookie, id);
+      ageLastText(h, id);
+    }
+    const posts = quo.posts.length;
+    h.env.QUOTE_SEND_ENABLED = undefined;
+    assert.equal(await refusal('q-r4'), 'Texting is off');
+    h.env.QUOTE_SEND_ENABLED = 'true';
+    h.jobber.quotes.get('q-r5')!.client.phones = [];
+    assert.equal(await refusal('q-r5'), 'No US phone number on file');
+    h.jobber.quotes.get('q-r6')!.client.phones[0].smsStopped = true;
+    assert.equal(await refusal('q-r6'), 'This customer stopped texts in Jobber');
+    h.jobber.quotes.get('q-r7')!.quoteStatus = 'approved';
+    assert.equal(await refusal('q-r7'), 'This quote is approved in Jobber, so the link was not re-sent');
+    // Approved with texting off: no text ever went out, so there is nothing to re-send.
+    h.env.QUOTE_SEND_ENABLED = undefined;
+    h.jobber.addQuote({ id: 'q-r8' });
+    await post(h, cookie, { id: 'q-r8', action: 'approve' });
+    h.env.QUOTE_SEND_ENABLED = 'true';
+    assert.equal(await refusal('q-r8'), 'Only a quote whose text already went out can be re-sent');
+    const view = await (await h.call(quoteRoute, '/api/desk/quote?id=q-r8', { cookie })).json();
+    assert.equal(view.actions.resend, false, 'no button for a quote never texted');
+    assert.equal(quo.posts.length, posts, 'no Quo call for any refusal');
+  });
+  const resent = h.db.raw.prepare("SELECT COUNT(*) AS n FROM desk_events WHERE action LIKE 'text_resen%'").get() as { n: number };
+  assert.equal(resent.n, 0);
+  assert.equal(h.jobber.notesAdded.filter((n) => n.message.startsWith('Quote link re-sent')).length, 0);
+});
+
+await check('resend: a refused send (opted out) gives the gap back and does not count', async () => {
+  const { h, quo, cookie, route } = await setup();
+  await withFetch(route, async () => {
+    await sentQuote(h, cookie, 'q-r9');
+    ageLastText(h, 'q-r9');
+    const before = (await deskQuote(h.db, 'q-r9'))!.text_sent_at;
+    quo.mode = 'opted_out';
+    const refused = await post(h, cookie, { id: 'q-r9', action: 'resend' });
+    assert.equal(refused.status, 409);
+    assert.equal((await refused.json()).message, 'Customer has opted out of texts. The link was not re-sent');
+    const row = (await deskQuote(h.db, 'q-r9'))!;
+    assert.equal(row.text_sent_at, before, 'gap given back');
+    assert.equal(row.text_state, 'sent', 'the first text still went out');
+    assert.equal(row.text_message_id, 'AC1');
+    quo.mode = 'ok';
+    assert.equal((await post(h, cookie, { id: 'q-r9', action: 'resend' })).status, 200);
+    const view = await (await h.call(quoteRoute, '/api/desk/quote?id=q-r9', { cookie })).json();
+    assert.equal(view.resend.count, 1, 'only the resend that went out counts');
+  });
+  assert.equal(quo.posts.length, 3);
+  assert.equal(h.jobber.notesAdded.filter((n) => n.message.startsWith('Quote link re-sent')).length, 1);
+});
+
+await check('resend: an expired /q/ code works again after the resend', async () => {
+  const { h, quo, cookie, route } = await setup();
+  const { onRequest: intro } = await import('../q/[[code]].ts');
+  await withFetch(route, async () => {
+    const code = await sentQuote(h, cookie, 'q-r10');
+    ageLastText(h, 'q-r10', 400 * 24 * 60 * MIN);
+    h.db.raw.prepare('UPDATE q_links SET created_at = created_at - ? WHERE code = ?').run(400 * 24 * 60 * MIN, code);
+    assert.equal((await h.call(intro, `/q/${code}`, { params: { code: [code] } })).status, 404, 'expired before');
+    assert.equal((await post(h, cookie, { id: 'q-r10', action: 'resend' })).status, 200);
+    const link = h.db.raw.prepare('SELECT created_at FROM q_links WHERE code = ?').get(code) as { created_at: number };
+    assert.ok(Date.now() - link.created_at < MIN, 'created_at extended');
+    assert.ok(quo.posts[1].content.includes(`/q/${code}`));
+  });
+});

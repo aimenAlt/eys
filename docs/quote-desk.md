@@ -40,7 +40,7 @@ number. Only Jobber's website can (More, then Mark as Awaiting Response).
 How the desk session works:
 - The cookie is `eys_desk`: HttpOnly, Secure, SameSite=Lax, `Path=/api/desk/`, 90 days.
 - A login is allowed at most 5 wrong PINs per 15 minutes per IP (`rate_counters`, keyed IP hash).
-- Every action is logged in `desk_events` with who did it and when: login, approve, the status move, text sent or failed, change, hide, unhide, and webhook.
+- Every action is logged in `desk_events` with who did it and when: login, approve, the status move, text sent or failed, a resend (`text_resent`, with the last 4 digits), change, hide, unhide, and webhook.
 
 ## The quote screen
 
@@ -69,7 +69,7 @@ active.
 - **Never used:** `workObjectSendSms`, `workObjectSendEmail`, or anything named send, email or sms. Those message the client from Jobber.
 
 The only Jobber writes are this one status move, `quoteCreateNote` (for
-"Needs a change", the "Quote not sent yet", "Quote texted" and "Edited" notes), a line's description and price (`quoteEditLineItems`, Aimen's request 2026-11-11) and Archive (`quoteArchive`). The desk never sends via Jobber, approves, schedules,
+"Needs a change", the "Quote not sent yet", "Quote texted", "Quote link re-sent" and "Edited" notes), a line's description and price (`quoteEditLineItems`, Aimen's request 2026-11-11) and Archive (`quoteArchive`). The desk never sends via Jobber, approves, schedules,
 invoices or collects money.
 
 ## What happens on "Looks good"
@@ -89,7 +89,7 @@ invoices or collects money.
    - stores the Quo message ID and status.
 
 Guarantees:
-- **One quote, at most one text, ever.** A conditional UPDATE moves `text_state` from `none` to `sending`, and only one caller can win it. Two webhooks and the poll arriving together still send one text (tested).
+- **One quote, at most one text, plus resends Essa taps.** A conditional UPDATE moves `text_state` from `none` to `sending`, and only one caller can win it. Two webhooks and the poll arriving together still send one text (tested). Nothing but a tap on **Resend link** ever sends the link again (see below).
 - **No desk approval, no text.** A quote that reaches Awaiting Response any other way is ignored.
 - **Unknown outcomes are not retried blind.** When the network drops or Quo returns a 5xx, the state becomes `unknown`. "Retry text" first looks in the Quo conversation for a text carrying that quote's link, and marks it sent if it finds one.
 - **Failures are retried only by Essa.** When Quo refuses the text (opted out, bad number, rate limit), the state becomes `failed` and the desk shows the reason. Only "Retry text" tries again; polls and webhooks never do.
@@ -122,6 +122,27 @@ When the title is empty or generic ("Project Quote", "Quote", "Estimate",
 second line stays.
 
 Source: `functions/_lib/quote-text.ts`.
+
+### Resend link
+
+Shown under the status chips (secondary style) when the text went out
+(`text_state` is `sent`) and Jobber still says `awaiting_response`.
+
+- **Tap** opens the same confirm sheet as Looks good: the name, the last 4 digits of the phone, when it was last texted and how many times it was re-sent, and the exact text. It is the same `quoteTextMessage` with the same `/q/` code, built from the quote's `q_links` row.
+- **Send** texts it from inbox `PNeiWaFK2n`, updates `text_message_id`, `text_status` and `text_sent_at`, logs `text_resent` in `desk_events` with who tapped and the last 4 digits, and adds a note on the quote in Jobber (`quoteCreateNote`): "Quote link re-sent to the customer from the Quote Desk (<name>, <time>)."
+- **An expired code works again.** If the `/q/` link has expired, or would within 30 days, its `created_at` is moved to now, so it lasts another year.
+- **Only on a tap.** `POST /api/desk/action` with `resend`. Polls, the desk list, Retry text and webhooks never resend.
+- **One Quo call per tap.** The claim is a conditional UPDATE that moves `text_sent_at` to now only when the last text is at least 10 minutes old, so two taps at once send one text (tested).
+- **Refused, with a plain message, when:**
+  - texting is off, or no `QUO_API_KEY`;
+  - no text went out yet (use Looks good or Retry text);
+  - no US phone number, or the customer stopped texts in Jobber (`smsStopped`);
+  - the quote is no longer `awaiting_response` in Jobber;
+  - a text (the first one or a resend) went out in the last 10 minutes;
+  - 5 resends have already gone out.
+- **A refused send doesn't count.** When Quo says no (opted out, bad number), the 10-minute gap is given back and it isn't counted. An unknown outcome (network, 5xx) counts, because it may have gone out: check Quo before trying again.
+
+Source: `resendLink` in `functions/_lib/desk-flow.ts`.
 
 ### Other buttons
 

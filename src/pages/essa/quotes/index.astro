@@ -513,6 +513,8 @@ const seo = {
           if (d.move_error) html += '<p class="mt-1.5 text-[0.8125rem] font-semibold text-brand-red">' + esc(d.move_error) + '</p>';
           if (data.actions && data.actions.retry)
             html += '<button type="button" class="mt-2 ' + secondaryBtn + '" data-act="retry">Retry text</button>';
+          if (data.actions && data.actions.resend)
+            html += '<button type="button" class="mt-2 ' + secondaryBtn + '" data-act="resend">Resend link</button>';
           if (data.actions && data.actions.manualStep && !moved) {
             html +=
               '<p class="mt-2 text-[0.875rem] font-bold text-brand-black">Last step: tap More, then Mark as Awaiting Response</p>' +
@@ -715,6 +717,28 @@ const seo = {
           sheet.hidden = false;
         }
 
+        /** "Resend link": the same sheet as Looks good, with the exact text and link again. */
+        function openResendSheet() {
+          var data = state.quote;
+          var q = data.quote;
+          var r = data.resend || {};
+          var history = r.lastSentAt
+            ? 'Last texted ' + when(r.lastSentAt) + (r.count ? ', re-sent ' + r.count + (r.count === 1 ? ' time' : ' times') + ' of ' + r.max : '')
+            : '';
+          sheetBody.innerHTML =
+            '<p class="text-[0.75rem] font-bold uppercase tracking-[0.1em] text-brand-muted">Resend link to</p>' +
+            '<p class="text-[1.05rem] font-bold text-brand-black">' + esc(q.client.name) + ' &middot;&middot;&middot;' + esc(r.last4 || '') + '</p>' +
+            (history ? '<p class="mt-1 text-[0.9375rem] text-brand-charcoal">' + esc(history) + '</p>' : '') +
+            '<p class="mt-3 text-[0.75rem] font-bold uppercase tracking-[0.1em] text-brand-muted">The text</p>' +
+            '<p class="mt-1 whitespace-pre-wrap rounded-2xl rounded-bl-sm bg-brand-lightbg px-3 py-2 text-[0.9375rem] text-brand-black">' + esc(r.text || '') + '</p>' +
+            (r.problem || !r.text
+              ? '<p class="mt-2 text-[0.875rem] font-bold text-brand-red">' + esc(r.problem || 'Could not load the text. Open the quote again.') + '</p>'
+              : '') +
+            '<button type="button" class="mt-4 ' + primaryBtn + '" data-sheet-resend' + (r.problem || !r.text ? ' disabled' : '') + '>Send</button>' +
+            '<button type="button" class="mt-2 ' + secondaryBtn + '" data-sheet-cancel>Cancel</button>';
+          sheet.hidden = false;
+        }
+
         async function act(action, extra) {
           var data = state.quote;
           delete quoteCache[data.quote.id];
@@ -869,6 +893,15 @@ const seo = {
             }
             return;
           }
+          if (event.target.closest('[data-sheet-resend]')) {
+            var resendBtn = event.target.closest('[data-sheet-resend]');
+            resendBtn.disabled = true;
+            resendBtn.textContent = 'Sending…';
+            var resent = await act('resend');
+            closeSheet();
+            if (resent) renderQuote(state.quote.quote.id);
+            return;
+          }
           if (event.target.closest('[data-sheet-mark]')) {
             var markBtn = event.target.closest('[data-sheet-mark]');
             markBtn.disabled = true;
@@ -902,6 +935,22 @@ const seo = {
           }
           if (action === 'mark') {
             openMarkSheet();
+            return;
+          }
+          if (action === 'resend') {
+            // Right after a send the screen has no resend text yet: load it first.
+            if (!state.quote.resend) {
+              trigger.disabled = true;
+              delete quoteCache[state.quote.quote.id];
+              var fresh = await loadQuote(state.quote.quote.id).catch(function () {
+                return null;
+              });
+              if (fresh && fresh.quote && onQuoteScreen(fresh.quote.id)) {
+                state.quote = fresh;
+                drawQuote();
+              } else trigger.disabled = false;
+            }
+            openResendSheet();
             return;
           }
           if (action === 'change') {

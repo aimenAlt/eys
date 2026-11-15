@@ -1,7 +1,7 @@
 import type { Env, PagesFunction } from '../../_lib/types.ts';
 import { deskAuth, quoteSendEnabled } from '../../_lib/desk-http.ts';
 import { findQLinkByQuote } from '../../_lib/desk-db.ts';
-import { availableActions, ensureDeskRow, reserveCode } from '../../_lib/desk-flow.ts';
+import { MAX_RESENDS, availableActions, ensureDeskRow, resendBlock, resendCount, reserveCode } from '../../_lib/desk-flow.ts';
 import { quoteTextMessage } from '../../_lib/quote-text.ts';
 import { deskJobberDeps, fetchQuoteBundle, quotesAccess, statusBranch } from '../../_lib/desk-jobber.ts';
 import { buildQuoteView } from '../../_lib/desk-view.ts';
@@ -49,13 +49,28 @@ export const onRequest: PagesFunction<Env> = async (context) => {
             : null,
       };
     }
+    const link = await findQLinkByQuote(db, id);
+    // "Resend link": the same text with the same code, shown before the tap.
+    let resend: { text: string; last4: string | null; problem: string | null; count: number; max: number; lastSentAt: number | null } | null = null;
+    if (actions.resend && link) {
+      const count = await resendCount(db, id);
+      resend = {
+        text: quoteTextMessage(link.first_name, link.title, link.code),
+        last4: view.client.phone ? view.client.phone.slice(-4) : null,
+        problem:
+          resendBlock(env, row, count, auth.now) ??
+          (!view.client.phone ? 'No US phone number on file' : view.client.smsStopped ? 'This customer stopped texts in Jobber' : null),
+        count,
+        max: MAX_RESENDS,
+        lastSentAt: row.text_sent_at,
+      };
+    }
     const changes = (
       await db
         .prepare('SELECT actor, note, at, jobber_note FROM desk_changes WHERE quote_id = ?1 ORDER BY at DESC LIMIT 20')
         .bind(id)
         .all<{ actor: string; note: string; at: number; jobber_note: string | null }>()
     ).results;
-    const link = await findQLinkByQuote(db, id);
     timing.mark('db');
     return timing.apply(json({
       access,
@@ -63,6 +78,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
       desk: row,
       actions,
       preview,
+      resend,
       changes,
       introOpened: link?.opened_at ?? null,
       branch: { kind: branch.kind, label: branch.label },

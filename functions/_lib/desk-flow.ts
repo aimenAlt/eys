@@ -4,7 +4,9 @@ import { MINUTE, DAY } from './db.ts';
 import { chicagoTimestamp } from './env.ts';
 import { JobberError, graphql } from './jobber.ts';
 import {
+  Q_LINK_RETENTION,
   deskQuote,
+  findQLinkByQuote,
   insertQLink,
   kvGet,
   logDeskEvent,
@@ -41,10 +43,12 @@ import { quoteSendEnabled } from './desk-http.ts';
  *  d. Only when Jobber says awaiting_response AND D1 holds the desk approval
  *     AND no text has gone out: the /q/ link is made and the text sent.
  *
- * One quote gets at most one text, ever. text_state moves none → sending by a
- * conditional UPDATE that only one caller can win; a send whose outcome is
- * unknown (network, 5xx) is never retried blind: the retry first looks for the
- * text in the Quo conversation.
+ * One quote gets at most one text on its own, plus the resends Essa taps.
+ * text_state moves none → sending by a conditional UPDATE that only one caller
+ * can win; a send whose outcome is unknown (network, 5xx) is never retried
+ * blind: the retry first looks for the text in the Quo conversation. A resend
+ * (resendLink) only ever runs from the "Resend link" tap, never from a poll or
+ * a webhook.
  */
 
 /** A claim older than this is a dead isolate's, and only "Retry text" may take it over. */
@@ -462,6 +466,110 @@ export async function advance(deps: FlowDeps, quoteId: string, source: AdvanceSo
   return deskQuote(deps.db, quoteId);
 }
 
+// ---------------------------------------------------------------------------
+// "Resend link": the same text and the same /q/ link again, on Essa's tap only
+// ---------------------------------------------------------------------------
+
+/** No resend within this long of the last text that went out (the first one or a resend). */
+export const RESEND_GAP = 10 * MINUTE;
+/** Resends a quote may ever get. */
+export const MAX_RESENDS = 5;
+/** A link that has expired, or would within this long, gets a fresh year when it is re-sent. */
+export const RESEND_LINK_REFRESH = 30 * DAY;
+/** Events that count as a resend that went out (an unknown outcome counts: it may have). */
+const RESENT_EVENTS = ['text_resent', 'text_resend_unknown'];
+
+export async function resendCount(db: D1Database, quoteId: string): Promise<number> {
+  const row = await db
+    .prepare(`SELECT COUNT(*) AS n FROM desk_events WHERE quote_id = ?1 AND action IN (${RESENT_EVENTS.map((_, i) => `?${i + 2}`).join(', ')})`)
+    .bind(quoteId, ...RESENT_EVENTS)
+    .first<{ n: number }>();
+  return Number(row?.n ?? 0);
+}
+
+/** Why a resend cannot go out right now, from D1 alone (no Jobber call), or null. */
+export function resendBlock(env: Env, row: DeskQuoteRow | null, count: number, now: number): string | null {
+  if (!quoteSendEnabled(env)) return 'Texting is off';
+  if (!quoKey(env)) return 'QUO_API_KEY is not set';
+  if (!row || row.state !== 'approved' || row.text_state !== 'sent' || !row.q_code) return 'Only a quote whose text already went out can be re-sent';
+  if (count >= MAX_RESENDS) return `The link was already re-sent ${MAX_RESENDS} times`;
+  if (row.text_sent_at !== null && now - row.text_sent_at < RESEND_GAP) return 'The link went out less than 10 minutes ago. Try again later';
+  return null;
+}
+
+/**
+ * "Resend link". Runs only from Essa's tap (POST /api/desk/action resend),
+ * never from a poll, the list or a webhook. Sends the very same text with the
+ * same /q/ code from the EYS inbox, then adds a note on the quote in Jobber.
+ * At most one Quo call per tap: the claim moves text_sent_at to now with a
+ * conditional UPDATE, so a second tap (or two at once) finds the 10-minute
+ * gap closed.
+ */
+export async function resendLink(deps: FlowDeps, actor: string, quoteId: string): Promise<ActionResult> {
+  const now = deps.now();
+  const refuse = async (message: string): Promise<ActionResult> => ({ ok: false, message, row: await deskQuote(deps.db, quoteId) });
+  const row = await deskQuote(deps.db, quoteId);
+  const blocked = resendBlock(deps.env, row, await resendCount(deps.db, quoteId), now);
+  if (blocked || !row) return refuse(blocked ?? 'Only a quote whose text already went out can be re-sent');
+  const link = await findQLinkByQuote(deps.db, quoteId);
+  if (!link) return refuse('This quote has no link to re-send');
+
+  const status = (await fetchQuoteStatuses(deps.jobber, [quoteId])).get(quoteId);
+  if (!status) return refuse('Jobber has no such quote');
+  await recordStatus(deps.db, row, status, now);
+  const jobberStatus = (status.quoteStatus ?? '').toLowerCase();
+  if (jobberStatus !== 'awaiting_response') {
+    return refuse(`This quote is ${jobberStatus ? jobberStatus.replace(/_/g, ' ') : 'not awaiting a response'} in Jobber, so the link was not re-sent`);
+  }
+  const phone = textablePhone(status.client?.phones);
+  if (!phone) return refuse('No US phone number on file');
+  if (phone.smsStopped) return refuse('This customer stopped texts in Jobber');
+
+  // The claim: one caller per 10 minutes moves text_sent_at to now.
+  const claim = await deps.db
+    .prepare(
+      `UPDATE desk_quotes SET text_sent_at = ?2, updated_at = ?2
+       WHERE quote_id = ?1 AND state = 'approved' AND text_state = 'sent' AND COALESCE(text_sent_at, 0) <= ?3`,
+    )
+    .bind(quoteId, now, now - RESEND_GAP)
+    .run();
+  if ((claim.meta.changes ?? 0) !== 1) return refuse('The link went out less than 10 minutes ago. Try again later');
+
+  // An expired (or nearly expired) link works again for another year.
+  if (link.created_at < now - Q_LINK_RETENTION + RESEND_LINK_REFRESH) {
+    await deps.db.prepare('UPDATE q_links SET created_at = ?2 WHERE code = ?1').bind(link.code, now).run();
+  }
+
+  const body = quoteTextMessage(link.first_name, link.title, link.code);
+  const result = await sendText({ key: quoKey(deps.env) as string, fetch: deps.fetch }, phone.e164, body);
+  if (!result.ok && result.definite) {
+    // Nothing went out: give back the 10-minute gap and do not count it.
+    await deps.db
+      .prepare('UPDATE desk_quotes SET text_sent_at = ?2, updated_at = ?3 WHERE quote_id = ?1 AND text_sent_at = ?3')
+      .bind(quoteId, row.text_sent_at, now)
+      .run();
+    await logDeskEvent(deps.db, { actor, action: 'text_resend_failed', quoteId, detail: `···${lastFour(phone.e164)} ${result.reason}`, now });
+    return refuse(`${result.reason}. The link was not re-sent`);
+  }
+  if (!result.ok) {
+    await logDeskEvent(deps.db, { actor, action: 'text_resend_unknown', quoteId, detail: `···${lastFour(phone.e164)} ${result.reason}`, now });
+    return refuse(`${result.reason}. Not sure the text went out, so check Quo before trying again`);
+  }
+
+  await touch(deps.db, quoteId, { text_message_id: result.id, text_status: result.status, text_to: phone.e164, text_body: body, text_error: null }, now);
+  let outcome: NoteOutcome = 'unsupported';
+  try {
+    const { access, schema } = await quotesAccess(deps.jobber);
+    if (access === 'ok' && schema) {
+      outcome = await addQuoteNote(deps.jobber, schema, quoteId, `Quote link re-sent to the customer from the Quote Desk (${actor}, ${chicagoTimestamp(now)}).`);
+    }
+  } catch {
+    outcome = 'failed';
+  }
+  await logDeskEvent(deps.db, { actor, action: 'text_resent', quoteId, detail: `···${lastFour(phone.e164)} ${result.id} jobber_note=${outcome}`, now });
+  return { ok: true, row: await deskQuote(deps.db, quoteId) };
+}
+
 /** Why the text cannot go out right now, or null. */
 export async function sendProblem(deps: FlowDeps, status: RawQuoteStatus): Promise<string | null> {
   if (!quoteSendEnabled(deps.env)) return 'Texting is off';
@@ -673,6 +781,8 @@ export interface DeskActions {
   edit: boolean;
   /** Archive the quote in Jobber (replaces "Not sending"). */
   archive: boolean;
+  /** "Resend link": the same text and /q/ link again, on Essa's tap only. */
+  resend: boolean;
 }
 
 export function availableActions(row: DeskQuoteRow | null, jobberStatus: string | null, _branch: StatusBranch | null, now: number): DeskActions {
@@ -690,6 +800,7 @@ export function availableActions(row: DeskQuoteRow | null, jobberStatus: string 
     manualStep: (approved || state === 'marked') && (row?.move_state === 'manual' || row?.move_state === 'failed') && status !== 'awaiting_response',
     edit: !approved && status === 'draft',
     archive: !approved && state !== 'marked' && status === 'draft',
+    resend: approved && row?.text_state === 'sent' && status === 'awaiting_response',
   };
 }
 
