@@ -2,7 +2,7 @@ import type { Env, PagesFunction } from '../../../_lib/types.ts';
 import { sha256, timingSafeEqual } from '../../../_lib/crypto.ts';
 import { adminJobberDeps, bearerToken } from '../../../_lib/admin.ts';
 import { json, methodNotAllowed } from '../../../_lib/http.ts';
-import { JOBBER_API_VERSION, JOBBER_GRAPHQL_URL, JobberError, getAccessToken } from '../../../_lib/jobber.ts';
+import { JOBBER_API_VERSION, JOBBER_GRAPHQL_URL, JobberError, getAccessToken, jwtScopes } from '../../../_lib/jobber.ts';
 import { adminKey } from '../../../_lib/env.ts';
 
 /**
@@ -30,31 +30,37 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
   const deps = adminJobberDeps(env);
   try {
     const token = await getAccessToken(deps);
-    const response = await fetch(JOBBER_GRAPHQL_URL, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'X-JOBBER-GRAPHQL-VERSION': JOBBER_API_VERSION,
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
-        query:
-          'query EysDelegateProbe($id: EncodedId!) { client(id: $id) { id clientHubDelegateLoginUrl } __type(name: "Client") { fields { name } } }',
-        variables: { id: TEST_CLIENT_ID },
-      }),
-    });
-    const body = (await response.json().catch(() => null)) as {
-      data?: { client?: { id?: string; clientHubDelegateLoginUrl?: string | null } | null; __type?: { fields?: { name: string }[] } | null };
-      errors?: { message?: string; extensions?: unknown }[];
-    } | null;
-    const visible = (body?.data?.__type?.fields ?? []).map((f) => f.name).filter((n) => /clientHub/i.test(n));
+    const ask = async (query: string, variables: Record<string, unknown> = {}) => {
+      const response = await fetch(JOBBER_GRAPHQL_URL, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'X-JOBBER-GRAPHQL-VERSION': JOBBER_API_VERSION,
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({ query, variables }),
+      });
+      const body = (await response.json().catch(() => null)) as { data?: Record<string, unknown> | null; errors?: { message?: string; extensions?: unknown }[] } | null;
+      return {
+        http: response.status,
+        data: body?.data ?? null,
+        errors: (body?.errors ?? []).map((e) => ({ message: (e.message ?? '').slice(0, 300), extensions: e.extensions ?? null })),
+      };
+    };
+    const delegate = await ask('query EysDelegateProbe($id: EncodedId!) { client(id: $id) { id clientHubDelegateLoginUrl } }', { id: TEST_CLIENT_ID });
+    const fields = await ask('query EysDelegateProbeFields { __type(name: "Client") { fields { name } } }');
+    const names = ((fields.data?.__type as { fields?: { name: string }[] } | null)?.fields ?? []).map((f) => f.name);
+    const url = (delegate.data?.client as { clientHubDelegateLoginUrl?: string | null } | null)?.clientHubDelegateLoginUrl ?? null;
     return json({
-      http: response.status,
-      visible_client_hub_fields: visible,
-      client_id: body?.data?.client?.id ?? null,
-      url: body?.data?.client?.clientHubDelegateLoginUrl ?? null,
-      errors: (body?.errors ?? []).map((e) => ({ message: (e.message ?? '').slice(0, 300), extensions: e.extensions ?? null })),
+      api_version: JOBBER_API_VERSION,
+      token_scopes: jwtScopes(token),
+      client_field_count: names.length,
+      client_hub_fields_visible: names.filter((n) => /clientHub|login|delegate/i.test(n)),
+      url,
+      delegate_http: delegate.http,
+      delegate_errors: delegate.errors,
+      fields_errors: fields.errors,
     });
   } catch (error) {
     return json({ error: 'jobber_unavailable', error_class: error instanceof JobberError ? error.errorClass : 'internal' }, 502);
