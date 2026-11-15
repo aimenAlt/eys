@@ -167,6 +167,7 @@ Astro and filled in per request:
 - **Fallback.** An unknown, expired (over a year) or malformed code gets the static phone-number page (`src/pages/q/index.astro`) with a 404.
 - **Guessing limit.** Lookups stop for an IP after 30 misses in an hour.
 - **Opens and clicks.** The page's script reports a real open and a "View your quote" press to `/api/q/event`, so link previews don't count as opens. It also sends GA4 `quote_intro_view` and `quote_intro_click` (see `docs/analytics-events.md`).
+- **Client Hub asks the customer to log in.** "View your quote" opens the quote's `clientHubUri`, the bare hub link with no login token, so a phone with no Jobber session lands on Client Hub's email login page. Jobber's own texts carry a login token the API never returns. `Client.clientHubDelegateLoginUrl` ("Generate an authenticated Client Hub URL for delegate login") is in Jobber's public schema, but on 2026-11-15 the site's token (every client, request and quote scope) got `undefinedField` for it at API version `2026-09-25`, and its view of `Client` has no `clientHub*` field at all. So there is no logged-in link to make.
 
 ## D1 tables (eys-ai-intake, binding `EYS_AI_DB`)
 
