@@ -4,10 +4,11 @@ A private phone page where Essa reviews draft Jobber quotes and taps **Looks
 good**. The quote moves to Awaiting Response in Jobber **without Jobber
 messaging the client**, and the customer gets one text from EYS's Quo number,
 (346) 820-1629, with a link to a short Essa intro page. The intro page then
-opens their Jobber Client Hub quote.
+opens the quote itself on our own page, read live from Jobber.
 
 - Desk: `https://www.eyshandyman.com/essa/quotes/` (PIN, noindex, no analytics). Linked from the top of `/essa/`.
 - Intro page: `https://www.eyshandyman.com/q/<code>` (noindex, no nav or footer, same design as `/go/`).
+- Quote page: `https://www.eyshandyman.com/q/<code>/view` (the quote read from Jobber on each tap; same look, noindex, no-store).
 - Jobber webhook: `https://www.eyshandyman.com/api/jobber/webhook`.
 
 Why it exists: Essa uses Android. Jobber's mobile app can't move a draft to
@@ -167,7 +168,26 @@ Astro and filled in per request:
 - **Fallback.** An unknown, expired (over a year) or malformed code gets the static phone-number page (`src/pages/q/index.astro`) with a 404.
 - **Guessing limit.** Lookups stop for an IP after 30 misses in an hour.
 - **Opens and clicks.** The page's script reports a real open and a "View your quote" press to `/api/q/event`, so link previews don't count as opens. It also sends GA4 `quote_intro_view` and `quote_intro_click` (see `docs/analytics-events.md`).
-- **Client Hub asks the customer to log in.** "View your quote" opens the quote's `clientHubUri`, the bare hub link with no login token, so a phone with no Jobber session lands on Client Hub's email login page. Jobber's own texts carry a login token the API never returns. `Client.clientHubDelegateLoginUrl` ("Generate an authenticated Client Hub URL for delegate login") is in Jobber's public schema, but on 2026-11-15 the site's token (every client, request and quote scope) got `undefinedField` for it at API version `2026-09-25`, and its view of `Client` has no `clientHub*` field at all. So there is no logged-in link to make.
+- **"View your quote" opens our quote page.** The button and the 10-second auto-open go to `/q/<code>/view` (below), not Client Hub. `/q/<code>` itself never calls Jobber: texting apps fetch it to draw link previews.
+
+## The quote page
+
+`/q/<code>/view` (same Function, `functions/_lib/quote-view.ts`, template `src/pages/q/view-template.astro`) shows the customer's quote on our own page.
+
+**Why this path shipped (2026-11-15).** Client Hub's bare link (`Quote.clientHubUri`) lands on Client Hub's email login, so a customer with no email on file can never get in, and Jobber's own texts carry a login token the API never returns. Jobber's public schema (`2026-09-25`) has two logged-in links, and the site's token can read neither:
+- `Client.clientHubDelegateLoginUrl`: `undefinedField`; the token's view of `Client` has no `clientHub*` field at all, despite every client, request and quote scope.
+- `Quote.previewUrl` ("quote preview in client hub with an embedded auth token"): `undefinedField` too, asked twice for test quote #272 through a temporary probe (locked to a one-off token and the test client, removed in the next push).
+
+So the planned redirect (`/q/<code>/open` to a fresh `previewUrl` per tap) couldn't be built, and the quote is drawn here instead.
+
+- **Fresh on every tap.** Each tap reads the quote from Jobber (`EysCustomerQuote`, pruned against the desk's schema snapshot). Nothing from Jobber is stored.
+- **What it shows.** Title and quote number; each line's name, description, quantity when more than 1, and line total ($0 reads "Included", text-only lines have no price); subtotal, any discount, the card fee as "Card processing fee" (it's Jobber's tax rate, never called tax), total, and the deposit if any; and only the quote's client note (what follows "Client Notes:", the desk's `clientNoteOf`), as "Note from Essa". Never internal notes, costs, hours, margin, the Estimate Disclaimer or the contract.
+- **Buttons.** "Text Essa to approve" opens a text to (346) 820-1629: `Hi Essa, I approve quote #<number> for the <title>.`, the title written the way the quote text writes it (`titlePhrase`). Only when the client has an email on file, "Approve and sign online" opens the bare Client Hub link, with "Jobber will email you a sign-in link." under it. An approved or converted quote shows "You approved this quote. Thank you." instead of both buttons.
+- **Phone-number page instead** (the static `/q/` page, 404) when the link is more than 30 days past its text (a resend renews it), the code has had more than 20 taps in the hour, Jobber errors or is disconnected or hides quotes, the quote is archived or gone, or it belongs to a different client than the link.
+- **Email check.** `Client.emails` needs Jobber's `Email` type in the schema snapshot; a snapshot taken before this shipped gets it added on the first tap (`ensureDeskTypes`). If the token can't read emails, the online button never shows and the text button still works. On 2026-11-15 it could: #272's test client got the online button.
+- **Checked on live (2026-11-15).** A cookie-less headless phone opened `/q/unzwTDvh` (texted before this shipped), tapped "View your quote" and landed on quote #272 with its line, card fee, total and note, both buttons, and no login form.
+- **Already-sent links work.** It needs only the `q_links` row, so texts sent before this shipped (unzwTDvh included) open the quote with no resend.
+- **Desk signal.** Customers mostly stay on our page now, so "Opened quote" (Jobber's `clientHubViewedAt`) fills only when someone picks the online button. A press of "View your quote" (`clicked_at`) is the open of this page.
 
 ## D1 tables (eys-ai-intake, binding `EYS_AI_DB`)
 
@@ -206,7 +226,9 @@ npm run build && node --experimental-strip-types --no-warnings functions/_tests/
 ```
 
 Then open `http://localhost:8790/essa/quotes/`. The test PINs are `4826` and
-`7391`, and `SEND=off` shows the "Texting is off" state. The same server is the
+`7391`, and `SEND=off` shows the "Texting is off" state. Two texted quotes are
+seeded for the customer side: `/q/DevViewA` (intro, then its quote page) and
+`/q/DevViewB/view` (a client with an email, so "Approve and sign online" shows). The same server is the
 `desk-fake` entry in `.claude/launch.json`.
 
-Tests: `functions/_tests/intro.test.ts`, `desk.test.ts`, `desk-flow.test.ts` (`npm test`).
+Tests: `functions/_tests/intro.test.ts`, `quote-view.test.ts`, `desk.test.ts`, `desk-flow.test.ts` (`npm test`).
