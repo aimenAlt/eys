@@ -4,6 +4,7 @@
  *   npm run build   # once, for dist/
  *   node --experimental-strip-types --no-warnings functions/_tests/desk-dev.ts   (SEND=off to see "Texting is off")
  *   open http://localhost:8790/essa/quotes/   (PIN 4826 = Essa, 7391 = Aimen)
+ *   open http://localhost:8790/q/DevViewA      (a texted quote: intro, then its quote page)
  *
  * Serves dist/ and runs the real desk and /q/ Functions against an in-memory
  * D1 and the test fakes. Nothing here talks to Jobber, Quo or Cloudflare.
@@ -14,6 +15,8 @@ import { readFile, stat } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 import type { Env, PagesContext, PagesFunction } from '../_lib/types.ts';
 import { deskHarness } from './desk-helpers.ts';
+import { insertQLink } from '../_lib/desk-db.ts';
+import { introReviewFor } from '../_lib/intro.ts';
 
 const PORT = Number(process.env.PORT ?? 8790);
 const DIST = new URL('../../dist/', import.meta.url).pathname;
@@ -85,6 +88,32 @@ h.jobber.requests.set('request-c', {
   notes: { nodes: [{ __typename: 'RequestNote', message: 'Called Nov 9. Wants it done before Thanksgiving.' }] },
   noteAttachments: { nodes: [photo('services/media-walls/marble-wood-slat.jpg'), photo('team/essa-portrait.webp')] },
 });
+
+// Two quotes already texted, for the customer's quote page:
+//   /q/DevViewA/view (no email on file)   /q/DevViewB/view (email on file: adds "Approve and sign online")
+for (const [code, id, emails] of [
+  ['DevViewA', 'q-sent-a', []],
+  ['DevViewB', 'q-sent-b', [{ address: 'dana@example.com', primary: true }]],
+] as const) {
+  const sent = h.jobber.addQuote({
+    id,
+    quoteNumber: code === 'DevViewA' ? '272' : '273',
+    title: 'High Ceiling Curtain Installation',
+    quoteStatus: 'awaiting_response',
+    amounts: { subtotal: 600, total: 618, taxAmount: 18, discountAmount: 0, depositAmount: 0 },
+    client: { id: `client-${id}`, firstName: 'dana', lastName: 'Cole', name: 'Dana Cole', phones: [{ number: '281-555-0177', primary: true, smsAllowed: true }], emails: [...emails] },
+    lineItems: {
+      nodes: [
+        { name: 'High ceiling curtain rods', description: 'Install 2 rods at 16 ft in the living room.\nCustomer supplies rods and panels.', quantity: 2, unitPrice: 250, totalPrice: 500, sortOrder: 1 },
+        { name: 'Ladder and setup', description: null, quantity: 1, unitPrice: 100, totalPrice: 100, sortOrder: 2 },
+        { name: 'Haul away old blinds', description: 'Two sets', quantity: 1, unitPrice: 0, totalPrice: 0, sortOrder: 3 },
+      ],
+    },
+    message:
+      '__________________________________________\nEstimate Disclaimer: This quote is based on the information, measurements, plans, and reference images currently provided.\n\n__________________________________________\n\nClient Notes:\nPrice assumes the rods are already on site.',
+  });
+  await insertQLink(h.db, { code, quoteId: sent.id, clientId: sent.client.id, firstName: 'dana', title: sent.title, hubUrl: sent.clientHubUri ?? '', reviewId: introReviewFor(sent.title), now: Date.now() });
+}
 
 // Fake Quo: accepts every text.
 let quoIds = 0;

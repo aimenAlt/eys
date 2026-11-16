@@ -28,7 +28,7 @@ const BASE = 'https://www.eyshandyman.com';
 const root = new URL('../../', import.meta.url).pathname;
 const read = (path: string) => readFileSync(join(root, path), 'utf8');
 
-const TEMPLATE = `<html><head><link rel="canonical" href="${BASE}/q/${INTRO_TOKENS.code}"></head><body><h1>Hi ${INTRO_TOKENS.first}, here&rsquo;s your quote.</h1><a href="${INTRO_TOKENS.hubUrl}" data-go-cta>View your quote</a></body></html>`;
+const TEMPLATE = `<html><head><link rel="canonical" href="${BASE}/q/${INTRO_TOKENS.code}"></head><body><h1>Hi ${INTRO_TOKENS.first}, here&rsquo;s your quote.</h1><a href="${INTRO_TOKENS.ctaHref}" data-go-cta>View your quote</a></body></html>`;
 const FALLBACK = '<html><body><h1>This link isn&rsquo;t working.</h1></body></html>';
 const HUB = 'https://hub.getjobber.com/client_hubs/abc-123/quotes/987?source=share_link&x=1';
 
@@ -112,16 +112,16 @@ await check('first names: lowercase entries get capitals, typed capitals are kep
 });
 
 await check('template filling escapes every value and handles a missing name', () => {
-  const filled = fillIntroTemplate(TEMPLATE, { code: 'AbCdEfGh', firstName: '<script>x</script>', hubUrl: HUB });
+  const filled = fillIntroTemplate(TEMPLATE, { code: 'AbCdEfGh', firstName: '<script>x</script>', ctaHref: HUB });
   assert.ok(filled);
   assert.ok(!filled.includes('<script>x'), 'name is escaped');
   assert.ok(filled.includes('Hi &lt;script&gt;x&lt;/script&gt;, here'));
   assert.ok(filled.includes('source=share_link&amp;x=1'), 'link is attribute-escaped');
   assert.ok(filled.includes(`${BASE}/q/AbCdEfGh`));
   assert.ok(!filled.includes('__EYS_Q_'), 'no token left behind');
-  const nameless = fillIntroTemplate(TEMPLATE, { code: 'AbCdEfGh', firstName: '  ', hubUrl: HUB });
+  const nameless = fillIntroTemplate(TEMPLATE, { code: 'AbCdEfGh', firstName: '  ', ctaHref: HUB });
   assert.ok(nameless?.includes('<h1>Hi, here&rsquo;s your quote.</h1>'));
-  assert.equal(fillIntroTemplate('<html>no tokens</html>', { code: 'x', firstName: 'A', hubUrl: HUB }), null);
+  assert.equal(fillIntroTemplate('<html>no tokens</html>', { code: 'x', firstName: 'A', ctaHref: HUB }), null);
 });
 
 await check('client hub links only', () => {
@@ -162,7 +162,9 @@ await check('/q/<code>: a known code renders its filled template, private and no
   assert.equal(response.headers.get('X-Robots-Tag'), 'noindex, nofollow');
   const html = await response.text();
   assert.ok(html.includes('Hi Jennifer, here&rsquo;s your quote.'));
-  assert.ok(html.includes(`href="${HUB.replace(/&/g, '&amp;')}"`));
+  // "View your quote" (and the auto-open, which clicks it) goes to our own quote page, not Client Hub.
+  assert.ok(html.includes(`href="/q/${code}/view"`));
+  assert.ok(!html.includes('getjobber.com'), 'the bare Client Hub link is not on the intro');
   assert.ok(html.includes(`data-review="${introTemplatePath(INTRO_DEFAULT_REVIEW)}"`));
   // Trailing slash works too.
   assert.equal((await call(intro, env, `/q/${code}/`, { code: [code] })).status, 200);

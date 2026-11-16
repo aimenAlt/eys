@@ -14393,6 +14393,63 @@
       "inputFields": null,
       "possibleTypes": null,
       "enumValues": null
+    },
+    {
+      "name": "Email",
+      "kind": "OBJECT",
+      "fields": [
+        {
+          "name": "address",
+          "args": [],
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          }
+        },
+        {
+          "name": "description",
+          "args": [],
+          "type": {
+            "kind": "SCALAR",
+            "name": "String",
+            "ofType": null
+          }
+        },
+        {
+          "name": "id",
+          "args": [],
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "EncodedId",
+              "ofType": null
+            }
+          }
+        },
+        {
+          "name": "primary",
+          "args": [],
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            }
+          }
+        }
+      ],
+      "inputFields": null,
+      "possibleTypes": null,
+      "enumValues": null
     }
   ]
 }

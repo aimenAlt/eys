@@ -200,12 +200,32 @@ const STATUS_SEL: Sel = {
   },
 };
 
+/**
+ * The customer's own view of a quote (/q/<code>/view): what the quote shows
+ * them, plus whether they have an email for Client Hub's sign-in. No notes,
+ * costs or request.
+ */
+const CUSTOMER_SEL: Sel = {
+  id: true,
+  quoteNumber: true,
+  title: true,
+  quoteStatus: true,
+  message: true,
+  amounts: { sel: { subtotal: true, discountAmount: true, taxAmount: true, total: true, depositAmount: true } },
+  lineItems: {
+    args: { first: '60' },
+    sel: { nodes: { sel: { name: true, description: true, quantity: true, totalPrice: true, textOnly: true, optional: true, sortOrder: true } } },
+  },
+  client: { sel: { id: true, emails: { sel: { address: true } } } },
+};
+
 export const WISH_LISTS = [
   { root: 'QuoteConnection', sel: { nodes: { sel: LIST_SEL }, pageInfo: { sel: { hasNextPage: true, endCursor: true } } } as Sel },
   { root: 'Quote', sel: QUOTE_SEL },
   { root: 'Request', sel: REQUEST_SEL },
   { root: 'Client', sel: { ...HISTORY_SEL, ...JOBS_SEL } },
   { root: 'Quote', sel: STATUS_SEL },
+  { root: 'Quote', sel: CUSTOMER_SEL },
 ];
 
 // ---------------------------------------------------------------------------
@@ -417,6 +437,29 @@ export async function fetchQuote(j: DeskJobber, id: string): Promise<Record<stri
     if (!schema.queries.quote) return null;
     const selection = prune(schema, schema.queries.quote.type, QUOTE_SEL);
     return { query: `query EysDeskQuote($id: ${idType(schema, 'quote')}) { quote(id: $id) { ${selection} } }`, variables: { id } };
+  });
+  return data?.quote ?? null;
+}
+
+/**
+ * One quote as its customer sees it, read fresh on every call (never cached).
+ * A snapshot taken before the email type was on a wish list gets it added
+ * first; if that fails the page simply has no email answer.
+ */
+export async function fetchCustomerQuote(j: DeskJobber, id: string): Promise<Record<string, unknown> | null> {
+  const schema = await schemaFor(j);
+  const emailType = schema.types.Client?.fields.emails?.type;
+  if (emailType && !schema.types[emailType]) {
+    try {
+      j.schema = await ensureDeskTypes(j.deps, j.db, schema, [emailType]);
+    } catch {
+      /* no email answer this time */
+    }
+  }
+  const data = await run<{ quote?: Record<string, unknown> | null }>(j, (s) => {
+    if (!s.queries.quote) return null;
+    const selection = prune(s, s.queries.quote.type, CUSTOMER_SEL);
+    return { query: `query EysCustomerQuote($id: ${idType(s, 'quote')}) { quote(id: $id) { ${selection} } }`, variables: { id } };
   });
   return data?.quote ?? null;
 }

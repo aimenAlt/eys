@@ -51,7 +51,8 @@ export const INTRO_FALLBACK_PATH = '/q/';
 /** Placeholders the Astro template carries. Plain ASCII, untouched by HTML escaping. */
 export const INTRO_TOKENS = {
   first: '__EYS_Q_FIRST__',
-  hubUrl: '__EYS_Q_HUB_URL__',
+  /** Where "View your quote" goes: the quote page, /q/<code>/view. */
+  ctaHref: '__EYS_Q_CTA_HREF__',
   code: '__EYS_Q_CODE__',
 } as const;
 
@@ -120,20 +121,20 @@ export function escapeHtml(value: string): string {
 export interface IntroFill {
   code: string;
   firstName: string;
-  hubUrl: string;
+  ctaHref: string;
 }
 
 /** Fills a built template. Every value is HTML-escaped; a template missing a token is refused. */
 export function fillIntroTemplate(template: string, fill: IntroFill): string | null {
-  if (!template.includes(INTRO_TOKENS.first) || !template.includes(INTRO_TOKENS.hubUrl)) return null;
+  if (!template.includes(INTRO_TOKENS.first) || !template.includes(INTRO_TOKENS.ctaHref)) return null;
   const first = displayFirstName(fill.firstName);
   // No name on file: "Hi, here's your quote." rather than "Hi , here's".
   const named = first === '' ? template.split(` ${INTRO_TOKENS.first}`).join('') : template;
   return named
     .split(INTRO_TOKENS.first)
     .join(escapeHtml(first))
-    .split(INTRO_TOKENS.hubUrl)
-    .join(escapeHtml(fill.hubUrl))
+    .split(INTRO_TOKENS.ctaHref)
+    .join(escapeHtml(fill.ctaHref))
     .split(INTRO_TOKENS.code)
     .join(escapeHtml(fill.code));
 }

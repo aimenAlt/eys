@@ -1,7 +1,8 @@
 import type { Env, PagesFunction } from '../_lib/types.ts';
 import { KEY_LABELS, keyedHash } from '../_lib/crypto.ts';
 import { HOUR, bumpCounter, ensureSchema, readCounter } from '../_lib/db.ts';
-import { ensureDeskSchema, findQLink, markQLinkServed } from '../_lib/desk-db.ts';
+import { ensureDeskSchema, findQLink, markQLinkServed, type QLinkRow } from '../_lib/desk-db.ts';
+import { deskJobberDeps, fetchCustomerQuote } from '../_lib/desk-jobber.ts';
 import { adminKey } from '../_lib/env.ts';
 import {
   INTRO_DEFAULT_REVIEW,
@@ -12,11 +13,13 @@ import {
   isClientHubUrl,
   isIntroCode,
 } from '../_lib/intro.ts';
+import { MAX_VIEWS_PER_HOUR, VIEW_LINK_AGE, VIEW_TEMPLATE_PATH, customerQuote, fillViewTemplate, viewPath } from '../_lib/quote-view.ts';
 
 /** Misses allowed per IP per hour before lookups stop: codes are not guessable, and this keeps it that way. */
 export const MAX_MISSES_PER_HOUR = 30;
 
 const templates = new Map<string, string>();
+let viewShell: string | null = null;
 
 /** Private per customer, never cached, never indexed. */
 function page(body: string, status: number): Response {
@@ -60,26 +63,61 @@ async function fallback(env: Env, request: Request): Promise<Response> {
   );
 }
 
-function codeFrom(params: Record<string, string | string[]>): string | null {
+/** `/q/<code>` (the intro) or `/q/<code>/view` (the quote itself); anything else is null. */
+function routeFrom(params: Record<string, string | string[]>): { code: string; view: boolean } | null {
   const raw = params.code;
-  const parts = Array.isArray(raw) ? raw : raw ? [raw] : [];
-  if (parts.length !== 1) return null;
-  return isIntroCode(parts[0]) ? parts[0] : null;
+  const parts = (Array.isArray(raw) ? raw : raw ? [raw] : []).filter((part) => part !== '');
+  if (parts.length === 1 && isIntroCode(parts[0])) return { code: parts[0], view: false };
+  if (parts.length === 2 && parts[1] === 'view' && isIntroCode(parts[0])) return { code: parts[0], view: true };
+  return null;
+}
+
+/**
+ * GET /q/<code>/view: the quote, read from Jobber now, on our own page. Only
+ * a tap gets here (the text carries /q/<code>, which link previews fetch, and
+ * that never calls Jobber). Nothing from Jobber is stored. A link more than 30
+ * days past its text, more than 20 taps in an hour, Jobber failing or
+ * disconnected, an archived quote, or a quote that is not this customer's,
+ * all get the phone-number page.
+ */
+async function quoteView(env: Env, request: Request, link: QLinkRow, now: number, waitUntil: (p: Promise<unknown>) => void): Promise<Response> {
+  const jobber = deskJobberDeps(env, waitUntil);
+  if (!jobber || link.created_at < now - VIEW_LINK_AGE) return fallback(env, request);
+  if (request.method === 'HEAD') return page('', 200);
+  if ((await bumpCounter(jobber.db, `qview:${link.code}:${Math.floor(now / HOUR)}`, HOUR, now)) > MAX_VIEWS_PER_HOUR) {
+    return fallback(env, request);
+  }
+  let raw: Record<string, unknown> | null;
+  try {
+    raw = await fetchCustomerQuote(jobber, link.quote_id);
+  } catch {
+    return fallback(env, request);
+  }
+  if (!raw) return fallback(env, request);
+  const quote = customerQuote(raw);
+  if (quote.status === 'archived') return fallback(env, request);
+  if (link.client_id && quote.clientId && link.client_id !== quote.clientId) return fallback(env, request);
+
+  viewShell ??= await asset(env, request, VIEW_TEMPLATE_PATH);
+  const filled = viewShell ? fillViewTemplate(viewShell, quote, isClientHubUrl(link.hub_url) ? link.hub_url : null) : null;
+  return filled ? page(filled, 200) : fallback(env, request);
 }
 
 /**
  * GET /q/<code>: the quote intro for one customer, filled from q_links into
- * the page Astro built (src/pages/q/intro/[review].astro). Anything else under
- * /q/ — an unknown, expired or malformed code, or the built templates
- * themselves — gets the static phone-number page with a 404.
+ * the page Astro built (src/pages/q/intro/[review].astro). Its "View your
+ * quote" button and 10-second auto-open go to /q/<code>/view (quoteView
+ * above). Anything else under /q/ — an unknown, expired or malformed code, or
+ * the built templates themselves — gets the static phone-number page with a 404.
  */
 export const onRequest: PagesFunction<Env> = async ({ request, env, params, waitUntil }) => {
   if (request.method !== 'GET' && request.method !== 'HEAD') {
     return new Response(null, { status: 405, headers: { Allow: 'GET, HEAD' } });
   }
-  const code = codeFrom(params);
+  const route = routeFrom(params);
   const db = env.EYS_AI_DB;
-  if (!code || !db) return fallback(env, request);
+  if (!route || !db) return fallback(env, request);
+  const { code } = route;
 
   const now = Date.now();
   const key = adminKey(env);
@@ -98,8 +136,10 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, params, wait
     return fallback(env, request);
   }
 
+  if (route.view) return quoteView(env, request, link, now, waitUntil);
+
   const html = await template(env, request, link.review_id ?? INTRO_DEFAULT_REVIEW);
-  const filled = html ? fillIntroTemplate(html, { code, firstName: link.first_name, hubUrl: link.hub_url }) : null;
+  const filled = html ? fillIntroTemplate(html, { code, firstName: link.first_name, ctaHref: viewPath(code) }) : null;
   if (!filled) return fallback(env, request);
   // Link previews fetch this too, so "served" is not "opened": the page's own
   // script reports a real open (functions/api/q/event.ts).

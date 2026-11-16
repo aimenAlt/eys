@@ -1,0 +1,192 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteTheme } from '../../data/sitePresentation';
+import { site } from '../../data/business';
+import { VIEW_TOKENS } from '../../../functions/_lib/quote-view';
+
+/**
+ * TEMPLATE for `/q/<code>/view`, the customer's quote on our own page. Never a
+ * page anyone visits: functions/q/[[code]].ts reads the quote from Jobber when
+ * the customer taps through, fills the tokens in (functions/_lib/quote-view.ts)
+ * and serves it private and noindex. Requests for `/q/view-template/` itself
+ * are caught by that same Function and get the phone-number page.
+ *
+ * Same look as the intro (HandoffPage): no header, nav or footer. The quote
+ * card's rows are drawn by the Function, so their styles live in the global
+ * block below (Tailwind does not scan functions/).
+ *
+ * Copy rules (Aimen's, for anything a customer sees): short and plain, like
+ * Essa texting from the truck. No dashes, no emoji, never "licensed", never HOA.
+ */
+
+const seo = {
+  title: 'Your quote from EYS Handyman',
+  description: 'Your quote from Essa at Elevate Your Space Handyman.',
+  canonical: `${site.url}/q/`,
+  ogImage: '/images/team/essa-og.jpg',
+  ogImageAlt: 'Essa, owner of Elevate Your Space Handyman',
+  noindex: true,
+  nofollow: true,
+};
+
+const buttonClass =
+  'flex w-full items-center justify-center rounded-lg px-5 text-center text-[1.0625rem] font-bold leading-tight transition-colors';
+---
+
+<BaseLayout seo={seo} theme={siteTheme}>
+  <main id="main-content" class="min-h-screen bg-brand-lightbg">
+    <section class="border-t-[3px] border-brand-red bg-brand-black px-5 pb-5 pt-5 text-white sm:px-6 sm:pb-7 sm:pt-7">
+      <div class="mx-auto flex max-w-lg items-center gap-3.5 sm:gap-5">
+        <img
+          src="/images/team/essa-portrait.webp"
+          alt="Essa, owner of Elevate Your Space Handyman"
+          width="512"
+          height="512"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          class="h-16 w-16 shrink-0 rounded-xl object-cover ring-1 ring-white/20 sm:h-20 sm:w-20"
+        />
+        <div class="min-w-0">
+          <p class="text-[0.8125rem] font-semibold leading-snug text-white/75">{VIEW_TOKENS.kicker}</p>
+          <h1 class="text-[1.35rem] font-bold leading-[1.2] tracking-tight sm:text-[1.6rem]" data-clarity-mask="true">
+            {VIEW_TOKENS.title}
+          </h1>
+        </div>
+      </div>
+    </section>
+
+    <div class="mx-auto max-w-lg px-5 pb-14 pt-4 sm:px-6 sm:pt-6">
+      <div class="qv-card rounded-xl border border-brand-line bg-white p-4 shadow-card sm:p-5" data-clarity-mask="true">
+        {VIEW_TOKENS.body}
+      </div>
+
+      {VIEW_TOKENS.actionsStart}
+      <a
+        href={`sms:+1${site.phoneTel}?&body=${VIEW_TOKENS.smsBody}`}
+        data-cta-location="q_view_text_approve"
+        class:list={[buttonClass, 'mt-4 min-h-[3.5rem] bg-brand-red text-white shadow-card hover:bg-brand-redhover focus-visible:bg-brand-redhover']}
+      >
+        Text Essa to approve
+      </a>
+      {VIEW_TOKENS.onlineStart}
+      <a
+        href={VIEW_TOKENS.hubUrl}
+        data-cta-location="q_view_online"
+        class:list={[buttonClass, 'mt-3 min-h-[3.25rem] border-2 border-brand-black bg-white text-brand-black hover:bg-brand-lightbg']}
+      >
+        Approve and sign online
+      </a>
+      <p class="mt-1.5 text-center text-[0.8125rem] text-brand-muted">Jobber will email you a sign-in link.</p>
+      {VIEW_TOKENS.onlineEnd}
+      {VIEW_TOKENS.actionsEnd}
+
+      <p class="mt-4 text-center text-sm text-brand-muted">
+        <a
+          href={`tel:+1${site.phoneTel}`}
+          data-cta-location="q_view_call"
+          class="font-semibold text-brand-charcoal underline decoration-brand-line underline-offset-4 transition-colors hover:text-brand-red hover:decoration-brand-red"
+        >
+          Questions? Call or text {site.phone}
+        </a>
+      </p>
+    </div>
+  </main>
+
+  <style is:global>
+    .qv-lines {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .qv-line {
+      border-bottom: 1px solid var(--color-brand-line);
+      padding: 0.625rem 0;
+    }
+    .qv-line:first-child {
+      padding-top: 0;
+    }
+    .qv-line:last-child {
+      border-bottom: 0;
+    }
+    .qv-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+    }
+    .qv-name {
+      min-width: 0;
+      flex: 1;
+      font-size: 0.9375rem;
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--color-brand-black);
+    }
+    .qv-opt {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--color-brand-muted);
+    }
+    .qv-price {
+      flex-shrink: 0;
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: var(--color-brand-black);
+      white-space: nowrap;
+    }
+    .qv-desc {
+      margin-top: 0.125rem;
+      font-size: 0.8125rem;
+      line-height: 1.45;
+      color: var(--color-brand-muted);
+    }
+    .qv-qty {
+      margin-top: 0.125rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--color-brand-muted);
+    }
+    .qv-amts {
+      margin-top: 0.5rem;
+      border-top: 1px solid var(--color-brand-black);
+      padding-top: 0.5rem;
+    }
+    .qv-amt {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: var(--color-brand-charcoal);
+    }
+    .qv-total {
+      padding-top: 0.25rem;
+      font-size: 1.0625rem;
+      font-weight: 700;
+      color: var(--color-brand-black);
+    }
+    .qv-note {
+      margin-top: 0.875rem;
+      border-top: 1px solid var(--color-brand-line);
+      padding-top: 0.625rem;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      color: var(--color-brand-charcoal);
+    }
+    .qv-note-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--color-brand-muted);
+    }
+    .qv-approved {
+      margin-top: 0.875rem;
+      border-radius: 0.5rem;
+      background: var(--color-brand-lightbg);
+      padding: 0.625rem 0.75rem;
+      text-align: center;
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: var(--color-brand-black);
+    }
+  </style>
+</BaseLayout>

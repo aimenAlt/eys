@@ -8,7 +8,7 @@ import { INTRO_REVIEW_IDS, INTRO_TOKENS } from '../../../../functions/_lib/intro
  * TEMPLATE for the `/q/<code>` quote intro, never a page anyone visits.
  *
  * Built once per review id with placeholder tokens where the customer's first
- * name and Client Hub link go; functions/q/[[code]].ts fetches this file from
+ * name and the quote page link go; functions/q/[[code]].ts fetches this file from
  * the static assets and fills the tokens in per request. Requests for
  * `/q/intro/...` themselves are caught by that same Function and get the
  * phone-number page, so the raw template is never served.
@@ -46,7 +46,7 @@ const seo = {
   review={review.data}
   reviewCtaLocation="q_review"
   reviewCountCtaLocation="q_review_count"
-  ctaHref={INTRO_TOKENS.hubUrl}
+  ctaHref={INTRO_TOKENS.ctaHref}
   ctaLabel="View your quote"
   ctaLocation="q_view_quote"
   handoffNoun="your quote"

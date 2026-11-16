@@ -41,8 +41,10 @@ export interface FakeQuote {
     lastName: string;
     name: string;
     phones: { number: string; primary: boolean; smsAllowed: boolean; smsStopped?: boolean }[];
+    emails?: { address: string; primary?: boolean }[];
     billingAddress?: { city: string };
   };
+  message?: string | null;
   lineItems: { nodes: Record<string, unknown>[] };
   notes: { nodes: Record<string, unknown>[] };
   request: { id: string } | null;
@@ -163,6 +165,9 @@ export class FakeDeskJobber {
           },
         });
       }
+      case 'EysCustomerQuote':
+        if (!this.quotesScope) return this.hidden();
+        return Response.json({ data: { quote: this.quotes.get(String(v.id)) ?? null } });
       case 'EysDeskRequest':
         return Response.json({ data: { request: this.requests.get(String(v.id)) ?? null } });
       case 'EysDeskHistory':
