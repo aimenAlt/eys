@@ -261,7 +261,7 @@ export function deskJobberDeps(env: Env, waitUntil?: (promise: Promise<unknown>)
   };
 }
 
-async function schemaFor(j: DeskJobber, force = false): Promise<DeskSchema> {
+export async function schemaFor(j: DeskJobber, force = false): Promise<DeskSchema> {
   if (!force && j.schema) return j.schema;
   j.schema = await deskSchema(j.deps, j.db, WISH_LISTS, force, j.waitUntil);
   return j.schema;
@@ -354,7 +354,7 @@ export async function statusBranch(j: DeskJobber, schema: DeskSchema): Promise<S
 // ---------------------------------------------------------------------------
 
 /** One pruned query. A schema error refreshes the snapshot and tries once more. */
-async function run<T>(
+export async function run<T>(
   j: DeskJobber,
   build: (schema: DeskSchema) => { query: string; variables?: Record<string, unknown> } | null,
 ): Promise<T | null> {
@@ -376,7 +376,7 @@ async function run<T>(
   return null;
 }
 
-function idType(schema: DeskSchema, query: string): string {
+export function idType(schema: DeskSchema, query: string): string {
   return schema.queries[query]?.args.id ?? 'EncodedId!';
 }
 

@@ -5,14 +5,20 @@ import { advance, flowDeps } from '../../_lib/desk-flow.ts';
 import { jobberClientSecret } from '../../_lib/env.ts';
 import { ensureSchema } from '../../_lib/db.ts';
 import { empty, json, methodNotAllowed } from '../../_lib/http.ts';
+import { deskJobberDeps } from '../../_lib/desk-jobber.ts';
+import { fixRequestClientName } from '../../_lib/client-names.ts';
 import { verifyJobberWebhook } from '../../_lib/jobber-webhook.ts';
 
 const QUOTE_TOPICS = new Set(['QUOTE_UPDATE', 'QUOTE_SENT', 'QUOTE_APPROVED', 'QUOTE_CREATE']);
+const REQUEST_TOPICS = new Set(['REQUEST_CREATE', 'REQUEST_UPDATE']);
 const MAX_BODY = 16 * 1024;
 
 /**
  * POST /api/jobber/webhook — Jobber webhooks for the EYS Request Intake app.
- * Topics: QUOTE_UPDATE, QUOTE_SENT, QUOTE_APPROVED (see docs/quote-desk.md).
+ * Topics: QUOTE_UPDATE, QUOTE_SENT, QUOTE_APPROVED (see docs/quote-desk.md),
+ * and REQUEST_CREATE / REQUEST_UPDATE, which replace a Quo placeholder client
+ * name ("New Call [+1...]") with the name typed on the request form (in the
+ * background like the rest; failures are logged, never thrown).
  *
  * Verified with X-Jobber-Hmac-SHA256 (base64 HMAC-SHA256 of the raw body,
  * keyed with JOBBER_CLIENT_SECRET), deduplicated by a hash of the body
@@ -74,6 +80,16 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, waitUntil })
             // Nothing more to do: the desk's own checks still send it.
           }
         }),
+      );
+    }
+  } else if (REQUEST_TOPICS.has(topic) && itemId) {
+    const jobber = deskJobberDeps(env, waitUntil);
+    if (jobber) {
+      waitUntil(
+        fixRequestClientName(jobber, itemId).then(
+          () => undefined,
+          (error) => console.log(JSON.stringify({ evt: 'client_name_fix_failed', error_class: (error as { errorClass?: string })?.errorClass ?? 'internal' })),
+        ),
       );
     }
   } else if (topic === 'APP_DISCONNECT') {

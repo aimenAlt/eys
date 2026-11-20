@@ -54,7 +54,7 @@ export interface FakeQuote {
 export class FakeDeskJobber {
   quotesScope = true;
   /** Mutation names the token can see. */
-  visibleMutations = new Set(['quotesMarkAwaitingResponse', 'quoteCreateNote', 'quoteEdit', 'quoteEditLineItems', 'quoteArchive', 'requestCreate', 'clientCreate', 'propertyCreate']);
+  visibleMutations = new Set(['quotesMarkAwaitingResponse', 'quoteCreateNote', 'quoteEdit', 'quoteEditLineItems', 'quoteArchive', 'requestCreate', 'clientCreate', 'propertyCreate', 'clientEdit']);
   quotes = new Map<string, FakeQuote>();
   requests = new Map<string, Record<string, unknown>>();
   /** Requests a client has in Jobber besides the ones quotes link to (client id -> request ids). */
@@ -73,6 +73,8 @@ export class FakeDeskJobber {
   /** When true, quotesMarkAwaitingResponse succeeds but the status only flips on the next poll. */
   delayStatusFlip = false;
   pendingFlips: string[] = [];
+  /** Current client names by client id (clientEdit changes them; requests read them back). */
+  clientNames = new Map<string, { name: string; firstName: string; lastName: string }>();
 
   addQuote(overrides: Partial<FakeQuote> & { id: string }): FakeQuote {
     const n = this.quotes.size + 1;
@@ -104,6 +106,14 @@ export class FakeDeskJobber {
     };
     this.quotes.set(quote.id, quote);
     return quote;
+  }
+
+  /** When set, clientEdit answers with this user error. */
+  rejectClientEdit: string | null = null;
+
+  private withClientName(r: Record<string, unknown>): Record<string, unknown> {
+    const client = r.client as { id: string } | null | undefined;
+    return client ? { ...r, client: { ...client, ...(this.clientNames.get(client.id) ?? {}) } } : r;
   }
 
   private hidden(): Response {
@@ -250,6 +260,23 @@ export class FakeDeskJobber {
         const note = { __typename: 'QuoteNote', id: `note-r${this.mutationCalls.length}`, message: String(input.message ?? ''), createdAt: '2026-11-12T20:00:00Z', pinned: false };
         if (q) q.notes.nodes.unshift(note);
         return Response.json({ data: { quoteCreateNote: { quoteNote: { id: note.id }, userErrors: [] } } });
+      }
+      case 'EysClientNameRequest': {
+        const r = this.requests.get(String(v.id));
+        return Response.json({ data: { request: r ? this.withClientName(r) : null } });
+      }
+      case 'EysClientNameSweep': {
+        const nodes = [...this.requests.values()].filter((r) => 'contactName' in r).map((r) => this.withClientName(r));
+        return Response.json({ data: { requests: { nodes } } });
+      }
+      case 'EysClientRename': {
+        this.mutationCalls.push({ name: 'clientEdit', variables: v });
+        if (this.rejectClientEdit) return Response.json({ data: { clientEdit: { userErrors: [{ message: this.rejectClientEdit }] } } });
+        const input = (v.input ?? {}) as { firstName?: string; lastName?: string };
+        const first = input.firstName ?? '';
+        const last = input.lastName ?? '';
+        this.clientNames.set(String(v.clientId), { firstName: first, lastName: last, name: `${first} ${last}`.trim() });
+        return Response.json({ data: { clientEdit: { userErrors: [] } } });
       }
       default:
         return Response.json({ errors: [{ message: `unknown operation ${operation}` }] });

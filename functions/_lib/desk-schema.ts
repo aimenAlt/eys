@@ -57,6 +57,10 @@ const SEED_TYPES = [
   'QuoteEditLineItemAttributes',
   'QuoteEditLineItemsPayload',
   'QuoteArchivePayload',
+  'ClientEditInput',
+  'ClientEditPayload',
+  'RequestsSortInput',
+  'RequestsSortKey',
   'PageInfo',
 ];
 
