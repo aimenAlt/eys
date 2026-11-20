@@ -7,6 +7,9 @@ import type { Env, PagesContext } from '../_lib/types.ts';
 import { onRequest as action } from '../api/desk/action.ts';
 import { onRequest as webhook } from '../api/jobber/webhook.ts';
 import { onRequest as quoteRoute } from '../api/desk/quote.ts';
+import { onRequest as testAction } from '../api/admin/desk/test-action.ts';
+import { photosKey } from '../_lib/request-photos.ts';
+import { ADMIN_KEY } from './helpers.ts';
 import { jobberWebhookSignature, verifyJobberWebhook } from '../_lib/jobber-webhook.ts';
 import { quoteTextMessage, titlePhrase } from '../_lib/quote-text.ts';
 import { deskQuote } from '../_lib/desk-db.ts';
@@ -418,24 +421,143 @@ await check('edit a line: refused for "licensed", HOA, a bad price, a sent quote
   assert.equal(h.jobber.mutationCalls.filter((c) => c.name === 'quoteEditLineItems').length, 0);
 });
 
-await check('Archive: Jobber archives the draft, it leaves the desk list, an approved one stays', async () => {
-  const { h, cookie, route } = await setup();
+const statusMoves = (h: DeskHarness) => h.jobber.mutationCalls.filter((c) => ['quotesMarkAwaitingResponse', 'quoteEdit', 'quoteArchive'].includes(c.name)).map((c) => c.name);
+
+await check('Archive: Jobber refuses drafts, so the draft is marked Awaiting Response first, then archived and off the desk', async () => {
+  const { h, quo, cookie, route } = await setup();
   h.jobber.addQuote({ id: 'q-a1' });
-  h.jobber.addQuote({ id: 'q-a2' });
   await withFetch(route, async () => {
     const response = await post(h, cookie, { id: 'q-a1', action: 'archive' });
     assert.equal(response.status, 200);
   });
-  assert.deepEqual(h.jobber.mutationCalls.filter((c) => c.name === 'quoteArchive').map((c) => c.variables.id), ['q-a1']);
+  assert.deepEqual(statusMoves(h), ['quotesMarkAwaitingResponse', 'quoteArchive']);
   assert.equal(h.jobber.quotes.get('q-a1')!.quoteStatus, 'archived');
   const row = await deskQuote(h.db as never, 'q-a1');
   assert.equal(row?.state, 'hidden');
+  assert.equal(quo.posts.length, 0, 'archiving never texts the customer');
   const events = h.db.raw.prepare("SELECT action, actor FROM desk_events WHERE quote_id = 'q-a1'").all() as { action: string; actor: string }[];
   assert.ok(events.some((e) => e.action === 'archive' && e.actor === 'Essa'));
-  await withFetch(route, () => post(h, cookie, { id: 'q-a2', action: 'approve' }));
-  const refused = await withFetch(route, () => post(h, cookie, { id: 'q-a2', action: 'archive' }));
-  assert.equal(refused.status, 409);
-  assert.equal(h.jobber.mutationCalls.filter((c) => c.name === 'quoteArchive').length, 1);
+});
+
+await check("Archive with the live token's schema (no quotesMarkAwaitingResponse): quoteEdit's sentAt moves it out of draft, then archive", async () => {
+  const { h, quo, cookie, route } = await setup();
+  h.jobber.visibleMutations.delete('quotesMarkAwaitingResponse');
+  h.jobber.addQuote({ id: 'q-a3' });
+  const response = await withFetch(route, () => post(h, cookie, { id: 'q-a3', action: 'archive' }));
+  assert.equal(response.status, 200);
+  assert.deepEqual(statusMoves(h), ['quoteEdit', 'quoteArchive']);
+  const edit = h.jobber.mutationCalls.find((c) => c.name === 'quoteEdit')!;
+  assert.deepEqual(Object.keys(edit.variables.attributes as object), ['sentAt'], 'only the sent date, nothing else on the quote');
+  assert.match(String((edit.variables.attributes as { sentAt: string }).sentAt), /^\d{4}-\d{2}-\d{2}T/);
+  assert.equal(h.jobber.quotes.get('q-a3')!.quoteStatus, 'archived');
+  assert.equal(quo.posts.length, 0);
+});
+
+await check('Archive: when Jobber keeps it a draft, nothing is archived, the desk is unchanged and the message says what to do in Jobber', async () => {
+  const { h, cookie, route } = await setup();
+  h.jobber.visibleMutations.delete('quotesMarkAwaitingResponse');
+  h.jobber.sentAtMovesStatus = false;
+  h.jobber.addQuote({ id: 'q-a4' });
+  const response = await withFetch(route, () => post(h, cookie, { id: 'q-a4', action: 'archive' }));
+  assert.equal(response.status, 409);
+  assert.match((await response.json()).message, /Mark as Awaiting Response, then tap Archive/);
+  assert.deepEqual(statusMoves(h), ['quoteEdit'], 'no archive attempt on a draft');
+  assert.equal(h.jobber.quotes.get('q-a4')!.quoteStatus, 'draft');
+  const row = await deskQuote(h.db as never, 'q-a4');
+  assert.notEqual(row?.state, 'hidden', 'still on the desk');
+});
+
+await check('Archive a quote Eyad already approved: no customer text, even when Jobber fires its webhook mid-archive', async () => {
+  const { h, quo, cookie, route } = await setup();
+  // The live token can't move status itself, so an approved quote waits as a draft.
+  h.jobber.visibleMutations.delete('quotesMarkAwaitingResponse');
+  h.jobber.addQuote({ id: 'q-a5' });
+  await withFetch(route, async () => {
+    assert.equal((await post(h, cookie, { id: 'q-a5', action: 'approve' })).status, 200);
+    assert.equal((await deskQuote(h.db as never, 'q-a5'))?.state, 'approved');
+    let stateAtMove: string | undefined;
+    h.jobber.onStatusMoved = async (id) => {
+      stateAtMove = (await deskQuote(h.db as never, id))?.state;
+      await deliver(h, 'QUOTE_SENT', id, '2026-11-20T18:00:00Z');
+      await post(h, cookie, { id, action: 'poll' });
+    };
+    const response = await post(h, cookie, { id: 'q-a5', action: 'archive' });
+    assert.equal(response.status, 200);
+    assert.notEqual(stateAtMove, 'approved', 'off the send list before Jobber moves the status');
+  });
+  assert.equal(quo.posts.length, 0, 'the customer is never texted');
+  assert.equal(h.jobber.quotes.get('q-a5')!.quoteStatus, 'archived');
+  assert.equal((await deskQuote(h.db as never, 'q-a5'))?.state, 'hidden');
+});
+
+await check('Archive: a quote already waiting on the customer (texted) is archived directly; the Archive button shows for it', async () => {
+  const { h, quo, cookie, route } = await setup();
+  h.jobber.addQuote({ id: 'q-a6' });
+  await withFetch(route, async () => {
+    await post(h, cookie, { id: 'q-a6', action: 'approve' });
+    await post(h, cookie, { id: 'q-a6', action: 'poll' });
+  });
+  assert.equal(quo.posts.length, 1, 'texted on approval');
+  const screen = await (await withFetch(route, () => h.call(quoteRoute, '/api/desk/quote?id=q-a6', { cookie }))).json();
+  assert.equal(screen.actions.archive, true);
+  h.jobber.mutationCalls.length = 0;
+  const response = await withFetch(route, () => post(h, cookie, { id: 'q-a6', action: 'archive' }));
+  assert.equal(response.status, 200);
+  assert.deepEqual(statusMoves(h), ['quoteArchive']);
+  assert.equal(quo.posts.length, 1, 'no second text');
+});
+
+await check('agent test route: runs the real archive and edit on a "(TEST)" quote only, with the admin or routine key', async () => {
+  const { h, route } = await setup();
+  h.jobber.addQuote({ id: 'q-t1', title: 'Desk archive check (TEST)' });
+  h.jobber.addQuote({ id: 'q-t2', title: 'Kitchen floor' });
+  const call = (key: string, body: unknown) =>
+    withFetch(route, () =>
+      h.call(testAction, '/api/admin/desk/test-action', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
+        body: JSON.stringify(body),
+      }),
+    );
+  const customer = await call(ADMIN_KEY, { quoteId: 'q-t2', action: 'archive' });
+  assert.equal(customer.status, 403);
+  assert.equal(h.jobber.mutationCalls.length, 0, 'a customer quote is never touched');
+  assert.equal((await call('wrong', { quoteId: 'q-t1', action: 'archive' })).status, 401);
+  const edited = await call(await photosKey(ADMIN_KEY), { quoteId: 'q-t1', action: 'edit', lines: [{ id: 'line-1-1', quantity: 1, unitPrice: 300 }] });
+  assert.equal(edited.status, 200);
+  const archived = await call(ADMIN_KEY, { quoteId: 'q-t1', action: 'archive' });
+  assert.equal(archived.status, 200);
+  assert.deepEqual(await archived.json(), { ok: true, message: null, jobber_status: 'archived', desk_state: 'hidden' });
+});
+
+await check('edit a line: a per-unit line becomes one flat price (quantity 1)', async () => {
+  const { h, cookie, route } = await setup();
+  h.jobber.addQuote({
+    id: 'q-e5',
+    lineItems: {
+      nodes: [
+        { id: 'line-f1', name: 'Vinyl plank install', description: 'Labor per sq ft', quantity: 120, unitPrice: 6, totalPrice: 720, textOnly: false, optional: false, sortOrder: 1 },
+      ],
+    },
+  });
+  const response = await withFetch(route, () => post(h, cookie, { id: 'q-e5', action: 'edit', lines: [{ id: 'line-f1', description: 'Labor, whole kitchen', quantity: 1, unitPrice: '$650' }] }));
+  assert.equal(response.status, 200);
+  const call = h.jobber.mutationCalls.find((c) => c.name === 'quoteEditLineItems');
+  assert.deepEqual(call?.variables.lines, [{ lineItemId: 'line-f1', description: 'Labor, whole kitchen', quantity: 1, unitPrice: 650, totalPrice: 650 }]);
+  assert.match(h.jobber.notesAdded[0].message, /Vinyl plank install: 120 × \$6\.00 to 1 × \$650\.00, description changed\.$/);
+});
+
+await check('edit a line: the quantity alone can change, and a zero or junk quantity is refused', async () => {
+  const { h, cookie, route } = await setup();
+  h.jobber.addQuote({ id: 'q-e6' });
+  await withFetch(route, () => post(h, cookie, { id: 'q-e6', action: 'edit', lines: [{ id: 'line-1-1', quantity: '2' }] }));
+  const call = h.jobber.mutationCalls.find((c) => c.name === 'quoteEditLineItems');
+  assert.deepEqual(call?.variables.lines, [{ lineItemId: 'line-1-1', quantity: 2, totalPrice: 800 }]);
+  for (const quantity of [0, -1, 'abc']) {
+    const refused = await withFetch(route, () => post(h, cookie, { id: 'q-e6', action: 'edit', lines: [{ id: 'line-1-1', quantity }] }));
+    assert.equal(refused.status, 409);
+    assert.match((await refused.json()).message, /quantity/i);
+  }
 });
 
 // ---------------------------------------------------------------------------

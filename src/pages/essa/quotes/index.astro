@@ -790,8 +790,13 @@ const seo = {
 
         /* ---- line editor -------------------------------------------- */
 
+        function plainNumber(n) {
+          return typeof n === 'number' ? String(Math.round(n * 100) / 100) : '';
+        }
+
+        var editField = 'h-11 w-full rounded-lg border border-brand-line bg-white px-2.5 text-[1rem] font-bold focus:border-brand-red focus:outline-none';
+
         function lineEditor(l, i) {
-          var price = typeof l.unitPrice === 'number' ? String(Math.round(l.unitPrice * 100) / 100) : '';
           return (
             '<li class="border-b border-brand-line py-2 last:border-0" data-line-editor="' + i + '">' +
             '<p class="text-[0.9375rem] font-bold text-brand-black">' + esc(l.name) + '</p>' +
@@ -799,10 +804,16 @@ const seo = {
             '<textarea id="edit-desc-' + i + '" rows="5" maxlength="2000" class="mt-0.5 w-full rounded-lg border border-brand-line bg-white p-2.5 text-[0.875rem] leading-snug focus:border-brand-red focus:outline-none" data-edit-desc>' + esc(l.description || '') + '</textarea>' +
             (l.textOnly
               ? ''
-              : '<label class="mt-1.5 block text-[0.75rem] font-bold text-brand-muted" for="edit-price-' + i + '">Price' + (l.quantity && l.quantity !== 1 ? ' each' : '') + '</label>' +
-                '<div class="mt-0.5 flex items-center gap-2"><span class="text-[1rem] font-bold">$</span>' +
-                '<input id="edit-price-' + i + '" type="text" inputmode="decimal" autocomplete="off" value="' + esc(price) + '" class="h-11 w-32 rounded-lg border border-brand-line bg-white px-2.5 text-[1rem] font-bold focus:border-brand-red focus:outline-none" data-edit-price data-qty="' + esc(String(l.quantity || 1)) + '" />' +
-                (l.quantity && l.quantity !== 1 ? '<span class="text-[0.8125rem] text-brand-muted">&times; ' + esc(qty(l.quantity)) + ' = <span data-edit-total>' + esc(usd(l.total)) + '</span></span>' : '') +
+              : '<div class="mt-1.5 grid grid-cols-[5.5rem_1fr] gap-2">' +
+                '<div><label class="block text-[0.75rem] font-bold text-brand-muted" for="edit-qty-' + i + '">Quantity</label>' +
+                '<input id="edit-qty-' + i + '" type="text" inputmode="decimal" autocomplete="off" value="' + esc(plainNumber(l.quantity || 1)) + '" class="mt-0.5 ' + editField + '" data-edit-qty /></div>' +
+                '<div><label class="block text-[0.75rem] font-bold text-brand-muted" for="edit-price-' + i + '">Price each</label>' +
+                '<div class="mt-0.5 flex items-center gap-1.5"><span class="text-[1rem] font-bold">$</span>' +
+                '<input id="edit-price-' + i + '" type="text" inputmode="decimal" autocomplete="off" value="' + esc(plainNumber(l.unitPrice)) + '" class="' + editField + '" data-edit-price /></div></div>' +
+                '</div>' +
+                '<div class="mt-1.5 flex items-center justify-between gap-2">' +
+                '<p class="text-[0.875rem] text-brand-charcoal">Line total <span class="font-bold text-brand-black" data-edit-total>' + esc(usd(l.total)) + '</span></p>' +
+                '<button type="button" class="text-[0.8125rem] font-bold text-brand-red underline underline-offset-2" data-edit-flat>Make it one price</button>' +
                 '</div>') +
             '<div class="mt-2.5 grid grid-cols-2 gap-2">' +
             '<button type="button" class="' + cellSecondary + '" data-edit-cancel>Cancel</button>' +
@@ -811,12 +822,21 @@ const seo = {
           );
         }
 
+        function editNumber(input) {
+          return input ? Number(String(input.value).replace(/[$,\s]/g, '')) : NaN;
+        }
+
+        /** Quantity × price each, shown live while editing a line. */
+        function refreshEditTotal(editor) {
+          var total = editor && editor.querySelector('[data-edit-total]');
+          if (!total) return;
+          var n = editNumber(editor.querySelector('[data-edit-qty]')) * editNumber(editor.querySelector('[data-edit-price]'));
+          total.textContent = isFinite(n) ? usd(Math.round(n * 100) / 100) : '–';
+        }
+
         document.addEventListener('input', function (event) {
-          var input = event.target.closest && event.target.closest('[data-edit-price]');
-          if (!input) return;
-          var total = input.parentElement.querySelector('[data-edit-total]');
-          var n = Number(String(input.value).replace(/[$,\s]/g, ''));
-          if (total && isFinite(n)) total.textContent = usd(n * Number(input.getAttribute('data-qty') || 1));
+          var input = event.target.closest && event.target.closest('[data-edit-price], [data-edit-qty]');
+          if (input) refreshEditTotal(input.closest('[data-line-editor]'));
         });
 
         document.addEventListener('click', async function (event) {
@@ -835,6 +855,20 @@ const seo = {
             drawQuote();
             return;
           }
+          var flat = event.target.closest('[data-edit-flat]');
+          if (flat) {
+            // Per-unit to one price: quantity 1 and today's line total as the price, ready to retype.
+            var flatEditor = flat.closest('[data-line-editor]');
+            var qtyBox = flatEditor.querySelector('[data-edit-qty]');
+            var priceInput = flatEditor.querySelector('[data-edit-price]');
+            var current = editNumber(qtyBox) * editNumber(priceInput);
+            qtyBox.value = '1';
+            if (isFinite(current)) priceInput.value = String(Math.round(current * 100) / 100);
+            refreshEditTotal(flatEditor);
+            priceInput.focus();
+            priceInput.select();
+            return;
+          }
           var saveEdit = event.target.closest('[data-edit-save]');
           if (saveEdit && state.quote) {
             var at = Number(saveEdit.getAttribute('data-edit-save'));
@@ -844,6 +878,8 @@ const seo = {
             var change = { id: target.id, description: editor.querySelector('[data-edit-desc]').value };
             var priceBox = editor.querySelector('[data-edit-price]');
             if (priceBox) change.unitPrice = priceBox.value;
+            var qtyField = editor.querySelector('[data-edit-qty]');
+            if (qtyField) change.quantity = qtyField.value;
             saveEdit.disabled = true;
             saveEdit.textContent = 'Saving…';
             var saved = await act('edit', { lines: [change] });
@@ -966,7 +1002,15 @@ const seo = {
             else trigger.disabled = false;
             return;
           }
-          if (action === 'archive' && !window.confirm('Archive this quote in Jobber? It leaves the desk. To undo, open it in Jobber and tap Unarchive.')) return;
+          if (
+            action === 'archive' &&
+            !window.confirm(
+              (state.quote && state.quote.quote.status === 'draft'
+                ? 'Archive this quote? Jobber only archives sent quotes, so it gets marked Awaiting Response first. The customer is not texted or emailed.'
+                : 'Archive this quote in Jobber? The customer is not texted or emailed.') + ' It leaves the desk. To undo, open it in Jobber and tap Unarchive.',
+            )
+          )
+            return;
           trigger.disabled = true;
           var done = await act(action);
           if (!done) {

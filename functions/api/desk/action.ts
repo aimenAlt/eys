@@ -12,7 +12,8 @@ const ACTIONS = new Set(['approve', 'mark', 'change', 'hide', 'unhide', 'retry',
  * status move, text); mark = "Mark Awaiting Response, don't text" (status move
  * and a pinned "not sent yet" note, no text); change = "Needs a change"; hide / unhide = "Not
  * sending" and back; retry = "Retry text"; poll = the 3-minute check after a
- * tap; edit = a line's description and price ({lines: [{id, description, unitPrice}]});
+ * tap; edit = a line's description, quantity and price ({lines: [{id, description, quantity, unitPrice}]});
+ * archive = Jobber's Archive (a draft is marked Awaiting Response first; never texts);
  * resend = "Resend link" (the same text and /q/ link again, on this tap only:
  * never from poll, the list or a webhook). Every action is logged with who did it.
  */

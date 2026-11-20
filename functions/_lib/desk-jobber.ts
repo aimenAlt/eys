@@ -604,7 +604,7 @@ export async function editQuoteLineItems(
   j: DeskJobber,
   schema: DeskSchema,
   quoteId: string,
-  edits: { id: string; description?: string; unitPrice?: number; totalPrice?: number }[],
+  edits: { id: string; description?: string; quantity?: number; unitPrice?: number; totalPrice?: number }[],
 ): Promise<LineEditOutcome> {
   const field = schema.mutations.quoteEditLineItems;
   if (!field) return { ok: false, reason: 'unsupported' };
@@ -616,10 +616,12 @@ export async function editQuoteLineItems(
   const input = schema.types[inputName];
   const idField = input && ['lineItemId', 'id'].find((f) => input.fields[f]);
   if (!input || !idField || !input.fields.description || !input.fields.unitPrice) return { ok: false, reason: 'unsupported' };
+  if (edits.some((e) => e.quantity !== undefined) && !input.fields.quantity) return { ok: false, reason: 'unsupported' };
   const payload = schema.types[field.type];
   const lines = edits.map((e) => {
     const value: Record<string, unknown> = { [idField]: e.id };
     if (e.description !== undefined) value.description = e.description;
+    if (e.quantity !== undefined) value.quantity = e.quantity;
     if (e.unitPrice !== undefined) value.unitPrice = e.unitPrice;
     // Keep the line total in step with the new price.
     if (e.totalPrice !== undefined && input.fields.totalPrice) value.totalPrice = e.totalPrice;
@@ -631,6 +633,33 @@ export async function editQuoteLineItems(
     { quote: quoteId, lines },
   );
   const result = data.quoteEditLineItems;
+  if (!result) return { ok: false, reason: 'failed' };
+  const problem = result.userErrors?.find((e) => e?.message)?.message;
+  if (problem) return { ok: false, reason: 'failed', message: problem.slice(0, 200) };
+  return { ok: true };
+}
+
+/**
+ * quoteEdit(quoteId, {sentAt}): records the quote as sent, which takes a draft
+ * to Awaiting Response without Jobber emailing or texting anyone. The token
+ * can't see quotesMarkAwaitingResponse (checked 2026-11-20), so this is the
+ * desk's way out of draft. 'unsupported' when the schema has no sentAt.
+ */
+export async function markSentByEdit(j: DeskJobber, schema: DeskSchema, quoteId: string, sentAt: string): Promise<LineEditOutcome> {
+  const field = schema.mutations.quoteEdit;
+  const idArg = field && Object.keys(field.args).find((a) => /^quoteId$|^id$/i.test(a));
+  const attrArg = field && Object.keys(field.args).find((a) => /^attributes$|^input$/i.test(a));
+  if (!field || !idArg || !attrArg) return { ok: false, reason: 'unsupported' };
+  const inputName = field.args[attrArg].replace(/[!\[\]]/g, '');
+  await ensureDeskTypes(j.deps, j.db, schema, [inputName, field.type]);
+  if (!schema.types[inputName]?.fields.sentAt) return { ok: false, reason: 'unsupported' };
+  const payload = schema.types[field.type];
+  const data = await graphql<Record<string, { userErrors?: { message?: string }[] | null } | null>>(
+    j.deps,
+    `mutation EysDeskMarkSent($quote: ${field.args[idArg]}, $attributes: ${field.args[attrArg]}) { quoteEdit(${idArg}: $quote, ${attrArg}: $attributes) { ${payload?.fields.userErrors ? 'userErrors { message }' : '__typename'} } }`,
+    { quote: quoteId, attributes: { sentAt } },
+  );
+  const result = data.quoteEdit;
   if (!result) return { ok: false, reason: 'failed' };
   const problem = result.userErrors?.find((e) => e?.message)?.message;
   if (problem) return { ok: false, reason: 'failed', message: problem.slice(0, 200) };

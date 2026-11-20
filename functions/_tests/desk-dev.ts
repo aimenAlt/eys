@@ -35,9 +35,9 @@ h.jobber.addQuote({
   client: { id: 'client-c', firstName: 'Priya', lastName: 'Raman', name: 'Priya Raman', phones: [{ number: '832-555-0199', primary: true, smsAllowed: true }], billingAddress: { city: 'Fulshear' } },
   lineItems: {
     nodes: [
-      { name: 'High ceiling curtain rods', description: 'Install 3 rods at 18 ft on the two-story family room wall. Customer supplies rods and panels.', quantity: 3, unitPrice: 360, totalPrice: 1080, sortOrder: 1 },
-      { name: 'Lift rental', description: 'Scaffold for the stairwell window', quantity: 1, unitPrice: 200, totalPrice: 200, sortOrder: 2 },
-      { name: 'Card Fee', description: '3%', quantity: 1, unitPrice: 38.4, totalPrice: 38.4, sortOrder: 3 },
+      { id: 'dev-line-1', name: 'High ceiling curtain rods', description: 'Install 3 rods at 18 ft on the two-story family room wall. Customer supplies rods and panels.', quantity: 3, unitPrice: 360, totalPrice: 1080, sortOrder: 1 },
+      { id: 'dev-line-2', name: 'Lift rental', description: 'Scaffold for the stairwell window', quantity: 1, unitPrice: 200, totalPrice: 200, sortOrder: 2 },
+      { id: 'dev-line-3', name: 'Card Fee', description: '3%', quantity: 1, unitPrice: 38.4, totalPrice: 38.4, sortOrder: 3 },
     ],
   },
   request: { id: 'request-c' },
@@ -104,9 +104,9 @@ for (const [code, id, emails] of [
     client: { id: `client-${id}`, firstName: 'dana', lastName: 'Cole', name: 'Dana Cole', phones: [{ number: '281-555-0177', primary: true, smsAllowed: true }], emails: [...emails] },
     lineItems: {
       nodes: [
-        { name: 'High ceiling curtain rods', description: 'Install 2 rods at 16 ft in the living room.\nCustomer supplies rods and panels.', quantity: 2, unitPrice: 250, totalPrice: 500, sortOrder: 1 },
-        { name: 'Ladder and setup', description: null, quantity: 1, unitPrice: 100, totalPrice: 100, sortOrder: 2 },
-        { name: 'Haul away old blinds', description: 'Two sets', quantity: 1, unitPrice: 0, totalPrice: 0, sortOrder: 3 },
+        { id: 'dev-line-4', name: 'High ceiling curtain rods', description: 'Install 2 rods at 16 ft in the living room.\nCustomer supplies rods and panels.', quantity: 2, unitPrice: 250, totalPrice: 500, sortOrder: 1 },
+        { id: 'dev-line-5', name: 'Ladder and setup', description: null, quantity: 1, unitPrice: 100, totalPrice: 100, sortOrder: 2 },
+        { id: 'dev-line-6', name: 'Haul away old blinds', description: 'Two sets', quantity: 1, unitPrice: 0, totalPrice: 0, sortOrder: 3 },
       ],
     },
     message:

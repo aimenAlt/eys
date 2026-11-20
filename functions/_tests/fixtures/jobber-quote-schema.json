@@ -14450,6 +14450,196 @@
       "inputFields": null,
       "possibleTypes": null,
       "enumValues": null
+    },
+    {
+      "name": "QuoteEditAttributes",
+      "kind": "INPUT_OBJECT",
+      "fields": null,
+      "inputFields": [
+        {
+          "name": "title",
+          "type": {
+            "kind": "SCALAR",
+            "name": "String",
+            "ofType": null
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "message",
+          "type": {
+            "kind": "SCALAR",
+            "name": "String",
+            "ofType": null
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "contractDisclaimer",
+          "type": {
+            "kind": "SCALAR",
+            "name": "String",
+            "ofType": null
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "quoteNumber",
+          "type": {
+            "kind": "SCALAR",
+            "name": "String",
+            "ofType": null
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "discount",
+          "type": {
+            "kind": "INPUT_OBJECT",
+            "name": "CostModifierAttributes",
+            "ofType": null
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "deposit",
+          "type": {
+            "kind": "INPUT_OBJECT",
+            "name": "CostModifierAttributes",
+            "ofType": null
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "taxRateId",
+          "type": {
+            "kind": "SCALAR",
+            "name": "EncodedId",
+            "ofType": null
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "customFields",
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "CustomFieldEditInput",
+                "ofType": null
+              }
+            }
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "allowClientHubCreditCardPayments",
+          "type": {
+            "kind": "SCALAR",
+            "name": "Boolean",
+            "ofType": null
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "removeCardOffThreshold",
+          "type": {
+            "kind": "SCALAR",
+            "name": "Boolean",
+            "ofType": null
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "allowClientHubAchPayments",
+          "type": {
+            "kind": "SCALAR",
+            "name": "Boolean",
+            "ofType": null
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "mandatoryPaymentMethodOnFile",
+          "type": {
+            "kind": "SCALAR",
+            "name": "Boolean",
+            "ofType": null
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "clientViewOptions",
+          "type": {
+            "kind": "INPUT_OBJECT",
+            "name": "QuoteClientViewOptionsInput",
+            "ofType": null
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "salespersonId",
+          "type": {
+            "kind": "SCALAR",
+            "name": "EncodedId",
+            "ofType": null
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "sentAt",
+          "type": {
+            "kind": "SCALAR",
+            "name": "ISO8601DateTime",
+            "ofType": null
+          },
+          "defaultValue": null
+        }
+      ],
+      "possibleTypes": null,
+      "enumValues": null
+    },
+    {
+      "name": "QuoteEditPayload",
+      "kind": "OBJECT",
+      "fields": [
+        {
+          "name": "quote",
+          "args": [],
+          "type": {
+            "kind": "OBJECT",
+            "name": "Quote",
+            "ofType": null
+          }
+        },
+        {
+          "name": "userErrors",
+          "args": [],
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "MutationErrors"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "inputFields": null,
+      "possibleTypes": null,
+      "enumValues": null
     }
   ]
 }

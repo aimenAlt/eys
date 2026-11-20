@@ -64,6 +64,10 @@ export class FakeDeskJobber {
   operations: string[] = [];
   mutationCalls: { name: string; variables: Record<string, unknown> }[] = [];
   notesAdded: { quoteId: string; message: string; pinned: boolean }[] = [];
+  /** When false, quoteEdit's sentAt is accepted but the quote stays a draft. */
+  sentAtMovesStatus = true;
+  /** Runs right after a status-moving mutation lands (e.g. to deliver Jobber's webhook mid-archive). */
+  onStatusMoved: ((quoteId: string) => Promise<void>) | null = null;
   /** When set, quoteCreateNote from the routine's note route answers with this user error. */
   rejectNoteMessage: string | null = null;
   /** When true, quotesMarkAwaitingResponse succeeds but the status only flips on the next poll. */
@@ -204,7 +208,16 @@ export class FakeDeskJobber {
             if (q) q.quoteStatus = 'awaiting_response';
           }
         }
+        for (const id of ids) await this.onStatusMoved?.(id);
         return Response.json({ data: { quotesMarkAwaitingResponse: { userErrors: [] } } });
+      }
+      case 'EysDeskMarkSent': {
+        this.mutationCalls.push({ name: 'quoteEdit', variables: v });
+        const q = this.quotes.get(String(v.quote));
+        const attributes = (v.attributes ?? {}) as { sentAt?: string };
+        if (q && attributes.sentAt && this.sentAtMovesStatus && q.quoteStatus === 'draft') q.quoteStatus = 'awaiting_response';
+        if (q) await this.onStatusMoved?.(String(v.quote));
+        return Response.json({ data: { quoteEdit: { userErrors: [] } } });
       }
       case 'EysDeskLines': {
         const q = this.quotes.get(String(v.id));
@@ -223,6 +236,8 @@ export class FakeDeskJobber {
       case 'EysDeskArchive': {
         this.mutationCalls.push({ name: 'quoteArchive', variables: v });
         const q = this.quotes.get(String(v.id));
+        // Live Jobber, 2026-11-19: a draft can't be archived.
+        if (q?.quoteStatus === 'draft') return Response.json({ data: { quoteArchive: { userErrors: [{ message: 'This quote cannot be archived' }] } } });
         if (q) q.quoteStatus = 'archived';
         return Response.json({ data: { quoteArchive: { userErrors: [] } } });
       }

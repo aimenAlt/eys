@@ -18,6 +18,7 @@ import {
   editQuoteLineItems,
   fetchLineItems,
   fetchQuoteStatuses,
+  markSentByEdit,
   pickStatusBranch,
   quotesAccess,
   type DeskJobber,
@@ -633,12 +634,18 @@ export async function requestChange(deps: FlowDeps, actor: string, quoteId: stri
 export interface LineEdit {
   id: string;
   description?: string;
+  quantity?: number;
   unitPrice?: number;
   totalPrice?: number;
 }
 
 export const MAX_LINE_DESCRIPTION = 2000;
 export const MAX_LINE_PRICE = 250_000;
+export const MAX_LINE_QUANTITY = 100_000;
+
+function amount(value: unknown): number {
+  return typeof value === 'number' ? value : Number(String(value).replace(/[$,\s]/g, ''));
+}
 
 /** Words a customer must never see on an EYS quote. */
 const FORBIDDEN_ON_QUOTES: [RegExp, string][] = [
@@ -651,7 +658,7 @@ export function parseLineEdits(raw: unknown): LineEdit[] | string {
   if (!Array.isArray(raw) || raw.length === 0 || raw.length > 60) return 'Nothing to save.';
   const out: LineEdit[] = [];
   for (const item of raw) {
-    const v = (item ?? {}) as { id?: unknown; description?: unknown; unitPrice?: unknown };
+    const v = (item ?? {}) as { id?: unknown; description?: unknown; quantity?: unknown; unitPrice?: unknown };
     if (typeof v.id !== 'string' || v.id.trim() === '' || v.id.length > 200) return 'Nothing to save.';
     const edit: LineEdit = { id: v.id.trim() };
     if (v.description !== undefined) {
@@ -662,8 +669,13 @@ export function parseLineEdits(raw: unknown): LineEdit[] | string {
       for (const [pattern, message] of FORBIDDEN_ON_QUOTES) if (pattern.test(text)) return message;
       edit.description = text;
     }
+    if (v.quantity !== undefined) {
+      const quantity = amount(v.quantity);
+      if (!Number.isFinite(quantity) || quantity <= 0 || quantity > MAX_LINE_QUANTITY) return 'Enter a quantity above 0 (use 1 for one flat price).';
+      edit.quantity = Math.round(quantity * 100) / 100;
+    }
     if (v.unitPrice !== undefined) {
-      const price = typeof v.unitPrice === 'number' ? v.unitPrice : Number(String(v.unitPrice).replace(/[$,\s]/g, ''));
+      const price = amount(v.unitPrice);
       if (!Number.isFinite(price) || price < 0 || price > MAX_LINE_PRICE) return 'Enter a price between $0 and $250,000.';
       edit.unitPrice = Math.round(price * 100) / 100;
     }
@@ -674,6 +686,10 @@ export function parseLineEdits(raw: unknown): LineEdit[] | string {
 
 function money(n: number): string {
   return `$${n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+function countText(n: number): string {
+  return n.toLocaleString('en-US', { maximumFractionDigits: 2 });
 }
 
 /**
@@ -700,10 +716,21 @@ export async function editLines(deps: FlowDeps, actor: string, quoteId: string, 
     if (!line) return { ok: false, message: 'That line is no longer on the quote. Reload and try again.', row };
     const change: LineEdit = { id: edit.id };
     const said: string[] = [];
-    if (edit.unitPrice !== undefined && !line.textOnly && edit.unitPrice !== (line.unitPrice ?? null)) {
-      change.unitPrice = edit.unitPrice;
-      change.totalPrice = Math.round((line.quantity ?? 1) * edit.unitPrice * 100) / 100;
-      said.push(`${money(line.unitPrice ?? 0)} to ${money(edit.unitPrice)}${(line.quantity ?? 1) !== 1 ? ' each' : ''}`);
+    const oldQty = line.quantity ?? 1;
+    const oldUnit = line.unitPrice ?? 0;
+    const qtyChanged = !line.textOnly && edit.quantity !== undefined && edit.quantity !== oldQty;
+    const priceChanged = !line.textOnly && edit.unitPrice !== undefined && edit.unitPrice !== (line.unitPrice ?? null);
+    if (qtyChanged || priceChanged) {
+      const newQty = qtyChanged ? (edit.quantity as number) : oldQty;
+      const newUnit = priceChanged ? (edit.unitPrice as number) : oldUnit;
+      if (qtyChanged) change.quantity = newQty;
+      if (priceChanged) change.unitPrice = newUnit;
+      change.totalPrice = Math.round(newQty * newUnit * 100) / 100;
+      said.push(
+        qtyChanged
+          ? `${countText(oldQty)} × ${money(oldUnit)} to ${countText(newQty)} × ${money(newUnit)}`
+          : `${money(oldUnit)} to ${money(newUnit)}${oldQty !== 1 ? ' each' : ''}`,
+      );
     }
     if (edit.description !== undefined && edit.description !== (line.description ?? '').trim()) {
       change.description = edit.description;
@@ -735,35 +762,100 @@ export async function editLines(deps: FlowDeps, actor: string, quoteId: string, 
   return { ok: true, row };
 }
 
+/** Jobber statuses Archive works from: a draft (moved to Awaiting Response first) or one waiting on the customer. */
+const ARCHIVABLE = new Set(['draft', 'awaiting_response', 'changes_requested']);
+
+const ARCHIVE_BY_HAND =
+  'Jobber only archives a quote once it\u2019s out of draft, and it wouldn\u2019t let the desk move this one. In Jobber tap More, Mark as Awaiting Response, then tap Archive here again.';
+
 /**
- * "Archive": Jobber's own Archive on a draft that hasn't been approved here.
- * The quote leaves the desk (it is no longer a draft). The token can't
- * unarchive, so undoing it is Unarchive in Jobber web.
+ * Take a draft to Awaiting Response without messaging the client: Jobber's
+ * mark mutation when the token sees it, else quoteEdit's sentAt. Confirmed by
+ * reading the status back; still a draft means it didn't work.
+ */
+async function leaveDraft(j: DeskJobber, schema: DeskSchema, quoteId: string, now: number): Promise<{ ok: true; via: string } | { ok: false; message: string; detail: string }> {
+  const branch = pickStatusBranch(schema);
+  let via: string;
+  try {
+    if (branch.kind === 'mutation') {
+      await moveToAwaiting(j, branch, quoteId);
+      via = branch.mutation;
+    } else {
+      const edit = await markSentByEdit(j, schema, quoteId, new Date(now).toISOString());
+      if (!edit.ok) {
+        return edit.reason === 'unsupported'
+          ? { ok: false, message: ARCHIVE_BY_HAND, detail: 'no status move available' }
+          : { ok: false, message: `Jobber wouldn\u2019t mark it Awaiting Response${edit.message ? `: ${edit.message}` : ''}. Nothing changed.`, detail: edit.message ?? 'quoteEdit failed' };
+      }
+      via = 'quoteEdit sentAt';
+    }
+  } catch (error) {
+    return { ok: false, message: 'Jobber wouldn\u2019t mark it Awaiting Response. Nothing changed.', detail: error instanceof JobberError ? error.errorClass : 'error' };
+  }
+  const after = (await fetchQuoteStatuses(j, [quoteId])).get(quoteId);
+  if ((after?.quoteStatus ?? 'draft').toLowerCase() === 'draft') return { ok: false, message: ARCHIVE_BY_HAND, detail: `${via} left it a draft` };
+  return { ok: true, via };
+}
+
+/**
+ * "Archive": Jobber's own Archive, from a draft or a quote waiting on the
+ * customer, including one Eyad already approved here. Jobber refuses drafts
+ * ("This quote cannot be archived"), so a draft is marked Awaiting Response
+ * first. The quote comes off the desk's send list before Jobber's status
+ * moves, so the move can never text the customer. Undo is Unarchive in Jobber web.
  */
 export async function archiveQuote(deps: FlowDeps, actor: string, quoteId: string): Promise<ActionResult> {
   const now = deps.now();
   let row = await deskQuote(deps.db, quoteId);
-  if (row?.state === 'approved') return { ok: false, message: 'Already approved here, so it stays.', row };
   const { access, schema } = await quotesAccess(deps.jobber);
   if (access !== 'ok' || !schema) return { ok: false, message: 'Jobber needs reconnecting for quotes', row };
   const current = await fetchLineItems(deps.jobber, quoteId);
   if (!current) return { ok: false, message: 'Quote not found in Jobber.', row };
-  if ((current.status ?? '').toLowerCase() !== 'draft') return { ok: false, message: 'Only a draft can be archived here. Use Edit in Jobber.', row };
-  const outcome = await archiveJobberQuote(deps.jobber, schema, quoteId);
-  if (!outcome.ok) {
-    await logDeskEvent(deps.db, { actor, action: 'archive_failed', quoteId, detail: outcome.message ?? outcome.reason, now });
-    return {
-      ok: false,
-      message: outcome.reason === 'unsupported' ? 'Jobber doesn\u2019t allow archiving from here. Use Edit in Jobber.' : `Jobber refused${outcome.message ? `: ${outcome.message}` : ''}. Nothing changed.`,
-      row,
-    };
-  }
-  await ensureDeskRow(deps.db, quoteId, { status: 'archived' }, now);
+  const status = (current.status ?? '').toLowerCase();
+  if (status === 'archived') return { ok: false, message: 'Already archived in Jobber.', row };
+  if (!ARCHIVABLE.has(status)) return { ok: false, message: 'Jobber can\u2019t archive a quote the customer approved. Use Edit in Jobber.', row };
+
+  // Off the send list first: advance() texts only 'approved' rows.
+  const before = await ensureDeskRow(deps.db, quoteId, { status }, now);
   await deps.db
-    .prepare("UPDATE desk_quotes SET state = 'hidden', hidden_by = ?2, hidden_at = ?3, jobber_status = 'archived', updated_at = ?3 WHERE quote_id = ?1")
+    .prepare("UPDATE desk_quotes SET state = 'hidden', hidden_by = ?2, hidden_at = ?3, updated_at = ?3 WHERE quote_id = ?1")
     .bind(quoteId, actor, now)
     .run();
-  await logDeskEvent(deps.db, { actor, action: 'archive', quoteId, now });
+  const putBack = () =>
+    deps.db
+      .prepare('UPDATE desk_quotes SET state = ?2, hidden_by = ?3, hidden_at = ?4, updated_at = ?5 WHERE quote_id = ?1')
+      .bind(quoteId, before.state, before.hidden_by, before.hidden_at, now)
+      .run();
+
+  let via = 'already out of draft';
+  if (status === 'draft') {
+    const moved = await leaveDraft(deps.jobber, schema, quoteId, now);
+    if (!moved.ok) {
+      await putBack();
+      await logDeskEvent(deps.db, { actor, action: 'archive_failed', quoteId, detail: moved.detail, now });
+      return { ok: false, message: moved.message, row: await deskQuote(deps.db, quoteId) };
+    }
+    via = moved.via;
+  }
+
+  const outcome = await archiveJobberQuote(deps.jobber, schema, quoteId);
+  if (!outcome.ok) {
+    await logDeskEvent(deps.db, { actor, action: 'archive_failed', quoteId, detail: `${via}; ${outcome.message ?? outcome.reason}`, now });
+    if (status !== 'draft') await putBack();
+    // A draft that was moved stays off the desk: putting an approved one back
+    // would let the next status check text the customer.
+    const refused = outcome.message ? `: ${outcome.message}` : '';
+    return {
+      ok: false,
+      message:
+        status === 'draft'
+          ? `It\u2019s now Awaiting Response in Jobber (nobody was texted), but Jobber wouldn\u2019t archive it${refused}. In Jobber tap More, Archive.`
+          : `Jobber wouldn\u2019t archive it${refused}. Nothing changed.`,
+      row: await deskQuote(deps.db, quoteId),
+    };
+  }
+  await deps.db.prepare("UPDATE desk_quotes SET jobber_status = 'archived', updated_at = ?2 WHERE quote_id = ?1").bind(quoteId, now).run();
+  await logDeskEvent(deps.db, { actor, action: 'archive', quoteId, detail: via, now });
   row = await deskQuote(deps.db, quoteId);
   return { ok: true, row };
 }
@@ -799,7 +891,7 @@ export function availableActions(row: DeskQuoteRow | null, jobberStatus: string 
     retry: approved && (row?.text_state === 'failed' || row?.text_state === 'unknown' || staleClaim || (row?.text_state === 'none' && Boolean(row?.text_error))),
     manualStep: (approved || state === 'marked') && (row?.move_state === 'manual' || row?.move_state === 'failed') && status !== 'awaiting_response',
     edit: !approved && status === 'draft',
-    archive: !approved && state !== 'marked' && status === 'draft',
+    archive: ARCHIVABLE.has(status),
     resend: approved && row?.text_state === 'sent' && status === 'awaiting_response',
   };
 }
