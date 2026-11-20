@@ -18,7 +18,6 @@ import {
   editQuoteLineItems,
   fetchLineItems,
   fetchQuoteStatuses,
-  markSentByEdit,
   pickStatusBranch,
   quotesAccess,
   type DeskJobber,
@@ -180,6 +179,8 @@ export interface ActionResult {
   ok: boolean;
   message?: string;
   row: DeskQuoteRow | null;
+  /** Shown after a success that still leaves a step for Essa (a desk-only archive). */
+  notice?: string;
 }
 
 /** a + b, then c/d once: a desk approval, the status move, and a send if Jobber already says awaiting. */
@@ -765,44 +766,43 @@ export async function editLines(deps: FlowDeps, actor: string, quoteId: string, 
 /** Jobber statuses Archive works from: a draft (moved to Awaiting Response first) or one waiting on the customer. */
 const ARCHIVABLE = new Set(['draft', 'awaiting_response', 'changes_requested']);
 
+/** What's left for Essa when Jobber won't let the desk archive a draft. */
+export const ARCHIVE_IN_JOBBER = 'Off the desk. To archive it in Jobber too, open it there and tap More, Mark as Awaiting Response, then Archive.';
+
 const ARCHIVE_BY_HAND =
-  'Jobber only archives a quote once it\u2019s out of draft, and it wouldn\u2019t let the desk move this one. In Jobber tap More, Mark as Awaiting Response, then tap Archive here again.';
+  'Jobber only archives a quote once it\u2019s out of draft, and it wouldn\u2019t move this one. In Jobber tap More, Mark as Awaiting Response, then tap Archive here again.';
 
 /**
- * Take a draft to Awaiting Response without messaging the client: Jobber's
- * mark mutation when the token sees it, else quoteEdit's sentAt. Confirmed by
- * reading the status back; still a draft means it didn't work.
+ * Take a draft to Awaiting Response with Jobber's no-message mark mutation,
+ * confirmed by reading the status back. Only called when the token sees that
+ * mutation; the live token doesn't (2026-11-20), and nothing else the token
+ * can call takes a quote out of draft.
  */
-async function leaveDraft(j: DeskJobber, schema: DeskSchema, quoteId: string, now: number): Promise<{ ok: true; via: string } | { ok: false; message: string; detail: string }> {
-  const branch = pickStatusBranch(schema);
-  let via: string;
+async function leaveDraft(
+  j: DeskJobber,
+  branch: Extract<StatusBranch, { kind: 'mutation' }>,
+  quoteId: string,
+): Promise<{ ok: true; via: string } | { ok: false; message: string; detail: string }> {
   try {
-    if (branch.kind === 'mutation') {
-      await moveToAwaiting(j, branch, quoteId);
-      via = branch.mutation;
-    } else {
-      const edit = await markSentByEdit(j, schema, quoteId, new Date(now).toISOString());
-      if (!edit.ok) {
-        return edit.reason === 'unsupported'
-          ? { ok: false, message: ARCHIVE_BY_HAND, detail: 'no status move available' }
-          : { ok: false, message: `Jobber wouldn\u2019t mark it Awaiting Response${edit.message ? `: ${edit.message}` : ''}. Nothing changed.`, detail: edit.message ?? 'quoteEdit failed' };
-      }
-      via = 'quoteEdit sentAt';
-    }
+    await moveToAwaiting(j, branch, quoteId);
   } catch (error) {
     return { ok: false, message: 'Jobber wouldn\u2019t mark it Awaiting Response. Nothing changed.', detail: error instanceof JobberError ? error.errorClass : 'error' };
   }
   const after = (await fetchQuoteStatuses(j, [quoteId])).get(quoteId);
-  if ((after?.quoteStatus ?? 'draft').toLowerCase() === 'draft') return { ok: false, message: ARCHIVE_BY_HAND, detail: `${via} left it a draft` };
-  return { ok: true, via };
+  if ((after?.quoteStatus ?? 'draft').toLowerCase() === 'draft') return { ok: false, message: ARCHIVE_BY_HAND, detail: `${branch.mutation} left it a draft` };
+  return { ok: true, via: branch.mutation };
 }
 
 /**
- * "Archive": Jobber's own Archive, from a draft or a quote waiting on the
- * customer, including one Eyad already approved here. Jobber refuses drafts
- * ("This quote cannot be archived"), so a draft is marked Awaiting Response
- * first. The quote comes off the desk's send list before Jobber's status
- * moves, so the move can never text the customer. Undo is Unarchive in Jobber web.
+ * "Archive", from a draft or a quote waiting on the customer, including one
+ * Eyad already approved here. The quote always comes off the desk's send list
+ * first, so no status change in Jobber can text the customer afterwards.
+ * - Out of draft: Jobber's own Archive.
+ * - A draft, when the token can mark Awaiting Response: mark it, then Archive
+ *   (Jobber refuses to archive drafts).
+ * - A draft otherwise (the live token, 2026-11-20): nothing in Jobber can be
+ *   done from here, so it only leaves the desk, and `notice` says the Jobber step.
+ * Undo is Unarchive in Jobber web, or "Bring back" for a desk-only archive.
  */
 export async function archiveQuote(deps: FlowDeps, actor: string, quoteId: string): Promise<ActionResult> {
   const now = deps.now();
@@ -829,7 +829,12 @@ export async function archiveQuote(deps: FlowDeps, actor: string, quoteId: strin
 
   let via = 'already out of draft';
   if (status === 'draft') {
-    const moved = await leaveDraft(deps.jobber, schema, quoteId, now);
+    const branch = pickStatusBranch(schema);
+    if (branch.kind !== 'mutation') {
+      await logDeskEvent(deps.db, { actor, action: 'archive', quoteId, detail: 'desk only: Jobber keeps drafts and the token cannot mark Awaiting Response', now });
+      return { ok: true, row: await deskQuote(deps.db, quoteId), notice: ARCHIVE_IN_JOBBER };
+    }
+    const moved = await leaveDraft(deps.jobber, branch, quoteId);
     if (!moved.ok) {
       await putBack();
       await logDeskEvent(deps.db, { actor, action: 'archive_failed', quoteId, detail: moved.detail, now });

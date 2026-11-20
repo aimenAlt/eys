@@ -44,7 +44,13 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
     const result = action === 'edit' ? await editLines(deps, 'Agent test', quoteId, value.lines) : await archiveQuote(deps, 'Agent test', quoteId);
     const after = (await fetchQuoteStatuses(deps.jobber, [quoteId])).get(quoteId);
     return json(
-      { ok: result.ok, message: result.message ?? null, jobber_status: after?.quoteStatus ?? null, desk_state: (await deskQuote(deps.db, quoteId))?.state ?? null },
+      {
+        ok: result.ok,
+        message: result.message ?? null,
+        notice: result.notice ?? null,
+        jobber_status: after?.quoteStatus ?? null,
+        desk_state: (await deskQuote(deps.db, quoteId))?.state ?? null,
+      },
       result.ok ? 200 : 409,
     );
   } catch (error) {

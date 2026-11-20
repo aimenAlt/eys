@@ -2,7 +2,7 @@
  * Local Quote Desk with fake Jobber and fake Quo, for UI work only.
  *
  *   npm run build   # once, for dist/
- *   node --experimental-strip-types --no-warnings functions/_tests/desk-dev.ts   (SEND=off to see "Texting is off")
+ *   node --experimental-strip-types --no-warnings functions/_tests/desk-dev.ts   (SEND=off to see "Texting is off", MOVE=manual for the live token's no-status-move case)
  *   open http://localhost:8790/essa/quotes/   (PIN 4826 = Essa, 7391 = Aimen)
  *   open http://localhost:8790/q/DevViewA      (a texted quote: intro, then its quote page)
  *
@@ -22,6 +22,8 @@ const PORT = Number(process.env.PORT ?? 8790);
 const DIST = new URL('../../dist/', import.meta.url).pathname;
 
 const h = await deskHarness({ QUOTE_SEND_ENABLED: process.env.SEND === 'off' ? 'false' : 'true', QUO_API_KEY: 'fake-quo-key' });
+// MOVE=manual: the live token's case (no quotesMarkAwaitingResponse), so drafts can't be moved or archived from the desk.
+if (process.env.MOVE === 'manual') h.jobber.visibleMutations.delete('quotesMarkAwaitingResponse');
 const day = 86_400_000;
 const ago = (days: number) => new Date(Date.now() - days * day).toISOString();
 const photo = (name: string) => ({ url: `/images/${name}`, thumbnailUrl: `/images/${name}`, fileName: name.split('/').pop(), contentType: 'image/jpeg' });

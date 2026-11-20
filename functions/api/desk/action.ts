@@ -13,7 +13,7 @@ const ACTIONS = new Set(['approve', 'mark', 'change', 'hide', 'unhide', 'retry',
  * and a pinned "not sent yet" note, no text); change = "Needs a change"; hide / unhide = "Not
  * sending" and back; retry = "Retry text"; poll = the 3-minute check after a
  * tap; edit = a line's description, quantity and price ({lines: [{id, description, quantity, unitPrice}]});
- * archive = Jobber's Archive (a draft is marked Awaiting Response first; never texts);
+ * archive = off the desk, plus Jobber's Archive when Jobber allows it (a draft the token can't move only leaves the desk, with a `notice`; never texts);
  * resend = "Resend link" (the same text and /q/ link again, on this tap only:
  * never from poll, the list or a webhook). Every action is logged with who did it.
  */
@@ -31,7 +31,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   if (!deps) return json({ error: 'not_configured' }, 503);
 
   try {
-    let result: { ok: boolean; message?: string } = { ok: true };
+    let result: { ok: boolean; message?: string; notice?: string } = { ok: true };
     if (action === 'approve') result = await approveQuote(deps, auth.name, id);
     else if (action === 'mark') result = await markOnly(deps, auth.name, id);
     else if (action === 'change') result = await requestChange(deps, auth.name, id, typeof value.note === 'string' ? value.note : '');
@@ -44,7 +44,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     const branch = await cachedBranch(deps.db);
     const actions = availableActions(row, row?.jobber_status ?? (row ? null : 'draft'), branch, Date.now());
     if (!result.ok) return json({ error: 'refused', message: result.message, desk: row, actions }, 409);
-    return json({ ok: true, desk: row, actions });
+    return json({ ok: true, desk: row, actions, ...(result.notice ? { notice: result.notice } : {}) });
   } catch (error) {
     const errorClass = error instanceof JobberError ? error.errorClass : 'internal';
     if (errorClass === 'scope') return json({ error: 'refused', message: 'Jobber needs reconnecting for quotes' }, 409);

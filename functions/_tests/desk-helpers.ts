@@ -64,8 +64,8 @@ export class FakeDeskJobber {
   operations: string[] = [];
   mutationCalls: { name: string; variables: Record<string, unknown> }[] = [];
   notesAdded: { quoteId: string; message: string; pinned: boolean }[] = [];
-  /** When false, quoteEdit's sentAt is accepted but the quote stays a draft. */
-  sentAtMovesStatus = true;
+  /** When false, quotesMarkAwaitingResponse is accepted but the quote stays a draft. */
+  statusMoveSticks = true;
   /** Runs right after a status-moving mutation lands (e.g. to deliver Jobber's webhook mid-archive). */
   onStatusMoved: ((quoteId: string) => Promise<void>) | null = null;
   /** When set, quoteCreateNote from the routine's note route answers with this user error. */
@@ -202,6 +202,7 @@ export class FakeDeskJobber {
         this.mutationCalls.push({ name: 'quotesMarkAwaitingResponse', variables: v });
         const ids = (Object.values(v)[0] as string[]) ?? [];
         for (const id of ids) {
+          if (!this.statusMoveSticks) continue;
           if (this.delayStatusFlip) this.pendingFlips.push(id);
           else {
             const q = this.quotes.get(id);
@@ -210,14 +211,6 @@ export class FakeDeskJobber {
         }
         for (const id of ids) await this.onStatusMoved?.(id);
         return Response.json({ data: { quotesMarkAwaitingResponse: { userErrors: [] } } });
-      }
-      case 'EysDeskMarkSent': {
-        this.mutationCalls.push({ name: 'quoteEdit', variables: v });
-        const q = this.quotes.get(String(v.quote));
-        const attributes = (v.attributes ?? {}) as { sentAt?: string };
-        if (q && attributes.sentAt && this.sentAtMovesStatus && q.quoteStatus === 'draft') q.quoteStatus = 'awaiting_response';
-        if (q) await this.onStatusMoved?.(String(v.quote));
-        return Response.json({ data: { quoteEdit: { userErrors: [] } } });
       }
       case 'EysDeskLines': {
         const q = this.quotes.get(String(v.id));

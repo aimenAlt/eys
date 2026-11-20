@@ -53,7 +53,7 @@ const seo = {
         var viewerImg = document.querySelector('[data-desk-viewer-img]');
         var sheet = document.querySelector('[data-desk-sheet]');
         var sheetBody = document.querySelector('[data-desk-sheet-body]');
-        var state = { me: null, home: null, quote: null, poll: null };
+        var state = { me: null, home: null, quote: null, poll: null, notice: null };
 
         /* ---- helpers ------------------------------------------------- */
 
@@ -255,6 +255,18 @@ const seo = {
           return '<p class="mt-8 text-center text-[0.6875rem] leading-snug text-brand-muted">' + esc(bits.join(' · ')) + '</p>';
         }
 
+        /** One-time note after an action that left Essa a step (a draft archived on the desk only). */
+        function noticeBlock() {
+          var n = state.notice;
+          if (!n) return '';
+          return (
+            '<div class="mb-3 rounded-xl border border-brand-line bg-white p-3" role="status">' +
+            '<p class="text-[0.9375rem] leading-snug text-brand-black">' + esc(n.text) + '</p>' +
+            (n.href ? '<a href="' + esc(safeUrl(n.href)) + '" target="_blank" rel="noopener noreferrer" class="mt-2 ' + secondaryBtn + '">Open in Jobber</a>' : '') +
+            '</div>'
+          );
+        }
+
         async function renderHome() {
           stopPoll();
           if (!state.home) root.innerHTML = header('Quotes to review') + '<p class="py-10 text-center text-sm text-brand-muted">Loading&hellip;</p>';
@@ -267,7 +279,8 @@ const seo = {
           }
           state.home = data;
           var list = data.list;
-          var html = header('Quotes to review') + banner(data.access, data.error);
+          var html = header('Quotes to review') + banner(data.access, data.error) + noticeBlock();
+          state.notice = null;
           if (list) {
             html +=
               '<h2 class="' + h2 + '">' + bar + 'Drafts</h2>' +
@@ -1002,15 +1015,16 @@ const seo = {
             else trigger.disabled = false;
             return;
           }
-          if (
-            action === 'archive' &&
-            !window.confirm(
-              (state.quote && state.quote.quote.status === 'draft'
-                ? 'Archive this quote? Jobber only archives sent quotes, so it gets marked Awaiting Response first. The customer is not texted or emailed.'
-                : 'Archive this quote in Jobber? The customer is not texted or emailed.') + ' It leaves the desk. To undo, open it in Jobber and tap Unarchive.',
-            )
-          )
-            return;
+          if (action === 'archive') {
+            var isDraft = state.quote.quote.status === 'draft';
+            var canMove = !(state.quote.branch && state.quote.branch.kind === 'manual');
+            var question = !isDraft
+              ? 'Archive this quote in Jobber? The customer is not texted or emailed. To undo, open it in Jobber and tap Unarchive.'
+              : canMove
+                ? 'Archive this quote? Jobber only archives sent quotes, so it gets marked Awaiting Response first. The customer is not texted or emailed. To undo, open it in Jobber and tap Unarchive.'
+                : 'Take this draft off the desk? Jobber won’t let the desk archive a draft, so you’ll finish in Jobber: More, Mark as Awaiting Response, Archive. The customer is not texted or emailed.';
+            if (!window.confirm(question)) return;
+          }
           trigger.disabled = true;
           var done = await act(action);
           if (!done) {
@@ -1018,6 +1032,7 @@ const seo = {
             return;
           }
           if (action === 'hide' || action === 'archive') {
+            if (done.notice) state.notice = { text: done.notice, href: state.quote.quote.jobberWebUri };
             location.hash = '#/';
             return;
           }

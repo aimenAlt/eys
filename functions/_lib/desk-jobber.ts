@@ -640,33 +640,11 @@ export async function editQuoteLineItems(
 }
 
 /**
- * quoteEdit(quoteId, {sentAt}): records the quote as sent, which takes a draft
- * to Awaiting Response without Jobber emailing or texting anyone. The token
- * can't see quotesMarkAwaitingResponse (checked 2026-11-20), so this is the
- * desk's way out of draft. 'unsupported' when the schema has no sentAt.
+ * quoteArchive(id): Jobber's own Archive. Undone only in Jobber web (Unarchive).
+ * Jobber refuses drafts ("This quote cannot be archived"). Setting a draft's
+ * sentAt with quoteEdit does NOT take it out of draft (tried live on #289,
+ * 2026-11-20: sentAt saved, status still draft), so the desk never does that.
  */
-export async function markSentByEdit(j: DeskJobber, schema: DeskSchema, quoteId: string, sentAt: string): Promise<LineEditOutcome> {
-  const field = schema.mutations.quoteEdit;
-  const idArg = field && Object.keys(field.args).find((a) => /^quoteId$|^id$/i.test(a));
-  const attrArg = field && Object.keys(field.args).find((a) => /^attributes$|^input$/i.test(a));
-  if (!field || !idArg || !attrArg) return { ok: false, reason: 'unsupported' };
-  const inputName = field.args[attrArg].replace(/[!\[\]]/g, '');
-  await ensureDeskTypes(j.deps, j.db, schema, [inputName, field.type]);
-  if (!schema.types[inputName]?.fields.sentAt) return { ok: false, reason: 'unsupported' };
-  const payload = schema.types[field.type];
-  const data = await graphql<Record<string, { userErrors?: { message?: string }[] | null } | null>>(
-    j.deps,
-    `mutation EysDeskMarkSent($quote: ${field.args[idArg]}, $attributes: ${field.args[attrArg]}) { quoteEdit(${idArg}: $quote, ${attrArg}: $attributes) { ${payload?.fields.userErrors ? 'userErrors { message }' : '__typename'} } }`,
-    { quote: quoteId, attributes: { sentAt } },
-  );
-  const result = data.quoteEdit;
-  if (!result) return { ok: false, reason: 'failed' };
-  const problem = result.userErrors?.find((e) => e?.message)?.message;
-  if (problem) return { ok: false, reason: 'failed', message: problem.slice(0, 200) };
-  return { ok: true };
-}
-
-/** quoteArchive(id): Jobber's own Archive. Undone only in Jobber web (Unarchive). */
 export async function archiveJobberQuote(j: DeskJobber, schema: DeskSchema, quoteId: string): Promise<LineEditOutcome> {
   const field = schema.mutations.quoteArchive;
   const idArg = field && Object.keys(field.args).find((a) => /^id$|quoteId/i.test(a));

@@ -53,7 +53,10 @@ How the desk session works:
 ## Editing and archiving
 
 - **Edit a line.** "Edit" under any line of a draft opens its description, Quantity and Price each, with the line total live. "Make it one price" turns a per-unit line (say 120 × $6) into quantity 1 at today's total, ready to retype (Eyad's request, 2026-11-20). Save sends only what changed to Jobber (`quoteEditLineItems`: quantity, unit price and the matching line total), then adds a note on the quote such as "Edited on the Quote Desk (Essa, Nov 12 9:14 AM): Vinyl plank install: 120 × $6.00 to 1 × $650.00". Refused for "licensed" or an HOA mention, a price outside $0 to $250,000, a quantity of 0 or less, a quote that isn't a draft, or one already approved on the desk.
-- **Archive.** Replaces "Not sending". Shows for a draft or a quote waiting on the customer, including one Eyad already approved (Aimen, 2026-11-20). Jobber refuses to archive a draft ("This quote cannot be archived", seen live 2026-11-19), so a draft is first marked Awaiting Response without any message: `quotesMarkAwaitingResponse` if the token sees it, otherwise `quoteEdit` with only `sentAt`, confirmed by reading the status back. Then `quoteArchive`. Before the status moves, the quote comes off the desk's send list (`state = 'hidden'`), so Jobber's QUOTE_SENT webhook can never text the customer. If Jobber keeps it a draft, nothing is archived and the desk says to tap More, Mark as Awaiting Response in Jobber, then Archive again. Undo is Unarchive in Jobber web.
+- **Archive.** Shows for a draft or a quote waiting on the customer, including one Eyad already approved (Aimen, 2026-11-20). The quote always leaves the desk's send list first (`state = 'hidden'`), so no later status change in Jobber can text the customer. Then:
+  - **Out of draft** (awaiting response, changes requested): Jobber's `quoteArchive`.
+  - **A draft, live token:** Jobber refuses to archive drafts ("This quote cannot be archived", 2026-11-19), and the token has no way out of draft: `quotesMarkAwaitingResponse` and `quoteDelete` are hidden from it, and setting `sentAt` with `quoteEdit` saves the date but leaves the status draft (tried live on test quote #289, 2026-11-20). So Archive takes it off the desk only, writes nothing to Jobber, and the list shows "Off the desk. To archive it in Jobber too, open it there and tap More, Mark as Awaiting Response, then Archive." with an Open in Jobber button. "Bring back" undoes it.
+  - **A draft, if the token ever sees `quotesMarkAwaitingResponse`:** marked Awaiting Response with no message, the status read back, then `quoteArchive`.
 - **Agent check without a PIN.** `POST /api/admin/desk/test-action {quoteId, action: 'edit'|'archive', lines?}` with the admin or routine key runs these same two flows, logged as "Agent test", and refuses any quote whose title lacks "(TEST)".
 - Links in request notes, answers and descriptions are tappable.
 
@@ -71,7 +74,7 @@ active.
 - **Never used:** `workObjectSendSms`, `workObjectSendEmail`, or anything named send, email or sms. Those message the client from Jobber.
 
 The only Jobber writes are this one status move, `quoteCreateNote` (for
-"Needs a change", the "Quote not sent yet", "Quote texted", "Quote link re-sent" and "Edited" notes), a line's description, quantity and price (`quoteEditLineItems`, Aimen's requests 2026-11-11 and 2026-11-20) and Archive (`quoteArchive`, after `quoteEdit` sets only `sentAt` on a draft so Jobber will archive it). The desk never sends via Jobber, approves, schedules,
+"Needs a change", the "Quote not sent yet", "Quote texted", "Quote link re-sent" and "Edited" notes), a line's description, quantity and price (`quoteEditLineItems`, Aimen's requests 2026-11-11 and 2026-11-20) and Archive (`quoteArchive`, for quotes already out of draft). The desk never sends via Jobber, approves, schedules,
 invoices or collects money.
 
 ## What happens on "Looks good"

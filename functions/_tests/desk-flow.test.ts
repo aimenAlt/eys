@@ -439,42 +439,39 @@ await check('Archive: Jobber refuses drafts, so the draft is marked Awaiting Res
   assert.ok(events.some((e) => e.action === 'archive' && e.actor === 'Essa'));
 });
 
-await check("Archive with the live token's schema (no quotesMarkAwaitingResponse): quoteEdit's sentAt moves it out of draft, then archive", async () => {
+await check("Archive a draft with the live token (no way out of draft): it leaves the desk, nothing is written to Jobber, and the answer says the Jobber step", async () => {
   const { h, quo, cookie, route } = await setup();
   h.jobber.visibleMutations.delete('quotesMarkAwaitingResponse');
   h.jobber.addQuote({ id: 'q-a3' });
   const response = await withFetch(route, () => post(h, cookie, { id: 'q-a3', action: 'archive' }));
   assert.equal(response.status, 200);
-  assert.deepEqual(statusMoves(h), ['quoteEdit', 'quoteArchive']);
-  const edit = h.jobber.mutationCalls.find((c) => c.name === 'quoteEdit')!;
-  assert.deepEqual(Object.keys(edit.variables.attributes as object), ['sentAt'], 'only the sent date, nothing else on the quote');
-  assert.match(String((edit.variables.attributes as { sentAt: string }).sentAt), /^\d{4}-\d{2}-\d{2}T/);
-  assert.equal(h.jobber.quotes.get('q-a3')!.quoteStatus, 'archived');
+  assert.match((await response.json()).notice, /More, Mark as Awaiting Response, then Archive/);
+  assert.deepEqual(h.jobber.mutationCalls, [], 'no Jobber write at all (a stray sentAt does not move a draft, seen live)');
+  assert.equal(h.jobber.quotes.get('q-a3')!.quoteStatus, 'draft');
+  assert.equal((await deskQuote(h.db as never, 'q-a3'))?.state, 'hidden');
   assert.equal(quo.posts.length, 0);
 });
 
-await check('Archive: when Jobber keeps it a draft, nothing is archived, the desk is unchanged and the message says what to do in Jobber', async () => {
+await check('Archive: when the mark is accepted but Jobber keeps it a draft, nothing is archived and the quote goes back on the desk', async () => {
   const { h, cookie, route } = await setup();
-  h.jobber.visibleMutations.delete('quotesMarkAwaitingResponse');
-  h.jobber.sentAtMovesStatus = false;
+  h.jobber.statusMoveSticks = false;
   h.jobber.addQuote({ id: 'q-a4' });
   const response = await withFetch(route, () => post(h, cookie, { id: 'q-a4', action: 'archive' }));
   assert.equal(response.status, 409);
   assert.match((await response.json()).message, /Mark as Awaiting Response, then tap Archive/);
-  assert.deepEqual(statusMoves(h), ['quoteEdit'], 'no archive attempt on a draft');
+  assert.deepEqual(statusMoves(h), ['quotesMarkAwaitingResponse'], 'no archive attempt on a draft');
   assert.equal(h.jobber.quotes.get('q-a4')!.quoteStatus, 'draft');
-  const row = await deskQuote(h.db as never, 'q-a4');
-  assert.notEqual(row?.state, 'hidden', 'still on the desk');
+  assert.notEqual((await deskQuote(h.db as never, 'q-a4'))?.state, 'hidden', 'still on the desk');
 });
 
-await check('Archive a quote Eyad already approved: no customer text, even when Jobber fires its webhook mid-archive', async () => {
+await check('Archive a quote Eyad approved, still a draft: when the desk can move it, it is off the send list before Jobber fires its webhook, so no text', async () => {
   const { h, quo, cookie, route } = await setup();
-  // The live token can't move status itself, so an approved quote waits as a draft.
-  h.jobber.visibleMutations.delete('quotesMarkAwaitingResponse');
+  h.jobber.statusMoveSticks = false; // the approval's move doesn't land, so it waits as a draft
   h.jobber.addQuote({ id: 'q-a5' });
   await withFetch(route, async () => {
     assert.equal((await post(h, cookie, { id: 'q-a5', action: 'approve' })).status, 200);
     assert.equal((await deskQuote(h.db as never, 'q-a5'))?.state, 'approved');
+    h.jobber.statusMoveSticks = true;
     let stateAtMove: string | undefined;
     h.jobber.onStatusMoved = async (id) => {
       stateAtMove = (await deskQuote(h.db as never, id))?.state;
@@ -483,11 +480,28 @@ await check('Archive a quote Eyad already approved: no customer text, even when 
     };
     const response = await post(h, cookie, { id: 'q-a5', action: 'archive' });
     assert.equal(response.status, 200);
-    assert.notEqual(stateAtMove, 'approved', 'off the send list before Jobber moves the status');
+    assert.equal(stateAtMove, 'hidden', 'off the send list before Jobber moves the status');
   });
   assert.equal(quo.posts.length, 0, 'the customer is never texted');
   assert.equal(h.jobber.quotes.get('q-a5')!.quoteStatus, 'archived');
   assert.equal((await deskQuote(h.db as never, 'q-a5'))?.state, 'hidden');
+});
+
+await check('Archive a quote Eyad approved, live token: off the desk, and Essa finishing in Jobber later still texts no one', async () => {
+  const { h, quo, cookie, route } = await setup();
+  h.jobber.visibleMutations.delete('quotesMarkAwaitingResponse');
+  h.jobber.addQuote({ id: 'q-a7' });
+  await withFetch(route, async () => {
+    await post(h, cookie, { id: 'q-a7', action: 'approve' });
+    assert.equal((await deskQuote(h.db as never, 'q-a7'))?.state, 'approved');
+    assert.equal((await post(h, cookie, { id: 'q-a7', action: 'archive' })).status, 200);
+    // Essa then taps More, Mark as Awaiting Response in Jobber to archive it there.
+    h.jobber.quotes.get('q-a7')!.quoteStatus = 'awaiting_response';
+    await deliver(h, 'QUOTE_SENT', 'q-a7', '2026-11-20T18:05:00Z');
+    await post(h, cookie, { id: 'q-a7', action: 'poll' });
+  });
+  assert.equal(quo.posts.length, 0, 'the approval no longer sends anything');
+  assert.equal((await deskQuote(h.db as never, 'q-a7'))?.state, 'hidden');
 });
 
 await check('Archive: a quote already waiting on the customer (texted) is archived directly; the Archive button shows for it', async () => {
@@ -527,7 +541,7 @@ await check('agent test route: runs the real archive and edit on a "(TEST)" quot
   assert.equal(edited.status, 200);
   const archived = await call(ADMIN_KEY, { quoteId: 'q-t1', action: 'archive' });
   assert.equal(archived.status, 200);
-  assert.deepEqual(await archived.json(), { ok: true, message: null, jobber_status: 'archived', desk_state: 'hidden' });
+  assert.deepEqual(await archived.json(), { ok: true, message: null, notice: null, jobber_status: 'archived', desk_state: 'hidden' });
 });
 
 await check('edit a line: a per-unit line becomes one flat price (quantity 1)', async () => {
