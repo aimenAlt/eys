@@ -31,6 +31,24 @@ import { listMessages, quoKey, sendText, type QuoDeps } from './quo.ts';
 import { quoteTextMessage } from './quote-text.ts';
 import { quoteSendEnabled } from './desk-http.ts';
 import { canTransition, OFF_DESK_MESSAGE, restoreState, transitionState } from './desk-state.ts';
+import {
+  NOT_SENT_NOTE,
+  RESENT_EVENTS,
+  RETRY_TAP_ERROR,
+  SENT_NOTE,
+  TEXT_RESENT,
+  TEXT_RESEND_UNKNOWN,
+  claimResend,
+  claimText,
+  releaseResend,
+  retryCanSend,
+  sendDecision,
+  settleText,
+  MAX_APPROVAL_AGE,
+  AUTO_SEND_WINDOW,
+  SEND_CLAIM_TTL,
+  type AdvanceSource,
+} from './desk-text.ts';
 
 /**
  * What happens after Essa taps "Looks good", in order:
@@ -52,15 +70,8 @@ import { canTransition, OFF_DESK_MESSAGE, restoreState, transitionState } from '
  * a webhook.
  */
 
-/** A claim older than this is a dead isolate's, and only "Retry text" may take it over. */
-export const SEND_CLAIM_TTL = 2 * MINUTE;
-const MAX_APPROVAL_AGE = 60 * DAY;
-/**
- * Texts go out on their own only within a day of the tap. Past that (texting
- * was off, Essa marked it in Jobber days later) it waits for "Retry text", so
- * turning QUOTE_SEND_ENABLED on never sends a burst of old quotes.
- */
-export const AUTO_SEND_WINDOW = DAY;
+export { AUTO_SEND_WINDOW, SEND_CLAIM_TTL };
+export type { AdvanceSource };
 
 export interface FlowDeps {
   env: Env;
@@ -79,6 +90,8 @@ export function flowDeps(env: Env): FlowDeps | null {
 
 async function touch(db: D1Database, quoteId: string, fields: Record<string, unknown>, now: number): Promise<void> {
   const keys = Object.keys(fields);
+  // text_state and its claim columns have one writer: desk-text.ts.
+  for (const key of keys) if (key === 'text_state' || key === 'text_owner' || key === 'text_claimed_at') throw new Error(`touch cannot write ${key}`);
   const sets = keys.map((k, i) => `${k} = ?${i + 2}`).join(', ');
   await db
     .prepare(`UPDATE desk_quotes SET ${sets}, updated_at = ?${keys.length + 2} WHERE quote_id = ?1`)
@@ -242,9 +255,34 @@ async function moveStatus(deps: FlowDeps, schema: DeskSchema, quoteId: string, j
 // second note says that.
 // ---------------------------------------------------------------------------
 
-async function hasEvent(db: D1Database, quoteId: string, action: string): Promise<boolean> {
-  const row = await db.prepare('SELECT 1 AS ok FROM desk_events WHERE quote_id = ?1 AND action = ?2 LIMIT 1').bind(quoteId, action).first();
-  return Boolean(row);
+/**
+ * Claim a once-per-quote event with one atomic statement: the row is inserted
+ * only while no event of that action exists (and, for `requires`, while that
+ * other one does). Whoever inserts it owns writing the Jobber note; the
+ * outcome is recorded after, on the same row.
+ */
+async function claimEvent(
+  db: D1Database,
+  quoteId: string,
+  action: string,
+  actor: string,
+  now: number,
+  requires: string | null = null,
+): Promise<boolean> {
+  const result = await db
+    .prepare(
+      `INSERT INTO desk_events (at, actor, action, quote_id, detail)
+       SELECT ?1, ?2, ?3, ?4, 'jobber_note=pending'
+       WHERE NOT EXISTS (SELECT 1 FROM desk_events WHERE quote_id = ?4 AND action = ?3)
+         AND (?5 IS NULL OR EXISTS (SELECT 1 FROM desk_events WHERE quote_id = ?4 AND action = ?5))`,
+    )
+    .bind(now, actor, action, quoteId, requires)
+    .run();
+  return (result.meta.changes ?? 0) > 0;
+}
+
+async function recordNoteOutcome(db: D1Database, quoteId: string, action: string, outcome: NoteOutcome): Promise<void> {
+  await db.prepare('UPDATE desk_events SET detail = ?3 WHERE quote_id = ?1 AND action = ?2').bind(quoteId, action, `jobber_note=${outcome}`).run();
 }
 
 /**
@@ -253,8 +291,8 @@ async function hasEvent(db: D1Database, quoteId: string, action: string): Promis
  * sets it to Awaiting Response in Jobber, so the note must not claim it was.
  */
 export async function noteNotSent(deps: FlowDeps, quoteId: string, actor: string, reason: string | null, moved = true): Promise<void> {
-  if (await hasEvent(deps.db, quoteId, 'not_sent_note')) return;
   const now = deps.now();
+  if (!(await claimEvent(deps.db, quoteId, NOT_SENT_NOTE, actor, now))) return;
   let outcome: NoteOutcome = 'unsupported';
   try {
     const { access, schema } = await quotesAccess(deps.jobber);
@@ -268,12 +306,12 @@ export async function noteNotSent(deps: FlowDeps, quoteId: string, actor: string
   } catch {
     outcome = 'failed';
   }
-  await logDeskEvent(deps.db, { actor, action: 'not_sent_note', quoteId, detail: `jobber_note=${outcome}`, now });
+  await recordNoteOutcome(deps.db, quoteId, NOT_SENT_NOTE, outcome);
 }
 
-async function noteSentLater(deps: FlowDeps, quoteId: string): Promise<void> {
-  if (!(await hasEvent(deps.db, quoteId, 'not_sent_note')) || (await hasEvent(deps.db, quoteId, 'sent_note'))) return;
+export async function noteSentLater(deps: FlowDeps, quoteId: string): Promise<void> {
   const now = deps.now();
+  if (!(await claimEvent(deps.db, quoteId, SENT_NOTE, 'system', now, NOT_SENT_NOTE))) return;
   let outcome: NoteOutcome = 'unsupported';
   try {
     const { access, schema } = await quotesAccess(deps.jobber);
@@ -283,7 +321,7 @@ async function noteSentLater(deps: FlowDeps, quoteId: string): Promise<void> {
   } catch {
     outcome = 'failed';
   }
-  await logDeskEvent(deps.db, { actor: 'system', action: 'sent_note', quoteId, detail: `jobber_note=${outcome}`, now });
+  await recordNoteOutcome(deps.db, quoteId, SENT_NOTE, outcome);
 }
 
 /**
@@ -321,8 +359,6 @@ export async function markOnly(deps: FlowDeps, actor: string, quoteId: string): 
 // Advance: notice the status flip and send the one text
 // ---------------------------------------------------------------------------
 
-export type AdvanceSource = 'approve' | 'poll' | 'webhook' | 'retry' | 'list';
-
 function lastFour(e164: string): string {
   return e164.slice(-4);
 }
@@ -355,24 +391,18 @@ export async function advance(deps: FlowDeps, quoteId: string, source: AdvanceSo
   const now = deps.now();
   const row = await deskQuote(deps.db, quoteId);
   // No desk approval, no text: a quote moved to Awaiting Response any other way is left alone.
-  if (!row || row.state !== 'approved') return row;
-  if (row.text_state === 'sent') return row;
-  if (row.approved_at !== null && now - row.approved_at > MAX_APPROVAL_AGE) return row;
+  if (!row || sendDecision(row, undefined, source, now).kind !== 'check_jobber') return row;
 
   const status = (await fetchQuoteStatuses(deps.jobber, [quoteId])).get(quoteId);
   if (!status) return row;
   await recordStatus(deps.db, row, status, now);
-  if ((status.quoteStatus ?? '').toLowerCase() !== 'awaiting_response') return deskQuote(deps.db, quoteId);
-
+  const decision = sendDecision(row, status.quoteStatus ?? '', source, now);
+  if (decision.kind === 'needs_retry_tap') {
+    if (row.text_error !== RETRY_TAP_ERROR) await touch(deps.db, quoteId, { text_error: RETRY_TAP_ERROR }, now);
+    return deskQuote(deps.db, quoteId);
+  }
+  if (decision.kind !== 'claim') return deskQuote(deps.db, quoteId);
   const retrying = source === 'retry';
-  if (row.text_state !== 'none' && !retrying) return deskQuote(deps.db, quoteId);
-  if (!retrying && row.approved_at !== null && now - row.approved_at > AUTO_SEND_WINDOW) {
-    if (row.text_error !== 'Tap Retry text to send it now') await touch(deps.db, quoteId, { text_error: 'Tap Retry text to send it now' }, now);
-    return deskQuote(deps.db, quoteId);
-  }
-  if (row.text_state === 'sending' && row.text_claimed_at !== null && now - row.text_claimed_at < SEND_CLAIM_TTL) {
-    return deskQuote(deps.db, quoteId);
-  }
 
   // Pre-flight: everything that would stop the text, before anything is claimed.
   const problem = await sendProblem(deps, status);
@@ -386,20 +416,9 @@ export async function advance(deps: FlowDeps, quoteId: string, source: AdvanceSo
   const key = quoKey(deps.env) as string;
 
   // The claim: only one caller ever moves this row out of 'none' (or, for a
-  // retry, out of failed / unknown / a dead claim).
+  // retry, out of failed / unknown / a dead claim). See desk-text.ts.
   const owner = randomToken(9);
-  const claim = await deps.db
-    .prepare(
-      `UPDATE desk_quotes SET text_state = 'sending', text_owner = ?2, text_claimed_at = ?3, text_error = NULL, updated_at = ?3
-       WHERE quote_id = ?1 AND state = 'approved' AND (
-         text_state = 'none'
-         OR (?4 = 1 AND text_state IN ('failed', 'unknown'))
-         OR (?4 = 1 AND text_state = 'sending' AND text_claimed_at < ?5)
-       )`,
-    )
-    .bind(quoteId, owner, now, retrying ? 1 : 0, now - SEND_CLAIM_TTL)
-    .run();
-  if ((claim.meta.changes ?? 0) !== 1) return deskQuote(deps.db, quoteId);
+  if (!(await claimText(deps.db, quoteId, owner, now, retrying))) return deskQuote(deps.db, quoteId);
   const previous = row.text_state;
 
   const code = row.q_code ?? (await reserveCode(deps.db, quoteId, now));
@@ -428,7 +447,7 @@ export async function advance(deps: FlowDeps, quoteId: string, source: AdvanceSo
       now,
     });
     if (link === 'collision') {
-      await touch(deps.db, quoteId, { text_state: previous, text_error: 'Could not make the link, try again' }, now);
+      await settleText(deps.db, quoteId, previous, { text_error: 'Could not make the link, try again' }, now);
       return deskQuote(deps.db, quoteId);
     }
   }
@@ -440,12 +459,12 @@ export async function advance(deps: FlowDeps, quoteId: string, source: AdvanceSo
     const since = (row.text_claimed_at ?? row.approved_at ?? now) - MINUTE;
     const messages = await listMessages(quo, phone.e164, since, 'outgoing');
     if (messages === null) {
-      await touch(deps.db, quoteId, { text_state: previous, text_error: 'Could not check Quo for an earlier text, try again' }, now);
+      await settleText(deps.db, quoteId, previous, { text_error: 'Could not check Quo for an earlier text, try again' }, now);
       return deskQuote(deps.db, quoteId);
     }
     const already = messages.find((m) => (m.text ?? '').includes(`/q/${link.code}`));
     if (already) {
-      await touch(deps.db, quoteId, { text_state: 'sent', text_message_id: already.id, text_status: already.status ?? 'sent', text_sent_at: Date.parse(already.createdAt ?? '') || now, text_to: phone.e164, text_body: body, q_code: link.code, text_error: null }, now);
+      await settleText(deps.db, quoteId, 'sent', { text_message_id: already.id, text_status: already.status ?? 'sent', text_sent_at: Date.parse(already.createdAt ?? '') || now, text_to: phone.e164, text_body: body, q_code: link.code, text_error: null }, now);
       await logDeskEvent(deps.db, { actor, action: 'text_found_sent', quoteId, detail: `···${lastFour(phone.e164)}`, now });
       return deskQuote(deps.db, quoteId);
     }
@@ -453,13 +472,13 @@ export async function advance(deps: FlowDeps, quoteId: string, source: AdvanceSo
 
   const result = await sendText(quo, phone.e164, body);
   if (result.ok) {
-    await touch(deps.db, quoteId, { text_state: 'sent', text_message_id: result.id, text_status: result.status, text_sent_at: now, text_to: phone.e164, text_body: body, q_code: link.code, text_error: null }, now);
+    await settleText(deps.db, quoteId, 'sent', { text_message_id: result.id, text_status: result.status, text_sent_at: now, text_to: phone.e164, text_body: body, q_code: link.code, text_error: null }, now);
     await logDeskEvent(deps.db, { actor, action: 'text_sent', quoteId, detail: `${source} ···${lastFour(phone.e164)} ${result.id}`, now });
     await noteSentLater(deps, quoteId);
   } else {
     const state = result.definite ? 'failed' : 'unknown';
     const message = result.definite ? result.reason : `${result.reason}. Not sure the text went out; Retry checks Quo first.`;
-    await touch(deps.db, quoteId, { text_state: state, text_error: message, text_to: phone.e164, text_body: body, q_code: link.code }, now);
+    await settleText(deps.db, quoteId, state, { text_error: message, text_to: phone.e164, text_body: body, q_code: link.code }, now);
     await logDeskEvent(deps.db, { actor, action: `text_${state}`, quoteId, detail: result.reason, now });
     if (result.definite) await noteNotSent(deps, quoteId, row.approved_by ?? actor, result.reason);
   }
@@ -476,8 +495,7 @@ export const RESEND_GAP = 10 * MINUTE;
 export const MAX_RESENDS = 5;
 /** A link that has expired, or would within this long, gets a fresh year when it is re-sent. */
 export const RESEND_LINK_REFRESH = 30 * DAY;
-/** Events that count as a resend that went out (an unknown outcome counts: it may have). */
-const RESENT_EVENTS = ['text_resent', 'text_resend_unknown'];
+
 
 export async function resendCount(db: D1Database, quoteId: string): Promise<number> {
   const row = await db
@@ -526,15 +544,7 @@ export async function resendLink(deps: FlowDeps, actor: string, quoteId: string)
   if (phone.smsStopped) return refuse('This customer stopped texts in Jobber');
 
   // The claim: one caller per 10 minutes moves text_sent_at to now.
-  const claim = await deps.db
-    .prepare(
-      `UPDATE desk_quotes SET text_sent_at = ?2, updated_at = ?2
-       WHERE quote_id = ?1 AND state = 'approved' AND text_state = 'sent' AND COALESCE(text_sent_at, 0) <= ?3`,
-    )
-    .bind(quoteId, now, now - RESEND_GAP)
-    .run();
-  if ((claim.meta.changes ?? 0) !== 1) return refuse('The link went out less than 10 minutes ago. Try again later');
-
+  if (!(await claimResend(deps.db, quoteId, now, RESEND_GAP))) return refuse('The link went out less than 10 minutes ago. Try again later');
   // An expired (or nearly expired) link works again for another year.
   if (link.created_at < now - Q_LINK_RETENTION + RESEND_LINK_REFRESH) {
     await deps.db.prepare('UPDATE q_links SET created_at = ?2 WHERE code = ?1').bind(link.code, now).run();
@@ -544,15 +554,12 @@ export async function resendLink(deps: FlowDeps, actor: string, quoteId: string)
   const result = await sendText({ key: quoKey(deps.env) as string, fetch: deps.fetch }, phone.e164, body);
   if (!result.ok && result.definite) {
     // Nothing went out: give back the 10-minute gap and do not count it.
-    await deps.db
-      .prepare('UPDATE desk_quotes SET text_sent_at = ?2, updated_at = ?3 WHERE quote_id = ?1 AND text_sent_at = ?3')
-      .bind(quoteId, row.text_sent_at, now)
-      .run();
+    await releaseResend(deps.db, quoteId, row.text_sent_at, now);
     await logDeskEvent(deps.db, { actor, action: 'text_resend_failed', quoteId, detail: `···${lastFour(phone.e164)} ${result.reason}`, now });
     return refuse(`${result.reason}. The link was not re-sent`);
   }
   if (!result.ok) {
-    await logDeskEvent(deps.db, { actor, action: 'text_resend_unknown', quoteId, detail: `···${lastFour(phone.e164)} ${result.reason}`, now });
+    await logDeskEvent(deps.db, { actor, action: TEXT_RESEND_UNKNOWN, quoteId, detail: `···${lastFour(phone.e164)} ${result.reason}`, now });
     return refuse(`${result.reason}. Not sure the text went out, so check Quo before trying again`);
   }
 
@@ -566,7 +573,7 @@ export async function resendLink(deps: FlowDeps, actor: string, quoteId: string)
   } catch {
     outcome = 'failed';
   }
-  await logDeskEvent(deps.db, { actor, action: 'text_resent', quoteId, detail: `···${lastFour(phone.e164)} ${result.id} jobber_note=${outcome}`, now });
+  await logDeskEvent(deps.db, { actor, action: TEXT_RESENT, quoteId, detail: `···${lastFour(phone.e164)} ${result.id} jobber_note=${outcome}`, now });
   return { ok: true, row: await deskQuote(deps.db, quoteId) };
 }
 
@@ -871,14 +878,13 @@ export function availableActions(row: DeskQuoteRow | null, jobberStatus: string 
   const status = (jobberStatus ?? '').toLowerCase();
   const state = row?.state ?? 'open';
   const approved = state === 'approved';
-  const staleClaim = row?.text_state === 'sending' && row.text_claimed_at !== null && now - row.text_claimed_at >= SEND_CLAIM_TTL;
   return {
     approve: canTransition(state, 'approve') && (status === 'draft' || status === 'awaiting_response'),
     mark: canTransition(state, 'mark') && status === 'draft',
     change: !approved && status === 'draft',
     hide: canTransition(state, 'hide') && status === 'draft',
     unhide: canTransition(state, 'unhide'),
-    retry: approved && (row?.text_state === 'failed' || row?.text_state === 'unknown' || staleClaim || (row?.text_state === 'none' && Boolean(row?.text_error))),
+    retry: retryCanSend(row, status || null, now),
     manualStep: (approved || state === 'marked') && (row?.move_state === 'manual' || row?.move_state === 'failed') && status !== 'awaiting_response',
     edit: !approved && status === 'draft',
     archive: ARCHIVABLE.has(status),

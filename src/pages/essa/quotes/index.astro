@@ -233,7 +233,7 @@ const seo = {
 
         function sentRow(item) {
           var textLabel =
-            item.textState === 'sent' ? 'Sent' : item.textState === 'failed' ? 'Text failed' : item.textState === 'sending' ? 'Sending' : 'Not sent';
+            item.textState === 'sent' ? 'Sent' : item.textState === 'failed' ? 'Text failed' : item.textState === 'sending' ? 'Sending' : item.textState === 'unknown' ? 'Check Quo' : 'Not sent';
           return (
             '<a href="#/q/' + encodeURIComponent(item.id) + '" class="' + card + ' block px-3 py-2.5 active:bg-brand-lightbg">' +
             '<span class="flex items-baseline gap-2"><span class="min-w-0 flex-1 truncate text-[0.9375rem] font-bold text-brand-black">' +
@@ -517,11 +517,11 @@ const seo = {
           var rows = [];
           rows.push(check(true, 'Approved by ' + (d.approved_by || '')));
           rows.push(check(moved, moved ? 'Awaiting Response' : 'Waiting for Awaiting Response'));
-          var text = d.text_state === 'sent' ? 'Text sent' : d.text_state === 'failed' ? 'Text failed' : d.text_state === 'sending' ? 'Sending text' : 'Text not sent';
-          rows.push(check(d.text_state === 'sent', text));
+          rows.push(check(d.text_state === 'sent', data.text_label || ''));
           if (data.introOpened) rows.push(check(true, 'Opened intro'));
           if (d.hub_viewed_at) rows.push(check(true, 'Opened quote'));
           var html = '<div class="mt-3 flex flex-wrap gap-1">' + rows.join('') + '</div>';
+          if (data.text_reason) html += '<p class="mt-1.5 text-[0.8125rem] font-semibold text-brand-red">' + esc(data.text_reason) + '</p>';
           if (d.text_error) html += '<p class="mt-1.5 text-[0.8125rem] font-semibold text-brand-red">' + esc(d.text_error) + '</p>';
           if (d.move_error) html += '<p class="mt-1.5 text-[0.8125rem] font-semibold text-brand-red">' + esc(d.move_error) + '</p>';
           if (data.actions && data.actions.retry)
@@ -794,8 +794,10 @@ const seo = {
               if (result && result.desk) {
                 state.quote.desk = result.desk;
                 state.quote.actions = result.actions || state.quote.actions;
+                state.quote.text_label = result.text_label || state.quote.text_label;
+                state.quote.text_reason = result.text_reason === undefined ? state.quote.text_reason : result.text_reason;
                 drawQuote();
-                if (result.desk.text_state === 'sent' || result.desk.text_state === 'failed') stopPoll();
+                if (result.desk.text_state === 'sent' || result.desk.text_state === 'failed' || result.desk.text_state === 'unknown') stopPoll();
               }
             }, 6000),
           };
@@ -937,6 +939,8 @@ const seo = {
             if (result) {
               state.quote.desk = result.desk;
               state.quote.actions = result.actions;
+              state.quote.text_label = result.text_label;
+              state.quote.text_reason = result.text_reason;
               drawQuote();
               startPoll(state.quote.quote.id);
             }
@@ -1042,6 +1046,8 @@ const seo = {
           }
           if (done.desk) state.quote.desk = done.desk;
           if (done.actions) state.quote.actions = done.actions;
+          if (done.text_label) state.quote.text_label = done.text_label;
+          if ('text_reason' in done) state.quote.text_reason = done.text_reason;
           drawQuote();
           if (action === 'retry') startPoll(state.quote.quote.id);
         });

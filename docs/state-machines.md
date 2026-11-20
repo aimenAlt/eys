@@ -18,9 +18,11 @@ customer or writing to Jobber first.
 ## 2. Customer text (`desk_quotes.text_state`)
 
 - **States:** `none` → `sending` (claimed by one caller) → `sent`, `failed` or `unknown` (Quo may have sent it). A resend claims again on `text_sent_at`.
-- **Where:** `advance`, `resendLink`, `noteNotSent` in desk-flow.ts. Entry points: approve, the 3-minute poll and Retry (`functions/api/desk/action.ts`), the Jobber webhook (`functions/api/jobber/webhook.ts`), the Sent list refresh.
-- **Gates, in order:** approved row, approval under 60 days, Jobber says awaiting response, within the auto-send window (else a Retry tap), no live claim, no send problem (texting off, no US mobile, texts stopped).
-- **Open:** Retry shows but does nothing after 60 days (#26); two blocked checks at once can write two pinned notes (#27); a webhook whose work fails is not retried (#28); `unknown` is shown as "Text not sent" (#29); re-approving a failed or unknown text never auto-sends (#30).
+- **Where:** `functions/_lib/desk-text.ts` holds the table, the pure `sendDecision` (the gates below, in order), the only writers (`claimText`, `settleText`, `claimResend`, `releaseResend`), the desk label (`textLabel`) and the event names that act as state. `advance` and `resendLink` in desk-flow.ts call it; the Retry button is `retryCanSend`, the same predicate `advance` uses. `functions/_tests/desk-text.test.ts` fails the build on any other write.
+- **Entry points:** approve, the 3-minute poll and Retry (`functions/api/desk/action.ts`), the Jobber webhook (`functions/api/jobber/webhook.ts`), the Sent list refresh.
+- **Gates, in order:** approved row, not already sent, approval under 60 days, Jobber says awaiting response, within a day of the tap (else a Retry tap), no live claim, no send problem (texting off, no US mobile, texts stopped).
+- **Fixed 2026-11-20:** Retry is offered only when a tap can send, and past 60 days the screen says why (#26); the pinned "not sent yet" and "texted" notes are claimed atomically, so a race writes one (#27); a webhook whose work fails is forgotten and logged (`webhook_failed`), so a redelivery is processed, while the reply to Jobber still never waits on the work, because Jobber may disable webhooks that keep taking over 1 second (#28); `unknown` reads "Text may have gone out, check Quo" and stops the poll (#29).
+- **Open:** re-approving a failed or unknown text never auto-sends (#30).
 
 ## 3. Status move and Jobber's quote status
 

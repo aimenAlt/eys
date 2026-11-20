@@ -2,6 +2,7 @@ import type { Env, PagesFunction } from '../../_lib/types.ts';
 import { deskAuth, quoteSendEnabled } from '../../_lib/desk-http.ts';
 import { findQLinkByQuote } from '../../_lib/desk-db.ts';
 import { MAX_RESENDS, availableActions, ensureDeskRow, resendBlock, resendCount, reserveCode } from '../../_lib/desk-flow.ts';
+import { textBlockReason, textLabel } from '../../_lib/desk-text.ts';
 import { quoteTextMessage } from '../../_lib/quote-text.ts';
 import { deskJobberDeps, fetchQuoteBundle, quotesAccess, statusBranch } from '../../_lib/desk-jobber.ts';
 import { buildQuoteView } from '../../_lib/desk-view.ts';
@@ -76,6 +77,8 @@ export const onRequest: PagesFunction<Env> = async (context) => {
       access,
       quote: view,
       desk: row,
+      text_label: textLabel(row),
+      text_reason: textBlockReason(row, auth.now),
       actions,
       preview,
       resend,

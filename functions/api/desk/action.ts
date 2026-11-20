@@ -2,6 +2,7 @@ import type { Env, PagesFunction } from '../../_lib/types.ts';
 import { deskAuth } from '../../_lib/desk-http.ts';
 import { deskQuote } from '../../_lib/desk-db.ts';
 import { advance, approveQuote, archiveQuote, availableActions, cachedBranch, editLines, flowDeps, hideQuote, markOnly, requestChange, resendLink } from '../../_lib/desk-flow.ts';
+import { textBlockReason, textLabel } from '../../_lib/desk-text.ts';
 import { json, methodNotAllowed, readJsonBody } from '../../_lib/http.ts';
 import { JobberError } from '../../_lib/jobber.ts';
 
@@ -43,8 +44,9 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     const row = await deskQuote(deps.db, id);
     const branch = await cachedBranch(deps.db);
     const actions = availableActions(row, row?.jobber_status ?? (row ? null : 'draft'), branch, Date.now());
-    if (!result.ok) return json({ error: 'refused', message: result.message, desk: row, actions }, 409);
-    return json({ ok: true, desk: row, actions, ...(result.notice ? { notice: result.notice } : {}) });
+    const text = { text_label: textLabel(row), text_reason: textBlockReason(row, Date.now()) };
+    if (!result.ok) return json({ error: 'refused', message: result.message, desk: row, actions, ...text }, 409);
+    return json({ ok: true, desk: row, actions, ...text, ...(result.notice ? { notice: result.notice } : {}) });
   } catch (error) {
     const errorClass = error instanceof JobberError ? error.errorClass : 'internal';
     if (errorClass === 'scope') return json({ error: 'refused', message: 'Jobber needs reconnecting for quotes' }, 409);

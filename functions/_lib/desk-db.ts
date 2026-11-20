@@ -1,5 +1,6 @@
 import type { D1Database } from './types.ts';
 import type { DeskState } from './desk-state.ts';
+import type { TextState } from './desk-text.ts';
 import { DAY } from './db.ts';
 
 /**
@@ -244,7 +245,7 @@ export interface DeskQuoteRow {
   move_error: string | null;
   jobber_status: string | null;
   awaiting_seen_at: number | null;
-  text_state: 'none' | 'sending' | 'sent' | 'failed' | 'unknown';
+  text_state: TextState;
   text_owner: string | null;
   text_claimed_at: number | null;
   text_to: string | null;

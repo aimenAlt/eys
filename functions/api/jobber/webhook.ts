@@ -17,9 +17,14 @@ const MAX_BODY = 16 * 1024;
  * Verified with X-Jobber-Hmac-SHA256 (base64 HMAC-SHA256 of the raw body,
  * keyed with JOBBER_CLIENT_SECRET), deduplicated by a hash of the body
  * (Jobber delivers at least once and can fire a topic twice), answered at
- * once (Jobber wants a reply within a second), and acted on in the
- * background: for a quote approved on the desk, check its status and send
- * the text if it is now Awaiting Response. Any other quote is ignored.
+ * once and acted on in the background: Jobber may disable an app's webhooks
+ * when replies keep taking over 1 second or keep erroring (Developer Center,
+ * "Setting up webhooks"), so the reply never waits on Jobber or Quo. For a
+ * quote approved on the desk, check its status and send the text if it is
+ * now Awaiting Response. Any other quote is ignored. If that work fails, the
+ * delivery is forgotten so a redelivery is processed instead of dropped as a
+ * duplicate, and the desk's own checks (the Sent list refresh, the poll after
+ * a tap, Retry) send it later.
  */
 export const onRequest: PagesFunction<Env> = async ({ request, env, waitUntil }) => {
   if (request.method !== 'POST') return methodNotAllowed(['POST']);
@@ -59,8 +64,15 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, waitUntil })
           if (!row || row.state !== 'approved') return;
           await logDeskEvent(db, { actor: 'jobber-webhook', action: 'webhook', quoteId: itemId, detail: topic, now: Date.now() });
           await advance(deps, itemId, 'webhook', 'jobber-webhook');
-        })().catch((error) => {
-          console.log(JSON.stringify({ evt: 'desk_webhook_failed', error_class: error?.errorClass ?? 'internal' }));
+        })().catch(async (error) => {
+          const errorClass = (error as { errorClass?: string })?.errorClass ?? 'internal';
+          console.log(JSON.stringify({ evt: 'desk_webhook_failed', error_class: errorClass }));
+          try {
+            await db.prepare('DELETE FROM webhook_deliveries WHERE id = ?1').bind(deliveryId).run();
+            await logDeskEvent(db, { actor: 'jobber-webhook', action: 'webhook_failed', quoteId: itemId, detail: `${topic}: ${errorClass}`, now: Date.now() });
+          } catch {
+            // Nothing more to do: the desk's own checks still send it.
+          }
         }),
       );
     }

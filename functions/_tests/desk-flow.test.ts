@@ -13,7 +13,8 @@ import { ADMIN_KEY } from './helpers.ts';
 import { jobberWebhookSignature, verifyJobberWebhook } from '../_lib/jobber-webhook.ts';
 import { quoteTextMessage, titlePhrase } from '../_lib/quote-text.ts';
 import { deskQuote } from '../_lib/desk-db.ts';
-import { AUTO_SEND_WINDOW } from '../_lib/desk-flow.ts';
+import { AUTO_SEND_WINDOW, flowDeps, noteNotSent, noteSentLater } from '../_lib/desk-flow.ts';
+import { readFileSync } from 'node:fs';
 import { check } from './helpers.ts';
 import { BASE, deskHarness, withFetch, type DeskHarness } from './desk-helpers.ts';
 
@@ -779,4 +780,125 @@ await check("Mark, don't text, on the manual branch: the pinned 'not sent yet' n
   assert.match(notes[0].message, /Marked on the Quote Desk \(Essa, .+\); still a draft until it is set to Awaiting Response in Jobber\./, 'never claims a status move that has not happened');
   assert.doesNotMatch(notes[0].message, /Set to Awaiting Response from the Quote Desk/);
   assert.equal(quo.posts.length, 0);
+});
+
+// ---------------------------------------------------------------------------
+// text_state work: #26 #27 #28 #29
+// ---------------------------------------------------------------------------
+
+await check('#26 approved over 60 days ago: Retry is not offered, the screen says why, and a Retry tap sends nothing', async () => {
+  const { h, quo, cookie, route } = await setup();
+  h.jobber.visibleMutations.delete('quotesMarkAwaitingResponse');
+  h.jobber.addQuote({ id: 'q-old' });
+  await withFetch(route, async () => {
+    await post(h, cookie, { id: 'q-old', action: 'approve' });
+    h.jobber.quotes.get('q-old')!.quoteStatus = 'awaiting_response';
+    h.db.raw.prepare("UPDATE desk_quotes SET approved_at = approved_at - ?, text_error = 'Texting is off', jobber_status = 'awaiting_response' WHERE quote_id = ?").run(61 * 24 * 3600_000, 'q-old');
+    const view = await (await h.call(quoteRoute, '/api/desk/quote?id=q-old', { cookie })).json();
+    assert.equal(view.actions.retry, false, 'a Retry that cannot send is not offered');
+    assert.equal(view.text_reason, "Approved over 60 days ago, so the desk won't text it. Check the quote, then send it from Jobber.");
+    const tapped = await (await post(h, cookie, { id: 'q-old', action: 'retry' })).json();
+    assert.equal(tapped.actions.retry, false);
+    assert.equal(tapped.text_reason, view.text_reason);
+  });
+  assert.equal(quo.posts.length, 0);
+});
+
+await check('#27 two blocked checks at once write one pinned "not sent yet" note, and one "sent" note later', async () => {
+  const { h, route } = await setup();
+  h.jobber.addQuote({ id: 'q-ns' });
+  await withFetch(route, async () => {
+    const deps = flowDeps(h.env)!;
+    await Promise.all([noteNotSent(deps, 'q-ns', 'Essa', 'Texting is off'), noteNotSent(deps, 'q-ns', 'Essa', 'Texting is off')]);
+    assert.equal(h.jobber.notesAdded.filter((n) => n.message.startsWith('Quote not sent yet')).length, 1);
+    const rows = h.db.raw.prepare("SELECT detail FROM desk_events WHERE quote_id = 'q-ns' AND action = 'not_sent_note'").all() as { detail: string }[];
+    assert.equal(rows.length, 1);
+    assert.equal(rows[0].detail, 'jobber_note=added', 'the outcome is recorded after the note');
+    await Promise.all([noteSentLater(deps, 'q-ns'), noteSentLater(deps, 'q-ns')]);
+    assert.equal(h.jobber.notesAdded.filter((n) => n.message.startsWith('Quote texted')).length, 1);
+  });
+});
+
+await check('#28 a webhook whose work fails still answers at once, is forgotten, and is processed on redelivery (one text)', async () => {
+  const { h, quo, cookie, route } = await setup();
+  h.jobber.visibleMutations.delete('quotesMarkAwaitingResponse');
+  h.jobber.addQuote({ id: 'q-wh' });
+  let failJobber = false;
+  const flaky = (input: RequestInfo | URL, init?: RequestInit) => {
+    if (failJobber && !String(input).startsWith('https://api.quo.com')) return Promise.reject(new TypeError('network down'));
+    return route(input, init);
+  };
+  await withFetch(flaky, async () => {
+    await post(h, cookie, { id: 'q-wh', action: 'approve' });
+    h.jobber.quotes.get('q-wh')!.quoteStatus = 'awaiting_response';
+    failJobber = true;
+    const first = await deliver(h, 'QUOTE_UPDATE', 'q-wh', '2026-11-11T20:00:00Z');
+    assert.equal(first.status, 200, 'Jobber disables webhooks that keep erroring or take over 1 s, so the reply never waits on the work');
+    assert.equal((h.db.raw.prepare("SELECT COUNT(*) AS n FROM webhook_deliveries WHERE source = 'jobber'").get() as { n: number }).n, 0, 'the failed delivery is forgotten so Jobber can retry');
+    assert.equal(quo.posts.length, 0);
+    const failed = h.db.raw.prepare("SELECT detail FROM desk_events WHERE quote_id = 'q-wh' AND action = 'webhook_failed'").all();
+    assert.equal(failed.length, 1, 'logged for the desk');
+    failJobber = false;
+    const again = await deliver(h, 'QUOTE_UPDATE', 'q-wh', '2026-11-11T20:00:00Z');
+    assert.equal(again.status, 200);
+    assert.notEqual(((await again.json()) as { duplicate?: boolean }).duplicate, true);
+    assert.equal(quo.posts.length, 1);
+    const dup = await deliver(h, 'QUOTE_UPDATE', 'q-wh', '2026-11-11T20:00:00Z');
+    assert.equal(dup.status, 200);
+    assert.equal(((await dup.json()) as { duplicate?: boolean }).duplicate, true);
+    assert.equal(quo.posts.length, 1);
+  });
+});
+
+await check('webhook: the reply never waits on Jobber or Quo (all work is in waitUntil)', async () => {
+  const { h, quo, cookie, route } = await setup();
+  h.jobber.visibleMutations.delete('quotesMarkAwaitingResponse');
+  h.jobber.addQuote({ id: 'q-fast' });
+  let release!: () => void;
+  const gate = new Promise<void>((resolve) => (release = resolve));
+  let blocked = false;
+  const slow = async (input: RequestInfo | URL, init?: RequestInit) => {
+    if (blocked) await gate;
+    return route(input, init);
+  };
+  await withFetch(slow, async () => {
+    await post(h, cookie, { id: 'q-fast', action: 'approve' });
+    h.jobber.quotes.get('q-fast')!.quoteStatus = 'awaiting_response';
+    blocked = true;
+    const raw = JSON.stringify({ data: { webHookEvent: { topic: 'QUOTE_UPDATE', appId: 'app', accountId: 'acct', itemId: 'q-fast', occurredAt: '2026-11-20T19:00:00Z' } } });
+    const background: Promise<unknown>[] = [];
+    const response = await webhook({
+      request: new Request(`${BASE}/api/jobber/webhook`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Jobber-Hmac-SHA256': await jobberWebhookSignature(SECRET, raw) },
+        body: raw,
+      }),
+      env: h.env,
+      params: {},
+      data: {},
+      waitUntil: (p) => background.push(p),
+      next: async () => new Response(null, { status: 404 }),
+    } as PagesContext<Env>);
+    assert.equal(response.status, 200, 'answered while Jobber and Quo were still blocked');
+    assert.equal(quo.posts.length, 0, 'nothing sent yet: the work is still waiting');
+    release();
+    await Promise.all(background);
+  });
+  assert.equal(quo.posts.length, 1, 'the background work then sends the one text');
+});
+
+await check("#29 an unknown outcome says the text may have gone out; the page uses the server's label and stops polling on it", async () => {
+  const { h, quo, cookie, route } = await setup();
+  h.jobber.addQuote({ id: 'q-un' });
+  quo.mode = 'network_after_send';
+  await withFetch(route, async () => {
+    const body = await (await post(h, cookie, { id: 'q-un', action: 'approve' })).json();
+    assert.equal(body.desk.text_state, 'unknown');
+    assert.equal(body.text_label, 'Text may have gone out, check Quo');
+    const view = await (await h.call(quoteRoute, '/api/desk/quote?id=q-un', { cookie })).json();
+    assert.equal(view.text_label, 'Text may have gone out, check Quo');
+  });
+  const page = readFileSync(new URL('../../src/pages/essa/quotes/index.astro', import.meta.url), 'utf8');
+  assert.match(page, /text_state === 'unknown'/, 'poll stops on unknown');
+  assert.doesNotMatch(page, /'Text not sent'/, 'the page has no label ternary of its own');
 });
