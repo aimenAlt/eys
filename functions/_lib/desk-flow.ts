@@ -30,6 +30,7 @@ import { introReviewFor, isClientHubUrl, newIntroCode } from './intro.ts';
 import { listMessages, quoKey, sendText, type QuoDeps } from './quo.ts';
 import { quoteTextMessage } from './quote-text.ts';
 import { quoteSendEnabled } from './desk-http.ts';
+import { canTransition, OFF_DESK_MESSAGE, restoreState, transitionState } from './desk-state.ts';
 
 /**
  * What happens after Essa taps "Looks good", in order:
@@ -197,14 +198,11 @@ export async function approveQuote(deps: FlowDeps, actor: string, quoteId: strin
   await ensureDeskRow(deps.db, quoteId, { clientId: status.client?.id, first: firstNameOf(status.client), title: status.title ?? null, status: jobberStatus }, now);
 
   // a. Record the approval: the first tap wins; a second tap changes nothing.
-  const claimed = await deps.db
-    .prepare(
-      `UPDATE desk_quotes SET state = 'approved', approved_by = ?2, approved_at = ?3, hidden_by = NULL, hidden_at = NULL, updated_at = ?3
-       WHERE quote_id = ?1 AND state != 'approved'`,
-    )
-    .bind(quoteId, actor, now)
-    .run();
-  if ((claimed.meta.changes ?? 0) === 0) return { ok: true, row: await advance(deps, quoteId, 'approve', actor) };
+  const claimed = await transitionState(deps.db, quoteId, 'approve', { approved_by: actor, approved_at: now, hidden_by: null, hidden_at: null }, now);
+  if (!claimed) {
+    if ((await deskQuote(deps.db, quoteId))?.state === 'hidden') return { ok: false, message: OFF_DESK_MESSAGE, row: await deskQuote(deps.db, quoteId) };
+    return { ok: true, row: await advance(deps, quoteId, 'approve', actor) };
+  }
   await reserveCode(deps.db, quoteId, now);
   await logDeskEvent(deps.db, { actor, action: 'approve', quoteId, now });
 
@@ -249,7 +247,12 @@ async function hasEvent(db: D1Database, quoteId: string, action: string): Promis
   return Boolean(row);
 }
 
-export async function noteNotSent(deps: FlowDeps, quoteId: string, actor: string, reason: string | null): Promise<void> {
+/**
+ * The pinned "Quote not sent yet" note, once per quote. `moved` is false only
+ * for Mark on the manual branch, where the quote is still a draft until Essa
+ * sets it to Awaiting Response in Jobber, so the note must not claim it was.
+ */
+export async function noteNotSent(deps: FlowDeps, quoteId: string, actor: string, reason: string | null, moved = true): Promise<void> {
   if (await hasEvent(deps.db, quoteId, 'not_sent_note')) return;
   const now = deps.now();
   let outcome: NoteOutcome = 'unsupported';
@@ -257,13 +260,10 @@ export async function noteNotSent(deps: FlowDeps, quoteId: string, actor: string
     const { access, schema } = await quotesAccess(deps.jobber);
     if (access === 'ok' && schema) {
       const why = reason ? ` (${reason})` : '';
-      outcome = await addQuoteNote(
-        deps.jobber,
-        schema,
-        quoteId,
-        `Quote not sent yet. Set to Awaiting Response from the Quote Desk (${actor}, ${chicagoTimestamp(now)}). The customer has not been texted or emailed${why}.`,
-        true,
-      );
+      const done = moved
+        ? `Set to Awaiting Response from the Quote Desk (${actor}, ${chicagoTimestamp(now)})`
+        : `Marked on the Quote Desk (${actor}, ${chicagoTimestamp(now)}); still a draft until it is set to Awaiting Response in Jobber`;
+      outcome = await addQuoteNote(deps.jobber, schema, quoteId, `Quote not sent yet. ${done}. The customer has not been texted or emailed${why}.`, true);
     }
   } catch {
     outcome = 'failed';
@@ -302,18 +302,16 @@ export async function markOnly(deps: FlowDeps, actor: string, quoteId: string): 
     return { ok: false, message: `This quote is ${jobberStatus.replace(/_/g, ' ')} in Jobber`, row: await deskQuote(deps.db, quoteId) };
   }
   await ensureDeskRow(deps.db, quoteId, { clientId: status.client?.id, first: firstNameOf(status.client), title: status.title ?? null, status: jobberStatus }, now);
-  const claimed = await deps.db
-    .prepare(
-      `UPDATE desk_quotes SET state = 'marked', hidden_by = NULL, hidden_at = NULL, updated_at = ?2
-       WHERE quote_id = ?1 AND state IN ('open', 'hidden')`,
-    )
-    .bind(quoteId, now)
-    .run();
-  if ((claimed.meta.changes ?? 0) === 0) return { ok: false, message: 'This quote is already approved or marked', row: await deskQuote(deps.db, quoteId) };
+  const claimed = await transitionState(deps.db, quoteId, 'mark', { hidden_by: null, hidden_at: null }, now);
+  if (!claimed) {
+    const current = await deskQuote(deps.db, quoteId);
+    if (current?.state === 'hidden') return { ok: false, message: OFF_DESK_MESSAGE, row: current };
+    return { ok: false, message: 'This quote is already approved or marked', row: current };
+  }
   await logDeskEvent(deps.db, { actor, action: 'mark_only', quoteId, now });
   await moveStatus(deps, schema, quoteId, jobberStatus, now);
   const row = await deskQuote(deps.db, quoteId);
-  if (row?.move_state === 'done') await noteNotSent(deps, quoteId, actor, null);
+  if (row?.move_state === 'done' || row?.move_state === 'manual') await noteNotSent(deps, quoteId, actor, null, row.move_state === 'done');
   const fresh = (await fetchQuoteStatuses(deps.jobber, [quoteId])).get(quoteId);
   if (fresh && row) await recordStatus(deps.db, row, fresh, now);
   return { ok: true, row: await deskQuote(deps.db, quoteId) };
@@ -590,16 +588,10 @@ export async function sendProblem(deps: FlowDeps, status: RawQuoteStatus): Promi
 export async function hideQuote(deps: FlowDeps, actor: string, quoteId: string, hidden: boolean): Promise<ActionResult> {
   const now = deps.now();
   await ensureDeskRow(deps.db, quoteId, {}, now);
-  const result = hidden
-    ? await deps.db
-        .prepare("UPDATE desk_quotes SET state = 'hidden', hidden_by = ?2, hidden_at = ?3, updated_at = ?3 WHERE quote_id = ?1 AND state = 'open'")
-        .bind(quoteId, actor, now)
-        .run()
-    : await deps.db
-        .prepare("UPDATE desk_quotes SET state = 'open', hidden_by = NULL, hidden_at = NULL, updated_at = ?2 WHERE quote_id = ?1 AND state = 'hidden'")
-        .bind(quoteId, now)
-        .run();
-  if ((result.meta.changes ?? 0) === 0) return { ok: false, message: hidden ? 'This quote is already approved or hidden' : 'This quote is not hidden', row: await deskQuote(deps.db, quoteId) };
+  const changed = hidden
+    ? await transitionState(deps.db, quoteId, 'hide', { hidden_by: actor, hidden_at: now }, now)
+    : await transitionState(deps.db, quoteId, 'unhide', { hidden_by: null, hidden_at: null }, now);
+  if (!changed) return { ok: false, message: hidden ? 'This quote is already approved or hidden' : 'This quote is not hidden', row: await deskQuote(deps.db, quoteId) };
   await logDeskEvent(deps.db, { actor, action: hidden ? 'hide' : 'unhide', quoteId, now });
   return { ok: true, row: await deskQuote(deps.db, quoteId) };
 }
@@ -817,15 +809,8 @@ export async function archiveQuote(deps: FlowDeps, actor: string, quoteId: strin
 
   // Off the send list first: advance() texts only 'approved' rows.
   const before = await ensureDeskRow(deps.db, quoteId, { status }, now);
-  await deps.db
-    .prepare("UPDATE desk_quotes SET state = 'hidden', hidden_by = ?2, hidden_at = ?3, updated_at = ?3 WHERE quote_id = ?1")
-    .bind(quoteId, actor, now)
-    .run();
-  const putBack = () =>
-    deps.db
-      .prepare('UPDATE desk_quotes SET state = ?2, hidden_by = ?3, hidden_at = ?4, updated_at = ?5 WHERE quote_id = ?1')
-      .bind(quoteId, before.state, before.hidden_by, before.hidden_at, now)
-      .run();
+  await transitionState(deps.db, quoteId, 'archive', { hidden_by: actor, hidden_at: now }, now);
+  const putBack = () => restoreState(deps.db, quoteId, before, now);
 
   let via = 'already out of draft';
   if (status === 'draft') {
@@ -888,11 +873,11 @@ export function availableActions(row: DeskQuoteRow | null, jobberStatus: string 
   const approved = state === 'approved';
   const staleClaim = row?.text_state === 'sending' && row.text_claimed_at !== null && now - row.text_claimed_at >= SEND_CLAIM_TTL;
   return {
-    approve: !approved && state !== 'hidden' && (status === 'draft' || status === 'awaiting_response'),
-    mark: state === 'open' && status === 'draft',
+    approve: canTransition(state, 'approve') && (status === 'draft' || status === 'awaiting_response'),
+    mark: canTransition(state, 'mark') && status === 'draft',
     change: !approved && status === 'draft',
-    hide: state === 'open' && status === 'draft',
-    unhide: state === 'hidden',
+    hide: canTransition(state, 'hide') && status === 'draft',
+    unhide: canTransition(state, 'unhide'),
     retry: approved && (row?.text_state === 'failed' || row?.text_state === 'unknown' || staleClaim || (row?.text_state === 'none' && Boolean(row?.text_error))),
     manualStep: (approved || state === 'marked') && (row?.move_state === 'manual' || row?.move_state === 'failed') && status !== 'awaiting_response',
     edit: !approved && status === 'draft',

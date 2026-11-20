@@ -745,3 +745,38 @@ await check('resend: an expired /q/ code works again after the resend', async ()
     assert.ok(quo.posts[1].content.includes(`/q/${code}`));
   });
 });
+
+await check("Archived (hidden) quote: a stale phone's approve or mark is refused, nothing is written or texted", async () => {
+  const { h, quo, cookie, route } = await setup();
+  h.jobber.visibleMutations.delete('quotesMarkAwaitingResponse');
+  h.jobber.addQuote({ id: 'q-hz' });
+  await withFetch(route, async () => {
+    assert.equal((await post(h, cookie, { id: 'q-hz', action: 'archive' })).status, 200);
+    for (const act of ['approve', 'mark']) {
+      const response = await post(h, cookie, { id: 'q-hz', action: act });
+      assert.equal(response.status, 409, act);
+      assert.match((await response.json()).message, /off the desk\. Tap Bring back first\./, act);
+    }
+  });
+  assert.equal((await deskQuote(h.db as never, 'q-hz'))?.state, 'hidden');
+  assert.equal(quo.posts.length, 0);
+  assert.deepEqual(h.jobber.mutationCalls, [], 'no Jobber mutation');
+});
+
+await check("Mark, don't text, on the manual branch: the pinned 'not sent yet' note is still written, once, and no text", async () => {
+  const { h, quo, cookie, route } = await setup();
+  h.jobber.visibleMutations.delete('quotesMarkAwaitingResponse');
+  h.jobber.addQuote({ id: 'q-mn' });
+  await withFetch(route, async () => {
+    const body = await (await post(h, cookie, { id: 'q-mn', action: 'mark' })).json();
+    assert.equal(body.desk.state, 'marked');
+    assert.equal(body.desk.move_state, 'manual');
+    await post(h, cookie, { id: 'q-mn', action: 'poll' });
+  });
+  const notes = h.jobber.notesAdded.filter((n) => n.message.startsWith('Quote not sent yet'));
+  assert.equal(notes.length, 1);
+  assert.equal(notes[0].pinned, true);
+  assert.match(notes[0].message, /Marked on the Quote Desk \(Essa, .+\); still a draft until it is set to Awaiting Response in Jobber\./, 'never claims a status move that has not happened');
+  assert.doesNotMatch(notes[0].message, /Set to Awaiting Response from the Quote Desk/);
+  assert.equal(quo.posts.length, 0);
+});

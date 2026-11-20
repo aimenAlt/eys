@@ -1,4 +1,5 @@
 import type { D1Database } from './types.ts';
+import type { DeskState } from './desk-state.ts';
 import { DAY } from './db.ts';
 
 /**
@@ -232,7 +233,7 @@ export interface DeskQuoteRow {
   first_name: string | null;
   title: string | null;
   /** marked = moved to Awaiting Response on purpose without a text. */
-  state: 'open' | 'approved' | 'hidden' | 'marked';
+  state: DeskState;
   approved_by: string | null;
   approved_at: number | null;
   hidden_by: string | null;

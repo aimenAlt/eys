@@ -160,7 +160,7 @@ Source: `resendLink` in `functions/_lib/desk-flow.ts`.
   - **Send to {first} now** texts it later. That tap is a normal approval.
 
 - **Needs a change** saves the note to `desk_changes` and adds it to the quote's internal notes in Jobber (`quoteCreateNote`) as "Needs a change (Essa, <time>, Quote Desk): …". The quote's status is not touched.
-- **Not sending** hides the draft. It can be undone from the "Hidden" fold with **Bring back**.
+- **Archive** takes the quote off the desk (see "Editing and archiving"); a draft archived on the desk only can be undone from the "Hidden" fold with **Bring back**. The old Not sending button is gone. Every desk state and its transitions: `docs/state-machines.md`.
 
 ## The intro page
 
