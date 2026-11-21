@@ -7,6 +7,7 @@ import { ensureSchema } from '../../_lib/db.ts';
 import { empty, json, methodNotAllowed } from '../../_lib/http.ts';
 import { deskJobberDeps } from '../../_lib/desk-jobber.ts';
 import { fixRequestClientName } from '../../_lib/client-names.ts';
+import { sweepDuplicates } from '../../_lib/request-dedupe.ts';
 import { verifyJobberWebhook } from '../../_lib/jobber-webhook.ts';
 
 const QUOTE_TOPICS = new Set(['QUOTE_UPDATE', 'QUOTE_SENT', 'QUOTE_APPROVED', 'QUOTE_CREATE']);
@@ -86,10 +87,16 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, waitUntil })
     const jobber = deskJobberDeps(env, waitUntil);
     if (jobber) {
       waitUntil(
-        fixRequestClientName(jobber, itemId).then(
-          () => undefined,
-          (error) => console.log(JSON.stringify({ evt: 'client_name_fix_failed', error_class: (error as { errorClass?: string })?.errorClass ?? 'internal' })),
-        ),
+        fixRequestClientName(jobber, itemId)
+          .then(
+            () => undefined,
+            (error) => console.log(JSON.stringify({ evt: 'client_name_fix_failed', error_class: (error as { errorClass?: string })?.errorClass ?? 'internal' })),
+          )
+          .then(() => (topic === 'REQUEST_CREATE' ? sweepDuplicates(jobber) : undefined))
+          .then(
+            () => undefined,
+            (error) => console.log(JSON.stringify({ evt: 'request_dedupe_failed', error_class: (error as { errorClass?: string })?.errorClass ?? 'internal' })),
+          ),
       );
     }
   } else if (topic === 'APP_DISCONNECT') {

@@ -4,6 +4,7 @@ import { ensureDeskSchema } from '../../_lib/desk-db.ts';
 import { ensureHangupSchema, flushQueue } from '../../_lib/hangup.ts';
 import { deskJobberDeps } from '../../_lib/desk-jobber.ts';
 import { sweepPlaceholderNames } from '../../_lib/client-names.ts';
+import { sweepDuplicates } from '../../_lib/request-dedupe.ts';
 import { json, methodNotAllowed } from '../../_lib/http.ts';
 
 /**
@@ -34,10 +35,16 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, waitUntil })
     const jobber = deskJobberDeps(env, waitUntil);
     if (jobber) {
       waitUntil(
-        sweepPlaceholderNames(jobber).then(
-          () => undefined,
-          (error) => console.log(JSON.stringify({ evt: 'client_name_sweep_failed', error_class: (error as { errorClass?: string })?.errorClass ?? 'internal' })),
-        ),
+        sweepPlaceholderNames(jobber)
+          .then(
+            () => undefined,
+            (error) => console.log(JSON.stringify({ evt: 'client_name_sweep_failed', error_class: (error as { errorClass?: string })?.errorClass ?? 'internal' })),
+          )
+          .then(() => sweepDuplicates(jobber))
+          .then(
+            () => undefined,
+            (error) => console.log(JSON.stringify({ evt: 'request_dedupe_failed', error_class: (error as { errorClass?: string })?.errorClass ?? 'internal' })),
+          ),
       );
     }
   }

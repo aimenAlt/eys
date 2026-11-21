@@ -61,6 +61,11 @@ const SEED_TYPES = [
   'ClientEditPayload',
   'RequestsSortInput',
   'RequestsSortKey',
+  'RequestStatusTypeEnum',
+  'RequestCreateNoteInput',
+  'RequestCreateNotePayload',
+  'RequestArchivePayload',
+  'NoteAttachmentAttributes',
   'PageInfo',
 ];
 

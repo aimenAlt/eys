@@ -54,7 +54,7 @@ export interface FakeQuote {
 export class FakeDeskJobber {
   quotesScope = true;
   /** Mutation names the token can see. */
-  visibleMutations = new Set(['quotesMarkAwaitingResponse', 'quoteCreateNote', 'quoteEdit', 'quoteEditLineItems', 'quoteArchive', 'requestCreate', 'clientCreate', 'propertyCreate', 'clientEdit']);
+  visibleMutations = new Set(['quotesMarkAwaitingResponse', 'quoteCreateNote', 'quoteEdit', 'quoteEditLineItems', 'quoteArchive', 'requestCreate', 'clientCreate', 'propertyCreate', 'clientEdit', 'requestArchive', 'requestCreateNote']);
   quotes = new Map<string, FakeQuote>();
   requests = new Map<string, Record<string, unknown>>();
   /** Requests a client has in Jobber besides the ones quotes link to (client id -> request ids). */
@@ -106,6 +106,25 @@ export class FakeDeskJobber {
     };
     this.quotes.set(quote.id, quote);
     return quote;
+  }
+
+  /** requestCreateNote answers with this user error. */
+  rejectRequestNote: string | null = null;
+  /** requestArchive answers with this user error. */
+  rejectRequestArchive: string | null = null;
+  /** When false, files attached by URL to a request note are not downloaded yet (see landFiles). */
+  filesLand = true;
+  pendingFiles = new Map<string, Record<string, unknown>[]>();
+
+  /** Jobber finishes downloading the attached files: every pending note now holds its files. */
+  landFiles(): void {
+    for (const r of this.requests.values()) {
+      for (const n of ((r.notes as { nodes?: Record<string, unknown>[] } | undefined)?.nodes ?? [])) {
+        const pending = this.pendingFiles.get(String(n.id));
+        if (pending) (n.fileAttachments as { nodes: unknown[] }).nodes = pending;
+      }
+    }
+    this.pendingFiles.clear();
   }
 
   /** When set, clientEdit answers with this user error. */
@@ -277,6 +296,31 @@ export class FakeDeskJobber {
         const last = input.lastName ?? '';
         this.clientNames.set(String(v.clientId), { firstName: first, lastName: last, name: `${first} ${last}`.trim() });
         return Response.json({ data: { clientEdit: { userErrors: [] } } });
+      }
+      case 'EysDedupeSweep': {
+        const nodes = [...this.requests.values()].filter((r) => 'requestStatus' in r);
+        return Response.json({ data: { requests: { nodes } } });
+      }
+      case 'EysDedupeRead':
+        return Response.json({ data: { request: this.requests.get(String(v.id)) ?? null } });
+      case 'EysDedupeAddNote': {
+        this.mutationCalls.push({ name: 'requestCreateNote', variables: v });
+        if (this.rejectRequestNote) return Response.json({ data: { requestCreateNote: { requestNote: null, userErrors: [{ message: this.rejectRequestNote }] } } });
+        const r = this.requests.get(String(v.id)) as { notes: { nodes: Record<string, unknown>[] } } | undefined;
+        if (!r) return Response.json({ data: { requestCreateNote: { requestNote: null, userErrors: [{ message: 'Request not found' }] } } });
+        const input = (v.input ?? {}) as { message?: string; attachments?: { url: string }[] };
+        const files = (input.attachments ?? []).map((a, i) => ({ id: `file-${this.mutationCalls.length}-${i}`, url: a.url, fileName: `photo-${i}.jpg`, contentType: 'image/jpeg' }));
+        const note = { __typename: 'RequestNote', id: `rnote-${this.mutationCalls.length}`, message: String(input.message ?? ''), createdAt: '2026-11-20T17:00:00Z', fileAttachments: { nodes: this.filesLand ? files : [] } };
+        if (!this.filesLand) this.pendingFiles.set(note.id, files);
+        r.notes.nodes.push(note);
+        return Response.json({ data: { requestCreateNote: { requestNote: { id: note.id }, userErrors: [] } } });
+      }
+      case 'EysDedupeArchive': {
+        this.mutationCalls.push({ name: 'requestArchive', variables: v });
+        if (this.rejectRequestArchive) return Response.json({ data: { requestArchive: { userErrors: [{ message: this.rejectRequestArchive }] } } });
+        const r = this.requests.get(String(v.id));
+        if (r) r.requestStatus = 'archived';
+        return Response.json({ data: { requestArchive: { userErrors: [] } } });
       }
       default:
         return Response.json({ errors: [{ message: `unknown operation ${operation}` }] });

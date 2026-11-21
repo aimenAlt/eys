@@ -682,6 +682,82 @@
           "ofType": null
         }
       }
+    },
+    {
+      "name": "requestArchive",
+      "args": [
+        {
+          "name": "requestId",
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "EncodedId",
+              "ofType": null
+            }
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "lostReasonInput",
+          "type": {
+            "kind": "INPUT_OBJECT",
+            "name": "LostReasonInput",
+            "ofType": null
+          },
+          "defaultValue": null
+        }
+      ],
+      "type": {
+        "kind": "NON_NULL",
+        "name": null,
+        "ofType": {
+          "kind": "OBJECT",
+          "name": "RequestArchivePayload",
+          "ofType": null
+        }
+      }
+    },
+    {
+      "name": "requestCreateNote",
+      "args": [
+        {
+          "name": "requestId",
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "EncodedId",
+              "ofType": null
+            }
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "input",
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "INPUT_OBJECT",
+              "name": "RequestCreateNoteInput",
+              "ofType": null
+            }
+          },
+          "defaultValue": null
+        }
+      ],
+      "type": {
+        "kind": "NON_NULL",
+        "name": null,
+        "ofType": {
+          "kind": "OBJECT",
+          "name": "RequestCreateNotePayload",
+          "ofType": null
+        }
+      }
     }
   ],
   "types": [
@@ -15286,6 +15362,255 @@
           "name": "LAST_NAME"
         }
       ]
+    },
+    {
+      "name": "RequestStatusTypeEnum",
+      "kind": "ENUM",
+      "fields": null,
+      "inputFields": null,
+      "possibleTypes": null,
+      "enumValues": [
+        {
+          "name": "new"
+        },
+        {
+          "name": "completed"
+        },
+        {
+          "name": "converted"
+        },
+        {
+          "name": "archived"
+        },
+        {
+          "name": "upcoming"
+        },
+        {
+          "name": "overdue"
+        },
+        {
+          "name": "unscheduled"
+        },
+        {
+          "name": "assessment_completed"
+        },
+        {
+          "name": "today"
+        },
+        {
+          "name": "needs_approval"
+        }
+      ]
+    },
+    {
+      "name": "RequestCreateNoteInput",
+      "kind": "INPUT_OBJECT",
+      "fields": null,
+      "inputFields": [
+        {
+          "name": "message",
+          "type": {
+            "kind": "SCALAR",
+            "name": "String",
+            "ofType": null
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "attachments",
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "NoteAttachmentAttributes",
+                "ofType": null
+              }
+            }
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "pinned",
+          "type": {
+            "kind": "SCALAR",
+            "name": "Boolean",
+            "ofType": null
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "linkedTo",
+          "type": {
+            "kind": "INPUT_OBJECT",
+            "name": "RequestNoteLinkInput",
+            "ofType": null
+          },
+          "defaultValue": null
+        }
+      ],
+      "possibleTypes": null,
+      "enumValues": null
+    },
+    {
+      "name": "RequestCreateNotePayload",
+      "kind": "OBJECT",
+      "fields": [
+        {
+          "name": "request",
+          "args": [],
+          "type": {
+            "kind": "OBJECT",
+            "name": "Request",
+            "ofType": null
+          }
+        },
+        {
+          "name": "requestNote",
+          "args": [],
+          "type": {
+            "kind": "OBJECT",
+            "name": "RequestNote",
+            "ofType": null
+          }
+        },
+        {
+          "name": "userErrors",
+          "args": [],
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "MutationErrors",
+                  "ofType": null
+                }
+              }
+            }
+          }
+        }
+      ],
+      "inputFields": null,
+      "possibleTypes": null,
+      "enumValues": null
+    },
+    {
+      "name": "RequestArchivePayload",
+      "kind": "OBJECT",
+      "fields": [
+        {
+          "name": "request",
+          "args": [],
+          "type": {
+            "kind": "OBJECT",
+            "name": "Request",
+            "ofType": null
+          }
+        },
+        {
+          "name": "userErrors",
+          "args": [],
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "MutationErrors",
+                  "ofType": null
+                }
+              }
+            }
+          }
+        }
+      ],
+      "inputFields": null,
+      "possibleTypes": null,
+      "enumValues": null
+    },
+    {
+      "name": "NoteAttachmentAttributes",
+      "kind": "INPUT_OBJECT",
+      "fields": null,
+      "inputFields": [
+        {
+          "name": "url",
+          "type": {
+            "kind": "SCALAR",
+            "name": "String",
+            "ofType": null
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "signedBlobId",
+          "type": {
+            "kind": "SCALAR",
+            "name": "EncodedId",
+            "ofType": null
+          },
+          "defaultValue": null
+        }
+      ],
+      "possibleTypes": null,
+      "enumValues": null
+    },
+    {
+      "name": "MutationErrors",
+      "kind": "OBJECT",
+      "fields": [
+        {
+          "name": "message",
+          "args": [],
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          }
+        },
+        {
+          "name": "path",
+          "args": [],
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            }
+          }
+        }
+      ],
+      "inputFields": null,
+      "possibleTypes": null,
+      "enumValues": null
     }
   ]
 }
