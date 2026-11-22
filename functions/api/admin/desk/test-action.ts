@@ -1,6 +1,7 @@
 import type { Env, PagesFunction } from '../../../_lib/types.ts';
 import { bearerToken, checkAdminKey } from '../../../_lib/admin.ts';
-import { deskQuote } from '../../../_lib/desk-db.ts';
+import { deskQuote, ensureDeskSchema } from '../../../_lib/desk-db.ts';
+import { ensureSchema } from '../../../_lib/db.ts';
 import { archiveQuote, editLines, flowDeps } from '../../../_lib/desk-flow.ts';
 import { readyForMark } from '../../../_lib/desk-ready.ts';
 import { fetchQuoteStatuses } from '../../../_lib/desk-jobber.ts';
@@ -37,6 +38,9 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
   }
   const deps = flowDeps(env);
   if (!deps) return json({ error: 'not_configured' }, 503);
+  // The same setup a desk tap gets from deskAuth (new desk_quotes columns are added here).
+  await ensureSchema(deps.db);
+  await ensureDeskSchema(deps.db);
 
   try {
     const quote = (await fetchQuoteStatuses(deps.jobber, [quoteId])).get(quoteId);
@@ -46,7 +50,7 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
       action === 'edit'
         ? await editLines(deps, 'Agent test', quoteId, value.lines)
         : action === 'ready'
-          ? await readyForMark(deps, 'Agent test', quoteId, { deposit: value.deposit, note: value.note } as never)
+          ? await readyForMark(deps, 'Agent test', quoteId, { deposit: value.deposit, note: value.note })
           : await archiveQuote(deps, 'Agent test', quoteId);
     const after = (await fetchQuoteStatuses(deps.jobber, [quoteId])).get(quoteId);
     return json(
