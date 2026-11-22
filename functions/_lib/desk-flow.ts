@@ -329,10 +329,14 @@ export async function noteSentLater(deps: FlowDeps, quoteId: string): Promise<vo
  * No desk approval is recorded, so nothing ever texts this customer unless
  * Essa later taps "Send to {first} now" (which is a normal approval).
  */
+export const MARK_IN_JOBBER = 'Jobber won\u2019t let the desk mark Awaiting Response. Tap Edit in Jobber, then More, Mark as Awaiting Response.';
+
 export async function markOnly(deps: FlowDeps, actor: string, quoteId: string): Promise<ActionResult> {
   const now = deps.now();
   const { access, schema } = await quotesAccess(deps.jobber);
   if (access !== 'ok' || !schema) return { ok: false, message: 'Jobber needs reconnecting for quotes', row: await deskQuote(deps.db, quoteId) };
+  // Never record "marked" on the desk unless Jobber itself can be moved.
+  if (pickStatusBranch(schema).kind !== 'mutation') return { ok: false, message: MARK_IN_JOBBER, row: await deskQuote(deps.db, quoteId) };
   const status = (await fetchQuoteStatuses(deps.jobber, [quoteId])).get(quoteId);
   if (!status) return { ok: false, message: 'Jobber has no such quote', row: null };
   const jobberStatus = (status.quoteStatus ?? '').toLowerCase();
@@ -874,13 +878,17 @@ export interface DeskActions {
   resend: boolean;
 }
 
-export function availableActions(row: DeskQuoteRow | null, jobberStatus: string | null, _branch: StatusBranch | null, now: number): DeskActions {
+export function availableActions(row: DeskQuoteRow | null, jobberStatus: string | null, branch: StatusBranch | null, now: number): DeskActions {
   const status = (jobberStatus ?? '').toLowerCase();
   const state = row?.state ?? 'open';
   const approved = state === 'approved';
+  // Mark is offered only when the token can really move the status: Jobber
+  // gives this app no quote status mutation (2026-11-22), and a desk-only
+  // "marked" showed Essa a status Jobber never had.
+  const canMove = branch?.kind === 'mutation';
   return {
     approve: canTransition(state, 'approve') && (status === 'draft' || status === 'awaiting_response'),
-    mark: canTransition(state, 'mark') && status === 'draft',
+    mark: canMove && canTransition(state, 'mark') && status === 'draft',
     change: !approved && status === 'draft',
     hide: canTransition(state, 'hide') && status === 'draft',
     unhide: canTransition(state, 'unhide'),

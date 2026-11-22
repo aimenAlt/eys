@@ -756,7 +756,8 @@ await check("Archived (hidden) quote: a stale phone's approve or mark is refused
     for (const act of ['approve', 'mark']) {
       const response = await post(h, cookie, { id: 'q-hz', action: act });
       assert.equal(response.status, 409, act);
-      assert.match((await response.json()).message, /off the desk\. Tap Bring back first\./, act);
+      // On the live token Mark is refused even earlier: Jobber can't be moved at all.
+      assert.match((await response.json()).message, act === 'mark' ? /off the desk\. Tap Bring back first\.|won’t let the desk mark/ : /off the desk\. Tap Bring back first\./, act);
     }
   });
   assert.equal((await deskQuote(h.db as never, 'q-hz'))?.state, 'hidden');
@@ -764,22 +765,28 @@ await check("Archived (hidden) quote: a stale phone's approve or mark is refused
   assert.deepEqual(h.jobber.mutationCalls, [], 'no Jobber mutation');
 });
 
-await check("Mark, don't text, on the manual branch: the pinned 'not sent yet' note is still written, once, and no text", async () => {
+await check("live token (can't move status): Mark isn't offered, and a Mark tap is refused without pretending the quote was marked", async () => {
   const { h, quo, cookie, route } = await setup();
   h.jobber.visibleMutations.delete('quotesMarkAwaitingResponse');
   h.jobber.addQuote({ id: 'q-mn' });
   await withFetch(route, async () => {
-    const body = await (await post(h, cookie, { id: 'q-mn', action: 'mark' })).json();
-    assert.equal(body.desk.state, 'marked');
-    assert.equal(body.desk.move_state, 'manual');
-    await post(h, cookie, { id: 'q-mn', action: 'poll' });
+    const screen = await (await h.call(quoteRoute, '/api/desk/quote?id=q-mn', { cookie })).json();
+    assert.equal(screen.actions.mark, false, 'no Mark button when Jobber cannot be moved');
+    assert.equal(screen.actions.archive, true);
+    const response = await post(h, cookie, { id: 'q-mn', action: 'mark' });
+    assert.equal(response.status, 409);
+    assert.match((await response.json()).message, /Jobber won’t let the desk mark Awaiting Response/);
   });
-  const notes = h.jobber.notesAdded.filter((n) => n.message.startsWith('Quote not sent yet'));
-  assert.equal(notes.length, 1);
-  assert.equal(notes[0].pinned, true);
-  assert.match(notes[0].message, /Marked on the Quote Desk \(Essa, .+\); still a draft until it is set to Awaiting Response in Jobber\./, 'never claims a status move that has not happened');
-  assert.doesNotMatch(notes[0].message, /Set to Awaiting Response from the Quote Desk/);
+  assert.notEqual((await deskQuote(h.db as never, 'q-mn'))?.state, 'marked', 'the desk never shows a status Jobber does not have');
+  assert.equal(h.jobber.notesAdded.length, 0);
+  assert.deepEqual(h.jobber.mutationCalls, []);
   assert.equal(quo.posts.length, 0);
+});
+
+await check('the page names a draft archive that can only leave the desk "Remove from desk", and says it stays a draft in Jobber', () => {
+  const page = readFileSync(new URL('../../src/pages/essa/quotes/index.astro', import.meta.url), 'utf8');
+  assert.match(page, /deskOnly \? 'Remove from desk' : 'Archive'/);
+  assert.match(page, /so it stays a draft in Jobber/);
 });
 
 // ---------------------------------------------------------------------------

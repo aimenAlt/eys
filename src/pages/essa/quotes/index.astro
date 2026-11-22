@@ -552,7 +552,9 @@ const seo = {
           }
           if (acts.mark) cells.push('<button type="button" class="' + cellSecondary + '" data-act="mark">Mark Awaiting Response, don&rsquo;t text</button>');
           if (acts.change) cells.push('<button type="button" class="' + cellSecondary + '" data-change-toggle aria-expanded="false">Needs a change</button>');
-          if (acts.archive) cells.push('<button type="button" class="' + cellSecondary + '" data-act="archive">Archive</button>');
+          // A draft the desk can't move can only leave the desk: say so on the button.
+          var deskOnly = q.status === 'draft' && data.branch && data.branch.kind === 'manual';
+          if (acts.archive) cells.push('<button type="button" class="' + cellSecondary + '" data-act="archive">' + (deskOnly ? 'Remove from desk' : 'Archive') + '</button>');
           if (acts.unhide) cells.push('<button type="button" class="' + cellSecondary + '" data-act="unhide">Bring back</button>');
           // A lone last button takes the full row.
           if (cells.length % 2 === 1) cells[cells.length - 1] = cells[cells.length - 1].replace('class="', 'class="col-span-2 ');
@@ -1026,7 +1028,7 @@ const seo = {
               ? 'Archive this quote in Jobber? The customer is not texted or emailed. To undo, open it in Jobber and tap Unarchive.'
               : canMove
                 ? 'Archive this quote? Jobber only archives sent quotes, so it gets marked Awaiting Response first. The customer is not texted or emailed. To undo, open it in Jobber and tap Unarchive.'
-                : 'Take this draft off the desk? Jobber won’t let the desk archive a draft, so you’ll finish in Jobber: More, Mark as Awaiting Response, Archive. The customer is not texted or emailed.';
+                : 'Remove this draft from the desk? Jobber won’t let the desk archive a draft, so it stays a draft in Jobber. To archive it there: Edit in Jobber, More, Mark as Awaiting Response, then Archive. The customer is not texted or emailed.';
             if (!window.confirm(question)) return;
           }
           trigger.disabled = true;
