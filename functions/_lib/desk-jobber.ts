@@ -663,6 +663,45 @@ export async function archiveJobberQuote(j: DeskJobber, schema: DeskSchema, quot
   return { ok: true };
 }
 
+/**
+ * quoteEdit(quoteId, attributes: {deposit: {rate, type}}): the quote's
+ * deposit, `type` Percent (rate is a percent) or Unit (rate is dollars).
+ * The input and enum come from the live schema, so a renamed field is
+ * 'unsupported' instead of a broken call.
+ */
+export async function editQuoteDeposit(
+  j: DeskJobber,
+  schema: DeskSchema,
+  quoteId: string,
+  deposit: { rate: number; type: 'Percent' | 'Unit' },
+): Promise<LineEditOutcome> {
+  const field = schema.mutations.quoteEdit;
+  const idArg = field && Object.keys(field.args).find((a) => /quoteId|^id$/i.test(a));
+  const attrArg = field && Object.keys(field.args).find((a) => /attributes/i.test(a));
+  if (!field || !idArg || !attrArg) return { ok: false, reason: 'unsupported' };
+  const attrName = field.args[attrArg].replace(/[!\[\]]/g, '');
+  await ensureDeskTypes(j.deps, j.db, schema, [attrName, field.type]);
+  const depositName = schema.types[attrName]?.fields.deposit?.type;
+  if (!depositName) return { ok: false, reason: 'unsupported' };
+  await ensureDeskTypes(j.deps, j.db, schema, [depositName]);
+  const modifier = schema.types[depositName];
+  const enumName = modifier?.fields.type?.type;
+  if (!modifier?.fields.rate || !enumName) return { ok: false, reason: 'unsupported' };
+  await ensureDeskTypes(j.deps, j.db, schema, [enumName]);
+  if (!schema.types[enumName]?.enumValues.includes(deposit.type)) return { ok: false, reason: 'unsupported' };
+  const payload = schema.types[field.type];
+  const data = await graphql<Record<string, { userErrors?: { message?: string }[] | null } | null>>(
+    j.deps,
+    `mutation EysDeskEditDeposit($quote: ${field.args[idArg]}, $attributes: ${field.args[attrArg]}) { quoteEdit(${idArg}: $quote, ${attrArg}: $attributes) { ${payload?.fields.userErrors ? 'userErrors { message }' : '__typename'} } }`,
+    { quote: quoteId, attributes: { deposit: { rate: deposit.rate, type: deposit.type } } },
+  );
+  const result = data.quoteEdit;
+  if (!result) return { ok: false, reason: 'failed' };
+  const problem = result.userErrors?.find((e) => e?.message)?.message;
+  if (problem) return { ok: false, reason: 'failed', message: problem.slice(0, 200) };
+  return { ok: true };
+}
+
 export interface RawQuoteStatus {
   id: string;
   quoteStatus?: string | null;

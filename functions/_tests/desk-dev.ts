@@ -123,6 +123,8 @@ const quoFetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<R
   const url = String(input);
   if (url.includes('/messages') && init?.method === 'POST') return Response.json({ data: { id: `AC${++quoIds}`, status: 'queued' } }, { status: 202 });
   if (url.includes('/messages')) return Response.json({ data: [], nextCursor: null });
+  // Tasks, as Quo answers them (201, data.taskId): "Ready for Mark" creates one.
+  if (url.endsWith('/tasks') && init?.method === 'POST') return Response.json({ data: { taskId: `TK${++quoIds}`, revision: 1 } }, { status: 201 });
   return Response.json({ data: [] });
 };
 globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {

@@ -1,7 +1,7 @@
 /**
  * The Quote Desk's review state, in one place.
  *
- * desk_quotes.state is 'open' | 'approved' | 'marked' | 'hidden'. Every write
+ * desk_quotes.state is 'open' | 'ready' | 'approved' | 'marked' | 'hidden'. Every write
  * to it goes through transitionState() or restoreState() below, so the server's
  * guards and the phone's buttons (availableActions) read the same table.
  * A drift test fails on any other `UPDATE desk_quotes SET state`.
@@ -9,6 +9,9 @@
  *   open     -> approve -> approved      (Looks good: status move, one text)
  *   open     -> mark    -> marked        (Awaiting Response, no text)
  *   marked   -> approve -> approved      (Send to {first} now)
+ *   open     -> ready   -> ready         (Ready for Mark: the callers ask for the deposit)
+ *   ready    -> unready -> open          (Back to drafts)
+ *   ready    -> approve -> approved
  *   open     -> hide    -> hidden
  *   hidden   -> unhide  -> open
  *   any      -> archive -> hidden        (archive takes it off the send list first)
@@ -19,13 +22,15 @@
  */
 import type { D1Database } from './types.ts';
 
-export type DeskState = 'open' | 'approved' | 'marked' | 'hidden';
-export type StateAction = 'approve' | 'mark' | 'hide' | 'unhide' | 'archive';
+export type DeskState = 'open' | 'approved' | 'marked' | 'hidden' | 'ready';
+export type StateAction = 'approve' | 'mark' | 'hide' | 'unhide' | 'archive' | 'ready' | 'unready';
 
-export const ALL_STATES: readonly DeskState[] = ['open', 'approved', 'marked', 'hidden'];
+export const ALL_STATES: readonly DeskState[] = ['open', 'approved', 'marked', 'hidden', 'ready'];
 
 export const TRANSITIONS: Readonly<Record<StateAction, { from: readonly DeskState[]; to: DeskState }>> = {
-  approve: { from: ['open', 'marked'], to: 'approved' },
+  approve: { from: ['open', 'marked', 'ready'], to: 'approved' },
+  ready: { from: ['open'], to: 'ready' },
+  unready: { from: ['ready'], to: 'open' },
   mark: { from: ['open'], to: 'marked' },
   hide: { from: ['open'], to: 'hidden' },
   unhide: { from: ['hidden'], to: 'open' },

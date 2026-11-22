@@ -33,22 +33,30 @@ await check('only desk-state.ts writes desk_quotes.state', () => {
 });
 
 await check('the transition table is the intended one', () => {
-  assert.deepEqual(TRANSITIONS.approve, { from: ['open', 'marked'], to: 'approved' });
+  assert.deepEqual(TRANSITIONS.approve, { from: ['open', 'marked', 'ready'], to: 'approved' });
+  assert.deepEqual(TRANSITIONS.ready, { from: ['open'], to: 'ready' });
+  assert.deepEqual(TRANSITIONS.unready, { from: ['ready'], to: 'open' });
   assert.deepEqual(TRANSITIONS.mark, { from: ['open'], to: 'marked' });
   assert.deepEqual(TRANSITIONS.hide, { from: ['open'], to: 'hidden' });
   assert.deepEqual(TRANSITIONS.unhide, { from: ['hidden'], to: 'open' });
-  assert.deepEqual([...TRANSITIONS.archive.from].sort(), ['approved', 'hidden', 'marked', 'open']);
+  assert.deepEqual([...TRANSITIONS.archive.from].sort(), ['approved', 'hidden', 'marked', 'open', 'ready']);
   assert.equal(TRANSITIONS.archive.to, 'hidden');
-  assert.deepEqual([APPROVE_FROM, MARK_FROM, HIDE_FROM, UNHIDE_FROM, ARCHIVE_FROM].map((f) => f.length), [2, 1, 1, 1, 4]);
+  assert.deepEqual([APPROVE_FROM, MARK_FROM, HIDE_FROM, UNHIDE_FROM, ARCHIVE_FROM].map((f) => f.length), [3, 1, 1, 1, 5]);
   assert.equal(canTransition(null, 'approve'), true, 'a missing row is open');
   assert.equal(canTransition('hidden', 'approve'), false);
   assert.equal(canTransition('hidden', 'mark'), false);
+  assert.equal(canTransition('hidden', 'ready'), false);
+  assert.equal(canTransition('ready', 'ready'), false);
+  assert.equal(canTransition('ready', 'hide'), false, 'a ready quote goes back to drafts before it is hidden');
+  assert.equal(canTransition('ready', 'approve'), true);
+  assert.equal(canTransition('ready', 'unready'), true);
+  assert.equal(canTransition('open', 'unready'), false);
   assert.equal(canTransition('approved', 'approve'), false);
 });
 
 await check('availableActions never offers an action the server would refuse (every state x status)', () => {
   const now = Date.now();
-  const checks = { approve: 'approve', mark: 'mark', hide: 'hide', unhide: 'unhide' } as const;
+  const checks = { approve: 'approve', mark: 'mark', hide: 'hide', unhide: 'unhide', ready: 'ready', unready: 'unready' } as const;
   for (const state of [null, ...ALL_STATES] as (DeskState | null)[]) {
     for (const status of ['draft', 'awaiting_response', 'approved', 'archived', null]) {
       const row = state ? ({ quote_id: 'q', state, text_state: 'none', move_state: 'none', text_error: null, text_claimed_at: null }) as DeskQuoteRow : null;

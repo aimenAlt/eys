@@ -102,9 +102,30 @@ export const Q_LINK_RETENTION = 365 * DAY;
 
 const ready = new WeakSet<object>();
 
+/**
+ * Columns added to desk_quotes after it first shipped. CREATE TABLE IF NOT
+ * EXISTS does not touch an existing table, so each is ALTERed in once; a
+ * "duplicate column" answer means it is already there.
+ */
+const DESK_QUOTE_COLUMNS = [
+  'ready_by TEXT',
+  'ready_at INTEGER',
+  'ready_deposit REAL',
+  'ready_note TEXT',
+  'ready_task_id TEXT',
+];
+
 export async function ensureDeskSchema(db: D1Database): Promise<void> {
   if (ready.has(db)) return;
   await db.batch(SCHEMA.map((sql) => db.prepare(sql)));
+  const have = new Set((await db.prepare('PRAGMA table_info(desk_quotes)').all<{ name: string }>()).results.map((r) => r.name));
+  for (const column of DESK_QUOTE_COLUMNS.filter((c) => !have.has(c.split(' ')[0]))) {
+    try {
+      await db.prepare(`ALTER TABLE desk_quotes ADD COLUMN ${column}`).run();
+    } catch (error) {
+      if (!/duplicate column/i.test(String(error))) throw error;
+    }
+  }
   ready.add(db);
 }
 
@@ -257,6 +278,12 @@ export interface DeskQuoteRow {
   q_code: string | null;
   hub_viewed_at: number | null;
   quote_approved_at: number | null;
+  /** Ready for Mark: who, when, the deposit to ask for (dollars), Essa's note, the Quo task. */
+  ready_by: string | null;
+  ready_at: number | null;
+  ready_deposit: number | null;
+  ready_note: string | null;
+  ready_task_id: string | null;
   updated_at: number;
 }
 

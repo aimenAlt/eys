@@ -5,6 +5,7 @@ import { MAX_RESENDS, availableActions, ensureDeskRow, resendBlock, resendCount,
 import { textBlockReason, textLabel } from '../../_lib/desk-text.ts';
 import { quoteTextMessage } from '../../_lib/quote-text.ts';
 import { deskJobberDeps, fetchQuoteBundle, quotesAccess, statusBranch } from '../../_lib/desk-jobber.ts';
+import { depositDefault } from '../../_lib/desk-ready.ts';
 import { buildQuoteView } from '../../_lib/desk-view.ts';
 import { json, methodNotAllowed, serverTiming } from '../../_lib/http.ts';
 import { JobberError } from '../../_lib/jobber.ts';
@@ -80,6 +81,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
       text_label: textLabel(row),
       text_reason: textBlockReason(row, auth.now),
       actions,
+      deposit: depositDefault(view.amounts.total),
       preview,
       resend,
       changes,

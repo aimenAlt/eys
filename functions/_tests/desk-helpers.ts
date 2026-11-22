@@ -127,6 +127,9 @@ export class FakeDeskJobber {
     this.pendingFiles.clear();
   }
 
+  /** When set, quoteEdit answers with this user error. */
+  rejectDeposit: string | null = null;
+
   /** When set, clientEdit answers with this user error. */
   rejectClientEdit: string | null = null;
 
@@ -262,6 +265,14 @@ export class FakeDeskJobber {
         if (q?.quoteStatus === 'draft') return Response.json({ data: { quoteArchive: { userErrors: [{ message: 'This quote cannot be archived' }] } } });
         if (q) q.quoteStatus = 'archived';
         return Response.json({ data: { quoteArchive: { userErrors: [] } } });
+      }
+      case 'EysDeskEditDeposit': {
+        this.mutationCalls.push({ name: 'quoteEdit', variables: v });
+        if (this.rejectDeposit) return Response.json({ data: { quoteEdit: { userErrors: [{ message: this.rejectDeposit }] } } });
+        const q = this.quotes.get(String(v.quote));
+        const deposit = ((v.attributes ?? {}) as { deposit?: { rate: number; type: string } }).deposit;
+        if (q && deposit) q.amounts.depositAmount = deposit.type === 'Percent' ? Math.round(q.amounts.total * deposit.rate) / 100 : deposit.rate;
+        return Response.json({ data: { quoteEdit: { userErrors: [] } } });
       }
       case 'EysDeskAddNote': {
         this.mutationCalls.push({ name: 'quoteCreateNote', variables: v });
@@ -401,4 +412,35 @@ export async function withFetch<T>(handler: (input: RequestInfo | URL, init?: Re
 export function jwt(payload: Record<string, unknown>): string {
   const b64 = (s: string) => Buffer.from(s).toString('base64url');
   return `${b64('{"alg":"none"}')}.${b64(JSON.stringify(payload))}.sig`;
+}
+
+/**
+ * A fake Quo for the Ready-for-Mark task: POST /tasks, and GET /conversations
+ * (the customer's conversation, found by scanning the inbox's conversations).
+ */
+export class FakeQuoTasks {
+  tasks: { title: string; description: string; conversationId?: string; phoneNumberId?: string }[] = [];
+  /** 'ok' or an HTTP status to refuse /tasks with (a 5xx or 4xx). */
+  taskStatus: 'ok' | number = 'ok';
+  conversations: { id: string; participants: string[] }[] = [];
+  conversationsOk = true;
+  calls: string[] = [];
+  fetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
+    const url = new URL(String(input));
+    if (url.origin !== 'https://api.quo.com') throw new Error(`unexpected fetch ${url}`);
+    const headers = new Headers(init?.headers);
+    if (headers.get('Authorization') !== 'quo-test-key') throw new Error('bare key expected');
+    if (headers.get('Quo-Api-Version') !== '2026-03-30') throw new Error('Quo-Api-Version expected');
+    this.calls.push(`${init?.method ?? 'GET'} ${url.pathname}${url.search}`);
+    if (url.pathname === '/tasks' && init?.method === 'POST') {
+      this.tasks.push(JSON.parse(String(init.body)));
+      if (this.taskStatus !== 'ok') return Response.json({ title: 'Nope', message: 'refused' }, { status: this.taskStatus });
+      return Response.json({ data: { taskId: `TK${this.tasks.length}`, revision: 1 } }, { status: 201 });
+    }
+    if (url.pathname === '/conversations') {
+      if (!this.conversationsOk) return Response.json({ title: 'Internal' }, { status: 500 });
+      return Response.json({ data: this.conversations, nextCursor: null });
+    }
+    return Response.json({ title: 'Not found' }, { status: 404 });
+  };
 }

@@ -15611,6 +15611,56 @@
       "inputFields": null,
       "possibleTypes": null,
       "enumValues": null
+    },
+    {
+      "name": "CostModifierAttributes",
+      "kind": "INPUT_OBJECT",
+      "fields": null,
+      "inputFields": [
+        {
+          "name": "rate",
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            }
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "type",
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "ENUM",
+              "name": "CostModifierTypeEnum",
+              "ofType": null
+            }
+          },
+          "defaultValue": null
+        }
+      ],
+      "possibleTypes": null,
+      "enumValues": null
+    },
+    {
+      "name": "CostModifierTypeEnum",
+      "kind": "ENUM",
+      "fields": null,
+      "inputFields": null,
+      "possibleTypes": null,
+      "enumValues": [
+        {
+          "name": "Percent"
+        },
+        {
+          "name": "Unit"
+        }
+      ]
     }
   ]
 }

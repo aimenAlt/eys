@@ -97,6 +97,8 @@ export interface DeskList {
   drafts: ListItem[];
   older: ListItem[];
   hidden: (ListItem & { hiddenBy: string | null; hiddenAt: number | null })[];
+  /** Marked ready for Mark and Hamid to call, still drafts in Jobber. */
+  ready: (ListItem & { note: string | null; deposit: number | null; readyBy: string | null; readyAt: number | null })[];
   /** Moved to Awaiting Response on purpose without a text; from D1, since Jobber no longer lists them as drafts. */
   marked: ListItem[];
 }
@@ -116,12 +118,12 @@ function listItem(q: RawQuoteListItem, now: number): ListItem {
 
 /**
  * Drafts newest first; older than 30 days in their own fold; anything Essa
- * marked "Not sending" in Hidden; anything already approved on the desk is
+ * marked "Not sending" in Hidden; ready ones in With Mark; anything already approved on the desk is
  * left out (it is on its way to Awaiting Response).
  */
 export function buildList(drafts: RawQuoteListItem[], rows: DeskQuoteRow[], now: number): DeskList {
   const byId = new Map(rows.map((r) => [r.quote_id, r]));
-  const out: DeskList = { drafts: [], older: [], hidden: [], marked: [] };
+  const out: DeskList = { drafts: [], older: [], hidden: [], marked: [], ready: [] };
   for (const row of rows.filter((r) => r.state === 'marked').sort((a, b) => b.updated_at - a.updated_at)) {
     out.marked.push({
       id: row.quote_id,
@@ -142,6 +144,16 @@ export function buildList(drafts: RawQuoteListItem[], rows: DeskQuoteRow[], now:
       continue;
     }
     if (row?.state === 'approved' || row?.state === 'marked') continue;
+    if (row?.state === 'ready') {
+      out.ready.push({
+        ...item,
+        note: (row.ready_note ?? '').split('\n')[0].trim() || null,
+        deposit: row.ready_deposit,
+        readyBy: row.ready_by,
+        readyAt: row.ready_at,
+      });
+      continue;
+    }
     if (item.createdAt !== null && now - item.createdAt > OLDER_DRAFT_AGE) out.older.push(item);
     else out.drafts.push(item);
   }

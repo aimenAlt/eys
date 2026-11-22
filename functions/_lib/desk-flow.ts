@@ -88,7 +88,7 @@ export function flowDeps(env: Env): FlowDeps | null {
   return { env, db: jobber.db, jobber, fetch: (input, init) => fetch(input, init), now: () => Date.now() };
 }
 
-async function touch(db: D1Database, quoteId: string, fields: Record<string, unknown>, now: number): Promise<void> {
+export async function touch(db: D1Database, quoteId: string, fields: Record<string, unknown>, now: number): Promise<void> {
   const keys = Object.keys(fields);
   // text_state and its claim columns have one writer: desk-text.ts.
   for (const key of keys) if (key === 'text_state' || key === 'text_owner' || key === 'text_claimed_at') throw new Error(`touch cannot write ${key}`);
@@ -652,7 +652,7 @@ function amount(value: unknown): number {
 }
 
 /** Words a customer must never see on an EYS quote. */
-const FORBIDDEN_ON_QUOTES: [RegExp, string][] = [
+export const FORBIDDEN_ON_QUOTES: [RegExp, string][] = [
   [/\blicen[cs]ed?\b/i, 'EYS can\u2019t say \u201clicensed\u201d on a quote.'],
   [/\bHOA\b|home ?owners'? association/i, 'No HOA mention on a quote.'],
 ];
@@ -876,6 +876,10 @@ export interface DeskActions {
   archive: boolean;
   /** "Resend link": the same text and /q/ link again, on Essa's tap only. */
   resend: boolean;
+  /** "Ready for Mark": a draft the callers should ask the deposit for. */
+  ready: boolean;
+  /** "Back to drafts" from Ready for Mark. */
+  unready: boolean;
 }
 
 export function availableActions(row: DeskQuoteRow | null, jobberStatus: string | null, branch: StatusBranch | null, now: number): DeskActions {
@@ -897,6 +901,8 @@ export function availableActions(row: DeskQuoteRow | null, jobberStatus: string 
     edit: !approved && status === 'draft',
     archive: ARCHIVABLE.has(status),
     resend: approved && row?.text_state === 'sent' && status === 'awaiting_response',
+    ready: canTransition(state, 'ready') && status === 'draft',
+    unready: canTransition(state, 'unready'),
   };
 }
 

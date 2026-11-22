@@ -118,6 +118,78 @@ export async function listMessages(
 }
 
 // ---------------------------------------------------------------------------
+// Tasks and conversations
+// ---------------------------------------------------------------------------
+
+export type TaskResult = { ok: true; id: string } | { ok: false; reason: string };
+
+/**
+ * POST /tasks (https://www.quo.com/docs/2026-03-30/tasks/create-task.md):
+ * `{title, description}` plus exactly one link, a conversationId (CN...) or
+ * the EYS inbox's phoneNumberId (PN...). Unassigned, so every member of the
+ * workspace sees it. Never logs the key.
+ */
+export async function createTask(
+  deps: QuoDeps,
+  task: { title: string; description: string; conversationId?: string | null },
+): Promise<TaskResult> {
+  const link = task.conversationId ? { conversationId: task.conversationId } : { phoneNumberId: EYS_PHONE_NUMBER_ID };
+  let response: Response;
+  try {
+    response = await deps.fetch(`${QUO_API}/tasks`, {
+      method: 'POST',
+      headers: headers(deps.key),
+      body: JSON.stringify({ title: task.title, description: task.description, ...link }),
+    });
+  } catch {
+    return { ok: false, reason: 'No answer from Quo' };
+  }
+  let body: { data?: { taskId?: string }; title?: string; message?: string } = {};
+  try {
+    body = (await response.json()) as typeof body;
+  } catch {
+    // Not JSON.
+  }
+  if (response.ok && body.data?.taskId) return { ok: true, id: body.data.taskId };
+  const reason = response.status === 401 ? 'Quo rejected the API key' : response.status === 429 ? 'Quo rate limit' : `Quo said ${response.status}`;
+  return { ok: false, reason };
+}
+
+/** Pages of the inbox's conversations looked through for a customer (50 each, newest activity first). */
+const CONVERSATION_PAGES = 3;
+
+/**
+ * The customer's conversation on the EYS inbox, or null. Quo's list endpoint
+ * cannot filter by participant, so this scans the most recently active
+ * conversations; a miss just means the task links to the inbox instead.
+ */
+export async function findConversationId(deps: QuoDeps, participant: string): Promise<string | null> {
+  let after: string | null = null;
+  for (let page = 0; page < CONVERSATION_PAGES; page++) {
+    const query = new URLSearchParams({ phoneNumberId: EYS_PHONE_NUMBER_ID, limit: '50', sort: 'updatedAt:desc' });
+    if (after) query.set('after', after);
+    let response: Response;
+    try {
+      response = await deps.fetch(`${QUO_API}/conversations?${query.toString()}`, { headers: headers(deps.key) });
+    } catch {
+      return null;
+    }
+    if (!response.ok) return null;
+    let body: { data?: { id?: string; participants?: string[] }[]; nextCursor?: string | null };
+    try {
+      body = (await response.json()) as typeof body;
+    } catch {
+      return null;
+    }
+    const hit = (body.data ?? []).find((c) => c.id && (c.participants ?? []).includes(participant));
+    if (hit?.id) return hit.id;
+    after = body.nextCursor ?? null;
+    if (!after) return null;
+  }
+  return null;
+}
+
+// ---------------------------------------------------------------------------
 // Webhook signatures
 // ---------------------------------------------------------------------------
 

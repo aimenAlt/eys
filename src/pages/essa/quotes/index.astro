@@ -214,6 +214,21 @@ const seo = {
           );
         }
 
+        /** A quote waiting for Mark or Hamid to call: Essa's note (first line) under the name. */
+        function readyRow(item) {
+          return (
+            '<a href="#/q/' + encodeURIComponent(item.id) + '" class="' + card + ' flex items-center gap-3 px-3 py-2.5 active:bg-brand-lightbg">' +
+            '<span class="min-w-0 flex-1">' +
+            '<span class="block truncate text-[0.9375rem] font-bold text-brand-black">' + esc(item.client) + '</span>' +
+            '<span class="block truncate text-[0.8125rem] text-brand-muted">' + esc(item.note || item.title) + '</span>' +
+            '</span>' +
+            '<span class="shrink-0 text-right">' +
+            '<span class="block text-[0.9375rem] font-bold text-brand-black">' + esc(usd(item.total)) + '</span>' +
+            '<span class="block text-[0.75rem] text-brand-muted">' + esc(item.deposit ? 'deposit ' + usd(item.deposit) : 'with Mark') + '</span>' +
+            '</span></a>'
+          );
+        }
+
         function fold(label, items, render) {
           if (!items || !items.length) return '';
           return (
@@ -287,6 +302,7 @@ const seo = {
               (list.drafts.length
                 ? '<div class="space-y-1.5">' + list.drafts.map(function (q) { return quoteRow(q); }).join('') + '</div>'
                 : '<p class="rounded-xl border border-dashed border-brand-line px-3 py-5 text-center text-sm text-brand-muted">Nothing to review.</p>') +
+              fold('With Mark', list.ready, readyRow) +
               fold('Marked, not texted', list.marked, function (q) { return quoteRow(q, 'not texted'); }) +
               fold('Older drafts', list.older, function (q) { return quoteRow(q); }) +
               fold('Hidden', list.hidden, function (q) { return quoteRow(q, 'hidden'); });
@@ -512,6 +528,15 @@ const seo = {
             }
             return markedHtml;
           }
+          if (d && d.state === 'ready') {
+            var readyHtml =
+              '<div class="mt-3 flex flex-wrap gap-1">' +
+              check(true, 'Ready for Mark by ' + (d.ready_by || '') + ', ' + when(d.ready_at) + (d.ready_deposit ? ' \u00b7 deposit ' + usd(d.ready_deposit) : '')) +
+              '</div>';
+            if (d.ready_note) readyHtml += '<p class="mt-1.5 rounded-lg bg-brand-lightbg px-3 py-2 text-[0.875rem] text-brand-black">' + multiline(d.ready_note) + '</p>';
+            if (!d.ready_task_id) readyHtml += '<p class="mt-1.5 text-[0.8125rem] font-semibold text-brand-red">No Quo task was created for this one, so tell Mark or Hamid.</p>';
+            return readyHtml;
+          }
           if (!d || d.state !== 'approved') return '';
           var moved = d.jobber_status === 'awaiting_response' || Boolean(d.awaiting_seen_at);
           var rows = [];
@@ -542,6 +567,8 @@ const seo = {
           var q = data.quote;
           var html = '';
           var cells = [];
+          if (acts.ready) cells.push('<button type="button" class="' + cellPrimary + '" data-ready-toggle aria-expanded="false">Ready for Mark</button>');
+          if (acts.unready) cells.push('<button type="button" class="' + cellSecondary + '" data-act="unready">Back to drafts</button>');
           if (acts.approve) {
             var marked = data.desk && data.desk.state === 'marked';
             cells.push(
@@ -559,6 +586,18 @@ const seo = {
           // A lone last button takes the full row.
           if (cells.length % 2 === 1) cells[cells.length - 1] = cells[cells.length - 1].replace('class="', 'class="col-span-2 ');
           if (cells.length) html += '<div class="grid grid-cols-2 gap-2">' + cells.join('') + '</div>';
+          if (acts.ready) {
+            var dep = data.deposit;
+            html +=
+              '<div class="mt-2 ' + card + ' p-3" data-ready hidden>' +
+              '<label class="block text-[0.8125rem] font-bold text-brand-black" for="ready-deposit">Deposit to ask for</label>' +
+              '<div class="mt-1 flex items-center gap-1.5"><span class="text-[1rem] font-bold text-brand-black">$</span>' +
+              '<input id="ready-deposit" type="text" inputmode="decimal" autocomplete="off" class="h-11 w-32 rounded-lg border border-brand-line bg-white px-2.5 text-[1rem] font-bold focus:border-brand-red focus:outline-none" value="' + esc(dep ? (Math.round(dep.dollars * 100) / 100).toFixed(2) : '') + '" data-ready-deposit></div>' +
+              (dep ? '<p class="mt-1 text-[0.75rem] text-brand-muted">' + esc(dep.hint) + '</p>' : '') +
+              '<label class="mt-3 block text-[0.8125rem] font-bold text-brand-black" for="ready-note">Note for Mark/Hamid</label>' +
+              '<textarea id="ready-note" rows="3" maxlength="1000" class="mt-1 w-full rounded-lg border border-brand-line bg-white p-2.5 text-[0.9375rem] focus:border-brand-red focus:outline-none" placeholder="For example: ask for photos of the fixtures they are bringing" data-ready-note></textarea>' +
+              '<button type="button" class="mt-1.5 ' + cellPrimary + ' w-full" data-act="ready">Save</button></div>';
+          }
           if (acts.change) {
             html +=
               '<div class="mt-2" data-change hidden>' +
@@ -969,6 +1008,18 @@ const seo = {
             if (marked) renderQuote(state.quote.quote.id);
             return;
           }
+          var readyToggle = event.target.closest('[data-ready-toggle]');
+          if (readyToggle) {
+            var readyPanel = root.querySelector('[data-ready]');
+            if (!readyPanel) return;
+            readyPanel.hidden = !readyPanel.hidden;
+            readyToggle.setAttribute('aria-expanded', String(!readyPanel.hidden));
+            if (!readyPanel.hidden) {
+              var readyBox = readyPanel.querySelector('[data-ready-note]');
+              if (readyBox) readyBox.focus();
+            }
+            return;
+          }
           var toggle = event.target.closest('[data-change-toggle]');
           if (toggle) {
             var panel = root.querySelector('[data-change]');
@@ -1021,6 +1072,21 @@ const seo = {
             else trigger.disabled = false;
             return;
           }
+          if (action === 'ready') {
+            var depositBox = root.querySelector('[data-ready-deposit]');
+            var readyNote = root.querySelector('[data-ready-note]');
+            trigger.disabled = true;
+            trigger.textContent = 'Saving…';
+            var readied = await act('ready', { deposit: depositBox ? depositBox.value.trim() : '', note: readyNote ? readyNote.value.trim() : '' });
+            if (!readied) {
+              trigger.disabled = false;
+              trigger.textContent = 'Save';
+              return;
+            }
+            if (readied.message) state.notice = { text: readied.message, href: state.quote.quote.jobberWebUri };
+            location.hash = '#/';
+            return;
+          }
           if (action === 'archive') {
             var isDraft = state.quote.quote.status === 'draft';
             var canMove = !(state.quote.branch && state.quote.branch.kind === 'manual');
@@ -1042,7 +1108,7 @@ const seo = {
             location.hash = '#/';
             return;
           }
-          if (action === 'unhide') {
+          if (action === 'unhide' || action === 'unready') {
             renderQuote(state.quote.quote.id);
             return;
           }

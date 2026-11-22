@@ -1,12 +1,13 @@
 import type { Env, PagesFunction } from '../../_lib/types.ts';
 import { deskAuth } from '../../_lib/desk-http.ts';
 import { deskQuote } from '../../_lib/desk-db.ts';
+import { readyForMark, unreadyQuote } from '../../_lib/desk-ready.ts';
 import { advance, approveQuote, archiveQuote, availableActions, cachedBranch, editLines, flowDeps, hideQuote, markOnly, requestChange, resendLink } from '../../_lib/desk-flow.ts';
 import { textBlockReason, textLabel } from '../../_lib/desk-text.ts';
 import { json, methodNotAllowed, readJsonBody } from '../../_lib/http.ts';
 import { JobberError } from '../../_lib/jobber.ts';
 
-const ACTIONS = new Set(['approve', 'mark', 'change', 'hide', 'unhide', 'retry', 'poll', 'edit', 'archive', 'resend']);
+const ACTIONS = new Set(['approve', 'mark', 'change', 'hide', 'unhide', 'retry', 'poll', 'edit', 'archive', 'resend', 'ready', 'unready']);
 
 /**
  * POST /api/desk/action {id, action, note?}. approve = "Looks good" (approval,
@@ -15,6 +16,7 @@ const ACTIONS = new Set(['approve', 'mark', 'change', 'hide', 'unhide', 'retry',
  * sending" and back; retry = "Retry text"; poll = the 3-minute check after a
  * tap; edit = a line's description, quantity and price ({lines: [{id, description, quantity, unitPrice}]});
  * archive = off the desk, plus Jobber's Archive when Jobber allows it (a draft the token can't move only leaves the desk, with a `notice`; never texts);
+ * ready = "Ready for Mark" ({deposit?: dollars, note?}: the deposit on the Jobber quote, a pinned note and one Quo task for the callers); unready = "Back to drafts";
  * resend = "Resend link" (the same text and /q/ link again, on this tap only:
  * never from poll, the list or a webhook). Every action is logged with who did it.
  */
@@ -24,7 +26,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   if (!auth.ok) return auth.response;
   const body = await readJsonBody(context.request, 16 * 1024);
   if (!body.ok) return json({ error: 'bad_request' }, body.status);
-  const value = body.value as { id?: unknown; action?: unknown; note?: unknown; lines?: unknown };
+  const value = body.value as { id?: unknown; action?: unknown; note?: unknown; lines?: unknown; deposit?: unknown };
   const id = typeof value.id === 'string' ? value.id.trim() : '';
   const action = typeof value.action === 'string' ? value.action : '';
   if (!id || id.length > 200 || !ACTIONS.has(action)) return json({ error: 'bad_request' }, 400);
@@ -39,6 +41,8 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     else if (action === 'hide' || action === 'unhide') result = await hideQuote(deps, auth.name, id, action === 'hide');
     else if (action === 'edit') result = await editLines(deps, auth.name, id, value.lines);
     else if (action === 'archive') result = await archiveQuote(deps, auth.name, id);
+    else if (action === 'ready') result = await readyForMark(deps, auth.name, id, { deposit: value.deposit, note: value.note });
+    else if (action === 'unready') result = await unreadyQuote(deps, auth.name, id);
     else if (action === 'resend') result = await resendLink(deps, auth.name, id);
     else await advance(deps, id, action === 'retry' ? 'retry' : 'poll', auth.name);
     const row = await deskQuote(deps.db, id);
@@ -46,7 +50,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     const actions = availableActions(row, row?.jobber_status ?? (row ? null : 'draft'), branch, Date.now());
     const text = { text_label: textLabel(row), text_reason: textBlockReason(row, Date.now()) };
     if (!result.ok) return json({ error: 'refused', message: result.message, desk: row, actions, ...text }, 409);
-    return json({ ok: true, desk: row, actions, ...text, ...(result.notice ? { notice: result.notice } : {}) });
+    return json({ ok: true, desk: row, actions, ...text, ...(result.notice ? { notice: result.notice } : {}), ...(result.message ? { message: result.message } : {}) });
   } catch (error) {
     const errorClass = error instanceof JobberError ? error.errorClass : 'internal';
     if (errorClass === 'scope') return json({ error: 'refused', message: 'Jobber needs reconnecting for quotes' }, 409);
