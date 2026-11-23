@@ -75,7 +75,7 @@ Cloudflare stores heavy project/job images.
 Content files store image URLs + alt text + captions + metadata.
 
 ## State machines
-Before changing the Quote Desk, customer texts, the hang-up text, AI intake, `/q/` links, the Jobber connection or request photos, read `docs/state-machines.md`: each flow's states, what moves them, and its open risks. The desk's review state has one transition table and one writer (`functions/_lib/desk-state.ts`); a test fails the build if anything else writes it.
+Before changing the Quote Desk, customer texts, the hang-up text, the auto follow-up text, AI intake, `/q/` links, the Jobber connection or request photos, read `docs/state-machines.md`: each flow's states, what moves them, and its open risks. The desk's review state has one transition table and one writer (`functions/_lib/desk-state.ts`); a test fails the build if anything else writes it.
 
 ## Quoting docs are private
 `docs/quoting/` (quoting rules, learning log, job notes) is its own private repo, `aimenAlt/eys-quoting`, checked out in place. This public repo ignores it: never `git add` it here. Commit quoting changes inside `docs/quoting/` to its own repo.

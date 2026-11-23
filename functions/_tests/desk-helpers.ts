@@ -144,6 +144,8 @@ export class FakeDeskJobber {
 
   fetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
     const url = String(input);
+    // A customer's photo on Quo's file host (request photos check the link before attaching it).
+    if (url.startsWith('https://share.quo.com/')) return new Response('', { status: 200, headers: { 'Content-Type': 'image/jpeg' } });
     if (url !== JOBBER_GRAPHQL_URL) throw new Error(`unexpected fetch ${url}`);
     const body = JSON.parse(String(init?.body ?? '{}')) as { query: string; variables: Record<string, unknown> };
     const operation = /^(?:query|mutation)\s+(\w+)/.exec(body.query.trim())?.[1] ?? 'anonymous';
@@ -325,6 +327,37 @@ export class FakeDeskJobber {
         if (!this.filesLand) this.pendingFiles.set(note.id, files);
         r.notes.nodes.push(note);
         return Response.json({ data: { requestCreateNote: { requestNote: { id: note.id }, userErrors: [] } } });
+      }
+      case 'EysInfoAskSweep': {
+        const nodes = [...this.requests.values()].filter((r) => 'requestStatus' in r).map((r) => this.withClientName(r));
+        return Response.json({ data: { requests: { nodes } } });
+      }
+      case 'EysInfoAskRequest':
+      case 'EysInfoAskPreview': {
+        const r = this.requests.get(String(v.id));
+        return Response.json({ data: { request: r ? this.withClientName(r) : null } });
+      }
+      case 'EysPhotoNotes': {
+        const r = this.requests.get(String(v.id)) as { id: string; notes?: { nodes: Record<string, unknown>[] } } | undefined;
+        if (!r) return Response.json({ data: { request: null } });
+        const nodes = (r.notes?.nodes ?? []).map((n) => ({
+          __typename: 'RequestNote',
+          id: n.id,
+          message: n.message,
+          fileAttachments: { nodes: ((n.fileAttachments as { nodes?: { id: string }[] } | undefined)?.nodes ?? []).map((f) => ({ id: f.id, status: 'READY' })) },
+        }));
+        const all = nodes.flatMap((n) => n.fileAttachments.nodes);
+        return Response.json({ data: { request: { id: r.id, notes: { nodes }, noteAttachments: { nodes: all.map((f) => ({ id: f.id })) } } } });
+      }
+      case 'EysAddRequestPhotos': {
+        this.mutationCalls.push({ name: 'requestCreateNote', variables: v });
+        const r = this.requests.get(String(v.id)) as { notes: { nodes: Record<string, unknown>[] } } | undefined;
+        if (!r) return Response.json({ data: { requestCreateNote: { requestNote: null, userErrors: [{ message: 'Request not found' }] } } });
+        const input = (v.input ?? {}) as { message?: string; attachments?: { url: string }[] };
+        const files = (input.attachments ?? []).map((a, i) => ({ id: `pfile-${this.mutationCalls.length}-${i}`, url: a.url, status: 'READY' }));
+        const note = { __typename: 'RequestNote', id: `pnote-${this.mutationCalls.length}`, message: String(input.message ?? ''), createdAt: '2026-11-20T17:00:00Z', fileAttachments: { nodes: files } };
+        r.notes.nodes.push(note);
+        return Response.json({ data: { requestCreateNote: { requestNote: { id: note.id, fileAttachments: { nodes: files } }, userErrors: [] } } });
       }
       case 'EysDedupeArchive': {
         this.mutationCalls.push({ name: 'requestArchive', variables: v });

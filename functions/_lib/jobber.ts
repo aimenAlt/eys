@@ -1158,13 +1158,13 @@ export function normalizeStreet(value: string): string {
     .join(' ');
 }
 
-interface PropertyAddress {
+export interface PropertyAddress {
   street1: string;
   city: string;
   province: string;
   postalCode: string;
 }
-interface PlaceholderAddress {
+export interface PlaceholderAddress {
   street1: string;
   province: string;
 }
@@ -1258,7 +1258,7 @@ async function createClient(deps: JobberDeps, plan: JobberPlan, request: CleanRe
   return id;
 }
 
-async function createProperty(
+export async function createProperty(
   deps: JobberDeps,
   plan: JobberPlan,
   clientId: string,

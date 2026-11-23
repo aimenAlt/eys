@@ -181,12 +181,12 @@ export async function readRequest(j: DeskJobber, id: string): Promise<DedupeRequ
   return data?.request ?? null;
 }
 
-interface Written {
+export interface Written {
   noteId: string | null;
   error?: string;
 }
 
-async function addNote(j: DeskJobber, keepId: string, message: string, urls: string[]): Promise<Written> {
+export async function addNote(j: DeskJobber, keepId: string, message: string, urls: string[]): Promise<Written> {
   const schema = await schemaFor(j);
   const field = schema.mutations.requestCreateNote;
   if (!field) return { noteId: null, error: 'unsupported' };

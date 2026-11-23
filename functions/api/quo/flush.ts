@@ -7,6 +7,8 @@ import { sweepPlaceholderNames } from '../../_lib/client-names.ts';
 import { sweepDuplicates } from '../../_lib/request-dedupe.ts';
 import { json, methodNotAllowed } from '../../_lib/http.ts';
 import { quoKey } from '../../_lib/quo.ts';
+import { claudeDeps } from '../../_lib/claude.ts';
+import { sweepInfoAsks } from '../../_lib/info-ask.ts';
 
 /**
  * POST /api/quo/flush — sends overnight hang-up texts that are due. Pinged
@@ -20,9 +22,10 @@ import { quoKey } from '../../_lib/quo.ts';
  * After the flush it also sweeps Jobber's newest requests for Quo placeholder
  * clients ("New Call [+1...]") and renames them from the name typed on the
  * request form, the caller's Quo contact or what they said on the call (and
- * archives calls where the caller said nothing), in the background and at most
- * once per 10 minutes, so a missed webhook is caught up and random pings can't
- * hammer Jobber.
+ * archives calls where the caller said nothing), merges duplicate requests,
+ * and runs the auto follow-up text (functions/_lib/info-ask.ts), in the
+ * background and at most once per 10 minutes, so a missed webhook is caught up
+ * and random pings can't hammer Jobber.
  */
 export const onRequest: PagesFunction<Env> = async ({ request, env, waitUntil }) => {
   if (request.method !== 'POST') return methodNotAllowed(['POST']);
@@ -36,9 +39,11 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, waitUntil })
   const results = await flushQueue({ env, db, fetch: (input, init) => fetch(input, init), now: () => Date.now() });
   if ((await bumpCounter(db, `namesweep:${Math.floor(now / (10 * MINUTE))}`, 10 * MINUTE, now)) === 1) {
     const jobber = deskJobberDeps(env, waitUntil);
+    const key = quoKey(env);
+    const quo = key ? { key, fetch: (input: RequestInfo | URL, init?: RequestInit) => fetch(input, init) } : null;
     if (jobber) {
       waitUntil(
-        sweepPlaceholderNames(jobber, { quo: quoKey(env) ? { key: quoKey(env)!, fetch: (input, init) => fetch(input, init) } : null })
+        sweepPlaceholderNames(jobber, { quo })
           .then(
             () => undefined,
             (error) => console.log(JSON.stringify({ evt: 'client_name_sweep_failed', error_class: (error as { errorClass?: string })?.errorClass ?? 'internal' })),
@@ -47,6 +52,11 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, waitUntil })
           .then(
             () => undefined,
             (error) => console.log(JSON.stringify({ evt: 'request_dedupe_failed', error_class: (error as { errorClass?: string })?.errorClass ?? 'internal' })),
+          )
+          .then(() => sweepInfoAsks({ j: jobber, env, quo, claude: claudeDeps(env, (input, init) => fetch(input, init)), now: Date.now() }))
+          .then(
+            () => undefined,
+            (error) => console.log(JSON.stringify({ evt: 'info_ask_failed', error_class: (error as { errorClass?: string })?.errorClass ?? 'internal' })),
           ),
       );
     }

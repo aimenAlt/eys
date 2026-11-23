@@ -84,6 +84,8 @@ export interface QuoMessage {
   userId?: string | null;
   createdAt?: string;
   status?: string;
+  /** Files on the message (Quo API 2026-03-30: `media: [{url, type}]`). */
+  media?: { url?: string; type?: string | null }[] | null;
 }
 
 /**

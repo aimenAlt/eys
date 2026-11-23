@@ -50,6 +50,8 @@ export interface Env {
   QUOTE_SEND_ENABLED?: string;
   /** Quo (formerly OpenPhone) API key. */
   QUO_API_KEY?: string;
+  /** Claude API key for the auto follow-up text (writes the ask, reads the replies). Optional: without it a fixed text is used and replies are added as they are. */
+  ANTHROPIC_API_KEY?: string;
   /** Signing secret Quo returned when the call webhook was created (whsec_...). */
   QUO_WEBHOOK_SECRET?: string;
   /** "true" turns on the text to callers who hang up on Sona. */

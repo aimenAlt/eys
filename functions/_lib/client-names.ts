@@ -30,7 +30,7 @@ import { archiveRequest, fileUrls, isQuoRequest, noteList, NOTE_TYPES, readReque
 const PLACEHOLDER = /^New (?:Call|Text) \[\+?(\d{10,15})\]$/;
 const MAX_NAME = 80;
 const ACTOR = 'name-fix';
-const SWEEP_SIZE = 50;
+const SWEEP_SIZE = 100;
 
 export function isPlaceholderName(name: string | null | undefined): boolean {
   return typeof name === 'string' && PLACEHOLDER.test(name.trim());
@@ -148,10 +148,10 @@ export function realNameFrom(contactName: string | null | undefined): { firstNam
   return { firstName: name.slice(0, space), lastName: name.slice(space + 1) };
 }
 
-export type NameSource = 'form' | 'quo' | 'call';
+export type NameSource = 'form' | 'quo' | 'call' | 'text';
 
 /** How the event log says where a name came from (the form's own name carries no suffix). */
-const SOURCE_NOTE: Record<NameSource, string> = { form: '', quo: ' (saved in Quo)', call: ' (said on the call)' };
+const SOURCE_NOTE: Record<NameSource, string> = { form: '', quo: ' (saved in Quo)', call: ' (said on the call)', text: ' (texted by the customer)' };
 
 export interface RenameResult {
   status: 'renamed' | 'skipped' | 'failed';
@@ -195,7 +195,7 @@ async function editClientName(j: DeskJobber, clientId: string, name: { firstName
 }
 
 /** Rename a placeholder client to `real`, logging where the name came from. */
-async function applyName(
+export async function applyName(
   j: DeskJobber,
   client: NameClient,
   real: { firstName: string; lastName: string },

@@ -35,6 +35,13 @@ customer or writing to Jobber first.
 - **States, per number:** nothing → queued for 8:00 (`hangup_queue`) → claimed (`hangup_sent`) → sent; a definite failure releases the claim, an unknown outcome or an opt-out keeps it. Each call is decided once.
 - **Open:** a queued text is dropped if Quo is down or texting is off at flush time, unknown is logged as failed, and the queue is never purged (#34). Doc: `docs/quo-hangup-text.md`.
 
+## 4b. Auto follow-up text (`functions/_lib/info-ask.ts`, `info_asks.state`)
+
+- **States, per Jobber request:** nothing → `sending` (the claim: one sweep only) → `sent` → `answered` (name, address and a photo all in) or `expired` (7 days). A definite Quo refusal is `failed`, an unclear one `unknown`; neither is retried. A request decided against is `skipped` with its reason. The number is kept only while `sent`.
+- **Moved by** the 10-minute sweep (`POST /api/quo/flush`) after the name fix and the duplicate merge. Mode in `desk_kv.info_ask_mode`: `dry` (default, logs `info_ask_would_send`), `live`, `off`; set and previewed at `POST /api/admin/info-ask`.
+- **Rules:** new callers only (placeholder client, or a client made within 2 days of the request), 30 minutes to 3 days after the call, 8:00 to 20:00 Central, nobody texting with them in the last 30 minutes, one ask per client per 14 days, at most 20 a day, never `HANGUP_SKIP_NUMBERS` or a non-US number. Claude (`ANTHROPIC_API_KEY`, `functions/_lib/claude.ts`) writes the text and reads the replies; its text must pass `textProblem` (the customer text rules) or the fixed `templateAsk` text goes instead.
+- **Open:** replies are read by polling Quo every 10 minutes (no Quo webhook is registered), so a reply lands within about 10 minutes, not at once.
+
 ## 5. AI intake request (`ai_requests.status`)
 
 - **States:** pending → submitted, unverified or failed (`functions/_lib/intake.ts`, `functions/_lib/db.ts`).
