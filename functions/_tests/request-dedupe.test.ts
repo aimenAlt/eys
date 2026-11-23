@@ -28,11 +28,11 @@ function jobberOf(h: DeskHarness): DeskJobber {
 function req(id: string, o: Partial<DedupeRequest> & { quo?: boolean } = {}): DedupeRequest {
   return {
     id,
-    title: o.quo ? 'Quo Request' : 'Request for Dosa',
+    title: o.quo ? 'Quo Request' : 'Request for Nora',
     source: o.quo ? 'Quo ' : 'external',
     requestStatus: 'new',
     createdAt: '2026-11-20T16:55:00Z',
-    client: { id: 'c1', name: 'Dosa Adem' },
+    client: { id: 'c1', name: 'Nora Diaz' },
     quotes: { nodes: [] },
     assessment: null,
     ...o,
@@ -50,11 +50,11 @@ const noteOf = (id: string, message: string, urls: string[] = [], createdAt = '2
 function addPair(h: DeskHarness, o: { quoFiles?: string[]; formCreatedAt?: string; clientId?: string } = {}) {
   const clientId = o.clientId ?? 'c1';
   h.jobber.requests.set('quo-1', {
-    ...req('quo-1', { quo: true, client: { id: clientId, name: 'Dosa Adem' } }),
+    ...req('quo-1', { quo: true, client: { id: clientId, name: 'Nora Diaz' } }),
     notes: { nodes: [noteOf('qn1', 'Caller wants a TV mounted.', o.quoFiles ?? []), noteOf('qn2', 'Back door sticks too.', [], '2026-11-20T16:57:00Z')] },
   });
   h.jobber.requests.set('form-1', {
-    ...req('form-1', { createdAt: o.formCreatedAt ?? '2026-11-20T17:30:00Z', client: { id: clientId, name: 'Dosa Adem' } }),
+    ...req('form-1', { createdAt: o.formCreatedAt ?? '2026-11-20T17:30:00Z', client: { id: clientId, name: 'Nora Diaz' } }),
     notes: { nodes: [] },
   });
 }
@@ -126,7 +126,7 @@ await check('merge: one note on the form request with the header, the call notes
   const events = eventsFor(h, 'request_merged');
   assert.equal(events.length, 1);
   assert.ok(events[0].actor === 'dedupe' && events[0].quote_id === null);
-  assert.equal(events[0].detail, 'Quo #quo-1 -> form #form-1 (client Dosa Adem)');
+  assert.equal(events[0].detail, 'Quo #quo-1 -> form #form-1 (client Nora Diaz)');
 });
 
 await check('merge: a second sweep writes nothing', async () => {

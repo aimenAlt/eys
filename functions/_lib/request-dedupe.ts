@@ -25,7 +25,7 @@ const STALE = 30 * DAY;
 /** Waits between read-backs while Jobber downloads the attached files. */
 export const DEDUPE_READBACK_WAITS = [1_500, 3_000, 5_000];
 export const MARKER_PREFIX = 'Merged from Quo request ';
-const NOTE_TYPES = [
+export const NOTE_TYPES = [
   'RequestConnection',
   'RequestNoteUnionConnection',
   'RequestNoteUnion',
@@ -49,7 +49,7 @@ export interface DedupeRequest {
   notes?: { nodes?: (RawNote | null)[] | null } | null;
 }
 
-interface RawNote {
+export interface RawNote {
   __typename?: string;
   id?: string;
   message?: string | null;
@@ -137,11 +137,11 @@ function hasMarker(message: string, marker: string): boolean {
   return message.split(/\r?\n/).some((line) => line.trim() === marker);
 }
 
-function noteList(r: DedupeRequest | null | undefined): RawNote[] {
+export function noteList(r: DedupeRequest | null | undefined): RawNote[] {
   return (r?.notes?.nodes ?? []).filter((n): n is RawNote => !!n && n.__typename === 'RequestNote' && typeof n.id === 'string');
 }
 
-function fileUrls(note: RawNote): string[] {
+export function fileUrls(note: RawNote): string[] {
   return (note.fileAttachments?.nodes ?? []).map((f) => f?.url).filter((u): u is string => typeof u === 'string' && u !== '');
 }
 
@@ -170,7 +170,7 @@ const LIST_SEL: Sel = {
   assessment: { sel: { id: true } },
 };
 
-async function readRequest(j: DeskJobber, id: string): Promise<DedupeRequest | null> {
+export async function readRequest(j: DeskJobber, id: string): Promise<DedupeRequest | null> {
   let schema = await schemaFor(j);
   schema = await ensureDeskTypes(j.deps, j.db, schema, NOTE_TYPES);
   const data = await run<{ request?: DedupeRequest | null }>(j, (s) => {
@@ -204,7 +204,7 @@ async function addNote(j: DeskJobber, keepId: string, message: string, urls: str
   return { noteId: payload.requestNote.id };
 }
 
-async function archive(j: DeskJobber, id: string): Promise<{ ok: true } | { ok: false; reason: string }> {
+export async function archiveRequest(j: DeskJobber, id: string): Promise<{ ok: true } | { ok: false; reason: string }> {
   const schema = await schemaFor(j);
   const field = schema.mutations.requestArchive;
   if (!field) return { ok: false, reason: 'unsupported' };
@@ -257,7 +257,7 @@ export async function mergeDuplicate(j: DeskJobber, pair: DedupePair): Promise<M
       noteId = written.noteId;
     }
     if (!(await filesLanded(j, keep.id, noteId, marker, urls.length))) return { status: 'files_pending', ...base };
-    const archived = await archive(j, quo.id);
+    const archived = await archiveRequest(j, quo.id);
     if (!archived.ok) return await fail(archived.reason);
     await logDeskEvent(j.db, { actor: ACTOR, action: 'request_merged', detail, now: j.deps.now() });
     return { status: 'merged', ...base };

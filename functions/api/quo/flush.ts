@@ -6,6 +6,7 @@ import { deskJobberDeps } from '../../_lib/desk-jobber.ts';
 import { sweepPlaceholderNames } from '../../_lib/client-names.ts';
 import { sweepDuplicates } from '../../_lib/request-dedupe.ts';
 import { json, methodNotAllowed } from '../../_lib/http.ts';
+import { quoKey } from '../../_lib/quo.ts';
 
 /**
  * POST /api/quo/flush — sends overnight hang-up texts that are due. Pinged
@@ -18,8 +19,10 @@ import { json, methodNotAllowed } from '../../_lib/http.ts';
  *
  * After the flush it also sweeps Jobber's newest requests for Quo placeholder
  * clients ("New Call [+1...]") and renames them from the name typed on the
- * request form, in the background and at most once per 10 minutes, so a missed
- * webhook is caught up and random pings can't hammer Jobber.
+ * request form, the caller's Quo contact or what they said on the call (and
+ * archives calls where the caller said nothing), in the background and at most
+ * once per 10 minutes, so a missed webhook is caught up and random pings can't
+ * hammer Jobber.
  */
 export const onRequest: PagesFunction<Env> = async ({ request, env, waitUntil }) => {
   if (request.method !== 'POST') return methodNotAllowed(['POST']);
@@ -35,7 +38,7 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, waitUntil })
     const jobber = deskJobberDeps(env, waitUntil);
     if (jobber) {
       waitUntil(
-        sweepPlaceholderNames(jobber)
+        sweepPlaceholderNames(jobber, { quo: quoKey(env) ? { key: quoKey(env)!, fetch: (input, init) => fetch(input, init) } : null })
           .then(
             () => undefined,
             (error) => console.log(JSON.stringify({ evt: 'client_name_sweep_failed', error_class: (error as { errorClass?: string })?.errorClass ?? 'internal' })),

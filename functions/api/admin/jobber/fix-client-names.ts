@@ -6,14 +6,17 @@ import { json, methodNotAllowed } from '../../../_lib/http.ts';
 import { JobberError } from '../../../_lib/jobber.ts';
 import { sweepPlaceholderNames } from '../../../_lib/client-names.ts';
 import { photosKey } from '../../../_lib/request-photos.ts';
+import { quoKey } from '../../../_lib/quo.ts';
 
 /**
  * POST /api/admin/jobber/fix-client-names with `Authorization: Bearer <key>`
  * (AI_ADMIN_KEY or the routine's key derived from it) and body
  * `{ "dryRun": true }` (optional). Sweeps Jobber's newest 50 requests and
  * renames Quo placeholder clients ("New Call [+1...]") from the name typed on
- * the request form. Writes only on the live host; any other host is a dry run.
- * Returns { checked, renamed, skipped, failed, dryRun }.
+ * the request form, the caller's Quo contact, or what they said on the call,
+ * and archives Quo requests where the caller said nothing. Writes only on the
+ * live host; any other host is a dry run.
+ * Returns { checked, renamed, skipped, failed, archived, unnamed, dryRun }.
  */
 export const onRequest: PagesFunction<Env> = async ({ request, env, waitUntil }) => {
   if (request.method !== 'POST') return methodNotAllowed(['POST']);
@@ -36,7 +39,11 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, waitUntil })
   if (!jobber) return json({ error: 'not_configured' }, 503);
 
   try {
-    const summary = await sweepPlaceholderNames(jobber, { dryRun: dryRun || !isLiveHost(request) });
+    const key = quoKey(env);
+    const summary = await sweepPlaceholderNames(jobber, {
+      dryRun: dryRun || !isLiveHost(request),
+      quo: key ? { key, fetch: (input, init) => fetch(input, init) } : null,
+    });
     return json({ status: 'ok', ...summary });
   } catch (error) {
     const errorClass = error instanceof JobberError ? error.errorClass : 'internal';

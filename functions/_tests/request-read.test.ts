@@ -14,7 +14,7 @@ const REQUEST_ID = 'Z2lkOi8vSm9iYmVyL1JlcXVlc3QvMzYxMDk0Nzc=';
 
 const SONA_NOTE =
   'Call Summary\nThe caller requested an estimate for hanging items on a stone fireplace.\n\n' +
-  '📈 New customer intake\nFirst and last name \nJanney Chetta \n\nAddress \n2514 Avon Gates Court, Katy, TX 77494\n';
+  '📈 New customer intake\nFirst and last name \nIris Park \n\nAddress \n100 Example Lane, Katy, TX 77494\n';
 
 function seed(h: DeskHarness): void {
   h.jobber.requests.set(REQUEST_ID, {
@@ -101,7 +101,7 @@ await check('request read: the routine key returns the form answers, notes with 
       ['2026-11-12T19:20:00Z', 2],
     ],
   );
-  assert.ok(r.notes[0].message.includes('Address \n2514 Avon Gates Court, Katy, TX 77494'), "Sona's intake note comes back whole");
+  assert.ok(r.notes[0].message.includes('Address \n100 Example Lane, Katy, TX 77494'), "Sona's intake note comes back whole");
   assert.deepEqual(
     r.photos.map((p: { fileName: string; image: boolean }) => [p.fileName, p.image]),
     [

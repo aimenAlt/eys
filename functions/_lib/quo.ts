@@ -155,6 +155,53 @@ export async function createTask(
   return { ok: false, reason };
 }
 
+// ---------------------------------------------------------------------------
+// Contacts
+// ---------------------------------------------------------------------------
+
+export interface QuoContactName {
+  firstName: string;
+  lastName: string;
+}
+
+/**
+ * The names Quo has saved for these numbers (E.164), from
+ * GET /contacts/search?phoneNumber[in]=... (https://www.quo.com/docs/2026-03-30/contacts/search-contacts.md),
+ * up to 50 numbers per call. A number with no contact, or a contact with no
+ * name, is left out. Null when Quo could not be asked. Never logs the key.
+ */
+export async function searchContactNames(deps: QuoDeps, phones: string[]): Promise<Map<string, QuoContactName> | null> {
+  const names = new Map<string, QuoContactName>();
+  const wanted = [...new Set(phones.filter((p) => /^\+[1-9]\d{1,14}$/.test(p)))];
+  for (let i = 0; i < wanted.length; i += 50) {
+    const batch = wanted.slice(i, i + 50);
+    const query = new URLSearchParams({ 'phoneNumber[in]': batch.join(','), include: 'properties', limit: '50' });
+    let response: Response;
+    try {
+      response = await deps.fetch(`${QUO_API}/contacts/search?${query.toString()}`, { headers: headers(deps.key) });
+    } catch {
+      return null;
+    }
+    if (!response.ok) return null;
+    let body: { data?: { firstName?: string | null; lastName?: string | null; properties?: { type?: string; value?: string }[] | null }[] };
+    try {
+      body = (await response.json()) as typeof body;
+    } catch {
+      return null;
+    }
+    for (const contact of body.data ?? []) {
+      const firstName = (contact.firstName ?? '').trim();
+      const lastName = (contact.lastName ?? '').trim();
+      if (!firstName && !lastName) continue;
+      const numbers = (contact.properties ?? []).filter((p) => p?.type === 'phone-number' && typeof p.value === 'string').map((p) => p.value as string);
+      // With one number asked, a hit is that number even if Quo left properties out.
+      const matches = numbers.length ? numbers.filter((n) => batch.includes(n)) : batch.length === 1 ? batch : [];
+      for (const phone of matches) if (!names.has(phone)) names.set(phone, { firstName, lastName });
+    }
+  }
+  return names;
+}
+
 /** Pages of the inbox's conversations looked through for a customer (50 each, newest activity first). */
 const CONVERSATION_PAGES = 3;
 
